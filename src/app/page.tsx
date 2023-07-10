@@ -1,12 +1,8 @@
-import { revalidatePath } from "next/cache";
+import { addProductToDatabase } from "../../actions/serverActions";
+import { TProducts } from "../../typeProduce";
 
-export type TProducts = {
-  [ x: string ]: any;
-  product: string;
-  price: string;
-  id?: string;
-}
-const apiProduct: string = "https://64abfb149edb4181202ee8ce.mockapi.io/products/"
+
+export const apiProduct: string = "https://64abfb149edb4181202ee8ce.mockapi.io/products/"
 const getPostsData: () => Promise<TProducts> = async () =>
 {
 
@@ -22,26 +18,7 @@ const getPostsData: () => Promise<TProducts> = async () =>
 export default async function Home ()
 {
   const [ products ] = await Promise.all( [ getPostsData(), ] )
-  const addProductToDatabase = async ( e: FormData ) =>
-  {
-    "use server"
-    const product = e.get( "product" )?.toString()
-    const price = e.get( "price" )?.toString()
-    if ( !product || !price ) return
 
-
-    const newProduct: TProducts = {
-      product: product,
-      price: price,
-
-    }
-    await fetch( apiProduct, {
-      method: "POST",
-      body: JSON.stringify( newProduct ),
-      headers: { "Content-Type": "application/json" }
-    } )
-    revalidatePath( "product" )
-  }
   return (
     <main className="">
       <h1 className="text-3xl font-bold text-center">
