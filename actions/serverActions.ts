@@ -1,9 +1,9 @@
+'use server'
 import { apiProduct } from '@/app/page'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 import { TProducts } from '../typeProduce'
 
 export const addProductToDatabase = async (e: FormData) => {
-	'use server'
 	const product = e.get('product')?.toString()
 	const price = e.get('price')?.toString()
 	if (!product || !price) return
