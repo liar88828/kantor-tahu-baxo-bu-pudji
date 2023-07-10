@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 
 export type TProducts = {
   [ x: string ]: any;
@@ -5,12 +6,16 @@ export type TProducts = {
   price: string;
   id?: string;
 }
-const apiProduct: string = "https://64abfb149edb4181202ee8ce.mockapi.io/product/"
+const apiProduct: string = "https://64abfb149edb4181202ee8ce.mockapi.io/products/"
 const getPostsData: () => Promise<TProducts> = async () =>
 {
 
   const res: Response = await fetch( apiProduct,
-    { cache: "no-cache" } )
+    {
+      cache: "no-cache", next: {
+        tags: [ "products" ]
+      }
+    } )
   return res.json()
 }
 
@@ -33,11 +38,9 @@ export default async function Home ()
     await fetch( apiProduct, {
       method: "POST",
       body: JSON.stringify( newProduct ),
-      headers: {
-        "Content-Type": "application/json"
-      }
+      headers: { "Content-Type": "application/json" }
     } )
-
+    revalidatePath( "product" )
   }
   return (
     <main className="">
@@ -71,7 +74,7 @@ export default async function Home ()
 
                 <div className="p-5 shadow" key={ p.id }>
                   <p>{ p.product }</p>
-                  <p>{ p.price }</p>
+                  <p>Rp.{ p.price }</p>
                 </div>
               )
             }
