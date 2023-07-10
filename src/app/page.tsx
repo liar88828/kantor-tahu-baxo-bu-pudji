@@ -1,7 +1,21 @@
-import Image from 'next/image'
+export type TProducts = {
+  map ( arg0: ( p: TProducts ) => import( "react" ).JSX.Element ): import( "react" ).ReactNode;
+  product: string;
+  price: string;
+  id?: string;
+}
 
-export default function Home ()
+const getPostsData: () => Promise<TProducts> = async () =>
 {
+
+  const res: Response = await fetch( "https://64abfb149edb4181202ee8ce.mockapi.io/product/",
+    { cache: "no-cache" } )
+  return res.json()
+}
+
+export default async function Home ()
+{
+  const [ products ] = await Promise.all( [ getPostsData(), ] )
   return (
     <main className="">
       <h1 className="text-3xl font-bold text-center">
@@ -21,7 +35,15 @@ export default function Home ()
       </form>
 
 
+      <h2 className='font-bold p-5'>List og Product</h2>
+      <div className="flex flex-wrap gap-5">
+        { products.map( ( p: TProducts ) => (
+          <div className="p-5 shadow" key={ p.id }>
+            <p>{ p.product }</p>
+            <p>{ p.price }</p>
+          </div>
+        ) ) }
+      </div>
 
-    </main>
-  )
+    </main> )
 }
