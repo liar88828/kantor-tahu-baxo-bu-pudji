@@ -15,14 +15,14 @@ export default function AddProductButton ()
   return (
     <>
       <button
-        onClick={ () => startTransition( () => addProductToDatabase( formData ) ) }
+        onClick={ () => addProductToDatabase( formData ) }
         className="border p-2 rounded-md w-48 fixed  right-0 bottom-0"
         style={ {
           backgroundColor: "lightgreen",
           // position: "fixed", right: "5%", bottom: "5%"
         } }
       >
-        { isPending ? "Adding..." : "Add Product" }
+        Add Product
       </button >
     </>
 

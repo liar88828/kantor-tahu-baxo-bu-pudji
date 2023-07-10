@@ -43,7 +43,13 @@ export default async function Home ()
           placeholder="Enter Product name..."
           className="border border-gray-300 p-2 rounded-md"
         />
-        <button className="bg-blue-500 p-2 rounded-md text-white">
+
+        {/* <input type="image" formAction={ submitImage } /> */ }
+
+
+        <button
+          type="submit"
+          className="bg-blue-500 p-2 rounded-md text-white">
           Add Product
         </button>
       </form>
