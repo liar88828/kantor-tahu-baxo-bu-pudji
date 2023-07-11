@@ -1,6 +1,14 @@
+import { NextUIProvider, Container } from '@nextui-org/react';
+
 import { addProductToDatabase } from "../../actions/serverActions";
 import AddProductButton from "../../components/AddProductButton";
+import { Tables } from "../../components/Table";
 import { TProducts } from "../../typeProduce";
+// import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
+// import 'primereact/resources/primereact.css';                       // core css
+// import 'primeicons/primeicons.css';                                 // icons
+// import 'primeflex/primeflex.css';
+import './flag.css';
 
 export const apiProduct: string =
   "https://64abfb149edb4181202ee8ce.mockapi.io/products/";
@@ -55,7 +63,13 @@ export default async function Home ()
       </form>
 
       <h2 className="font-bold p-5">List og Product</h2>
-      <div className="flex flex-wrap gap-5">
+
+
+      <div className="">
+        <Tables lg gap={ 2 } css={ { mt: '$10' } } />
+      </div>
+
+      {/* <div className="flex flex-wrap gap-5">
         { !products ? <h1>salah</h1> : products.map( ( p: any ) =>
         {
           if ( p == undefined || !p ) return <h1>Hot found</h1>;
@@ -70,6 +84,7 @@ export default async function Home ()
           }
         } ) }
       </div>
+       */}
     </main>
   );
 }
