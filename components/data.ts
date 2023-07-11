@@ -13,12 +13,16 @@ faker.seed(14)
 function newPerson(): TPeople[] {
 	return times(50, () => ({
 		id: faker.datatype.uuid(),
-		nama: faker.name.firstName(),
-		alamat: faker.address.city(),
+		pesan: faker.date.birthdate(),
+		kirim: faker.date.future(10),
 		pengirim: faker.name.fullName(),
-		produk: faker.commerce.product(),
-		harga: faker.commerce.price(),
+		hp_pengirim: faker.phone.number(),
+		penerima: faker.name.firstName(),
+		alamat_penerima: faker.address.city(),
+		hp_penerima: faker.phone.number(),
+		orderan: faker.commerce.product(),
 		jumlah: faker.datatype.number(100),
+		total: faker.commerce.price(),
 	}))
 }
 // console.log(newPerson())
