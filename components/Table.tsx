@@ -1,149 +1,191 @@
-"use client";
-import { Radio, Table, Pagination, useAsyncList, useCollator, NextUIProvider, Container, Grid } from "@nextui-org/react";
-import { Person } from "./data";
-import React from "react";
+'use client'
+import React from 'react'
 
 
+import
+{
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
+import { Person, TPeople } from './data'
+
+
+
+// const columnHelper = createColumnHelper<TPeople>()
+
+// const columns = [
+//   columnHelper.group( {
+//     header: 'Info',
+//     footer: props => props.column.id,
+//     columns: [
+//       columnHelper.accessor( '', {
+//         header: () => '',
+//         footer: props => props.column.id,
+//       } ),
+
+//       columnHelper.group( {
+//         header: 'More Info',
+//         columns: [
+//           columnHelper.accessor( 'id', {
+//             header: () => "id",
+//             footer: info => info.column.id,
+//           } ),
+//           columnHelper.accessor( 'pesan', {
+//             header: () => "pesan",
+//             footer: info => info.column.id,
+//           } ),
+//           columnHelper.accessor( 'kirim', {
+//             header: () => 'kirim',
+//             footer: info => info.column.id,
+//           } ),
+//         ]
+//       } ),
+//     ]
+//   } ),
+//   columnHelper.accessor( 'pengirim', {
+//     header: () => <span>pengirim</span>,
+//     footer: info => info.column.id,
+//   } ),
+//   columnHelper.accessor( 'alamat_penerima', {
+//     header: 'alamat_penerima',
+//     footer: info => info.column.id,
+//   } ),
+//   columnHelper.accessor( 'hp_penerima', {
+//     header: 'Profile hp_penerima',
+//     footer: info => info.column.id,
+//   } ),
+//   columnHelper.accessor( 'orderan', {
+//     header: ' orderan',
+//     footer: info => info.column.id,
+//   } ),
+//   columnHelper.accessor( 'jumlah', {
+//     header: ' jumlah',
+//     footer: info => info.column.id,
+//   } ),
+//   columnHelper.accessor( 'total', {
+//     header: 'total',
+//     // footer: ( info ) => <span>{ sum(info.column.to) }</span>,
+//   } ),
+// ]
+
+
+
+
+
+const columnHelper = createColumnHelper<TPeople>()
+
+const columns = [
+  columnHelper.accessor( "no", {} ),
+
+
+  columnHelper.group( {
+    id: 'tanggal',
+    header: () => <span>tanggal</span>,
+    columns: [
+      columnHelper.accessor( 'pesan', {} ),
+      columnHelper.accessor( "kirim", {} ),
+    ],
+  } ),
+
+  columnHelper.group( {
+    header: 'Nama', columns: [
+      columnHelper.accessor( 'pengirim', { header: 'pengirim', } ),
+      columnHelper.accessor( 'hp_pengirim', { header: 'hp_pengirim', } ),
+      columnHelper.accessor( 'penerima', { header: 'penerima', } ),
+    ],
+  } ),
+
+
+  columnHelper.accessor( "alamat_penerima", {} ),
+  columnHelper.accessor( "hp_penerima", { cell: info => info.getValue(), } ),
+  columnHelper.accessor( "orderan", {} ),
+
+  columnHelper.group( {
+    header: 'lain lain', columns: [
+      columnHelper.accessor( 'item', { header: 'item', } ),
+      columnHelper.accessor( 'total', { header: 'total', } ),
+    ],
+  } ),
+  columnHelper.accessor( "ekspedisi", {} ),
+  columnHelper.accessor( "ongkir", {} ),
+  columnHelper.accessor( "total", {} ),
+  columnHelper.accessor( "total_bayar", {} ),
+  columnHelper.accessor( "pembayaran", {} ),
+
+
+]
 
 
 export function Tables ()
 {
-  const collator = useCollator( { numeric: true } );
+  const [ data, setData ] = React.useState( () => [ ...Person ] )
+  const rerender = React.useReducer( () => ( {} ), {} )[ 1 ]
 
-  async function load () { return { items: Person, }; }
-
-  async function sort ( { items, sortDescriptor } )
-  {
-    return {
-      items: items.sort( ( a, b ) =>
-      {
-        let first = a[ sortDescriptor.column ];
-        let second = b[ sortDescriptor.column ];
-        let cmp = collator.compare( first, second );
-        if ( sortDescriptor.direction === "descending" ) { cmp *= -1; }
-        return cmp;
-      } ),
-    };
-  }
-  const list = useAsyncList( { load, sort } );
-
-  const [ selectedColor, setSelectedColor ] = React.useState<string>( "primary" );
-  const colors = [ "primary", "secondary", "success", "warning", "error" ];
-  const capitalize = ( str ) =>
-  {
-    const lower = str.toLowerCase();
-    return str.charAt( 0 ).toUpperCase() + lower.slice( 1 );
-  };
-  const columns = [
-    {
-      key: "name",
-      label: "Name",
-    },
-    {
-      key: "role",
-      label: "Role",
-    },
-    {
-      key: "status",
-      label: "Status",
-    },
-  ];
+  const table = useReactTable( {
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  } )
 
   return (
-    <div className=" p-5">
-      <NextUIProvider>
-        <Container lg gap={ 2 } css={ { mt: '$10' } }>
-          <Table
-            aria-label="Example pagination collection table"
-            sortDescriptor={ list.sortDescriptor }
-            onSortChange={ list.sort }
-            css={ { height: "calc($space$14 * 10)", minWidth: "100%", } }
-            shadow={ false }
-            color={ selectedColor }
-            bordered
-            onSelectionChange={ ( e ) => console.log( e ) }
-            selectionMode="multiple"
-          >
-            <Table.Header>
-              <Table.Column key="index" allowsSorting >
-                No.
-              </Table.Column>
-              <Table.Column key="nama" allowsSorting>
-                Nama
-              </Table.Column>
-              <Table.Column key="alamat" allowsSorting>Alamat</Table.Column>
-              <Table.Column key="pengirim" allowsSorting>Pengirim</Table.Column>
-              <Table.Column key="produk" allowsSorting>Produk</Table.Column>
-              <Table.Column key="harga" allowsSorting>Harga</Table.Column>
-              <Table.Column key="jumlah" allowsSorting>Jumlah</Table.Column>
-            </Table.Header>
-
-            <Table.Body
-              items={ list.items }
-              loadingState={ list.loadingState }
-            >
-              { ( item ) => (
-                <Table.Row key={ item.nama }>
-                  { ( columnKey, ) => (
-                    <Table.Cell>
-                      { item[ columnKey ] }
-                    </Table.Cell>
-                  ) }
-                </Table.Row>
-              ) }
-
-              {/* { Person.map( ( p, i ) => (
-
-
-
-            <Table.Row key={ p.id }>
-              <Table.Cell>{ i }</Table.Cell>
-              <Table.Cell>{ p.nama }</Table.Cell>
-              <Table.Cell>{ p.alamat }</Table.Cell>
-              <Table.Cell>{ p.pengirim }</Table.Cell>
-              <Table.Cell>{ p.produk }</Table.Cell>
-              <Table.Cell>{ p.jumlah }</Table.Cell>
-            </Table.Row>
-          ) ) } */}
-
-              {/* <Table.Row key="1">
-            <Table.Cell>Tony Reichert</Table.Cell>
-            <Table.Cell>CEO</Table.Cell>
-            <Table.Cell>Active</Table.Cell>
-            <Table.Cell>Active</Table.Cell>
-            <Table.Cell>Active</Table.Cell>
-            <Table.Cell>Active</Table.Cell>
-          </Table.Row> */}
-            </Table.Body>
-
-            <Table.Pagination
-              shadow
-              noMargin
-              color={ selectedColor }
-              align="center"
-              rowsPerPage={ 10 }
-              onPageChange={ ( page ) => console.log( { page } ) }
-            />
-          </Table>
-          <Grid xs={ 12 }>
-            <Radio.Group
-              size="sm"
-              orientation="horizontal"
-              value={ selectedColor }
-              onChange={ setSelectedColor }
-            >
-              { colors.map( ( color ) => (
-                <Radio key={ color }
-                  value={ color }
-                  color={ selectedColor }>
-                  { capitalize( color ) }
-                </Radio>
+    <div className="p-2">
+      <table>
+        <thead>
+          { table.getHeaderGroups().map( headerGroup => (
+            <tr key={ headerGroup.id }>
+              { headerGroup.headers.map( header => (
+                <th key={ header.id } colSpan={ header.colSpan }>
+                  { header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    ) }
+                </th>
               ) ) }
-            </Radio.Group>
-          </Grid>
-        </Container>
-      </NextUIProvider>
+            </tr>
+          ) ) }
+        </thead>
+        <tbody>
+          { table.getRowModel().rows.map( row => (
+            <tr key={ row.id }>
+              { row.getVisibleCells().map( cell => (
+                <td key={ cell.id }>
+                  { flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext()
+                  ) }
+                </td>
+              ) ) }
+            </tr>
+          ) ) }
+        </tbody>
 
-    </div >
-  );
+        <tfoot>
+          { table.getFooterGroups().map( footerGroup => (
+            <tr key={ footerGroup.id }>
+              { footerGroup.headers.map( header => (
+                <th
+                  key={ header.id }
+                  colSpan={ header.colSpan }>
+                  { header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    ) }
+                </th>
+              ) ) }
+            </tr>
+          ) ) }
+        </tfoot>
+      </table>
+      <div className="h-4" />
+      <button onClick={ () => rerender() } className="border p-2">
+        Rerender
+      </button>
+    </div>
+  )
 }

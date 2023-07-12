@@ -1,18 +1,27 @@
 import { faker } from '@faker-js/faker'
 import times from 'lodash.times'
-type TPeople = {
-	id: string
-	nama: string
-	alamat: string
+export type TPeople = {
+	no: number
+	pesan: Date
+	kirim: Date
 	pengirim: string
-	produk: string
-	jumlah: number
+	hp_pengirim: string
+	penerima: string
+	alamat_penerima: string
+	hp_penerima: string
+	orderan: string
+	item: number
+	total: number
+	ekspedisi: string
+	ongkir: string
+	total_bayar: string
+	pembayaran: string
 }
 
 faker.seed(14)
 function newPerson(): TPeople[] {
 	return times(50, () => ({
-		id: faker.datatype.uuid(),
+		no: faker.datatype.number(100),
 		pesan: faker.date.birthdate(),
 		kirim: faker.date.future(10),
 		pengirim: faker.name.fullName(),
@@ -21,8 +30,12 @@ function newPerson(): TPeople[] {
 		alamat_penerima: faker.address.city(),
 		hp_penerima: faker.phone.number(),
 		orderan: faker.commerce.product(),
-		jumlah: faker.datatype.number(100),
-		total: faker.commerce.price(),
+		item: faker.datatype.number(),
+		total: faker.datatype.number(),
+		ekspedisi: faker.address.city(),
+		ongkir: faker.commerce.price(),
+		total_bayar: faker.commerce.price(),
+		pembayaran: faker.commerce.price(),
 	}))
 }
 // console.log(newPerson())
