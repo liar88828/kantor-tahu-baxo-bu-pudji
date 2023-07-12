@@ -4,6 +4,7 @@
 // import 'primeflex/primeflex.css';
 import './flag.css';
 import FormOrder from "./form/page";
+import { SlideBar } from '@/app/component/slidebar';
 
 // export const apiProduct: string = "https://64abfb149edb4181202ee8ce.mockapi.io/products/";
 // const getPostsData: () => Promise<TProducts> = async () =>
@@ -30,18 +31,8 @@ export default async function Home() {
   // const [ products ] = await Promise.all( [ getPostsData() ] );
 
   return ( <>
-      {/*slidebar*/}
-      <div className=" relative border border-black bg-red-500 w-1/6 h-10">
+      <SlideBar/>
 
-          <h1>menu</h1>
-        <ul>
-          <li>Order Product</li>
-          <li>Table Order</li>
-          <li></li>
-          <li></li>
-        </ul>
-
-      </div>
     </>
   );
 }
