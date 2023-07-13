@@ -13,32 +13,33 @@ import {
   AiOutlineYoutube,
 } from "react-icons/ai";
 import { MdAccountCircle, MdAnalytics } from "react-icons/md";
+import Link from 'next/link';
 
 const menuList = [
-  { title: "Dashboard", icon: AiFillPieChart },
-  { title: "Inbox", icon: AiOutlineInbox, },
-  { title: "Accont", icon: MdAccountCircle, gap: true },
-  { title: "Schedure", icon: AiOutlineSchedule },
-  { title: "Search", icon: AiOutlineSearch },
-  { title: "Files", icon: AiOutlineFileSearch },
-  { title: "Analytic", icon: MdAnalytics, gap: true },
-  { title: "Setting", icon: AiFillSetting },
+  { title: "Dashboard", icon: AiFillPieChart ,link:""},
+  { title: "Orderan", icon: AiOutlineInbox,link:"orderan"},
+  { title: "Product", icon: MdAccountCircle, gap: true ,link:"product"},
+  { title: "Pengiriman", icon: AiOutlineSchedule ,link:"form"},
+  { title: "Search", icon: AiOutlineSearch ,link:"form"},
+  { title: "Files", icon: AiOutlineFileSearch ,link:"form"},
+  { title: "Analytic", icon: MdAnalytics, gap: true ,link:"form"},
+  { title: "Setting", icon: AiFillSetting ,link:"form"},
 ];
 
-export const SlideBar = () => {
+export const Slidebar = () => {
   const [ open, setOpen ] = React.useState( true );
   let color = "#74e39a";
   let color2 = "#6ae78b";
   let colorIcon = "white";
-  let colorTextSlideBar="black"
-  let titleSlideBar="black"
-  let bgColorSlideBar="#d6ffe0"
+  let colorTextSlideBar = "black"
+  let titleSlideBar = "black"
+  let bgColorSlideBar = "#d6ffe0"
 
   return (
     <div className="flex ">
       {/* body slide bar*/ }
       <div className={ ` ${ open ? "w-72" : "w-20" } h-screen  relative transition-all duration-150 ` }
-           style={{background:bgColorSlideBar}}>
+           style={ { background: bgColorSlideBar } }>
         <AiOutlineArrowLeft
           className={ `bg-white w-9 h-9 -right-3 mt-20 p-1 absolute  rounded-full  border-black border-2 transition-all duration-500 ` }
           onClick={ () => setOpen( !open ) }
@@ -70,28 +71,32 @@ export const SlideBar = () => {
           { menuList.map( ( item, index ) => {
             const Icons = item.icon
             return (
-              <li
-                style={ {
-                  background: `linear-gradient(to bottom, ${ color } 0%,${ color2 } 100%)`,
-                  transition: "all .5s ease",
-                  WebkitTransition: "all .5s ease",
-                  MozTransition: "all .5s ease",
-                } }
-                className={ `flex gap-4 p-2 ${ item.gap ? 'mt-9' : 'mt-2' } ${ !open && 'justify-center' }
+              <Link href={ "/"+item.link } key={item.title}>
+                <li
+                  style={ {
+                    background: `linear-gradient(to bottom, ${ color } 0%,${ color2 } 100%)`,
+                    transition: "all .5s ease",
+                    WebkitTransition: "all .5s ease",
+                    MozTransition: "all .5s ease",
+                  } }
+                  className={ `flex gap-4 p-2 ${ item.gap ? 'mt-9' : 'mt-2' } ${ !open && 'justify-center' }
                 group hover:bg-blue-800 rounded-md transition-all duration-300 cursor:pointer ` }
-                key={ index }
-              >
+                  key={ index }
+                >
+
+
                 <span
                   className={ `   hover:scale-100` }
                   style={ { color: colorIcon } }>
                   <Icons size={ '26px' }/>
                 </span>
-                { open && <span
-                  style ={{color:colorTextSlideBar}}
-                  className="text-white hover:font-bold group-hover:text-red-100 ">
+                  { open && <span
+					style={ { color: colorTextSlideBar } }
+					className="text-white hover:font-bold group-hover:text-red-100 ">
                   { item.title }
                 </span> }
-              </li>
+                </li>
+              </Link>
             )
           } ) }
         </ul>

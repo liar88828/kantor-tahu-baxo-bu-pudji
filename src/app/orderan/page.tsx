@@ -1,12 +1,11 @@
 import React from 'react'
 
-export default function FormOrder ()
-{
+export default function FormOrder() {
   return (
     <div>
 
       <main className="relative">
-        <h1 className="text-3xl font-bold text-center"> Product Warehouse </h1>
+        <h1 className="text-3xl font-bold text-center"> Orderan Form </h1>
         <div className="fixed right-[10rem] bottom-[5rem] "
         >
           {/* <AddProductButton /> */ }
@@ -20,28 +19,9 @@ export default function FormOrder ()
 
             <div className="border border-black flex flex-row gap-5 p-5 ">
 
-              <div className="border border-black flex flex-col gap-5  p-5">
-
-                <h1>Tanggal</h1>
-                <hr />
-                <label htmlFor="">Pesan</label>
-                <input
-                  type="date"
-                  name="product"
-                  className="border border-gray-300 p-2 rounded-md"
-                />
-
-                <label htmlFor="">Kirim</label>
-                <input
-                  type="date"
-                  name="product"
-                  className="border border-gray-300 p-2 rounded-md"
-                />
-              </div>
-
               <div className="border border-black flex flex-col gap-5 p-5">
                 <h1>Nama</h1>
-                <hr />
+                <hr/>
                 <label htmlFor="">Pengirim</label>
                 <input
                   type="text"
@@ -85,13 +65,34 @@ export default function FormOrder ()
 
               </div>
 
+
+              <div className="border border-black flex flex-col gap-5  p-5">
+
+                <h1>Tanggal</h1>
+                <hr/>
+                <label htmlFor="">Pesan</label>
+                <input
+                  type="date"
+                  name="product"
+                  className="border border-gray-300 p-2 rounded-md"
+                />
+
+                <label htmlFor="">Kirim</label>
+                <input
+                  type="date"
+                  name="product"
+                  className="border border-gray-300 p-2 rounded-md"
+                />
+              </div>
+
+
               <div className="border border-black flex flex-col gap-5 p-5">
                 <h1>Orderan</h1>
-                <hr />
+                <hr/>
                 <label htmlFor="">Orderan</label>
                 <select name="orderan"
-                  id="orderan"
-                  className='border border-gray-300 p-2 rounded-md'>
+                        id="orderan"
+                        className='border border-gray-300 p-2 rounded-md'>
                   <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>
                   <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>
                   <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>
@@ -107,7 +108,7 @@ export default function FormOrder ()
                 </select>
 
                 <h1>Lain Lain</h1>
-                <hr />
+                <hr/>
                 {/* Semisal Peroduct lain selain tahu bakso  */ }
                 <label htmlFor="">Item</label>
                 <input
@@ -128,15 +129,14 @@ export default function FormOrder ()
               </div>
 
 
-
               <div className="border border-black flex flex-col gap-5 p-5">
 
 
                 {/* combo box  */ }
                 <label htmlFor="">Ekspedisi</label>
                 <select name="jenis pembayaran"
-                  id="ekspedisi"
-                  className='border border-gray-300 p-2 rounded-md'>
+                        id="ekspedisi"
+                        className='border border-gray-300 p-2 rounded-md'>
                   <option value="Paxel">Paxel</option>
                   <option value="JNE">JNE</option>
                   <option value="Travel Omega">Travel Omega</option>
@@ -175,8 +175,8 @@ export default function FormOrder ()
                 {/* jenis Pembayaran */ }
                 <label htmlFor="">Pembayaran</label>
                 <select name="jenis pembayaran"
-                  id="cod"
-                  className='border border-gray-300 p-2 rounded-md'>
+                        id="cod"
+                        className='border border-gray-300 p-2 rounded-md'>
                   <option value="Cash">Cash</option>
                   <option value="BCA">BCA</option>
                   <option value="Mandiri">Mandiri</option>
@@ -186,13 +186,13 @@ export default function FormOrder ()
               </div>
 
               {/* <label htmlFor="">Pembayaran</label>
-            <input
-              type="text"
-              name="price"
-              placeholder="Metode Pembayaran..."
-              className="border border-gray-300 p-2 rounded-md"
-            />
-          </div> */}
+               <input
+               type="text"
+               name="price"
+               placeholder="Metode Pembayaran..."
+               className="border border-gray-300 p-2 rounded-md"
+               />
+               </div> */ }
               {/* <input type="image" formAction={ submitImage } /> */ }
 
             </div>
@@ -209,23 +209,23 @@ export default function FormOrder ()
 
 
         <div className="">
-          {/*<Tables lg gap={ 2 } css={ { mt: '$10' } } />*/}
+          {/*<Tables lg gap={ 2 } css={ { mt: '$10' } } />*/ }
         </div>
 
         <div className="flex flex-wrap gap-5">
           {/* { !products ? <h1>salah</h1> : products.map( ( p: any ) =>
-        {
-          if ( p == undefined || !p ) return <h1>Hot found</h1>;
-          else
-          {
-            return (
-              <div className="p-5 shadow" key={ p.id }>
-                <p>{ p.product }</p>
-                <p>Rp.{ p.price }</p>
-              </div>
-            );
-          }
-        } ) } */}
+           {
+           if ( p == undefined || !p ) return <h1>Hot found</h1>;
+           else
+           {
+           return (
+           <div className="p-5 shadow" key={ p.id }>
+           <p>{ p.product }</p>
+           <p>Rp.{ p.price }</p>
+           </div>
+           );
+           }
+           } ) } */ }
         </div>
 
       </main>
