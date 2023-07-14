@@ -26,8 +26,8 @@ const formProduct = {
 export default function Home() {
   const [ salah, setSalah ] = useState<boolean>( false );
   return (
-    <main className="flex   min-h-screen p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3">
-      <div className="  sm:m-4 bg-white rounded p-5">
+    <main className="flex   min-h-screen p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3 ">
+      <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
         <FormProduct salah={ salah }/>
       </div>
       <div className=" sm:m-4 bg-white rounded p-5">

@@ -56,9 +56,7 @@ export default function FormOrder() {
   function Nama() {
     return (
       <>
-        <div className={ "bg-white p-3  flex-col flex gap-3" }>
-          <h2>Nama</h2>
-          <hr/>
+        <div className={ "bg-white p-3  flex-col flex gap-3" }><h2>Nama</h2><hr/>
           <div className="flex flex-col ">
             <label className={ styleLabelForm }
                    htmlFor="grid-password"> Pengiriman</label>
@@ -122,11 +120,7 @@ export default function FormOrder() {
     return (
       <>
         <div className="bg-white p-3 w-1/2 flex-col flex gap-3">
-
-        <div className={ "flex flex-col gap-3" }>
-          <div className="flex flex-col gap-3">
-            <h2>Orderan</h2>
-            <hr/>
+          <div className="flex flex-col gap-3"><h2>Orderan</h2><hr/>
             <div className="flex flex-col">
               <label>Cari Barang</label>
               <input type={ "text" } placeholder={ "Search ...." }
@@ -253,7 +247,6 @@ export default function FormOrder() {
             Add Product
           </button>
         </div>
-        </div>
 
       </>
     )
@@ -268,9 +261,7 @@ export default function FormOrder() {
   const input = inputType()
   return (
     <div className={ "w-[100%] " }>
-
       {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
-
       <form className="bg-green-100 sm:bg-green-50 ">
         <div className="flex flex-row gap-1 sm:gap-5 p-1 sm:p-5 mt-5">
           <div className="flex-col w-[50%]  ">

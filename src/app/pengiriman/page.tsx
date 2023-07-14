@@ -7,12 +7,11 @@ export default function Home() {
   const [ salah, setSalah ] = useState<boolean>( false );
   return (
     <main className="flex p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3">
-      <div className="  sm:m-4 bg-white rounded p-5">
+      <div className="sm:m-4 bg-white rounded p-5  w-1/2">
       <FormPengiriman salah={ salah }/>
       </div>
       <div className="sm:m-4 bg-white rounded p-5 ">
         <label className={ styleLabelForm }>Masukan Gambar Pengiriman</label>
-
         <FileUploadForm/>
       </div>
 
