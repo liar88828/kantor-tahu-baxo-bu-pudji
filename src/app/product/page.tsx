@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import FileUploadForm from '@/app/component/FileUploadForm';
 import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
+import { usePathname } from 'next/navigation'
 
 export type TformProduct = {
   nama: string,
   harga: string,
-  lokasi: string,
   jenis: string
   img?: string
 }
@@ -19,11 +19,12 @@ const formProduct = {
     ]
   },
   jenis: {
-    nama: "Jenis", jenis: [ "Utama", "Lain-Lain" ]
+    nama: "Jenis", jenis: [ "Orderan", "Item" ]
   }
 }
 
-export default function Home() {
+export default function Home( {}: any ) {
+
   const [ salah, setSalah ] = useState<boolean>( false );
   return (
     <main className="flex   min-h-screen p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3 ">
@@ -39,7 +40,6 @@ export default function Home() {
     </main>
   );
 }
-
 const FormProduct = ( { salah }: { salah: boolean } ) => {
   let styleInputForm = StyleInputForm( salah )
   return ( <>

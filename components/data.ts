@@ -1,43 +1,65 @@
 import { faker } from '@faker-js/faker'
 import times from 'lodash.times'
-export type TPeople = {
-	no: number
-	pesan: Date
-	kirim: Date
-	pengirim: string
-	hp_pengirim: string
-	penerima: string
-	alamat_penerima: string
-	hp_penerima: string
-	orderan: string
-	item: number
-	total: number
-	ekspedisi: string
-	ongkir: string
-	total_bayar: string
-	pembayaran: string
+
+export type TOrder = {
+  pesan: Date
+  kirim: Date
+
+  pengirim: string
+  hp_pengirim: string
+  penerima: string
+  alamat_penerima: string
+  hp_penerima: string
+
+  orderan: string
+  harga_orderan: number
+  jumlah_orderan: number
+
+  item: string
+  harga_item: number
+  jumlah_item: number
+
+  ekspedisi: string
+  ongkir: number
+  pembayaran: string
+  lokasi: string
+}
+export type TOrderTotal = {
+  no: number
+  total_bayar: number
+} & TOrder
+
+faker.seed( 14 )
+
+function newPerson(): TOrderTotal[] {
+  return times( 50, () => ( {
+    no: faker.datatype.number( 100 ),
+    pesan: faker.date.birthdate(),
+    kirim: faker.date.future( 10 ),
+
+    pengirim: faker.name.fullName(),
+    hp_pengirim: faker.phone.number(),
+    penerima: faker.name.firstName(),
+    alamat_penerima: faker.address.city(),
+    hp_penerima: faker.phone.number(),
+
+    orderan: faker.commerce.product(),
+    harga_orderan: faker.datatype.number( 100 ),
+    jumlah_orderan: faker.datatype.number( 100 ),
+
+    item: faker.commerce.product(),
+    harga_item: faker.datatype.number( 100 ),
+    jumlah_item: faker.datatype.number( 100 ),
+
+    ekspedisi: faker.address.city(),
+    ongkir: faker.datatype.number( 100 ),
+    pembayaran: faker.music.genre(),
+    lokasi: faker.name.firstName() as string,
+
+    total_bayar: faker.datatype.number( 100 ),
+  } ) )
 }
 
-faker.seed(14)
-function newPerson(): TPeople[] {
-	return times(50, () => ({
-		no: faker.datatype.number(100),
-		pesan: faker.date.birthdate(),
-		kirim: faker.date.future(10),
-		pengirim: faker.name.fullName(),
-		hp_pengirim: faker.phone.number(),
-		penerima: faker.name.firstName(),
-		alamat_penerima: faker.address.city(),
-		hp_penerima: faker.phone.number(),
-		orderan: faker.commerce.product(),
-		item: faker.datatype.number(),
-		total: faker.datatype.number(),
-		ekspedisi: faker.address.city(),
-		ongkir: faker.commerce.price(),
-		total_bayar: faker.commerce.price(),
-		pembayaran: faker.commerce.price(),
-	}))
-}
 // console.log(newPerson())
 export const Person = newPerson()
 // const createPeople = (n = 10) => {

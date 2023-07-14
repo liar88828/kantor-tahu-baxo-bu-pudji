@@ -8,15 +8,9 @@ import {
   AiOutlineArrowLeft,
   AiOutlineFileSearch,
   AiOutlineInbox,
-  AiOutlineSchedule,
   AiOutlineSearch,
 } from "react-icons/ai";
-import {
-  MdAccountCircle,
-  MdAnalytics,
-  MdOutlineProductionQuantityLimits,
-  MdOutlineSportsMotorsports
-} from "react-icons/md";
+import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
 import Link from 'next/link';
 
 const menuList = [
@@ -48,7 +42,7 @@ export const Slidebar = () => {
         <AiOutlineArrowLeft
           className={ `mt-3 bg-white w-9 h-9 -right-3  p-1 absolute  rounded-xl  border-black border-2 transition-all duration-500 ` }
           onClick={ () => setOpen( !open ) }
-          style={ { cursor: "pointer", transform: open && "rotate(180deg)", } }
+          style={ { cursor: "pointer", transform: open ? "rotate(180deg)" : "" } }
         />
 
 
