@@ -41,6 +41,7 @@ const formInput = {
   totalPenjualan: "Total Penjualan",
   totalBayar: "Total Bayar",
   pembayaran: "Pembayaran",
+  keterangan: "Keterangan",
 }
 type TsProduct = { id: string } & TformProduct
 const sProduct: TsProduct[] = [
@@ -82,7 +83,8 @@ export default function FormOrder() {
     orderan: '',
     harga_orderan: 0,
     jumlah_orderan: 0,
-    pembayaran: ""
+    pembayaran: "",
+    keterangan: ""
   }
   const { register, handleSubmit } = useForm<TOrder>(
     // {
@@ -119,7 +121,7 @@ export default function FormOrder() {
   function Nama() {
     return (
       <>
-        <div className={ "bg-white p-3  flex-col flex gap-3" }><h2>Nama</h2>
+        <div className={ "bg-white p-3  flex-col flex gap-3 rounded" }><h2>Nama</h2>
           <hr/>
           <div className="flex flex-col ">
             <label className={ styleLabelForm }
@@ -167,7 +169,7 @@ export default function FormOrder() {
   function Tanggal() {
     return (
       <>
-        <div className={ " bg-white p-3  flex-col flex gap-3" }>
+        <div className={ " bg-white p-3  flex-col flex gap-3 rounded" }>
           <h2>Tanggal</h2>
           <hr/>
           <div className="flex flex-col ">
@@ -184,6 +186,15 @@ export default function FormOrder() {
                    placeholder="Masukan Kirim" { ...register( "kirim" ) }/>
             { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
           </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="">Keterangan</label>
+            <textarea placeholder="Masukkan Keterangan ..."
+                      className="border border-gray-300 p-2 rounded-md"
+                      { ...register( "keterangan" ) }
+            />
+          </div>
+
         </div>
       </> )
   }
@@ -191,7 +202,7 @@ export default function FormOrder() {
   function Orderan() {
     return (
       <>
-        <div className="bg-white p-3 w-[50%] flex-col flex gap-3">
+        <div className="bg-white p-3 w-[50%] flex-col flex gap-3 rounded">
           <div className="flex flex-col gap-3"><h2>Orderan</h2>
             <hr/>
             <div className="flex flex-col">
@@ -360,6 +371,8 @@ export default function FormOrder() {
               <option value="Mandiri">Mandiri</option>
               <option value="BRI">BRI</option>
             </select>
+
+
           </div>
           <button
             type="submit"
@@ -381,7 +394,7 @@ export default function FormOrder() {
       {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
       <form className="bg-green-100 sm:bg-green-50 "
             onSubmit={ handleSubmit( onSubmit ) }>
-        <div className="flex flex-row gap-1 sm:gap-5  mt-5">
+        <div className="flex flex-row gap-1 sm:gap-2  mt-5">
           <div className="flex-col w-[50%] ml-2   ">
             <Nama/>
             <Tanggal/>
@@ -389,112 +402,126 @@ export default function FormOrder() {
           <Orderan/>
         </div>
 
-        <div className=" ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-6 ">
+        <div className=" ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded ">
             <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 rounded">
             <tr>
+
+              <th scope="col" className="px-6 py-3">
+                No.
+              </th>
+              <th scope="col" className="px-6 py-3 bg-green-400">
+                Pesan
+              </th>
+              <th scope="col" className="px-6 py-3 bg-red-500 dark:bg-gray-800">
+                Kirim
+              </th>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                 pengirim
               </th>
               <th scope="col" className="px-6 py-3">
-                No.Hp Pengirim
+                Telpon Pengirim
               </th>
+
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                 Penerima
               </th>
-              <th scope="col" className="px-6 py-3">
-                Pesan
-              </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Kirim
-              </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 bg-yellow-100">
                 Orderan
               </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="px-6 py-3 bg-yellow-300 dark:bg-gray-800">
                 Harga Order
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 bg-yellow-100">
                 Jumlah Order
               </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="px-6 py-3 bg-red-500 dark:bg-gray-800">
                 Item
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 bg-red-300">
                 Harga Item
               </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="px-6 py-3 bg-red-500 dark:bg-gray-800">
                 Jumlah Item
               </th>
               <th scope="col" className="px-6 py-3">
                 Lokasi
               </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="px-6 py-3 bg-blue-400 dark:bg-gray-800">
                 Ekspedisi
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 bg-green-300">
                 Ongkir
               </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="px-6 py-3 bg-green-200 dark:bg-gray-800">
                 Total Penjualan
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 bg-green-300">
                 Total Bayar
               </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+              <th scope="col" className="px-6 py-3 bg-yellow-100 dark:bg-gray-800">
                 pembayaran
+              </th>
+              <th scope="col" className="px-6 py-3 ">
+                Keterangan
               </th>
             </tr>
             </thead>
             <tbody>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                { valueForm?.pengirim }
+              <th scope="row" className="border border-slate-300 px-6 py-4 whitespace-nowrap">
+                1.
               </th>
-              <td className="px-6 py-4">
-                { valueForm?.hp_pengirim }
-              </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">
-                { valueForm?.penerima }
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td scope="row" className="border border-slate-300 px-6 py-4 whitespace-nowrap">
                 { valueForm?.pesan.toLocaleString() }
               </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
+              <td scope="row"
+                  className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
                 { valueForm?.kirim.toLocaleString() }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row"
+                  className="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50
+                  dark:text-white dark:bg-gray-800">
+                { valueForm?.pengirim }
+              </td>
+              <td scope="row" className="border border-slate-300 px-6 py-4">
+                { valueForm?.hp_pengirim }
+              </td>
+              <td scope="row"
+                  className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">
+                { valueForm?.penerima }
+              </td>
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { valueForm?.orderan }
               </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+              <td scope="row" className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800">
                 { Rupiah( valueForm?.harga_orderan ) }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { valueForm?.jumlah_orderan }
               </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+              <td scope="row" className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800">
                 { valueForm?.item }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { Rupiah( valueForm?.harga_item ) }
               </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+              <td scope="row" className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800">
                 { valueForm?.jumlah_item }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { valueForm?.lokasi }
               </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+              <td scope="row" className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800">
                 { valueForm?.ekspedisi }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { Rupiah( valueForm?.ongkir ) }
               </td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+              <td scope="row" className="border border-slate-300 px-6 py-4 bg-gray-50 dark:bg-gray-800">
                 { Rupiah( valueForm.jumlah_item + valueForm.ongkir ) }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { Rupiah(
                   Number( valueForm?.jumlah_item )
                   * Number( valueForm?.harga_item )
@@ -502,7 +529,7 @@ export default function FormOrder() {
                   + Number( valueForm?.jumlah_orderan )
                   * Number( valueForm?.harga_orderan ) ) }
               </td>
-              <td className="px-6 py-4">
+              <td scope="row" className="border border-slate-300 px-6 py-4">
                 { valueForm?.pembayaran }
               </td>
             </tr>

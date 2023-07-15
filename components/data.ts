@@ -23,6 +23,7 @@ export type TOrder = {
   ongkir: number
   pembayaran: string
   lokasi: string
+  keterangan: string
 }
 export type TOrderTotal = {
   no: number
@@ -57,6 +58,7 @@ function newPerson(): TOrderTotal[] {
     lokasi: faker.name.firstName() as string,
 
     total_bayar: faker.datatype.number( 100 ),
+    keterangan: faker.lorem.paragraph( 10 ),
   } ) )
 }
 
