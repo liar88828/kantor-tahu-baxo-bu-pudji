@@ -1,0 +1,162 @@
+"use client"
+import React, { useState } from 'react';
+
+// Sample data source
+interface Item {
+  id: number;
+  name: string;
+  price: number;
+}
+
+const items: Item[] = [
+  { id: 1, name: 'Item 1', price: 10 },
+  { id: 2, name: 'Item 2', price: 20 },
+  { id: 3, name: 'Item 3', price: 30 },
+];
+
+interface SearchInputProps {
+  setSearchQuery: ( query: string ) => void;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ( { setSearchQuery } ) => {
+  const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+    setSearchQuery( event.target.value );
+  };
+
+  return <input type="text" onChange={ handleChange }/>;
+};
+
+// const ItemList: React.FC<{ items: Item[]; addToCart: ( item: Item ) => void }> = ( {
+//   items,
+//   addToCart,
+// } ) => {
+//   return (
+//     <ul className={ "flex gap-3" }>
+//       { items.map( ( item ) => (
+//         <li key={ item.id }>
+//           { item.name } - ${ item.price }
+//           <button className={ "bg-blue-500 p-2" }
+//
+//                   onClick={ () => addToCart( item ) }>Add to Cart
+//           </button>
+//         </li>
+//       ) ) }
+//     </ul>
+//   );
+// };
+
+interface ItemListProps {
+  items: Item[];
+  addToCart: ( item: Item ) => void;
+}
+
+const ItemList: React.FC<ItemListProps> = ( { items, addToCart } ) => {
+  return (
+    <ul className={ "flex gap-3" }>
+      { items.map( ( item ) => (
+        <li key={ item.id }>
+          { item.name } - ${ item.price }
+          <button className={ "bg-blue-500 p-2" }
+                  onClick={ () => addToCart( item ) }>Add to Cart
+          </button>
+        </li>
+      ) ) }
+    </ul>
+  );
+};
+
+// const Cart: React.FC<{ cart: Item[]; removeItem: ( item: Item ) => void }> = ( { cart, removeItem } ) => {
+//
+//   const handleRemove = ( item: Item ) => {
+//     removeItem( item );
+//   }
+//
+//   return (
+//     <ul className={ "bg-white  " }>
+//       { cart.map( ( item ) => (
+//         <li key={ item.id }
+//             className={ "flex gap-3 border border-black m-2 bg-blue-400" }
+//         >{ item.name }
+//           <button onClick={ () => handleRemove( item ) }>Remove</button>
+//         </li>
+//       ) ) }
+//     </ul>
+//   );
+// };
+
+interface CartProps {
+  cart: Item[];
+  removeItem: ( item: Item ) => void
+}
+
+const Cart: React.FC<CartProps> = ( { cart, removeItem } ) => {
+
+  const handleRemove = ( item: Item ) => {
+    removeItem( item );
+  };
+
+  return (
+    <ul className={ "bg-white  " }>
+      { cart.map( ( item ) => (
+        <li
+          className={ "flex gap-3 border border-black m-2 bg-blue-400" }
+          key={ item.id }>{ item.name }
+          <button onClick={ () => handleRemove( item ) }>Remove</button>
+
+        </li>
+      ) ) }
+    </ul>
+  );
+};
+
+const App: React.FC = () => {
+  const [ searchQuery, setSearchQuery ] = useState( '' );
+  const [ cart, setCart ] = useState<Item[]>( [] );
+  const [ filteredItems, setFilteredItems ] = useState<Item[]>( items );
+
+  // const addToCart = ( item: Item ) => {
+  //   const isItemExist = cart.some( ( cartItem ) => cartItem.id === item.id );
+  //
+  //   if( isItemExist ) {
+  //     // Item already exists in the cart
+  //     alert( `Item "${ item.name }" is already in the cart.` );
+  //     return;
+  //   }
+  //
+  //   setCart( ( prevCart ) => [ ...prevCart, item ] );
+  // };
+  //
+
+  const addToCart = ( item: Item ) => {
+    setCart( ( prevCart ) => [ ...prevCart, item ] );
+    setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    const filtered = items.filter( ( item ) => item.name.toLowerCase().includes( query.toLowerCase() ) );
+    setFilteredItems( filtered );
+  };
+  // const removeItem = ( item: Item ) => {
+  //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+  // };
+
+  const removeFromCart = (item: Item) => {
+    setCart((prevCart) => prevCart.filter((cartItem) => cartItem.id !== item.id));
+    setFilteredItems((prevItems) => [...prevItems, item]);
+  };
+
+  return (
+    <div>
+      <h1>Product Search</h1>
+      <SearchInput setSearchQuery={setSearchQuery} />
+      <ItemList items={ filteredItems } addToCart={ addToCart }/>
+      <h2>Cart</h2>
+      <Cart cart={ cart } removeItem={ removeFromCart }/>
+    </div>
+  );
+};
+
+export default App;

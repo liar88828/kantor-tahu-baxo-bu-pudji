@@ -148,7 +148,6 @@ export default function FormOrder() {
   // type Props = {
   //   tag?: keyof JSX.IntrinsicElements;
   // } & React.HTMLAttributes<HTMLOrSVGElement>;
-
   // function InputForm( { title, type, reg }: { title: string, type: string, req: any } ) {
   //   return (
   //     <div className="flex flex-col ">
@@ -170,6 +169,7 @@ export default function FormOrder() {
     title: string;
     type: string;
     reg: TOrderKeys;
+    value?: string
   }
 
   // const InputForm: React.FC<InputFormProps> = ( {
@@ -210,32 +210,41 @@ export default function FormOrder() {
   //   );
   // };
 
-  const InputForm: React.FC<InputFormProps> = ( {
-      tag: Tag = 'input', title, type, reg
-    }: InputFormProps ): ReactElement => {
+  const InputForm: React.FC<InputFormProps> = (
+    { tag: Tag = 'input', title, type, reg, value }
+      : InputFormProps ): ReactElement => {
 
-      // const ress = {
-      //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
-      //   id : "grid-first-name",
-      //   type : type ,
-      //   placeholder : `Nama ${ title }....`,
-      // }
+    // const ress = {
+    //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
+    //   id : "grid-first-name",
+    //   type : type ,
+    //   placeholder : `Nama ${ title }....`,
+    // }
 
-      const ress = {
-        className: `${ StyleInputForm( salah ) }`,
-        type: type,
-        placeholder: `Nama ${ title }....`,
-      };
+    // const ObjectDate = { value: "2012-3-23" }
 
-      return (
-        <div className="flex flex-col">
-          <label className={ styleLabelForm } htmlFor="grid-password">
-            { title }
-          </label>
-          <Tag{ ...ress }{ ...register( reg ) }
-          />
-          { salah && <p className={ wrongInput }>Please fill out this field.</p> }
-        </div>
+    const normalValue = {
+      className: `${ StyleInputForm( salah ) }`,
+      type: type,
+      placeholder: `Nama ${ title }....`,
+    };
+    let ress = {
+      ...normalValue
+    }
+    //
+    // if( type == "date" ) {
+    //   ress = Object.assign( ObjectDate, normalValue );
+    // }
+
+    return (
+      <div className="flex flex-col">
+        <label className={ styleLabelForm } htmlFor="grid-password">
+          { title }
+        </label>
+        <Tag{ ...ress }{ ...register( reg ) }
+        />
+        { salah && <p className={ wrongInput }>Please fill out this field.</p> }
+      </div>
       )
         ;
     }
@@ -244,15 +253,13 @@ export default function FormOrder() {
   function Nama() {
     return (
       <>
-        <div className={ "bg-white p-3  flex-col flex gap-3 rounded" }><h2>Nama</h2>
+        <div className={ "flex-col flex gap-3 " }><h2>Nama</h2>
           <hr/>
-
           <InputForm tag={ 'input' } title={ "Pengiriman" } type="text" reg={ "pengirim" }/>
           <InputForm tag={ 'input' } title={ "Hp Pengirim" } type={ "number" } reg={ "hp_pengirim" }/>
           <InputForm tag={ 'input' } title={ "Penerima" } type={ "text" } reg={ "penerima" }/>
           <InputForm tag={ 'input' } title={ "Alamat Penerima" } type={ "text" } reg={ "alamat_penerima" }/>
           <InputForm tag={ 'input' } title={ "Hp Penerima" } type={ "number" } reg={ "hp_penerima" }/>
-
           {/*<div className="flex flex-col ">*/ }
           {/*  <label className={ styleLabelForm }*/ }
           {/*         htmlFor="grid-password"> Pengiriman</label>*/ }
@@ -271,14 +278,13 @@ export default function FormOrder() {
   function Tanggal() {
     return (
       <>
-        <div className={ " bg-white p-3  flex-col flex gap-3 rounded" }>
+        <div className={ " flex-col flex gap-3 " }>
           <h2>Tanggal</h2>
           <hr/>
 
           <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ "pesan" }/>
           <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ "kirim" }/>
           <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" } reg={ "keterangan" }/>
-
 
           {/*<div className="flex flex-col">*/ }
           {/*  <label htmlFor="">Keterangan</label>*/ }
@@ -295,190 +301,182 @@ export default function FormOrder() {
   function Orderan() {
     return (
       <>
-        <div className="bg-white p-3 w-[50%] flex-col flex gap-3 rounded">
-          <div className="flex flex-col gap-3"><h2>Orderan</h2>
-            <hr/>
+        <div className="flex flex-col gap-3"><h2>Orderan</h2>
+          <hr/>
 
-            <div className="flex flex-col">
-              <label>Cari Barang</label>
-              <input type={ "text" } placeholder={ "Search ...." }
-                     className={ StyleInputForm( salah ) }/>
-            </div>
-
-            <div className="flex flex-col gap-1 overflow-y-auto relative h-[10rem]">
-              {
-
-                sProduct.map( ( sP ) => {
-
-                  console.log( Object.values( sP ).includes( "orderan" ) ? "orderan" : "item" )
-                  const jenis = Object.values( sP ).includes( "orderan" )
-                  return (
-
-                    <ul key={ sP.id }
-                        className={ " border-gray-300 border" }>
-                      <li className={ " flex flex-row justify-between  items-center gap-2 p-2" }>
-                        <img className={ "w-[20%] h-auto rounded" } src={ sP.img } alt={ sP.nama }/>
-                        <div className={ "justify-between flex-col flex " }>
-
-                          <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold " }>
-                            { sP.nama }</p>
-                          <input type={ "hidden" }
-                                 value={ sP.nama } readOnly
-                                 { ...register( jenis ? "orderan" : "item" ) }
-                          />
-
-
-                          <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold  " }>
-                            { sP.harga }</p>
-                          <input type={ "hidden" }
-
-                                 className={ "!overflow-hidden" }
-                                 value={ sP.harga }
-                                 { ...register( jenis ? "harga_orderan" : "harga_item" ) }
-                          />
-                          <p className={ "text-xs sm:text-xl " }>{ sP.jenis }</p>
-                          <input className={ "hidden w-0 h-0" }
-                                 type={ 'text' }
-                                 value={ jenis ? "orderan" : "item" }
-                                 { ...register( jenis ? "orderan" : "item" ) }
-                          />
-                        </div>
-
-                        <div className=" flex-col  flex gap-1 w-[30%]">
-                          <input type={ "number" } className={ ` ${ input }` }
-                                 value={ jenis ? "jumlah_orderan" : "jumlah_item" }
-                                 { ...register( jenis ? "jumlah_orderan" : "jumlah_item"
-                                   // , {required: { value: true, message: "Jumlah Order is Required" } }
-                                 ) }
-                          />
-
-                          <div className="flex gap-1 justify-center flex-row sm:flex-col">
-                            <button
-                              onClick={ () => console.log( "click" ) }
-                              className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-                              <BiAddToQueue/>
-                              <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>
-                            </button>
-                            <button
-                              onClick={ () => console.log( "click" ) }
-                              className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-                              <BiAddToQueue/>
-                              <span className="invisible sm:visible w-0 sm:w-auto">Hapus</span>
-                            </button>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  )
-                } ) }
-            </div>
-
-
-            {/*  <div className="flex flex-col">*/ }
-            {/*    <label htmlFor="">Orderan</label>*/ }
-            {/*    <select name="orderan" id="orderan"*/ }
-            {/*            className='border border-gray-300 p-2 rounded-md'>*/ }
-            {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
-            {/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/ }
-            {/*      <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>*/ }
-            {/*      <option value="Tahu Bakso Goreng">Tahu Bakso Goreng Rp.45.000</option>*/ }
-            {/*      <option value="Bandeng Presto">Bandeng Presto Rp.60.000</option>*/ }
-            {/*      <option value="Otak-Otak Bandeng">Otak-Otak Bandeng Rp.70.000</option>*/ }
-            {/*      <option value="Bakso Sapi 20">Bakso Sapi 20 Rp.40.000</option>*/ }
-            {/*      <option value="Bakso Sapi 12">Bakso Sapi 12 Rp.25.000</option>*/ }
-            {/*      <option value="Bakso Aneka">Bakso Aneka Rp.29.000</option>*/ }
-            {/*      <option value="Nugget">Nugget Rp.27.000</option>*/ }
-            {/*      <option value="Rolade Tahu">Rolade Tahu Rp.19.000</option>*/ }
-            {/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/ }
-            {/*    </select>*/ }
-            {/*  </div>*/ }
-            {/*</div>*/ }
-
-            {/*<div className="flex flex-col gap-5">*/ }
-            {/*  <h1>Lain Lain</h1>*/ }
-            {/*  <hr/>*/ }
-            {/*  <label htmlFor="">Item</label>*/ }
-            {/*  <input type="number" name="price" placeholder="Masukkan Jumlah Yang Di Pesan ..."*/ }
-            {/*         className={ input }*/ }
-            {/*  />*/ }
-            {/*  /!* Semisal Peroduct lain selain tahu bakso  */ }
-
-            {/*  <label htmlFor="">Total</label>*/ }
-            {/*  <input type="number" name="price" placeholder="Total Bayar..."*/ }
-            {/*         className={ input }*/ }
-            {/*  />*/ }
-
-            {/* Total Keseluruhan dari Item lain-lain */ }
+          <div className="flex flex-col">
+            <label>Cari Barang</label>
+            <input type={ "text" } placeholder={ "Search ...." }
+                   className={ StyleInputForm( salah ) }/>
           </div>
 
-          <hr className={ "m-2" }/>
-          <div className={ "flex flex-col gap-3" }>
+          <div className="flex flex-col gap-1 overflow-y-auto relative h-[10rem]">
+            {
 
-            {/* combo box  */ }
-            <label htmlFor="">Ekspedisi</label>
-            <select id="ekspedisi"
-                    className='border border-gray-300 p-2 rounded-md'
-                    { ...register( "ekspedisi" ) }
-            >
-              <option value="Paxel">Paxel</option>
-              <option value="JNE">JNE</option>
-              <option value="Travel Omega">Travel Omega</option>
-              <option value="Travel Serasi">Travel Serasi</option>
-              <option value="Go Send">Go Send</option>
-              <option value="Maxim">Maxim</option>
-              <option value="Delivery">Delivery</option>
-            </select>
+              sProduct.map( ( sP ) => {
 
-            {/* tulis sendiri */ }
+                console.log( Object.values( sP ).includes( "orderan" ) ? "orderan" : "item" )
+                const jenis = Object.values( sP ).includes( "orderan" )
+                return (
 
-            <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ "ongkir" }/>
+                  <ul key={ sP.id }
+                      className={ " border-gray-300 border" }>
+                    <li className={ " flex flex-row justify-between  items-center gap-2 p-2" }>
+                      <img className={ "w-[20%] h-auto rounded" } src={ sP.img } alt={ sP.nama }/>
+                      <div className={ "justify-between flex-col flex " }>
 
-            {/*<label htmlFor="">Ongkir</label>*/ }
-            {/*<input type="number" placeholder="Masukkan Harga Ongkir ..."*/ }
-            {/*       className="border border-gray-300 p-2 rounded-md"*/ }
-            {/*       { ...register( "ongkir" ) }*/ }
-            {/*/>*/ }
+                        <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold " }>
+                          { sP.nama }</p>
+                        <input type={ "hidden" }
+                               value={ sP.nama } readOnly
+                               { ...register( jenis ? "orderan" : "item" ) }
+                        />
+                        <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold  " }>
+                          { sP.harga }</p>
+                        <input type={ "hidden" }
 
-            {/* total product tanpa ongkir   tapi di isi dengan product yang lain lain*/ }
-            {/*<label htmlFor="">Total Penjualan</label>*/ }
-            {/*<input type="number" name="price" placeholder="Masukan Total Bayar..."*/ }
-            {/*       className="border border-gray-300 p-2 rounded-md"*/ }
-            {/*/>*/ }
+                               className={ "!overflow-hidden" }
+                               value={ sP.harga }
+                               { ...register( jenis ? "harga_orderan" : "harga_item" ) }
+                        />
+                        <p className={ "text-xs sm:text-xl " }>{ sP.jenis }</p>
+                        <input className={ "hidden w-0 h-0" }
+                               type={ 'text' }
+                               value={ jenis ? "orderan" : "item" }
+                               { ...register( jenis ? "orderan" : "item" ) }
+                        />
+                      </div>
 
-            {/*<label htmlFor="">Total Bayar</label>*/ }
-            {/*<input type="number" name="price" placeholder="Enter Product name..."*/ }
-            {/*       className="border border-gray-300 p-2 rounded-md"*/ }
-            {/*/>*/ }
+                      <div className=" flex-col  flex gap-1 w-[30%]">
+                        <input type={ "number" } className={ ` ${ input }` }
+                               value={ jenis ? "jumlah_orderan" : "jumlah_item" }
+                               { ...register( jenis ? "jumlah_orderan" : "jumlah_item"
+                                 // , {required: { value: true, message: "Jumlah Order is Required" } }
+                               ) }
+                        />
 
-            <label htmlFor="">Pembayaran</label>
-            <select id="lokasi"
-                    className='border border-gray-300 p-2 rounded-md'
-                    { ...register( "lokasi" ) }
-            >
-              <option value="Ungaran">Ungaran</option>
-              <option value="Semarang">Semarang</option>
-            </select>
-
-            {/* jenis Pembayaran */ }
-            <label htmlFor="">Pembayaran</label>
-            <select id="pembayaran"
-                    className='border border-gray-300 p-2 rounded-md'
-                    { ...register( "pembayaran" ) }
-            >
-              <option value="Cash">Cash</option>
-              <option value="BCA">BCA</option>
-              <option value="Mandiri">Mandiri</option>
-              <option value="BRI">BRI</option>
-            </select>
-
-
+                        <div className="flex gap-1 justify-center flex-row sm:flex-col">
+                          <button
+                            onClick={ () => console.log( "add" ) }
+                            className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                            <BiAddToQueue/>
+                            <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>
+                          </button>
+                          <button
+                            onClick={ () => console.log( "hapus" ) }
+                            className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                            <BiAddToQueue/>
+                            <span className="invisible sm:visible w-0 sm:w-auto">Hapus</span>
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                )
+              } ) }
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 p-2 rounded-md text-white">
-            Add Product
-          </button>
+
+
+          {/*  <div className="flex flex-col">*/ }
+          {/*    <label htmlFor="">Orderan</label>*/ }
+          {/*    <select name="orderan" id="orderan"*/ }
+          {/*            className='border border-gray-300 p-2 rounded-md'>*/ }
+          {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
+          {/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/ }
+          {/*      <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>*/ }
+          {/*      <option value="Tahu Bakso Goreng">Tahu Bakso Goreng Rp.45.000</option>*/ }
+          {/*      <option value="Bandeng Presto">Bandeng Presto Rp.60.000</option>*/ }
+          {/*      <option value="Otak-Otak Bandeng">Otak-Otak Bandeng Rp.70.000</option>*/ }
+          {/*      <option value="Bakso Sapi 20">Bakso Sapi 20 Rp.40.000</option>*/ }
+          {/*      <option value="Bakso Sapi 12">Bakso Sapi 12 Rp.25.000</option>*/ }
+          {/*      <option value="Bakso Aneka">Bakso Aneka Rp.29.000</option>*/ }
+          {/*      <option value="Nugget">Nugget Rp.27.000</option>*/ }
+          {/*      <option value="Rolade Tahu">Rolade Tahu Rp.19.000</option>*/ }
+          {/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/ }
+          {/*    </select>*/ }
+          {/*  </div>*/ }
+          {/*</div>*/ }
+
+          {/*<div className="flex flex-col gap-5">*/ }
+          {/*  <h1>Lain Lain</h1>*/ }
+          {/*  <hr/>*/ }
+          {/*  <label htmlFor="">Item</label>*/ }
+          {/*  <input type="number" name="price" placeholder="Masukkan Jumlah Yang Di Pesan ..."*/ }
+          {/*         className={ input }*/ }
+          {/*  />*/ }
+          {/*  /!* Semisal Peroduct lain selain tahu bakso  */ }
+
+          {/*  <label htmlFor="">Total</label>*/ }
+          {/*  <input type="number" name="price" placeholder="Total Bayar..."*/ }
+          {/*         className={ input }*/ }
+          {/*  />*/ }
+
+          {/* Total Keseluruhan dari Item lain-lain */ }
         </div>
+
+        <hr className={ "m-2" }/>
+        <div className={ "flex flex-col gap-3" }>
+
+          {/* combo box  */ }
+          <label htmlFor="">Ekspedisi</label>
+          <select id="ekspedisi" className='border border-gray-300 p-2 rounded-md'{ ...register( "ekspedisi" ) }>
+            <option value="Paxel">Paxel</option>
+            <option value="JNE">JNE</option>
+            <option value="Travel Omega">Travel Omega</option>
+            <option value="Travel Serasi">Travel Serasi</option>
+            <option value="Go Send">Go Send</option>
+            <option value="Maxim">Maxim</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+
+          {/* tulis sendiri */ }
+
+          <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ "ongkir" }/>
+
+          {/*<label htmlFor="">Ongkir</label>*/ }
+          {/*<input type="number" placeholder="Masukkan Harga Ongkir ..."*/ }
+          {/*       className="border border-gray-300 p-2 rounded-md"*/ }
+          {/*       { ...register( "ongkir" ) }*/ }
+          {/*/>*/ }
+
+          {/* total product tanpa ongkir   tapi di isi dengan product yang lain lain*/ }
+          {/*<label htmlFor="">Total Penjualan</label>*/ }
+          {/*<input type="number" name="price" placeholder="Masukan Total Bayar..."*/ }
+          {/*       className="border border-gray-300 p-2 rounded-md"*/ }
+          {/*/>*/ }
+
+          {/*<label htmlFor="">Total Bayar</label>*/ }
+          {/*<input type="number" name="price" placeholder="Enter Product name..."*/ }
+          {/*       className="border border-gray-300 p-2 rounded-md"*/ }
+          {/*/>*/ }
+
+          <label htmlFor="">Pembayaran</label>
+          <select id="lokasi"
+                  className='border border-gray-300 p-2 rounded-md'
+                  { ...register( "lokasi" ) }
+          >
+            <option value="Ungaran">Ungaran</option>
+            <option value="Semarang">Semarang</option>
+          </select>
+
+          {/* jenis Pembayaran */ }
+          <label htmlFor="">Pembayaran</label>
+          <select id="pembayaran"
+                  className='border border-gray-300 p-2 rounded-md'
+                  { ...register( "pembayaran" ) }
+          >
+            <option value="Cash">Cash</option>
+            <option value="BCA">BCA</option>
+            <option value="Mandiri">Mandiri</option>
+            <option value="BRI">BRI</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 p-2 rounded-md text-white">
+          Add Product
+        </button>
+
 
       </>
     )
@@ -488,174 +486,105 @@ export default function FormOrder() {
 
   const inputType = ( a: number = 0, b: string = "" ) => `border border-gray-300 p-${ a } rounded-md w-${ ( b = "" ) ? "" : b }`;
   const input = inputType()
+  const fomIsi = "bg-white flex-col flex w-[49%]  sm:w-[44%]  md:w-[45%]   lg:w-[47%]  ml-2  gap-3 rounded  p-5";
   return (
-    <div className={ "" }>
+    <>
       {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
-      <form className="bg-green-100 sm:bg-green-50 "
-            onSubmit={ handleSubmit( onSubmit ) }>
-        <div className="flex flex-row gap-1 sm:gap-2  mt-5">
-          <div className="flex-col w-[50%] ml-2   ">
+      <form className="bg-green-100 sm:bg-green-50 " onSubmit={ handleSubmit( onSubmit ) }>
+        <div className="flex flex-row gap-1 sm:gap-3  mt-5">
+          <div className={ fomIsi }>
             <Nama/>
             <Tanggal/>
           </div>
-          <Orderan/>
+          <div className={ fomIsi }>
+            <Orderan/>
+          </div>
         </div>
-
-        <div className=" ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded table-auto">
-            <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 rounded">
-            <tr>
-              <th scope="col" className="px-4 py-3">
-                No.
-              </th>
-              <th scope="col" className="px-4 py-3 bg-green-400">
-                Pesan
-              </th>
-              <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">
-                Kirim
-              </th>
-              <th scope="col" className="px-4 py-3 bg-gray-50 dark:bg-gray-800">
-                pengirim
-              </th>
-              <th scope="col" className="px-4 py-3">
-                Telpon Pengirim
-              </th>
-
-              <th scope="col" className="px-4 py-3 bg-gray-50 dark:bg-gray-800">
-                Penerima
-              </th>
-              <th scope="col" className="px-4 py-3 bg-yellow-100">
-                Orderan
-              </th>
-              <th scope="col" className="px-4 py-3 bg-yellow-300 dark:bg-gray-800">
-                Harga Order
-              </th>
-              <th scope="col" className="px-4 py-3 bg-yellow-100">
-                Jumlah Order
-              </th>
-              <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">
-                Item
-              </th>
-              <th scope="col" className="px-4 py-3 bg-red-300">
-                Harga Item
-              </th>
-              <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">
-                Jumlah Item
-              </th>
-              <th scope="col" className="px-4 py-3">
-                Lokasi
-              </th>
-              <th scope="col" className="px-4 py-3 bg-blue-400 dark:bg-gray-800">
-                Ekspedisi
-              </th>
-              <th scope="col" className="px-4 py-3 bg-green-300">
-                Ongkir
-              </th>
-              <th scope="col" className="px-4 py-3 bg-green-200 dark:bg-gray-800">
-                Total Penjualan
-              </th>
-              <th scope="col" className="px-4 py-3 bg-green-300">
-                Total Bayar
-              </th>
-              <th scope="col" className="px-4 py-3 bg-yellow-100 dark:bg-gray-800">
-                pembayaran
-              </th>
-              <th scope="col" className=" py-3  w-3/4 px-4">
-                Keterangan
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-                1.
-              </th>
-              <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-                { valueForm?.pesan.toLocaleString() }
-              </td>
-              <td scope="row"
-                  className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-                { valueForm?.kirim.toLocaleString() }
-              </td>
-              <td scope="row"
-                  className="border border-slate-300 px-4 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50
-                  dark:text-white dark:bg-gray-800">
-                { valueForm?.pengirim }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { valueForm?.hp_pengirim }
-              </td>
-              <td scope="row"
-                  className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">
-                { valueForm?.penerima }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { valueForm?.orderan }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-                { Rupiah( valueForm?.harga_orderan ) }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { valueForm?.jumlah_orderan }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-                { valueForm?.item }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { Rupiah( valueForm?.harga_item ) }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-                { valueForm?.jumlah_item }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { valueForm?.lokasi }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-                { valueForm?.ekspedisi }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { Rupiah( valueForm?.ongkir ) }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-                { Rupiah(
-                  Number( valueForm.harga_orderan ) * Number( valueForm.jumlah_orderan )
-                  //  + valueForm.harga_item * valueForm.harga_item
-                )
-                }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { Rupiah(
-                  Number( valueForm?.jumlah_item ) * Number( valueForm?.harga_item )
-                  + Number( valueForm?.ongkir )
-                  + Number( valueForm?.jumlah_orderan ) * Number( valueForm?.harga_orderan ) ) }
-              </td>
-              <td scope="row" className="border border-slate-300 px-4 py-4">
-                { valueForm?.pembayaran }
-              </td>
-              <td scope="row"
-                  className="border border-slate-300  py-4  px-4  break-all w-3/4 "//break-all whitespace-normal
-                // style={ {
-                //   inlineSize: "150px",
-                //   overflowWrap: "break-word"
-                // } }
-              >
-                <div className="w-[10rem]">
-                  <div className="whitespace-normal">
-
-                    { valueForm.keterangan }
-                  </div>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-
-
       </form>
+      <div className=" ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded table-auto">
+          <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 rounded">
+          <tr>
+            <th scope="col" className="px-4 py-3">No.</th>
+            <th scope="col" className="px-4 py-3 bg-green-400">Pesan</th>
+            <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Kirim</th>
+            <th scope="col" className="px-4 py-3 bg-gray-50 dark:bg-gray-800">pengirim</th>
+            <th scope="col" className="px-4 py-3">Telpon Pengirim</th>
+            <th scope="col" className="px-4 py-3 bg-gray-50 dark:bg-gray-800">Penerima</th>
+            <th scope="col" className="px-4 py-3 bg-yellow-100">Orderan</th>
+            <th scope="col" className="px-4 py-3 bg-yellow-300 dark:bg-gray-800">Harga Order</th>
+            <th scope="col" className="px-4 py-3 bg-yellow-100">Jumlah Order</th>
+            <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Item</th>
+            <th scope="col" className="px-4 py-3 bg-red-300">Harga Item</th>
+            <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Jumlah Item</th>
+            <th scope="col" className="px-4 py-3">Lokasi</th>
+            <th scope="col" className="px-4 py-3 bg-blue-400 dark:bg-gray-800">Ekspedisi</th>
+            <th scope="col" className="px-4 py-3 bg-green-300">Ongkir</th>
+            <th scope="col" className="px-4 py-3 bg-green-200 dark:bg-gray-800">Total Penjualan</th>
+            <th scope="col" className="px-4 py-3 bg-green-300">Total Bayar</th>
+            <th scope="col" className="px-4 py-3 bg-yellow-100 dark:bg-gray-800">pembayaran</th>
+            <th scope="col" className="px-4 py-3  w-3/4">Keterangan</th>
+            <th scope="col" className="px-4 py-3  w-3/4">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr className="border-b border-gray-200 dark:border-gray-700">
+            <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">1.</th>
+            <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
+              <time>{ valueForm?.pesan.toLocaleDateString() }</time>
+            </td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
+              <time>{ valueForm?.kirim.toLocaleDateString() }</time>
+            </td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">{ valueForm?.pengirim }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.hp_pengirim }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">{ valueForm?.penerima }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.orderan }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ Rupiah( valueForm?.harga_orderan ) }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.jumlah_orderan }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm?.item }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ Rupiah( valueForm?.harga_item ) }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm?.jumlah_item }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.lokasi }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm?.ekspedisi }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ Rupiah( valueForm?.ongkir ) }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ Rupiah( Number( valueForm.harga_orderan ) * Number( valueForm.jumlah_orderan )
+              /*  + valueForm.harga_item * valueForm.harga_item */ ) }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4">{ Rupiah( Number( valueForm?.jumlah_item ) * Number( valueForm?.harga_item ) + Number( valueForm?.ongkir ) + Number( valueForm?.jumlah_orderan ) * Number( valueForm?.harga_orderan ) ) }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.pembayaran }</td>
+            <td scope="row"
+                className="border border-slate-300  py-4  px-4  break-all w-3/4 "
+              //break-all whitespace-normal style={ {
+              //   inlineSize: "150px",
+              //   overflowWrap: "break-word"
+              // } }
+            >
+              <div className="w-[10rem]">
+                <div className="line-clamp-3">{ valueForm.keterangan }</div>
+              </div>
+            </td>
 
-
-    </div>
+            <td scope="row" className="border border-slate-300 px-4 py-4">
+              <button
+                onClick={ () => console.log( "create" ) }
+                className="bg-green-500 p-2 rounded-md text-white">
+                Create
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 // {/* <label htmlFor="">Pembayaran</label>

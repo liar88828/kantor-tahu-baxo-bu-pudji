@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react';
+import { StyleInputForm } from '@/app/style/form';
 
 // Sample data source
 interface Item {
@@ -14,92 +15,93 @@ const items: Item[] = [
   { id: 3, name: 'Item 3', price: 30 },
 ];
 
-const SearchInput: React.FC<{ setSearchQuery: ( query: string ) => void }> = ( {
-  setSearchQuery,
-} ) => {
-  const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
-    setSearchQuery( event.target.value );
-  };
-
-  return <input type="text" onChange={ handleChange }/>;
-};
-
-const ItemList: React.FC<{ items: Item[]; addToCart: ( item: Item ) => void }> = ( {
-  items,
-  addToCart,
-} ) => {
-  return (
-    <ul className={ "flex gap-3" }>
-      { items.map( ( item ) => (
-        <li key={ item.id }>
-          { item.name } - ${ item.price }
-          <button className={ "bg-blue-500 p-2" }
-
-                  onClick={ () => addToCart( item ) }>Add to Cart
-          </button>
-        </li>
-      ) ) }
-    </ul>
-  );
-};
-
-const Cart: React.FC<{ cart: Item[]; removeItem: ( item: Item ) => void }> = ( { cart, removeItem } ) => {
-
-  const handleRemove = ( item: Item ) => {
-    removeItem( item );
-  }
-
-  return (
-    <ul className={ "bg-white  " }>
-      { cart.map( ( item ) => (
-        <li key={ item.id }
-            className={ "flex gap-3 border border-black m-2 bg-blue-400" }
-        >{ item.name }
-          <button onClick={ () => handleRemove( item ) }>Remove</button>
-        </li>
-      ) ) }
-    </ul>
-  );
-};
-
 const App: React.FC = () => {
   const [ searchQuery, setSearchQuery ] = useState( '' );
   const [ cart, setCart ] = useState<Item[]>( [] );
-
-  const filteredItems = items.filter( ( item ) =>
-    item.name.toLowerCase().includes( searchQuery.toLowerCase() )
-  );
+  const [ filteredItems, setFilteredItems ] = useState<Item[]>( items );
 
   const addToCart = ( item: Item ) => {
-    const isItemExist = cart.some( ( cartItem ) => cartItem.id === item.id );
+    const isItemInCart = cart.some( ( cartItem ) => cartItem.id === item.id );
 
-    if( isItemExist ) {
+    if( isItemInCart ) {
       // Item already exists in the cart
+
       alert( `Item "${ item.name }" is already in the cart.` );
+      setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
       return;
     }
 
     setCart( ( prevCart ) => [ ...prevCart, item ] );
+    setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
   };
-  const removeItem = ( item: Item ) => {
-    setCart( ( prevCart ) => {
-      const updatedCart = prevCart.filter( ( cartItem ) => cartItem.id !== item.id );
-      if( prevCart.length !== updatedCart.length ) {
-        // Item was removed from the cart
-        alert( `Item "${ item.name }" was successfully removed from the cart.` );
-      }
-      return updatedCart;
+  const removeFromCart = ( item: Item ) => {
+    setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+    setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
+  };
+
+  const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+    const query = event.target.value;
+    setSearchQuery( query );
+
+    const filtered = items.filter( ( item ) => {
+      const lowerCaseQuery = query.toLowerCase();
+      const lowerCaseName = item.name.toLowerCase();
+      const priceString = item.price.toString();
+
+      // Check if the item name or price string includes the search query
+      return (
+        lowerCaseName.includes( lowerCaseQuery ) ||
+        priceString.includes( lowerCaseQuery )
+      );
     } );
+
+    setFilteredItems( filtered );
+  };
+
+  // const handleRemove = ( item: Item ) => {
+  //   removeItem( item );
+  // };
+
+  const removeItem = ( item: Item ) => {
+    setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
   };
 
   return (
-    <div className={ "bg-white p-2 m-2 flex gap-3" }>
+    <div>
       <h1>Product Search</h1>
-      <SearchInput setSearchQuery={ setSearchQuery }/>
-      <ItemList items={ filteredItems } addToCart={ addToCart }/>
-      <h2>Cart</h2>
-      <Cart cart={ cart } removeItem={ removeItem }/>
+      <input
+        className={ StyleInputForm( false ) }
+        type="text"
+        value={ searchQuery }
+        onChange={ handleSearchChange }/>
+      <ul className={ "bg-red-500 p-2" }>
+        { filteredItems.map( ( item ) => (
+          <li className={ "bg-blue-400 m-2 p-2 flex flex-col gap-2" }
+              key={ item.id }>
 
+            { item.name } - ${ item.price }
+
+            <button
+              className={ "bg-green-200 p-2" }
+              onClick={ () => addToCart( item ) }>Add to Cart
+            </button>
+          </li>
+        ) ) }
+      </ul>
+      <h2>Cart</h2>
+      <ul>
+        { cart.map( ( item ) => (
+          <li
+            className={ "bg-blue-400 p-2 " }
+            key={ item.id }>
+            { item.name }
+            <button
+              className={ "bg-red-500 p-2" }
+              onClick={ () => removeFromCart( item ) }>Remove
+            </button>
+          </li>
+        ) ) }
+      </ul>
     </div>
   );
 };

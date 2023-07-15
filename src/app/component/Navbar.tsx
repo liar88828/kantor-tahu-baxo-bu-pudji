@@ -10,7 +10,7 @@ function Navbar() {
   const path = usePathname().split( "/" )[ 1 ].toUpperCase()
   const linkNavbar = "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-green-400 md:dark:hover:text-blue-500 md:hover:text-white md:dark:hover:bg-transparent md:p-0.5  md:border-0 dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white ";
   return (
-    <div className={ "block w-[113%]" }>
+    <div className={ "block w-[100%]" }>
       <nav className="bg-green-400 border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a className="flex items-center">
