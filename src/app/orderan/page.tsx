@@ -1,10 +1,10 @@
 "use client"
-import React, { useState } from 'react'
-import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
+import React, { ReactElement, useState } from 'react'
 import { TformProduct } from '@/app/product/page';
 import { BiAddToQueue } from "react-icons/bi"
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TOrder } from '../../../components/data';
+import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
 
 const product = [
   { nama: "Tahu Bakso Rebus", harga: 42.000 },
@@ -20,7 +20,7 @@ const product = [
   { nama: "Rolade Tahu", harga: 19.000 },
   { nama: "Rolade Singkong", harga: 19.000 },
 ]
-
+type TOrderKeys = keyof TOrder;
 const formInput = {
   pengirim: "Pengirim",
   hpPengirim: "Hp Pengirim",
@@ -62,6 +62,10 @@ const sProduct: TsProduct[] = [
   }
 
 ]
+
+type Props = {
+  tag?: keyof JSX.IntrinsicElements;
+} & React.HTMLAttributes<HTMLOrSVGElement>;
 
 export default function FormOrder() {
   const [ salah, setSalah ] = useState( false );
@@ -118,49 +122,147 @@ export default function FormOrder() {
     console.log( data )
   };
 
+  // const InputForm: React.FC<Props> = ( {
+  //   tag: Tag = 'input', ...props
+  // } ) => {
+  //   const { title, type, reg } = props as {
+  //     title: string,
+  //     type: string,
+  //     reg: TOrderKeys
+  //   }
+  //   return (
+  //     <div className="flex flex-col ">
+  //       <label className={ styleLabelForm }
+  //              htmlFor="grid-password"> { title }</label>
+  //       <input className={ StyleInputForm( salah ) }
+  //              id="grid-first-name"
+  //              type={ `${ type }` }
+  //              placeholder={ `Nama ${ title }....` }
+  //
+  //              { ...register( reg ) }
+  //       />
+  //       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+  //     </div>
+  //   );
+  // }
+  // type Props = {
+  //   tag?: keyof JSX.IntrinsicElements;
+  // } & React.HTMLAttributes<HTMLOrSVGElement>;
+
+  // function InputForm( { title, type, reg }: { title: string, type: string, req: any } ) {
+  //   return (
+  //     <div className="flex flex-col ">
+  //       <label className={ styleLabelForm }
+  //              htmlFor="grid-password"> { title }</label>
+  //       <input className={ StyleInputForm( salah ) }
+  //              id="grid-first-name"
+  //              type={ type }
+  //              placeholder={ `Nama ${ title }....` }
+  //              { ...register( reg ) }
+  //       />
+  //       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+  //     </div>
+  //   )
+  // }
+
+  interface InputFormProps {
+    tag: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+    title: string;
+    type: string;
+    reg: TOrderKeys;
+  }
+
+  // const InputForm: React.FC<InputFormProps> = ( {
+  //   tag: Tag = 'input',
+  //   title,
+  //   type,
+  //   reg
+  // }: InputFormProps ): ReactElement => {
+  //   const styleLabelForm = 'your-label-style-class';
+  //   const StyleInputForm = 'your-input-style-class';
+  //   const wrongInput = 'your-wrong-input-class';
+  //   const salah = false; // Replace with the appropriate value
+  //
+  //   return (
+  //     <div className="flex flex-col">
+  //       <label className={ styleLabelForm } htmlFor="grid-password">
+  //         { title }
+  //       </label>
+  //       { typeof Tag === 'string' ? (
+  //         <input
+  //           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
+  //           id="grid-first-name"
+  //           type={ type }
+  //           placeholder={ `Nama ${ title }....` }
+  //           { ...register( reg ) }
+  //         />
+  //       ) : (
+  //         <Tag
+  //           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
+  //           id="grid-first-name"
+  //           type={ type }
+  //           placeholder={ `Nama ${ title }....` }
+  //           { ...register( reg ) }
+  //         />
+  //       ) }
+  //       { salah && <p className={ wrongInput }>Please fill out this field.</p> }
+  //     </div>
+  //   );
+  // };
+
+  const InputForm: React.FC<InputFormProps> = ( {
+      tag: Tag = 'input', title, type, reg
+    }: InputFormProps ): ReactElement => {
+
+      // const ress = {
+      //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
+      //   id : "grid-first-name",
+      //   type : type ,
+      //   placeholder : `Nama ${ title }....`,
+      // }
+
+      const ress = {
+        className: `${ StyleInputForm( salah ) }`,
+        type: type,
+        placeholder: `Nama ${ title }....`,
+      };
+
+      return (
+        <div className="flex flex-col">
+          <label className={ styleLabelForm } htmlFor="grid-password">
+            { title }
+          </label>
+          <Tag{ ...ress }{ ...register( reg ) }
+          />
+          { salah && <p className={ wrongInput }>Please fill out this field.</p> }
+        </div>
+      )
+        ;
+    }
+  ;
+
   function Nama() {
     return (
       <>
         <div className={ "bg-white p-3  flex-col flex gap-3 rounded" }><h2>Nama</h2>
           <hr/>
-          <div className="flex flex-col ">
-            <label className={ styleLabelForm }
-                   htmlFor="grid-password"> Pengiriman</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="text"
-                   placeholder="Nama Pengiriman"
-                   { ...register( "pengirim" ) }
-            />
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Hp Pengirim</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="number"
-                   placeholder="Hp Pengiriman"
-                   { ...register( "hp_pengirim" ) }
-            />
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Penerima</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="text"
-                   placeholder="Masukan Penerima"
-                   { ...register( "penerima" ) }/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Alamat Penerima</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="text"
-                   placeholder="Masukan Alamat Penerima"
-                   { ...register( "alamat_penerima" ) }/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Hp Penerima</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="number"
-                   placeholder="Masukan Hp Penerim"
-                   { ...register( "hp_penerima" ) }/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
+
+          <InputForm tag={ 'input' } title={ "Pengiriman" } type="text" reg={ "pengirim" }/>
+          <InputForm tag={ 'input' } title={ "Hp Pengirim" } type={ "number" } reg={ "hp_pengirim" }/>
+          <InputForm tag={ 'input' } title={ "Penerima" } type={ "text" } reg={ "penerima" }/>
+          <InputForm tag={ 'input' } title={ "Alamat Penerima" } type={ "text" } reg={ "alamat_penerima" }/>
+          <InputForm tag={ 'input' } title={ "Hp Penerima" } type={ "number" } reg={ "hp_penerima" }/>
+
+          {/*<div className="flex flex-col ">*/ }
+          {/*  <label className={ styleLabelForm }*/ }
+          {/*         htmlFor="grid-password"> Pengiriman</label>*/ }
+          {/*  <input className={ StyleInputForm( salah ) } id="grid-first-name" type="text"*/ }
+          {/*         placeholder="Nama Pengiriman"*/ }
+          {/*         { ...register( "pengirim" ) }*/ }
+          {/*  />*/ }
+          {/*  { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }*/ }
+          {/*</div>*/ }
+
         </div>
       </>
     );
@@ -172,28 +274,19 @@ export default function FormOrder() {
         <div className={ " bg-white p-3  flex-col flex gap-3 rounded" }>
           <h2>Tanggal</h2>
           <hr/>
-          <div className="flex flex-col ">
-            <label className={ styleLabelForm } htmlFor="grid-password">Pesan</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="date"
-                   placeholder="Masukan Pesan"
-                   { ...register( "pesan" ) }/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
 
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Kirim</label>
-            <input className={ StyleInputForm( salah ) } id="grid-first-name" type="date"
-                   placeholder="Masukan Kirim" { ...register( "kirim" ) }/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
+          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ "pesan" }/>
+          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ "kirim" }/>
+          <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" } reg={ "keterangan" }/>
 
-          <div className="flex flex-col">
-            <label htmlFor="">Keterangan</label>
-            <textarea placeholder="Masukkan Keterangan ..."
-                      className="border border-gray-300 p-2 rounded-md"
-                      { ...register( "keterangan" ) }
-            />
-          </div>
+
+          {/*<div className="flex flex-col">*/ }
+          {/*  <label htmlFor="">Keterangan</label>*/ }
+          {/*  <textarea placeholder="Masukkan Keterangan ..."*/ }
+          {/*            className="border border-gray-300 p-2 rounded-md"*/ }
+          {/*            { ...register( "keterangan" ) }*/ }
+          {/*  />*/ }
+          {/*</div>*/ }
 
         </div>
       </> )
@@ -205,6 +298,7 @@ export default function FormOrder() {
         <div className="bg-white p-3 w-[50%] flex-col flex gap-3 rounded">
           <div className="flex flex-col gap-3"><h2>Orderan</h2>
             <hr/>
+
             <div className="flex flex-col">
               <label>Cari Barang</label>
               <input type={ "text" } placeholder={ "Search ...." }
@@ -232,6 +326,8 @@ export default function FormOrder() {
                                  value={ sP.nama } readOnly
                                  { ...register( jenis ? "orderan" : "item" ) }
                           />
+
+
                           <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold  " }>
                             { sP.harga }</p>
                           <input type={ "hidden" }
@@ -334,11 +430,14 @@ export default function FormOrder() {
             </select>
 
             {/* tulis sendiri */ }
-            <label htmlFor="">Ongkir</label>
-            <input type="number" placeholder="Masukkan Harga Ongkir ..."
-                   className="border border-gray-300 p-2 rounded-md"
-                   { ...register( "ongkir" ) }
-            />
+
+            <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ "ongkir" }/>
+
+            {/*<label htmlFor="">Ongkir</label>*/ }
+            {/*<input type="number" placeholder="Masukkan Harga Ongkir ..."*/ }
+            {/*       className="border border-gray-300 p-2 rounded-md"*/ }
+            {/*       { ...register( "ongkir" ) }*/ }
+            {/*/>*/ }
 
             {/* total product tanpa ongkir   tapi di isi dengan product yang lain lain*/ }
             {/*<label htmlFor="">Total Penjualan</label>*/ }
