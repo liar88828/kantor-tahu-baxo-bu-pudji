@@ -2,192 +2,157 @@
 // import './index.css'
 
 import {
+  ColumnDef,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 
 import React from 'react';
-import * as XLSX from 'xlsx';
 import { Person, TOrderTotal } from '../../../components/data';
-
-type Person = {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  status: string
-  progress: number
-}
-
-const defaultData: Person[] = [
-  {
-    firstName: 'tanner',
-    lastName: 'linsley',
-    age: 24,
-    visits: 100,
-    status: 'In Relationship',
-    progress: 50,
-  },
-  {
-    firstName: 'tandy',
-    lastName: 'miller',
-    age: 40,
-    visits: 40,
-    status: 'Single',
-    progress: 80,
-  },
-  {
-    firstName: 'joe',
-    lastName: 'dirte',
-    age: 45,
-    visits: 20,
-    status: 'Complicated',
-    progress: 10,
-  },
-]
+import excel from '../../../lib/excel';
 
 const columnHelper = createColumnHelper<TOrderTotal>()
-
-const saveAsExcelFile = ( buffer: any, fileName: string ) => {
-  const data = new Blob( [ buffer ], { type: 'application/octet-stream' } );
-  const url = URL.createObjectURL( data );
-  const link = document.createElement( 'a' );
-  link.href = url;
-  link.setAttribute( 'download', fileName );
-  document.body.appendChild( link );
-  link.click();
-  document.body.removeChild( link );
-};
-
-const exportToExcel = ( table: any ) => {
-  const worksheet = XLSX.utils.table_to_sheet(
-    document.querySelector( 'table' ) as HTMLTableElement
-  );
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet( workbook, worksheet, 'Sheet 1' );
-  const excelBuffer = XLSX.write( workbook, { bookType: 'xlsx', type: 'array' } );
-  saveAsExcelFile( excelBuffer, 'table_data.xlsx' );
-};
 
 export default function Table() {
   const [ data, setData ] = React.useState<TOrderTotal[]>( () => [ ...Person ] );
   const rerender = React.useReducer( () => ( {} ), {} )[ 1 ];
+  const [ sorting, setSorting ] = React.useState<SortingState>( [] )
 
   // const rerender = React.useReducer(() => ({}), {})[1]
 
   // let datas: any = []
 
-// @ts-ignore
-  const columns = [
-    columnHelper.accessor(
-      'no',
+  /* @ts-ignore */
+  const columns = React.useMemo<ColumnDef<Person>[]>( () => [
+
+    columnHelper.accessor( 'no',
       {
+        header: "No",
         cell: info => info.getValue<number>(),
         footer: info => info.column.id,
 
       } ),
 
-    // columnHelper.accessor( 'pesan',
-    //   {
-    //   header: () => 'Pesan',
-    //   cell: info => info.renderValue(),
-    //   footer: info => info.column.id,
-    // } ),
+    // {      header: "tanggal", footer: props => {props.column.id}, columns: [
+    //     {
+    //       accessorKey: 'pesan',
+    //       header: () => 'Pesan',
+    //       // cell: info => info.renderValue(),
+    //       footer: info => info.column.id,
+    //     },
     //
-    // columnHelper.accessor(
-    //   'kirim',
+    //     {
+    //       accessorKey: 'kirim',
+    //       header: () => 'Kirim',
+    //       // cell: info => info.renderValue(),
+    //       footer: info => info.column.id,
+    //     },
+    //   ]
+    // },
+
+    // columnHelper.accessor( 'no',
     //   {
-    //   header: () => 'Kirim',
-    //   cell: info => info.renderValue(),
-    //   footer: info => info.column.id,
-    // } ),
+    //     header: "No",
+    //     // cell: info => info.getValue<number>(),
+    //     footer: info => info.column.id,
     //
+    //   } ),
 
-    columnHelper.accessor( 'pengirim',
-      {
-        header: 'Status',
-        footer: info => info.column.id,
-      } ),
+    {
+      header: "Pengirim", footer: props => {props.column.id}, columns: [
+        columnHelper.accessor( 'pengirim',
+          {
+            header: 'pengirim',
+            footer: info => info.column.id,
+          } ),
 
-    columnHelper.accessor( 'hp_pengirim',
-      {
-        header: "hp_pengirim",
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'penerima',
-      {
-        header: 'penerima',
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'hp_pengirim',
-      {
-        header: 'hp_pengirim',
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'alamat_penerima',
-      {
-        header: 'alamat_penerima',
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'hp_pengirim',
-      {
-        header: 'hp_pengirim',
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'hp_penerima',
-      {
-        header: 'hp_penerima',
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'orderan',
-      {
-        header: 'orderan',
-        footer: info => info.column.id,
-      } ),
-    columnHelper.accessor( 'harga_orderan',
-      {
-        header: 'harga_orderan',
-        // footer: info => info.column.id,
-        footer: info => {
-          return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.harga_orderan, 0 )
-        }
-      } ),
+        columnHelper.accessor( 'hp_pengirim',
+          {
+            header: "hp_pengirim",
+            footer: info => info.column.id,
+          } ),
 
-    columnHelper.accessor( 'jumlah_orderan',
-      {
-        header: 'jumlah_orderan',
-        // footer: info => info.column.id,
-        footer: info => {
-          return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.jumlah_orderan, 0 )
-        }
-      } ),
+      ]
+    },
 
-    columnHelper.accessor( 'item',
-      {
-        header: 'item',
-        footer: info => info.column.id,
-      } ),
+    {
+      header: "Penerima", footer: props => {props.column.id}, columns: [
 
-    columnHelper.accessor( 'harga_item',
-      {
-        header: 'harga_item',
-        // footer: info => info.column.id,
-        footer: info => {
-          return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.harga_item, 0 )
-        }
-      } ),
+        columnHelper.accessor( 'penerima',
+          {
+            header: 'penerima',
+            footer: info => info.column.id,
+          } ),
+        columnHelper.accessor( 'alamat_penerima',
+          {
+            header: 'alamat_penerima',
+            footer: info => info.column.id,
+          } ),
+        columnHelper.accessor( 'hp_penerima',
+          {
+            header: 'hp_penerima',
+            footer: info => info.column.id,
+          } ),
+      ]
+    },
 
-    columnHelper.accessor( 'jumlah_item',
-      {
-        header: 'jumlah_item',
-        // footer: info => info.column.id,
-        footer: info => {
-          return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.jumlah_item, 0 )
-        },
-      } ),
+    {
+      header: "Product", footer: props => {props.column.id}, columns: [
+
+        columnHelper.accessor( 'orderan',
+          {
+            header: 'orderan',
+            footer: info => info.column.id,
+          } ),
+        columnHelper.accessor( 'harga_orderan',
+          {
+            header: 'harga_orderan',
+            // footer: info => info.column.id,
+            footer: info => {
+              return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.harga_orderan, 0 )
+            }
+          } ),
+
+        columnHelper.accessor( 'jumlah_orderan',
+          {
+            header: 'jumlah_orderan',
+            // footer: info => info.column.id,
+            footer: info => {
+              return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.jumlah_orderan, 0 )
+            }
+          } ),
+
+        columnHelper.accessor( 'item',
+          {
+            header: 'item',
+            footer: info => info.column.id,
+          } ),
+
+        columnHelper.accessor( 'harga_item',
+          {
+            header: 'harga_item',
+            // footer: info => info.column.id,
+            footer: info => {
+              return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.harga_item, 0 )
+            }
+          } ),
+
+        columnHelper.accessor( 'jumlah_item',
+          {
+            header: 'jumlah_item',
+            // footer: info => info.column.id,
+            footer: info => {
+              return info.table.getRowModel().rows.reduce( ( total, row ) => total + row.original.jumlah_item, 0 )
+            },
+          } ),
+
+      ]
+    },
 
     columnHelper.accessor( 'ekspedisi', {
       header: 'ekspedisi',
@@ -220,6 +185,7 @@ export default function Table() {
     //   return <strong>{sum}</strong>;
     // },
     // }, ),
+
     columnHelper.accessor( 'lokasi', {
       header: 'lokasi',
       footer: info => info.column.id,
@@ -245,7 +211,7 @@ export default function Table() {
         footer: info => info.column.id,
       } ),
 
-  ]
+  ] )
 
 // function sumBy<T>(values: T[], key: keyof T): number {
 //   return values.reduce((total, value) => total + value[key], 0);
@@ -256,8 +222,14 @@ export default function Table() {
   const table = useReactTable( {
     data,
     columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    debugTable: true,
   } );
 
   const [ state, setState ] = React.useState( table.initialState )
@@ -266,12 +238,6 @@ export default function Table() {
     ...prev,
     state,
     onStateChange: setState,
-    // These are just table options, so if things
-    // need to change based on your state, you can
-    // derive them here
-
-    // Just for fun, let's debug everything if the pageIndex
-    // is greater than 2
     debugTable: state.pagination.pageIndex > 2,
   } ) )
 
@@ -295,11 +261,24 @@ export default function Table() {
               { headerGroup.headers.map( ( header ) => (
                 <th key={ header.id } colSpan={ header.colSpan }>
                   { header.isPlaceholder ? null
-                    : ( <div>
+                    : ( <div
+                        { ...{
+                          className: header.column.getCanSort()
+                            ? 'cursor-pointer select-none'
+                            : '',
+                          onClick: header.column.getToggleSortingHandler(),
+                        } }
+                      >
                         { flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         ) }
+
+                        { {
+                          asc: ' 🔼',
+                          desc: ' 🔽',
+                        }[ header.column.getIsSorted() as string ] ?? null }
+
                       </div>
                     ) }
                 </th>
@@ -308,11 +287,15 @@ export default function Table() {
           ) ) }
           </thead>
           <tbody>
-          { table.getRowModel().rows.map( ( row ) => (
+          { table.getRowModel().rows
+          .slice( 0, 10 )
+          .map( ( row ) => (
             <tr key={ row.id }>
-              { row.getVisibleCells().map( ( cell ) => (
+              { row.getVisibleCells()
+              .map( ( cell ) => (
                 <td key={ cell.id }>
-                  { flexRender( cell.column.columnDef.cell,
+                  { flexRender(
+                    cell.column.columnDef.cell,
                     cell.getContext() ) }
                 </td>
               ) ) }
@@ -403,15 +386,15 @@ export default function Table() {
           {/*{dataQuery.isFetching ? 'Loading...' : null}*/ }
         </div>
         <div>{ table.getRowModel().rows.length } Rows</div>
-        <div>
-          <button onClick={ () => rerender() }>Force Rerender</button>
-        </div>
+        {/*<div>*/ }
+        {/*  <button onClick={ () => rerender() }>Force Rerender</button>*/ }
+        {/*</div>*/ }
         {/*<pre>{JSON.stringify(pagination, null, 2)}</pre>*/ }
         {/*</div>*/ }
 
 
         <div className="h-4"/>
-        <button onClick={ () => exportToExcel( table ) } className="border p-2">
+        <button onClick={ () => excel.exportToExcel( table ) } className="border p-2">
           Export to Excel
         </button>
         <div className="h-4"/>
