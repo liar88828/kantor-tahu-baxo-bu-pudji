@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 
 export type TformProduct = {
   nama: string,
-  harga: string,
+  harga: number,
   jenis: string
   img?: string
 }

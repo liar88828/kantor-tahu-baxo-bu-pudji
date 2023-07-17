@@ -6,7 +6,7 @@ import {
   AiFillPieChart,
   AiFillSetting,
   AiOutlineArrowLeft,
-  AiOutlineFileSearch,
+  AiOutlineTable,
   AiOutlineInbox,
   AiOutlineSearch,
 } from "react-icons/ai";
@@ -19,7 +19,7 @@ const menuList = [
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "product" },
   { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "pengiriman" },
   { title: "Search", icon: AiOutlineSearch, link: "form" },
-  { title: "Files", icon: AiOutlineFileSearch, link: "form" },
+  { title: "Files", icon: AiOutlineTable, link: "table" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "form" },
   { title: "Setting", icon: AiFillSetting, link: "form" },
 ];
@@ -36,8 +36,9 @@ export const Slidebar = () => {
   return (
     <div className="flex z-50">
       {/* body slide bar*/ }
-      <div className={ ` ${ open ? "w-72" : "w-20" } h-screen  relative transition-all duration-150 ` }
-           style={ { background: bgColorSlideBar } }>
+      <div
+        className={ ` ${ open ? "w-72 p-4 sm:p-1" : "w-12 sm:w-20" } h-screen  relative transition-all duration-150 ` }
+        style={ { background: bgColorSlideBar } }>
 
         <AiOutlineArrowLeft
           className={ `mt-3 bg-white w-9 h-9 -right-3  p-1 absolute  rounded-xl  border-black border-2 transition-all duration-500 ` }
@@ -65,7 +66,7 @@ export const Slidebar = () => {
         </div>
 
 
-        <ul className={ `${ !open && "mt-10" }  p-4 ` }>
+        <ul className={ `${ !open && "mt-10" }  ml-1   sm:py-4 sm:px-4 ` }>
           { menuList.map( ( item, index ) => {
             const Icons = item.icon
             return (

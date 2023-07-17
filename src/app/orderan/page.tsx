@@ -1,13 +1,14 @@
 "use client"
 import React, { ReactElement, useState } from 'react'
 import { TformProduct } from '@/app/product/page';
-import { BiAddToQueue } from "react-icons/bi"
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TOrder } from '../../../components/data';
 import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
+import { BiAddToQueue } from 'react-icons/bi';
+import { AiOutlineSearch } from "react-icons/ai";
 
 const product = [
-  { nama: "Tahu Bakso Rebus", harga: 42.000 },
+  // { nama: "Tahu Bakso Rebus", harga: 42.000 },
   { nama: "Tahu Bakso Vakum", harga: 46.000 },
   { nama: "Tahu Bakso Special", harga: 50.000 },
   { nama: "Tahu Bakso Goreng", harga: 45.000 },
@@ -21,6 +22,7 @@ const product = [
   { nama: "Rolade Singkong", harga: 19.000 },
 ]
 type TOrderKeys = keyof TOrder;
+
 const formInput = {
   pengirim: "Pengirim",
   hpPengirim: "Hp Pengirim",
@@ -43,20 +45,37 @@ const formInput = {
   pembayaran: "Pembayaran",
   keterangan: "Keterangan",
 }
+
 type TsProduct = { id: string } & TformProduct
 const sProduct: TsProduct[] = [
   {
-    id: "bakso sapi2",
-    nama: "bakso sapi",
-    harga: "5000",
+    id: "84287272-fa64-486a-9dc8-Rebus",
+    nama: "Tahu Bakso Rebus", harga: 42000,
     jenis: "item",
     img: "https://upload.wikimedia.org/wikipedia/commons/2/28/Bakso_mi_bihun.jpg"
   },
 
   {
-    id: "bakso sapi1",
-    nama: "bakso Urat",
-    harga: "10000",
+    id: "3ba638b4-bf89-470a-b446-eec8d0d143Vakum",
+    nama: "Tahu Bakso Vakum",
+    harga: 46000,
+    jenis: "orderan",
+    img: "https://img.kurio.network/xAbHWPE-jbNSWEWyRoCLxJM6sac=/1200x1200/filters:quality(80)/https://kurio-img.kurioapps.com/21/09/06/2c552606-f62f-475d-81db-e9a57e963a3f.jpe"
+  },
+
+  {
+    id: "a803c2ee-c3d8-4b17-8a79-e80b873fe4Goreng",
+    nama: "Tahu Bakso Goreng",
+    harga: 45000,
+    jenis: "item",
+    img: "https://img.kurio.network/xAbHWPE-jbNSWEWyRoCLxJM6sac=/1200x1200/filters:quality(80)/https://kurio-img.kurioapps.com/21/09/06/2c552606-f62f-475d-81db-e9a57e963a3f.jpe"
+  }
+
+  ,
+  {
+    id: "d2072e14-5cd9-4f54-86fc-dd644e4a59fPresto",
+    nama: "Bandeng Presto",
+    harga: 60000,
     jenis: "orderan",
     img: "https://img.kurio.network/xAbHWPE-jbNSWEWyRoCLxJM6sac=/1200x1200/filters:quality(80)/https://kurio-img.kurioapps.com/21/09/06/2c552606-f62f-475d-81db-e9a57e963a3f.jpe"
   }
@@ -78,8 +97,8 @@ export default function FormOrder() {
     ongkir: 0,
     penerima: '',
     pengirim: '',
-    kirim: new Date(),
-    pesan: new Date(),
+    kirim: new Date( "12/12/1999" ),
+    pesan: new Date( "12/12/2023" ),
     lokasi: "",
     item: "",
     harga_item: 0,
@@ -103,19 +122,20 @@ export default function FormOrder() {
       currency: "IDR"
     } ).format( n );
   }
-  // function formatDate( date: Date | undefined ) {
-  //   var d = new Date( date ),
-  //     month = '' + ( d.getMonth() + 1 ),
-  //     day = '' + d.getDate(),
-  //     year = d.getFullYear();
-  //
-  //   if( month.length < 2 )
-  //     month = '0' + month;
-  //   if( day.length < 2 )
-  //     day = '0' + day;
-  //
-  //   return [ day, month, year ].join( '-' );
-  // }
+
+  function formatDate( date: Date | string ) {
+    var d = new Date( date ),
+      month = '' + ( d.getMonth() + 1 ),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if( month.length < 2 )
+      month = '0' + month;
+    if( day.length < 2 )
+      day = '0' + day;
+
+    return [ day, month, year ].join( '-' );
+  }
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => {
     setValueForm( data )
@@ -211,40 +231,40 @@ export default function FormOrder() {
   // };
 
   const InputForm: React.FC<InputFormProps> = (
-    { tag: Tag = 'input', title, type, reg, value }
-      : InputFormProps ): ReactElement => {
+      { tag: Tag = 'input', title, type, reg, value }
+        : InputFormProps ): ReactElement => {
 
-    // const ress = {
-    //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
-    //   id : "grid-first-name",
-    //   type : type ,
-    //   placeholder : `Nama ${ title }....`,
-    // }
+      // const ress = {
+      //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
+      //   id : "grid-first-name",
+      //   type : type ,
+      //   placeholder : `Nama ${ title }....`,
+      // }
 
-    // const ObjectDate = { value: "2012-3-23" }
+      // const ObjectDate = { value: "2012-3-23" }
 
-    const normalValue = {
-      className: `${ StyleInputForm( salah ) }`,
-      type: type,
-      placeholder: `Nama ${ title }....`,
-    };
-    let ress = {
-      ...normalValue
-    }
-    //
-    // if( type == "date" ) {
-    //   ress = Object.assign( ObjectDate, normalValue );
-    // }
+      const normalValue = {
+        className: `${ StyleInputForm( salah ) }`,
+        type: type,
+        placeholder: `Nama ${ title }....`,
+      };
+      let ress = {
+        ...normalValue
+      }
+      //
+      // if( type == "date" ) {
+      //   ress = Object.assign( ObjectDate, normalValue );
+      // }
 
-    return (
-      <div className="flex flex-col">
-        <label className={ styleLabelForm } htmlFor="grid-password">
-          { title }
-        </label>
-        <Tag{ ...ress }{ ...register( reg ) }
-        />
-        { salah && <p className={ wrongInput }>Please fill out this field.</p> }
-      </div>
+      return (
+        <div className="flex flex-col">
+          <label className={ styleLabelForm } htmlFor="grid-password">
+            { title }
+          </label>
+          <Tag{ ...ress }{ ...register( reg ) }
+          />
+          { salah && <p className={ wrongInput }>Please fill out this field.</p> }
+        </div>
       )
         ;
     }
@@ -299,81 +319,289 @@ export default function FormOrder() {
   }
 
   function Orderan() {
+
+    const [ searchQuery, setSearchQuery ] = useState( '' );
+    const [ cart, setCart ] = useState<TsProduct[]>( [] );
+    const [ filteredItems, setFilteredItems ] = useState<TsProduct[]>( sProduct );
+    const [ cariProduct, setCariProduct ] = useState<boolean>( false )
+    console.log( cart )
+    const addToCart = ( item: TsProduct ) => {
+      const isItemInCart = cart.some( ( cartItem ) => cartItem.id === item.id );
+      if( isItemInCart ) {
+        // Item already exists in the cart
+
+        alert( `Item "${ item.nama }" is already in the cart.` );
+        setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
+        return;
+      }
+
+      setCart( ( prevCart ) => [ ...prevCart, item ] );
+      setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
+    };
+    const removeFromCart = ( item: TsProduct ) => {
+      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+      setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
+    };
+
+    const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+      const query = event.target.value;
+      setSearchQuery( query );
+
+      const filtered = sProduct.filter( ( item ) => {
+        const lowerCaseQuery = query.toLowerCase();
+        const lowerCaseName = item.nama.toLowerCase();
+        const priceString = item.harga.toString();
+
+        // Check if the item name or price string includes the search query
+        return (
+          lowerCaseName.includes( lowerCaseQuery ) ||
+          priceString.includes( lowerCaseQuery )
+        );
+      } );
+
+      setFilteredItems( filtered );
+    };
+
+    // const handleRemove = ( item: Item ) => {
+    //   removeItem( item );
+    // };
+
+    const removeItem = ( item: TsProduct ) => {
+      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+    };
+
     return (
       <>
-        <div className="flex flex-col gap-3"><h2>Orderan</h2>
-          <hr/>
+        <div className="flex flex-col gap-3">
+          <h1>Product Search</h1>
 
-          <div className="flex flex-col">
-            <label>Cari Barang</label>
-            <input type={ "text" } placeholder={ "Search ...." }
-                   className={ StyleInputForm( salah ) }/>
+          <div className="flex flex-row  gap-1 sm:gap-7">
+            <button
+              type={ 'button' }
+              className={ "py-2 mb-1   bg-blue-500 text-white cursor-pointer rounded" }
+              onClick={ () => {
+                setCariProduct( !cariProduct )
+                // console.log( "click", cariProduct )
+              } }>
+              <span className=" flex flex-row items-center px-2">
+                <AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>
+              <span className="invisible sm:visible w-0 sm:w-auto">
+                      <span className={ "hidden md:hidden lg:block" }> { !cariProduct ? ( "Open" ) : "Close" }</span>
+              </span>
+              </span>
+            </button>
+
+
+            <input
+              className={ StyleInputForm( false ) + "rounded leading-tight w-[80%] " }
+              type="text"
+              value={ searchQuery }
+              placeholder={ "Cari Product" }
+              onChange={ handleSearchChange }/>
+          </div>
+          <div className={ ` ${ cariProduct ? "hidden" : "" } border  border-gray-200 rounded bg-gray-50` }>
+
+            <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[10rem] " }>
+              { filteredItems.map( ( item ) => (
+
+                <li
+                  className={ " p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white" }
+                  key={ item.id }>
+                  <img className={ " rounded bg-blue-300 w-20 h-20" }
+                    // w-[20%] h-auto
+                       src={ item.img }
+                       alt={ item.nama }
+                  />
+
+                  <p className={ "flex flex-col" }>
+                    <span className={ "text-sm sm:text-base" }>{ item.nama }</span>
+                    <span className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
+                    <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
+                  </p>
+
+                  <button
+                    type={ "button" }
+                    onClick={ () => addToCart( item ) }
+                    className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                    <BiAddToQueue/>
+                    <span className="invisible sm:visible w-0 sm:w-auto">  Add
+                      <span className={ "sm:hidden" }>to Cart</span>
+                    </span>
+                  </button>
+                </li>
+              ) ) }
+            </ul>
           </div>
 
-          <div className="flex flex-col gap-1 overflow-y-auto relative h-[10rem]">
-            {
+          {/*<h2>Orderan</h2>*/ }
+          {/*<hr/>*/ }
+          {/*<div className="flex flex-col">*/ }
+          {/*  <label>Cari Barang</label>*/ }
+          {/*  <input type={ "text" } placeholder={ "Search ...." }*/ }
+          {/*         className={ StyleInputForm( salah ) }/>*/ }
+          {/*</div>*/ }
 
-              sProduct.map( ( sP ) => {
 
-                console.log( Object.values( sP ).includes( "orderan" ) ? "orderan" : "item" )
-                const jenis = Object.values( sP ).includes( "orderan" )
-                return (
+          {/*list cart*/ }
+          <div className="flex flex-col gap-1">
+            <h2>Cart</h2>
+            <ul className={ " border-gray-300 border  overflow-y-auto relative h-[10rem] bg-gray-50 p-2 rounded" }>
+              { cart.map( ( item ) => {
+                  console.log( item )
+                  return (
+                    <li
+                      className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
+                      key={ item.id }>
+                      <img className={ " rounded bg-blue-300 w-20 h-20" }
+                        // w-[20%] h-auto
+                           src={ item.img }
+                           alt={ item.nama }
+                      />
+                      <div className=" flex flex-col">
 
-                  <ul key={ sP.id }
-                      className={ " border-gray-300 border" }>
-                    <li className={ " flex flex-row justify-between  items-center gap-2 p-2" }>
-                      <img className={ "w-[20%] h-auto rounded" } src={ sP.img } alt={ sP.nama }/>
-                      <div className={ "justify-between flex-col flex " }>
+                        <table className={ "border-transparent" }>
+                          <tbody className={ "border-transparent" }>
+                          <tr>
+                            <td className={ "hidden sm:block" }>
+                              <span>Nama Produk </span></td>
+                            <td className={ "text-sm sm:text-base" }>
+                              { item.nama }
+                              <input className={ StyleInputForm( false ) }
+                                     value={ item.nama } { ...register( item.jenis === "orderan" ? "orderan" : "item" ) }/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className={ "hidden sm:block" }>
+                              <span>Harga </span></td>
+                            <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
+                              <input type={ "number" }
+                                     value={ item.harga }{ ...register( item.jenis === "orderan" ? "harga_orderan" : "harga_item" ) }/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className={ "hidden sm:block" }>
+                              <span>Jenis </span></td>
+                            <td className={ "text-sm sm:text-base" }>{ item.jenis }
+                              <input className={ " " }
+                                     type={ 'text' }
+                                     value={ item.jenis } { ...register( item.jenis === "orderan" ? "orderan" : "item" ) }/>
+                            </td>
 
-                        <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold " }>
-                          { sP.nama }</p>
-                        <input type={ "hidden" }
-                               value={ sP.nama } readOnly
-                               { ...register( jenis ? "orderan" : "item" ) }
-                        />
-                        <p className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold  " }>
-                          { sP.harga }</p>
-                        <input type={ "hidden" }
-
-                               className={ "!overflow-hidden" }
-                               value={ sP.harga }
-                               { ...register( jenis ? "harga_orderan" : "harga_item" ) }
-                        />
-                        <p className={ "text-xs sm:text-xl " }>{ sP.jenis }</p>
-                        <input className={ "hidden w-0 h-0" }
-                               type={ 'text' }
-                               value={ jenis ? "orderan" : "item" }
-                               { ...register( jenis ? "orderan" : "item" ) }
-                        />
+                          </tr>
+                          </tbody>
+                        </table>
                       </div>
 
-                      <div className=" flex-col  flex gap-1 w-[30%]">
-                        <input type={ "number" } className={ ` ${ input }` }
-                               value={ jenis ? "jumlah_orderan" : "jumlah_item" }
-                               { ...register( jenis ? "jumlah_orderan" : "jumlah_item"
-                                 // , {required: { value: true, message: "Jumlah Order is Required" } }
-                               ) }
-                        />
 
-                        <div className="flex gap-1 justify-center flex-row sm:flex-col">
+                      <div className=" flex-col  flex gap-1 w-[30%]">
+                        <div className="flex gap-1 justify-center flex-col">
+                          <label>
+                            <span className={ "hidden sm:block" }>Jumlah</span>
+                            <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }
+                                   min={ 1 }
+                              // cha={ item.jenis ? "jumlah_orderan" : "jumlah_item" }
+                                   { ...register( item.jenis === "orderan" ? "jumlah_orderan" : "jumlah_item"
+                                     // , {required: { value: true, message: "Jumlah Order is Required" } }
+                                   ) }
+                            />
+                          </label>
+
+                          {/*<button*/ }
+                          {/*  type={ "button" }*/ }
+                          {/*  onClick={ () => console.log( "add" ) }*/ }
+                          {/*  className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
+                          {/*  <BiAddToQueue/>*/ }
+                          {/*  <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>*/ }
+                          {/*</button>*/ }
+
                           <button
-                            onClick={ () => console.log( "add" ) }
-                            className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-                            <BiAddToQueue/>
-                            <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>
-                          </button>
-                          <button
-                            onClick={ () => console.log( "hapus" ) }
+                            type={ "button" }
+                            onClick={ () => removeFromCart( item ) }
                             className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
                             <BiAddToQueue/>
-                            <span className="invisible sm:visible w-0 sm:w-auto">Hapus</span>
+                            <span className="hidden sm:block w-0 sm:w-auto">Hapus</span>
                           </button>
                         </div>
                       </div>
-                    </li>
-                  </ul>
-                )
-              } ) }
+
+
+                      {/*<button*/ }
+                      {/*  className={ "bg-red-500 p-2" }*/ }
+                      {/*  onClick={ () => removeFromCart( item ) }>Remove*/ }
+                      {/*</button>*/ }
+                    </li> )
+                }
+              )
+              }
+            </ul>
+
+            {/*{ sProduct.map( ( sP ) => {*/ }
+
+            {/*    console.log( Object.values( sP ).includes( "orderan" ) ? "orderan" : "item" )*/ }
+            {/*    const jenis = Object.values( sP ).includes( "orderan" )*/ }
+
+            {/*    return (*/ }
+
+            {/*      */ }
+            {/*      */ }
+            {/*---------------Loop*/ }
+            {/*      // <ul key={ sP.id }*/ }
+            {/*      //     className={ " border-gray-300 border" }>*/ }
+            {/*      //   <li className={ " flex flex-row justify-between  items-center gap-2 p-2" }>*/ }
+            {/*      //     <img className={ "w-[20%] h-auto rounded" } src={ sP.img } alt={ sP.nama }/>*/ }
+            {/*      //     <div className={ "justify-between flex-col flex " }>*/ }
+            {/*      //*/ }
+            {/*      //       <label className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold " }>*/ }
+            {/*      //         { sP.nama }</label>*/ }
+            {/*      //       <input type={ "hidden" }*/ }
+            {/*      //              value={ sP.nama } readOnly*/ }
+            {/*      //              { ...register( jenis ? "orderan" : "item" ) }*/ }
+            {/*      //       />*/ }
+            {/*      //*/ }
+            {/*      //       <label className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold  " }>*/ }
+            {/*      //         { sP.harga }</label>*/ }
+            {/*      //       <input type={ "hidden" }*/ }
+            {/*      //*/ }
+            {/*      //              className={ "!overflow-hidden" }*/ }
+            {/*      //              value={ sP.harga }*/ }
+            {/*      //              { ...register( jenis ? "harga_orderan" : "harga_item" ) }*/ }
+            {/*      //       />*/ }
+            {/*      //       <label className={ "text-xs sm:text-xl " }>{ sP.jenis }</label>*/ }
+            {/*      //       <input className={ "hidden w-0 h-0" }*/ }
+            {/*      //              type={ 'text' }*/ }
+            {/*      //              value={ jenis ? "orderan" : "item" }*/ }
+            {/*      //              { ...register( jenis ? "orderan" : "item" ) }*/ }
+            {/*      //       />*/ }
+            {/*      //*/ }
+            {/*      //     </div>*/ }
+            {/*      //*/ }
+            {/*      //     <div className=" flex-col  flex gap-1 w-[30%]">*/ }
+            {/*      //       <input type={ "number" } className={ ` ${ input }` }*/ }
+            {/*      //              value={ jenis ? "jumlah_orderan" : "jumlah_item" }*/ }
+            {/*      //              { ...register( jenis ? "jumlah_orderan" : "jumlah_item"*/ }
+            {/*      //                // , {required: { value: true, message: "Jumlah Order is Required" } }*/ }
+            {/*      //              ) }*/ }
+            {/*      //       />*/ }
+            {/*      //*/ }
+            {/*      //       <div className="flex gap-1 justify-center flex-row sm:flex-col">*/ }
+            {/*      //         <button*/ }
+            {/*      //           onClick={ () => console.log( "add" ) }*/ }
+            {/*      //           className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
+            {/*      //           <BiAddToQueue/>*/ }
+            {/*      //           <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>*/ }
+            {/*      //         </button>*/ }
+            {/*      //         <button*/ }
+            {/*      //           onClick={ () => console.log( "hapus" ) }*/ }
+            {/*      //           className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
+            {/*      //           <BiAddToQueue/>*/ }
+            {/*      //           <span className="invisible sm:visible w-0 sm:w-auto">Hapus</span>*/ }
+            {/*      //         </button>*/ }
+            {/*      //       </div>*/ }
+            {/*      //     </div>*/ }
+            {/*      //   </li>*/ }
+            {/*      // </ul>*/ }
+            {/*    )*/ }
+            {/*  } ) }*/ }
           </div>
 
 
@@ -486,12 +714,16 @@ export default function FormOrder() {
 
   const inputType = ( a: number = 0, b: string = "" ) => `border border-gray-300 p-${ a } rounded-md w-${ ( b = "" ) ? "" : b }`;
   const input = inputType()
-  const fomIsi = "bg-white flex-col flex w-[49%]  sm:w-[44%]  md:w-[45%]   lg:w-[47%]  ml-2  gap-3 rounded  p-5";
+  const fomIsi = "bg-white flex-col flex w-[50%]  sm:w-[44%]  md:w-[45%]   lg:w-[47%]  ml-2  gap-3 rounded p-2  sm:p-5";
+
+  let totalItem = valueForm.item ? Number( valueForm.jumlah_item ) * Number( valueForm.harga_item ) : 0
+  let totalOrderan = valueForm.orderan ? Number( valueForm.jumlah_orderan ) * Number( valueForm.harga_orderan ) : 0
+
   return (
     <>
       {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
       <form className="bg-green-100 sm:bg-green-50 " onSubmit={ handleSubmit( onSubmit ) }>
-        <div className="flex flex-row gap-1 sm:gap-3  mt-5">
+        <div className="flex flex-row gap-1 sm:gap-3 mt-5">
           <div className={ fomIsi }>
             <Nama/>
             <Tanggal/>
@@ -531,35 +763,41 @@ export default function FormOrder() {
           <tr className="border-b border-gray-200 dark:border-gray-700">
             <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">1.</th>
             <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              <time>{ valueForm?.pesan.toLocaleDateString() }</time>
+              <time>{ formatDate( valueForm?.pesan.toString() ) }</time>
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-              <time>{ valueForm?.kirim.toLocaleDateString() }</time>
+              <time>{ formatDate( valueForm?.kirim.toString() ) }</time>
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">{ valueForm?.pengirim }</td>
-            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.hp_pengirim }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm.hp_pengirim }</td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">{ valueForm?.penerima }</td>
-            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.orderan }</td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm.orderan }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ Rupiah( valueForm?.harga_orderan ) }</td>
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.harga_orderan ? Rupiah( valueForm.harga_orderan ) : 0 }</td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.jumlah_orderan }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm?.item }</td>
-            <td scope="row" className="border border-slate-300 px-4 py-4">{ Rupiah( valueForm?.harga_item ) }</td>
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.item }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm?.jumlah_item }</td>
+                className="border border-slate-300 px-4 py-4">{ valueForm.harga_item ? Rupiah( valueForm.harga_item ) : 0 }</td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.jumlah_item }</td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.lokasi }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm?.ekspedisi }</td>
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.ekspedisi }</td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ Rupiah( valueForm?.ongkir ) }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ Rupiah( Number( valueForm.harga_orderan ) * Number( valueForm.jumlah_orderan )
-              /*  + valueForm.harga_item * valueForm.harga_item */ ) }</td>
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ Rupiah( totalOrderan )
+              /*  + valueForm.harga_item * valueForm.harga_item */
+            }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4">{ Rupiah( Number( valueForm?.jumlah_item ) * Number( valueForm?.harga_item ) + Number( valueForm?.ongkir ) + Number( valueForm?.jumlah_orderan ) * Number( valueForm?.harga_orderan ) ) }</td>
+                className="border border-slate-300 px-4 py-4">{
+
+              Rupiah( totalItem + totalOrderan + Number( valueForm?.ongkir )
+              ) }
+            </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.pembayaran }</td>
             <td scope="row"
                 className="border border-slate-300  py-4  px-4  break-all w-3/4 "

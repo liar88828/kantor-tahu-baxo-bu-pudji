@@ -33,7 +33,8 @@ export type TOrderTotal = {
 faker.seed( 14 )
 
 function newPerson(): TOrderTotal[] {
-  return times( 50, () => ( {
+
+  return times( 12, () => ( {
     no: faker.datatype.number( 100 ),
     pesan: faker.date.birthdate(),
     kirim: faker.date.future( 10 ),
