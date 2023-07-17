@@ -1,9 +1,10 @@
 "use client"
-import React from 'react'
+import React, { HTMLProps } from 'react'
 
 import {
   Column,
   ColumnDef,
+  ColumnOrderState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -16,6 +17,7 @@ import {
 
 import { makeData, Person } from '../../../lib/facker'
 import { RowData } from '@tanstack/table-core';
+import { faker } from '@faker-js/faker';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -23,16 +25,55 @@ declare module '@tanstack/react-table' {
   }
 }
 
+//-------------------------Main Table
 export default function Table() {
   const rerender = React.useReducer( () => ( {} ), {} )[ 1 ]
+
+  // sorting
   const [ sorting, setSorting ] = React.useState<SortingState>( [] )
 
+  // visibility
+  const [ columnVisibility, setColumnVisibility ] = React.useState( {} )
+  const [ columnOrder, setColumnOrder ] = React.useState<ColumnOrderState>( [] )
+
+  //check box
+  const [ rowSelection, setRowSelection ] = React.useState( {} )
+
+  const [ globalFilter, setGlobalFilter ] = React.useState( '' )
+  const [ data, setData ] = React.useState( () => makeData( 100 ) )
+  const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
+
   const columns = React.useMemo<ColumnDef<Person>[]>( () => [
+
       {
-        header: 'Name', footer: props => props.column.id, columns: [ {
-          accessorKey: 'firstName', cell: info => info.getValue(),
-          footer: props => props.column.id,
-        },
+        id: 'select', header: ( { table } ) => (
+          <IndeterminateCheckbox
+            { ...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            } }
+          />
+        ),
+        cell: ( { row } ) => ( <div className="px-1">
+            <IndeterminateCheckbox
+              { ...{
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              } }
+            />
+          </div>
+        ),
+      },
+
+      {
+        header: 'Name', footer: props => props.column.id, columns: [
+          {
+            accessorKey: 'firstName', cell: info => info.getValue(),
+            footer: props => props.column.id,
+          },
           {
             accessorFn: row => row.lastName,
             id: 'lastName',
@@ -74,20 +115,25 @@ export default function Table() {
         ],
       },
     ],
-    []
-  )
+    [] )
 
-  const [ data, setData ] = React.useState( () => makeData( 100 ) )
   // const refreshData = () => setData( () => makeData( 100 ) )
 
-  const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
+
 
   return (
     <>
       <Tables
         { ...{
           data, columns, autoResetPageIndex, skipAutoResetPageIndex, setData,
-          sorting, setSorting
+          // -------sorting
+          sorting, setSorting,
+          // -------row
+          rowSelection, setRowSelection,
+          // -------visibility
+          columnOrder, setColumnOrder,
+          columnVisibility, setColumnVisibility,
+
         } }
       />
       <hr/>
@@ -102,7 +148,16 @@ export default function Table() {
 }
 
 function Tables(
-  { data, columns, autoResetPageIndex, skipAutoResetPageIndex, setData, sorting, setSorting }:
+  {
+    data
+    , columns
+    , columnVisibility
+    , columnOrder
+    , setColumnOrder
+    , setColumnVisibility
+    , rowSelection, setRowSelection
+    , autoResetPageIndex, skipAutoResetPageIndex, setData, sorting, setSorting
+  }:
     {
       data: Person[],
       columns: ColumnDef<Person>[],
@@ -110,11 +165,17 @@ function Tables(
       skipAutoResetPageIndex: any,
       setData: any,
       sorting: any,
-      setSorting: any
+      setSorting: any,
+      columnVisibility: any,
+      columnOrder: any,
+      setColumnOrder: any,
+      setColumnVisibility: any,
+      rowSelection: any,
+      setRowSelection: any
     }
 ) {
 
-// Give our default column cell renderer editing superpowers!
+  // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<Person>> = {
     cell: ( { getValue, row: { index }, column: { id }, table } ) => {
       const initialValue = getValue()
@@ -143,16 +204,30 @@ function Tables(
 
 
 
-
-
   const table = useReactTable( {
     data,
     columns,
     defaultColumn,
 
-    //sorting
-    state: { sorting },
+    state: {
+      //sorting
+      sorting,
+      // visible
+      columnVisibility,
+      columnOrder,
+      //select box
+      rowSelection
+    },
+
+    //selct box
+    onRowSelectionChange: setRowSelection,
+
+    //sort
     onSortingChange: setSorting,
+
+    //visible
+    onColumnVisibilityChange: setColumnVisibility,
+    onColumnOrderChange: setColumnOrder,
 
     // Pipeline
     getCoreRowModel: getCoreRowModel(),
@@ -160,9 +235,12 @@ function Tables(
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     autoResetPageIndex,
+    // debug
     debugTable: true,
-    //
+    debugHeaders: true,
+    debugColumns: true,
 
+    // select and change
     meta: {
       updateData: ( rowIndex, columnId, value ) => {
         // Skip page index reset until after next rerender
@@ -170,21 +248,69 @@ function Tables(
         setData( ( old: any[] ) =>
           old.map( ( row: any, index: number ) => {
             if( index === rowIndex ) {
-              return {
-                ...old[ rowIndex ]!,
-                [ columnId ]: value,
-              }
+              return { ...old[ rowIndex ]!, [ columnId ]: value, }
             }
             return row
           } )
         )
       },
     },
+
   } )
+
+  const randomizeColumns = () => {
+    table.setColumnOrder(
+      faker.helpers.shuffle( table.getAllLeafColumns().map( d => d.id ) )
+    )
+  }
 
   return (
     <div className="p-2">
+
+
+      <div className="inline-block border border-black shadow rounded">
+        <div className="px-1 border-b border-black">
+          <label>
+            <input
+              { ...{
+                type: 'checkbox',
+                checked: table.getIsAllColumnsVisible(),
+                onChange: table.getToggleAllColumnsVisibilityHandler(),
+              } }
+            />{ ' ' }
+            Toggle All
+          </label>
+        </div>
+        { table.getAllLeafColumns().map( column => {
+          return (
+            <div key={ column.id } className="px-1">
+              <label>
+                <input
+                  { ...{
+                    type: 'checkbox',
+                    checked: column.getIsVisible(),
+                    onChange: column.getToggleVisibilityHandler(),
+                  } }
+                />{ ' ' }
+                { column.id }
+              </label>
+            </div>
+          )
+        } ) }
+      </div>
+
       <div className="h-2"/>
+
+      <div className="flex flex-wrap gap-2">
+        {/*<button onClick={() => rerender()} className="border p-1">*/ }
+        {/*  Regenerate*/ }
+        {/*</button>*/ }
+        <button onClick={ () => randomizeColumns() } className="border p-1">
+          Shuffle Columns
+        </button>
+      </div>
+
+
       <table>
         <thead>
         { table.getHeaderGroups().map( headerGroup => (
@@ -244,6 +370,23 @@ function Tables(
           )
         } ) }
         </tbody>
+
+
+        <tfoot>
+        <tr>
+          <td className="p-1">
+            <IndeterminateCheckbox
+              { ...{
+                checked: table.getIsAllPageRowsSelected(),
+                indeterminate: table.getIsSomePageRowsSelected(),
+                onChange: table.getToggleAllPageRowsSelectedHandler(),
+              } }
+            />
+          </td>
+          <td colSpan={ 20 }>Page Rows ({ table.getRowModel().rows.length })</td>
+        </tr>
+        </tfoot>
+
       </table>
       <div className="h-2"/>
       <div className="flex items-center gap-2">
@@ -307,11 +450,37 @@ function Tables(
           ) ) }
         </select>
       </div>
+
+      <div>
+        <button
+          className="border rounded p-2 mb-2"
+          onClick={ () => console.info( 'rowSelection', rowSelection ) }
+        >
+          Log `rowSelection` state
+        </button>
+      </div>
+      <div>
+        <button
+          className="border rounded p-2 mb-2"
+          onClick={ () =>
+            console.info(
+              'table.getSelectedRowModel().flatRows',
+              table.getSelectedRowModel().flatRows
+            )
+          }
+        >
+          Log table.getSelectedRowModel().flatRows
+        </button>
+
+      </div>
+
+
       <div>{ table.getRowModel().rows.length } Rows</div>
       <pre>{ JSON.stringify( table.getState().pagination, null, 2 ) }</pre>
       <pre>{ JSON.stringify( sorting, null, 2 ) }</pre>
 
     </div>
+
   )
 }
 
@@ -381,3 +550,27 @@ export function useSkipper() {
 
   return [ shouldSkip, skip ] as const
 }
+
+function IndeterminateCheckbox( {
+  indeterminate,
+  className = '',
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement> ) {
+  const ref = React.useRef<HTMLInputElement>( null! )
+
+  React.useEffect( () => {
+    if( typeof indeterminate === 'boolean' ) {
+      ref.current.indeterminate = !rest.checked && indeterminate
+    }
+  }, [ ref, indeterminate ] )
+
+  return (
+    <input
+      type="checkbox"
+      ref={ ref }
+      className={ className + ' cursor-pointer' }
+      { ...rest }
+    />
+  )
+}
+
