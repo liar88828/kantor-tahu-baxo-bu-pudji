@@ -2,15 +2,18 @@ import { faker } from '@faker-js/faker'
 import times from 'lodash.times'
 
 export type TOrder = {
-  pesan: Date
-  kirim: Date
+  // waktu
+  pesan: Date | string
+  kirim: Date | string
+  waktuKirim: Date | string
 
+  // data orang
   pengirim: string
   hp_pengirim: string
   penerima: string
   alamat_penerima: string
   hp_penerima: string
-
+// Product
   orderan: string
   harga_orderan: number
   jumlah_orderan: number
@@ -18,16 +21,17 @@ export type TOrder = {
   item: string
   harga_item: number
   jumlah_item: number
-
+//keterangan
   ekspedisi: string
   ongkir: number
   pembayaran: string
   lokasi: string
   keterangan: string
+  status: 'Di terima' | 'Proses' | 'Kirim' | "Selesai"
 }
 export type TOrderTotal = {
   no: number
-  total_bayar: number
+  // total_bayar: number
 } & TOrder
 
 faker.seed( 14 )
@@ -35,32 +39,39 @@ faker.seed( 14 )
 function newPerson(): TOrderTotal[] {
 
   return times( 12, () => ( {
-    no: faker.datatype.number( 100 ),
-    pesan: faker.date.birthdate(),
-    kirim: faker.date.future( 10 ),
+      no: faker.datatype.number( 100 ),
+      // waktu
+      pesan: faker.date.birthdate(),
+      kirim: faker.date.future( 10 ),
+      waktuKirim: faker.datatype.datetime(),
 
-    pengirim: faker.name.fullName(),
-    hp_pengirim: faker.phone.number(),
-    penerima: faker.name.firstName(),
-    alamat_penerima: faker.address.city(),
-    hp_penerima: faker.phone.number(),
+      // keterangan orang
+      pengirim: faker.name.lastName(),
+      hp_pengirim: faker.phone.number(),
+      penerima: faker.name.firstName(),
+      alamat_penerima: faker.address.city(),
+      hp_penerima: faker.phone.number(),
+      // product
+      orderan: faker.commerce.product(),
+      harga_orderan: faker.datatype.number( 10 ),
+      jumlah_orderan: faker.datatype.number( 10 ),
 
-    orderan: faker.commerce.product(),
-    harga_orderan: faker.datatype.number( 100 ),
-    jumlah_orderan: faker.datatype.number( 100 ),
+      item: faker.commerce.product(),
+      harga_item: faker.datatype.number( 10 ),
+      jumlah_item: faker.datatype.number( 100 ),
+      // travel
+      ekspedisi: faker.address.city(),
+      ongkir: faker.datatype.number( 10 ),
+      pembayaran: faker.music.genre(),
+      lokasi: faker.name.firstName() as string,
 
-    item: faker.commerce.product(),
-    harga_item: faker.datatype.number( 100 ),
-    jumlah_item: faker.datatype.number( 100 ),
-
-    ekspedisi: faker.address.city(),
-    ongkir: faker.datatype.number( 100 ),
-    pembayaran: faker.music.genre(),
-    lokasi: faker.name.firstName() as string,
-
-    total_bayar: faker.datatype.number( 100 ),
-    keterangan: faker.lorem.paragraph( 10 ),
-  } ) )
+      keterangan: faker.lorem.paragraph( 2 ),
+      total_bayar: faker.datatype.number( 100 ),
+      status: faker.helpers.shuffle<TOrderTotal['status']>( [
+        'Di terima', 'Proses', 'Kirim', "Selesai"
+      ] )[ 0 ]!,
+    } )
+  )
 }
 
 // console.log(newPerson())

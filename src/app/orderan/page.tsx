@@ -6,6 +6,22 @@ import { TOrder } from '../../../components/data';
 import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
 import { BiAddToQueue } from 'react-icons/bi';
 import { AiOutlineSearch } from "react-icons/ai";
+import { Rupiah } from '../../../lib/rupiah';
+import { defaultDate, getDateNow, getDay, getLocaleTime, getTime } from '../../../lib/formatDate';
+
+function toDay() {
+  const date = new Date()
+  const year = date.getFullYear()
+
+  let month: number | string = date.getMonth() + 1
+  let day: number | string = date.getDate()
+
+  if( month < 10 ) month = '0' + month
+  if( day < 10 ) day = '0' + day
+
+  return `${ year }/${ month }/${ day }`
+
+}
 
 const product = [
   // { nama: "Tahu Bakso Rebus", harga: 42.000 },
@@ -31,7 +47,8 @@ const formInput = {
     title: "tanggal",
     opsi: {
       pesan: "Pesan",
-      kirim: "Kirim"
+      kirim: "Kirim",
+      waktuKirim: "Waktu Kirim"
     },
   },
 
@@ -43,6 +60,7 @@ const formInput = {
   totalPenjualan: "Total Penjualan",
   totalBayar: "Total Bayar",
   pembayaran: "Pembayaran",
+  lokasi: "Lokasi",
   keterangan: "Keterangan",
 }
 
@@ -90,25 +108,39 @@ export default function FormOrder() {
   const [ salah, setSalah ] = useState( false );
   const [ count, setCount ] = useState<number>( 1 );
   const defaultValues: TOrder = {
+
     alamat_penerima: '',
-    ekspedisi: '',
     hp_penerima: '',
     hp_pengirim: '',
-    ongkir: 0,
     penerima: '',
     pengirim: '',
-    kirim: new Date( "12/12/1999" ),
-    pesan: new Date( "12/12/2023" ),
-    lokasi: "",
-    item: "",
-    harga_item: 0,
-    jumlah_item: 0,
+
+    // waktu
+    pesan: getDateNow(),
+
+    //toLocaleString === harus di isi parameternya
+    kirim: getDateNow(),
+    waktuKirim: getLocaleTime()
+    ,
+    // product
     orderan: '',
     harga_orderan: 0,
     jumlah_orderan: 0,
+    item: "",
+    jumlah_item: 0,
+    harga_item: 0,
+
+    //transaksi
+    keterangan: "",
+    ekspedisi: '',
+    lokasi: "",
+    ongkir: 0,
     pembayaran: "",
-    keterangan: ""
+    status: 'Di terima',
   }
+
+  // console.log( getTime(), getDay() )
+
   const { register, handleSubmit } = useForm<TOrder>(
     // {
     //   defaultValues: defaultValues
@@ -116,32 +148,32 @@ export default function FormOrder() {
   );
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
 
-  let Rupiah = ( n: number ): string => {
-    return new Intl.NumberFormat( "id-ID", {
-      style: "currency",
-      currency: "IDR"
-    } ).format( n );
-  }
-
-  function formatDate( date: Date | string ) {
-    var d = new Date( date ),
-      month = '' + ( d.getMonth() + 1 ),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if( month.length < 2 )
-      month = '0' + month;
-    if( day.length < 2 )
-      day = '0' + day;
-
-    return [ day, month, year ].join( '-' );
+  const createOrder = async () => {
+    const response = await fetch( "http://localhost:3000/api/orderan", {
+      method: "POST",
+      body: JSON.stringify( { valueForm } ),
+      headers: { "Content-Type": "application/json", }
+    } )
+    return response.json()
   }
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => {
     setValueForm( data )
     console.log( data )
   };
+  const onCreate = async () => {
+    if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
+      // Save it!
+      // console.log( 'Thing was saved to the database.', valueForm );
 
+      const responseData = await createOrder()
+      console.log( responseData )
+    }
+    else {
+      // Do nothing!
+      console.log( 'Thing was not saved to the database.' );
+    }
+  }
   // const InputForm: React.FC<Props> = ( {
   //   tag: Tag = 'input', ...props
   // } ) => {
@@ -190,6 +222,8 @@ export default function FormOrder() {
     type: string;
     reg: TOrderKeys;
     value?: string
+    min?: string
+    defaultValue?: string
   }
 
   // const InputForm: React.FC<InputFormProps> = ( {
@@ -231,38 +265,39 @@ export default function FormOrder() {
   // };
 
   const InputForm: React.FC<InputFormProps> = (
-      { tag: Tag = 'input', title, type, reg, value }
+    { tag: Tag = 'input', title, type, reg, value, min, defaultValue }
         : InputFormProps ): ReactElement => {
 
       // const ress = {
       //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
       //   id : "grid-first-name",
-      //   type : type ,
-      //   placeholder : `Nama ${ title }....`,
-      // }
+    //   type : type ,
+    //   placeholder : `Nama ${ title }....`,
+    // }
 
-      // const ObjectDate = { value: "2012-3-23" }
+    // const ObjectDate = { value: "2012-3-23" }
 
-      const normalValue = {
-        className: `${ StyleInputForm( salah ) }`,
-        type: type,
-        placeholder: `Nama ${ title }....`,
-      };
-      let ress = {
-        ...normalValue
-      }
-      //
-      // if( type == "date" ) {
-      //   ress = Object.assign( ObjectDate, normalValue );
-      // }
+    let ress = {
+      className: `${ StyleInputForm( salah ) }`,
+      placeholder: `Nama ${ title }....`,
+    }
 
-      return (
-        <div className="flex flex-col">
-          <label className={ styleLabelForm } htmlFor="grid-password">
-            { title }
-          </label>
-          <Tag{ ...ress }{ ...register( reg ) }
-          />
+    if( type ) ress = Object.assign( ress, { type } );
+    if( value ) ress = Object.assign( ress, { value } );
+    if( min ) ress = Object.assign( ress, { min } );
+    if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
+
+    // if( type == "date" ) {
+    //   ress = Object.assign( ObjectDate, normalValue );
+    // }
+
+    return (
+      <div className="flex flex-col">
+        <label className={ styleLabelForm } htmlFor="grid-password">
+          { title }
+        </label>
+        <Tag { ...ress }{ ...register( reg ) }
+        />
           { salah && <p className={ wrongInput }>Please fill out this field.</p> }
         </div>
       )
@@ -275,7 +310,8 @@ export default function FormOrder() {
       <>
         <div className={ "flex-col flex gap-3 " }><h2>Nama</h2>
           <hr/>
-          <InputForm tag={ 'input' } title={ "Pengiriman" } type="text" reg={ "pengirim" }/>
+          <InputForm tag={ 'input' } title={ "Pengiriman" } type="text" reg={ "pengirim" }
+                     defaultValue={ "Kantor Tahu Baxo" }/>
           <InputForm tag={ 'input' } title={ "Hp Pengirim" } type={ "number" } reg={ "hp_pengirim" }/>
           <InputForm tag={ 'input' } title={ "Penerima" } type={ "text" } reg={ "penerima" }/>
           <InputForm tag={ 'input' } title={ "Alamat Penerima" } type={ "text" } reg={ "alamat_penerima" }/>
@@ -302,8 +338,16 @@ export default function FormOrder() {
           <h2>Tanggal</h2>
           <hr/>
 
-          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ "pesan" }/>
-          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ "kirim" }/>
+          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ "pesan" } min="2023-01-01"
+                     defaultValue={ defaultDate() }
+          />
+
+          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ "kirim" }
+                     defaultValue={ defaultDate() }
+          />
+          <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" } reg={ "waktuKirim" }
+                     defaultValue={ getTime() }
+          />
           <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" } reg={ "keterangan" }/>
 
           {/*<div className="flex flex-col">*/ }
@@ -318,13 +362,15 @@ export default function FormOrder() {
       </> )
   }
 
-  function Orderan() {
+  console.log( getDay().toString() )
 
+  function Orderan() {
     const [ searchQuery, setSearchQuery ] = useState( '' );
     const [ cart, setCart ] = useState<TsProduct[]>( [] );
     const [ filteredItems, setFilteredItems ] = useState<TsProduct[]>( sProduct );
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
-    console.log( cart )
+
+    // console.log( cart )
     const addToCart = ( item: TsProduct ) => {
       const isItemInCart = cart.some( ( cartItem ) => cartItem.id === item.id );
       if( isItemInCart ) {
@@ -374,31 +420,19 @@ export default function FormOrder() {
       <>
         <div className="flex flex-col gap-3">
           <h1>Product Search</h1>
-
           <div className="flex flex-row  gap-1 sm:gap-7">
-            <button
-              type={ 'button' }
-              className={ "py-2 mb-1   bg-blue-500 text-white cursor-pointer rounded" }
-              onClick={ () => {
-                setCariProduct( !cariProduct )
-                // console.log( "click", cariProduct )
-              } }>
+            <button type={ 'button' } className={ "py-2 mb-1   bg-blue-500 text-white cursor-pointer rounded" }
+                    onClick={ () => {setCariProduct( !cariProduct )} }>
               <span className=" flex flex-row items-center px-2">
                 <AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>
               <span className="invisible sm:visible w-0 sm:w-auto">
-                      <span className={ "hidden md:hidden lg:block" }> { !cariProduct ? ( "Open" ) : "Close" }</span>
+                      <span className={ "hidden md:hidden lg:block" }> { !cariProduct ? "Close" : "Open" }</span>
               </span>
               </span>
             </button>
+            <input className={ StyleInputForm( false ) + "rounded leading-tight w-[80%] " } type="text"
+                   value={ searchQuery } placeholder={ " Cari Product" } onChange={ handleSearchChange }/></div>
 
-
-            <input
-              className={ StyleInputForm( false ) + "rounded leading-tight w-[80%] " }
-              type="text"
-              value={ searchQuery }
-              placeholder={ "Cari Product" }
-              onChange={ handleSearchChange }/>
-          </div>
           <div className={ ` ${ cariProduct ? "hidden" : "" } border  border-gray-200 rounded bg-gray-50` }>
 
             <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[10rem] " }>
@@ -467,6 +501,7 @@ export default function FormOrder() {
                             <td className={ "text-sm sm:text-base" }>
                               { item.nama }
                               <input className={ StyleInputForm( false ) }
+                                     type={ 'hidden' }
                                      value={ item.nama } { ...register( item.jenis === "orderan" ? "orderan" : "item" ) }/>
                             </td>
                           </tr>
@@ -474,7 +509,7 @@ export default function FormOrder() {
                             <td className={ "hidden sm:block" }>
                               <span>Harga </span></td>
                             <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
-                              <input type={ "number" }
+                              <input type={ 'hidden' }
                                      value={ item.harga }{ ...register( item.jenis === "orderan" ? "harga_orderan" : "harga_item" ) }/>
                             </td>
                           </tr>
@@ -482,8 +517,7 @@ export default function FormOrder() {
                             <td className={ "hidden sm:block" }>
                               <span>Jenis </span></td>
                             <td className={ "text-sm sm:text-base" }>{ item.jenis }
-                              <input className={ " " }
-                                     type={ 'text' }
+                              <input type={ 'hidden' }
                                      value={ item.jenis } { ...register( item.jenis === "orderan" ? "orderan" : "item" ) }/>
                             </td>
 
@@ -657,6 +691,7 @@ export default function FormOrder() {
             <option value="Delivery">Delivery</option>
           </select>
 
+
           {/* tulis sendiri */ }
 
           <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ "ongkir" }/>
@@ -688,22 +723,27 @@ export default function FormOrder() {
           </select>
 
           {/* jenis Pembayaran */ }
-          <label htmlFor="">Pembayaran</label>
-          <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'
-                  { ...register( "pembayaran" ) }
-          >
+          <label htmlFor="">Lokasi</label>
+          <select id="pembayaran" className='border border-gray-300 p-2 rounded-md'{ ...register( "pembayaran" ) }>
             <option value="Cash">Cash</option>
             <option value="BCA">BCA</option>
             <option value="Mandiri">Mandiri</option>
             <option value="BRI">BRI</option>
           </select>
+
+
+          <label htmlFor="">Lokasi</label>
+          <select id="pembayaran"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "status" ) }>
+            <option value="Di terima">Di terima</option>
+            <option value='Proses'>Proses</option>
+            <option value="Kirim">Kirim</option>
+            <option value="Selesai"> Selesai</option>
+          </select>
+
+
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 p-2 rounded-md text-white">
-          Add Product
-        </button>
+        <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Add Product</button>
 
 
       </>
@@ -738,17 +778,28 @@ export default function FormOrder() {
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 rounded">
           <tr>
             <th scope="col" className="px-4 py-3">No.</th>
+            {/*------------------Waktu--------------------------*/ }
             <th scope="col" className="px-4 py-3 bg-green-400">Pesan</th>
             <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Kirim</th>
+            <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Waktu Kirim</th>
+
+            {/*---------------------------------------------------------------*/ }
             <th scope="col" className="px-4 py-3 bg-gray-50 dark:bg-gray-800">pengirim</th>
             <th scope="col" className="px-4 py-3">Telpon Pengirim</th>
             <th scope="col" className="px-4 py-3 bg-gray-50 dark:bg-gray-800">Penerima</th>
+            {/*---------------------Order----------------*/ }
             <th scope="col" className="px-4 py-3 bg-yellow-100">Orderan</th>
             <th scope="col" className="px-4 py-3 bg-yellow-300 dark:bg-gray-800">Harga Order</th>
             <th scope="col" className="px-4 py-3 bg-yellow-100">Jumlah Order</th>
+            <th scope="col" className="px-4 py-3 bg-yellow-100">Total Order</th>
+
+            {/*---------------------Item----------------*/ }
             <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Item</th>
             <th scope="col" className="px-4 py-3 bg-red-300">Harga Item</th>
             <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Jumlah Item</th>
+            <th scope="col" className="px-4 py-3 bg-red-500 dark:bg-gray-800">Total Item</th>
+
+            {/*---------------------------------------------------------*/ }
             <th scope="col" className="px-4 py-3">Lokasi</th>
             <th scope="col" className="px-4 py-3 bg-blue-400 dark:bg-gray-800">Ekspedisi</th>
             <th scope="col" className="px-4 py-3 bg-green-300">Ongkir</th>
@@ -756,6 +807,7 @@ export default function FormOrder() {
             <th scope="col" className="px-4 py-3 bg-green-300">Total Bayar</th>
             <th scope="col" className="px-4 py-3 bg-yellow-100 dark:bg-gray-800">pembayaran</th>
             <th scope="col" className="px-4 py-3  w-3/4">Keterangan</th>
+            <th scope="col" className="px-4 py-3  w-3/4">Status</th>
             <th scope="col" className="px-4 py-3  w-3/4">Action</th>
           </tr>
           </thead>
@@ -763,12 +815,20 @@ export default function FormOrder() {
           <tr className="border-b border-gray-200 dark:border-gray-700">
             <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">1.</th>
             <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              <time>{ formatDate( valueForm?.pesan.toString() ) }</time>
+              <time>{ valueForm?.pesan.toString() }</time>
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-              <time>{ formatDate( valueForm?.kirim.toString() ) }</time>
+              <time>{ valueForm?.kirim.toString() }</time>
             </td>
+
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
+              <time>{ valueForm.waktuKirim.toLocaleString( "id_ID", {
+                hour12: false
+              } ) }</time>
+            </td>
+
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">{ valueForm?.pengirim }</td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm.hp_pengirim }</td>
@@ -779,11 +839,22 @@ export default function FormOrder() {
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.harga_orderan ? Rupiah( valueForm.harga_orderan ) : 0 }</td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.jumlah_orderan }</td>
             <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.harga_orderan ? Rupiah( Number( valueForm.jumlah_orderan ) * Number( valueForm.harga_orderan ) ) : 0 }</td>
+
+
+            {/*----------------------Item-----------------------*/ }
+
+            <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.item }</td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">{ valueForm.harga_item ? Rupiah( valueForm.harga_item ) : 0 }</td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.jumlah_item }</td>
+
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.item ? Rupiah( Number( valueForm.jumlah_item ) * Number( valueForm.harga_item ) ) : 0 }</td>
+
+
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.lokasi }</td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">{ valueForm.ekspedisi }</td>
@@ -793,14 +864,10 @@ export default function FormOrder() {
               /*  + valueForm.harga_item * valueForm.harga_item */
             }</td>
             <td scope="row"
-                className="border border-slate-300 px-4 py-4">{
-
-              Rupiah( totalItem + totalOrderan + Number( valueForm?.ongkir )
-              ) }
+                className="border border-slate-300 px-4 py-4">{ Rupiah( totalItem + totalOrderan + Number( valueForm?.ongkir ) ) }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">{ valueForm?.pembayaran }</td>
-            <td scope="row"
-                className="border border-slate-300  py-4  px-4  break-all w-3/4 "
+            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 "
               //break-all whitespace-normal style={ {
               //   inlineSize: "150px",
               //   overflowWrap: "break-word"
@@ -810,14 +877,25 @@ export default function FormOrder() {
                 <div className="line-clamp-3">{ valueForm.keterangan }</div>
               </div>
             </td>
+            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
+              <div className="w-[10rem]">
+                <div className="line-clamp-3">{ valueForm.status }</div>
+              </div>
+            </td>
+
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
               <button
-                onClick={ () => console.log( "create" ) }
+                onClick={ () => {
+                  onCreate()
+                  console.log( "create" )
+                }
+                }
                 className="bg-green-500 p-2 rounded-md text-white">
                 Create
               </button>
             </td>
+
           </tr>
           </tbody>
         </table>

@@ -87,14 +87,17 @@ export default function Table() {
         header: 'Info',
         footer: props => props.column.id,
         columns: [
-          {
-            accessorKey: 'age',
-            header: () => 'Age',
-            footer: props => props.column.id,
-          },
+
           {
             header: 'More Info',
             columns: [
+
+              {
+                accessorKey: 'age',
+                header: () => 'Age',
+                footer: props => props.column.id,
+              },
+
               {
                 accessorKey: 'visits',
                 header: () => <span>Visits</span>,
@@ -119,78 +122,21 @@ export default function Table() {
 
   // const refreshData = () => setData( () => makeData( 100 ) )
 
-
-
-  return (
-    <>
-      <Tables
-        { ...{
-          data, columns, autoResetPageIndex, skipAutoResetPageIndex, setData,
-          // -------sorting
-          sorting, setSorting,
-          // -------row
-          rowSelection, setRowSelection,
-          // -------visibility
-          columnOrder, setColumnOrder,
-          columnVisibility, setColumnVisibility,
-
-        } }
-      />
-      <hr/>
-      <div>
-        <button onClick={ () => rerender() }>Force Rerender</button>
-      </div>
-      {/*<div>*/ }
-      {/*  <button onClick={ () => refreshData() }>Refresh Data</button>*/ }
-      {/*</div>*/ }
-    </>
-  )
-}
-
-function Tables(
-  {
-    data
-    , columns
-    , columnVisibility
-    , columnOrder
-    , setColumnOrder
-    , setColumnVisibility
-    , rowSelection, setRowSelection
-    , autoResetPageIndex, skipAutoResetPageIndex, setData, sorting, setSorting
-  }:
-    {
-      data: Person[],
-      columns: ColumnDef<Person>[],
-      autoResetPageIndex: any,
-      skipAutoResetPageIndex: any,
-      setData: any,
-      sorting: any,
-      setSorting: any,
-      columnVisibility: any,
-      columnOrder: any,
-      setColumnOrder: any,
-      setColumnVisibility: any,
-      rowSelection: any,
-      setRowSelection: any
-    }
-) {
-
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<Person>> = {
     cell: ( { getValue, row: { index }, column: { id }, table } ) => {
       const initialValue = getValue()
+
       // We need to keep and update the state of the cell normally
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const [ value, setValue ] = React.useState( initialValue )
 
       // When the input is blurred, we'll call our table meta's updateData function
-      const onBlur = () => {
-        table.options.meta?.updateData( index, id, value )
-      }
+      const onBlur = () => table.options.meta?.updateData( index, id, value )
 
       // If the initialValue is changed external, sync it up with our state
-      React.useEffect( () => {
-        setValue( initialValue )
-      }, [ initialValue ] )
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      React.useEffect( () => setValue( initialValue ), [ initialValue ] )
 
       return (
         <input
@@ -201,8 +147,6 @@ function Tables(
       )
     },
   }
-
-
 
   const table = useReactTable( {
     data,
@@ -265,9 +209,28 @@ function Tables(
   }
 
   return (
+    <>
+      <Tables{ ...{ table, randomizeColumns, sorting, rowSelection } }/>
+      <hr/>
+      <div>
+        <button onClick={ () => rerender() }>Force Rerender</button>
+      </div>
+      {/*<div>*/ }
+      {/*  <button onClick={ () => refreshData() }>Refresh Data</button>*/ }
+      {/*</div>*/ }
+    </>
+  )
+}
+
+function Tables(
+  { table, randomizeColumns, sorting, rowSelection }:
+    { table: ReactTable<Person>, randomizeColumns: () => void, sorting: SortingState, rowSelection: {} } ) {
+
+  return (
     <div className="p-2">
 
 
+      {/*-----------Check Visible----------------*/ }
       <div className="inline-block border border-black shadow rounded">
         <div className="px-1 border-b border-black">
           <label>
@@ -277,7 +240,7 @@ function Tables(
                 checked: table.getIsAllColumnsVisible(),
                 onChange: table.getToggleAllColumnsVisibilityHandler(),
               } }
-            />{ ' ' }
+            />
             Toggle All
           </label>
         </div>
@@ -291,7 +254,7 @@ function Tables(
                     checked: column.getIsVisible(),
                     onChange: column.getToggleVisibilityHandler(),
                   } }
-                />{ ' ' }
+                />
                 { column.id }
               </label>
             </div>
@@ -301,6 +264,7 @@ function Tables(
 
       <div className="h-2"/>
 
+      {/*------------Button Random-----------------*/ }
       <div className="flex flex-wrap gap-2">
         {/*<button onClick={() => rerender()} className="border p-1">*/ }
         {/*  Regenerate*/ }
@@ -310,8 +274,9 @@ function Tables(
         </button>
       </div>
 
-
       <table>
+
+        {/*--------------------------------tHead----------*/ }
         <thead>
         { table.getHeaderGroups().map( headerGroup => (
           <tr key={ headerGroup.id }>
@@ -350,6 +315,8 @@ function Tables(
           </tr>
         ) ) }
         </thead>
+
+        {/*--------------------------------tBody----------*/ }
         <tbody>
         { table.getRowModel()
         .rows.slice( 0, 10 )
@@ -371,7 +338,7 @@ function Tables(
         } ) }
         </tbody>
 
-
+        {/*--------------------------------tFoot----------*/ }
         <tfoot>
         <tr>
           <td className="p-1">
@@ -388,44 +355,48 @@ function Tables(
         </tfoot>
 
       </table>
-      <div className="h-2"/>
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={ () => table.setPageIndex( 0 ) }
-          disabled={ !table.getCanPreviousPage() }
-        >
-          { '<<' }
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={ () => table.previousPage() }
-          disabled={ !table.getCanPreviousPage() }
-        >
-          { '<' }
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={ () => table.nextPage() }
-          disabled={ !table.getCanNextPage() }
-        >
-          { '>' }
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={ () => table.setPageIndex( table.getPageCount() - 1 ) }
-          disabled={ !table.getCanNextPage() }
-        >
-          { '>>' }
-        </button>
-        <span className="flex items-center gap-1">
+      <div className="h-2">
+
+        {/*----------Move Page -----------*/ }
+        <div className="flex items-center gap-2">
+          <button
+            className="border rounded p-1"
+            onClick={ () => table.setPageIndex( 0 ) }
+            disabled={ !table.getCanPreviousPage() }
+          >
+            { '⏪' }
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={ () => table.previousPage() }
+            disabled={ !table.getCanPreviousPage() }
+          >
+            { '⬅️' }
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={ () => table.nextPage() }
+            disabled={ !table.getCanNextPage() }
+          >
+            { '➡️' }
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={ () => table.setPageIndex( table.getPageCount() - 1 ) }
+            disabled={ !table.getCanNextPage() }
+          >
+            { '⏩' }
+          </button>
+
+          <span className="flex items-center gap-1">
           <div>Page</div>
           <strong>
             { table.getState().pagination.pageIndex + 1 } of{ ' ' }
             { table.getPageCount() }
           </strong>
         </span>
-        <span className="flex items-center gap-1">
+
+          <span className="flex items-center gap-1">
           | Go to page:
           <input
             type="number"
@@ -437,48 +408,53 @@ function Tables(
             className="border p-1 rounded w-16"
           />
         </span>
-        <select
-          value={ table.getState().pagination.pageSize }
-          onChange={ e => {
-            table.setPageSize( Number( e.target.value ) )
-          } }
-        >
-          { [ 10, 20, 30, 40, 50 ].map( pageSize => (
-            <option key={ pageSize } value={ pageSize }>
-              Show { pageSize }
-            </option>
-          ) ) }
-        </select>
+          <select
+            value={ table.getState().pagination.pageSize }
+            onChange={ e => {
+              table.setPageSize( Number( e.target.value ) )
+            } }
+          >
+            { [ 10, 20, 30, 40, 50 ].map( pageSize => (
+              <option key={ pageSize } value={ pageSize }>
+                Show { pageSize }
+              </option>
+            ) ) }
+          </select>
+        </div>
+
+        <div className="">
+          <div>
+            <button
+              className="border rounded p-2 mb-2"
+              onClick={ () => console.info( 'rowSelection', rowSelection ) }
+            >
+              Log `rowSelection` state
+            </button>
+          </div>
+          <div>
+
+            <button
+              className="border rounded p-2 mb-2 bg-red-300"
+              onClick={ () =>
+                console.info(
+                  'table.getSelectedRowModel().flatRows',
+                  table.getSelectedRowModel().flatRows
+                )
+              }
+            >
+              Log table.getSelectedRowModel().flatRows
+            </button>
+
+          </div>
+        </div>
+
+        {/*-------DEBUG-----*/ }
+        <div className="">
+          <div>{ table.getRowModel().rows.length } Rows</div>
+          <pre>{ JSON.stringify( table.getState().pagination, null, 2 ) }</pre>
+          <pre>{ JSON.stringify( sorting, null, 2 ) }</pre>
+        </div>
       </div>
-
-      <div>
-        <button
-          className="border rounded p-2 mb-2"
-          onClick={ () => console.info( 'rowSelection', rowSelection ) }
-        >
-          Log `rowSelection` state
-        </button>
-      </div>
-      <div>
-        <button
-          className="border rounded p-2 mb-2"
-          onClick={ () =>
-            console.info(
-              'table.getSelectedRowModel().flatRows',
-              table.getSelectedRowModel().flatRows
-            )
-          }
-        >
-          Log table.getSelectedRowModel().flatRows
-        </button>
-
-      </div>
-
-
-      <div>{ table.getRowModel().rows.length } Rows</div>
-      <pre>{ JSON.stringify( table.getState().pagination, null, 2 ) }</pre>
-      <pre>{ JSON.stringify( sorting, null, 2 ) }</pre>
-
     </div>
 
   )
@@ -535,7 +511,7 @@ function Filter(
   )
 }
 
-export function useSkipper() {
+function useSkipper() {
   const shouldSkipRef = React.useRef( true )
   const shouldSkip = shouldSkipRef.current
 
@@ -551,11 +527,9 @@ export function useSkipper() {
   return [ shouldSkip, skip ] as const
 }
 
-function IndeterminateCheckbox( {
-  indeterminate,
-  className = '',
-  ...rest
-}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement> ) {
+function IndeterminateCheckbox(
+  { indeterminate, className = '', ...rest }:
+    { indeterminate?: boolean } & HTMLProps<HTMLInputElement> ) {
   const ref = React.useRef<HTMLInputElement>( null! )
 
   React.useEffect( () => {

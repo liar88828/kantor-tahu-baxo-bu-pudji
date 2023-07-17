@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="flex p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3">
       <div className="sm:m-4 bg-white rounded p-5  w-1/2">
-      <FormPengiriman salah={ salah }/>
+        <FormPengiriman salah={ salah }/>
       </div>
       <div className="sm:m-4 bg-white rounded p-5 ">
         <label className={ styleLabelForm }>Masukan Gambar Pengiriman</label>
@@ -23,39 +23,35 @@ const FormPengiriman = ( { salah }: { salah: boolean } ) => {
 
   return (
     <>
-        <form className="w-full max-w-lg  flex flex-col gap-5 ">
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Nama Pengiriman </label>
-            <input className={ StyleInputForm( false ) } id="grid-first-name" type="text"
-                   placeholder=" Nama Pengiriman"/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
+      <form className="w-full max-w-lg  flex flex-col gap-5 ">
+        <div className="flex flex-col">
+          <label className={ styleLabelForm } htmlFor="grid-password">Nama Pengiriman </label>
+          <input className={ StyleInputForm( false ) } id="grid-first-name" type="text" placeholder=" Nama Pengiriman"/>
+          { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+        </div>
 
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">No Perusahaan </label>
-            <input className={ StyleInputForm( false ) } id="grid-first-name" type="number"
-                   placeholder=" 081234567"/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
+        <div className="flex flex-col">
+          <label className={ styleLabelForm } htmlFor="grid-password">No Perusahaan </label>
+          <input className={ StyleInputForm( false ) } id="grid-first-name" type="number" placeholder=" 081234567"/>
+          { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+        </div>
 
 
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Keterangan </label>
-            <textarea className={ StyleInputForm( false ) }
-                      id="grid-first-name"
-                      placeholder=" Keterangan"></textarea>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
+        <div className="flex flex-col">
+          <label className={ styleLabelForm } htmlFor="grid-password">Keterangan </label>
+          <textarea className={ StyleInputForm( false ) } id="grid-first-name" placeholder=" Keterangan"></textarea>
+          { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+        </div>
 
-          <div className="flex flex-col">
-            <label className={ styleLabelForm }
-                   htmlFor="grid-state"> Lokasi</label> <select className={ StyleInputForm( false ) } id="grid-state">
-            <option value={ "Semarang" }>Semarang</option>
-            <option value={ "Ungaran" }>Ungaran</option>
-          </select>
-          </div>
+        <div className="flex flex-col">
+          <label className={ styleLabelForm }
+                 htmlFor="grid-state"> Lokasi</label> <select className={ StyleInputForm( false ) } id="grid-state">
+          <option value={ "Semarang" }>Semarang</option>
+          <option value={ "Ungaran" }>Ungaran</option>
+        </select>
+        </div>
 
-        </form>
+      </form>
     </>
   )
 }
