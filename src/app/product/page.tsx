@@ -2,25 +2,15 @@
 import React, { useState } from 'react';
 import FileUploadForm from '@/app/component/FileUploadForm';
 import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
-import { usePathname } from 'next/navigation'
+import { TFormProduct } from '../../../entity/produk';
 
-export type TformProduct = {
-  nama: string,
-  harga: number,
-  jenis: string
-  img?: string
-}
-
-const formProduct = {
+const formProduct: Record<keyof TFormProduct, any> = {
+  id: "1231",
   nama: "Nama Product",
   harga: "Harga",
-  lokasi: {
-    nama: "Lokasi", tempat: [ "Semarang", "Ungaran"
-    ]
-  },
-  jenis: {
-    nama: "Jenis", jenis: [ "Orderan", "Item" ]
-  }
+  lokasi: "Lokasi",
+  jenis: "Jenis",
+  img: "Gambar"
 }
 
 export default function Home( {}: any ) {
@@ -33,7 +23,6 @@ export default function Home( {}: any ) {
       </div>
       <div className=" sm:m-4 bg-white rounded p-5">
         <label className={ styleLabelForm }>Masukan Gambar Produk</label>
-
         <FileUploadForm/>
       </div>
 
@@ -77,9 +66,9 @@ const FormProduct = ( { salah }: { salah: boolean } ) => {
 
           <div className="flex flex-col">
             <label className={ styleLabelForm } htmlFor="grid-password">Keterangan </label>
-            <textarea  className={ StyleInputForm( false ) }
-                   id="grid-first-name"
-                       placeholder="Keterangan"></textarea>
+            <textarea className={ StyleInputForm( false ) }
+                      id="grid-first-name"
+                      placeholder="Keterangan"></textarea>
             { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
           </div>
 

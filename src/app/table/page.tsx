@@ -15,7 +15,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { makeData, Person } from '../../../lib/facker'
+import { makeData, Person } from '../../../lib/faker/example'
 import { RowData } from '@tanstack/table-core';
 import { faker } from '@faker-js/faker';
 

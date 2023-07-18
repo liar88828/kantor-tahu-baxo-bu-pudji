@@ -49,6 +49,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@hookform/devtools": "^4.3.1",
     "@types/multer": "^1.4.7"
   }
 }
