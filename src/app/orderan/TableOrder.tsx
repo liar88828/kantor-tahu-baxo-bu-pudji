@@ -1,6 +1,7 @@
 import React from 'react';
 import { TOrder } from '../../../entity/orderan';
 import { Rupiah } from '../../../lib/rupiah';
+import { TFormProduct } from '../../../entity/produk';
 
 function TableOrder( props: any ) {
   const { data }: { data: TOrder } = props
@@ -8,6 +9,7 @@ function TableOrder( props: any ) {
   let arrayProduct = []
   let arrayItem = []
   //
+
   // if( data?.Product.length > 0 ) {
   //   // console.log("filter jenis" )
   //   for( let i = 0; i < data?.Product.length; i++ ) {
@@ -24,11 +26,164 @@ function TableOrder( props: any ) {
   const data1 = Object.assign( data.listItem, data.listOrderan )
   // const data2 = { ...data.listItem, ...data.listOrderan }
 
-  console.log( data1 )
+  // console.log( data1 )
+
+  let Total = 0;
+
+  for( const item of data1 ) {
+    Total += Number( item.harga ) * Number( item.jumlah );
+  }
+
   // console.log( data2 )
+
+  const Jumlah: React.FC<{ d: TFormProduct[] }> = ( { d } ) => {
+    return (
+      <>
+        { d.map( ( o ) => (
+          <span key={ o.harga + o.jenis } className={ "flex border-gray-200 border" }>
+          { Rupiah( Number( o.harga ) * Number( o.jumlah ) ) }
+        </span>
+        ) ) }
+      </>
+    );
+  };
+
+  const KeteranganProduct: React.FC<{ d: TFormProduct[], k: string, t: string }> = ( { d, k, t } ) => {
+    // console.log(d,"asdasd")
+    //   if( k === "Item" ) {
+    //     return d.filter( ( o ) => o.jenis === "Item" );
+    //   }
+    //   else if( k === "Orderan" ) {
+    //     return d.filter( ( o ) => o.jenis === "Orderan" );
+    //   }
+    //   return d;
+    // }
+
+    // const filteredItems = d.filter((o) => {
+    //   console.log(d,"======jenis")
+    //
+    //   if (o.jenis == "Item") {
+    //     console.log(o.jenis,"=====item")
+    //     return d.filter( ( o ) => o.jenis === "Item" );
+    //
+    //   } else if (o.jenis === "Orderan") {
+    //     console.log(o.jenis,"====orderan")
+    //     return d.filter( ( o ) => o.jenis === "Orderan" );
+    //   }
+    //
+    //   return true; // If 'k' is neither "Item" nor "Orderan", show all items
+    // });
+
+    // t = t.length === 0 ? "Orderan" : t
+
+    const filteredItems = d.filter( ( o ) => {
+      if( t === "Item" ) {
+        return o.jenis === "Item";
+      }
+      else if( t === "Orderan" ) {
+        return o.jenis === "Orderan";
+      }
+      return true; // If 'j' is neither "Item" nor "Orderan", show all items
+    } );
+
+    // console.log(filteredItems)
+    return ( <>
+        { filteredItems.map( ( o: TFormProduct ) => {
+            let ket
+            if( k === "harga" ) {
+              ket = o.harga
+            }
+            else if( k == "nama" ) {
+              ket = o.nama
+            }
+            else if( k == "jumlah" ) {
+              ket = o.jumlah
+            }
+            else if( k == "total" ) ket = Rupiah( Number( o.harga ) * Number( o.jumlah ) )
+
+            return ( <span className={ "flex border-gray-200 border" }
+                           key={ o.harga + o.jenis }>{ ket }</span> )
+          }
+        ) }
+      </>
+
+    )
+  }
+
+//   const Jumlah = ( d: TFormProduct[] ): JSX.Element[] => {
+//     return d.map( ( o ) => {
+//       // order harga kali harga
+//       return (
+//         <span key={ o.harga + o.jenis } className={ "flex border-gray-200 border" }>
+//         { Rupiah( Number( o.harga ) * Number( o.jumlah ) ) }
+//       </span> )
+//     } )
+//   }
+//
+//   // Use the Jumlah function to render the total prices for each item
+//   const totalPriceElements: JSX.Element[] = Jumlah(data.listOrderan);
+//
+// // Then you can use totalPriceElements in your JSX to display the calculated prices
+// // For example, render it within a div:
+//   const App = (): JSX.Element => <div>{totalPriceElements}</div>;
+
+// Define the Jumlah function with type annotations
+//   const Jumlahs = ( d: TFormProduct[] ): JSX.Element[] => {
+//     return d.map( ( o ) => {
+//       // Calculate total price for each item (harga * jumlah) and format it using Rupiah function
+//       return (
+//         <span key={ o.harga + o.jenis } className={ "flex border-gray-200 border" }>
+//         { Rupiah( Number( o.harga ) * Number( o.jumlah ) ) }
+//       </span>
+//       );
+//     } );
+//   };
+
+  // function HitungJumlahPesanan( d: TFormProduct[] ) {
+  //
+  //   let totalHitung = 0
+  //
+  //   for( const o of d ) {
+  //     totalHitung += Number( o.harga ) * Number( o.jumlah )
+  //   }
+  //   console.log( totalHitung )
+  // }
+  //
+  // HitungJumlahPesanan( data.listOrderan )
+//   const Jumlah = () => {
+//
+//     return ( <>
+// <span>
+//     <h1></h1>
+// </span>
+//
+//       </>
+//
+//     )
+//   }
+
+  // const Penjumlahan = ( { tag: Tag = "input", title, type, reg, value, min, defaultValue } ): ReactElement => {
+  //
+  //     return (
+  //       <div className="flex flex-col">
+  //         <label
+  //           className={ styleLabelForm }
+  //           htmlFor="grid-password">{ title }</label>
+  //
+  //         <Tag { ...ress }{ ...reg }/>
+  //       </div>
+  //     )
+  //       ;
+  //   }
+  // ;
 
   return (
     <>
+      {/*<Jumlah/>*/ }
+
+      {/*<KeteranganProduct d={ data.listOrderan } k={ "nama" }t={"Orderan"}/>*/ }
+      {/*<KeteranganProduct d={ data.listItem } k={ "nama" } t={"Item"} />*/ }
+
 
       <div className=" ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded table-auto">
@@ -76,16 +231,16 @@ function TableOrder( props: any ) {
               { data?.total.no }
             </th>
             <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              {/*<time>{ data?.tanggal.pesan.toString() }</time>*/ }
+              <time>{ data?.tanggal.pesan.toString() }</time>
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-              {/*<time>{ data?.tanggal.kirim.toString() }</time>*/ }
+              <time>{ data?.tanggal.kirim.toString() }</time>
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-              {/*<time>{ data?.tanggal.waktuKirim.toLocaleString( "id_ID", { hour12: false } ) }</time>*/ }
+              <time>{ data?.tanggal.waktuKirim.toLocaleString( "id_ID", { hour12: false } ) }</time>
             </td>
 
             <td scope="row"
@@ -99,51 +254,58 @@ function TableOrder( props: any ) {
               { data?.orang.penerima }
             </td>
 
-            <td scope="row"
-                className="border border-slate-300 px-4 py-4">
-              { data?.listOrderan.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { o.nama }
-                </span>
-              ) }
+            <td scope="row" className="border border-slate-300 px-4 py-4">
+              {/* --------------------------orderan  */ }
+              <KeteranganProduct d={ data.listOrderan } k={ "nama" } t={ "Order" }/>
+              {/*{ data?.listOrderan.map( o => <span*/ }
+              {/*  className={ "flex border-gray-200 border" }*/ }
+              {/*  key={ o.harga + o.jenis }>*/ }
+              {/* { o.nama }*/ }
+              {/*  </span>*/ }
+              {/*) }*/ }
               {/*{ data?.listOrderan.map( o => o.nama ) }*/ }
               {/*data?.listOrderan[ 0 ]?.jenis == "Orderan" ? data?.listOrderan[ 0 ].nama : "" }*/ }
               {/*{ data?.Product[ 0 ].jenis == "Orderan" ? data?.Product[ 0 ].nama : "" }*/ }
-
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data?.listOrderan.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { o.harga }
-                </span>
-              ) }
+              <KeteranganProduct d={ data.listOrderan } k={ "harga" } t={ "Orderan" }/>
+              {/*{ data?.listOrderan.map( o => <span*/ }
+              {/*  className={ "flex border-gray-200 border" }*/ }
+              {/*  key={ o.harga + o.jenis }>*/ }
+              {/* { o.harga }*/ }
+              {/*  </span>*/ }
+              {/*) }*/ }
               {/*{ data.listOrderan[ 0 ]?.jenis == "Orderan" ? Rupiah( data?.listOrderan[ 0 ].harga ) : 0 }*/ }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data?.listOrderan.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { o.jumlah }
-                </span>
-              ) }
+              <KeteranganProduct d={ data.listOrderan } k={ "jumlah" } t={ "Orderan" }/>
+              {/*{ data?.listOrderan.map( o => <span*/ }
+              {/*  className={ "flex border-gray-200 border" }*/ }
+              {/*  key={ o.harga + o.jenis }>*/ }
+              {/* { o.jumlah }*/ }
+              {/*  </span>*/ }
+              {/*) }*/ }
               {/*{ data?.listOrderan[ 0 ]?.jenis == "Orderan" ? data?.listOrderan[ 0 ].jumlah : 0 }*/ }
             </td>
 
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              {/*JUMLAH*/ }
 
-              { data?.listOrderan.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { Rupiah( o.harga * o.jumlah )
-               }
-                </span>
-              ) }
+              {/*<Jumlah d={ data.listOrderan }/>*/ }
+              <KeteranganProduct d={ data.listOrderan } k={ "total" } t={ "Orderan" }/>
+              {/*{*/ }
+              {/*  data?.listOrderan.map( o => <span*/ }
+              {/*      className={ "flex border-gray-200 border" }*/ }
+              {/*      key={ o.harga + o.jenis }>*/ }
+              {/* { Rupiah( o.harga * o.jumlah )*/ }
+              {/* }*/ }
+              {/*  </span>*/ }
+              {/*  )*/ }
+              {/*}*/ }
 
               {/*{ data?.listOrderan[ 0 ]?.jenis == "Orderan"
                ? Rupiah( Number( data?.listOrderan[ 0 ].jumlah )*/ }
@@ -157,12 +319,14 @@ function TableOrder( props: any ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data?.listItem.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { o.nama }
-                </span>
-              ) }
+
+              <KeteranganProduct d={ data.listItem } k={ "nama" } t={ "Item" }/>
+              {/*{ data?.listItem.map( o => <span*/ }
+              {/*  className={ "flex border-gray-200 border" }*/ }
+              {/*  key={ o.harga + o.jenis }>*/ }
+              {/* { o.nama }*/ }
+              {/*  </span>*/ }
+              {/*) }*/ }
               {/*{ data?.listItem[ 0 ]?.jenis == "Item" ?*/ }
               {/*  data?.listItem[ 0 ]?.nama : "" }*/ }
 
@@ -170,26 +334,28 @@ function TableOrder( props: any ) {
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
 
-              { data?.listItem.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { Number( o.harga ) }
-                </span>
-              ) }
+              <KeteranganProduct d={ data.listItem } k={ "harga" } t={ "Item" }/>
+
+              {/*<Harga d={ data.listItem }/>*/ }
+              {/*{ data?.listItem.map( o => <span*/ }
+              {/*  className={ "flex border-gray-200 border" }*/ }
+              {/*  key={ o.harga + o.jenis }>*/ }
+              {/* { Number( o.harga ) }*/ }
+              {/*  </span>*/ }
+              {/*) }*/ }
 
               {/*{ data?.listItem[ 0 ]?.jenis == "Item"*/ }
               {/*  ? Rupiah( data?.listItem[ 0 ]?.harga )*/ }
               {/*  : 0 }*/ }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-
-              { data?.listItem.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { o.jumlah }
-                </span>
-              ) }
-
+              <KeteranganProduct d={ data.listItem } k={ "jumlah" } t={ "Item" }/>
+              {/*{ data?.listItem.map( o => <span*/ }
+              {/*  className={ "flex border-gray-200 border" }*/ }
+              {/*  key={ o.harga + o.jenis }>*/ }
+              {/* { o.jumlah }*/ }
+              {/*  </span>*/ }
+              {/*) }*/ }
 
               {/*{ data?.listItem[ 0 ]?.jenis == "Item" ?*/ }
               {/*  data?.listItem[ 0 ]?.jumlah : 0 }*/ }
@@ -197,15 +363,16 @@ function TableOrder( props: any ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              <KeteranganProduct d={ data.listItem } k={ "total" } t={ "Item" }/>
+
+              {/*<KeteranganProduct d={ data.listItem } k={ "total" }/>*/ }
+              {/*{ data?.listItem.map( o => <span className={ "flex border-gray-200 border" } key={ o.harga + o.jenis }>*/ }
+              {/*{ Rupiah( Number( o.harga ) * o.jumlah ) }</span>*/ }
+              {/*) }*/ }
 
 
-              { data?.listItem.map( o => <span
-                className={ "flex border-gray-200 border" }
-                key={ o.harga + o.jenis }>
-               { Rupiah( Number( o.harga ) * o.jumlah )
-               }
-                </span>
-              ) }
+              {/*<Jumlah d={ data.listItem }/>*/ }
+
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
@@ -217,17 +384,17 @@ function TableOrder( props: any ) {
             <td scope="row" className="border border-slate-300 px-4 py-4">
               { data?.travel.ongkir }
             </td>
+
+
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
 
 
               { data.listOrderan.map( ( o, i ) =>
-                  <span
-                    className={ "flex border-gray-200 border" }
-                    key={ o.harga + o.jenis }>
-                    { o.nama }
-                    <br/>
-                    { Rupiah( Number( o.jumlah ) * Number( o.harga ) + Number( data.travel.ongkir ) ) }
+                  <span className={ "flex border-gray-200 border" } key={ o.harga + o.jenis }>
+                    {/*{ o.nama }*/ }
+                    {/*<br/>*/ }
+                    { Rupiah( Number( o.jumlah ) * Number( o.harga ) ) }
               </span>
               ) }
 
@@ -239,15 +406,17 @@ function TableOrder( props: any ) {
 
               {
 
-                data1.map( o => <span className={ "flex border-gray-200 border" }
-                                      key={
-                                        Number( o.harga )
-                                        * Number( o.jumlah )
-                                      }>
+                data1.map( o => <span
+                    className={ "flex border-gray-200 border" }
+                    key={
+                      Number( o.harga )
+                      * Number( o.jumlah )
+                    }>
 
                   { Rupiah(
                     Number( o.harga )
                     * Number( o.jumlah )
+
                     + Number( data.travel.ongkir )
                   ) }
                 </span>
@@ -304,7 +473,8 @@ function TableOrder( props: any ) {
         </table>
       </div>
     </>
-  );
+  )
+    ;
 }
 
 export default TableOrder;
