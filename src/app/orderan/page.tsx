@@ -53,7 +53,7 @@ export default function FormOrder() {
     }
     ,
     // product
-    Product: [
+    listOrderan: [
       {
         id: "Se/Or/TBVa/42",
         nama: "Tahu Bakso Vakum",
@@ -63,7 +63,16 @@ export default function FormOrder() {
         jenis: "Orderan",
       }
     ],
-
+    listItem: [
+      {
+        id: "Se/Or/TBVa/42",
+        nama: "Tahu Bakso Vakum",
+        harga: 46_000,
+        jumlah: 1,
+        lokasi: "Ungaran",
+        jenis: "Item",
+      }
+    ],
     keterangan: {
       guna: "",
       lokasi: "",
@@ -98,9 +107,13 @@ export default function FormOrder() {
     }
   );
 
-  const { fields, append, remove } = useFieldArray( {
+  const { fields: fieldOrderan, } = useFieldArray( {
     control,
-    name: 'Product',
+    name: 'listOrderan',
+  } );
+  const { fields: fieldItem } = useFieldArray( {
+    control,
+    name: 'listItem',
   } );
 
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
@@ -131,6 +144,7 @@ export default function FormOrder() {
       // console.log( 'Thing was not saved to the database.' );
     }
   }
+
   // const InputForm: React.FC<Props> = ( {
   //   tag: Tag = 'input', ...props
   // } ) => {
@@ -406,100 +420,109 @@ export default function FormOrder() {
             <ul className={ " border-gray-300 border  overflow-y-auto relative h-[10rem] bg-gray-50 p-2 rounded" }>
               { cart.map( ( item: TFormProduct, index: number ) => {
                 // console.log( item )
-                return (
+                return ( <li
+                  className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
+                  key={ item.id }>
+                  <img className={ " rounded bg-blue-300 w-20 h-20" }
+                    // w-[20%] h-auto
+                       src={ item.img }
+                       alt={ item.nama }
+                  />
 
-                  <li
-                    className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
-                    key={ item.id }>
-                    <img className={ " rounded bg-blue-300 w-20 h-20" }
-                      // w-[20%] h-auto
-                         src={ item.img }
-                         alt={ item.nama }
-                    />
+                  <div className=" flex flex-col">
+                    <table className={ "border-transparent" }>
+                      <tbody className={ "border-transparent" }>
+                      <tr>
+                        <td className={ "hidden sm:block" }>
+                          <span>Nama Produk </span></td>
+                        <td className={ "text-sm sm:text-base" }>
+                          { item.nama }
+                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                                 value={ item.nama }
+                                 { ...register(
+                                   item.jenis == "Orderan"
+                                     ? `listOrderan.${ index }.nama`
+                                     : `listItem.${ index }.nama`
+                                 ) }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={ "hidden sm:block" }>
+                          <span>Harga </span></td>
+                        <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
+                          <input type={ 'hidden' }
+                                 value={ item.harga }{ ...register(
+                            item.jenis == "Orderan"
+                              ? `listOrderan.${ index }.harga`
+                              : `listItem.${ index }.harga`
+                          ) }
+                          />
+                        </td>
+                      </tr>
 
+                      <tr>
+                        <td className={ "hidden sm:block" }>
+                          <span>Jenis </span></td>
+                        <td className={ "text-sm sm:text-base" }>{ item.jenis }
+                          <input type={ 'hidden' }
+                                 value={ item.jenis } { ...register(
+                            item.jenis == "Orderan"
+                              ? `listOrderan.${ index }.jenis`
+                              : `listItem.${ index }.jenis`
+                          ) }/>
+                        </td>
 
-                    <div className=" flex flex-col">
-                        <table className={ "border-transparent" }>
-                          <tbody className={ "border-transparent" }>
-                          <tr>
-                            <td className={ "hidden sm:block" }>
-                              <span>Nama Produk </span></td>
-                            <td className={ "text-sm sm:text-base" }>
-                              { item.nama }
-                              <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                                     value={ item.nama }
-                                     { ...register( `Product.${ index }.nama` ) }
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className={ "hidden sm:block" }>
-                              <span>Harga </span></td>
-                            <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
-                              <input type={ 'hidden' }
-                                     value={ item.harga }{ ...register( `Product.${ index }.harga` ) }
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className={ "hidden sm:block" }>
-                              <span>Jenis </span></td>
-                            <td className={ "text-sm sm:text-base" }>{ item.jenis }
-                              <input type={ 'hidden' }
-                                     value={ item.jenis } { ...register( `Product.${ index }.jenis` ) }/>
-                            </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
-                          </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                  <div className=" flex-col  flex gap-1 w-[30%]">
+                    <div className="flex gap-1 justify-center flex-col">
 
+                      <label>
+                        <span className={ "hidden sm:block" }>Jumlah</span>
+                        <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }
+                               min={ 1 }
+                               defaultValue={ 1 }
+                               { ...register(
+                                 item.jenis == "Orderan"
+                                   ? `listOrderan.${ index }.jumlah`
+                                   : `listItem.${ index }.jumlah`
+                               ) }
+                        />
+                      </label>
 
-                      <div className=" flex-col  flex gap-1 w-[30%]">
-                        <div className="flex gap-1 justify-center flex-col">
-
-                          {/*<label>*/ }
-                          {/*  <span className={ "hidden sm:block" }>Jumlah</span>*/ }
-                          {/*  <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }*/ }
-                          {/*         min={ 1 }*/ }
-                          {/*         defaultValue={ item.jenis ? `orderanList${ number }.jumlahOrderan` : "jumlahItem" }*/ }
-                          {/*         { ...register(( item.jenis === "orderan")*/ }
-                          {/*           ? `orderanList${ number }.jumlahOrderan`*/ }
-                          {/*           :  `itemList.${number}.jumlahItem` )*/ }
-                          {/*         }*/ }
-                          {/*  />*/ }
-                          {/*</label>*/ }
-
-                          {/*item.jenis === "orderan" ? `orderanList${number}.jumlahOrderan` :*/ }
-                          {/*{ required: { value: true, message: "Jumlah Order is Required" }} */ }
-
-
-                          {/*<button*/ }
-                          {/*  type={ "button" }*/ }
-                          {/*  onClick={ () => console.log( "add" ) }*/ }
-                          {/*  className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
-                          {/*  <BiAddToQueue/>*/ }
-                          {/*  <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>*/ }
-                          {/*</button>*/ }
-
-                          <button
-                            type={ "button" }
-                            onClick={ () => removeFromCart( item ) }
-                            className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-                            <BiAddToQueue/>
-                            <span className="hidden sm:block w-0 sm:w-auto">Hapus</span>
-                          </button>
-
-                        </div>
-                      </div>
+                      {/*item.jenis === "orderan" ? `orderanList${number}.jumlahOrderan` :*/ }
+                      {/*{ required: { value: true, message: "Jumlah Order is Required" }} */ }
 
 
                       {/*<button*/ }
-                      {/*  className={ "bg-red-500 p-2" }*/ }
-                      {/*  onClick={ () => removeFromCart( item ) }>Remove*/ }
+                      {/*  type={ "button" }*/ }
+                      {/*  onClick={ () => console.log( "add" ) }*/ }
+                      {/*  className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
+                      {/*  <BiAddToQueue/>*/ }
+                      {/*  <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>*/ }
                       {/*</button>*/ }
 
-                    </li> )
+                      <button
+                        type={ "button" }
+                        onClick={ () => removeFromCart( item ) }
+                        className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                        <BiAddToQueue/>
+                        <span className="hidden sm:block w-0 sm:w-auto">Hapus</span>
+                      </button>
+
+                    </div>
+                  </div>
+
+                  {/*<button*/ }
+                  {/*  className={ "bg-red-500 p-2" }*/ }
+                  {/*  onClick={ () => removeFromCart( item ) }>Remove*/ }
+                  {/*</button>*/ }
+
+                </li> )
                 }
               )
               }
@@ -625,7 +648,7 @@ export default function FormOrder() {
 
           {/* tulis sendiri */ }
 
-          <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ "keterangan.ongkir" }/>
+          <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ register( "travel.ongkir" ) }/>
 
           {/*<label htmlFor="">Ongkir</label>*/ }
           {/*<input type="number" placeholder="Masukkan Harga Ongkir ..."*/ }

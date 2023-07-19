@@ -1,0 +1,108 @@
+<td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              { data?.listOrderan[ 0 ]?.jenis == "Orderan" ? Rupiah( Number( data?.listOrderan[ 0 ].jumlah )
+                * Number( data?.listOrderan[ 0 ].harga )
+              ) : 0
+              }
+            </td>
+
+
+            {/*----------------------Item-----------------------*/ }
+
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              { data?.listItem[ 0 ]?.jenis == "Item" ?
+                data?.listItem[ 0 ]?.nama : "" }
+            </td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4">
+              { data?.listItem[ 0 ]?.jenis == "Item"
+                ? Rupiah( data?.listItem[ 0 ]?.harga )
+                : 0 }
+            </td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              { data?.listItem[ 0 ]?.jenis == "Item" ?
+                data?.listItem[ 0 ]?.jumlah : 0 }
+            </td>
+
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+
+              { data?.listItem[ 0 ]?.jenis == "Item" ?
+                Rupiah(
+                  Number( data?.listItem[ 0 ]?.jumlah )
+                  * Number( data?.listItem[ 0 ]?.harga ) )
+                : 0 }
+            </td>
+
+            <td scope="row" className="border border-slate-300 px-4 py-4">
+              { data?.keterangan.lokasi }
+            </td>
+            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              { data?.travel.ekspedisi }
+            </td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">
+              { data?.travel.ongkir }
+            </td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              { data?.listOrderan[ 0 ].harga
+                ? Rupiah(
+                  Number( data?.listOrderan[ 0 ].jumlah )
+                  * Number( data?.listOrderan[ 0 ].harga )
+                ) : 0
+              }
+            </td>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4">
+              {
+                Rupiah(
+                  ( data?.listOrderan[ 0 ].jenis == "Orderan" ?
+                    Number( data?.listOrderan[ 0 ].jumlah )
+                    * Number( data?.listOrderan[ 0 ].harga )
+                    : 0 )
+                  +
+                  ( data?.listOrderan[ 0 ].jenis == "Item" ?
+                      Number( data?.listOrderan[ 0 ].jumlah )
+                      * Number( data?.listOrderan[ 0 ].harga )
+                      : 0
+                  )
+                  +
+                  Number( data?.travel.ongkir )
+                )
+              }
+            </td>
+            <td scope="row" className="border border-slate-300 px-4 py-4">
+              {/*{ data?.total.pembayaran }*/ }
+            </td>
+            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 "
+              //break-all whitespace-normal style={ {
+              //   inlineSize: "150px",
+              //   overflowWrap: "break-word"
+              // } }
+            >
+              <div className="w-[10rem]">
+                <div className="line-clamp-3">
+                  {/*{ data?.keterangan.guna }*/ }
+                </div>
+              </div>
+            </td>
+            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
+              <div className="w-[10rem]">
+                {/*<div className="line-clamp-3">{ data?.data?Orang }</div>*/ }
+              </div>
+            </td>
+
+
+            <td scope="row" className="border border-slate-300 px-4 py-4">
+              <button
+                onClick={ () => {
+                  // onCreate()
+                  // console.log( "create" )
+                }
+                }
+                className="bg-green-500 p-2 rounded-md text-white">
+                Create
+              </button>
+            </td>

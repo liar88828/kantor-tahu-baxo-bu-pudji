@@ -4,22 +4,28 @@ import { Rupiah } from '../../../lib/rupiah';
 
 function TableOrder( props: any ) {
   const { data }: { data: TOrder } = props
-  // console.table(data)
+  // console.info( data )
   let arrayProduct = []
   let arrayItem = []
-
-  if( data.Product.length > 0 ) {
-    // console.log("filter jenis" )
-    for( let i = 0; i < data.Product.length; i++ ) {
-      if( data.Product[ i ].jenis == "Orderan" ) arrayProduct.push( data.Product[ i ] )
-      if( data.Product[ i ].jenis == "Item" ) arrayItem.push( data.Product[ i ] )
-    }
-  }
+  //
+  // if( data?.Product.length > 0 ) {
+  //   // console.log("filter jenis" )
+  //   for( let i = 0; i < data?.Product.length; i++ ) {
+  //     if( data?.Product[ i ].jenis == "Orderan" ) arrayProduct.push( data?.Product[ i ] )
+  //     if( data?.Product[ i ].jenis == "Item" ) arrayItem.push( data?.Product[ i ] )
+  //   }
+  // }
   // console.log( arrayProduct, arrayItem )
 
-  // for( let i = 0; i < data.Product.length; i++ ) {
+  // for( let i = 0; i < data?.Product.length; i++ ) {
   //
   // }
+
+  const data1 = Object.assign( data.listItem, data.listOrderan )
+  // const data2 = { ...data.listItem, ...data.listOrderan }
+
+  console.log( data1 )
+  // console.log( data2 )
 
   return (
     <>
@@ -67,52 +73,83 @@ function TableOrder( props: any ) {
 
           <tr className="border-b border-gray-200 dark:border-gray-700">
             <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              { data.total.no }
+              { data?.total.no }
             </th>
             <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              {/*<time>{ data.tanggal.pesan.toString() }</time>*/ }
+              {/*<time>{ data?.tanggal.pesan.toString() }</time>*/ }
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-              {/*<time>{ data.tanggal.kirim.toString() }</time>*/ }
+              {/*<time>{ data?.tanggal.kirim.toString() }</time>*/ }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap ">
-              {/*<time>{ data.tanggal.waktuKirim.toLocaleString( "id_ID", { hour12: false } ) }</time>*/ }
+              {/*<time>{ data?.tanggal.waktuKirim.toLocaleString( "id_ID", { hour12: false } ) }</time>*/ }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-              { data.orang.pengirim }
+              { data?.orang.pengirim }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
               { data?.orang.hpPengirim }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">
-              { data.orang.penerima }
+              { data?.orang.penerima }
             </td>
+
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
-              { data.Product[ 0 ].jenis == "Orderan"
-                ? data.Product[ 0 ].nama : "" }
+              { data?.listOrderan.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { o.nama }
+                </span>
+              ) }
+              {/*{ data?.listOrderan.map( o => o.nama ) }*/ }
+              {/*data?.listOrderan[ 0 ]?.jenis == "Orderan" ? data?.listOrderan[ 0 ].nama : "" }*/ }
+              {/*{ data?.Product[ 0 ].jenis == "Orderan" ? data?.Product[ 0 ].nama : "" }*/ }
+
             </td>
+
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data.Product[ 0 ].jenis == "Orderan"
-                ? Rupiah( data.Product[ 0 ].harga ) : 0 }
+              { data?.listOrderan.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { o.harga }
+                </span>
+              ) }
+              {/*{ data.listOrderan[ 0 ]?.jenis == "Orderan" ? Rupiah( data?.listOrderan[ 0 ].harga ) : 0 }*/ }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data.Product[ 0 ].jenis == "Orderan"
-                ? data.Product[ 0 ].jumlah : 0 }
+              { data?.listOrderan.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { o.jumlah }
+                </span>
+              ) }
+              {/*{ data?.listOrderan[ 0 ]?.jenis == "Orderan" ? data?.listOrderan[ 0 ].jumlah : 0 }*/ }
             </td>
+
+
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data.Product[ 0 ].jenis == "Orderan"
-                ? Rupiah( Number( data?.Product[ 0 ].jumlah )
-                  * Number( data.Product[ 0 ].harga )
-                ) : 0
-              }
+
+              { data?.listOrderan.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { Rupiah( o.harga * o.jumlah )
+               }
+                </span>
+              ) }
+
+              {/*{ data?.listOrderan[ 0 ]?.jenis == "Orderan"
+               ? Rupiah( Number( data?.listOrderan[ 0 ].jumlah )*/ }
+              {/*  * Number( data?.listOrderan[ 0 ].harga )*/ }
+              {/*) : 0*/ }
+              {/*}*/ }
             </td>
 
 
@@ -120,86 +157,129 @@ function TableOrder( props: any ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data.Product[ 0 ].jenis == "Item" ?
-                data.Product[ 0 ].nama : "" }
+              { data?.listItem.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { o.nama }
+                </span>
+              ) }
+              {/*{ data?.listItem[ 0 ]?.jenis == "Item" ?*/ }
+              {/*  data?.listItem[ 0 ]?.nama : "" }*/ }
+
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
-              { data.Product[ 0 ].jenis == "Item"
-                ? Rupiah( data.Product[ 0 ].harga )
-                : 0 }
+
+              { data?.listItem.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { Number( o.harga ) }
+                </span>
+              ) }
+
+              {/*{ data?.listItem[ 0 ]?.jenis == "Item"*/ }
+              {/*  ? Rupiah( data?.listItem[ 0 ]?.harga )*/ }
+              {/*  : 0 }*/ }
             </td>
-            <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data.Product[ 0 ].jenis == "Item" ?
-                data.Product[ 0 ].jumlah : 0 }
+            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+
+              { data?.listItem.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { o.jumlah }
+                </span>
+              ) }
+
+
+              {/*{ data?.listItem[ 0 ]?.jenis == "Item" ?*/ }
+              {/*  data?.listItem[ 0 ]?.jumlah : 0 }*/ }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
 
-              { data.Product[ 0 ].jenis == "Item" ?
-                Rupiah(
-                  Number( data.Product[ 0 ].jumlah )
-                  * Number( data.Product[ 0 ].harga ) )
-                : 0 }
+
+              { data?.listItem.map( o => <span
+                className={ "flex border-gray-200 border" }
+                key={ o.harga + o.jenis }>
+               { Rupiah( Number( o.harga ) * o.jumlah )
+               }
+                </span>
+              ) }
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
               { data?.keterangan.lokasi }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data.travel.ekspedisi }
+              { data?.travel.ekspedisi }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { Rupiah( data.travel.ongkir ) }
+              { data?.travel.ongkir }
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              { data.Product[ 0 ].harga
-                ? Rupiah(
-                  Number( data?.Product[ 0 ].jumlah )
-                  * Number( data.Product[ 0 ].harga )
-                ) : 0
-              }
+
+
+              { data.listOrderan.map( ( o, i ) =>
+                  <span
+                    className={ "flex border-gray-200 border" }
+                    key={ o.harga + o.jenis }>
+                    { o.nama }
+                    <br/>
+                    { Rupiah( Number( o.jumlah ) * Number( o.harga ) + Number( data.travel.ongkir ) ) }
+              </span>
+              ) }
+
+
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
+
+
               {
-                Rupiah(
-                  ( data.Product[ 0 ].jenis == "Orderan" ?
-                      Number( data?.Product[ 0 ].jumlah )
-                      * Number( data.Product[ 0 ].harga )
-                      : 0
-                  )
-                  +
-                  ( data.Product[ 0 ].nama ?
-                      Number( data.Product[ 0 ].jumlah )
-                      * Number( data.Product[ 0 ].harga ) : 0
-                  )
-                  +
-                  Number( data?.travel.ongkir )
+
+                data1.map( o => <span className={ "flex border-gray-200 border" }
+                                      key={
+                                        Number( o.harga )
+                                        * Number( o.jumlah )
+                                      }>
+
+                  { Rupiah(
+                    Number( o.harga )
+                    * Number( o.jumlah )
+                    + Number( data.travel.ongkir )
+                  ) }
+                </span>
                 )
               }
+
+              {/*{ data.listItem.map( o =>*/ }
+              {/*  <span*/ }
+              {/*    className={ "flex border-gray-200 border" }*/ }
+              {/*    key={ o.harga + o.jenis }>*/ }
+              {/*    <br/>*/ }
+              {/*    { Rupiah( Number( o.jumlah ) * Number( o.harga ) + Number( data.travel.ongkir ) ) }*/ }
+              {/*     </span>*/ }
+              {/*) }*/ }
+
+
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              {/*{ data.total.pembayaran }*/ }
-            </td>
-            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 "
-              //break-all whitespace-normal style={ {
-              //   inlineSize: "150px",
-              //   overflowWrap: "break-word"
-              // } }
-            >
-              <div className="w-[10rem]">
-                <div className="line-clamp-3">
-                  {/*{ data.keterangan.guna }*/ }
-                </div>
-              </div>
+              { data?.total.pembayaran }
+
             </td>
             <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
               <div className="w-[10rem]">
-                {/*<div className="line-clamp-3">{ data.dataOrang }</div>*/ }
+                <div className="line-clamp-3">
+                  { data?.keterangan.guna }
+                </div>
+              </div>
+            </td>
+
+            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
+              <div className="w-[10rem]">
+                <div className="line-clamp-3">{ data.total.status }</div>
               </div>
             </td>
 
@@ -216,7 +296,10 @@ function TableOrder( props: any ) {
               </button>
             </td>
 
+
           </tr>
+
+
           </tbody>
         </table>
       </div>

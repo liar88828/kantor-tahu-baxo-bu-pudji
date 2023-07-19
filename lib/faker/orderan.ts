@@ -24,24 +24,35 @@ export function newPerson(): TOrder[] {
         hpPenerima: faker.phone.number().toString(),
       },
 
-      // product
-      Product: [
-        {
-          id: faker.commerce.productDescription(),
-          nama: faker.commerce.product(),
-          harga: faker.datatype.number( 10 ),
-          jumlah: faker.datatype.number( 10 ),
-          lokasi: faker.image.business(),
-          jenis: faker.helpers.shuffle( [ 'Ungaran', 'Semarang' ] )[ 0 ]!,
-        }
-      ],
-      keterangan: {
-        guna: faker.lorem.paragraph( 2 ),
-        lokasi: faker.address.cityName(),
-      },
+    // product
+    listOrderan: [
+      {
+        id: faker.commerce.productDescription(),
+        nama: faker.commerce.product(),
+        harga: faker.datatype.number( 10 ),
+        jumlah: faker.datatype.number( 10 ),
+        lokasi: faker.image.business(),
+        jenis: faker.helpers.shuffle( [ 'Semarang' ] )[ 0 ]!,
+      }
+    ],
+    listItem: [
+      {
+        id: faker.commerce.productDescription(),
+        nama: faker.commerce.product(),
+        harga: faker.datatype.number( 10 ),
+        jumlah: faker.datatype.number( 10 ),
+        lokasi: faker.image.business(),
+        jenis: faker.helpers.shuffle( [ 'Ungaran' ] )[ 0 ]!,
+      }
+    ],
 
-      // travel
-      travel: {
+    keterangan: {
+      guna: faker.lorem.paragraph( 2 ),
+      lokasi: faker.address.cityName(),
+    },
+
+    // travel
+    travel: {
         namaPengiriman: faker.company.name(),
         ekspedisi: faker.address.city(),
         ongkir: faker.datatype.number( 10 ),
