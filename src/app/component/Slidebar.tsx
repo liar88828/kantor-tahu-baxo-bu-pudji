@@ -34,14 +34,14 @@ export const Slidebar = () => {
   let bgColorSlideBar = "#d6ffe0"
 
   return (
-    <div className="flex z-50">
+    <div className="flex ">
       {/* body slide bar*/ }
       <div
-        className={ ` ${ open ? "w-72 p-4 sm:p-1" : "w-12 sm:w-20" } h-screen  relative transition-all duration-150 ` }
+        className={ ` ${ open ? "w-72 p-4 sm:p-1" : "w-12 sm:w-20" }   relative transition-all duration-150 ` }
         style={ { background: bgColorSlideBar } }>
 
         <AiOutlineArrowLeft
-          className={ `mt-3 bg-white w-9 h-9 -right-3  p-1 absolute  rounded-xl  border-black border-2 transition-all duration-500 ` }
+          className={ `z-[6] mt-3 bg-white w-9 h-9 -right-3  p-1 absolute  rounded-xl  border-black border-2 transition-all duration-500 ` }
           onClick={ () => setOpen( !open ) }
           style={ { cursor: "pointer", transform: open ? "rotate(180deg)" : "" } }
         />

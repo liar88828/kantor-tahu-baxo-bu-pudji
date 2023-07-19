@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react'
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { BiAddToQueue } from 'react-icons/bi';
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { Rupiah } from '../../../lib/rupiah';
 import { defaultDate, getDateNow, getLocaleTime, getTime } from '../../../lib/formatDate';
 import { TOrder } from '../../../entity/orderan';
@@ -93,29 +93,14 @@ export default function FormOrder() {
     }
   }
 
-  const {
-    control,
-    register,
-    setValue,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TOrder>( {
-      // defaultValues: defaultValues,
-      mode: "onChange",
-    }
-  );
-
-  const { fields: fieldOrderan, } = useFieldArray( {
-    control,
-    name: 'listOrderan',
+  const { control, register, setValue, watch, handleSubmit, formState: { errors }, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
+    mode: "onChange",
   } );
-  const { fields: fieldItem } = useFieldArray( {
-    control,
-    name: 'listItem',
-  } );
-
+  const { fields: fieldOrderan, } = useFieldArray( { control, name: 'listOrderan', } );
+  const { fields: fieldItem } = useFieldArray( { control, name: 'listItem', } );
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
+  const dataBaru: any[] = []
+  const data = Object.assign( { dataBaru }, valueForm )
 
   const createOrder = async () => {
     const response = await fetch( "http://localhost:3000/api/orderan", {
@@ -127,13 +112,12 @@ export default function FormOrder() {
   }
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => {
-    // console.log( data )
     setValueForm( data )
   };
   const onCreate = async () => {
     if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
       // Save it!
-      // console.log( 'Thing was saved to the database.', valueForm );
+      console.log( 'Thing was saved to the database.', valueForm );
 
       // const responseData = await createOrder()
       // console.log( responseData )
@@ -310,7 +294,16 @@ export default function FormOrder() {
       </> )
   }
 
-  const AddCart = ( { items, addToCart }: { items: TFormProduct[], addToCart: any } ) => {
+  const SearchItemList = ( { items, addToCart, cart }: {
+    items: TFormProduct[],
+    addToCart: any,
+    cart: TFormProduct[]
+  } ) => {
+
+    const isItemAdded = ( item: TFormProduct ) => {
+      return cart.some( ( cartItem ) => cartItem.id === item.id );
+    };
+
     return (
 
       // const ItemList: React.FC<TFormProduct> = ({ items, addToCart, cart }) => {
@@ -318,13 +311,13 @@ export default function FormOrder() {
       //   return cart.some((cartItem) => cartItem.id === item.id);
       // };
 
-      <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[10rem] " }>
+      <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
         { items.map( ( item ) => ( <li
             className={ " p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white" }
-            // style={ {
-            //   backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
-            //   fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
-            // } }
+            style={ {
+              backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
+              fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
+            } }
             key={ item.id }>
             <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
             <p className={ "flex flex-col" }>
@@ -381,7 +374,7 @@ export default function FormOrder() {
         ( item ) => {
           // console.log(item)
           return ( item.nama.toLowerCase().includes( searchQuery.toLowerCase() ) ||
-              item.harga.toString().includes( searchQuery.toLowerCase() ) || item.jenis === selectedCategory ) &&
+              item.harga.toString().includes( searchQuery.toLowerCase() ) ) &&
             ( selectedCategory === '' || item.jenis === selectedCategory )
         }
       );
@@ -392,40 +385,56 @@ export default function FormOrder() {
     //   removeItem( item );
     // };
 
-    const removeItem = ( item: TFormProduct ) => {
-      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
-    };
-    // console.log( selectedCategory )
+    // const removeItem = ( item: TFormProduct ) => {
+    //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+    // };
+
+    console.log( cariProduct || searchQuery.length < 1 ? "true" : "false" )
     return (
       <>
         <div className="flex flex-col gap-3">
-          <h1>Product Search</h1>
+          {/*<h1>Product Search</h1>*/ }
           <div className="flex flex-row  gap-1 sm:gap-7">
+
             <button type={ 'button' }
-                    className={ "py-2 mb-1   bg-blue-500 text-white cursor-pointer rounded" }
+                    className={ `py-2 mb-1  ${ !cariProduct ? "bg-red-600" : " bg-blue-500" } text-white cursor-pointer rounded` }
                     onClick={ () => {setCariProduct( !cariProduct )} }>
+
               <span className=" flex flex-row items-center px-2">
                 <AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>
+
               <span className="invisible sm:visible w-0 sm:w-auto">
-                      <span className={ "hidden md:hidden lg:block" }> { !cariProduct ? "Close" : "Open" }</span>
+                      <span className={ "hidden md:hidden lg:block" }>
+                        { !cariProduct
+                          ? <AiOutlineCloseCircle/>
+                          : <AiOutlineSearch/> }
+                      </span>
               </span>
               </span>
             </button>
 
-            <input className={ StyleInputForm( false ) + "rounded leading-tight w-[80%] " } type="text"
-                   value={ searchQuery } placeholder={ " Cari Product" } onChange={ handleSearchChange }/>
+            <input className={ StyleInputForm( false ) + "rounded leading-tight w-[80%] " }
+                   type="text"
+                   value={ searchQuery }
+                   placeholder={ " Cari Product" }
+                   onChange={ handleSearchChange }/>
+
+
+            <select className={ StyleInputForm( false ) + "rounded leading-tight w-[50%] " }
+                    value={ selectedCategory }
+                    onChange={ handleCategoryChange }>
+
+              <option value=""> All Categories</option>
+              <option value="Orderan"> Orderan</option>
+              <option value="Item"> Item</option>
+            </select>
           </div>
+          {/*!cariProduct*/ }
 
 
-          <select value={ selectedCategory } onChange={ handleCategoryChange }>
-            <option value="">All Categories</option>
-            <option value="Orderan">Orderan</option>
-            <option value="Item">Item</option>
-            {/* Add more category options based on your item data */ }
-          </select>
-
-          <div className={ ` ${ cariProduct ? "hidden" : "" } border  border-gray-200 rounded bg-gray-50` }>
-            <AddCart items={ filteredItems } addToCart={ addToCart }/>
+          <div
+            className={ ` ${ cariProduct || searchQuery.length < 1 ? "hidden" : "" } border  border-gray-200 rounded bg-gray-50` }>
+            <SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>
           </div>
 
 
@@ -437,10 +446,12 @@ export default function FormOrder() {
           {/*         className={ StyleInputForm( salah ) }/>*/ }
           {/*</div>*/ }
 
-          {/*------------------------------------------------------list cart*/ }
-          <div className="flex flex-col gap-1">
-            <h2>Cart</h2>
-            <ul className={ " border-gray-300 border  overflow-y-auto relative h-[10rem] bg-gray-50 p-2 rounded" }>
+
+          {/*------------------------------------------------------CARD LIST----------------------*/ }
+
+          <div className="flex flex-col gap-1" onClick={ () => setCariProduct( true ) }>
+            {/*<h2>Cart</h2>*/ }
+            <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
               { cart.map( ( item: TFormProduct, index: number ) => {
                 // console.log( item )
                 return ( <li
@@ -747,7 +758,7 @@ export default function FormOrder() {
           </div>
         </div>
       </form>
-      <TableOrder data={ valueForm }/>
+      <TableOrder data={ data } onCreate={ onCreate }/>
 
     </>
   )

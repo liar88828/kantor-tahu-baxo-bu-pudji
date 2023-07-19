@@ -66,6 +66,14 @@ const App: React.FC = () => {
     setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
   };
 
+  const isItemAddedToCart = ( item: Item ) => {
+    return cart.some( ( cartItem ) => cartItem.id === item.id );
+  };
+
+  const isItemInSearchResults = ( item: Item ) => {
+    return items.some( ( searchItem ) => searchItem.id === item.id );
+  };
+
   return (
     <div>
       <h1>Product Search</h1>
@@ -75,8 +83,17 @@ const App: React.FC = () => {
         value={ searchQuery }
         onChange={ handleSearchChange }/>
       <ul className={ "bg-red-500 p-2" }>
+
+
         { filteredItems.map( ( item ) => (
           <li className={ "bg-blue-400 m-2 p-2 flex flex-col gap-2" }
+
+
+              style={ {
+                backgroundColor: isItemInSearchResults( item ) && isItemAddedToCart( item ) ? 'lightgreen' : 'transparent',
+                fontWeight: isItemAddedToCart( item ) ? 'bold' : 'normal',
+              } }
+
               key={ item.id }>
 
             { item.name } - ${ item.price }
@@ -88,11 +105,18 @@ const App: React.FC = () => {
           </li>
         ) ) }
       </ul>
+
+
       <h2>Cart</h2>
       <ul>
         { cart.map( ( item ) => (
           <li
             className={ "bg-blue-400 p-2 " }
+            // style={{
+            //   backgroundColor: isItemInSearchResults(item) && isItemAddedToCart(item) ? 'lightgreen' : 'transparent',
+            //   fontWeight: isItemAddedToCart(item) ? 'bold' : 'normal',
+            // }}
+
             key={ item.id }>
             { item.name }
             <button

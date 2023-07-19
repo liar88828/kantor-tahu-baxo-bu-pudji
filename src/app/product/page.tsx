@@ -9,6 +9,7 @@ const formProduct: Record<keyof TFormProduct, any> = {
   nama: "Nama Product",
   harga: "Harga",
   lokasi: "Lokasi",
+  jumlah: "Masukan Jumlah",
   jenis: "Jenis",
   img: "Gambar"
 }
@@ -48,19 +49,19 @@ const FormProduct = ( { salah }: { salah: boolean } ) => {
 
 
           <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.lokasi.nama }</label>
+            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.lokasi }</label>
             <select className={ styleInputForm } id="grid-state">
-              <option value={ formProduct.lokasi.tempat[ 1 ] }>{ formProduct.lokasi.tempat[ 1 ] }</option>
-              <option value={ formProduct.lokasi.tempat[ 0 ] }>{ formProduct.lokasi.tempat[ 0 ] }</option>
+              <option value="Semarang">Semarang</option>
+              <option value="Ungaran">Ungaran</option>
             </select>
           </div>
 
 
           <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.jenis.nama }</label>
+            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.jenis }</label>
             <select className={ styleInputForm } id="grid-state">
-              <option value={ formProduct.jenis.jenis[ 0 ] }>{ formProduct.jenis.jenis[ 0 ] }</option>
-              <option value={ formProduct.jenis.jenis[ 1 ] }>{ formProduct.jenis.jenis[ 1 ] }</option>
+              <option value="Orderan">Orderan</option>
+              <option value="Item">Item</option>
             </select>
           </div>
 

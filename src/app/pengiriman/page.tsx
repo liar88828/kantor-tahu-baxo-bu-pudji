@@ -38,17 +38,17 @@ const FormPengiriman = ( { salah }: { salah: boolean } ) => {
 
 
         <div className="flex flex-col">
-          <label className={ styleLabelForm } htmlFor="grid-password">Keterangan </label>
-          <textarea className={ StyleInputForm( false ) } id="grid-first-name" placeholder=" Keterangan"></textarea>
-          { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-        </div>
-
-        <div className="flex flex-col">
           <label className={ styleLabelForm }
                  htmlFor="grid-state"> Lokasi</label> <select className={ StyleInputForm( false ) } id="grid-state">
           <option value={ "Semarang" }>Semarang</option>
           <option value={ "Ungaran" }>Ungaran</option>
         </select>
+        </div>
+
+        <div className="flex flex-col">
+          <label className={ styleLabelForm } htmlFor="grid-password">Keterangan </label>
+          <textarea className={ StyleInputForm( false ) } id="grid-first-name" placeholder=" Keterangan"></textarea>
+          { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
         </div>
 
       </form>

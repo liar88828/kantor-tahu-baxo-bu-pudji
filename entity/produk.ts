@@ -4,8 +4,8 @@ export type TFormProduct = {
   harga: number,
   lokasi: string,
   jumlah: number,
-  img?: string
   jenis: "Orderan" | "Item" | string,
+  img?: string
 }
 
 const productList: TFormProduct[] = [

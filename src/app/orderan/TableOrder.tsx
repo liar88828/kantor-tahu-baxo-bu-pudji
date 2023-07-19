@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TOrder } from '../../../entity/orderan';
 import { Rupiah } from '../../../lib/rupiah';
 import { TFormProduct } from '../../../entity/produk';
+import { PopUp } from '@/app/orderan/PopUp';
 
 function TableOrder( props: any ) {
-  const { data }: { data: TOrder } = props
+  const [ clickPopUp, setClickPopUp ] = useState( false );
+  const { data, }: { data: TOrder } = props
   // console.info( data )
-  let arrayProduct = []
-  let arrayItem = []
-  //
-
   // if( data?.Product.length > 0 ) {
   //   // console.log("filter jenis" )
   //   for( let i = 0; i < data?.Product.length; i++ ) {
@@ -18,23 +16,18 @@ function TableOrder( props: any ) {
   //   }
   // }
   // console.log( arrayProduct, arrayItem )
-
   // for( let i = 0; i < data?.Product.length; i++ ) {
   //
   // }
-
-  const data1 = Object.assign( data.listItem, data.listOrderan )
+  const data1: TFormProduct[] = Object.assign( data.listItem, data.listOrderan )
   // const data2 = { ...data.listItem, ...data.listOrderan }
 
-  // console.log( data1 )
+  const dataPopUp = Object.assign( data, { dataBaru: data1 } )
 
   let Total = 0;
-
   for( const item of data1 ) {
     Total += Number( item.harga ) * Number( item.jumlah );
   }
-
-  // console.log( data2 )
 
   const Jumlah: React.FC<{ d: TFormProduct[] }> = ( { d } ) => {
     return (
@@ -177,6 +170,11 @@ function TableOrder( props: any ) {
   //   }
   // ;
 
+  <>
+
+
+  </>
+
   return (
     <>
       {/*<Jumlah/>*/ }
@@ -185,7 +183,7 @@ function TableOrder( props: any ) {
       {/*<KeteranganProduct d={ data.listItem } k={ "nama" } t={"Item"} />*/ }
 
 
-      <div className=" ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
+      <div className=" z-10 ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded table-auto">
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 rounded">
           <tr>
@@ -397,8 +395,6 @@ function TableOrder( props: any ) {
                     { Rupiah( Number( o.jumlah ) * Number( o.harga ) ) }
               </span>
               ) }
-
-
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
@@ -454,21 +450,24 @@ function TableOrder( props: any ) {
 
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              <button
-                onClick={ () => {
-                  // onCreate()
-                  // console.log( "create" )
-                }
-                }
-                className="bg-green-500 p-2 rounded-md text-white">
-                Create
-              </button>
+              {/*<button*/ }
+              {/*  onClick={ () => {*/ }
+              {/*    // onCreate()*/ }
+              {/*    // console.log( "create" )*/ }
+              {/*  }*/ }
+              {/*  }*/ }
+              {/*  className="bg-green-500 p-2 rounded-md text-white">*/ }
+              {/*  Create*/ }
+              {/*</button>*/ }
+              <PopUp
+                clickPopUp={ clickPopUp }
+                setClickPopUp={ setClickPopUp }
+                onCreate={ props.onCreate }
+                data={ dataPopUp }
+
+              />
             </td>
-
-
           </tr>
-
-
           </tbody>
         </table>
       </div>
