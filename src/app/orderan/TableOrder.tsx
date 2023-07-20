@@ -3,6 +3,13 @@ import { TOrder } from '../../../entity/orderan';
 import { Rupiah } from '../../../lib/rupiah';
 import { TFormProduct } from '../../../entity/produk';
 import { PopUp } from '@/app/orderan/PopUp';
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );

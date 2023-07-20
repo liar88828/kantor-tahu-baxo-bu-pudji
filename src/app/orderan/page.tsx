@@ -477,6 +477,15 @@ export default function FormOrder() {
                                      : `listItem.${ index }.nama`
                                  ) }
                           />
+
+                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                                 value={ item.img }
+                                 { ...register(
+                                   item.jenis == "Orderan"
+                                     ? `listOrderan.${ index }.img`
+                                     : `listItem.${ index }.img`
+                                 ) }
+                          />
                         </td>
                       </tr>
                       <tr>
