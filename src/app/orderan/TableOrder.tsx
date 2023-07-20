@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { TOrder } from '../../../entity/orderan';
 import { Rupiah } from '../../../lib/rupiah';
 import { TFormProduct } from '../../../entity/produk';
-import { PopUp } from '@/app/orderan/PopUp';
-import {
-  Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-} from "@material-tailwind/react";
+import { Status } from '@/app/style/status';
+import { TotalOrderan } from '../../../entity/orderan';
 
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );
-  const { data, }: { data: TOrder } = props
-  // console.info( data )
+  const { data }: { data: TotalOrderan } = props
+  console.info( data )
   // if( data?.Product.length > 0 ) {
   //   // console.log("filter jenis" )
   //   for( let i = 0; i < data?.Product.length; i++ ) {
@@ -26,15 +19,9 @@ function TableOrder( props: any ) {
   // for( let i = 0; i < data?.Product.length; i++ ) {
   //
   // }
-  const data1: TFormProduct[] = Object.assign( data.listItem, data.listOrderan )
   // const data2 = { ...data.listItem, ...data.listOrderan }
 
-  const dataPopUp = Object.assign( data, { dataBaru: data1 } )
-
-  let Total = 0;
-  for( const item of data1 ) {
-    Total += Number( item.harga ) * Number( item.jumlah );
-  }
+  console.log( data )
 
   const Jumlah: React.FC<{ d: TFormProduct[] }> = ( { d } ) => {
     return (
@@ -47,6 +34,8 @@ function TableOrder( props: any ) {
       </>
     );
   };
+  console.log(
+    Status( data.total.status ) )
 
   const KeteranganProduct: React.FC<{ d: TFormProduct[], k: string, t: string }> = ( { d, k, t } ) => {
     // console.log(d,"asdasd")
@@ -299,9 +288,10 @@ function TableOrder( props: any ) {
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
               {/*JUMLAH*/ }
+              { Rupiah( data.hitung.semuaHargaOrderan ) }
+              {/*<KeteranganProduct d={ data.listOrderan } k={ "total" } t={ "Orderan" }/>*/ }
 
               {/*<Jumlah d={ data.listOrderan }/>*/ }
-              <KeteranganProduct d={ data.listOrderan } k={ "total" } t={ "Orderan" }/>
               {/*{*/ }
               {/*  data?.listOrderan.map( o => <span*/ }
               {/*      className={ "flex border-gray-200 border" }*/ }
@@ -354,6 +344,7 @@ function TableOrder( props: any ) {
               {/*  : 0 }*/ }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
+              {/*{Rupiah(data.semuaHargaItem)}*/ }
               <KeteranganProduct d={ data.listItem } k={ "jumlah" } t={ "Item" }/>
               {/*{ data?.listItem.map( o => <span*/ }
               {/*  className={ "flex border-gray-200 border" }*/ }
@@ -368,7 +359,9 @@ function TableOrder( props: any ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-              <KeteranganProduct d={ data.listItem } k={ "total" } t={ "Item" }/>
+              {/*<KeteranganProduct d={ data.listItem } k={ "total" } t={ "Item" }/>*/ }
+              {/*{ Rupiah( data.semuaProduct ) }*/ }
+              { Rupiah( data.hitung.semuaHargaItem ) }
 
               {/*<KeteranganProduct d={ data.listItem } k={ "total" }/>*/ }
               {/*{ data?.listItem.map( o => <span className={ "flex border-gray-200 border" } key={ o.harga + o.jenis }>*/ }
@@ -393,38 +386,39 @@ function TableOrder( props: any ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 dark:bg-gray-800">
-
-
-              { data.listOrderan.map( ( o, i ) =>
-                  <span className={ "flex border-gray-200 border" } key={ o.harga + o.jenis }>
-                    {/*{ o.nama }*/ }
-                    {/*<br/>*/ }
-                    { Rupiah( Number( o.jumlah ) * Number( o.harga ) ) }
-              </span>
-              ) }
+              {/*{ data.hasOwnProperty()  }*/ }
+              { Rupiah( data.hitung.semuaHargaOrderan ) }
+              {/*{ data.listOrderan.map( ( o, i ) =>*/ }
+              {/*    <span className={ "flex border-gray-200 border" } key={ o.harga + o.jenis }>*/ }
+              {/*      /!*{ o.nama }*/ }
+              {/*      /!*<br/>*/ }
+              {/*      { Rupiah( Number( o.jumlah ) * Number( o.harga ) ) }*/ }
+              {/*</span>*/ }
+              {/*) }*/ }
             </td>
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
+              { Rupiah( data.hitung.totalHarga ) }
 
 
-              {
+              {/*{*/ }
 
-                data1.map( o => <span
-                    className={ "flex border-gray-200 border" }
-                    key={
-                      Number( o.harga )
-                      * Number( o.jumlah )
-                    }>
+              {/*  dataProduct.map( o => <span*/ }
+              {/*      className={ "flex border-gray-200 border" }*/ }
+              {/*      key={*/ }
+              {/*        Number( o.harga )*/ }
+              {/*        * Number( o.jumlah )*/ }
+              {/*      }>*/ }
 
-                  { Rupiah(
-                    Number( o.harga )
-                    * Number( o.jumlah )
+              {/*    { Rupiah(*/ }
+              {/*      Number( o.harga )*/ }
+              {/*      * Number( o.jumlah )*/ }
 
-                    + Number( data.travel.ongkir )
-                  ) }
-                </span>
-                )
-              }
+              {/*      + Number( data.travel.ongkir )*/ }
+              {/*    ) }*/ }
+              {/*  </span>*/ }
+              {/*  )*/ }
+              {/*}*/ }
 
               {/*{ data.listItem.map( o =>*/ }
               {/*  <span*/ }
@@ -438,7 +432,9 @@ function TableOrder( props: any ) {
 
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data?.total.pembayaran }
+              {/*{ data?.total.pembayaran }*/ }
+              { data.total.pembayaran }
+
 
             </td>
             <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
@@ -449,9 +445,14 @@ function TableOrder( props: any ) {
               </div>
             </td>
 
-            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
-              <div className="w-[10rem]">
-                <div className="line-clamp-3">{ data.total.status }</div>
+            <td scope="row" className={ ` border border-slate-300  py-4  px-4  break-all w-3/4 ` }>
+              <div
+
+
+                className={ Status( data.total.status ) + "  w-[7rem] rounded-lg  text-center   dark:shadow-black/40   shadow shadow-red-300" }>
+                {/*<div className={ Status( data.total.status ) + " text-white p-2 rounded  shadow-lg shadow-cyan-500/50 " }>*/ }
+                { data.total.status }
+                {/*</div>*/ }
               </div>
             </td>
 
@@ -466,13 +467,12 @@ function TableOrder( props: any ) {
               {/*  className="bg-green-500 p-2 rounded-md text-white">*/ }
               {/*  Create*/ }
               {/*</button>*/ }
-              <PopUp
-                clickPopUp={ clickPopUp }
-                setClickPopUp={ setClickPopUp }
-                onCreate={ props.onCreate }
-                data={ dataPopUp }
-
-              />
+              {/*<PopUp*/ }
+              {/*  clickPopUp={ clickPopUp }*/ }
+              {/*  setClickPopUp={ setClickPopUp }*/ }
+              {/*  onCreate={ props.onCreate }*/ }
+              {/*  data={ dataPopUp }*/ }
+              {/*/>*/ }
             </td>
           </tr>
           </tbody>

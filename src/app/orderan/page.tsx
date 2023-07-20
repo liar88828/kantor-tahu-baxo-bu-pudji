@@ -6,9 +6,10 @@ import { BiAddToQueue } from 'react-icons/bi';
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { Rupiah } from '../../../lib/rupiah';
 import { defaultDate, getDateNow, getLocaleTime, getTime } from '../../../lib/formatDate';
-import { TOrder } from '../../../entity/orderan';
+import { Thitung, TOrder, TotalOrderan } from '../../../entity/orderan';
 import { sProduct, TFormProduct } from '../../../entity/produk';
 import { DevTool } from "@hookform/devtools";
+import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import TableOrder from '@/app/orderan/TableOrder';
 
 type TOrderKeys = keyof TOrder['orang']
@@ -99,8 +100,68 @@ export default function FormOrder() {
   const { fields: fieldOrderan, } = useFieldArray( { control, name: 'listOrderan', } );
   const { fields: fieldItem } = useFieldArray( { control, name: 'listItem', } );
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
-  const dataBaru: any[] = []
-  const data = Object.assign( { dataBaru }, valueForm )
+
+  valueForm.listItem.filter( j => j.jenis === "Item" )
+  // const cloneItem =structuredClone(filterItem)
+
+  const semuaProduct: TFormProduct[] = [ ...valueForm.listOrderan, ...valueForm.listItem ]
+  const mergeData = Object.assign( { semuaProduct }, valueForm )
+//success merge
+//   console.log( mergeData )
+
+  // const dataProduct: TFormProduct[] = Object.assign( valueForm.listItem, valueForm.listOrderan )
+  // const { listItem, ...newValue } = valueForm
+
+  // filter dan hapus list item ada orderan
+  if( mergeData.semuaProduct.length > 0 ) {
+    for( let i = 0; i < mergeData.semuaProduct.length; i++ ) {
+      if( mergeData.semuaProduct[ i ] === undefined ) {
+        delete mergeData.semuaProduct[ i ]
+      }
+    }
+  }
+  // console.log(valueForm)
+  // const data = Object.assign( { dataProduct: dataProduct }, valueForm )
+  // console.log( filterItem, "filter item" )
+  // console.log( dataProduct, "Gabung Product" )
+  // console.log( listItem, "item" )
+  // console.log( valueForm.listOrderan, "orderan" )
+  // console.log( valueForm.listOrderan, "Item" )
+  // const mergeProduct = Object.assign( listItem, valueForm.listOrderan )
+
+  mergeData.semuaProduct.filter( ( element ) => element !== undefined );
+
+  // -----------------------Calculator Product
+  const semuaHargaOrderan = mergeData.listOrderan.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
+  const semuaHargaItem = mergeData.listItem.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
+  const semuaHargaProduct = mergeData.semuaProduct.length > 0 && mergeData.semuaProduct.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
+  const totalHarga = Number( semuaHargaOrderan ) + Number( semuaHargaItem ) + Number( mergeData.travel.ongkir )
+//
+
+  const hitung: Thitung = {
+    semuaHargaOrderan,
+    semuaHargaItem,
+    semuaHargaProduct,
+    totalHarga
+  }
+// //data yang sudah di process
+  const dataBaru: TotalOrderan = Object.assign( { hitung }, mergeData )
+  const data = dataBaru
+  // console.log( data )
+
+  // console.log( semuaHargaOrderan, "harga orderan" )
+  // console.log( semuaHargaItem, "harga Item" )
+  // console.log( semuaHargaProduct, "semua harga Product" )
+  // console.log( totalHarga, "total termasuk ongkir" )
+
+  // console.log(valueForm)
+  // const dataBaru = { ...newData, ...{ listItemBaru: item } }
+  // console.log( dataBaru, "dataBaruku" )
+// console.log(data,"oooooo")
+
+  // const combineObject: TFormProduct[] = Object.assign( valueForm.listItem, valueForm.listOrderan )
+  // const mergeObject = Object.assign( { dataProduct: combineObject }, valueForm )
+  // const cloneObject = structuredClone( mergeObject )
 
   const createOrder = async () => {
     const response = await fetch( "http://localhost:3000/api/orderan", {
@@ -128,94 +189,94 @@ export default function FormOrder() {
     }
   }
 
-  // const InputForm: React.FC<Props> = ( {
-  //   tag: Tag = 'input', ...props
-  // } ) => {
-  //   const { title, type, reg } = props as {
-  //     title: string,
-  //     type: string,
-  //     reg: TOrderKeys
-  //   }
-  //   return (
-  //     <div className="flex flex-col ">
-  //       <label className={ styleLabelForm }
-  //              htmlFor="grid-password"> { title }</label>
-  //       <input className={ StyleInputForm( salah ) }
-  //              id="grid-first-name"
-  //              type={ `${ type }` }
-  //              placeholder={ `Nama ${ title }....` }
-  //
-  //              { ...register( reg ) }
-  //       />
-  //       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-  //     </div>
-  //   );
-  // }
-  // type Props = {
-  //   tag?: keyof JSX.IntrinsicElements;
-  // } & React.HTMLAttributes<HTMLOrSVGElement>;
-  // function InputForm( { title, type, reg }: { title: string, type: string, req: any } ) {
-  //   return (
-  //     <div className="flex flex-col ">
-  //       <label className={ styleLabelForm }
-  //              htmlFor="grid-password"> { title }</label>
-  //       <input className={ StyleInputForm( salah ) }
-  //              id="grid-first-name"
-  //              type={ type }
-  //              placeholder={ `Nama ${ title }....` }
-  //              { ...register( reg ) }
-  //       />
-  //       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-  //     </div>
-  //   )
-  // }
-  // const InputForm: React.FC<InputFormProps> = ( {
-  //   tag: Tag = 'input',
-  //   title,
-  //   type,
-  //   reg
-  // }: InputFormProps ): ReactElement => {
-  //   const styleLabelForm = 'your-label-style-class';
-  //   const StyleInputForm = 'your-input-style-class';
-  //   const wrongInput = 'your-wrong-input-class';
-  //   const salah = false; // Replace with the appropriate value
-  //
-  //   return (
-  //     <div className="flex flex-col">
-  //       <label className={ styleLabelForm } htmlFor="grid-password">
-  //         { title }
-  //       </label>
-  //       { typeof Tag === 'string' ? (
-  //         <input
-  //           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
-  //           id="grid-first-name"
-  //           type={ type }
-  //           placeholder={ `Nama ${ title }....` }
-  //           { ...register( reg ) }
-  //         />
-  //       ) : (
-  //         <Tag
-  //           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
-  //           id="grid-first-name"
-  //           type={ type }
-  //           placeholder={ `Nama ${ title }....` }
-  //           { ...register( reg ) }
-  //         />
-  //       ) }
-  //       { salah && <p className={ wrongInput }>Please fill out this field.</p> }
-  //     </div>
-  //   );
-  // };
+// const InputForm: React.FC<Props> = ( {
+//   tag: Tag = 'input', ...props
+// } ) => {
+//   const { title, type, reg } = props as {
+//     title: string,
+//     type: string,
+//     reg: TOrderKeys
+//   }
+//   return (
+//     <div className="flex flex-col ">
+//       <label className={ styleLabelForm }
+//              htmlFor="grid-password"> { title }</label>
+//       <input className={ StyleInputForm( salah ) }
+//              id="grid-first-name"
+//              type={ `${ type }` }
+//              placeholder={ `Nama ${ title }....` }
+//
+//              { ...register( reg ) }
+//       />
+//       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+//     </div>
+//   );
+// }
+// type Props = {
+//   tag?: keyof JSX.IntrinsicElements;
+// } & React.HTMLAttributes<HTMLOrSVGElement>;
+// function InputForm( { title, type, reg }: { title: string, type: string, req: any } ) {
+//   return (
+//     <div className="flex flex-col ">
+//       <label className={ styleLabelForm }
+//              htmlFor="grid-password"> { title }</label>
+//       <input className={ StyleInputForm( salah ) }
+//              id="grid-first-name"
+//              type={ type }
+//              placeholder={ `Nama ${ title }....` }
+//              { ...register( reg ) }
+//       />
+//       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
+//     </div>
+//   )
+// }
+// const InputForm: React.FC<InputFormProps> = ( {
+//   tag: Tag = 'input',
+//   title,
+//   type,
+//   reg
+// }: InputFormProps ): ReactElement => {
+//   const styleLabelForm = 'your-label-style-class';
+//   const StyleInputForm = 'your-input-style-class';
+//   const wrongInput = 'your-wrong-input-class';
+//   const salah = false; // Replace with the appropriate value
+//
+//   return (
+//     <div className="flex flex-col">
+//       <label className={ styleLabelForm } htmlFor="grid-password">
+//         { title }
+//       </label>
+//       { typeof Tag === 'string' ? (
+//         <input
+//           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
+//           id="grid-first-name"
+//           type={ type }
+//           placeholder={ `Nama ${ title }....` }
+//           { ...register( reg ) }
+//         />
+//       ) : (
+//         <Tag
+//           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
+//           id="grid-first-name"
+//           type={ type }
+//           placeholder={ `Nama ${ title }....` }
+//           { ...register( reg ) }
+//         />
+//       ) }
+//       { salah && <p className={ wrongInput }>Please fill out this field.</p> }
+//     </div>
+//   );
+// };
 
   const InputForm: React.FC<InputFormProps> = (
-      { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
-      // const ress = {
-      //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
-      //   id : "grid-first-name",
-      //   type : type ,
-      //   placeholder : `Nama ${ title }....`,
-      // }
-      // const ObjectDate = { value: "2012-3-23" }
+    { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
+    // const ress = {
+    //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
+    //   id : "grid-first-name",
+    //   type : type ,
+    //   placeholder : `Nama ${ title }....`,
+    // }
+    // const ObjectDate = { value: "2012-3-23" }
 
       let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Nama ${ title }....`, }
       if( type ) ress = Object.assign( ress, { type } );
@@ -294,51 +355,6 @@ export default function FormOrder() {
       </> )
   }
 
-  const SearchItemList = ( { items, addToCart, cart }: {
-    items: TFormProduct[],
-    addToCart: any,
-    cart: TFormProduct[]
-  } ) => {
-
-    const isItemAdded = ( item: TFormProduct ) => {
-      return cart.some( ( cartItem ) => cartItem.id === item.id );
-    };
-
-    return (
-
-      // const ItemList: React.FC<TFormProduct> = ({ items, addToCart, cart }) => {
-      // const isItemAdded = (item: Item) => {
-      //   return cart.some((cartItem) => cartItem.id === item.id);
-      // };
-
-      <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-        { items.map( ( item ) => ( <li
-            className={ " p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white" }
-            style={ {
-              backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
-              fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
-            } }
-            key={ item.id }>
-            <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
-            <p className={ "flex flex-col" }>
-              <span className={ "text-sm sm:text-base" }>{ item.nama }</span>
-              <span className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
-              <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
-            </p>
-
-            <button type={ "button" } onClick={ () => addToCart( item ) }
-                    className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-              <BiAddToQueue/>
-              <span className="invisible sm:visible w-0 sm:w-auto">  Add
-                      <span className={ "sm:hidden" }>to Cart</span>
-                    </span>
-            </button>
-          </li>
-        ) ) }
-      </ul>
-    )
-  }
-
   function Orderan() {
     const [ searchQuery, setSearchQuery ] = useState( '' );
     const [ cart, setCart ] = useState<TFormProduct[]>( [] );
@@ -373,9 +389,9 @@ export default function FormOrder() {
       const filtered = sProduct.filter(
         ( item ) => {
           // console.log(item)
-          return ( item.nama.toLowerCase().includes( searchQuery.toLowerCase() ) ||
-              item.harga.toString().includes( searchQuery.toLowerCase() ) ) &&
-            ( selectedCategory === '' || item.jenis === selectedCategory )
+          return ( item.nama.toLowerCase().includes( searchQuery.toLowerCase() )
+            || item.harga.toString().includes( searchQuery.toLowerCase() ) )
+          // && ( selectedCategory === '' || item.jenis === selectedCategory )
         }
       );
       setFilteredItems( filtered );
@@ -384,12 +400,57 @@ export default function FormOrder() {
     // const handleRemove = ( item: Item ) => {
     //   removeItem( item );
     // };
-
     // const removeItem = ( item: TFormProduct ) => {
     //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
     // };
 
     console.log( cariProduct || searchQuery.length < 1 ? "true" : "false" )
+
+    const SearchItemList = ( { items, addToCart, cart }: {
+      items: TFormProduct[],
+      addToCart: any,
+      cart: TFormProduct[]
+    } ) => {
+
+      const isItemAdded = ( item: TFormProduct ) => {
+        return cart.some( ( cartItem ) => cartItem.id === item.id );
+      };
+
+      return (
+
+        // const ItemList: React.FC<TFormProduct> = ({ items, addToCart, cart }) => {
+        // const isItemAdded = (item: Item) => {
+        //   return cart.some((cartItem) => cartItem.id === item.id);
+        // };
+
+        <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
+          { items.map( ( item ) => ( <li
+              className={ " p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white" }
+              style={ {
+                backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
+                fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
+              } }
+              key={ item.id }>
+              <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
+              <p className={ "flex flex-col" }>
+                <span className={ "text-sm sm:text-base" }>{ item.nama }</span>
+                <span className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
+                <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
+              </p>
+
+              <button type={ "button" } onClick={ () => addToCart( item ) }
+                      className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                <BiAddToQueue/>
+                <span className="invisible sm:visible w-0 sm:w-auto">  Add
+                      <span className={ "sm:hidden" }>to Cart</span>
+                    </span>
+              </button>
+            </li>
+          ) ) }
+        </ul>
+      )
+    }
+
     return (
       <>
         <div className="flex flex-col gap-3">
@@ -420,14 +481,15 @@ export default function FormOrder() {
                    onChange={ handleSearchChange }/>
 
 
-            <select className={ StyleInputForm( false ) + "rounded leading-tight w-[50%] " }
-                    value={ selectedCategory }
-                    onChange={ handleCategoryChange }>
+            {/*<select className={ StyleInputForm( false ) + "rounded leading-tight w-[50%] " }*/ }
+            {/*        value={ selectedCategory }*/ }
+            {/*        onChange={ handleCategoryChange }>*/ }
 
-              <option value=""> All Categories</option>
-              <option value="Orderan"> Orderan</option>
-              <option value="Item"> Item</option>
-            </select>
+            {/*  <option value=""> All Categories</option>*/ }
+            {/*  <option value="Orderan"> Orderan</option>*/ }
+            {/*  <option value="Item"> Item</option>*/ }
+            {/*</select>*/ }
+
           </div>
           {/*!cariProduct*/ }
 
@@ -472,7 +534,7 @@ export default function FormOrder() {
                           <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                  value={ item.nama }
                                  { ...register(
-                                   item.jenis == "Orderan"
+                                   item.jenis === "Orderan"
                                      ? `listOrderan.${ index }.nama`
                                      : `listItem.${ index }.nama`
                                  ) }
@@ -481,7 +543,7 @@ export default function FormOrder() {
                           <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                  value={ item.img }
                                  { ...register(
-                                   item.jenis == "Orderan"
+                                   item.jenis === "Orderan"
                                      ? `listOrderan.${ index }.img`
                                      : `listItem.${ index }.img`
                                  ) }
@@ -494,7 +556,7 @@ export default function FormOrder() {
                         <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
                           <input type={ 'hidden' }
                                  value={ item.harga }{ ...register(
-                            item.jenis == "Orderan"
+                            item.jenis === "Orderan"
                               ? `listOrderan.${ index }.harga`
                               : `listItem.${ index }.harga`
                           ) }
@@ -508,7 +570,7 @@ export default function FormOrder() {
                         <td className={ "text-sm sm:text-base" }>{ item.jenis }
                           <input type={ 'hidden' }
                                  value={ item.jenis } { ...register(
-                            item.jenis == "Orderan"
+                            item.jenis === "Orderan"
                               ? `listOrderan.${ index }.jenis`
                               : `listItem.${ index }.jenis`
                           ) }/>
@@ -724,14 +786,14 @@ export default function FormOrder() {
           </select>
 
 
-          <label htmlFor="">Lokasi</label>
+          <label htmlFor="">Status</label>
           <select id="pembayaran"
                   className='border border-gray-300 p-2 rounded-md'{ ...register( "total.status" ) }>
             {/*/status/*/ }
-            <option value="Di terima">Di terima</option>
-            <option value='Proses'>Proses</option>
-            <option value="Kirim">Kirim</option>
-            <option value="Selesai"> Selesai</option>
+            <option className={ SDiTerima } value="Di Terima">Di Terima</option>
+            <option className={ SProcess } value='Proses'>Proses</option>
+            <option className={ SKirim } value="Kirim">Kirim</option>
+            <option className={ SSelesai } value="Selesai"> Selesai</option>
           </select>
 
 
@@ -743,14 +805,14 @@ export default function FormOrder() {
     )
   }
 
-  // const formCard = ( wide: number ) => `border  flex flex-col gap-5 p-5 bg-white rounded w-[${ wide }%]`;
+// const formCard = ( wide: number ) => `border  flex flex-col gap-5 p-5 bg-white rounded w-[${ wide }%]`;
 
   const inputType = ( a: number = 0, b: string = "" ) => `border border-gray-300 p-${ a } rounded-md w-${ ( b = "" ) ? "" : b }`;
   const input = inputType()
   const fomIsi = "bg-white flex-col flex w-[50%]  sm:w-[44%]  md:w-[45%]   lg:w-[47%]  ml-2  gap-3 rounded p-2  sm:p-5";
 
-  // let totalItem = valueForm.item ? Number( valueForm.jumlah_item ) * Number( valueForm.harga_item ) : 0
-  // let totalOrderan = valueForm.orderan ? Number( valueForm.jumlah_orderan ) * Number( valueForm.harga_orderan ) : 0
+// let totalItem = valueForm.item ? Number( valueForm.jumlah_item ) * Number( valueForm.harga_item ) : 0
+// let totalOrderan = valueForm.orderan ? Number( valueForm.jumlah_orderan ) * Number( valueForm.harga_orderan ) : 0
 
   return (
     <>

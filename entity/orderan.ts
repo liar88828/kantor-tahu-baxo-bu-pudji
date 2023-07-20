@@ -35,12 +35,23 @@ export type TOrder = {
   total: {
     no: string
     pembayaran: string
-    total: number
-    totalBayar: number
+    total?: number
+    totalBayar?: number
     totalPenjualan?: number,
     status: 'Di terima' | 'Proses' | 'Kirim' | "Selesai"
   }
 }
+
+export type TSemuaProduct = { semuaProduct: TFormProduct[] }
+
+export  type Thitung = {
+  semuaHargaOrderan: number,
+  semuaHargaItem: number,
+  semuaHargaProduct: number | false,
+  totalHarga: number
+}
+
+export  type TotalOrderan = { hitung: Thitung } & { semuaProduct: TFormProduct[] } & TOrder
 
 type TOnlyKey = Record<keyof TOrder, any>
 
