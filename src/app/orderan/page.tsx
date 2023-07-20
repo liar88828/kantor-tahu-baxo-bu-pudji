@@ -462,7 +462,7 @@ export default function FormOrder() {
                     onClick={ () => {setCariProduct( !cariProduct )} }>
 
               <span className=" flex flex-row items-center px-2">
-                <AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>
+                {/*<AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>*/ }
 
               <span className="invisible sm:visible w-0 sm:w-auto">
                       <span className={ "hidden md:hidden lg:block" }>

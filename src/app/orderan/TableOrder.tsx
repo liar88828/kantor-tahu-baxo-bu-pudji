@@ -3,6 +3,7 @@ import { Rupiah } from '../../../lib/rupiah';
 import { TFormProduct } from '../../../entity/produk';
 import { Status } from '@/app/style/status';
 import { TotalOrderan } from '../../../entity/orderan';
+import { PopUp } from '@/app/orderan/PopUp';
 
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );
@@ -458,21 +459,21 @@ function TableOrder( props: any ) {
 
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              {/*<button*/ }
-              {/*  onClick={ () => {*/ }
-              {/*    // onCreate()*/ }
-              {/*    // console.log( "create" )*/ }
-              {/*  }*/ }
-              {/*  }*/ }
-              {/*  className="bg-green-500 p-2 rounded-md text-white">*/ }
-              {/*  Create*/ }
-              {/*</button>*/ }
-              {/*<PopUp*/ }
-              {/*  clickPopUp={ clickPopUp }*/ }
-              {/*  setClickPopUp={ setClickPopUp }*/ }
-              {/*  onCreate={ props.onCreate }*/ }
-              {/*  data={ dataPopUp }*/ }
-              {/*/>*/ }
+              <button
+                onClick={ () => {
+                  // onCreate()
+                  // console.log( "create" )
+                }
+                }
+                className="bg-green-500 p-2 rounded-md text-white">
+                Create
+              </button>
+              <PopUp
+                clickPopUp={ clickPopUp }
+                setClickPopUp={ setClickPopUp }
+                onCreate={ props.onCreate }
+                data={ data }
+              />
             </td>
           </tr>
           </tbody>

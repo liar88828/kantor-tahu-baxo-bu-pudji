@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { TOrder } from '../../../entity/orderan';
+import { TotalOrderan } from '../../../entity/orderan';
 import { TFormProduct } from '../../../entity/produk';
 import { Rupiah } from '../../../lib/rupiah';
 import {
@@ -19,7 +19,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
   clickPopUp: boolean,
   setClickPopUp: React.Dispatch<React.SetStateAction<boolean>>,
   onCreate: () => Promise<void>
-  data: TOrder & { dataBaru: TFormProduct[] }
+  data: TotalOrderan
 } ) {
   console.log( data )
   return (
@@ -62,8 +62,9 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
 
 
               <div className="px-10 py-5 space-y-6">
-                <div className="  flex gap-5">
-                  <Card variant="gradient" color="blue" className="gap-5 flex flex-col w-[50%] border border-white p-2">
+                <div className="  flex gap-5 flex-col sm:flex-row">
+                  <Card variant="gradient" color="blue"
+                        className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-2">
                     <Typography color="white">
                       Kode : { data.orang.penerima.slice( 0, 2 ) + "/" +
                       data.orang.hpPenerima.slice( 0, 2 ) + "/" +
@@ -76,24 +77,32 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                     <Typography color="white">Tanggal Pesan : { data.tanggal.pesan.toString() }</Typography>
                     <Typography color="white">Tanggal Kirim : { data.tanggal.kirim.toString() }</Typography>
                     <Typography color="white">Tanggal waktu Kirim : { data.tanggal.waktuKirim.toString() }</Typography>
+                    <Typography color="white">Keterangan Lokasi : { data.keterangan.lokasi }</Typography>
                   </Card>
 
                   <Card
                     variant="gradient"
                     color="blue"
-                    className="gap-5 flex flex-col ml-10 w-[50%]  border border-white p-2">
-                    <Typography color="white">Keterangan : { data.keterangan.lokasi }</Typography>
+                    className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-2">
                     <Typography color="white">Lokasi : { data.keterangan.lokasi }</Typography>
                     <Typography color="white">Travel Pengirim : { data.orang.pengirim }</Typography>
                     <Typography color="white">Ekspedisi : { data.travel.ekspedisi }</Typography>
-                    <Typography color="white">Ongkir : { data.travel.ongkir }</Typography>
+                    <Typography color="white">Ongkir : { Rupiah( data.travel.ongkir ) }</Typography>
+                    <hr/>
+                    <Typography color="white">Semua Harga Orderan
+                      : { Rupiah( data.hitung.semuaHargaOrderan ) }</Typography>
+                    <Typography color="white">Semua Harga Item : { Rupiah( data.hitung.semuaHargaItem ) }</Typography>
+                    <Typography color="white">Semua Harga Produk
+                      : { data.hitung.semuaHargaProduct && Rupiah( data.hitung.semuaHargaProduct ) }</Typography>
+                    <Typography color="white">Semua Harga Total: { Rupiah( data.hitung.totalHarga ) }</Typography>
+
                   </Card>
 
                 </div>
 
                 <div className="">
                   <ul className="  relative overflow-x-auto rounded-lg bg-white p-2 mt-1 gap-2 flex">
-                    { data.dataBaru.map( ( item: TFormProduct, index: number ) => {
+                    { data.semuaProduct.map( ( item: TFormProduct, index: number ) => {
                       return (
                         <Card key={ item.id } color="blue" className={ "flex-nowrap flex" }>
                           <div
