@@ -1,4 +1,22 @@
 import { TFormProduct } from './produk';
+import React from 'react';
+
+type TOrderKeys =
+  keyof TOrder['orang']
+  | keyof TOrder['tanggal']
+  | keyof TOrder["keterangan"]
+  | keyof TOrder["total"]
+  | keyof TOrder["travel"]
+
+export interface InputFormProps {
+  tag?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  title: string;
+  type: string;
+  reg: any;
+  value?: string
+  min?: string
+  defaultValue?: string
+}
 
 export type TOrder = {
 // Product

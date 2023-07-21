@@ -6,7 +6,7 @@ import { BiAddToQueue } from 'react-icons/bi';
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { Rupiah } from '../../../lib/rupiah';
 import { defaultDate, getDateNow, getLocaleTime, getTime } from '../../../lib/formatDate';
-import { Thitung, TOrder, TotalOrderan } from '../../../entity/orderan';
+import { InputFormProps, Thitung, TOrder, TotalOrderan } from '../../../entity/orderan';
 import { sProduct, TFormProduct } from '../../../entity/produk';
 import { DevTool } from "@hookform/devtools";
 import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
@@ -20,16 +20,6 @@ type TOrderKeys = keyof TOrder['orang']
   keyof TOrder["travel"]
 
 type Props = { tag?: keyof JSX.IntrinsicElements; } & React.HTMLAttributes<HTMLOrSVGElement>;
-
-interface InputFormProps {
-  tag?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
-  title: string;
-  type: string;
-  reg: any;
-  value?: string
-  min?: string
-  defaultValue?: string
-}
 
 export default function FormOrder() {
   const [ salah, setSalah ] = useState( false );
@@ -81,15 +71,20 @@ export default function FormOrder() {
   const { control, register, setValue, watch, handleSubmit, formState: { errors }, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
-  const { fields: fieldOrderan, } = useFieldArray( { control, name: 'listOrderan', } );
-  const { fields: fieldItem } = useFieldArray( { control, name: 'listItem', } );
+
+  const { fields, append, remove } = useFieldArray( {
+    control,
+    name: "semuaProduct",
+    rules: {
+      required: "Please appent at last 1 ",
+    }
+  } );
+
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
 
-  // valueForm.semuaProduct.filter( j => j.jenis === "Item" )
-
   const newProduct: TFormProduct[] = []
-  valueForm.listOrderan = newProduct
   const newItem: TFormProduct[] = []
+  valueForm.listOrderan = newProduct
   valueForm.listItem = newItem
 
   const filterJenis = ( o: TFormProduct, a: string, array: TFormProduct[] ) => {
@@ -102,8 +97,8 @@ export default function FormOrder() {
         array[ index ] = o;
       }
     }
-
   }
+
   valueForm.semuaProduct.forEach( ( o ) => {
     filterJenis( o, "Orderan", newProduct )
     filterJenis( o, "Item", newItem )
@@ -111,8 +106,8 @@ export default function FormOrder() {
 
   const semuaProduct: TFormProduct[] = [ ...valueForm.listOrderan, ...valueForm.listItem ]
   const mergeData = Object.assign( { semuaProduct }, valueForm )
-//success merge
-//   console.log( mergeData )
+// success merge
+// console.log( mergeData )
 
   // const dataProduct: TFormProduct[] = Object.assign( valueForm.listItem, valueForm.listOrderan )
   // const { listItem, ...newValue } = valueForm
@@ -169,10 +164,8 @@ export default function FormOrder() {
   // const mergeObject = Object.assign( { dataProduct: combineObject }, valueForm )
   // const cloneObject = structuredClone( mergeObject )
 
+  const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
 
-  const onSubmit: SubmitHandler<TOrder> = ( data ) => {
-    setValueForm( data )
-  };
   const onCreate = async () => {
     if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
       // Save it!
@@ -188,29 +181,16 @@ export default function FormOrder() {
   }
 
   const InputForm: React.FC<InputFormProps> = (
-    { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
-    // const ress = {
-    //   className : `${ StyleInputForm } ${ salah ? wrongInput : '' }`,
-    //   id : "grid-first-name",
-    //   type : type ,
-    //   placeholder : `Nama ${ title }....`,
-    // }
-    // const ObjectDate = { value: "2012-3-23" }
-
-    let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Nama ${ title }....`, }
-    if( type ) ress = Object.assign( ress, { type } );
-    if( value ) ress = Object.assign( ress, { value } );
-    if( min ) ress = Object.assign( ress, { min } );
-    if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
-
-    // if( type == "date" ) {
-    //   ress = Object.assign( ObjectDate, normalValue );
-    // }
+      { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
+      let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Nama ${ title }....`, }
+      if( type ) ress = Object.assign( ress, { type } );
+      if( value ) ress = Object.assign( ress, { value } );
+      if( min ) ress = Object.assign( ress, { min } );
+      if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
 
       return (
         <div className="flex flex-col">
           <label className={ styleLabelForm } htmlFor="grid-password">{ title }</label>
-          {/*// @ts-ignore*/ }
           <Tag { ...ress }{ ...reg }/>
           {/*<p>{ errors. }</p>*/ }
         </div>
@@ -226,21 +206,12 @@ export default function FormOrder() {
           <hr/>
           <InputForm title={ "Pengirim" } type="text" reg={ register( "orang.pengirim" ) }
                      defaultValue={ "Kantor Tahu Baxo" }/>
-          <InputForm title={ "Hp Pengirim" } type={ "number" } reg={ register( "orang.hpPengirim" ) }/>
+          <InputForm title={ "Hp Pengirim" } type={ "number" }
+                     reg={ register( "orang.hpPengirim", { valueAsNumber: true } ) }/>
           <InputForm title={ "Penerima" } type={ "text" } reg={ register( "orang.penerima" ) }/>
           <InputForm title={ "Alamat Penerima" } type={ "text" } reg={ register( "orang.alamatPenerima" ) }/>
-          <InputForm title={ "Hp Penerima" } type={ "number" } reg={ register( "orang.hpPenerima" ) }/>
-
-          {/*<div className="flex flex-col ">*/ }
-          {/*  <label className={ styleLabelForm }*/ }
-          {/*         htmlFor="grid-password"> Pengiriman</label>*/ }
-          {/*  <input className={ StyleInputForm( salah ) } id="grid-first-name" type="text"*/ }
-          {/*         placeholder="Nama Pengiriman"*/ }
-          {/*         { ...register( "pengirim" ) }*/ }
-          {/*  />*/ }
-          {/*  { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }*/ }
-          {/*</div>*/ }
-
+          <InputForm title={ "Hp Penerima" } type={ "number" }
+                     reg={ register( "orang.hpPenerima", { valueAsNumber: true } ) }/>
         </div>
       </>
     );
@@ -252,7 +223,6 @@ export default function FormOrder() {
         <div className={ " flex-col flex gap-3 " }>
           <h2>Tanggal</h2>
           <hr/>
-
           <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ register( "tanggal.pesan" ) }
                      min="2023-01-01"
                      defaultValue={ defaultDate() }/>
@@ -261,28 +231,16 @@ export default function FormOrder() {
           <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" } reg={ register( "tanggal.waktuKirim" ) }
                      defaultValue={ getTime() }/>
           <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" } reg={ register( "keterangan.guna" ) }/>
-
-          {/*<div className="flex flex-col">*/ }
-          {/*  <label htmlFor="">Keterangan</label>*/ }
-          {/*  <textarea placeholder="Masukkan Keterangan ..."*/ }
-          {/*            className="border border-gray-300 p-2 rounded-md"*/ }
-          {/*            { ...register( "keterangan" ) }*/ }
-          {/*  />*/ }
-          {/*</div>*/ }
-
         </div>
       </> )
   }
 
   function Orderan() {
     const [ searchQuery, setSearchQuery ] = useState( '' );
-    const [ cart, setCart ] = useState<TFormProduct[]>( valueForm.semuaProduct );
+    const [ cart, setCart ] = useState<TFormProduct[]>( fields );
     const [ filteredItems, setFilteredItems ] = useState<TFormProduct[]>( sProduct );
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
-    const [ selectedCategory, setSelectedCategory ] = useState( '' );
-    // let d:TFormProduct[] =[]
 
-    // console.log( cart )
     const addToCart = ( item: TFormProduct ) => {
       const isItemInCart = cart.some( ( cartItem ) => cartItem.id === item.id );
       if( isItemInCart ) {
@@ -294,17 +252,14 @@ export default function FormOrder() {
       setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
     };
 
-    const removeFromCart = ( item: TFormProduct ) => {
-      handleRemove( item )
-
-      // setValueForm((prevState) => prevState.semuaProduct)
-
+    const removeItem = ( item: TFormProduct ) => {
       setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
-      setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
     };
 
-    const handleCategoryChange = ( event: React.ChangeEvent<HTMLSelectElement> ) => {
-      setSelectedCategory( event.target.value );
+    const removeFromCart = ( item: TFormProduct ) => {
+      removeItem( item )
+      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+      setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
     };
 
     const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
@@ -312,42 +267,24 @@ export default function FormOrder() {
 
       const filtered = sProduct.filter(
         ( item ) => {
-          // console.log(item)
-          return ( item.nama.toLowerCase().includes( searchQuery.toLowerCase() )
-            || item.harga.toString().includes( searchQuery.toLowerCase() ) )
-          // && ( selectedCategory === '' || item.jenis === selectedCategory )
+          return (
+            item.nama.toLowerCase().includes( searchQuery.toLowerCase() ) ||
+            item.harga.toString().includes( searchQuery.toLowerCase() ) )
         }
       );
       setFilteredItems( filtered );
     };
 
-    const handleRemove = ( item: TFormProduct ) => {
-      removeItem( item );
-    };
-    const removeItem = ( item: TFormProduct ) => {
-      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
-    };
-
-    // console.log( cariProduct || searchQuery.length < 1 ? "true" : "false" )
-
     function SearchItemList( { items, addToCart, cart }: {
-      items: TFormProduct[],
-      addToCart: any,
-      cart: TFormProduct[]
+      items: TFormProduct[], addToCart: any, cart: TFormProduct[]
     } ) {
       const isItemAdded = ( item: TFormProduct ) => {
         return cart.some( ( cartItem ) => cartItem.id === item.id );
       };
 
       return (
-
-        // const ItemList: React.FC<TFormProduct> = ({ items, addToCart, cart }) => {
-        // const isItemAdded = (item: Item) => {
-        //   return cart.some((cartItem) => cartItem.id === item.id);
-        // };
-
         <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-          { items.map( ( item ) => ( <li
+          { items.map( ( item: TFormProduct, index: number ) => ( <li
               className={ " p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white" }
               style={ {
                 backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
@@ -361,7 +298,20 @@ export default function FormOrder() {
                 <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
               </p>
 
-              <button type={ "button" } onClick={ () => addToCart( item ) }
+              <button type={ "button" } onClick={ () => {
+                append(
+                  {
+                    id: item.id,
+                    nama: item.nama,
+                    harga: item.harga,
+                    lokasi: item.lokasi,
+                    jumlah: 1,
+                    jenis: item.jenis,
+                    img: item.img,
+                  }
+                )
+                addToCart( item )
+              } }
                       className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
                 <BiAddToQueue/>
                 <span className="invisible sm:visible w-0 sm:w-auto">  Add
@@ -374,7 +324,6 @@ export default function FormOrder() {
       )
     }
 
-    // d= valueForm.semuaProduct.length === 0 ? cart : valueForm.semuaProduct
     return (
       <>
         <div className="flex flex-col gap-3">
@@ -404,18 +353,8 @@ export default function FormOrder() {
                    placeholder={ " Cari Product" }
                    onChange={ handleSearchChange }/>
 
-
-            {/*<select className={ StyleInputForm( false ) + "rounded leading-tight w-[50%] " }*/ }
-            {/*        value={ selectedCategory }*/ }
-            {/*        onChange={ handleCategoryChange }>*/ }
-
-            {/*  <option value=""> All Categories</option>*/ }
-            {/*  <option value="Orderan"> Orderan</option>*/ }
-            {/*  <option value="Item"> Item</option>*/ }
-            {/*</select>*/ }
-
           </div>
-          {/*!cariProduct*/ }
+          {/*!-------------------------------------------------cariProduct----------------------------*/ }
 
 
           <div
@@ -423,31 +362,20 @@ export default function FormOrder() {
             <SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>
           </div>
 
-
-          {/*<h2>Orderan</h2>*/ }
-          {/*<hr/>*/ }
-          {/*<div className="flex flex-col">*/ }
-          {/*  <label>Cari Barang</label>*/ }
-          {/*  <input type={ "text" } placeholder={ "Search ...." }*/ }
-          {/*         className={ StyleInputForm( salah ) }/>*/ }
-          {/*</div>*/ }
-
-
-          {/*------------------------------------------------------CARD LIST----------------------*/ }
+          {/*----------------------------------------------- -CART LIST----------------------*/ }
 
           <div className="flex flex-col gap-1" onClick={ () => setCariProduct( true ) }>
             {/*<h2>Cart</h2>*/ }
             <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
-              { cart.map( ( item: TFormProduct, index: number ) => {
-                // console.log( item )
+              { fields.map( ( item: TFormProduct, index: number ) => {
                 return ( <li
                   className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
                   key={ item.id }>
                   <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }
                     // w-[20%] h-auto
                   />
-
                   <div className=" flex flex-col">
+
                     <table className={ "border-transparent" }>
                       <tbody className={ "border-transparent" }>
                       <tr>
@@ -493,7 +421,6 @@ export default function FormOrder() {
                           <input type={ 'hidden' }
                                  value={ item.jenis }
                                  { ...register( `semuaProduct.${ index }.jenis` ) }
-
                           />
                         </td>
 
@@ -510,13 +437,10 @@ export default function FormOrder() {
                         <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }
                                min={ 1 }
                                defaultValue={ 1 }
-                               { ...register( `semuaProduct.${ index }.jumlah` ) }
+                               { ...register( `semuaProduct.${ index }.jumlah`, { valueAsNumber: true } ) }
 
                         />
                       </label>
-
-                      {/*item.jenis === "orderan" ? `orderanList${number}.jumlahOrderan` :*/ }
-                      {/*{ required: { value: true, message: "Jumlah Order is Required" }} */ }
 
 
                       {/*<button*/ }
@@ -529,7 +453,10 @@ export default function FormOrder() {
 
                       <button
                         type={ "button" }
-                        onClick={ () => removeFromCart( item ) }
+                        onClick={ () => {
+                          removeFromCart( item )
+                          remove( index )
+                        } }
                         className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
                         <BiAddToQueue/>
                         <span className="hidden sm:block w-0 sm:w-auto">Hapus</span>
@@ -549,76 +476,10 @@ export default function FormOrder() {
               }
             </ul>
 
-            {/*{ sProduct.map( ( sP ) => {*/ }
-            {/*    console.log( Object.values( sP ).includes( "orderan" ) ? "orderan" : "item" )*/ }
-            {/*    const jenis = Object.values( sP ).includes( "orderan" )*/ }
-            {/*    return (*/ }
-            {/*      */ }
-            {/*      */ }
-            {/*---------------Loop*/ }
-            {/*      // <ul key={ sP.id }*/ }
-            {/*      //     className={ " border-gray-300 border" }>*/ }
-            {/*      //   <li className={ " flex flex-row justify-between  items-center gap-2 p-2" }>*/ }
-            {/*      //     <img className={ "w-[20%] h-auto rounded" } src={ sP.img } alt={ sP.nama }/>*/ }
-            {/*      //     <div className={ "justify-between flex-col flex " }>*/ }
-            {/*      //*/ }
-            {/*      //       <label className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold " }>*/ }
-            {/*      //         { sP.nama }</label>*/ }
-            {/*      //       <input type={ "hidden" }*/ }
-            {/*      //              value={ sP.nama } readOnly*/ }
-            {/*      //              { ...register( jenis ? "orderan" : "item" ) }*/ }
-            {/*      //       />*/ }
-            {/*      //*/ }
-            {/*      //       <label className={ " uppercase text-gray-900 text-xs sm:text-xl font-bold  " }>*/ }
-            {/*      //         { sP.harga }</label>*/ }
-            {/*      //       <input type={ "hidden" }*/ }
-            {/*      //*/ }
-            {/*      //              className={ "!overflow-hidden" }*/ }
-            {/*      //              value={ sP.harga }*/ }
-            {/*      //              { ...register( jenis ? "harga_orderan" : "harga_item" ) }*/ }
-            {/*      //       />*/ }
-            {/*      //       <label className={ "text-xs sm:text-xl " }>{ sP.jenis }</label>*/ }
-            {/*      //       <input className={ "hidden w-0 h-0" }*/ }
-            {/*      //              type={ 'text' }*/ }
-            {/*      //              value={ jenis ? "orderan" : "item" }*/ }
-            {/*      //              { ...register( jenis ? "orderan" : "item" ) }*/ }
-            {/*      //       />*/ }
-            {/*      //*/ }
-            {/*      //     </div>*/ }
-            {/*      //*/ }
-            {/*      //     <div className=" flex-col  flex gap-1 w-[30%]">*/ }
-            {/*      //       <input type={ "number" } className={ ` ${ input }` }*/ }
-            {/*      //              value={ jenis ? "jumlah_orderan" : "jumlah_item" }*/ }
-            {/*      //              { ...register( jenis ? "jumlah_orderan" : "jumlah_item"*/ }
-            {/*      //                // , {required: { value: true, message: "Jumlah Order is Required" } }*/ }
-            {/*      //              ) }*/ }
-            {/*      //       />*/ }
-            {/*      //*/ }
-            {/*      //       <div className="flex gap-1 justify-center flex-row sm:flex-col">*/ }
-            {/*      //         <button*/ }
-            {/*      //           onClick={ () => console.log( "add" ) }*/ }
-            {/*      //           className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
-            {/*      //           <BiAddToQueue/>*/ }
-            {/*      //           <span className="invisible sm:visible w-0 sm:w-auto">Tambah</span>*/ }
-            {/*      //         </button>*/ }
-            {/*      //         <button*/ }
-            {/*      //           onClick={ () => console.log( "hapus" ) }*/ }
-            {/*      //           className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>*/ }
-            {/*      //           <BiAddToQueue/>*/ }
-            {/*      //           <span className="invisible sm:visible w-0 sm:w-auto">Hapus</span>*/ }
-            {/*      //         </button>*/ }
-            {/*      //       </div>*/ }
-            {/*      //     </div>*/ }
-            {/*      //   </li>*/ }
-            {/*      // </ul>*/ }
-            {/*    )*/ }
-            {/*  } ) }*/ }
+
           </div>
 
 
-          {/*  <div className="flex flex-col">*/ }
-          {/*    <label htmlFor="">Orderan</label>*/ }
-          {/*    <select name="orderan" id="orderan"*/ }
           {/*            className='border border-gray-300 p-2 rounded-md'>*/ }
           {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
           {/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/ }
@@ -635,18 +496,7 @@ export default function FormOrder() {
           {/*    </select>*/ }
           {/*  </div>*/ }
           {/*</div>*/ }
-          {/*<div className="flex flex-col gap-5">*/ }
-          {/*  <h1>Lain Lain</h1>*/ }
-          {/*  <hr/>*/ }
-          {/*  <label htmlFor="">Item</label>*/ }
-          {/*  <input type="number" name="price" placeholder="Masukkan Jumlah Yang Di Pesan ..."*/ }
-          {/*         className={ input }*/ }
-          {/*  />*/ }
-          {/*  /!* Semisal Peroduct lain selain tahu bakso  */ }
-          {/*  <label htmlFor="">Total</label>*/ }
-          {/*  <input type="number" name="price" placeholder="Total Bayar..."*/ }
-          {/*         className={ input }*/ }
-          {/*  />*/ }
+
           {/* Total Keseluruhan dari Item lain-lain */ }
 
         </div>
@@ -669,22 +519,8 @@ export default function FormOrder() {
 
           {/* tulis sendiri */ }
 
-          <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" } reg={ register( "travel.ongkir" ) }/>
-
-          {/*<label htmlFor="">Ongkir</label>*/ }
-          {/*<input type="number" placeholder="Masukkan Harga Ongkir ..."*/ }
-          {/*       className="border border-gray-300 p-2 rounded-md"*/ }
-          {/*       { ...register( "ongkir" ) }*/ }
-          {/*/>*/ }
-          {/* total product tanpa ongkir   tapi di isi dengan product yang lain lain*/ }
-          {/*<label htmlFor="">Total Penjualan</label>*/ }
-          {/*<input type="number" name="price" placeholder="Masukan Total Bayar..."*/ }
-          {/*       className="border border-gray-300 p-2 rounded-md"*/ }
-          {/*/>*/ }
-          {/*<label htmlFor="">Total Bayar</label>*/ }
-          {/*<input type="number" name="price" placeholder="Enter Product name..."*/ }
-          {/*       className="border border-gray-300 p-2 rounded-md"*/ }
-          {/*/>*/ }
+          <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" }
+                     reg={ register( "travel.ongkir", { valueAsNumber: true } ) }/>
 
           <label htmlFor="">Lokasi</label>
           <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "keterangan.lokasi" )//lokasi
@@ -713,9 +549,8 @@ export default function FormOrder() {
             <option className={ SKirim } value="Kirim">Kirim</option>
             <option className={ SSelesai } value="Selesai"> Selesai</option>
           </select>
-
-
         </div>
+
         <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Add Product</button>
 
 
@@ -738,7 +573,7 @@ export default function FormOrder() {
       {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
       <form className="bg-green-100 sm:bg-green-50 " onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-row gap-1 sm:gap-3 mt-5">
-          <div className={ fomIsi }>
+          <div className={ fomIsi }>f
             <Nama/>
             <Tanggal/>
           </div>
@@ -747,6 +582,7 @@ export default function FormOrder() {
           </div>
         </div>
       </form>
+      <p>{ errors.semuaProduct?.root?.message }</p>
       <TableOrder data={ data } onCreate={ onCreate }/>
 
     </>

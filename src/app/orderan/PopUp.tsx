@@ -66,10 +66,12 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                   <Card variant="gradient" color="blue"
                         className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
                     <Typography color="white">
-                      Kode : { data.orang.penerima.slice( 0, 2 ) + "/" +
-                      data.orang.hpPenerima.slice( 0, 2 ) + "/" +
-                      data.orang.alamatPenerima.slice( 0, 2 ) + "/" +
-                      data.tanggal.pesan.toString().slice( 0, 2 ) }
+                      Kode : { data.orang.penerima
+                      // .slice( 0, 2 ) + "/" +
+                      // data.orang.hpPenerima.slice( 0, 2 ) + "/" +
+                      // data.orang.alamatPenerima.slice( 0, 2 ) + "/" +
+                      // data.tanggal.pesan.toString().slice( 0, 2 )
+                    }
                     </Typography>
                     <Typography color="white">Nama Penerima: { data.orang.penerima }</Typography>
                     <Typography color="white">Hp Penerima: { data.orang.hpPenerima }</Typography>
