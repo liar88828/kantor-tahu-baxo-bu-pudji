@@ -11,6 +11,7 @@ import { sProduct, TFormProduct } from '../../../entity/produk';
 import { DevTool } from "@hookform/devtools";
 import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import TableOrder from '@/app/orderan/TableOrder';
+import { createOrder } from '@/app/orderan/ress';
 
 type TOrderKeys = keyof TOrder['orang']
   | keyof TOrder['tanggal'] |
@@ -53,36 +54,9 @@ export default function FormOrder() {
     }
     ,
     // product
-    listOrderan: [
-      {
-        id: "Se/Or/TBVa/42",
-        nama: "Tahu Bakso Vakum",
-        harga: 46_000,
-        jumlah: 1,
-        lokasi: "Semarang",
-        jenis: "Orderan",
-      }
-    ],
-    listItem: [
-      {
-        id: "Se/Or/TBVa/42",
-        nama: "Tahu Bakso Vakum",
-        harga: 46_000,
-        jumlah: 1,
-        lokasi: "Ungaran",
-        jenis: "Item",
-      }
-    ],
-    semuaProduct: [
-      {
-        id: "Se/Or/TBVa/42",
-        nama: "Tahu Bakso Vakum",
-        harga: 46_000,
-        jumlah: 1,
-        lokasi: "Ungaran",
-        jenis: "Item",
-      }
-    ],
+    listOrderan: [],
+    listItem: [],
+    semuaProduct: [],
     keterangan: {
       guna: "",
       lokasi: "",
@@ -111,8 +85,29 @@ export default function FormOrder() {
   const { fields: fieldItem } = useFieldArray( { control, name: 'listItem', } );
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
 
-  valueForm.listItem.filter( j => j.jenis === "Item" )
-  // const cloneItem =structuredClone(filterItem)
+  // valueForm.semuaProduct.filter( j => j.jenis === "Item" )
+
+  const newProduct: TFormProduct[] = []
+  valueForm.listOrderan = newProduct
+  const newItem: TFormProduct[] = []
+  valueForm.listItem = newItem
+
+  const filterJenis = ( o: TFormProduct, a: string, array: TFormProduct[] ) => {
+    if( o.jenis === a ) {
+      const index = array.findIndex( ( item ) => item.id === o.id );
+      if( index === -1 ) {
+        array.push( o );
+      }
+      else {
+        array[ index ] = o;
+      }
+    }
+
+  }
+  valueForm.semuaProduct.forEach( ( o ) => {
+    filterJenis( o, "Orderan", newProduct )
+    filterJenis( o, "Item", newItem )
+  } );
 
   const semuaProduct: TFormProduct[] = [ ...valueForm.listOrderan, ...valueForm.listItem ]
   const mergeData = Object.assign( { semuaProduct }, valueForm )
@@ -174,14 +169,6 @@ export default function FormOrder() {
   // const mergeObject = Object.assign( { dataProduct: combineObject }, valueForm )
   // const cloneObject = structuredClone( mergeObject )
 
-  const createOrder = async () => {
-    const response = await fetch( "http://localhost:3000/api/orderan", {
-      method: "POST",
-      body: JSON.stringify( { valueForm } ),
-      headers: { "Content-Type": "application/json", }
-    } )
-    return response.json()
-  }
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => {
     setValueForm( data )
@@ -191,93 +178,14 @@ export default function FormOrder() {
       // Save it!
       console.log( 'Thing was saved to the database.', valueForm );
 
-      // const responseData = await createOrder()
-      // console.log( responseData )
+      const responseData = await createOrder( valueForm )
+      console.log( responseData )
     }
     else {
       // Do nothing!
       // console.log( 'Thing was not saved to the database.' );
     }
   }
-
-// const InputForm: React.FC<Props> = ( {
-//   tag: Tag = 'input', ...props
-// } ) => {
-//   const { title, type, reg } = props as {
-//     title: string,
-//     type: string,
-//     reg: TOrderKeys
-//   }
-//   return (
-//     <div className="flex flex-col ">
-//       <label className={ styleLabelForm }
-//              htmlFor="grid-password"> { title }</label>
-//       <input className={ StyleInputForm( salah ) }
-//              id="grid-first-name"
-//              type={ `${ type }` }
-//              placeholder={ `Nama ${ title }....` }
-//
-//              { ...register( reg ) }
-//       />
-//       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-//     </div>
-//   );
-// }
-// type Props = {
-//   tag?: keyof JSX.IntrinsicElements;
-// } & React.HTMLAttributes<HTMLOrSVGElement>;
-// function InputForm( { title, type, reg }: { title: string, type: string, req: any } ) {
-//   return (
-//     <div className="flex flex-col ">
-//       <label className={ styleLabelForm }
-//              htmlFor="grid-password"> { title }</label>
-//       <input className={ StyleInputForm( salah ) }
-//              id="grid-first-name"
-//              type={ type }
-//              placeholder={ `Nama ${ title }....` }
-//              { ...register( reg ) }
-//       />
-//       { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-//     </div>
-//   )
-// }
-// const InputForm: React.FC<InputFormProps> = ( {
-//   tag: Tag = 'input',
-//   title,
-//   type,
-//   reg
-// }: InputFormProps ): ReactElement => {
-//   const styleLabelForm = 'your-label-style-class';
-//   const StyleInputForm = 'your-input-style-class';
-//   const wrongInput = 'your-wrong-input-class';
-//   const salah = false; // Replace with the appropriate value
-//
-//   return (
-//     <div className="flex flex-col">
-//       <label className={ styleLabelForm } htmlFor="grid-password">
-//         { title }
-//       </label>
-//       { typeof Tag === 'string' ? (
-//         <input
-//           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
-//           id="grid-first-name"
-//           type={ type }
-//           placeholder={ `Nama ${ title }....` }
-//           { ...register( reg ) }
-//         />
-//       ) : (
-//         <Tag
-//           className={ `${ StyleInputForm } ${ salah ? wrongInput : '' }` }
-//           id="grid-first-name"
-//           type={ type }
-//           placeholder={ `Nama ${ title }....` }
-//           { ...register( reg ) }
-//         />
-//       ) }
-//       { salah && <p className={ wrongInput }>Please fill out this field.</p> }
-//     </div>
-//   );
-// };
 
   const InputForm: React.FC<InputFormProps> = (
     { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
@@ -289,15 +197,15 @@ export default function FormOrder() {
     // }
     // const ObjectDate = { value: "2012-3-23" }
 
-      let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Nama ${ title }....`, }
-      if( type ) ress = Object.assign( ress, { type } );
-      if( value ) ress = Object.assign( ress, { value } );
-      if( min ) ress = Object.assign( ress, { min } );
-      if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
+    let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Nama ${ title }....`, }
+    if( type ) ress = Object.assign( ress, { type } );
+    if( value ) ress = Object.assign( ress, { value } );
+    if( min ) ress = Object.assign( ress, { min } );
+    if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
 
-      // if( type == "date" ) {
-      //   ress = Object.assign( ObjectDate, normalValue );
-      // }
+    // if( type == "date" ) {
+    //   ress = Object.assign( ObjectDate, normalValue );
+    // }
 
       return (
         <div className="flex flex-col">
@@ -368,10 +276,11 @@ export default function FormOrder() {
 
   function Orderan() {
     const [ searchQuery, setSearchQuery ] = useState( '' );
-    const [ cart, setCart ] = useState<TFormProduct[]>( [] );
+    const [ cart, setCart ] = useState<TFormProduct[]>( valueForm.semuaProduct );
     const [ filteredItems, setFilteredItems ] = useState<TFormProduct[]>( sProduct );
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
     const [ selectedCategory, setSelectedCategory ] = useState( '' );
+    // let d:TFormProduct[] =[]
 
     // console.log( cart )
     const addToCart = ( item: TFormProduct ) => {
@@ -386,6 +295,10 @@ export default function FormOrder() {
     };
 
     const removeFromCart = ( item: TFormProduct ) => {
+      handleRemove( item )
+
+      // setValueForm((prevState) => prevState.semuaProduct)
+
       setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
       setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
     };
@@ -408,21 +321,20 @@ export default function FormOrder() {
       setFilteredItems( filtered );
     };
 
-    // const handleRemove = ( item: Item ) => {
-    //   removeItem( item );
-    // };
-    // const removeItem = ( item: TFormProduct ) => {
-    //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
-    // };
+    const handleRemove = ( item: TFormProduct ) => {
+      removeItem( item );
+    };
+    const removeItem = ( item: TFormProduct ) => {
+      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+    };
 
     // console.log( cariProduct || searchQuery.length < 1 ? "true" : "false" )
 
-    const SearchItemList = ( { items, addToCart, cart }: {
+    function SearchItemList( { items, addToCart, cart }: {
       items: TFormProduct[],
       addToCart: any,
       cart: TFormProduct[]
-    } ) => {
-
+    } ) {
       const isItemAdded = ( item: TFormProduct ) => {
         return cart.some( ( cartItem ) => cartItem.id === item.id );
       };
@@ -462,6 +374,7 @@ export default function FormOrder() {
       )
     }
 
+    // d= valueForm.semuaProduct.length === 0 ? cart : valueForm.semuaProduct
     return (
       <>
         <div className="flex flex-col gap-3">
@@ -475,7 +388,7 @@ export default function FormOrder() {
               <span className=" flex flex-row items-center px-2">
                 {/*<AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>*/ }
 
-              <span className="invisible sm:visible w-0 sm:w-auto">
+                <span className="invisible sm:visible w-0 sm:w-auto">
                       <span className={ "hidden md:hidden lg:block" }>
                         { !cariProduct
                           ? <AiOutlineCloseCircle/>
@@ -542,11 +455,7 @@ export default function FormOrder() {
 
                         <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                value={ item.id }
-                               { ...register(
-                                 item.jenis === "Orderan"
-                                   ? `listOrderan.${ index }.id`
-                                   : `listItem.${ index }.id`
-                               ) }
+                               { ...register( `semuaProduct.${ index }.id` ) }
                         />
                         <td className={ "hidden sm:block" }>
                           <span>Nama Produk </span></td>
@@ -554,20 +463,14 @@ export default function FormOrder() {
                           { item.nama }
                           <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                  value={ item.nama }
-                                 { ...register(
-                                   item.jenis === "Orderan"
-                                     ? `listOrderan.${ index }.nama`
-                                     : `listItem.${ index }.nama`
-                                 ) }
+                                 { ...register( `semuaProduct.${ index }.nama` ) }
+
                           />
 
                           <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                  value={ item.img }
-                                 { ...register(
-                                   item.jenis === "Orderan"
-                                     ? `listOrderan.${ index }.img`
-                                     : `listItem.${ index }.img`
-                                 ) }
+                                 { ...register( `semuaProduct.${ index }.img` ) }
+
                           />
                         </td>
                       </tr>
@@ -576,11 +479,9 @@ export default function FormOrder() {
                           <span>Harga </span></td>
                         <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
                           <input type={ 'hidden' }
-                                 value={ item.harga }{ ...register(
-                            item.jenis === "Orderan"
-                              ? `listOrderan.${ index }.harga`
-                              : `listItem.${ index }.harga`
-                          ) }
+                                 value={ item.harga }
+                                 { ...register( `semuaProduct.${ index }.harga` ) }
+
                           />
                         </td>
                       </tr>
@@ -590,11 +491,10 @@ export default function FormOrder() {
                           <span>Jenis </span></td>
                         <td className={ "text-sm sm:text-base" }>{ item.jenis }
                           <input type={ 'hidden' }
-                                 value={ item.jenis } { ...register(
-                            item.jenis === "Orderan"
-                              ? `listOrderan.${ index }.jenis`
-                              : `listItem.${ index }.jenis`
-                          ) }/>
+                                 value={ item.jenis }
+                                 { ...register( `semuaProduct.${ index }.jenis` ) }
+
+                          />
                         </td>
 
                       </tr>
@@ -610,11 +510,8 @@ export default function FormOrder() {
                         <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }
                                min={ 1 }
                                defaultValue={ 1 }
-                               { ...register(
-                                 item.jenis == "Orderan"
-                                   ? `listOrderan.${ index }.jumlah`
-                                   : `listItem.${ index }.jumlah`
-                               ) }
+                               { ...register( `semuaProduct.${ index }.jumlah` ) }
+
                         />
                       </label>
 
