@@ -237,12 +237,12 @@ export default function FormOrder() {
 
   function Orderan() {
     const [ searchQuery, setSearchQuery ] = useState( '' );
-    const [ cart, setCart ] = useState<TFormProduct[]>( fields );
-    const [ filteredItems, setFilteredItems ] = useState<TFormProduct[]>( sProduct );
+    const [ cart, setCart ] = useState<TOrder["semuaProduct"]>( fields );
+    const [ filteredItems, setFilteredItems ] = useState<TOrder["semuaProduct"]>( sProduct );
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
 
     const addToCart = ( item: TFormProduct ) => {
-      const isItemInCart = cart.some( ( cartItem ) => cartItem.id === item.id );
+      const isItemInCart = semuaProduct.some( ( cartItem ) => cartItem.id === item.id );
       if( isItemInCart ) {
         alert( `Item "${ item.nama }" is already in the cart.` );
         setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
@@ -275,6 +275,7 @@ export default function FormOrder() {
       setFilteredItems( filtered );
     };
 
+    //-----------------------------------------------search
     function SearchItemList( { items, addToCart, cart }: {
       items: TFormProduct[], addToCart: any, cart: TFormProduct[]
     } ) {
@@ -291,28 +292,32 @@ export default function FormOrder() {
                 fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
               } }
               key={ item.id }>
+
               <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
+
               <p className={ "flex flex-col" }>
                 <span className={ "text-sm sm:text-base" }>{ item.nama }</span>
                 <span className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
                 <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
               </p>
 
-              <button type={ "button" } onClick={ () => {
-                append(
-                  {
-                    id: item.id,
-                    nama: item.nama,
-                    harga: item.harga,
-                    lokasi: item.lokasi,
-                    jumlah: 1,
-                    jenis: item.jenis,
-                    img: item.img,
-                  }
-                )
-                addToCart( item )
-              } }
-                      className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+              <button
+                type={ "button" }
+                onClick={ () => {
+                  append(
+                    {
+                      id: item.id,
+                      nama: item.nama,
+                      harga: item.harga,
+                      lokasi: item.lokasi,
+                      jumlah: 1,
+                      jenis: item.jenis,
+                      img: item.img,
+                    }
+                  )
+                  addToCart( item )
+                } }
+                className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
                 <BiAddToQueue/>
                 <span className="invisible sm:visible w-0 sm:w-auto">  Add
                       <span className={ "sm:hidden" }>to Cart</span>
@@ -351,8 +356,8 @@ export default function FormOrder() {
                    type="text"
                    value={ searchQuery }
                    placeholder={ " Cari Product" }
-                   onChange={ handleSearchChange }/>
-
+                   onChange={ handleSearchChange }
+                   onClick={ () => {setCariProduct( false )} }/>
           </div>
           {/*!-------------------------------------------------cariProduct----------------------------*/ }
 
@@ -378,50 +383,33 @@ export default function FormOrder() {
 
                     <table className={ "border-transparent" }>
                       <tbody className={ "border-transparent" }>
+
                       <tr>
-
-
                         <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                               value={ item.id }
-                               { ...register( `semuaProduct.${ index }.id` ) }
-                        />
-                        <td className={ "hidden sm:block" }>
-                          <span>Nama Produk </span></td>
-                        <td className={ "text-sm sm:text-base" }>
-                          { item.nama }
-                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                                 value={ item.nama }
-                                 { ...register( `semuaProduct.${ index }.nama` ) }
-
-                          />
+                               value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
+                        <td className={ "hidden sm:block" }><span>Nama Produk </span></td>
+                        <td className={ "text-sm sm:text-base" }>{ item.nama }
 
                           <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                                 value={ item.img }
-                                 { ...register( `semuaProduct.${ index }.img` ) }
+                                 value={ item.nama }{ ...register( `semuaProduct.${ index }.nama` ) }/>
 
-                          />
+                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                                 value={ item.img }{ ...register( `semuaProduct.${ index }.img` ) }/>
                         </td>
                       </tr>
+
                       <tr>
-                        <td className={ "hidden sm:block" }>
-                          <span>Harga </span></td>
+                        <td className={ "hidden sm:block" }><span>Harga </span></td>
                         <td className={ "text-sm sm:text-base" }> { Rupiah( item.harga ) }
                           <input type={ 'hidden' }
-                                 value={ item.harga }
-                                 { ...register( `semuaProduct.${ index }.harga` ) }
-
-                          />
+                                 value={ item.harga }{ ...register( `semuaProduct.${ index }.harga` ) }/>
                         </td>
                       </tr>
 
                       <tr>
-                        <td className={ "hidden sm:block" }>
-                          <span>Jenis </span></td>
-                        <td className={ "text-sm sm:text-base" }>{ item.jenis }
-                          <input type={ 'hidden' }
-                                 value={ item.jenis }
-                                 { ...register( `semuaProduct.${ index }.jenis` ) }
-                          />
+                        <td className={ "hidden sm:block" }><span>Jenis </span></td>
+                        <td className={ "text-sm sm:text-base" }>{ item.jenis }<input type={ 'hidden' }
+                                                                                      value={ item.jenis }{ ...register( `semuaProduct.${ index }.jenis` ) }/>
                         </td>
 
                       </tr>
@@ -435,8 +423,7 @@ export default function FormOrder() {
                       <label>
                         <span className={ "hidden sm:block" }>Jumlah</span>
                         <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }
-                               min={ 1 }
-                               defaultValue={ 1 }
+                               min={ 1 } defaultValue={ 1 }
                                { ...register( `semuaProduct.${ index }.jumlah`, { valueAsNumber: true } ) }
 
                         />
@@ -506,7 +493,8 @@ export default function FormOrder() {
 
           {/* combo box  */ }
           <label htmlFor="">Ekspedisi</label>
-          <select id="ekspedisi" className='border border-gray-300 p-2 rounded-md'{ ...register( "travel.ekspedisi" ) }>
+          <select id="ekspedisi"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "travel.ekspedisi" ) }>
             <option value="Paxel">Paxel</option>
             <option value="JNE">JNE</option>
             <option value="Travel Omega">Travel Omega</option>
