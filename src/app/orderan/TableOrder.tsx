@@ -8,7 +8,7 @@ import { PopUp } from '@/app/orderan/PopUp';
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );
   const { data }: { data: TotalOrderan } = props
-  console.info( data )
+  // console.info( data )
   // if( data?.Product.length > 0 ) {
   //   // console.log("filter jenis" )
   //   for( let i = 0; i < data?.Product.length; i++ ) {
@@ -22,7 +22,7 @@ function TableOrder( props: any ) {
   // }
   // const data2 = { ...data.listItem, ...data.listOrderan }
 
-  console.log( data )
+  // console.log( data )
 
   const Jumlah: React.FC<{ d: TFormProduct[] }> = ( { d } ) => {
     return (
@@ -35,8 +35,7 @@ function TableOrder( props: any ) {
       </>
     );
   };
-  console.log(
-    Status( data.total.status ) )
+  // console.log( Status( data.total.status ) )
 
   const KeteranganProduct: React.FC<{ d: TFormProduct[], k: string, t: string }> = ( { d, k, t } ) => {
     // console.log(d,"asdasd")

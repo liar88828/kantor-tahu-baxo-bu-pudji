@@ -21,7 +21,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
   onCreate: () => Promise<void>
   data: TotalOrderan
 } ) {
-  console.log( data )
+  // console.log( data )
   return (
     <Fragment>
       <Button
@@ -64,7 +64,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
               <div className="px-10 py-5 space-y-6">
                 <div className="  flex gap-5 flex-col sm:flex-row">
                   <Card variant="gradient" color="blue"
-                        className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-2">
+                        className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
                     <Typography color="white">
                       Kode : { data.orang.penerima.slice( 0, 2 ) + "/" +
                       data.orang.hpPenerima.slice( 0, 2 ) + "/" +
@@ -83,7 +83,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                   <Card
                     variant="gradient"
                     color="blue"
-                    className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-2">
+                    className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-5">
                     <Typography color="white">Lokasi : { data.keterangan.lokasi }</Typography>
                     <Typography color="white">Travel Pengirim : { data.orang.pengirim }</Typography>
                     <Typography color="white">Ekspedisi : { data.travel.ekspedisi }</Typography>

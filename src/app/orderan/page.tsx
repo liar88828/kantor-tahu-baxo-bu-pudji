@@ -73,6 +73,16 @@ export default function FormOrder() {
         jenis: "Item",
       }
     ],
+    semuaProduct: [
+      {
+        id: "Se/Or/TBVa/42",
+        nama: "Tahu Bakso Vakum",
+        harga: 46_000,
+        jumlah: 1,
+        lokasi: "Ungaran",
+        jenis: "Item",
+      }
+    ],
     keterangan: {
       guna: "",
       lokasi: "",
@@ -120,6 +130,7 @@ export default function FormOrder() {
       }
     }
   }
+
   // console.log(valueForm)
   // const data = Object.assign( { dataProduct: dataProduct }, valueForm )
   // console.log( filterItem, "filter item" )
@@ -147,7 +158,7 @@ export default function FormOrder() {
 // //data yang sudah di process
   const dataBaru: TotalOrderan = Object.assign( { hitung }, mergeData )
   const data = dataBaru
-  // console.log( data )
+  console.log( data )
 
   // console.log( semuaHargaOrderan, "harga orderan" )
   // console.log( semuaHargaItem, "harga Item" )
@@ -404,7 +415,7 @@ export default function FormOrder() {
     //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
     // };
 
-    console.log( cariProduct || searchQuery.length < 1 ? "true" : "false" )
+    // console.log( cariProduct || searchQuery.length < 1 ? "true" : "false" )
 
     const SearchItemList = ( { items, addToCart, cart }: {
       items: TFormProduct[],
@@ -527,6 +538,16 @@ export default function FormOrder() {
                     <table className={ "border-transparent" }>
                       <tbody className={ "border-transparent" }>
                       <tr>
+
+
+                        <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                               value={ item.id }
+                               { ...register(
+                                 item.jenis === "Orderan"
+                                   ? `listOrderan.${ index }.id`
+                                   : `listItem.${ index }.id`
+                               ) }
+                        />
                         <td className={ "hidden sm:block" }>
                           <span>Nama Produk </span></td>
                         <td className={ "text-sm sm:text-base" }>

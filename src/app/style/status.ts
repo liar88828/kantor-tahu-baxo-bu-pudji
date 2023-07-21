@@ -18,7 +18,7 @@ export const Status = ( s: string ): string => {
       ? SProcess : ( s === "Kirim" )
         ? SKirim : SSelesai
 
-  console.log( kembali )
+  // console.log( kembali )
 
   return kembali
 }

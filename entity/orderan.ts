@@ -2,8 +2,17 @@ import { TFormProduct } from './produk';
 
 export type TOrder = {
 // Product
-  listOrderan: TFormProduct[]
-  listItem: TFormProduct[]
+//   newValue: {
+  listOrderan: TFormProduct[ ]
+  listItem: TFormProduct[ ]
+  semuaProduct: TFormProduct[ ]
+  // }
+
+  // oldValue: {
+  //   listOrderan: TFormProduct[ ]
+  //   listItem: TFormProduct[ ]
+  //   semuaProduct: TFormProduct[ ]
+  // }
   // waktu
   tanggal: {
     pesan: Date | string
@@ -42,8 +51,6 @@ export type TOrder = {
   }
 }
 
-export type TSemuaProduct = { semuaProduct: TFormProduct[] }
-
 export  type Thitung = {
   semuaHargaOrderan: number,
   semuaHargaItem: number,
@@ -80,6 +87,14 @@ export const formInput: TOnlyKey = {
   ],
 
   listItem: [ {
+    id: "Se/Or/TBSp/42",
+    nama: "Tahu Bakso Rebus",
+    harga: 42_000,
+    lokasi: "Ungaran",
+    jenis: "Item"
+  },
+  ],
+  semuaProduct: [ {
     id: "Se/Or/TBSp/42",
     nama: "Tahu Bakso Rebus",
     harga: 42_000,

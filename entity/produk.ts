@@ -107,3 +107,40 @@ export const sProduct: TFormProduct[] = [
   }
 
 ]
+
+{/*  <div className="flex flex-col">*/
+}
+{/*    <label htmlFor="">Orderan</label>*/
+}
+{/*    <select name="orderan" id="orderan"*/
+}
+{/*            className='border border-gray-300 p-2 rounded-md'>*/
+}
+{/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/
+}
+{/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/
+}
+{/*      <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>*/
+}
+{/*      <option value="Tahu Bakso Goreng">Tahu Bakso Goreng Rp.45.000</option>*/
+}
+{/*      <option value="Bandeng Presto">Bandeng Presto Rp.60.000</option>*/
+}
+{/*      <option value="Otak-Otak Bandeng">Otak-Otak Bandeng Rp.70.000</option>*/
+}
+{/*      <option value="Bakso Sapi 20">Bakso Sapi 20 Rp.40.000</option>*/
+}
+{/*      <option value="Bakso Sapi 12">Bakso Sapi 12 Rp.25.000</option>*/
+}
+{/*      <option value="Bakso Aneka">Bakso Aneka Rp.29.000</option>*/
+}
+{/*      <option value="Nugget">Nugget Rp.27.000</option>*/
+}
+{/*      <option value="Rolade Tahu">Rolade Tahu Rp.19.000</option>*/
+}
+{/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/
+}
+{/*    </select>*/
+}
+{/*  </div>*/
+}
