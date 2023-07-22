@@ -1,6 +1,8 @@
 import { TFormProduct } from './produk';
 import React from 'react';
 
+export type Props = { tag?: keyof JSX.IntrinsicElements; } & React.HTMLAttributes<HTMLOrSVGElement>;
+
 type TOrderKeys =
   keyof TOrder['orang']
   | keyof TOrder['tanggal']
@@ -19,13 +21,12 @@ export interface InputFormProps {
 }
 
 export type TOrder = {
-
   listOrderan: TFormProduct[ ]
   listItem: TFormProduct[ ]
   semuaProduct: TFormProduct[ ]
 
 
-
+//waktu
   tanggal: {
     pesan: Date | string
     kirim: Date | string
@@ -41,7 +42,7 @@ export type TOrder = {
     hpPenerima: string
   }
 
-//keterangan
+// keterangan
   keterangan: {
     guna: string
     lokasi: string

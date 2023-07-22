@@ -13,7 +13,6 @@ import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import TableOrder from '@/app/orderan/TableOrder';
 import { createOrder } from '@/app/orderan/ress';
 
-
 export default function FormOrder() {
 
   const defaultValues: TOrder = {
@@ -70,8 +69,6 @@ export default function FormOrder() {
     name: "semuaProduct",
     rules: { required: "Please append at last 1 ", }
   } );
-
-
 
   const newProduct: TFormProduct[] = []
   const newItem: TFormProduct[] = []
@@ -154,7 +151,7 @@ export default function FormOrder() {
 
   const InputForm: React.FC<InputFormProps> = (
       { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
-    let ress = { className: `${ StyleInputForm( false ) }`, placeholder: `Masukan ${ title }....`, }
+      let ress = { className: `${ StyleInputForm( false ) }`, placeholder: `Masukan ${ title }....`, }
       if( type ) ress = Object.assign( ress, { type } );
       if( value ) ress = Object.assign( ress, { value } );
       if( min ) ress = Object.assign( ress, { min } );
@@ -307,6 +304,56 @@ export default function FormOrder() {
       )
     }
 
+    function Keterangan() {
+      return (
+        <div className={ "flex flex-col gap-3" }>
+
+          {/* combo box  */ }
+          <label htmlFor="">Ekspedisi</label>
+          <select id="ekspedisi"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "travel.ekspedisi" ) }>
+            <option value="Paxel">Paxel</option>
+            <option value="JNE">JNE</option>
+            <option value="Travel Omega">Travel Omega</option>
+            <option value="Travel Serasi">Travel Serasi</option>
+            <option value="Go Send">Go Send</option>
+            <option value="Maxim">Maxim</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+
+          {/* tulis sendiri */ }
+          <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
+                     reg={ register( "travel.ongkir", { valueAsNumber: true } ) }/>
+          <label htmlFor="">Lokasi</label>
+          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "keterangan.lokasi" )//lokasi
+          }>
+            <option value="Ungaran">Ungaran</option>
+            <option value="Semarang">Semarang</option>
+          </select>
+
+          {/* jenis Pembayaran */ }
+          <label htmlFor="">Pembayaran</label>
+          <select id="pembayaran"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.typePembayaran" ) }>
+            <option value="Cash">Cash</option>
+            <option value="BCA">BCA</option>
+            <option value="Mandiri">Mandiri</option>
+            <option value="BRI">BRI</option>
+          </select>
+
+          <label htmlFor="">Status</label>
+          <select id="pembayaran"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.status" ) }>
+            {/*/status/*/ }
+            <option className={ SDiTerima } value="Di Terima">Di Terima</option>
+            <option className={ SProcess } value='Di Proses'>Di Proses</option>
+            <option className={ SKirim } value="Di Kirim">Di Kirim</option>
+            <option className={ SSelesai } value="Selesai"> Selesai</option>
+          </select>
+        </div>
+      )
+    }
+
     return (
       <>
         {/*------------------------------------SEARCH ---------------------------------*/ }
@@ -455,54 +502,9 @@ export default function FormOrder() {
           {/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/ }
 
         </div>
+        {/*----------------------Keterangan---------------------------------*/ }
         <hr className={ "m-2" }/>
-        <div className={ "flex flex-col gap-3" }>
-
-          {/* combo box  */ }
-          <label htmlFor="">Ekspedisi</label>
-          <select id="ekspedisi"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "travel.ekspedisi" ) }>
-            <option value="Paxel">Paxel</option>
-            <option value="JNE">JNE</option>
-            <option value="Travel Omega">Travel Omega</option>
-            <option value="Travel Serasi">Travel Serasi</option>
-            <option value="Go Send">Go Send</option>
-            <option value="Maxim">Maxim</option>
-            <option value="Delivery">Delivery</option>
-          </select>
-
-          {/* tulis sendiri */ }
-
-          <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
-                     reg={ register( "travel.ongkir", { valueAsNumber: true } ) }/>
-
-          <label htmlFor="">Lokasi</label>
-          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "keterangan.lokasi" )//lokasi
-          }>
-            <option value="Ungaran">Ungaran</option>
-            <option value="Semarang">Semarang</option>
-          </select>
-
-          {/* jenis Pembayaran */ }
-          <label htmlFor="">Pembayaran</label>
-          <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.typePembayaran" ) }>
-            <option value="Cash">Cash</option>
-            <option value="BCA">BCA</option>
-            <option value="Mandiri">Mandiri</option>
-            <option value="BRI">BRI</option>
-          </select>
-
-          <label htmlFor="">Status</label>
-          <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.status" ) }>
-            {/*/status/*/ }
-            <option className={ SDiTerima } value="Di Terima">Di Terima</option>
-            <option className={ SProcess } value='Proses'>Proses</option>
-            <option className={ SKirim } value="Kirim">Kirim</option>
-            <option className={ SSelesai } value="Selesai"> Selesai</option>
-          </select>
-        </div>
+        <Keterangan/>
 
         <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Add Product</button>
       </>
