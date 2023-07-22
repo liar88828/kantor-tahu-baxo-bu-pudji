@@ -8,46 +8,6 @@ export type TFormProduct = {
   img?: string
 }
 
-const productList: TFormProduct[] = [
-  {
-    id: "Un/It/TBRe/42",
-    nama: "Tahu Bakso Rebus",
-    harga: 42_000,
-    lokasi: "Ungaran",
-    jumlah: 1,
-    jenis: "Item",
-    img: "product_image.jpg"
-  }
-  ,
-  {
-    id: "Se/Or/TBVa/42",
-    nama: "Tahu Bakso Vakum",
-    harga: 46_000,
-    lokasi: "Semarang",
-    jenis: "Orderan",
-    jumlah: 1,
-    img: "product_image.jpg"
-  },
-  {
-    id: "Se/Or/TBSp/42",
-    nama: "Tahu Bakso Special",
-    harga: 50_000,
-    lokasi: "Semarang",
-    jenis: "Orderan",
-    jumlah: 1,
-    img: "product_image.jpg"
-  },
-  {
-    id: "Un/It/TBGo/42",
-    nama: "Tahu Bakso Goreng",
-    harga: 45_000,
-    lokasi: "Ungaran",
-    jenis: "Item",
-    jumlah: 1,
-    img: "product_image.jpg"
-  }
-
-]
 
 //
 // const product = [

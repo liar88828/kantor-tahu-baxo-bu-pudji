@@ -1,83 +1,115 @@
 "use client"
-// UserForm.tsx
-import React from 'react';
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+// SearchForm.tsx
+import React, { useState } from 'react';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+
+interface SearchCriterion {
+  field: string;
+  operator: string;
+  searchTerm: string;
+}
 
 interface FormData {
-  users: User[];
+  searchCriteria: SearchCriterion[];
 }
 
-interface User {
-  name: string;
-  age: number;
-}
-
-const initialData: User[] = [
-  { name: 'John', age: 30 },
-  { name: 'Jane', age: 25 },
-];
-
-const UserForm: React.FC = () => {
+const SearchForm: React.FC = () => {
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>( {
-    defaultValues: { users: initialData },
+    defaultValues: {
+      searchCriteria: [ { field: '', operator: '', searchTerm: '' } ],
+    },
   } );
+
+  const [ externalData, setExternalData ] = useState<SearchCriterion[]>( [] );
 
   const { fields, append, remove } = useFieldArray<FormData>( {
     control,
-    name: 'users',
+    name: 'searchCriteria',
   } );
 
-  // Form submission handler
+  // Form submission handler with custom validation
   const onSubmit = ( data: FormData ) => {
-    // Perform form submission logic here
-    console.log( 'Form submitted with data:', data );
-  };
+    // Perform custom validation
+    const uniqueFields = new Set<string>();
+    let hasDuplicate = false;
 
+    data.searchCriteria.forEach( ( criterion ) => {
+      if( uniqueFields.has( criterion.field ) ) {
+        hasDuplicate = true;
+      }
+      else {
+        uniqueFields.add( criterion.field );
+        setExternalData( [ ...externalData, ...data.searchCriteria ] );
+
+      }
+    } );
+
+    if( hasDuplicate ) {
+      // If there are duplicate fields, show an error message
+      alert( 'Field values must be different and cannot have the same value.' );
+    }
+    else {
+      // Perform search logic here
+      console.log( 'Search Criteria:', data.searchCriteria );
+    }
+  };
   return (
     <form onSubmit={ handleSubmit( onSubmit ) }>
       <div>
         { fields.map( ( item, index ) => (
           <div key={ item.id }>
             <Controller
-              name={ `users.${ index }.name` }
+              name={ `searchCriteria.${ index }.field` }
               control={ control }
-              defaultValue={ item.name || '' }
-              rules={ { required: 'Name is required' } }
+              defaultValue={ item.field || '' }
+              rules={ { required: 'Field is required' } }
               render={ ( { field } ) => (
-                <input type="text" { ...field } />
+                <input type="text" placeholder="Field" { ...field } />
               ) }
             />
             <Controller
-              name={ `users.${ index }.age` }
+              name={ `searchCriteria.${ index }.operator` }
               control={ control }
-              defaultValue={ item.age || 0 }
-              rules={ { required: 'Age is required', min: 0 } }
+              defaultValue={ item.operator || '' }
+              rules={ { required: 'Operator is required' } }
               render={ ( { field } ) => (
-                <input type="number" { ...field } />
+                <input type="text" placeholder="Operator" { ...field } />
+              ) }
+            />
+            <Controller
+              name={ `searchCriteria.${ index }.searchTerm` }
+              control={ control }
+              defaultValue={ item.searchTerm || '' }
+              rules={ { required: 'Search term is required' } }
+              render={ ( { field } ) => (
+                <input type="text" placeholder="Search Term" { ...field } />
               ) }
             />
             <button type="button" onClick={ () => remove( index ) }>
               Remove
             </button>
-            { errors.users && errors.users[ index ] && (
+            { errors.searchCriteria && errors.searchCriteria[ index ] && (
               <div>
-                { errors.users[ index ]?.name && (
-                  <p>{ errors.users[ index ]?.name?.message }</p>
+                { errors.searchCriteria[ index ]?.field && (
+                  <p>{ errors.searchCriteria[ index ]?.field?.message }</p>
                 ) }
-                { errors.users[ index ]?.age && (
-                  <p>{ errors.users[ index ]?.age?.message }</p>
+                { errors.searchCriteria[ index ]?.operator && (
+                  <p>{ errors.searchCriteria[ index ]?.operator?.message }</p>
+                ) }
+                { errors.searchCriteria[ index ]?.searchTerm && (
+                  <p>{ errors.searchCriteria[ index ]?.searchTerm?.message }</p>
                 ) }
               </div>
             ) }
           </div>
         ) ) }
       </div>
-      <button type="button" onClick={ () => append( { name: '', age: 0 } ) }>
-        Add User
+      <button type="button" onClick={ () => append( { field: '', operator: '', searchTerm: '' } ) }>
+        Add Search Criterion
       </button>
-      <button type="submit">Submit</button>
+      <button type="submit">Search</button>
     </form>
   );
 };
 
-export default UserForm;
+export default SearchForm;

@@ -23,7 +23,6 @@ type Props = { tag?: keyof JSX.IntrinsicElements; } & React.HTMLAttributes<HTMLO
 
 export default function FormOrder() {
   const [ salah, setSalah ] = useState( false );
-  const [ count, setCount ] = useState<number>( 1 );
 
   const defaultValues: TOrder = {
     //data orang
@@ -47,6 +46,7 @@ export default function FormOrder() {
     listOrderan: [],
     listItem: [],
     semuaProduct: [],
+
     keterangan: {
       guna: "",
       lokasi: "",
@@ -76,7 +76,7 @@ export default function FormOrder() {
     control,
     name: "semuaProduct",
     rules: {
-      required: "Please appent at last 1 ",
+      required: "Please append at last 1 ",
     }
   } );
 
@@ -119,6 +119,7 @@ export default function FormOrder() {
         delete mergeData.semuaProduct[ i ]
       }
     }
+    // if(  )
   }
 
   // console.log(valueForm)
@@ -148,7 +149,7 @@ export default function FormOrder() {
 // //data yang sudah di process
   const dataBaru: TotalOrderan = Object.assign( { hitung }, mergeData )
   const data = dataBaru
-  console.log( data )
+  // console.log( data )
 
   // console.log( semuaHargaOrderan, "harga orderan" )
   // console.log( semuaHargaItem, "harga Item" )
@@ -182,7 +183,7 @@ export default function FormOrder() {
 
   const InputForm: React.FC<InputFormProps> = (
       { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
-      let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Nama ${ title }....`, }
+    let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Masukan ${ title }....`, }
       if( type ) ress = Object.assign( ress, { type } );
       if( value ) ress = Object.assign( ress, { value } );
       if( min ) ress = Object.assign( ress, { min } );
@@ -238,28 +239,35 @@ export default function FormOrder() {
   function Orderan() {
     const [ searchQuery, setSearchQuery ] = useState( '' );
     const [ cart, setCart ] = useState<TOrder["semuaProduct"]>( fields );
-    const [ filteredItems, setFilteredItems ] = useState<TOrder["semuaProduct"]>( sProduct );
+    const [ filteredItems, setFilteredItems ] = useState<TOrder["semuaProduct"]>( fields );
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
 
     const addToCart = ( item: TFormProduct ) => {
-      const isItemInCart = semuaProduct.some( ( cartItem ) => cartItem.id === item.id );
+      console.log( fields, "add 1" )
+      const isItemInCart = fields.some( ( cartItem ) => cartItem.nama === item.nama );
+
       if( isItemInCart ) {
         alert( `Item "${ item.nama }" is already in the cart.` );
-        setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
+        setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.nama !== item.nama ) );
+        remove( fields.length )
         return;
       }
       setCart( ( prevCart ) => [ ...prevCart, item ] );
-      setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.id !== item.id ) );
+      setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.nama !== item.nama ) );
+      console.log( fields, "add 2" )
     };
 
     const removeItem = ( item: TFormProduct ) => {
-      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
     };
 
-    const removeFromCart = ( item: TFormProduct ) => {
-      removeItem( item )
-      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.id !== item.id ) );
+    const removeFromCart = ( item: TFormProduct, id: string ) => {
+      console.log( fields, "remove 1" )
+      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
       setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
+      valueForm.listItem.filter( dataItem => dataItem.nama !== item.nama )
+      valueForm.listOrderan.filter( dataItem => dataItem.nama !== item.nama )
+      console.log( fields, "remove 2" )
     };
 
     const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
@@ -279,19 +287,18 @@ export default function FormOrder() {
     function SearchItemList( { items, addToCart, cart }: {
       items: TFormProduct[], addToCart: any, cart: TFormProduct[]
     } ) {
-      const isItemAdded = ( item: TFormProduct ) => {
-        return cart.some( ( cartItem ) => cartItem.id === item.id );
-      };
+      const isItemAdded = ( item: TFormProduct ) => cart.some( ( cartItem ) => cartItem.nama === item.nama )
 
       return (
         <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
           { items.map( ( item: TFormProduct, index: number ) => ( <li
-              className={ " p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white" }
+              className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden" : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
               style={ {
                 backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
                 fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
-              } }
-              key={ item.id }>
+                visibility: isItemAdded( item ) ? 'hidden' : 'visible',
+
+              } } key={ item.id }>
 
               <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
 
@@ -331,8 +338,9 @@ export default function FormOrder() {
 
     return (
       <>
+        {/*------------------------------------SEARCH ---------------------------------*/ }
         <div className="flex flex-col gap-3">
-          {/*<h1>Product Search</h1>*/ }
+          {/*<h1Product Search</h1>*/ }
           <div className="flex flex-row  gap-1 sm:gap-7">
 
             <button type={ 'button' }
@@ -340,16 +348,10 @@ export default function FormOrder() {
                     onClick={ () => {setCariProduct( !cariProduct )} }>
 
               <span className=" flex flex-row items-center px-2">
-                {/*<AiOutlineSearch className={ "w-[100%] md:w-[90%]   h-auto " }/>*/ }
-
-                <span className="invisible sm:visible w-0 sm:w-auto">
-                      <span className={ "hidden md:hidden lg:block" }>
-                        { !cariProduct
-                          ? <AiOutlineCloseCircle/>
-                          : <AiOutlineSearch/> }
-                      </span>
-              </span>
-              </span>
+                <span className="invisible sm:visible w-0 sm:w-auto"><span
+                  className={ "hidden md:hidden lg:block" }>
+                  { !cariProduct ? <AiOutlineCloseCircle/> : <AiOutlineSearch/> }
+                </span></span></span>
             </button>
 
             <input className={ StyleInputForm( false ) + "rounded leading-tight w-[80%] " }
@@ -367,11 +369,13 @@ export default function FormOrder() {
             <SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>
           </div>
 
-          {/*----------------------------------------------- -CART LIST----------------------*/ }
+          {/*----------------------------------------------- -CART LIST-------------------------------------*/ }
 
           <div className="flex flex-col gap-1" onClick={ () => setCariProduct( true ) }>
             {/*<h2>Cart</h2>*/ }
             <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
+
+              {/*--------------------------------------------------------loop-------------------------*/ }
               { fields.map( ( item: TFormProduct, index: number ) => {
                 return ( <li
                   className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
@@ -379,14 +383,15 @@ export default function FormOrder() {
                   <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }
                     // w-[20%] h-auto
                   />
+
+                  <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                         value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
                   <div className=" flex flex-col">
 
                     <table className={ "border-transparent" }>
                       <tbody className={ "border-transparent" }>
 
                       <tr>
-                        <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                               value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
                         <td className={ "hidden sm:block" }><span>Nama Produk </span></td>
                         <td className={ "text-sm sm:text-base" }>{ item.nama }
 
@@ -408,11 +413,13 @@ export default function FormOrder() {
 
                       <tr>
                         <td className={ "hidden sm:block" }><span>Jenis </span></td>
-                        <td className={ "text-sm sm:text-base" }>{ item.jenis }<input type={ 'hidden' }
-                                                                                      value={ item.jenis }{ ...register( `semuaProduct.${ index }.jenis` ) }/>
+                        <td className={ "text-sm sm:text-base" }>{ item.jenis }
+                          <input
+                            type={ 'hidden' }
+                            value={ item.jenis }{ ...register( `semuaProduct.${ index }.jenis` ) }/>
                         </td>
-
                       </tr>
+
                       </tbody>
                     </table>
                   </div>
@@ -425,7 +432,6 @@ export default function FormOrder() {
                         <input type={ "number" } className={ " border-gray-200 border w-[100%]  sm:w-[80%]" }
                                min={ 1 } defaultValue={ 1 }
                                { ...register( `semuaProduct.${ index }.jumlah`, { valueAsNumber: true } ) }
-
                         />
                       </label>
 
@@ -441,14 +447,16 @@ export default function FormOrder() {
                       <button
                         type={ "button" }
                         onClick={ () => {
-                          removeFromCart( item )
+                          console.log( fields, "remove 3" )
+                          removeFromCart( item, item.id )
                           remove( index )
+
+                          console.log( fields, "remove 4" )
                         } }
                         className={ "bg-red-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
                         <BiAddToQueue/>
                         <span className="hidden sm:block w-0 sm:w-auto">Hapus</span>
                       </button>
-
                     </div>
                   </div>
 
@@ -462,10 +470,7 @@ export default function FormOrder() {
               )
               }
             </ul>
-
-
           </div>
-
 
           {/*            className='border border-gray-300 p-2 rounded-md'>*/ }
           {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
@@ -507,7 +512,7 @@ export default function FormOrder() {
 
           {/* tulis sendiri */ }
 
-          <InputForm tag={ 'input' } title={ "Ongkir" } type={ "number" }
+          <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
                      reg={ register( "travel.ongkir", { valueAsNumber: true } ) }/>
 
           <label htmlFor="">Lokasi</label>
@@ -561,7 +566,7 @@ export default function FormOrder() {
       {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
       <form className="bg-green-100 sm:bg-green-50 " onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-row gap-1 sm:gap-3 mt-5">
-          <div className={ fomIsi }>f
+          <div className={ fomIsi }>
             <Nama/>
             <Tanggal/>
           </div>
@@ -576,32 +581,3 @@ export default function FormOrder() {
     </>
   )
 }
-// {/* <label htmlFor="">Pembayaran</label>
-//  <input
-//  type="text"
-//  name="price"
-//  placeholder="Metode Pembayaran..."
-//  className="border border-gray-300 p-2 rounded-md"
-//  />
-//  </div> */ }
-// {/* <input type="image" formAction={ submitImage } /> */ }
-// <h2 className="font-bold p-5">List og Product</h2>
-// <div className="">
-//   {/*<Tables lg gap={ 2 } css={ { mt: '$10' } } />*/ }
-// </div>
-//
-// <div className="flex flex-wrap gap-5">
-//   {/* { !products ? <h1>salah</h1> : products.map( ( p: any ) =>
-//    {
-//    if ( p == undefined || !p ) return <h1>Hot found</h1>;
-//    else
-//    {
-//    return (
-//    <div className="p-5 shadow" key={ p.id }>
-//    <p>{ p.product }</p>
-//    <p>Rp.{ p.price }</p>
-//    </div>
-//    );
-//    }
-//    } ) } */ }
-// </div>
