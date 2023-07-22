@@ -20,10 +20,7 @@ export default function RootLayout( {
 } ) {
 
   return (
-    <html lang="en"
-
-    >
-
+    <html lang="en">
     <body>
     <div className={ " bg-green-50" }>
       <Navbar/>

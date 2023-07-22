@@ -13,16 +13,8 @@ import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import TableOrder from '@/app/orderan/TableOrder';
 import { createOrder } from '@/app/orderan/ress';
 
-type TOrderKeys = keyof TOrder['orang']
-  | keyof TOrder['tanggal'] |
-  keyof TOrder["keterangan"] |
-  keyof TOrder["total"] |
-  keyof TOrder["travel"]
-
-type Props = { tag?: keyof JSX.IntrinsicElements; } & React.HTMLAttributes<HTMLOrSVGElement>;
 
 export default function FormOrder() {
-  const [ salah, setSalah ] = useState( false );
 
   const defaultValues: TOrder = {
     //data orang
@@ -60,7 +52,7 @@ export default function FormOrder() {
     //transaksi
     total: {
       no: "",
-      pembayaran: "",
+      typePembayaran: "",
       total: 0,
       totalBayar: 0,
       totalPenjualan: 0,
@@ -68,19 +60,18 @@ export default function FormOrder() {
     }
   }
 
-  const { control, register, setValue, watch, handleSubmit, formState: { errors }, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
+  const { control, register, handleSubmit, formState: {}, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
+  const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
 
   const { fields, append, remove } = useFieldArray( {
     control,
     name: "semuaProduct",
-    rules: {
-      required: "Please append at last 1 ",
-    }
+    rules: { required: "Please append at last 1 ", }
   } );
 
-  const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
+
 
   const newProduct: TFormProduct[] = []
   const newItem: TFormProduct[] = []
@@ -106,11 +97,6 @@ export default function FormOrder() {
 
   const semuaProduct: TFormProduct[] = [ ...valueForm.listOrderan, ...valueForm.listItem ]
   const mergeData = Object.assign( { semuaProduct }, valueForm )
-// success merge
-// console.log( mergeData )
-
-  // const dataProduct: TFormProduct[] = Object.assign( valueForm.listItem, valueForm.listOrderan )
-  // const { listItem, ...newValue } = valueForm
 
   // filter dan hapus list item ada orderan
   if( mergeData.semuaProduct.length > 0 ) {
@@ -119,17 +105,7 @@ export default function FormOrder() {
         delete mergeData.semuaProduct[ i ]
       }
     }
-    // if(  )
   }
-
-  // console.log(valueForm)
-  // const data = Object.assign( { dataProduct: dataProduct }, valueForm )
-  // console.log( filterItem, "filter item" )
-  // console.log( dataProduct, "Gabung Product" )
-  // console.log( listItem, "item" )
-  // console.log( valueForm.listOrderan, "orderan" )
-  // console.log( valueForm.listOrderan, "Item" )
-  // const mergeProduct = Object.assign( listItem, valueForm.listOrderan )
 
   mergeData.semuaProduct.filter( ( element ) => element !== undefined );
 
@@ -138,7 +114,7 @@ export default function FormOrder() {
   const semuaHargaItem = mergeData.listItem.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
   const semuaHargaProduct = mergeData.semuaProduct.length > 0 && mergeData.semuaProduct.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
   const totalHarga = Number( semuaHargaOrderan ) + Number( semuaHargaItem ) + Number( mergeData.travel.ongkir )
-//
+  //
 
   const hitung: Thitung = {
     semuaHargaOrderan,
@@ -146,24 +122,19 @@ export default function FormOrder() {
     semuaHargaProduct,
     totalHarga
   }
-// //data yang sudah di process
-  const dataBaru: TotalOrderan = Object.assign( { hitung }, mergeData )
+  const dataBaru: TotalOrderan = Object.assign( { hitung, }, mergeData )
+  const formatKode = (): string => dataBaru.orang.penerima.toString().slice( 0, 2 ) + "/" +
+    dataBaru.orang.hpPenerima.toString().slice( 0, 2 ) + "/" +
+    dataBaru.orang.alamatPenerima.toString().slice( 0, 2 ) + "/" +
+    dataBaru.tanggal.pesan.toString().slice( 0, 2 ) + "/" +
+    dataBaru.tanggal.kirim.toString().slice( 0, 2 ) + "/" +
+    dataBaru.tanggal.waktuKirim.toString().slice( 0, 2 ) + "/" +
+    dataBaru.keterangan.lokasi.toString().slice( 0, 2 ) + "/"
+  // dataBaru.travel.namaPengiriman.toString().slice( 0, 2 ) + "/"
+
   const data = dataBaru
-  // console.log( data )
 
-  // console.log( semuaHargaOrderan, "harga orderan" )
-  // console.log( semuaHargaItem, "harga Item" )
-  // console.log( semuaHargaProduct, "semua harga Product" )
-  // console.log( totalHarga, "total termasuk ongkir" )
-
-  // console.log(valueForm)
-  // const dataBaru = { ...newData, ...{ listItemBaru: item } }
-  // console.log( dataBaru, "dataBaruku" )
-// console.log(data,"oooooo")
-
-  // const combineObject: TFormProduct[] = Object.assign( valueForm.listItem, valueForm.listOrderan )
-  // const mergeObject = Object.assign( { dataProduct: combineObject }, valueForm )
-  // const cloneObject = structuredClone( mergeObject )
+  data.total.no = formatKode()
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
 
@@ -183,7 +154,7 @@ export default function FormOrder() {
 
   const InputForm: React.FC<InputFormProps> = (
       { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
-    let ress = { className: `${ StyleInputForm( salah ) }`, placeholder: `Masukan ${ title }....`, }
+    let ress = { className: `${ StyleInputForm( false ) }`, placeholder: `Masukan ${ title }....`, }
       if( type ) ress = Object.assign( ress, { type } );
       if( value ) ress = Object.assign( ress, { value } );
       if( min ) ress = Object.assign( ress, { min } );
@@ -257,11 +228,11 @@ export default function FormOrder() {
       console.log( fields, "add 2" )
     };
 
-    const removeItem = ( item: TFormProduct ) => {
-      setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
-    };
+    // const removeItem = ( item: TFormProduct ) => {
+    //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
+    // };
 
-    const removeFromCart = ( item: TFormProduct, id: string ) => {
+    const removeFromCart = ( item: TFormProduct ) => {
       console.log( fields, "remove 1" )
       setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
       setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
@@ -291,7 +262,7 @@ export default function FormOrder() {
 
       return (
         <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-          { items.map( ( item: TFormProduct, index: number ) => ( <li
+          { items.map( ( item: TFormProduct, ) => ( <li
               className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden" : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
               style={ {
                 backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
@@ -361,9 +332,8 @@ export default function FormOrder() {
                    onChange={ handleSearchChange }
                    onClick={ () => {setCariProduct( false )} }/>
           </div>
+
           {/*!-------------------------------------------------cariProduct----------------------------*/ }
-
-
           <div
             className={ ` ${ cariProduct || searchQuery.length < 1 ? "hidden" : "" } border  border-gray-200 rounded bg-gray-50` }>
             <SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>
@@ -435,7 +405,6 @@ export default function FormOrder() {
                         />
                       </label>
 
-
                       {/*<button*/ }
                       {/*  type={ "button" }*/ }
                       {/*  onClick={ () => console.log( "add" ) }*/ }
@@ -448,7 +417,7 @@ export default function FormOrder() {
                         type={ "button" }
                         onClick={ () => {
                           console.log( fields, "remove 3" )
-                          removeFromCart( item, item.id )
+                          removeFromCart( item )
                           remove( index )
 
                           console.log( fields, "remove 4" )
@@ -472,7 +441,6 @@ export default function FormOrder() {
             </ul>
           </div>
 
-          {/*            className='border border-gray-300 p-2 rounded-md'>*/ }
           {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
           {/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/ }
           {/*      <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>*/ }
@@ -485,14 +453,8 @@ export default function FormOrder() {
           {/*      <option value="Nugget">Nugget Rp.27.000</option>*/ }
           {/*      <option value="Rolade Tahu">Rolade Tahu Rp.19.000</option>*/ }
           {/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/ }
-          {/*    </select>*/ }
-          {/*  </div>*/ }
-          {/*</div>*/ }
-
-          {/* Total Keseluruhan dari Item lain-lain */ }
 
         </div>
-
         <hr className={ "m-2" }/>
         <div className={ "flex flex-col gap-3" }>
 
@@ -509,7 +471,6 @@ export default function FormOrder() {
             <option value="Delivery">Delivery</option>
           </select>
 
-
           {/* tulis sendiri */ }
 
           <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
@@ -525,13 +486,12 @@ export default function FormOrder() {
           {/* jenis Pembayaran */ }
           <label htmlFor="">Pembayaran</label>
           <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.pembayaran" ) }>
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.typePembayaran" ) }>
             <option value="Cash">Cash</option>
             <option value="BCA">BCA</option>
             <option value="Mandiri">Mandiri</option>
             <option value="BRI">BRI</option>
           </select>
-
 
           <label htmlFor="">Status</label>
           <select id="pembayaran"
@@ -545,20 +505,11 @@ export default function FormOrder() {
         </div>
 
         <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Add Product</button>
-
-
       </>
     )
   }
 
-// const formCard = ( wide: number ) => `border  flex flex-col gap-5 p-5 bg-white rounded w-[${ wide }%]`;
-
-  const inputType = ( a: number = 0, b: string = "" ) => `border border-gray-300 p-${ a } rounded-md w-${ ( b = "" ) ? "" : b }`;
-  const input = inputType()
   const fomIsi = "bg-white flex-col flex w-[50%]  sm:w-[44%]  md:w-[45%]   lg:w-[47%]  ml-2  gap-3 rounded p-2  sm:p-5";
-
-// let totalItem = valueForm.item ? Number( valueForm.jumlah_item ) * Number( valueForm.harga_item ) : 0
-// let totalOrderan = valueForm.orderan ? Number( valueForm.jumlah_orderan ) * Number( valueForm.harga_orderan ) : 0
 
   return (
     <>
@@ -575,9 +526,8 @@ export default function FormOrder() {
           </div>
         </div>
       </form>
-      <p>{ errors.semuaProduct?.root?.message }</p>
+      {/*<p>{ errors.semuaProduct?.root?.message }</p>*/ }
       <TableOrder data={ data } onCreate={ onCreate }/>
-
     </>
   )
 }

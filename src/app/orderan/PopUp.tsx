@@ -21,113 +21,88 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
   onCreate: () => Promise<void>
   data: TotalOrderan
 } ) {
-  // console.log( data )
+
   return (
     <Fragment>
-      <Button
-        onClick={ () => {setClickPopUp( !clickPopUp )} }
-        data-modal-target="defaultModal" data-modal-toggle="defaultModal"
-        className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button">
+      <Button onClick={ () => {setClickPopUp( !clickPopUp )} }
+              data-modal-target="defaultModal" data-modal-toggle="defaultModal"
+              className="bg-green-500 p-2 rounded-md text-white" type="button">
         Check
       </Button>
 
 
       {/*------------Card------------------*/ }
       <div className="">
+        <Dialog open={ clickPopUp } handler={ () => {setClickPopUp( !clickPopUp )} }
+                id="defaultModal" tabIndex={ -1 } className={ "m-20" } size="xxl">
+          <div className="relative w-full ">
 
-        <Dialog id="defaultModal" tabIndex={ -1 }
-                open={ clickPopUp } handler={ () => {setClickPopUp( !clickPopUp )} }
-                className={ "m-20" }
-                size="xxl"
-        >
-
-          <div className="relative w-full  ">
-
-            <DialogBody className="relative  rounded-lg shadow dark:bg-gray-700 ">
+            <DialogBody className="relative rounded-lg shadow-md shadow-slate-500  bg-slate-50 ">
 
               <div
                 className=" px-10 pt-10 pb-5  flex items-start justify-between  border-b rounded-t dark:border-gray-600">
-                <DialogHeader //className="text-xl font-semibold text-gray-900 dark:text-white"
-                >
-                  <Typography variant="h5" color="white">
+                <DialogHeader>
+                  <Typography variant="h5" color="black">
                     Detail Pesanan
                   </Typography>
                 </DialogHeader>
 
                 <XMarkIcon type="button" onClick={ () => setClickPopUp( !clickPopUp ) }
-                           className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                           className="  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                            data-modal-hide="defaultModal"/>
               </div>
-
 
               <div className="px-10 py-5 space-y-6">
                 <div className="  flex gap-5 flex-col sm:flex-row">
                   <Card variant="gradient" color="blue"
                         className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
-                    <Typography color="white">
-                      Kode : { data.orang.penerima
-                      // .slice( 0, 2 ) + "/" +
-                      // data.orang.hpPenerima.slice( 0, 2 ) + "/" +
-                      // data.orang.alamatPenerima.slice( 0, 2 ) + "/" +
-                      // data.tanggal.pesan.toString().slice( 0, 2 )
-                    }
-                    </Typography>
-                    <Typography color="white">Nama Penerima: { data.orang.penerima }</Typography>
-                    <Typography color="white">Hp Penerima: { data.orang.hpPenerima }</Typography>
-                    <Typography color="white">Alamat Penerima : { data.orang.alamatPenerima }</Typography>
-                    <Typography color="white">Tanggal Pesan : { data.tanggal.pesan.toString() }</Typography>
-                    <Typography color="white">Tanggal Kirim : { data.tanggal.kirim.toString() }</Typography>
-                    <Typography color="white">Tanggal waktu Kirim : { data.tanggal.waktuKirim.toString() }</Typography>
-                    <Typography color="white">Keterangan Lokasi : { data.keterangan.lokasi }</Typography>
+                    <Typography color="black">Kode : { data.total.no }</Typography>
+                    <Typography color="black">Nama Penerima: { data.orang.penerima }</Typography>
+                    <Typography color="black">Hp Penerima: { data.orang.hpPenerima }</Typography>
+                    <Typography color="black">Alamat Penerima : { data.orang.alamatPenerima }</Typography>
+                    <Typography color="black">Tanggal Pesan : { data.tanggal.pesan.toString() }</Typography>
+                    <Typography color="black">Tanggal Kirim : { data.tanggal.kirim.toString() }</Typography>
+                    <Typography color="black">Tanggal waktu Kirim : { data.tanggal.waktuKirim.toString() }</Typography>
+                    <Typography color="black">Keterangan Lokasi : { data.keterangan.lokasi }</Typography>
                   </Card>
 
                   <Card
                     variant="gradient"
                     color="blue"
                     className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-5">
-                    <Typography color="white">Lokasi : { data.keterangan.lokasi }</Typography>
-                    <Typography color="white">Travel Pengirim : { data.orang.pengirim }</Typography>
-                    <Typography color="white">Ekspedisi : { data.travel.ekspedisi }</Typography>
-                    <Typography color="white">Ongkir : { Rupiah( data.travel.ongkir ) }</Typography>
+                    <Typography color="black">Lokasi : { data.keterangan.lokasi }</Typography>
+                    <Typography color="black">Travel Pengirim : { data.orang.pengirim }</Typography>
+                    <Typography color="black">Ekspedisi : { data.travel.ekspedisi }</Typography>
                     <hr/>
-                    <Typography color="white">Semua Harga Orderan
+                    <Typography color="black">Ongkir : { Rupiah( data.travel.ongkir ) }</Typography>
+                    <Typography color="black">Semua Harga Orderan
                       : { Rupiah( data.hitung.semuaHargaOrderan ) }</Typography>
-                    <Typography color="white">Semua Harga Item : { Rupiah( data.hitung.semuaHargaItem ) }</Typography>
-                    <Typography color="white">Semua Harga Produk
+                    <Typography color="black">Semua Harga Item : { Rupiah( data.hitung.semuaHargaItem ) }</Typography>
+                    <Typography color="black">Semua Harga Produk
                       : { data.hitung.semuaHargaProduct && Rupiah( data.hitung.semuaHargaProduct ) }</Typography>
-                    <Typography color="white">Semua Harga Total: { Rupiah( data.hitung.totalHarga ) }</Typography>
+                    <Typography color="black">Semua Harga Total: { Rupiah( data.hitung.totalHarga ) }</Typography>
 
                   </Card>
 
                 </div>
 
                 <div className="">
-                  <ul className="  relative overflow-x-auto rounded-lg bg-white p-2 mt-1 gap-2 flex">
+                  <ul
+                    className="  relative overflow-x-auto rounded-lg bg-white p-2 mt-1 gap-2 flex shadow shadow-slate-300">
                     { data.semuaProduct.map( ( item: TFormProduct, index: number ) => {
                       return (
                         <Card key={ item.id } color="blue" className={ "flex-nowrap flex" }>
                           <div
-                            className="w-[10rem]  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-2">
+                            className="w-[10rem]  bg-white border border-slate-100 rounded-lg shadow shadow-black  p-2">
                             <CardHeader floated={ false }>
-                              {/*// className=" mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white"*/ }
-                              <img className="rounded  " src={ item.img } alt={ item.id }
-
-                              />
+                              <img className="rounded  " src={ item.img } alt={ item.id }/>
                             </CardHeader>
 
                             <CardBody className=" rounded p-2 ">
-                              <Typography variant="h6" color="white" className="mb-2">{ item.nama }</Typography>
-                              <Typography
-                                color="white"
-                                //  className="text-sm font-normal text-gray-700 dark:text-gray-400"
-                              >{ Rupiah( item.harga ) }</Typography>
-                              <Typography
-                                color="white"//  className="text-sm font-normal text-gray-700 dark:text-gray-400"
-                              >Jenis : { item.jenis }</Typography>
-                              <Typography
-                                color="white"//  className="text-sm font-normal text-gray-700 dark:text-gray-400"
-                              > Jumlah : { item.jumlah }</Typography>
+                              <Typography variant="h6" color="black" className="mb-2">{ item.nama }</Typography>
+                              <Typography color="black">{ Rupiah( item.harga ) }</Typography>
+                              <Typography color="black">Jenis : { item.jenis }</Typography>
+                              <Typography color="black"> Jumlah : { item.jumlah }</Typography>
                             </CardBody>
                           </div>
                         </Card>
@@ -135,8 +110,11 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                     } ) }
                   </ul>
                 </div>
-                <Typography color={ "white" }>Keterangan :</Typography>
-                <Typography color={ "white" }>{ data.keterangan.guna }</Typography>
+                <div className="shadow shadow-slate-300 p-2 rounded ">
+
+                  <Typography color="black">Keterangan : </Typography>
+                  <Typography color="black">{ data.keterangan.guna }</Typography>
+                </div>
               </div>
 
               <DialogFooter
@@ -156,7 +134,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                   data-modal-hide="defaultModal"
                   type="button"
                   className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                  Decline
+                  Tutup
                 </button>
 
               </DialogFooter>

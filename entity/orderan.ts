@@ -19,19 +19,13 @@ export interface InputFormProps {
 }
 
 export type TOrder = {
-// Product
-//   newValue: {
+
   listOrderan: TFormProduct[ ]
   listItem: TFormProduct[ ]
   semuaProduct: TFormProduct[ ]
-  // }
 
-  // oldValue: {
-  //   listOrderan: TFormProduct[ ]
-  //   listItem: TFormProduct[ ]
-  //   semuaProduct: TFormProduct[ ]
-  // }
-  // waktu
+
+
   tanggal: {
     pesan: Date | string
     kirim: Date | string
@@ -61,7 +55,7 @@ export type TOrder = {
 
   total: {
     no: string
-    pembayaran: string
+    typePembayaran: string
     total?: number
     totalBayar?: number
     totalPenjualan?: number,
