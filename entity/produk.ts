@@ -6,6 +6,7 @@ export type TFormProduct = {
   jumlah: number,
   jenis: "Orderan" | "Item" | string,
   img?: string
+  keterangan: string
 }
 
 
@@ -33,6 +34,7 @@ export const sProduct: TFormProduct[] = [
     lokasi: "Ungaran",
     jenis: "Item",
     jumlah: 1,
+    keterangan: "Ada Sedikit Berair",
     img: "https://upload.wikimedia.org/wikipedia/commons/2/28/Bakso_mi_bihun.jpg"
   },
 
@@ -42,6 +44,7 @@ export const sProduct: TFormProduct[] = [
     jumlah: 1,
     harga: 46_000,
     lokasi: "Semarang",
+    keterangan: "Ada CrispyNya",
     jenis: "Orderan",
     img: "https://img.kurio.network/xAbHWPE-jbNSWEWyRoCLxJM6sac=/1200x1200/filters:quality(80)/https://kurio-img.kurioapps.com/21/09/06/2c552606-f62f-475d-81db-e9a57e963a3f.jpe"
   },
@@ -52,6 +55,7 @@ export const sProduct: TFormProduct[] = [
     jumlah: 1,
     harga: 45_000,
     lokasi: "Ungaran",
+    keterangan: "Manis",
     jenis: "Item",
     img: "https://img.kurio.network/xAbHWPE-jbNSWEWyRoCLxJM6sac=/1200x1200/filters:quality(80)/https://kurio-img.kurioapps.com/21/09/06/2c552606-f62f-475d-81db-e9a57e963a3f.jpe"
   },
@@ -63,6 +67,7 @@ export const sProduct: TFormProduct[] = [
     lokasi: "Semarang",
     jenis: "Orderan",
     jumlah: 1,
+    keterangan: "Pedas",
     img: "https://img.kurio.network/xAbHWPE-jbNSWEWyRoCLxJM6sac=/1200x1200/filters:quality(80)/https://kurio-img.kurioapps.com/21/09/06/2c552606-f62f-475d-81db-e9a57e963a3f.jpe"
   }
 

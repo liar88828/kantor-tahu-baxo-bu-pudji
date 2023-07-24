@@ -10,15 +10,6 @@ type TOrderKeys =
   | keyof TOrder["total"]
   | keyof TOrder["travel"]
 
-export interface InputFormProps {
-  tag?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
-  title: string;
-  type: string;
-  reg: any;
-  value?: string
-  min?: string
-  defaultValue?: string
-}
 
 export type TOrder = {
   listOrderan: TFormProduct[ ]

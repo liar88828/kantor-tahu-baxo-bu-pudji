@@ -38,8 +38,6 @@ export function HorizontalCard() {
       <Cards totalStatus={ 20 } title={ "Di Proses" } icon={ < AiOutlineShoppingCart/> } rout={ "/proses" }/>
       <Cards totalStatus={ 40 } title={ "Di Kirim" } icon={ <FiTruck/> } rout={ "/kirim" }/>
       <Cards totalStatus={ 30 } title={ "Selesai" } icon={ <AiOutlineCheckCircle/> } rout={ "/selesai" }/>
-
-
     </Fragment>
   );
 }

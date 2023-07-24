@@ -1,26 +1,96 @@
 "use client"
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import FileUploadForm from '@/app/component/FileUploadForm';
-import { StyleInputForm, styleLabelForm, wrongInput } from '@/app/style/form';
+import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { TFormProduct } from '../../../entity/produk';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { InputFormProps } from '../../../entity/InputForm';
 
 const formProduct: Record<keyof TFormProduct, any> = {
   id: "1231",
-  nama: "Nama Product",
-  harga: "Harga",
-  lokasi: "Lokasi",
+  nama: "Nama Produk",
+  harga: "Harga Produk",
+  lokasi: "Lokasi Produk",
   jumlah: "Masukan Jumlah",
+  jenis: "Jenis Produk",
+  img: "Gambar Produk",
+  keterangan: "Keterangan Produk"
+}
+
+const defaultFormProduct: TFormProduct = {
+  id: " ",
+  nama: "Nama Product",
+  harga: 0,
+  lokasi: "Lokasi",
+  jumlah: 0,
   jenis: "Jenis",
-  img: "Gambar"
+  img: "Gambar",
+  keterangan: "Keterangan Produk"
 }
 
 export default function Home( {}: any ) {
 
+  const { control, register, handleSubmit, formState: {}, } = useForm<TFormProduct>( {/* defaultValues: defaultValues, */
+    mode: "onChange",
+  } );
+
+  const [ valueForm, setValueForm ] = useState<TFormProduct>( defaultFormProduct )
+
   const [ salah, setSalah ] = useState<boolean>( false );
+
+  const onSubmit: SubmitHandler<TFormProduct> = ( data ) => {
+    console.log( data )
+    setValueForm( data )
+  };
+
+  const InputForm: React.FC<InputFormProps> = (
+    { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
+    let ress = { className: `${ StyleInputForm( false ) }`, placeholder: ` Masukan ${ title }....`, }
+    if( type ) ress = Object.assign( ress, { type } );
+    if( value ) ress = Object.assign( ress, { value } );
+    if( min ) ress = Object.assign( ress, { min } );
+    if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
+
+    return (
+      <div className="flex flex-col">
+        <label className={ styleLabelForm } htmlFor="grid-password"> { title } </label>
+        <Tag { ...ress }{ ...reg }/>
+        {/*<p>{ errors. }</p>*/ }
+      </div>
+    )
+  }
+
+  const FormProduct = () => {
+    return ( <>
+        <form
+          onSubmit={ handleSubmit( onSubmit ) }
+          className="w-full max-w-lg  flex  flex-col gap-5 ">
+          <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) } defaultValue={ " Tahu Baxo " }/>
+          <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) } defaultValue={ 0 }/>
+          <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) } defaultValue={ "Ungaran" }/>
+
+          <div className="flex flex-col">
+            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.jenis }  </label>
+            <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "jenis" ) }>
+              <option value="Orderan">Orderan</option>
+              <option value="Item">Item</option>
+            </select>
+          </div>
+
+          <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }
+                     defaultValue={ "Pedas " }/>
+
+          <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Simpan</button>
+        </form>
+      </>
+
+    )
+  }
+
   return (
     <main className="flex   min-h-screen p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3 ">
       <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
-        <FormProduct salah={ salah }/>
+        <FormProduct/>
       </div>
       <div className=" sm:m-4 bg-white rounded p-5">
         <label className={ styleLabelForm }>Masukan Gambar Produk</label>
@@ -29,56 +99,6 @@ export default function Home( {}: any ) {
 
     </main>
   );
-}
-const FormProduct = ( { salah }: { salah: boolean } ) => {
-  let styleInputForm = StyleInputForm( salah )
-  return ( <>
-      <>
-        <form className="w-full max-w-lg  flex  flex-col gap-5 ">
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">{ formProduct.nama }</label>
-            <input className={ styleInputForm } id="grid-first-name" type="text" placeholder="Tahu Bakso"/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">{ formProduct.harga }</label>
-            <input className={ styleInputForm } id="grid-first-name" type="number" placeholder="Masukan Harga .... "/>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-
-
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.lokasi }</label>
-            <select className={ styleInputForm } id="grid-state">
-              <option value="Semarang">Semarang</option>
-              <option value="Ungaran">Ungaran</option>
-            </select>
-          </div>
-
-
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.jenis }</label>
-            <select className={ styleInputForm } id="grid-state">
-              <option value="Orderan">Orderan</option>
-              <option value="Item">Item</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col">
-            <label className={ styleLabelForm } htmlFor="grid-password">Keterangan </label>
-            <textarea className={ StyleInputForm( false ) }
-                      id="grid-first-name"
-                      placeholder="Keterangan"></textarea>
-            { !salah ? "" : <p className={ wrongInput }>Please fill out this field.</p> }
-          </div>
-
-
-        </form>
-      </>
-
-    </>
-  )
 }
 
 // <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
