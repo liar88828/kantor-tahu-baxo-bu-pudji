@@ -1,7 +1,7 @@
-"use client"; // Make this component a client component
+"use client"; // Make this components a client components
 import React, { FormEvent, useState } from "react";
 import CustomFileSelector from "./CustomFileSelector";
-import ImagePreview from "../element/ImagePreview";
+import ImagePreview from "@/element/ImagePreview";
 import axios from "axios";
 import classNames from "classnames";
 

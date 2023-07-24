@@ -17,7 +17,7 @@ const menuList = [
   { title: "Dashboard", icon: AiFillPieChart, link: "" },
   { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "orderan" },
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "product" },
-  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "pengiriman" },
+  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "travel" },
   { title: "Search", icon: AiOutlineSearch, link: "form" },
   { title: "Files", icon: AiOutlineTable, link: "table" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "form" },

@@ -3,7 +3,7 @@ import { Rupiah } from '../../../lib/rupiah';
 import { TFormProduct } from '../../../entity/produk';
 import { Status } from '@/app/style/status';
 import { TotalOrderan } from '../../../entity/orderan';
-import { PopUp } from '@/app/orderan/PopUp';
+import { PopUp } from '@/components/orderan/PopUp';
 import { Button } from '@material-tailwind/react';
 
 function TableOrder( props: any ) {

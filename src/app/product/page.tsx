@@ -1,48 +1,27 @@
 "use client"
-import React, { ReactElement, useState } from 'react';
+import React, { ChangeEvent, ReactElement, useState } from 'react';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { TFormProduct } from '../../../entity/produk';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { InputFormProps } from '../../../entity/InputForm';
+import { defaultFormProduct, formProduct } from '@/components/product/format';
+import { handleUpload, SendData, Upload } from '@/element/Upload';
 
-const formProduct: Record<keyof TFormProduct, any> = {
-  id: "1231",
-  nama: "Nama Produk",
-  harga: "Harga Produk",
-  lokasi: "Lokasi Produk",
-  jumlah: "Masukan Jumlah",
-  jenis: "Jenis Produk",
-  img: "Gambar Produk",
-  keterangan: "Keterangan Produk"
-}
+export default function Home() {
 
-const defaultFormProduct: TFormProduct = {
-  id: " ",
-  nama: "Nama Product",
-  harga: 0,
-  lokasi: "Lokasi",
-  jumlah: 0,
-  jenis: "Jenis",
-  img: "Gambar",
-  keterangan: "Keterangan Produk"
-}
-
-type KeyTFormProduct = keyof TFormProduct
-
-export default function Home( {}: any ) {
-
-  const { control, register, handleSubmit, watch, formState: {}, } = useForm<TFormProduct>( {/* defaultValues: defaultValues, */
+  const { control, register, handleSubmit, } = useForm<TFormProduct>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
   const [ selectedFile, setSelectedFile ] = useState<File | null>();
-  const [ valueForm, setValueForm ] = useState<TFormProduct>( defaultFormProduct )
   const [ previewURL, setPreviewURL ] = useState<string | null>( null ); // State to store the preview image URL
   const [ message, setMessage ] = useState<string>( '' );
-  const [ data, setData ] = useState<string>( '' ); // Assuming data is a JSON string
+
+  const handleFileChange = ( event: ChangeEvent<HTMLInputElement> ) => {
+    SendData( event, setSelectedFile, setPreviewURL );
+  };
 
   const onSubmit: SubmitHandler<TFormProduct> = ( data ) => {
-    console.log( data )
-    setValueForm( data )
+    handleUpload( selectedFile, setMessage, data, "product" ).then( r => console.log( r ) )
   };
 
   const InputForm: React.FC<InputFormProps> = (
@@ -70,12 +49,14 @@ export default function Home( {}: any ) {
     )
   }
 
-// console.log(watch("nama"))
   const FormProduct = () => {
     return ( <>
-        <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) } defaultValue={ " Tahu Baxo " }/>
-        <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) } defaultValue={ 0 }/>
-        <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) } defaultValue={ "Ungaran" }/>
+        <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) }
+                   defaultValue={ defaultFormProduct.nama }/>
+        <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }
+                   defaultValue={ defaultFormProduct.harga }/>
+        <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }
+                   defaultValue={ defaultFormProduct.lokasi }/>
         <div className="flex flex-col">
           <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.jenis }  </label>
           <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "jenis" ) }>
@@ -84,26 +65,27 @@ export default function Home( {}: any ) {
           </select>
         </div>
         <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }
-                   defaultValue={ "Pedas " }/>
+                   defaultValue={ defaultFormProduct.keterangan }/>
       </>
     )
   }
 
   return (
-    <main className="flex   min-h-screen p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3 ">
+    <main className="flex p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3 ">
+      <h1> Form Produk</h1>
       <form onSubmit={ handleSubmit( onSubmit ) }
-            className="w-full max-w-lg  flex  flex-col gap-5 ">
+            className="w-full    flex  flex-row gap-5 ">
 
         <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
           <FormProduct/>
         </div>
 
-        <div className=" sm:m-4 bg-white rounded p-5">
-          <label className={ styleLabelForm }>Masukan Gambar Produk</label>
-          {/*<Upload/>*/ }
+        <div className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
+
+          <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Travel" }/>
+          <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Check</button>
         </div>
 
-        <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Check</button>
       </form>
 
     </main>

@@ -5,64 +5,21 @@ import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { BiAddToQueue } from 'react-icons/bi';
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { Rupiah } from '../../../lib/rupiah';
-import { defaultDate, getDateNow, getLocaleTime, getTime } from '../../../lib/formatDate';
+import { defaultDate, getTime } from '../../../lib/formatDate';
 import { Thitung, TOrder, TotalOrderan } from '../../../entity/orderan';
 import { sProduct, TFormProduct } from '../../../entity/produk';
 import { DevTool } from "@hookform/devtools";
 import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
-import TableOrder from '@/app/orderan/TableOrder';
-import { createOrder } from '@/app/orderan/ress';
+import TableOrder from '@/components/orderan/TableOrder';
+import { createOrder } from '@/components/orderan/ress';
 import { InputFormProps } from '../../../entity/InputForm';
+import { defaultValues, format } from '@/components/orderan/format';
 
 export default function FormOrder() {
-
-  const defaultValues: TOrder = {
-    //data orang
-    orang: {
-      pengirim: 'Kantor Tahu Baxo',
-      hpPengirim: '',
-      penerima: '',
-      alamatPenerima: '',
-      hpPenerima: '',
-    },
-
-    // waktu
-    //toLocaleString === harus di isi parameternya
-    tanggal: {
-      pesan: getDateNow(),
-      kirim: getDateNow(),
-      waktuKirim: getLocaleTime()
-    }
-    ,
-    // product
-    listOrderan: [],
-    listItem: [],
-    semuaProduct: [],
-
-    keterangan: {
-      guna: "",
-      lokasi: "",
-    },
-    travel: {
-      namaPengiriman: "Kantor Tahu Baxo ",
-      ekspedisi: '',
-      ongkir: 0,
-    },
-
-    //transaksi
-    total: {
-      no: "",
-      typePembayaran: "",
-      total: 0,
-      totalBayar: 0,
-      totalPenjualan: 0,
-      status: 'Di terima',
-    }
-  }
-
   const { control, register, handleSubmit, formState: {}, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
+
   const { fields, append, remove } = useFieldArray( {
     control,
     name: "semuaProduct",
@@ -111,27 +68,11 @@ export default function FormOrder() {
   const semuaHargaItem = mergeData.listItem.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
   const semuaHargaProduct = mergeData.semuaProduct.length > 0 && mergeData.semuaProduct.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
   const totalHarga = Number( semuaHargaOrderan ) + Number( semuaHargaItem ) + Number( mergeData.travel.ongkir )
-  //
 
-  const hitung: Thitung = {
-    semuaHargaOrderan,
-    semuaHargaItem,
-    semuaHargaProduct,
-    totalHarga
-  }
+  const hitung: Thitung = { semuaHargaOrderan, semuaHargaItem, semuaHargaProduct, totalHarga }
   const dataBaru: TotalOrderan = Object.assign( { hitung, }, mergeData )
-  const formatKode = (): string => dataBaru.orang.penerima.toString().slice( 0, 2 ) + "/" +
-    dataBaru.orang.hpPenerima.toString().slice( 0, 2 ) + "/" +
-    dataBaru.orang.alamatPenerima.toString().slice( 0, 2 ) + "/" +
-    dataBaru.tanggal.pesan.toString().slice( 0, 2 ) + "/" +
-    dataBaru.tanggal.kirim.toString().slice( 0, 2 ) + "/" +
-    dataBaru.tanggal.waktuKirim.toString().slice( 0, 2 ) + "/" +
-    dataBaru.keterangan.lokasi.toString().slice( 0, 2 ) + "/"
-  // dataBaru.travel.namaPengiriman.toString().slice( 0, 2 ) + "/"
 
-  const data = dataBaru
-
-  data.total.no = formatKode()
+  dataBaru.total.no = format( dataBaru )
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
 
@@ -351,9 +292,7 @@ export default function FormOrder() {
                 return ( <li
                   className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
                   key={ item.id }>
-                  <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }
-                    // w-[20%] h-auto
-                  />
+                  <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
 
                   <input className={ StyleInputForm( false ) } type={ 'hidden' }
                          value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
@@ -529,8 +468,6 @@ export default function FormOrder() {
 
   return (
     <>
-      <DevTool control={ control }/>
-      {/*<h1 className="text-3xl font-bold text-center"> Orderan Form </h1>*/ }
       <form className="bg-green-100 sm:bg-green-50 " onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-row gap-1 sm:gap-3 mt-5">
           <div className={ fomIsi }>
@@ -543,7 +480,7 @@ export default function FormOrder() {
         </div>
       </form>
       {/*<p>{ errors.semuaProduct?.root?.message }</p>*/ }
-      <TableOrder data={ data } onCreate={ onCreate }/>
+      <TableOrder data={ dataBaru } onCreate={ onCreate }/>
     </>
   )
 }
