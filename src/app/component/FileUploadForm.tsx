@@ -8,9 +8,9 @@ import classNames from "classnames";
 const FileUploadForm = () => {
   const [ images, setImages ] = useState<File[]>( [] );
   const [ uploading, setUploading ] = useState( false );
+
   const handleFileSelected = ( e: React.ChangeEvent<HTMLInputElement> ) => {
     if( e.target.files ) {
-      //convert `FileList` to `File[]`
       const _files = Array.from( e.target.files );
       setImages( _files );
     }
@@ -20,7 +20,7 @@ const FileUploadForm = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    images.forEach( ( image, i ) => {
+    images.forEach( ( image ) => {
       formData.append( image.name, image );
       formData.append( 'description', "description" );
     } );
