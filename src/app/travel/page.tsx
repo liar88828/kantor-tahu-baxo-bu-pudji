@@ -1,13 +1,14 @@
 "use client"
 import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { InputFormProps } from '../../../entity/InputForm';
-import { StyleInputForm, styleLabelForm } from '@/app/style/form';
-import { TFromTravel } from '../../../entity/travel';
-import { defaultFormTravel, formTravel } from '@/components/travel/format';
-import { handleUpload, SendData, Upload } from '@/element/Upload';
+import { InputFormProps } from '@/entity/InputForm';
+import { StyleInputForm, styleLabelForm } from '@/client/style/form';
+import { TFromTravel } from '@/entity/travel';
+import { defaultFormTravel, formTravel } from '@/client/components/travel/format';
+import { handleUpload, SendData, UploadDescription } from '@/client/element/upload/UploadDescription';
 
-// const WithCustomLoading = dynamic( () => import('../../element/Upload').then( Element => Element.Upload ) )
+// const WithCustomLoading = dynamic( () => import('../../element/UploadDescription').then( Element =>
+// Element.UploadDescription ) )
 
 export default function Home() {
   const { control, register, handleSubmit, } = useForm<TFromTravel>( {/* defaultValues: defaultValues, */
@@ -81,7 +82,8 @@ export default function Home() {
 
         <div className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
           <Suspense fallback={ <p>Loading feed...</p> }>
-            <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Travel" }/>
+            <UploadDescription previewURL={ previewURL } onChange={ handleFileChange } message={ message }
+                               title={ "Travel" }/>
           </Suspense>
           {/*<WithCustomLoading previewURL={ previewURL } onChange={ handleFileChange } message={ message }*/ }
           {/*                   title={ "Travel" }/>*/ }

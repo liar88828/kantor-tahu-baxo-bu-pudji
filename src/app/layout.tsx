@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 import './globals.css'
-import { Slidebar } from '@/components/Slidebar';
 import './flag.css';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/layouts/Navbar';
+import { Slidebar } from '@/layouts/Slidebar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

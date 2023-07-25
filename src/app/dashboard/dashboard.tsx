@@ -1,7 +1,7 @@
 import React from 'react';
-import { HorizontalCard } from '@/app/dashboard/card';
-import { Lines } from '@/app/dashboard/chart/line';
-import { Donat } from '@/app/dashboard/chart/donat';
+import { HorizontalCard } from '@/client/components/dashboard/card';
+import { Lines } from '@/lib/chart/line';
+import { Donat } from '@/lib/chart/donat';
 
 const Dashboard = () => {
   return (

@@ -1,11 +1,11 @@
 "use client"
 import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
-import { StyleInputForm, styleLabelForm } from '@/app/style/form';
-import { TFormProduct } from '../../../entity/produk';
+import { StyleInputForm, styleLabelForm } from '@/client/style/form';
+import { TFormProduct } from '@/entity/produk';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { InputFormProps } from '../../../entity/InputForm';
-import { defaultFormProduct, formProduct } from '@/components/product/format';
-import { handleUpload, SendData, Upload } from '@/element/Upload';
+import { InputFormProps } from '@/entity/InputForm';
+import { defaultFormProduct, formProduct } from '@/client/components/product/format';
+import { handleUpload, SendData, UploadDescription } from '@/client/element/upload/UploadDescription';
 
 export default function Home() {
 
@@ -82,7 +82,8 @@ export default function Home() {
 
         <div className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
           <Suspense fallback={ <p>Loading feed...</p> }>
-            <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Product" }/>
+            <UploadDescription previewURL={ previewURL } onChange={ handleFileChange } message={ message }
+                               title={ "Product" }/>
           </Suspense>
           <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Simpan</button>
         </div>
