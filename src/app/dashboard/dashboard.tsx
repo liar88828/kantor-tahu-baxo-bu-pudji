@@ -6,15 +6,22 @@ import { Donat } from '@/app/dashboard/chart/donat';
 const Dashboard = () => {
   return (
     <>
-      <div className={ " " }>
-        <div className="flex-row flex gap-2 justify-between bg-red-400 p-5">
+      <div className={ " flex gap-5 flex-col p-5" }>
+        {/*flex-wrap*/ }
+        <div className="sm:flex-row flex gap-2 justify-between bg-slate-50 p-5 rounded-2xl shadow-xl shadow-slate-200">
           <HorizontalCard/>
         </div>
-        <div className="w-[50%]">
+        <div className="   border border-black bg-white rounded-3xl">
           <Lines/>
         </div>
-        <div className="w-[50%]  border border-black bg-white">
-          <Donat/>
+
+        <div className="flex flex-row gap-5">
+          <div className="w-[50%]  border border-black bg-white rounded-3xl p-2">
+            <Donat/>
+          </div>
+          <div className="w-[50%]  border border-black bg-white rounded-3xl  p-2">
+            <Donat/>
+          </div>
         </div>
       </div>
     </>

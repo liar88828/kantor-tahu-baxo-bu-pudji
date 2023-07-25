@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
@@ -63,5 +63,7 @@ const data = {
 };
 
 export function Donat() {
-  return <Doughnut data={ data } options={ options }/>;
+  return <Suspense fallback={ <p>Loading feed...</p> }>
+    <Doughnut data={ data } options={ options }/>
+  </Suspense>
 }

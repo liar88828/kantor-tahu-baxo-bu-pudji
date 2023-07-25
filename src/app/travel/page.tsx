@@ -1,11 +1,13 @@
 "use client"
-import React, { ChangeEvent, ReactElement, useState } from 'react';
+import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputFormProps } from '../../../entity/InputForm';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { TFromTravel } from '../../../entity/travel';
-import { handleUpload, SendData, Upload } from '@/element/Upload';
 import { defaultFormTravel, formTravel } from '@/components/travel/format';
+import { handleUpload, SendData, Upload } from '@/element/Upload';
+
+// const WithCustomLoading = dynamic( () => import('../../element/Upload').then( Element => Element.Upload ) )
 
 export default function Home() {
   const { control, register, handleSubmit, } = useForm<TFromTravel>( {/* defaultValues: defaultValues, */
@@ -52,20 +54,22 @@ export default function Home() {
 
     return (
       <>
-        <form className="w-full max-w-lg  flex flex-col gap-5 ">
-          <InputForm title={ formTravel.namaPengiriman } type="text" reg={ register( "namaPengiriman" ) }
-                     defaultValue={ defaultFormTravel.namaPengiriman }/>
-          <InputForm title={ formTravel.noHpPerusahaan } type="number" reg={ register( "noHpPerusahaan" ) }
-                     defaultValue={ defaultFormTravel.noHpPerusahaan }/>
-          <InputForm title={ formTravel.lokasi } type="text" reg={ register( "noHpPerusahaan" ) }
-                     defaultValue={ defaultFormTravel.lokasi }/>
-          <InputForm title={ formTravel.keterangan } type="textarea" reg={ register( "keterangan" ) }
-                     defaultValue={ defaultFormTravel.keterangan }/>
-        </form>
+        <InputForm title={ formTravel.namaPengiriman } type="text" reg={ register( "namaPengiriman" ) }
+                   defaultValue={ defaultFormTravel.namaPengiriman }/>
+        <InputForm title={ formTravel.noHpPerusahaan } type="number" reg={ register( "noHpPerusahaan" ) }
+                   defaultValue={ defaultFormTravel.noHpPerusahaan }/>
+        <InputForm title={ formTravel.lokasi } type="text" reg={ register( "noHpPerusahaan" ) }
+                   defaultValue={ defaultFormTravel.lokasi }/>
+        <InputForm title={ formTravel.jenis } type="text" reg={ register( "jenis" ) }
+                   defaultValue={ defaultFormTravel.jenis }/>
+        <InputForm title={ formTravel.harga } type="text" reg={ register( "harga" ) }
+                   defaultValue={ defaultFormTravel.harga }/>
+        <InputForm title={ formTravel.keterangan } type="textarea" reg={ register( "keterangan" ) }
+                   defaultValue={ defaultFormTravel.keterangan }/>
       </>
     )
   }
-
+  // console.log( Array( 20 ) )
   return (
     <main className="flex p-3 sm:p-6 flex-col z-50 bg-green-50 gap-3">
       <form onSubmit={ handleSubmit( onSubmit ) }
@@ -76,7 +80,11 @@ export default function Home() {
         </div>
 
         <div className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
-          <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Travel" }/>
+          <Suspense fallback={ <p>Loading feed...</p> }>
+            <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Travel" }/>
+          </Suspense>
+          {/*<WithCustomLoading previewURL={ previewURL } onChange={ handleFileChange } message={ message }*/ }
+          {/*                   title={ "Travel" }/>*/ }
           <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Simpan</button>
         </div>
       </form>

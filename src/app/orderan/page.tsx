@@ -1,5 +1,5 @@
 "use client"
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, Suspense, useState } from 'react'
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { BiAddToQueue } from 'react-icons/bi';
@@ -8,7 +8,6 @@ import { Rupiah } from '../../../lib/rupiah';
 import { defaultDate, getTime } from '../../../lib/formatDate';
 import { Thitung, TOrder, TotalOrderan } from '../../../entity/orderan';
 import { sProduct, TFormProduct } from '../../../entity/produk';
-import { DevTool } from "@hookform/devtools";
 import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import TableOrder from '@/components/orderan/TableOrder';
 import { createOrder } from '@/components/orderan/ress';
@@ -475,7 +474,9 @@ export default function FormOrder() {
             <Tanggal/>
           </div>
           <div className={ fomIsi }>
-            <Orderan/>
+            <Suspense fallback={ <p>Loading feed...</p> }>
+              <Orderan/>
+            </Suspense>
           </div>
         </div>
       </form>

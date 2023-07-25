@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, ReactElement, useState } from 'react';
+import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { TFormProduct } from '../../../entity/produk';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -55,6 +55,7 @@ export default function Home() {
                    defaultValue={ defaultFormProduct.nama }/>
         <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }
                    defaultValue={ defaultFormProduct.harga }/>
+
         <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }
                    defaultValue={ defaultFormProduct.lokasi }/>
         <div className="flex flex-col">
@@ -72,18 +73,18 @@ export default function Home() {
 
   return (
     <main className="flex p-3 sm:p-6  flex-row z-50 bg-green-50 gap-3 ">
-      <h1> Form Produk</h1>
       <form onSubmit={ handleSubmit( onSubmit ) }
-            className="w-full    flex  flex-row gap-5 ">
+            className="w-full flex  flex-row gap-5 ">
 
         <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
           <FormProduct/>
         </div>
 
         <div className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
-
-          <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Travel" }/>
-          <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Check</button>
+          <Suspense fallback={ <p>Loading feed...</p> }>
+            <Upload previewURL={ previewURL } onChange={ handleFileChange } message={ message } title={ "Product" }/>
+          </Suspense>
+          <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Simpan</button>
         </div>
 
       </form>
