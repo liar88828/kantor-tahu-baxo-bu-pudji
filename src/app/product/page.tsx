@@ -1,11 +1,11 @@
 "use client"
 import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
-import { StyleInputForm, styleLabelForm } from '@/client/style/form';
+import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { TFormProduct } from '@/entity/produk';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { InputFormProps } from '@/entity/InputForm';
-import { defaultFormProduct, formProduct } from '@/client/components/product/format';
-import { handleUpload, SendData, UploadDescription } from '@/client/element/upload/UploadDescription';
+import { defaultFormProduct, formProduct } from '@/app/components/product/format';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
 
 export default function Home() {
 

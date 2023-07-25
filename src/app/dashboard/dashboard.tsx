@@ -1,5 +1,5 @@
 import React from 'react';
-import { HorizontalCard } from '@/client/components/dashboard/card';
+import { HorizontalCard } from '@/app/components/dashboard/card';
 import { Lines } from '@/lib/chart/line';
 import { Donat } from '@/lib/chart/donat';
 

@@ -2,10 +2,10 @@
 import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputFormProps } from '@/entity/InputForm';
-import { StyleInputForm, styleLabelForm } from '@/client/style/form';
+import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { TFromTravel } from '@/entity/travel';
-import { defaultFormTravel, formTravel } from '@/client/components/travel/format';
-import { handleUpload, SendData, UploadDescription } from '@/client/element/upload/UploadDescription';
+import { defaultFormTravel, formTravel } from '@/app/components/travel/format';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
 
 // const WithCustomLoading = dynamic( () => import('../../element/UploadDescription').then( Element =>
 // Element.UploadDescription ) )

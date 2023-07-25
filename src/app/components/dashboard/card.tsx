@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, Typography } from '@material-tailwi
 import React, { Fragment } from 'react';
 import { AiOutlineBook, AiOutlineCheckCircle, AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiTruck } from 'react-icons/fi';
-import { Status } from '@/client/style/status';
+import { Status } from '@/app/style/status';
 
 function Cards( { title, icon, rout, totalStatus }: {
   title: string,
@@ -28,7 +28,6 @@ function Cards( { title, icon, rout, totalStatus }: {
         </Button>
       </a>
     </CardBody>
-
   </Card>;
 }
 

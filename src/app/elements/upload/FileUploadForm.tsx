@@ -1,7 +1,7 @@
 "use client"; // Make this layouts a client layouts
 import React, { FormEvent, useState } from "react";
-import CustomFileSelector from "../zz/CustomFileSelector";
-import ImagePreview from "@/client/element/upload/ImagePreview";
+import CustomFileSelector from "../../zz/CustomFileSelector";
+import ImagePreview from "@/app/elements/upload/ImagePreview";
 import axios from "axios";
 import classNames from "classnames";
 

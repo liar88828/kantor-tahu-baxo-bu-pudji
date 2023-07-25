@@ -1,18 +1,18 @@
 "use client"
 import React, { ReactElement, Suspense, useState } from 'react'
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { StyleInputForm, styleLabelForm } from '@/client/style/form';
+import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { BiAddToQueue } from 'react-icons/bi';
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { Rupiah } from '@/lib/utils/rupiah';
 import { defaultDate, getTime } from '@/lib/utils/formatDate';
 import { Thitung, TOrder, TotalOrderan } from '@/entity/orderan';
 import { sProduct, TFormProduct } from '@/entity/produk';
-import { SDiTerima, SKirim, SProcess, SSelesai } from '@/client/style/status';
-import TableOrder from '@/client/components/orderan/TableOrder';
-import { createOrder } from '@/client/components/orderan/ress';
+import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
+import TableOrder from '@/app/components/orderan/TableOrder';
+import { createOrder } from '@/app/components/orderan/ress';
 import { InputFormProps } from '@/entity/InputForm';
-import { defaultValues, format } from '@/client/components/orderan/format';
+import { defaultValues, format } from '@/app/components/orderan/format';
 
 export default function FormOrder() {
   const { control, register, handleSubmit, formState: {}, } = useForm<TOrder>( {/* defaultValues: defaultValues, */

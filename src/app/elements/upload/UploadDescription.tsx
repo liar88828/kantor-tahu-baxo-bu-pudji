@@ -1,5 +1,5 @@
 import React from 'react';
-import { styleLabelForm } from '@/client/style/form';
+import { styleLabelForm } from '@/app/style/form';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
   const file = event.target.files && event.target.files[ 0 ];

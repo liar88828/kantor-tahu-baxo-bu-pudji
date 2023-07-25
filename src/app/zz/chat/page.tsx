@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { StyleInputForm } from '@/client/style/form';
+import { StyleInputForm } from '@/app/style/form';
 
 // Sample data source
 interface Item {
