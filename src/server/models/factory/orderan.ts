@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { TOrder } from '@/entity/orderan';
-import { factoryProduct } from '@/model/factory/product';
+import { factoryProduct } from '@/server/models/factory/product';
 
 faker.seed( 14 )
 

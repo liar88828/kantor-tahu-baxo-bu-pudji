@@ -10,7 +10,7 @@ export const format = ( dataBaru: TotalOrderan ): string => dataBaru.orang.pener
 // dataBaru.travel.namaPengiriman.toString().slice( 0, 2 ) + "/"
 
 import { TOrder } from '@/entity/orderan';
-import { getDateNow, getLocaleTime } from '@/lib/formatDate';
+import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
 
 export const defaultValues: TOrder = {
   //data orang

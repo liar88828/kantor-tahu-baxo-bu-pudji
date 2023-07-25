@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { TotalOrderan } from '@/entity/orderan';
 import { TFormProduct } from '@/entity/produk';
-import { Rupiah } from '@/lib/rupiah';
+import { Rupiah } from '@/lib/utils/rupiah';
 import {
   Button,
   Card,

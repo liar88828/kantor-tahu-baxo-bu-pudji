@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Rupiah } from '@/lib/rupiah';
+import { Rupiah } from '@/lib/utils/rupiah';
 import { TFormProduct } from '@/entity/produk';
 import { Status } from '@/client/style/status';
 import { TotalOrderan } from '@/entity/orderan';

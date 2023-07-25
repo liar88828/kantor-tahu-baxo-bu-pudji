@@ -15,9 +15,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { makeData, Person } from '../../model/factory/example'
 import { RowData } from '@tanstack/table-core';
 import { faker } from '@faker-js/faker';
+import { makeData } from '@/server/models/seed/person';
+import { TPerson } from '@/entity/person';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -43,7 +44,7 @@ export default function Table() {
   const [ data, setData ] = React.useState( () => makeData( 100 ) )
   const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
 
-  const columns = React.useMemo<ColumnDef<Person>[]>( () => [
+  const columns = React.useMemo<ColumnDef<TPerson>[]>( () => [
 
       {
         id: 'select', header: ( { table } ) => (
@@ -123,7 +124,7 @@ export default function Table() {
   // const refreshData = () => setData( () => makeData( 100 ) )
 
   // Give our default column cell renderer editing superpowers!
-  const defaultColumn: Partial<ColumnDef<Person>> = {
+  const defaultColumn: Partial<ColumnDef<TPerson>> = {
     cell: ( { getValue, row: { index }, column: { id }, table } ) => {
       const initialValue = getValue()
 
@@ -224,7 +225,7 @@ export default function Table() {
 
 function Tables(
   { table, randomizeColumns, sorting, rowSelection }:
-    { table: ReactTable<Person>, randomizeColumns: () => void, sorting: SortingState, rowSelection: {} } ) {
+    { table: ReactTable<TPerson>, randomizeColumns: () => void, sorting: SortingState, rowSelection: {} } ) {
 
   return (
     <div className="p-2">
