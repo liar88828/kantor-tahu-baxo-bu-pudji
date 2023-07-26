@@ -7,7 +7,7 @@ import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { Rupiah } from '@/lib/utils/rupiah';
 import { defaultDate, getTime } from '@/lib/utils/formatDate';
 import { Thitung, TOrder, TotalOrderan } from '@/entity/orderan';
-import { sProduct, TFormProduct } from '@/entity/produk';
+import { sProduct, TProduct } from '@/entity/produk';
 import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import TableOrder from '@/app/components/orderan/TableOrder';
 import { createOrder } from '@/app/components/orderan/ress';
@@ -26,12 +26,12 @@ export default function FormOrder() {
   } );
 
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
-  const newProduct: TFormProduct[] = []
-  const newItem: TFormProduct[] = []
+  const newProduct: TProduct[] = []
+  const newItem: TProduct[] = []
   valueForm.listOrderan = newProduct
   valueForm.listItem = newItem
 
-  const filterJenis = ( o: TFormProduct, a: string, array: TFormProduct[] ) => {
+  const filterJenis = ( o: TProduct, a: string, array: TProduct[] ) => {
     if( o.jenis === a ) {
       const index = array.findIndex( ( item ) => item.id === o.id );
       if( index === -1 ) {
@@ -48,7 +48,7 @@ export default function FormOrder() {
     filterJenis( o, "Item", newItem )
   } );
 
-  const semuaProduct: TFormProduct[] = [ ...valueForm.listOrderan, ...valueForm.listItem ]
+  const semuaProduct: TProduct[] = [ ...valueForm.listOrderan, ...valueForm.listItem ]
   const mergeData = Object.assign( { semuaProduct }, valueForm )
 
   // filter dan hapus list item ada orderan
@@ -148,7 +148,7 @@ export default function FormOrder() {
     const [ filteredItems, setFilteredItems ] = useState<TOrder["semuaProduct"]>( fields );
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
 
-    const addToCart = ( item: TFormProduct ) => {
+    const addToCart = ( item: TProduct ) => {
       console.log( fields, "add 1" )
       const isItemInCart = fields.some( ( cartItem ) => cartItem.nama === item.nama );
 
@@ -163,11 +163,11 @@ export default function FormOrder() {
       console.log( fields, "add 2" )
     };
 
-    // const removeItem = ( item: TFormProduct ) => {
+    // const removeItem = ( item: TProduct ) => {
     //   setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
     // };
 
-    const removeFromCart = ( item: TFormProduct ) => {
+    const removeFromCart = ( item: TProduct ) => {
       console.log( fields, "remove 1" )
       setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
       setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
@@ -191,13 +191,13 @@ export default function FormOrder() {
 
     //-----------------------------------------------search
     function SearchItemList( { items, addToCart, cart }: {
-      items: TFormProduct[], addToCart: any, cart: TFormProduct[]
+      items: TProduct[], addToCart: any, cart: TProduct[]
     } ) {
-      const isItemAdded = ( item: TFormProduct ) => cart.some( ( cartItem ) => cartItem.nama === item.nama )
+      const isItemAdded = ( item: TProduct ) => cart.some( ( cartItem ) => cartItem.nama === item.nama )
 
       return (
         <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-          { items.map( ( item: TFormProduct, ) => ( <li
+          { items.map( ( item: TProduct, ) => ( <li
               className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden" : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
               style={ {
                 backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
@@ -287,27 +287,27 @@ export default function FormOrder() {
           <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
 
             {/*--------------------------------------------------------loop-------------------------*/ }
-            { fields.map( ( item: TFormProduct, index: number ) => {
-                return ( <li
-                  className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
-                  key={ item.id }>
-                  <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
+            { fields.map( ( item: TProduct, index: number ) => {
+              return ( <li
+                className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
+                key={ item.id }>
+                <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
 
-                  <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                         value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
-                  <div className=" flex flex-col">
+                <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                       value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
+                <div className=" flex flex-col">
 
-                    <table className={ "border-transparent" }>
-                      <tbody className={ "border-transparent" }>
+                  <table className={ "border-transparent" }>
+                    <tbody className={ "border-transparent" }>
 
-                      <tr>
-                        <td className={ "hidden sm:block" }><span>Nama Produk </span></td>
-                        <td className={ "text-sm sm:text-base" }>{ item.nama }
+                    <tr>
+                      <td className={ "hidden sm:block" }><span>Nama Produk </span></td>
+                      <td className={ "text-sm sm:text-base" }>{ item.nama }
 
-                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                                 value={ item.nama }{ ...register( `semuaProduct.${ index }.nama` ) }/>
+                        <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                               value={ item.nama }{ ...register( `semuaProduct.${ index }.nama` ) }/>
 
-                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                        <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                  value={ item.img }{ ...register( `semuaProduct.${ index }.img` ) }/>
                         </td>
                       </tr>

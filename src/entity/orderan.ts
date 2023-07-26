@@ -1,5 +1,5 @@
-import { TFormProduct } from './produk';
 import React from 'react';
+import { TProduct } from '@/entity/produk';
 
 export type Props = { tag?: keyof JSX.IntrinsicElements; } & React.HTMLAttributes<HTMLOrSVGElement>;
 
@@ -12,9 +12,9 @@ type TOrderKeys =
 
 
 export type TOrder = {
-  listOrderan: TFormProduct[ ]
-  listItem: TFormProduct[ ]
-  semuaProduct: TFormProduct[ ]
+  listOrderan: TProduct[ ]
+  listItem: TProduct[ ]
+  semuaProduct: TProduct[ ]
 
 
 //waktu
@@ -62,7 +62,7 @@ export  type Thitung = {
   totalHarga: number
 }
 
-export  type TotalOrderan = { hitung: Thitung } & { semuaProduct: TFormProduct[] } & TOrder
+export  type TotalOrderan = { hitung: Thitung } & { semuaProduct: TProduct[] } & TOrder
 
 type TOnlyKey = Record<keyof TOrder, any>
 
@@ -89,7 +89,6 @@ export const formInput: TOnlyKey = {
     jenis: "Orderan",
   }
   ],
-
   listItem: [ {
     id: "Se/Or/TBSp/42",
     nama: "Tahu Bakso Rebus",
