@@ -1,19 +1,50 @@
 // getAll data from database
 
-import { prisma } from '@/server/models/prisma/config';
-import { TPProduk } from '@/server/repository/interface/prisma';
+import { prisma }          from '@/server/models/prisma/config';
 import { Prisma, produk, } from '../../../prisma/prisma/data';
-import { zProdukType } from '@/server/service/produk';
+import { zProdukType }     from '@/server/service/produk';
+import { GetResult }       from '@prisma/client/runtime/library';
 
-type TYPE = TPProduk
+type TYPE = zProdukType
 
-interface IRepoProduk {
-  update( data: produk, id: { id: string } ): Promise<Prisma.BatchPayload>
-  findAll(): Promise<produk[]>
-  // findById(): Promise<produk>
+type data =
+  GetResult<{
+    id: string;
+    nama: string;
+    lokasi: string;
+    jenis: string;
+    img: string;
+    harga: number | null;
+    jumlah: number | null;
+    keterangan: string;
+    created_at: Date;
+    updated_at: Date;
+  }, any> & {}
+  | null
+
+// interface IRepoProduk {
+//   // findAll(): Promise<produk[]>
+//   // findById( id: string ):
+//   // Promise<data> paginate( data: {
+//   // row: number, skip: number } ):
+//   // Promise<data[]> create( data: TYPE
+//   // ): Promise<data> update( data:
+//   // TYPE, id: { id: string } ):
+//   // Promise<Prisma.BatchPayload>
+//   // destroy( id: string ):
+//   // Promise<Prisma.BatchPayload>
+// }
+
+interface InterfaceProduk {
+  findAll(): Promise<produk[]>;
+  findById( id: string ): Promise<any>;
+  paginate( data: { row: number, skip: number } ): Promise<any>;
+  create( data: TYPE ): Promise<any>;
+  update( data: TYPE, id: { id: string } ): Promise<any>;
+  destroy( id: string ): Promise<Prisma.BatchPayload>;
 }
 
-class RepoProduk implements IRepoProduk {
+export default class RepoProduk implements InterfaceProduk {
   async findAll(): Promise<produk[]> {
     return await prisma.produk.findMany()
   }
@@ -30,23 +61,21 @@ class RepoProduk implements IRepoProduk {
   }
 
 //create data from database
-  async create( data: zProdukType ) {
-    console.log( "success" )
+  async create( data: TYPE ) {
     return await prisma.produk.create( { data } )
   }
 
 //edit data from database
-  async update( data: produk, id: { id: string } ) {
-    return prisma.produk.updateMany( { where: id, data } )
+  async update( data: TYPE, id: { id: string } ) {
+    return prisma.produk.updateMany( {
+      where: id, data
+    } )
   }
 
 //delete data from database
-  async destroy( id: string ) {
+  async destroy( id: string ): Promise<Prisma.BatchPayload> {
     return prisma.produk.deleteMany( { where: { id } } )
   }
 
 }
 
-const { findAll, create, destroy, paginate, findById, update } = new RepoProduk
-const Repo = { findAll, create, destroy, paginate, findById, update }
-export default Repo
