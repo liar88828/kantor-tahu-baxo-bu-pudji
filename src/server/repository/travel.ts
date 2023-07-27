@@ -3,9 +3,7 @@ import { TTravel } from '@/entity/travel';
 
 // getAll data from database
 const findAll = async () => {
-  const getData = await prisma.travel.findMany()
-  console.log( getData )
-  return getData
+  return await prisma.travel.findMany()
 
 }
 
@@ -23,9 +21,7 @@ const paginate = async ( data: { row: number, skip: number } ) => {
 
 //create data from database
 const create = async ( data: TTravel ) => {
-
-  data.img = data.img || "dasdasda"
-
+  data.img = data.img || "noting"
   return prisma.travel.create( {
     data: {
       id: data.id,
@@ -62,7 +58,5 @@ const update = async ( data: TTravel, id: string ) => {
 const destroy = async ( id: string ) => {
   return prisma.travel.deleteMany( { where: { id } } )
 }
-
 const Repo = { findAll, create, destroy, paginate, findById, update }
-
 export default Repo

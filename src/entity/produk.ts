@@ -9,6 +9,16 @@ export type TProduct = {
   keterangan: string
 }
 
+const exampleProduk: TProduct = {
+  id: "58c2e9e2-9e0e-40ef-9a72-88658ce00fb2",
+  harga: 20_000,
+  img: "tidak ada ",
+  jenis: "orderan",
+  jumlah: 1,
+  keterangan: "Pedas",
+  lokasi: "Semarang",
+  nama: "tahu baxo"
+}
 
 //
 // const product = [

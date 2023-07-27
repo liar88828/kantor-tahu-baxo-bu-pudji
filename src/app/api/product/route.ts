@@ -3,11 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function POST( req: Request ) {
 
-  //make save and return json
-
-  // make validation data
-
-  // return response
 
   const formData = await req.formData();
   const folderName = 'public/product/';
