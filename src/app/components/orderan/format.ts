@@ -1,57 +1,48 @@
-import { TotalOrderan } from '@/entity/orderan';
-
-export const format = ( dataBaru: TotalOrderan ): string => dataBaru.orang.penerima.toString().slice( 0, 2 ) + "/" +
-  dataBaru.orang.hpPenerima.toString().slice( 0, 2 ) + "/" +
-  dataBaru.orang.alamatPenerima.toString().slice( 0, 2 ) + "/" +
-  dataBaru.tanggal.pesan.toString().slice( 0, 2 ) + "/" +
-  dataBaru.tanggal.kirim.toString().slice( 0, 2 ) + "/" +
-  dataBaru.tanggal.waktuKirim.toString().slice( 0, 2 ) + "/" +
-  dataBaru.keterangan.lokasi.toString().slice( 0, 2 ) + "/"
-// dataBaru.travel.namaPengiriman.toString().slice( 0, 2 ) + "/"
-
-import { TOrder } from '@/entity/orderan';
+import { TOrder, TotalOrderan } from '@/entity/orderan';
 import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
+
+export const format = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.toString().slice( 0, 2 ) + "/" +
+  dataBaru.hpPenerima.toString().slice( 0, 2 ) + "/" +
+  dataBaru.alamatPenerima.toString().slice( 0, 2 ) + "/" +
+  dataBaru.pesan.toString().slice( 0, 2 ) + "/" +
+  dataBaru.kirim.toString().slice( 0, 2 ) + "/" +
+  dataBaru.waktuKirim.toString().slice( 0, 2 ) + "/" +
+  dataBaru.lokasi.toString().slice( 0, 2 ) + "/"
+// dataBaru.travel.namaPengiriman.toString().slice( 0, 2 ) + "/"
 
 export const defaultValues: TOrder = {
   //data orang
-  orang: {
-    pengirim: 'Kantor Tahu Baxo',
-    hpPengirim: '',
-    penerima: '',
-    alamatPenerima: '',
-    hpPenerima: '',
-  },
-
+  pengirim: 'Kantor Tahu Baxo',
+  hpPengirim: '',
+  penerima: '',
+  alamatPenerima: '',
+  hpPenerima: '',
   // waktu
   //toLocaleString === harus di isi parameternya
-  tanggal: {
-    pesan: getDateNow(),
-    kirim: getDateNow(),
-    waktuKirim: getLocaleTime()
-  }
-  ,
+  pesan: getDateNow(),
+  kirim: getDateNow(),
+  waktuKirim: getLocaleTime(),
+
   // product
   listOrderan: [],
   listItem: [],
   semuaProduct: [],
 
-  keterangan: {
-    guna: "",
-    lokasi: "",
-  },
-  travel: {
-    namaPengiriman: "Kantor Tahu Baxo ",
-    ekspedisi: '',
-    ongkir: 0,
-  },
+  //keterangan
+  guna: "",
+  lokasi: "",
+
+  //travel
+  namaPengiriman: "Kantor Tahu Baxo ",
+  ekspedisi: '',
+  ongkir: 0,
 
   //transaksi
-  total: {
-    no: "",
-    typePembayaran: "",
-    total: 0,
-    totalBayar: 0,
-    totalPenjualan: 0,
-    status: 'Di terima',
-  }
+  no: "",
+  typePembayaran: "",
+  total: 0,
+  totalBayar: 0,
+  totalPenjualan: 0,
+  status: 'Di terima',
+
 }

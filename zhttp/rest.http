@@ -1,0 +1,12 @@
+###
+POST http://localhost:3000/api/orderan
+Content-Type: application/json
+
+{
+  "pesan": "17/07/2023",
+  "status": "Di terima",
+  "waktuKirim": "21.27"
+}
+
+###
+POST http://localhost:3000/api/orderan

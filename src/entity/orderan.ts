@@ -3,56 +3,35 @@ import { TProduct } from '@/entity/produk';
 
 export type Props = { tag?: keyof JSX.IntrinsicElements; } & React.HTMLAttributes<HTMLOrSVGElement>;
 
-type TOrderKeys =
-  keyof TOrder['orang']
-  | keyof TOrder['tanggal']
-  | keyof TOrder["keterangan"]
-  | keyof TOrder["total"]
-  | keyof TOrder["travel"]
-
-
 export type TOrder = {
   listOrderan: TProduct[ ]
   listItem: TProduct[ ]
   semuaProduct: TProduct[ ]
-
-
 //waktu
-  tanggal: {
-    pesan: Date | string
-    kirim: Date | string
-    waktuKirim: Date | string
-  }
-
+  pesan: Date | string
+  kirim: Date | string
+  waktuKirim: Date | string
   // data orang
-  orang: {
-    pengirim: string
-    hpPengirim: string
-    penerima: string
-    alamatPenerima: string
-    hpPenerima: string
-  }
-
+  pengirim: string
+  hpPengirim: string
+  penerima: string
+  alamatPenerima: string
+  hpPenerima: string
 // keterangan
-  keterangan: {
-    guna: string
-    lokasi: string
-  }
-
-  travel: {
-    namaPengiriman: string
-    ekspedisi: string
-    ongkir: number
-  }
-
-  total: {
-    no: string
-    typePembayaran: string
-    total?: number
-    totalBayar?: number
-    totalPenjualan?: number,
-    status: 'Di terima' | 'Proses' | 'Kirim' | "Selesai"
-  }
+  guna: string
+  lokasi: string
+//Travel
+  namaPengiriman: string
+  ekspedisi: string
+  ongkir: number
+//total
+  id?: string
+  no: string
+  typePembayaran: string
+  total?: number
+  totalBayar?: number
+  totalPenjualan?: number,
+  status: 'Di terima' | 'Proses' | 'Kirim' | "Selesai"
 }
 
 export  type Thitung = {
@@ -67,20 +46,17 @@ export  type TotalOrderan = { hitung: Thitung } & { semuaProduct: TProduct[] } &
 type TOnlyKey = Record<keyof TOrder, any>
 
 export const formInput: TOnlyKey = {
-  orang: {
-    pengirim: "Pengirim",
-    hpPengirim: "Hp Pengirim",
-    penerima: "Penerima",
-    alamatPenerima: "Alamat Penerima",
-    hpPenerima: "Hp Penerima",
-  },
-
-  tanggal: {
-    pesan: "Pesan",
-    kirim: "Kirim",
-    waktuKirim: "Waktu Kirim"
-  },
-
+//keterangan orang
+  pengirim: "Pengirim",
+  hpPengirim: "Hp Pengirim",
+  penerima: "Penerima",
+  alamatPenerima: "Alamat Penerima",
+  hpPenerima: "Hp Penerima",
+//tanggal pesan
+  pesan: "Pesan",
+  kirim: "Kirim",
+  waktuKirim: "Waktu Kirim",
+//orderan
   listOrderan: [ {
     id: "Se/Or/TBSp/42",
     nama: "Tahu Bakso Special",
@@ -105,22 +81,20 @@ export const formInput: TOnlyKey = {
     jenis: "Item"
   },
   ],
+//keterangan
+  guna: "Keterangan",
+  lokasi: "Lokasi",
+//travel
+  namaPengiriman: "Nama Travel",
+  ekspedisi: "Ekspedisi",
+  ongkir: "Ongkir",
+//total
+  id: "1231231",
+  no: "No",
+  typePembayaran: "Pembayaran",
+  total: "Total",
+  totalBayar: "Total Bayar",
+  totalPenjualan: "Total Penjualan",
+  status: "Status"
 
-  keterangan: {
-    guna: "Keterangan",
-    lokasi: "Lokasi",
-  },
-  travel: {
-    namaPengiriman: "Nama Travel",
-    ekspedisi: "Ekspedisi",
-    ongkir: "Ongkir",
-  },
-  total: {
-    no: "No",
-    pembayaran: "Pembayaran",
-    total: "Total",
-    totalBayar: "Total Bayar",
-    totalPenjualan: "Total Penjualan",
-    status: "Status"
-  }
 }

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Rupiah } from '@/lib/utils/rupiah';
-import { TFormProduct } from '@/entity/produk';
 import { Status } from '@/app/style/status';
 import { TotalOrderan } from '@/entity/orderan';
 import { PopUp } from '@/app/components/orderan/PopUp';
 import { Button } from '@material-tailwind/react';
+import { TProduct } from '@/entity/produk';
 
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );
   const { data }: { data: TotalOrderan } = props
 
-  const Jumlah: React.FC<{ d: TFormProduct[] }> = ( { d } ) => {
+  const Jumlah: React.FC<{ d: TProduct[] }> = ( { d } ) => {
     return (
       <>
         { d.map( ( o ) => (
@@ -22,7 +22,7 @@ function TableOrder( props: any ) {
     );
   };
 
-  const KeteranganProduct: React.FC<{ d: TFormProduct[], k: string, t: string }> = ( { d, k, t } ) => {
+  const KeteranganProduct: React.FC<{ d: TProduct[], k: string, t: string }> = ( { d, k, t } ) => {
     const filteredItems = d.filter( ( o ) => {
       if( t === "Item" ) {
         return o.jenis === "Item";
@@ -34,17 +34,17 @@ function TableOrder( props: any ) {
     } );
 
     return ( <>
-        { filteredItems.map( ( o: TFormProduct ) => {
-            let ket
-            if( k === "harga" ) {
-              ket = o.harga
-            }
-            else if( k == "nama" ) {
-              ket = o.nama
-            }
-            else if( k == "jumlah" ) {
-              ket = o.jumlah
-            }
+        { filteredItems.map( ( o: TProduct ) => {
+          let ket
+          if( k === "harga" ) {
+            ket = o.harga
+          }
+          else if( k == "nama" ) {
+            ket = o.nama
+          }
+          else if( k == "jumlah" ) {
+            ket = o.jumlah
+          }
             else if( k == "total" ) ket = Rupiah( Number( o.harga ) * Number( o.jumlah ) )
 
             return ( <span className={ "flex border-gray-200 border" }
@@ -105,44 +105,44 @@ function TableOrder( props: any ) {
           <tr className="border-b border-gray-200 dark:border-gray-700">
 
             <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              { data?.total.no }
+              { data?.no }
             </th>
             {/*------------Tanggal----------------*/ }
             <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              <time>{ data?.tanggal.pesan.toString() }</time>
+              <time>{ data?.pesan.toString() }</time>
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap ">
-              <time>{ data?.tanggal.kirim.toString() }</time>
+              <time>{ data?.kirim.toString() }</time>
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap ">
-              <time>{ data?.tanggal.waktuKirim.toLocaleString( "id_ID", { hour12: false } ) }</time>
+              <time>{ data?.waktuKirim.toLocaleString( "id_ID", { hour12: false } ) }</time>
             </td>
 
             {/*------------Pengirim----------------*/ }
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50  ">
-              { data?.orang.pengirim }
+              { data?.pengirim }
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data?.orang.hpPengirim }
+              { data?.hpPengirim }
             </td>
 
             {/*------------Penerima----------------*/ }
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
-              { data?.orang.penerima }
+              { data?.penerima }
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
-              { data?.orang.alamatPenerima }
+              { data?.alamatPenerima }
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
-              { data?.orang.hpPenerima }
+              { data?.hpPenerima }
             </td>
 
             {/*------------Orderan----------------*/ }
@@ -187,26 +187,26 @@ function TableOrder( props: any ) {
             {/*------------Orderan----------------*/ }
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data?.keterangan.lokasi }
+              { data?.lokasi }
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              { data?.travel.ekspedisi }
+              { data?.ekspedisi }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data.total.typePembayaran }
+              { data.typePembayaran }
             </td>
             <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
               <div className="w-[10rem]">
                 <div className="line-clamp-3">
-                  { data?.keterangan.guna }
+                  { data?.guna }
                 </div>
               </div>
             </td>
 
             {/*---------------------------Hitung---------------------*/ }
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data?.travel.ongkir }
+              { data?.ongkir }
             </td>
 
             <td scope="row"
@@ -222,8 +222,8 @@ function TableOrder( props: any ) {
             {/*--------------------Aksi---------------------------*/ }
             <td scope="row" className={ ` border border-slate-300 py-4 px-4  break-all w-3/4 ` }>
               <div
-                className={ Status( data.total.status ) + " w-[7rem] p-2 rounded-lg text-center shadow-black/40 shadow" }>
-                { data.total.status }
+                className={ Status( data.status ) + " w-[7rem] p-2 rounded-lg text-center shadow-black/40 shadow" }>
+                { data.status }
               </div>
             </td>
 

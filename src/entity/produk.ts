@@ -26,7 +26,7 @@ export type TProduct = {
 //   { nama: "Rolade Singkong", harga: 19.000 },
 // ]
 
-export const sProduct: TFormProduct[] = [
+export const sProduct: TProduct[] = [
   {
     id: "Un/It/TBR/42",
     nama: "Tahu Bakso Rebus",

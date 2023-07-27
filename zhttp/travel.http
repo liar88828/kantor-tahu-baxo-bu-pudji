@@ -1,0 +1,47 @@
+### get data Travel
+GET http://localhost:3000/api/travel/
+Content-Type: application/json
+
+
+### get data Travel by id
+GET http://localhost:3000/api/travel/c03267c4-0fc1-4940-ae1a-9bf694cc311f
+Content-Type: application/json
+
+{
+}
+
+### create data Travel
+POST http://localhost:3000/api/travel
+Content-Type: application/json
+
+{
+  "namaPengiriman": "test1",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "semarang",
+  "jenis": "truck",
+  "harga": 20000,
+  "img": "orak jelas",
+  "keterangan": "masih diragukan"
+}
+
+
+### update data Travel
+PUT http://localhost:3000/api/travel/c03267c4-0fc1-4940-ae1a-9bf694cc311f
+Content-Type: application/json
+
+{
+  "namaPengiriman": "test update lagi",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "semarang",
+  "jenis": "truck",
+  "harga": 20000,
+  "img": "orak jelas",
+  "keterangan": "masih diragukan"
+}
+
+### delete data Travel
+DELETE http://localhost:3000/api/travel/c03267c4-0fc1-4940-ae1a-9bf694cc311f
+Content-Type: application/json
+
+{
+}

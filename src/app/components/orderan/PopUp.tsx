@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { TotalOrderan } from '@/entity/orderan';
-import { TFormProduct } from '@/entity/produk';
 import { Rupiah } from '@/lib/utils/rupiah';
 import {
   Button,
@@ -14,6 +13,7 @@ import {
   Typography
 } from '@material-tailwind/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import { TProduct } from '@/entity/produk';
 
 export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
   clickPopUp: boolean,
@@ -56,25 +56,25 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                 <div className="  flex gap-5 flex-col sm:flex-row">
                   <Card variant="gradient" color="blue"
                         className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
-                    <Typography color="black">Kode : { data.total.no }</Typography>
-                    <Typography color="black">Nama Penerima: { data.orang.penerima }</Typography>
-                    <Typography color="black">Hp Penerima: { data.orang.hpPenerima }</Typography>
-                    <Typography color="black">Alamat Penerima : { data.orang.alamatPenerima }</Typography>
-                    <Typography color="black">Tanggal Pesan : { data.tanggal.pesan.toString() }</Typography>
-                    <Typography color="black">Tanggal Kirim : { data.tanggal.kirim.toString() }</Typography>
-                    <Typography color="black">Tanggal waktu Kirim : { data.tanggal.waktuKirim.toString() }</Typography>
-                    <Typography color="black">Keterangan Lokasi : { data.keterangan.lokasi }</Typography>
+                    <Typography color="black">Kode : { data.no }</Typography>
+                    <Typography color="black">Nama Penerima: { data.penerima }</Typography>
+                    <Typography color="black">Hp Penerima: { data.hpPenerima }</Typography>
+                    <Typography color="black">Alamat Penerima : { data.alamatPenerima }</Typography>
+                    <Typography color="black">Tanggal Pesan : { data.pesan.toString() }</Typography>
+                    <Typography color="black">Tanggal Kirim : { data.kirim.toString() }</Typography>
+                    <Typography color="black">Tanggal waktu Kirim : { data.waktuKirim.toString() }</Typography>
+                    <Typography color="black">Keterangan Lokasi : { data.lokasi }</Typography>
                   </Card>
 
                   <Card
                     variant="gradient"
                     color="blue"
                     className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-5">
-                    <Typography color="black">Lokasi : { data.keterangan.lokasi }</Typography>
-                    <Typography color="black">Travel Pengirim : { data.orang.pengirim }</Typography>
-                    <Typography color="black">Ekspedisi : { data.travel.ekspedisi }</Typography>
+                    <Typography color="black">Lokasi : { data.lokasi }</Typography>
+                    <Typography color="black">Travel Pengirim : { data.pengirim }</Typography>
+                    <Typography color="black">Ekspedisi : { data.ekspedisi }</Typography>
                     <hr/>
-                    <Typography color="black">Ongkir : { Rupiah( data.travel.ongkir ) }</Typography>
+                    <Typography color="black">Ongkir : { Rupiah( data.ongkir ) }</Typography>
                     <Typography color="black">Semua Harga Orderan
                       : { Rupiah( data.hitung.semuaHargaOrderan ) }</Typography>
                     <Typography color="black">Semua Harga Item : { Rupiah( data.hitung.semuaHargaItem ) }</Typography>
@@ -89,7 +89,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                 <div className="">
                   <ul
                     className="  relative overflow-x-auto rounded-lg bg-white p-2 mt-1 gap-2 flex shadow shadow-slate-300">
-                    { data.semuaProduct.map( ( item: TFormProduct, index: number ) => {
+                    { data.semuaProduct.map( ( item: TProduct, index: number ) => {
                       return (
                         <Card key={ item.id } color="blue" className={ "flex-nowrap flex" }>
                           <div
@@ -113,7 +113,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
                 <div className="shadow shadow-slate-300 p-2 rounded ">
 
                   <Typography color="black">Keterangan : </Typography>
-                  <Typography color="black">{ data.keterangan.guna }</Typography>
+                  <Typography color="black">{ data.guna }</Typography>
                 </div>
               </div>
 

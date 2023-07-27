@@ -66,12 +66,12 @@ export default function FormOrder() {
   const semuaHargaOrderan = mergeData.listOrderan.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
   const semuaHargaItem = mergeData.listItem.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
   const semuaHargaProduct = mergeData.semuaProduct.length > 0 && mergeData.semuaProduct.reduce( ( acc, item ) => acc + item.harga * item.jumlah, 0 )
-  const totalHarga = Number( semuaHargaOrderan ) + Number( semuaHargaItem ) + Number( mergeData.travel.ongkir )
+  const totalHarga = Number( semuaHargaOrderan ) + Number( semuaHargaItem ) + Number( mergeData.ongkir )
 
   const hitung: Thitung = { semuaHargaOrderan, semuaHargaItem, semuaHargaProduct, totalHarga }
   const dataBaru: TotalOrderan = Object.assign( { hitung, }, mergeData )
 
-  dataBaru.total.no = format( dataBaru )
+  dataBaru.no = format( dataBaru )
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
 
@@ -111,14 +111,14 @@ export default function FormOrder() {
       <>
         <div className={ "flex-col flex gap-3 " }><h2>Nama</h2>
           <hr/>
-          <InputForm title={ "Pengirim" } type="text" reg={ register( "orang.pengirim" ) }
+          <InputForm title={ "Pengirim" } type="text" reg={ register( "pengirim" ) }
                      defaultValue={ "Kantor Tahu Baxo" }/>
           <InputForm title={ "Hp Pengirim" } type={ "number" }
-                     reg={ register( "orang.hpPengirim", { valueAsNumber: true } ) }/>
-          <InputForm title={ "Penerima" } type={ "text" } reg={ register( "orang.penerima" ) }/>
-          <InputForm title={ "Alamat Penerima" } type={ "text" } reg={ register( "orang.alamatPenerima" ) }/>
+                     reg={ register( "hpPengirim", { valueAsNumber: true } ) }/>
+          <InputForm title={ "Penerima" } type={ "text" } reg={ register( "penerima" ) }/>
+          <InputForm title={ "Alamat Penerima" } type={ "text" } reg={ register( "alamatPenerima" ) }/>
           <InputForm title={ "Hp Penerima" } type={ "number" }
-                     reg={ register( "orang.hpPenerima", { valueAsNumber: true } ) }/>
+                     reg={ register( "hpPenerima", { valueAsNumber: true } ) }/>
         </div>
       </>
     );
@@ -130,14 +130,14 @@ export default function FormOrder() {
         <div className={ " flex-col flex gap-3 " }>
           <h2>Tanggal</h2>
           <hr/>
-          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ register( "tanggal.pesan" ) }
+          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ register( "pesan" ) }
                      min="2023-01-01"
                      defaultValue={ defaultDate() }/>
-          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ register( "tanggal.kirim" ) }
+          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ register( "kirim" ) }
                      defaultValue={ defaultDate() }/>
-          <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" } reg={ register( "tanggal.waktuKirim" ) }
+          <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" } reg={ register( "waktuKirim" ) }
                      defaultValue={ getTime() }/>
-          <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" } reg={ register( "keterangan.guna" ) }/>
+          <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" } reg={ register( "guna" ) }/>
         </div>
       </> )
   }
@@ -411,7 +411,7 @@ export default function FormOrder() {
           {/* combo box  */ }
           <label htmlFor="">Ekspedisi</label>
           <select id="ekspedisi"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "travel.ekspedisi" ) }>
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "ekspedisi" ) }>
             <option value="Paxel">Paxel</option>
             <option value="JNE">JNE</option>
             <option value="Travel Omega">Travel Omega</option>
@@ -423,9 +423,9 @@ export default function FormOrder() {
 
           {/* tulis sendiri */ }
           <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
-                     reg={ register( "travel.ongkir", { valueAsNumber: true } ) }/>
+                     reg={ register( "ongkir", { valueAsNumber: true } ) }/>
           <label htmlFor="">Lokasi</label>
-          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "keterangan.lokasi" ) }>
+          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
             <option value="Ungaran">Ungaran</option>
             <option value="Semarang">Semarang</option>
           </select>
@@ -433,7 +433,7 @@ export default function FormOrder() {
           {/* jenis Pembayaran */ }
           <label htmlFor="">Pembayaran</label>
           <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.typePembayaran" ) }>
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "typePembayaran" ) }>
             <option value="Cash">Cash</option>
             <option value="BCA">BCA</option>
             <option value="Mandiri">Mandiri</option>
@@ -442,7 +442,7 @@ export default function FormOrder() {
 
           <label htmlFor="">Status</label>
           <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "total.status" ) }>
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "status" ) }>
             {/*/status/*/ }
             <option className={ SDiTerima } value="Di Terima">Di Terima</option>
             <option className={ SProcess } value='Di Proses'>Di Proses</option>

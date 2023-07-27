@@ -3,20 +3,20 @@ import { TOrder } from '@/entity/orderan';
 import { post } from '@/server/controller/orderan';
 import { TOrderSuccess } from '@/entity/server/orderan';
 
-const orderan: TOrder["orang"] = {
-  penerima: "asda",
-  hpPenerima: "sadadsa",
-  alamatPenerima: "dasdas",
-  pengirim: "sadsad",
-  hpPengirim: "asdads"
-}
+// const orderan: TOrder = {
+//   penerima: "asda",
+//   hpPenerima: "sadadsa",
+//   alamatPenerima: "dasdas",
+//   pengirim: "sadsad",
+//   hpPengirim: "asdads"
+// }
 
 export async function POST( request: Request ) {
   const json = await request.json();
   try {
 
     // const data = get( json )
-    const data: TOrderSuccess = await post( orderan )
+    const data: TOrderSuccess = await post()
     return NextResponse.json( { msg: "Success Create", valid: data.valid, success: data.success } )
   } catch ( e ) {
     return NextResponse.json( { msg: "Error Create", error: e } )
