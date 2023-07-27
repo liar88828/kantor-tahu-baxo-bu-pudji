@@ -1,18 +1,19 @@
 ### get data Produk`
-GET http://localhost:3000/api/produk/
+GET http://localhost:3000/api/produk
 
 ### get data Produk` by id
-GET http://localhost:3000/api/produk/ab4beff0-0ab5-4043-b7f6-c156a210da60
+GET http://localhost:3000/api/produk/a16490e3-df4b-46f8-a328-fad9f0309a9a
 
 ### create data Produk`
 POST http://localhost:3000/api/produk
 Content-Type: application/json
 
 {
+  "id": "528a8581-6eb2-4cc0-b48e-ec3b2b29c516",
   "harga": 20000,
   "img": "tidak ada ",
   "jenis": "orderan",
-  "jumlah": 1,
+  "jumlah": 86,
   "keterangan": "Pedas",
   "lokasi": "Semarang",
   "nama": "tahu baxo"
@@ -20,11 +21,11 @@ Content-Type: application/json
 
 
 ### update data Produk`
-PUT http://localhost:3000/api/produk/ab4beff0-0ab5-4043-b7f6-c156a210da60
+PUT http://localhost:3000/api/produk/a16490e3-df4b-46f8-a328-fad9f0309a9a
 Content-Type: application/json
 
 {
-  "nama": "tahu baxo update",
+  "nama": "tahu baxo update lagi 1x",
   "harga": 20000,
   "img": "tidak ada ",
   "jenis": "orderan",
@@ -34,4 +35,4 @@ Content-Type: application/json
 }
 
 ### delete data Produk`
-DELETE http://localhost:3000/api/produk/ab4beff0-0ab5-4043-b7f6-c156a210da60
+DELETE http://localhost:3000/api/produk/a16490e3-df4b-46f8-a328-fad9f0309a9a

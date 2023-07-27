@@ -110,6 +110,9 @@ dependencies:
   xlsx:
     specifier: ^0.18.5
     version: 0.18.5
+  zod:
+    specifier: ^3.21.4
+    version: 3.21.4
 
 devDependencies:
   '@hookform/devtools':

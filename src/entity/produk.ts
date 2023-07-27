@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type TProduct = {
   id: string
   nama: string,
@@ -9,9 +11,21 @@ export type TProduct = {
   keterangan: string
 }
 
-const exampleProduk: TProduct = {
+export const ServiceProduk: z.ZodType<TProduct> = z.object( {
+  id: z.string().min( 1 ),
+  nama: z.string().min( 1 ),
+  harga: z.number().int().positive(),
+  lokasi: z.string().min( 1 ),
+  jumlah: z.number().int().positive(),
+  // jenis: z.enum(["Orderan","Item"]),
+  jenis: z.string(),
+  img: z.string(),
+  keterangan: z.string()
+} )
+
+const exampleProduk: z.infer<typeof ServiceProduk> = {
   id: "58c2e9e2-9e0e-40ef-9a72-88658ce00fb2",
-  harga: 20_000,
+  harga: 20000,
   img: "tidak ada ",
   jenis: "orderan",
   jumlah: 1,
@@ -20,7 +34,32 @@ const exampleProduk: TProduct = {
   nama: "tahu baxo"
 }
 
-//
+const data = ServiceProduk.parse( exampleProduk )
+
+const userSchema = z.object( {
+  name: z.string(),
+  age: z.number(),
+} );
+
+// Sample input data
+const inputData = {
+  name: "John Doe",
+  age: 30,
+};
+
+// Validation using Zod schema
+const isValidZod = userSchema.safeParse( inputData ).success;
+
+interface Res {
+  films: string;
+  people: string;
+}
+
+const schema: z.ZodType<Res> = z.object( {
+  films: z.string(),
+  people: z.string(),
+} );
+
 // const product = [
 //   // { nama: "Tahu Bakso Rebus", harga: 42.000 },
 //   { nama: "Tahu Bakso Vakum", harga: 46.000 },
