@@ -1,5 +1,5 @@
 "use client"
-import React, { ReactElement, Suspense, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { BiAddToQueue } from 'react-icons/bi';
@@ -78,10 +78,10 @@ export default function FormOrder() {
   const onCreate = async () => {
     if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
       // Save it!
-      console.log( 'Thing was saved to the database.', valueForm );
+      // console.log( 'Thing was saved to the database.', valueForm );
 
       const responseData = await createOrder( valueForm )
-      console.log( responseData )
+      // console.log( responseData )
     }
     else {
       // Do nothing!
@@ -149,9 +149,7 @@ export default function FormOrder() {
     const [ cariProduct, setCariProduct ] = useState<boolean>( false )
 
     const addToCart = ( item: TProduct ) => {
-      console.log( fields, "add 1" )
       const isItemInCart = fields.some( ( cartItem ) => cartItem.nama === item.nama );
-
       if( isItemInCart ) {
         alert( `Item "${ item.nama }" is already in the cart.` );
         setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.nama !== item.nama ) );
@@ -160,7 +158,6 @@ export default function FormOrder() {
       }
       setCart( ( prevCart ) => [ ...prevCart, item ] );
       setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.nama !== item.nama ) );
-      console.log( fields, "add 2" )
     };
 
     // const removeItem = ( item: TProduct ) => {
@@ -168,12 +165,10 @@ export default function FormOrder() {
     // };
 
     const removeFromCart = ( item: TProduct ) => {
-      console.log( fields, "remove 1" )
       setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
       setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
       valueForm.listItem.filter( dataItem => dataItem.nama !== item.nama )
       valueForm.listOrderan.filter( dataItem => dataItem.nama !== item.nama )
-      console.log( fields, "remove 2" )
     };
 
     const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
@@ -189,125 +184,175 @@ export default function FormOrder() {
       setFilteredItems( filtered );
     };
 
+    const isItemAdded = ( item: TProduct ) => cart.some( ( cartItem ) => cartItem.nama === item.nama )
+
     //-----------------------------------------------search
-    function SearchItemList( { items, addToCart, cart }: {
-      items: TProduct[], addToCart: any, cart: TProduct[]
-    } ) {
-      const isItemAdded = ( item: TProduct ) => cart.some( ( cartItem ) => cartItem.nama === item.nama )
+    // function SearchItemList( { items, addToCart, cart }: { items: TProduct[], addToCart: any, cart: TProduct[] } ) {
+    //   return (
+    //   )
+    // }
 
+    // function CariProduct() {
+    //   return (
+    //
+    //   )
+    // }
+
+    function Keterangan() {
       return (
-        <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-          { items.map( ( item: TProduct, ) => ( <li
-              className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden" : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
-              style={ {
-                backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
-                fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
-                visibility: isItemAdded( item ) ? 'hidden' : 'visible',
+        <div className={ "flex flex-col gap-3" }>
 
-              } } key={ item.id }>
+          {/* combo box  */ }
+          <label htmlFor="">Ekspedisi</label>
+          <select id="ekspedisi"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "ekspedisi" ) }>
+            <option value="Paxel">Paxel</option>
+            <option value="JNE">JNE</option>
+            <option value="Travel Omega">Travel Omega</option>
+            <option value="Travel Serasi">Travel Serasi</option>
+            <option value="Go Send">Go Send</option>
+            <option value="Maxim">Maxim</option>
+            <option value="Delivery">Delivery</option>
+          </select>
 
-              <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
+          {/* tulis sendiri */ }
+          <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
+                     reg={ register( "ongkir", { valueAsNumber: true } ) }/>
+          <label htmlFor="">Lokasi</label>
+          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
+            <option value="Ungaran">Ungaran</option>
+            <option value="Semarang">Semarang</option>
+          </select>
 
-              <p className={ "flex flex-col" }>
-                <span className={ "text-sm sm:text-base" }>{ item.nama }</span>
-                <span className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
-                <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
-                <span className={ "text-sm sm:text-base" }>{ item.lokasi }</span>
-              </p>
+          {/* jenis Pembayaran */ }
+          <label htmlFor="">Pembayaran</label>
+          <select id="pembayaran"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "typePembayaran" ) }>
+            <option value="Cash">Cash</option>
+            <option value="BCA">BCA</option>
+            <option value="Mandiri">Mandiri</option>
+            <option value="BRI">BRI</option>
+          </select>
 
-              <button
-                type={ "button" }
-                onClick={ () => {
-                  append(
-                    {
-                      id: item.id,
-                      nama: item.nama,
-                      harga: item.harga,
-                      lokasi: item.lokasi,
-                      jumlah: 1,
-                      keterangan: item.keterangan,
-                      jenis: item.jenis,
-                      img: item.img,
-                    }
-                  )
-                  addToCart( item )
-                } }
-                className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-                <BiAddToQueue/>
-                <span className="invisible sm:visible w-0 sm:w-auto">  Add
-                      <span className={ "sm:hidden" }>to Cart</span>
-                    </span>
-              </button>
-            </li>
-          ) ) }
-        </ul>
+          <label htmlFor="">Status</label>
+          <select id="pembayaran"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "status" ) }>
+            {/*/status/*/ }
+            <option className={ SDiTerima } value="Di Terima">Di Terima</option>
+            <option className={ SProcess } value='Di Proses'>Di Proses</option>
+            <option className={ SKirim } value="Di Kirim">Di Kirim</option>
+            <option className={ SSelesai } value="Selesai"> Selesai</option>
+          </select>
+        </div>
       )
     }
 
-    function CariProduct() {
-      return ( <div className="flex flex-col gap-3">{/*<h1Product Search</h1>*/ }
-        <div className=" flex flex-row  gap-1 sm:gap-7 w-[100%] ">
+    return (
+      <>
+        <div className="flex flex-col gap-3">{/*<h1Product Search</h1>*/ }
+          <div className=" flex flex-row  gap-1 sm:gap-7 w-[100%] ">
 
-          <button type={ 'button' }
-                  className={ `w-1/4 py-2 mb-1  ${ !cariProduct ? " bg-red-600 " : "  bg-blue-500 " } text-white cursor-pointer rounded ` }
-                  onClick={ () => {setCariProduct( !cariProduct )} }>
+            <button type={ 'button' }
+                    className={ `w-1/4 py-2 mb-1  ${ !cariProduct ? " bg-red-600 " : "  bg-blue-500 " } text-white cursor-pointer rounded ` }
+                    onClick={ () => {setCariProduct( !cariProduct )} }>
 
               <span className=" flex flex-row items-center px-4 justify-around ">
-                  <span>
-                    { !cariProduct
-                      ? <AiOutlineCloseCircle className={ " w-[1.5rem]     h-auto " }/>
-                      : <AiOutlineSearch className={ " w-[1.5rem]  h-auto " }/> }
+                  <span>{ !cariProduct ? <AiOutlineCloseCircle className={ " w-[1.5rem]     h-auto " }/> :
+                    <AiOutlineSearch className={ " w-[1.5rem]  h-auto " }/> }
                 </span>
 
-                <span className=" hidden sm:block sm:mx-2 ">
-
-                { !cariProduct ? "Tutup" : "Cari" }
-                </span>
+                <span className=" hidden sm:block sm:mx-2 ">{ !cariProduct ? "Tutup" : "Cari" }</span>
               </span>
-          </button>
+            </button>
 
-          <input className={ StyleInputForm( false ) + " rounded leading-tight w-3/4" }
-                 type="text"
-                 value={ searchQuery }
-                 placeholder={ " Cari Product" }
-                 onChange={ handleSearchChange }
-                 onClick={ () => {setCariProduct( false )} }/>
-        </div>
+            <input className={ StyleInputForm( false ) + " rounded leading-tight w-3/4 p-2" }
+                   type="text"
+                   value={ searchQuery }
+                   placeholder={ " Cari Product" }
+                   onChange={ handleSearchChange }
+                   onClick={ () => {setCariProduct( false )} }/>
+          </div>
 
-        {/*!-------------------------------------------------cariProduct----------------------------*/ }
-        <div
-          className={ ` ${ cariProduct || searchQuery.length < 1 ? " hidden " : " " } border border-gray-200 rounded bg-gray-50` }>
-          <SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>
-        </div>
+          {/*!-------------------------------------------------cariProduct----------------------------*/ }
+          <div
+            className={ ` ${ cariProduct || searchQuery.length < 1 ? " hidden " : " " } border border-gray-200 rounded bg-gray-50` }>
+            {/*<SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>*/ }
+            <ul className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
+              { filteredItems.map( ( item: TProduct, ) => ( <li
+                  className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden" : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
+                  style={ {
+                    backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
+                    fontWeight: isItemAdded( item ) ? 'bold' : 'normal',
+                    visibility: isItemAdded( item ) ? 'hidden' : 'visible',
+                  } }
+                  key={ item.id }>
 
-        {/*----------------------------------------------- -CART LIST-------------------------------------*/ }
+                  <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
 
-        <div className="flex flex-col gap-1" onClick={ () => setCariProduct( true ) }>
-          {/*<h2>Cart</h2>*/ }
-          <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
+                  <p className={ "flex flex-col" }>
+                    <span className={ "text-sm sm:text-base" }>{ item.nama }</span>
+                    <span className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
+                    <span className={ "text-sm sm:text-base" }>{ item.jenis }</span>
+                    <span className={ "text-sm sm:text-base" }>{ item.lokasi }</span>
+                  </p>
 
-            {/*--------------------------------------------------------loop-------------------------*/ }
-            { fields.map( ( item: TProduct, index: number ) => {
-              return ( <li
-                className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
-                key={ item.id }>
-                <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
+                  <button
+                    type={ "button" }
+                    onClick={ () => {
+                      append(
+                        {
+                          id: item.id,
+                          nama: item.nama,
+                          harga: item.harga,
+                          lokasi: item.lokasi,
+                          jumlah: 1,
+                          keterangan: item.keterangan,
+                          jenis: item.jenis,
+                          img: item.img,
+                        }
+                      )
+                      addToCart( item )
+                    } }
+                    className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                    <BiAddToQueue/>
+                    <span className="invisible sm:visible w-0 sm:w-auto">  Add
+                      <span className={ "sm:hidden" }>to Cart</span>
+                    </span>
+                  </button>
+                </li>
+              ) ) }
+            </ul>
 
-                <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                       value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
-                <div className=" flex flex-col">
+          </div>
 
-                  <table className={ "border-transparent" }>
-                    <tbody className={ "border-transparent" }>
+          {/*----------------------------------------------- -CART LIST-------------------------------------*/ }
 
-                    <tr>
-                      <td className={ "hidden sm:block" }><span>Nama Produk </span></td>
-                      <td className={ "text-sm sm:text-base" }>{ item.nama }
+          <div className="flex flex-col gap-1" onClick={ () => setCariProduct( true ) }>
+            {/*<h2>Cart</h2>*/ }
+            <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
 
-                        <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                               value={ item.nama }{ ...register( `semuaProduct.${ index }.nama` ) }/>
+              {/*--------------------------------------------------------loop-------------------------*/ }
+              { fields.map( ( item: TProduct, index: number ) => {
+                return ( <li
+                  className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
+                  key={ item.id }>
+                  <img className={ " rounded bg-blue-300 w-20 h-20" } src={ item.img } alt={ item.nama }/>
 
-                        <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                  <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                         value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
+                  <div className=" flex flex-col">
+
+                    <table className={ "border-transparent" }>
+                      <tbody className={ "border-transparent" }>
+
+                      <tr>
+                        <td className={ "hidden sm:block" }><span>Nama Produk </span></td>
+                        <td className={ "text-sm sm:text-base" }>{ item.nama }
+
+                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
+                                 value={ item.nama }{ ...register( `semuaProduct.${ index }.nama` ) }/>
+
+                          <input className={ StyleInputForm( false ) } type={ 'hidden' }
                                  value={ item.img }{ ...register( `semuaProduct.${ index }.img` ) }/>
                         </td>
                       </tr>
@@ -382,80 +427,24 @@ export default function FormOrder() {
                   {/*</button>*/ }
 
                 </li> )
-              }
-            )
-            }
-          </ul>
+              } ) }
+            </ul>
+          </div>
+
+          {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
+          {/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/ }
+          {/*      <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>*/ }
+          {/*      <option value="Tahu Bakso Goreng">Tahu Bakso Goreng Rp.45.000</option>*/ }
+          {/*      <option value="Bandeng Presto">Bandeng Presto Rp.60.000</option>*/ }
+          {/*      <option value="Otak-Otak Bandeng">Otak-Otak Bandeng Rp.70.000</option>*/ }
+          {/*      <option value="Bakso Sapi 20">Bakso Sapi 20 Rp.40.000</option>*/ }
+          {/*      <option value="Bakso Sapi 12">Bakso Sapi 12 Rp.25.000</option>*/ }
+          {/*      <option value="Bakso Aneka">Bakso Aneka Rp.29.000</option>*/ }
+          {/*      <option value="Nugget">Nugget Rp.27.000</option>*/ }
+          {/*      <option value="Rolade Tahu">Rolade Tahu Rp.19.000</option>*/ }
+          {/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/ }
+
         </div>
-
-        {/*      <option value="Tahu Bakso Rebus">Tahu Bakso Rebus Rp.42.000</option>*/ }
-        {/*      <option value="Tahu Bakso Vakum">Tahu Bakso Vakum Rp.46.000</option>*/ }
-        {/*      <option value="Tahu Bakso Specialty">Tahu Bakso Special Rp.50.000</option>*/ }
-        {/*      <option value="Tahu Bakso Goreng">Tahu Bakso Goreng Rp.45.000</option>*/ }
-        {/*      <option value="Bandeng Presto">Bandeng Presto Rp.60.000</option>*/ }
-        {/*      <option value="Otak-Otak Bandeng">Otak-Otak Bandeng Rp.70.000</option>*/ }
-        {/*      <option value="Bakso Sapi 20">Bakso Sapi 20 Rp.40.000</option>*/ }
-        {/*      <option value="Bakso Sapi 12">Bakso Sapi 12 Rp.25.000</option>*/ }
-        {/*      <option value="Bakso Aneka">Bakso Aneka Rp.29.000</option>*/ }
-        {/*      <option value="Nugget">Nugget Rp.27.000</option>*/ }
-        {/*      <option value="Rolade Tahu">Rolade Tahu Rp.19.000</option>*/ }
-        {/*      <option value="Rolade Singkong">Rolade Singkong Rp.19.000</option>*/ }
-
-      </div> )
-    }
-
-    function Keterangan() {
-      return (
-        <div className={ "flex flex-col gap-3" }>
-
-          {/* combo box  */ }
-          <label htmlFor="">Ekspedisi</label>
-          <select id="ekspedisi"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "ekspedisi" ) }>
-            <option value="Paxel">Paxel</option>
-            <option value="JNE">JNE</option>
-            <option value="Travel Omega">Travel Omega</option>
-            <option value="Travel Serasi">Travel Serasi</option>
-            <option value="Go Send">Go Send</option>
-            <option value="Maxim">Maxim</option>
-            <option value="Delivery">Delivery</option>
-          </select>
-
-          {/* tulis sendiri */ }
-          <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
-                     reg={ register( "ongkir", { valueAsNumber: true } ) }/>
-          <label htmlFor="">Lokasi</label>
-          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
-            <option value="Ungaran">Ungaran</option>
-            <option value="Semarang">Semarang</option>
-          </select>
-
-          {/* jenis Pembayaran */ }
-          <label htmlFor="">Pembayaran</label>
-          <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "typePembayaran" ) }>
-            <option value="Cash">Cash</option>
-            <option value="BCA">BCA</option>
-            <option value="Mandiri">Mandiri</option>
-            <option value="BRI">BRI</option>
-          </select>
-
-          <label htmlFor="">Status</label>
-          <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "status" ) }>
-            {/*/status/*/ }
-            <option className={ SDiTerima } value="Di Terima">Di Terima</option>
-            <option className={ SProcess } value='Di Proses'>Di Proses</option>
-            <option className={ SKirim } value="Di Kirim">Di Kirim</option>
-            <option className={ SSelesai } value="Selesai"> Selesai</option>
-          </select>
-        </div>
-      )
-    }
-
-    return (
-      <>
-        <CariProduct/>
         <hr className={ "m-2" }/>
         <Keterangan/>
         <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Add Product</button>
@@ -474,9 +463,7 @@ export default function FormOrder() {
             <Tanggal/>
           </div>
           <div className={ fomIsi }>
-            <Suspense fallback={ <p>Loading feed...</p> }>
-              <Orderan/>
-            </Suspense>
+            <Orderan/>
           </div>
         </div>
       </form>
