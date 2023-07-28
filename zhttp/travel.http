@@ -15,7 +15,7 @@ POST http://localhost:3000/api/travel
 Content-Type: application/json
 
 {
-  "id": "asdassd",
+  "id": "asdasssd",
   "namaPengiriman": "test1",
   "noHpPerusahaan": "0123456789",
   "lokasi": "semarang",
@@ -42,7 +42,7 @@ Content-Type: application/json
 }
 
 ### delete data Travel
-DELETE http://localhost:3000/api/travel/e7d831ab-397c-4251-b748-7013a7d69873
+DELETE http://localhost:3000/api/travel/asdassd
 Content-Type: application/json
 
 {

@@ -1,7 +1,5 @@
 import { prisma } from '@/server/models/prisma/config';
 import { Prisma } from '../../../../prisma/data';
-import produkCreateInput = Prisma.produkCreateInput;
-import produkUpdateInput = Prisma.produkUpdateInput;
 
 // interface IOrderanAccess {
 //
@@ -87,7 +85,7 @@ export default class AccessTravel {
     } )
   }
 
-  setData( data: produkCreateInput ) {
+  setData( data: TYPE ) {
     return {
       harga     : data.harga,
       id        : data.id,

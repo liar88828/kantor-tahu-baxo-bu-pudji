@@ -1,3 +1,228 @@
+DELETE http://localhost:3000/api/produk/ss
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-07-29T000831.200.json
+
+###
+
+PUT http://localhost:3000/api/produk/ss
+Content-Type: application/json
+Content-Length: 167
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "nama": "tahu baxo update lagi 1x",
+  "harga": 20000,
+  "img": "tidak ada ",
+  "jenis": "orderan",
+  "jumlah": 1,
+  "keterangan": "Pedas",
+  "lokasi": "Semarang"
+}
+
+<> 2023-07-29T000826.200.json
+
+###
+
+GET http://localhost:3000/api/produk
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-07-29T000816.200.json
+
+###
+
+GET http://localhost:3000/api/produk/ss
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-07-29T000815.200.json
+
+###
+
+POST http://localhost:3000/api/produk
+Content-Type: application/json
+Content-Length: 167
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "ss",
+  "harga": 20000,
+  "img": "tidak ada ",
+  "jenis": "orderan",
+  "jumlah": 86,
+  "keterangan": "Pedas",
+  "lokasi": "Semarang",
+  "nama": "tahu baxo"
+}
+
+<> 2023-07-29T000808.200.json
+
+###
+
+POST http://localhost:3000/api/produk
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+
+  "harga": 20000,
+  "img": "tidak ada ",
+  "jenis": "orderan",
+  "jumlah": 86,
+  "keterangan": "Pedas",
+  "lokasi": "Semarang",
+  "nama": "tahu baxo"
+}
+
+<> 2023-07-29T000803.200.json
+
+###
+
+GET http://localhost:3000/api/produk
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-07-29T000757.200.json
+
+###
+
+DELETE http://localhost:3000/api/travel/asdassd
+Content-Type: application/json
+Content-Length: 3
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+}
+
+<> 2023-07-29T000749.200.json
+
+###
+
+PUT http://localhost:3000/api/travel/asdassd
+Content-Type: application/json
+Content-Length: 221
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "asdassd",
+  "namaPengiriman": "test update lagi maneh",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "semarang",
+  "jenis": "truck",
+  "harga": 20000,
+  "img": "orak jelas",
+  "keterangan": "masih diragukan"
+}
+
+<> 2023-07-29T000741.200.json
+
+###
+
+PUT http://localhost:3000/api/travel/asdassd
+Content-Type: application/json
+Content-Length: 221
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "asdassd",
+  "namaPengiriman": "test update lagi maneh",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "semarang",
+  "jenis": "truck",
+  "harga": 20000,
+  "img": "orak jelas",
+  "keterangan": "masih diragukan"
+}
+
+<> 2023-07-29T000739.200.json
+
+###
+
+POST http://localhost:3000/api/travel
+Content-Type: application/json
+Content-Length: 205
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "asdasssd",
+  "namaPengiriman": "test1",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "semarang",
+  "jenis": "truck",
+  "harga": 20000,
+  "img": "orak jelas",
+  "keterangan": "masih diragukan"
+}
+
+<> 2023-07-29T000732.200.json
+
+###
+
+POST http://localhost:3000/api/travel
+Content-Type: application/json
+Content-Length: 205
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "asdasssd",
+  "namaPengiriman": "test1",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "semarang",
+  "jenis": "truck",
+  "harga": 20000,
+  "img": "orak jelas",
+  "keterangan": "masih diragukan"
+}
+
+###
+
+GET http://localhost:3000/api/travel/asdassd
+Content-Type: application/json
+Content-Length: 3
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+}
+
+<> 2023-07-29T000721.200.json
+
+###
+
+GET http://localhost:3000/api/travel/
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-07-29T000718.200.json
+
+###
+
 PUT http://localhost:3000/api/travel/asdassd
 Content-Type: application/json
 Content-Length: 198
@@ -562,242 +787,6 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 <> 2023-07-28T221504.200.json
-
-###
-
-GET http://localhost:3000/api/produk/528a8581-6eb2-4cc0-b48e-esc3b2b29c5u16
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-07-28T221458.200.json
-
-###
-
-PUT http://localhost:3000/api/produk/528a8581-6eb2-4cc0-b48e-esc3b2b29c5u16
-Content-Type: application/json
-Content-Length: 167
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "nama": "tahu baxo update lagi 1x",
-  "harga": 20000,
-  "img": "tidak ada ",
-  "jenis": "orderan",
-  "jumlah": 1,
-  "keterangan": "Pedas",
-  "lokasi": "Semarang"
-}
-
-<> 2023-07-28T221452.200.json
-
-###
-
-GET http://localhost:3000/api/produk
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-07-28T221441.200.json
-
-###
-
-POST http://localhost:3000/api/produk
-Content-Type: application/json
-Content-Length: 203
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "528a8581-6eb2-4cc0-b48e-esc3b2b29c5u16",
-  "harga": 20000,
-  "img": "tidak ada ",
-  "jenis": "orderan",
-  "jumlah": 86,
-  "keterangan": "Pedas",
-  "lokasi": "Semarang",
-  "nama": "tahu baxo"
-}
-
-<> 2023-07-28T221435.200.json
-
-###
-
-POST http://localhost:3000/api/produk
-Content-Type: application/json
-Content-Length: 202
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "528a8581-6eb2-4cc0-b48e-ec3b2b29c5u16",
-  "harga": 20000,
-  "img": "tidak ada ",
-  "jenis": "orderan",
-  "jumlah": 86,
-  "keterangan": "Pedas",
-  "lokasi": "Semarang",
-  "nama": "tahu baxo"
-}
-
-<> 2023-07-28T221430.200.json
-
-###
-
-POST http://localhost:3000/api/produk
-Content-Type: application/json
-Content-Length: 153
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "harga": 20000,
-  "img": "tidak ada ",
-  "jenis": "orderan",
-  "jumlah": 86,
-  "keterangan": "Pedas",
-  "lokasi": "Semarang",
-  "nama": "tahu baxo"
-}
-
-<> 2023-07-28T220138.200.json
-
-###
-
-POST http://localhost:3000/api/produk
-Content-Type: application/json
-Content-Length: 202
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "528a8581-6eb2-4cc0-b48e-ec3b2b29c5u16",
-  "harga": 20000,
-  "img": "tidak ada ",
-  "jenis": "orderan",
-  "jumlah": 86,
-  "keterangan": "Pedas",
-  "lokasi": "Semarang",
-  "nama": "tahu baxo"
-}
-
-<> 2023-07-28T220135.200.json
-
-###
-
-GET http://localhost:3000/api/produk
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-07-28T220132.200.json
-
-###
-
-DELETE http://localhost:3000/api/travel/771d82b2-5882-4fcd-824f-4bc7db55a9bc
-Content-Type: application/json
-Content-Length: 3
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-}
-
-<> 2023-07-28T220122.200.json
-
-###
-
-PUT http://localhost:3000/api/travel/771d82b2-5882-4fcd-824f-4bc7db55a9bc
-Content-Type: application/json
-Content-Length: 196
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "namaPengiriman": "test update lagi",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-07-28T220116.200.json
-
-###
-
-GET http://localhost:3000/api/travel/771d82b2-5882-4fcd-824f-4bc7db55a9bc
-Content-Type: application/json
-Content-Length: 3
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-}
-
-<> 2023-07-28T220110.200.json
-
-###
-
-GET http://localhost:3000/api/travel/
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-07-28T220101.200.json
-
-###
-
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 185
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-07-28T220059.200.json
-
-###
-
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 185
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-07-28T220057.200.json
 
 ###
 

@@ -61,18 +61,22 @@ const create = async ( data: TYPE ) => {
       kirim     : "Kirim",
       waktuKirim: new Date( 'July 1, 1999, 12:00:00' ),
 //orderan
-      semuaProduct: [
-        {
-          id        : "Se/Or/TBSp/42",
-          nama      : "Tahu Bakso Rebus",
-          harga     : 42_000,
-          lokasi    : "Ungaran",
-          jenis     : "Item",
-          jumlah    : 10,
-          keterangan: "Enak",
-          img       : "bagus"
-        },
-      ],
+      semuaProduct: {
+        createMany: {
+          data: [
+            {
+              id        : "70ecc103-2b06-4ab-9bfc-2a23eb69a",
+              nama      : "Tahu Bakso Rebus",
+              harga     : 42_000,
+              lokasi    : "Ungaran",
+              jenis     : "Item",
+              jumlah    : 10,
+              keterangan: "Enak",
+              img       : "bagus"
+            },
+          ]
+        }
+      },
 //keterangan
       guna  : "Keterangan",
       lokasi: "Lokasi",

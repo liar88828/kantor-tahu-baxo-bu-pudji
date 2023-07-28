@@ -8,7 +8,7 @@ import { Prisma } from '../../../../prisma/data';
 // type PrismaCreate = Prisma.OrderanUpdateInput | {
 //   semuaProduct: Prisma.ProdukFind
 // }
-
+export type TYPE = Prisma.OrderanCreateInput
 export default class AccessOrderan {
 
   async findOne( id: string ) {

@@ -1,8 +1,19 @@
-import { prisma } from '@/server/models/prisma/config';
+import { prisma }    from '@/server/models/prisma/config';
 import type { TYPE } from '@/server/models/dataAccess/Travel';
+import { Prisma }    from '../../../prisma/data';
+
+interface InterfaceRepoTravel {
+  setData( d: TYPE ): TYPE
+  findAll(): Promise<TYPE[]>;
+  findById( id: string ): Promise<any>;
+  paginate( data: { row: number, skip: number } ): Promise<any>;
+  create( data: TYPE ): Promise<any>;
+  update( data: TYPE, id: string ): Promise<Prisma.BatchPayload>;
+  destroy( id: string ): Promise<Prisma.BatchPayload>;
+}
 
 // getAll data from database
-export default class RepoTravel {
+export default class RepoTravel implements InterfaceRepoTravel {
   setData( d: TYPE ) {
     return {
       id            : d.id,

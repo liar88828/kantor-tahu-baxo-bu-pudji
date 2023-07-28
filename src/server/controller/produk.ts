@@ -1,37 +1,42 @@
-import RepoProduk         from '@/server/repository/produk';
-import { zProdukType }    from '@/server/service/produk';
-import { produk }         from '../../../prisma/data';
+import RepoProduk    from '@/server/repository/produk';
+import Validation    from '@/lib/validation/schema';
+import type { TYPE } from '@/server/models/dataAccess/Produk';
+import Service       from '@/server/service/produk';
 
-type TYPE = zProdukType
-const Repo = new RepoProduk()
+const Repo  = new RepoProduk()
+const valid = new Validation()
 
-const find = async (): Promise<produk[]> => {
-  return await Repo.findAll()
+const find = async () => {
+  const repo = await Repo.findAll()
+  return repo
 }
 
 const findById = async ( id: string ) => {
-  return Repo.findById( id )
+  const service = Service.findById( valid.ZFindById( id ), id )
+  const repo    = await Repo.findById( service )
+  return repo
 }
-const create   = async ( data: TYPE ): Promise<produk> => {
 
-  return await Repo.create( data )
+const create = async ( body: TYPE ) => {
+  body       = Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  const repo = await Repo.create( body )
+  return repo
 }
-const edit     = async ( data: TYPE, id: string ) => {
 
-  const whereInput = { id: id }
-
-  return await Repo.update( data, whereInput )
+const edit = async ( body: TYPE, id: string ) => {
+  id         = Service.findById( valid.ZFindById( id ), id )
+  body       = Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  const repo = await Repo.update( body, id )
+  // console.log( repo )
+  return repo
 }
 
 const destroy = async ( id: string ) => {
-  return await Repo.destroy( id )
-}
-const Control = {
-  find,
-  create,
-  edit,
-  destroy,
-  findById
+  id         = Service.findById( valid.ZFindById( id ), id )
+  const repo = await Repo.destroy( id )
+  // console.log( repo )
+  return repo
 }
 
+const Control = { find, create, edit, destroy, findById }
 export default Control

@@ -17,9 +17,8 @@ export async function GET() {
 export async function POST( request: NextRequest, ) {
   try {
     const json    = await request.json();
-    const serData = Service.create( json )
-    const valid   = notValid( serData )
-    const dataControl = await Control.create( valid )
+
+    const dataControl = await Control.create( json )
     return NextResponse.json( { msg: "Success Create", data: dataControl } )
   }
   catch ( e ) {

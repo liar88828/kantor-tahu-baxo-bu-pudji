@@ -3,11 +3,12 @@ import type { TYPE } from '@/server/models/dataAccess/Produk';
 import { Prisma }    from '../../../prisma/data';
 
 interface InterfaceProduk {
+  setData( d: TYPE ): TYPE
   findAll(): Promise<TYPE[]>;
   findById( id: string ): Promise<any>;
   paginate( data: { row: number, skip: number } ): Promise<any>;
   create( data: TYPE ): Promise<any>;
-  update( data: TYPE, id: { id: string } ): Promise<any>;
+  update( data: TYPE, id: string ): Promise<any>;
   destroy( id: string ): Promise<Prisma.BatchPayload>;
 }
 
@@ -26,12 +27,12 @@ export default class RepoProduk implements InterfaceProduk {
   }
 
   async findAll() {
-    return await prisma.produk.findMany()
+    return prisma.produk.findMany()
   }
 
 //get only one  data from database
   async findById( id: string ) {
-    return await prisma.produk.findUnique( { where: { id } } )
+    return prisma.produk.findUnique( { where: { id } } )
   }
 
 //get per page data from database
@@ -46,8 +47,10 @@ export default class RepoProduk implements InterfaceProduk {
   }
 
 //edit data from database
-  async update( data: TYPE, id: { id: string } ) {
-    return prisma.produk.updateMany( { where: id, data: this.setData( data ) } )
+  async update( data: TYPE, id: string ) {
+    return prisma.produk.updateMany( {
+      where: { id: id }, data: this.setData( data )
+    } )
   }
 
 //delete data from database
