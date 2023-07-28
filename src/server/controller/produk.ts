@@ -1,6 +1,6 @@
 import RepoProduk         from '@/server/repository/produk';
-import { Prisma, produk } from '../../../prisma/prisma/data';
 import { zProdukType }    from '@/server/service/produk';
+import { produk }         from '../../../prisma/data';
 
 type TYPE = zProdukType
 const Repo = new RepoProduk()
@@ -13,33 +13,14 @@ const findById = async ( id: string ) => {
   return Repo.findById( id )
 }
 const create   = async ( data: TYPE ): Promise<produk> => {
-  const dataInput: TYPE = {
-    id    : data.id,
-    nama  : data.nama,
-    lokasi: data.lokasi,
-    jenis : data.jenis,
-    harga : data.harga || 0,
-    jumlah: data.jumlah || 0,
-    img   : data.img || "tidak ada",
-    keterangan: data.keterangan,
-  }
 
-  return await Repo.create( dataInput )
+  return await Repo.create( data )
 }
-const edit     = async ( data: TYPE, id: string ): Promise<Prisma.BatchPayload> => {
+const edit     = async ( data: TYPE, id: string ) => {
 
   const whereInput = { id: id }
-  const dataInput = {
-    id    : data.id,
-    nama  : data.nama,
-    lokasi: data.lokasi,
-    jenis : data.jenis,
-    harga : data.harga || 0,
-    jumlah: data.jumlah || 0,
-    img   : data.img || "tidak ada",
-    keterangan: data.keterangan,
-  } as TYPE
-  return await Repo.update( dataInput, whereInput )
+
+  return await Repo.update( data, whereInput )
 }
 
 const destroy = async ( id: string ) => {

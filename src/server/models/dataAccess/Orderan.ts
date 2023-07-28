@@ -9,7 +9,7 @@ import { Prisma } from '../../../../prisma/data';
 //   semuaProduct: Prisma.ProdukFind
 // }
 
-export default class OrderanAccess {
+export default class AccessOrderan {
 
   async findOne( id: string ) {
     return prisma.orderan.findUnique( {

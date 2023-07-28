@@ -3,7 +3,7 @@ import { TTravel }      from '@/entity/travel';
 import { TPProduk }     from '@/server/repository/interface/prisma';
 import { TOrderServer } from '@/entity/server/orderan';
 
-class Validation {
+export default class Validation {
 
   Travel(): z.ZodType<TTravel> {
     return z.object( {
@@ -66,4 +66,3 @@ class Validation {
   }
 }
 
-export default Validation

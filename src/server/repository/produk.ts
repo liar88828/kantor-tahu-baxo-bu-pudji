@@ -1,42 +1,9 @@
-// getAll data from database
-
-import { prisma }          from '@/server/models/prisma/config';
-import { Prisma, produk, } from '../../../prisma/prisma/data';
-import { zProdukType }     from '@/server/service/produk';
-import { GetResult }       from '@prisma/client/runtime/library';
-
-type TYPE = zProdukType
-
-type data =
-  GetResult<{
-    id: string;
-    nama: string;
-    lokasi: string;
-    jenis: string;
-    img: string;
-    harga: number | null;
-    jumlah: number | null;
-    keterangan: string;
-    created_at: Date;
-    updated_at: Date;
-  }, any> & {}
-  | null
-
-// interface IRepoProduk {
-//   // findAll(): Promise<produk[]>
-//   // findById( id: string ):
-//   // Promise<data> paginate( data: {
-//   // row: number, skip: number } ):
-//   // Promise<data[]> create( data: TYPE
-//   // ): Promise<data> update( data:
-//   // TYPE, id: { id: string } ):
-//   // Promise<Prisma.BatchPayload>
-//   // destroy( id: string ):
-//   // Promise<Prisma.BatchPayload>
-// }
+import { prisma }    from '@/server/models/prisma/config';
+import type { TYPE } from '@/server/models/dataAccess/Produk';
+import { Prisma }    from '../../../prisma/data';
 
 interface InterfaceProduk {
-  findAll(): Promise<produk[]>;
+  findAll(): Promise<TYPE[]>;
   findById( id: string ): Promise<any>;
   paginate( data: { row: number, skip: number } ): Promise<any>;
   create( data: TYPE ): Promise<any>;
@@ -45,7 +12,20 @@ interface InterfaceProduk {
 }
 
 export default class RepoProduk implements InterfaceProduk {
-  async findAll(): Promise<produk[]> {
+  setData( d: TYPE ) {
+    return {
+      id        : d.id,
+      nama      : d.nama,
+      lokasi    : d.lokasi,
+      jenis     : d.jenis,
+      harga     : d.harga || 0,
+      jumlah    : d.jumlah || 0,
+      img       : d.img || "tidak ada",
+      keterangan: d.keterangan,
+    }
+  }
+
+  async findAll() {
     return await prisma.produk.findMany()
   }
 
@@ -62,12 +42,12 @@ export default class RepoProduk implements InterfaceProduk {
 
 //create data from database
   async create( data: TYPE ) {
-    return await prisma.produk.create( { data } )
+    return prisma.produk.create( { data: this.setData( data ) } );
   }
 
 //edit data from database
   async update( data: TYPE, id: { id: string } ) {
-    return prisma.produk.updateMany( { where: id, data } )
+    return prisma.produk.updateMany( { where: id, data: this.setData( data ) } )
   }
 
 //delete data from database
@@ -77,3 +57,15 @@ export default class RepoProduk implements InterfaceProduk {
 
 }
 
+// interface IRepoProduk {
+//   // findAll(): Promise<produk[]>
+//   // findById( id: string ):
+//   // Promise<data> paginate( data: {
+//   // row: number, skip: number } ):
+//   // Promise<data[]> create( data: TYPE
+//   // ): Promise<data> update( data:
+//   // TYPE, id: { id: string } ):
+//   // Promise<Prisma.BatchPayload>
+//   // destroy( id: string ):
+//   // Promise<Prisma.BatchPayload>
+// }

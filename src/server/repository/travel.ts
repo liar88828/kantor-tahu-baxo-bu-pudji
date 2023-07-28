@@ -1,62 +1,56 @@
 import { prisma } from '@/server/models/prisma/config';
-import { TTravel } from '@/entity/travel';
+import type { TYPE } from '@/server/models/dataAccess/Travel';
 
 // getAll data from database
-const findAll = async () => {
-  return await prisma.travel.findMany()
+export default class RepoTravel {
+  setData( d: TYPE ) {
+    return {
+      id            : d.id,
+      namaPengiriman: d.namaPengiriman,
+      noHpPerusahaan: d.noHpPerusahaan,
+      lokasi        : d.lokasi,
+      jenis         : d.jenis,
+      harga         : d.harga,
+      img           : d.img || "noting",
+      keterangan    : d.keterangan,
+    }
+  }
 
-}
+  async findAll() {
+    return prisma.travel.findMany()
+
+  }
 
 //get only one  data from database
-const findById = async ( id: string ) => {
-  return prisma.travel.findUnique( { where: { id } } )
+  async findById( id: string ) {
+    return prisma.travel.findUnique( { where: { id } } )
 
-}
+  }
 
 //get per page data from database
-const paginate = async ( data: { row: number, skip: number } ) => {
-  const { row, skip } = data
-  return prisma.travel.findMany( { take: row, skip } )
-}
+  async paginate( data: { row: number, skip: number } ) {
+    const { row, skip } = data
+    return prisma.travel.findMany( { take: row, skip } )
+  }
 
 //create data from database
-const create = async ( data: TTravel ) => {
-  data.img = data.img || "noting"
-  return prisma.travel.create( {
-    data: {
-      id        : data.id,
-      namaPengiriman: data.namaPengiriman,
-      noHpPerusahaan: data.noHpPerusahaan,
-      lokasi    : data.lokasi,
-      jenis     : data.jenis,
-      harga     : data.harga,
-      img       : data.img,
-      keterangan: data.keterangan,
-    }
-  } )
+  async create( data: TYPE ) {
+    return prisma.travel.create( {
+      data: this.setData( data )
+    } )
 
-}
+  }
+
 //edit data from database
-const update = async ( data: TTravel, id: string ) => {
-
-  return prisma.travel.updateMany( {
-    where: { id: id },
-    data: {
-      id        : data.id,
-      namaPengiriman: data.namaPengiriman,
-      noHpPerusahaan: data.noHpPerusahaan,
-      lokasi    : data.lokasi,
-      jenis     : data.jenis,
-      harga     : data.harga,
-      img       : data.img,
-      keterangan: data.keterangan,
-    }
-  } )
-}
+  async update( data: TYPE, id: string ) {
+    return prisma.travel.updateMany( {
+      where: { id: id }, data: this.setData( data )
+    } )
+  }
 
 //delete data from database
-const destroy = async ( id: string ) => {
-  return prisma.travel.deleteMany( { where: { id } } )
+  async destroy( id: string ) {
+    return prisma.travel.deleteMany( { where: { id } } )
+  }
+
 }
-const Repo    = { findAll, create, destroy, paginate, findById, update }
-export default Repo

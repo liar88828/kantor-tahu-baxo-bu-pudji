@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import Control from '@/server/controller/travel';
 import { TTravel } from '@/entity/travel';
+import { TYPE }    from '@/server/models/dataAccess/Travel';
 
 export async function GET() {
   try {
@@ -15,7 +16,7 @@ export async function GET() {
 }
 
 export async function POST( request: Request ) {
-  const json: TTravel = await request.json();
+  const json: TYPE = await request.json();
   try {
     const dataControl = await Control.create( json )
     return NextResponse.json( {
