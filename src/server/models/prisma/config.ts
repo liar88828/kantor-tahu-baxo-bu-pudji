@@ -93,19 +93,7 @@ class Seed {
       }
     } )
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
 
 const dataset: Prisma.OrderanCreateInput = {
   //orang

@@ -1,36 +1,20 @@
-import { z }        from "zod";
-import { newError } from '@/server/exeption/errorHandler';
-import { TTravel }  from '@/entity/travel';
+import { SafeParseReturnType, z } from "zod";
+import { newError }               from '@/server/exeption/errorHandler';
+import { TYPE }                   from '@/server/models/dataAccess/Travel';
 
-const ZSchemaTravel: z.ZodType<TTravel> = z.object( {
-  id            : z.string(),
-  namaPengiriman: z.string().min( 1 ),
-  noHpPerusahaan: z.string().min( 1 ),
-  lokasi        : z.string().min( 1 ),
-  jenis         : z.string(),
-  harga         : z.number().int().positive(),
-  img           : z.string(),
-  keterangan    : z.string(),
-} )
-const ZValid                            = ZSchemaTravel
-const ZFindById: z.ZodType<string>      = z.string()
-
-export
-type zProdukType = z.infer<typeof ZValid>
-export type zProdukError = z.ZodIssue[]
-
-const create   = ( data: zProdukType ) => {
-  const response = ZValid.safeParse( data )
-  if( !response.success ) {
+const create   = ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
+  if( !z.success ) {
     throw new newError( "Error Invalid Value", "Invalid Value" )
   }
   else {
     return data
   }
 }
-const findById = ( id: string ) => {
-  const response = ZFindById.safeParse( id )
-  if( !response.success ) {
+const findById = (
+  z: SafeParseReturnType<string, string>,
+  id: string
+) => {
+  if( !z.success ) {
     throw new newError( "Error Invalid Value", "Invalid Id" )
   }
   else {

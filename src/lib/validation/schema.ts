@@ -1,21 +1,27 @@
 import { z }            from 'zod';
-import { TTravel }      from '@/entity/travel';
 import { TPProduk }     from '@/server/repository/interface/prisma';
 import { TOrderServer } from '@/entity/server/orderan';
+import { TYPE }         from '@/server/models/dataAccess/Travel';
 
+export type ZTYPEid = z.ZodType<string>
 export default class Validation {
+  TravelSchema: z.ZodType<TYPE> = z.object( {
+    id            : z.string(),
+    namaPengiriman: z.string().min( 1 ),
+    noHpPerusahaan: z.string().min( 1 ),
+    lokasi        : z.string().min( 1 ),
+    jenis         : z.string(),
+    harga         : z.number().int().positive(),
+    img           : z.string(),
+    keterangan    : z.string(),
+  } )
 
-  Travel(): z.ZodType<TTravel> {
-    return z.object( {
-      id            : z.string(),
-      namaPengiriman: z.string().min( 1 ),
-      noHpPerusahaan: z.string().min( 1 ),
-      lokasi        : z.string().min( 1 ),
-      jenis         : z.string(),
-      harga         : z.number().int().positive(),
-      img           : z.string(),
-      keterangan    : z.string(),
-    } )
+  ZFindById( id: string ) {
+    return z.string().safeParse( id )
+  }
+
+  TravelInput( data: TYPE, Schema: z.ZodType<TYPE, z.ZodTypeDef, TYPE> ) {
+    return Schema.safeParse( data )
   }
 
   Produk(): z.ZodType<TPProduk> {
