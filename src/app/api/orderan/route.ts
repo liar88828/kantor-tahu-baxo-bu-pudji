@@ -5,9 +5,8 @@ const seed = new Seed()
 
 export async function GET() {
   try {
-    console.log( "get" )
 
-    // const dataControl = await Control.find()
+    const dataControl = await Control.find()
     return NextResponse.json( {
       msg : "Success GET",
       data: await seed.ShowOrderan()

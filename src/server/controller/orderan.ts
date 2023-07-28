@@ -1,23 +1,19 @@
-import { NextApiResponse } from 'next';
-import Service             from '@/server/service/produk';
-import { notValid }        from '@/server/exeption/notValid';
+class ControlOrderan {
 
-const get = ( body: any, res: NextApiResponse ) => {
+  async get( req: Request ) {
+
+  }
+
+  async create( req: Request ) {
+
+  }
+
+  async edit( req: Request ) {
+
+  }
+
+  async destroy( req: Request ) {
+
+  }
+
 }
-
-const create = async ( res ) => {
-
-  const serData = Service.create( res )
-  const valid   = notValid( serData )
-
-}
-const edit   = ( body: any ) => {
-
-  return
-}
-const destroy = ( body: any ) => {
-
-  return
-}
-
-export { get, post, edit, destroy }

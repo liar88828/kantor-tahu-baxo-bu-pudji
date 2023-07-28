@@ -61,8 +61,8 @@ class Validation {
       semuaHargaProduct: z.number().int().positive(),
       totalHarga       : z.number().int().positive(),
       semuaProduct     : z.array( this.Produk() )
-
     } )
+
   }
 }
 

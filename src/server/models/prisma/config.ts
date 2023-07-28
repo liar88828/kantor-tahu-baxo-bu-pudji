@@ -85,7 +85,27 @@ class Seed {
     } )
 
   }
+
+  async Update() {
+    return prisma.orderan.findMany( {
+      include: {
+        semuaProduct: true
+      }
+    } )
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
 
 const dataset: Prisma.OrderanCreateInput = {
   //orang
