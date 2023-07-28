@@ -67,9 +67,7 @@ export default class RepoProduk implements InterfaceProduk {
 
 //edit data from database
   async update( data: TYPE, id: { id: string } ) {
-    return prisma.produk.updateMany( {
-      where: id, data
-    } )
+    return prisma.produk.updateMany( { where: id, data } )
   }
 
 //delete data from database

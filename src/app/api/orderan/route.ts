@@ -1,57 +1,35 @@
-import { NextResponse } from 'next/server'
-import { TOrder } from '@/entity/orderan';
-import { post } from '@/server/controller/orderan';
-import { TOrderSuccess } from '@/entity/server/orderan';
+import { NextRequest, NextResponse } from 'next/server'
+import Seed, { prisma }              from '@/server/models/prisma/config';
 
-// const orderan: TOrder = {
-//   penerima: "asda",
-//   hpPenerima: "sadadsa",
-//   alamatPenerima: "dasdas",
-//   pengirim: "sadsad",
-//   hpPengirim: "asdads"
-// }
+const seed = new Seed()
 
-export async function POST( request: Request ) {
-  const json = await request.json();
+export async function GET() {
   try {
+    console.log( "get" )
 
-    // const data = get( json )
-    const data: TOrderSuccess = await post()
-    return NextResponse.json( { msg: "Success Create", valid: data.valid, success: data.success } )
-  } catch ( e ) {
-    return NextResponse.json( { msg: "Error Create", error: e } )
+    // const dataControl = await Control.find()
+    return NextResponse.json( {
+      msg : "Success GET",
+      data: await seed.ShowOrderan()
+    } )
+  }
+  catch ( e ) {
+    return NextResponse.json( { msg: "Error GET", error: e } )
   }
 }
 
-export async function GET( request: Request ) {
-  const json = await request.json();
+export async function POST( request: NextRequest, ) {
   try {
-    return NextResponse.json( { msg: "Success Create" } )
-  } catch ( e ) {
+    const json = await request.json();
+    console.log( "post" )
+
+    // const dataControl = await Control.create( json )
+    return NextResponse.json( {
+      msg : "Success Create",
+      data: await seed.CreateOrderan()
+    } )
+  }
+  catch ( e ) {
     return NextResponse.json( { msg: "Error Create", error: e } )
   }
 }
-
-export async function EDIT( request: Request ) {
-  const json = await request.json();
-  try {
-    return NextResponse.json( { msg: "Success Create" } )
-  } catch ( e ) {
-    return NextResponse.json( { msg: "Error Create", error: e } )
-  }
-}
-
-export async function DELETE( request: Request ) {
-  const json = await request.json();
-  try {
-
-    console.log( json )
-    return NextResponse.json( { msg: "Success Create" } )
-  } catch ( e ) {
-    return NextResponse.json( { msg: "Error Create", error: e } )
-  }
-}
-
-// export async function GET(request: NextApiRequest):Promise<Response> {
-//   return new Response('GET, Next.js!')
-// }

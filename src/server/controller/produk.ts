@@ -13,7 +13,6 @@ const findById = async ( id: string ) => {
   return Repo.findById( id )
 }
 const create   = async ( data: TYPE ): Promise<produk> => {
-
   const dataInput: TYPE = {
     id    : data.id,
     nama  : data.nama,
@@ -28,8 +27,8 @@ const create   = async ( data: TYPE ): Promise<produk> => {
   return await Repo.create( dataInput )
 }
 const edit     = async ( data: TYPE, id: string ): Promise<Prisma.BatchPayload> => {
-  const whereInput = { id: id }
 
+  const whereInput = { id: id }
   const dataInput = {
     id    : data.id,
     nama  : data.nama,
@@ -40,14 +39,12 @@ const edit     = async ( data: TYPE, id: string ): Promise<Prisma.BatchPayload> 
     img   : data.img || "tidak ada",
     keterangan: data.keterangan,
   } as TYPE
-
   return await Repo.update( dataInput, whereInput )
 }
 
 const destroy = async ( id: string ) => {
   return await Repo.destroy( id )
 }
-
 const Control = {
   find,
   create,

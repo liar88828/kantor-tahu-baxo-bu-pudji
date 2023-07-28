@@ -13,9 +13,6 @@
     "react",
     "starter"
   ],
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "@heroicons/react": "^2.0.18",

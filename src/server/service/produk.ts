@@ -2,26 +2,26 @@ import { z } from "zod";
 import { TPProduk } from '@/server/repository/interface/prisma';
 import { newError } from '@/server/exeption/errorHandler';
 
-const ZCreate: z.ZodType<TPProduk> = z.object( {
-  id: z.string(),
-  nama: z.string().min( 1 ),
-  harga: z.number().int().positive(),
-  lokasi: z.string().min( 1 ),
-  jumlah: z.number().int().positive(),
+export const ZSchemaProduk: z.ZodType<TPProduk> = z.object( {
+  id        : z.string(),
+  nama      : z.string().min( 1 ),
+  harga     : z.number().int().positive(),
+  lokasi    : z.string().min( 1 ),
+  jumlah    : z.number().int().positive(),
+  img       : z.string(),
+  keterangan: z.string(),
+  jenis     : z.string(),
   // jenis: z.enum(["Orderan","Item"]),
-  jenis: z.string(),
-  img: z.string(),
-  keterangan: z.string()
 } )
-
-const ZFindById: z.ZodType<string> = z.string()
+const ZValid                                    = ZSchemaProduk
+const ZFindById: z.ZodType<string>              = z.string()
 
 export
-type zProdukType = z.infer<typeof ZCreate>
+type zProdukType = z.infer<typeof ZValid>
 export type zProdukError = z.ZodIssue[]
 
-const create = ( data: zProdukType ) => {
-  const response = ZCreate.safeParse( data )
+const create   = ( data: zProdukType ) => {
+  const response = ZValid.safeParse( data )
   if( !response.success ) {
     throw new newError( "Error Invalid Value", "Invalid Value" )
   }
@@ -39,5 +39,5 @@ const findById = ( id: string ) => {
     return id
   }
 }
-const Service = { create, findById }
+const Service  = { create, findById }
 export default Service

@@ -24,13 +24,13 @@ const create = async ( data: TTravel ) => {
   data.img = data.img || "noting"
   return prisma.travel.create( {
     data: {
-      id: data.id,
+      id        : data.id,
       namaPengiriman: data.namaPengiriman,
       noHpPerusahaan: data.noHpPerusahaan,
-      lokasi: data.lokasi,
-      jenis: data.jenis,
-      harga: data.harga,
-      img: data.img,
+      lokasi    : data.lokasi,
+      jenis     : data.jenis,
+      harga     : data.harga,
+      img       : data.img,
       keterangan: data.keterangan,
     }
   } )
@@ -42,13 +42,13 @@ const update = async ( data: TTravel, id: string ) => {
   return prisma.travel.updateMany( {
     where: { id: id },
     data: {
-      id: data.id,
+      id        : data.id,
       namaPengiriman: data.namaPengiriman,
       noHpPerusahaan: data.noHpPerusahaan,
-      lokasi: data.lokasi,
-      jenis: data.jenis,
-      harga: data.harga,
-      img: data.img,
+      lokasi    : data.lokasi,
+      jenis     : data.jenis,
+      harga     : data.harga,
+      img       : data.img,
       keterangan: data.keterangan,
     }
   } )
@@ -58,5 +58,5 @@ const update = async ( data: TTravel, id: string ) => {
 const destroy = async ( id: string ) => {
   return prisma.travel.deleteMany( { where: { id } } )
 }
-const Repo = { findAll, create, destroy, paginate, findById, update }
+const Repo    = { findAll, create, destroy, paginate, findById, update }
 export default Repo
