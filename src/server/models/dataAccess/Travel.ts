@@ -1,7 +1,7 @@
 import { prisma } from '@/server/models/prisma/config';
 import { Prisma } from '../../../../prisma/data';
 
-export type TYPE = Prisma.travelCreateInput
+export type TYPE = Prisma.TravelCreateInput
 export default class AccessTravel {
 
   async findOne( id: string ) {
@@ -10,7 +10,7 @@ export default class AccessTravel {
     } )
   }
 
-  async findAll( data: Prisma.OrderanSelect ) {
+  async findAlls( data: Prisma.OrderanSelect ) {
     return prisma.travel.findMany( {
       take   : 400,
       orderBy: { namaPengiriman: "asc" }
@@ -35,21 +35,21 @@ export default class AccessTravel {
     } )
   }
 
-  async CreateMany( data: TYPE ) {
+  async CreateOne( data: TYPE ) {
     return prisma.travel.create( {
       data: this.setData( data ),
     } )
   }
 
-  async UpdateMany( id: string, data: TYPE ) {
-    return prisma.travel.updateMany( {
+  async UpdateOne( id: string, data: TYPE ) {
+    return prisma.travel.update( {
       where: { id },
       data: this.setData( data ),
 
     } )
   }
 
-  async UpdateOne( id: string, data: TYPE ) {
+  async UpdateMany( id: string, data: TYPE ) {
     return prisma.travel.updateMany( {
       where: { id },
       data: this.setData( data ),

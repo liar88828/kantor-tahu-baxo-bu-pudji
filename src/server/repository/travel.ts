@@ -3,10 +3,11 @@ import type { TYPE } from '@/server/models/dataAccess/Travel';
 import {
   InterfaceRepoTravel
 }                    from '@/server/repository/interface/repository/travel';
+import { Prisma }    from '../../../prisma/data';
 
 // getAll data from database
 export default class RepoTravel implements InterfaceRepoTravel {
-  setData( d: TYPE ) {
+  setOne( d: TYPE ): TYPE {
     return {
       id            : d.id,
       jenis         : d.jenis,
@@ -19,6 +20,10 @@ export default class RepoTravel implements InterfaceRepoTravel {
     }
   }
 
+  setMany( data: TYPE[] ) {
+    return data.map( ( d ) => ( this.setOne( d ) ) )
+  }
+
   async findAll() {
     return prisma.travel.findMany()
 
@@ -26,9 +31,12 @@ export default class RepoTravel implements InterfaceRepoTravel {
 
 //get only one  data from database
   async findById( id: string ) {
-
     return prisma.travel.findUnique( { where: { id } } )
+  }
 
+//get only one  data from database
+  async findOne( id: string ) {
+    return prisma.travel.findFirst( { where: { id } } )
   }
 
 //get per page data from database
@@ -38,20 +46,43 @@ export default class RepoTravel implements InterfaceRepoTravel {
   }
 
 //create data from database
-  async create( data: TYPE ) {
-    return prisma.travel.create( { data: this.setData( data ) } )
+  async createOne( data: TYPE ) {
+    return prisma.travel.create( { data: this.setOne( data ) } )
   }
 
 //edit data from database
-  async update( data: TYPE, id: string ) {
-    return prisma.travel.updateMany( {
-      where: { id: id }, data: this.setData( data )
+  async updateOne( data: TYPE, id: string ) {
+    return prisma.travel.update( {
+      where: { id: id }, data: this.setOne( data )
     } )
   }
 
 //delete data from database
   async destroy( id: string ) {
     return prisma.travel.deleteMany( { where: { id } } )
+  }
+
+  createMany( data: TYPE[] ): Promise<Prisma.BatchPayload> {
+    return prisma.travel.createMany( {
+      data: this.setMany( data )
+    } );
+  }
+
+  destroyMany( id: string ): Promise<Prisma.BatchPayload> {
+    return prisma.travel.deleteMany( { where: { id } } )
+
+  }
+
+  destroyOne( id: string ): Promise<any> {
+    return prisma.travel.delete( { where: { id } } )
+
+  }
+
+  updateMany( data: TYPE[], id: string ): Promise<Prisma.BatchPayload> {
+    return prisma.travel.updateMany( {
+      where: { id: id },
+      data : this.setMany( data )
+    } )
   }
 
 }

@@ -4,7 +4,7 @@ Content-Type: application/json
 
 
 ### get data Travel by id
-GET http://localhost:3000/api/travel/asdassd
+GET http://localhost:3000/api/travel/asdasssd
 Content-Type: application/json
 
 {
@@ -27,11 +27,11 @@ Content-Type: application/json
 
 
 ### update data Travel
-PUT http://localhost:3000/api/travel/asdassd
+PUT http://localhost:3000/api/travel/asdasssd
 Content-Type: application/json
 
 {
-  "id": "asdassd",
+  "id": "asdasssd",
   "namaPengiriman": "test update lagi maneh",
   "noHpPerusahaan": "0123456789",
   "lokasi": "semarang",
@@ -42,7 +42,7 @@ Content-Type: application/json
 }
 
 ### delete data Travel
-DELETE http://localhost:3000/api/travel/asdassd
+DELETE http://localhost:3000/api/travel/asdasssd
 Content-Type: application/json
 
 {
