@@ -1,28 +1,23 @@
 import { prisma }    from '@/server/models/prisma/config';
 import type { TYPE } from '@/server/models/dataAccess/Produk';
-import { Prisma }    from '../../../prisma/data';
+import { Prisma } from '../../../prisma/data';
+import {
+  InterfaceProduk
+} from '@/server/repository/interface/repository/produk';
 
-interface InterfaceProduk {
-  setData( d: TYPE ): TYPE
-  findAll(): Promise<TYPE[]>;
-  findById( id: string ): Promise<any>;
-  paginate( data: { row: number, skip: number } ): Promise<any>;
-  create( data: TYPE ): Promise<any>;
-  update( data: TYPE, id: string ): Promise<any>;
-  destroy( id: string ): Promise<Prisma.BatchPayload>;
-}
+
 
 export default class RepoProduk implements InterfaceProduk {
   setData( d: TYPE ) {
     return {
       id        : d.id,
       nama      : d.nama,
-      lokasi    : d.lokasi,
       jenis     : d.jenis,
+      lokasi: d.lokasi,
       harga     : d.harga || 0,
+      keterangan: d.keterangan,
       jumlah    : d.jumlah || 0,
       img       : d.img || "tidak ada",
-      keterangan: d.keterangan,
     }
   }
 
@@ -60,15 +55,3 @@ export default class RepoProduk implements InterfaceProduk {
 
 }
 
-// interface IRepoProduk {
-//   // findAll(): Promise<produk[]>
-//   // findById( id: string ):
-//   // Promise<data> paginate( data: {
-//   // row: number, skip: number } ):
-//   // Promise<data[]> create( data: TYPE
-//   // ): Promise<data> update( data:
-//   // TYPE, id: { id: string } ):
-//   // Promise<Prisma.BatchPayload>
-//   // destroy( id: string ):
-//   // Promise<Prisma.BatchPayload>
-// }

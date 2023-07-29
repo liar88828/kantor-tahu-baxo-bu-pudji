@@ -1,29 +1,21 @@
 import { prisma }    from '@/server/models/prisma/config';
 import type { TYPE } from '@/server/models/dataAccess/Travel';
-import { Prisma }    from '../../../prisma/data';
-
-interface InterfaceRepoTravel {
-  setData( d: TYPE ): TYPE
-  findAll(): Promise<TYPE[]>;
-  findById( id: string ): Promise<any>;
-  paginate( data: { row: number, skip: number } ): Promise<any>;
-  create( data: TYPE ): Promise<any>;
-  update( data: TYPE, id: string ): Promise<Prisma.BatchPayload>;
-  destroy( id: string ): Promise<Prisma.BatchPayload>;
-}
+import {
+  InterfaceRepoTravel
+}                    from '@/server/repository/interface/repository/travel';
 
 // getAll data from database
 export default class RepoTravel implements InterfaceRepoTravel {
   setData( d: TYPE ) {
     return {
       id            : d.id,
-      namaPengiriman: d.namaPengiriman,
-      noHpPerusahaan: d.noHpPerusahaan,
-      lokasi        : d.lokasi,
       jenis         : d.jenis,
       harga         : d.harga,
-      img           : d.img || "noting",
+      lokasi        : d.lokasi,
       keterangan    : d.keterangan,
+      namaPengiriman: d.namaPengiriman,
+      noHpPerusahaan: d.noHpPerusahaan,
+      img           : d.img || "noting",
     }
   }
 
@@ -34,6 +26,7 @@ export default class RepoTravel implements InterfaceRepoTravel {
 
 //get only one  data from database
   async findById( id: string ) {
+
     return prisma.travel.findUnique( { where: { id } } )
 
   }
@@ -46,10 +39,7 @@ export default class RepoTravel implements InterfaceRepoTravel {
 
 //create data from database
   async create( data: TYPE ) {
-    return prisma.travel.create( {
-      data: this.setData( data )
-    } )
-
+    return prisma.travel.create( { data: this.setData( data ) } )
   }
 
 //edit data from database

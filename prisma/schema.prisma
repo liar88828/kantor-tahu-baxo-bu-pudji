@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model semuaProduct {
+model SemuaProduct {
   id         String   @id @default(uuid())
   nama       String   @db.VarChar(100)
   lokasi     String   @db.VarChar(100)
@@ -21,11 +21,16 @@ model semuaProduct {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   // relational
-  Orderan    Orderan? @relation(fields: [orderanId], references: [id])
-  orderanId  String?
+  // Orderan    Orderan? @relation(fields: [orderanId], references: [id])
+  // orderanId  String?  @unique
+  Orderan    Orderan  @relation(fields: [orderanId], references: [id])
+  orderanId  String   @db.VarChar(100)
+
+  @@map("SemuaProducts")
 }
 
 model Orderan {
+  id                String         @id @default(uuid()) @db.VarChar(100)
   // orang
   pengirim          String         @db.VarChar(100)
   hpPengirim        String         @db.VarChar(20)
@@ -43,42 +48,45 @@ model Orderan {
   // travel
   namaPengiriman    String         @db.VarChar(100)
   ekspedisi         String         @db.VarChar(100)
-  ongkir            Int?           @db.MediumInt
+  ongkir            Int            @db.MediumInt
   // total
-  id                String         @id @default(uuid())
   no                String         @db.VarChar(100)
   typePembayaran    String         @db.VarChar(100)
-  total             Int?           @db.MediumInt
-  totalBayar        Int?           @db.MediumInt
-  totalPenjualan    Int?           @db.MediumInt
+  total             Int            @db.MediumInt
+  totalBayar        Int            @db.MediumInt
+  totalPenjualan    Int            @db.MediumInt
   status            String         @db.VarChar(20)
   // semua
-  semuaHargaProduct Int?           @db.MediumInt
-  semuaHargaItem    Int?           @db.MediumInt
-  semuaHargaOrderan Int?           @db.MediumInt
-  totalHarga        Int?           @db.MediumInt
+  semuaHargaProduct Int            @db.MediumInt
+  semuaHargaItem    Int            @db.MediumInt
+  semuaHargaOrderan Int            @db.MediumInt
+  totalHarga        Int            @db.MediumInt
   // relational /orderan
-  semuaProduct      semuaProduct[]
+  semuaProduct      SemuaProduct[]
   // at update / create
   created_at        DateTime       @default(now())
   updated_at        DateTime       @updatedAt
+
+  @@map("Orderans")
 }
 
-model produk {
+model Produk {
   id         String   @id @default(uuid())
   nama       String   @db.VarChar(100)
   lokasi     String   @db.VarChar(100)
   jenis      String   @db.VarChar(100)
   img        String   @db.VarChar(100)
-  harga      Int?     @db.MediumInt
-  jumlah     Int?     @db.MediumInt
+  harga      Int      @db.MediumInt
+  jumlah     Int      @db.MediumInt
   keterangan String   @db.Text
   // at update / create
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  @@map("Produks")
 }
 
-model travel {
+model Travel {
   id             String @id @default(uuid())
   namaPengiriman String
   noHpPerusahaan String
@@ -87,4 +95,6 @@ model travel {
   harga          Int    @db.MediumInt
   img            String
   keterangan     String @db.Text
+
+  @@map("Travels")
 }

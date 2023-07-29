@@ -1,5 +1,7 @@
-import { prisma } from '@/server/models/prisma/config';
-import { Prisma } from '../../../../prisma/data';
+import { prisma }       from '@/server/models/prisma/config';
+import { Prisma }       from '../../../../prisma/data';
+import { TOrderServer } from '@/entity/server/orderan';
+import { TProduct }     from '@/entity/produk';
 
 // interface IOrderanAccess {
 //
@@ -8,6 +10,45 @@ import { Prisma } from '../../../../prisma/data';
 // type PrismaCreate = Prisma.OrderanUpdateInput | {
 //   semuaProduct: Prisma.ProdukFind
 // }
+
+interface OrderData {
+  alamatPenerima: string;
+  ekspedisi: string;
+  guna: string;
+  hpPenerima: string;
+  hpPengirim: string;
+  id: string;
+  keterangan: string;
+  kirim: string;
+  lokasi: string;
+  namaPengiriman: string;
+  no: string;
+  ongkir: number;
+  penerima: string;
+  pengirim: string;
+  pesan: string;
+  semuaHargaItem: number;
+  semuaHargaOrderan: number;
+  semuaHargaProduct: number;
+  semuaProduct: {
+    harga: number;
+    id: string;
+    img: string;
+    jenis: string;
+    jumlah: number;
+    keterangan: string;
+    lokasi: string;
+    nama: string;
+  };
+  status: string;
+  total: number;
+  totalBayar: number;
+  totalHarga: number;
+  totalPenjualan: number;
+  typePembayaran: string;
+  waktuKirim: string;
+}
+
 export type TYPE = Prisma.OrderanCreateInput
 export default class AccessOrderan {
 
@@ -52,67 +93,89 @@ export default class AccessOrderan {
     } )
   }
 
-  async CreateMany( data: Prisma.OrderanCreateInput ) {
+  async CreateMany( data: Prisma.OrderanCreateInput & TOrderServer ) {
+
+// @ts-ignore
 
     return prisma.orderan.create( {
       data: {
         //orang
-        pengirim      : data.pengirim,
-        hpPengirim    : data.hpPenerima,
-        penerima      : data.penerima,
         alamatPenerima: data.alamatPenerima,
+        ekspedisi : data.ekspedisi,
+        guna      : data.guna,
         hpPenerima    : data.hpPenerima,
+        hpPengirim: data.hpPenerima,
 //tanggal pesan
-        pesan     : data.pesan,
-        waktuKirim: data.waktuKirim,
+        id        : data.id,
+        keterangan: data.keterangan,
         kirim     : data.kirim,
 
 //orderan
-        semuaProduct: {
-          createMany: {
-            data: [
-              {
-                id        : "70ecc103-2b06-4ab-9bfc-2a23eb69a",
-                nama      : "Tahu Bakso Rebus",
-                harga     : 42_000,
-                lokasi    : "Ungaran",
-                jenis     : "Item",
-                jumlah    : 10,
-                keterangan: "Enak",
-                img       : "bagus"
-              },
-            ]
-          }
-        },
+        lokasi: data.lokasi,
 
 //keterangan
-        guna      : data.guna,
-        keterangan: data.keterangan,
-        lokasi    : data.lokasi,
-//travel
         namaPengiriman: data.namaPengiriman,
-        ekspedisi     : data.ekspedisi,
+        no    : data.no,
         ongkir        : data.ongkir,
+//travel
+        penerima: data.penerima,
+        pengirim: data.pengirim,
+        pesan   : data.pesan,
 //total
-        id            : data.id,
-        no            : data.no,
-        typePembayaran: data.typePembayaran,
-        total         : data.total,
-        totalBayar    : data.totalBayar,
-        totalPenjualan: data.totalPenjualan,
-        status        : data.status,
-        //total semua
-        semuaHargaProduct: data.semuaHargaProduct,
+        //total semua,
         semuaHargaItem   : data.semuaHargaItem,
         semuaHargaOrderan: data.semuaHargaOrderan,
-        totalHarga       : data.totalHarga
+        semuaHargaProduct: data.semuaHargaProduct,
+        semuaProduct     : {
+          createMany: {
+            data: data.semuaProduct.map( ( d: TProduct ) => {
+
+              // if( !d.img ) {
+              //   d.img = "no image"
+              // }
+
+              // if( d.img == null || d.img == undefined ) {
+              //   d.img = "no image"
+              // }
+
+              // if( typeof d.img !== "string" ) {
+              //   d.img = "no image"
+              // }
+
+              // d.img = !d.img ? "no image" : d.img
+              // let imgDenganOr       = d.img || "no image"
+              // let imgDenganQuestion = d.img ?? "no image"
+
+              return (
+                {
+                  img       : d.img || "no image",
+                  id        : d.id,
+                  harga     : d.harga,
+                  jenis     : d.jenis,
+                  jumlah    : d.jumlah,
+                  keterangan: d.keterangan,
+                  lokasi    : d.lokasi,
+                  nama      : d.nama
+                }
+              )
+            } )
+          }
+        },
+        status           : data.status,
+        total            : data.total,
+        totalBayar       : data.totalBayar,
+        totalHarga       : data.totalHarga,
+        //total semua,
+
+        totalPenjualan: data.totalPenjualan,
+        typePembayaran   : data.typePembayaran,
+        waktuKirim       : data.waktuKirim
       },
 
       include: {
         semuaProduct: true, // Include all posts in the returned object
       },
     } )
-
   }
 
   async UpdateMany( id: string, data: Prisma.OrderanUpdateManyMutationInput ) {
@@ -170,19 +233,13 @@ export default class AccessOrderan {
     } )
   }
 
-  async DeleteOne( id
-    :
-    string
-  ) {
+  async DeleteOne( id: string ) {
     return prisma.orderan.delete( {
       where: { id: id }
     } )
   }
 
-  async DeleteMany( id
-    :
-    string
-  ) {
+  async DeleteMany( id: string ) {
     return prisma.orderan.deleteMany( {
       where: { id: id }
     } )

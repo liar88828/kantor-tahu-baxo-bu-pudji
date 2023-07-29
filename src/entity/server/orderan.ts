@@ -11,6 +11,7 @@ export type TOrderServer = {
   hpPengirim: string
   penerima: string
   alamatPenerima: string
+  keterangan: string
   hpPenerima: string
 // keterangan
   guna: string
@@ -20,16 +21,16 @@ export type TOrderServer = {
   ekspedisi: string
   ongkir: number
 //total
-  id?: string
+  id: string
   no: string
   typePembayaran: string
-  total?: number
-  totalBayar?: number
-  totalPenjualan?: number,
+  total: number
+  totalBayar: number
+  totalPenjualan: number,
   status: string
   semuaHargaOrderan: number,
   semuaHargaItem: number,
-  semuaHargaProduct: number | false,
+  semuaHargaProduct: number,
   totalHarga: number
 }
 
@@ -69,11 +70,14 @@ export const formInput: TOrderServer = {
   no            : "No",
   typePembayaran: "Pembayaran",
   total         : 123,
+  keterangan: "asdasd",
+
   totalBayar    : 123,
   totalPenjualan: 232,
   status        : "Status",
   //total
   semuaHargaProduct: 12312,
+
   semuaHargaItem   : 12312,
   semuaHargaOrderan: 12312,
   totalHarga       : 1231

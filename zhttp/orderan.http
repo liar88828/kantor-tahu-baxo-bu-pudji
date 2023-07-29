@@ -3,8 +3,93 @@ GET http://localhost:3000/api/orderan
 Content-Type: application/json
 
 ###
+POST http://localhost:3000/api/orderanSalah
+Content-Type: application/json
+
+{
+  "id": "asdasd",
+  "no": "string",
+  "guna": "string",
+  "ongkir": 3681802,
+  "lokasi": "string",
+  "kirim": "2023-07-04",
+  "pesan": "2023-07-04",
+  "penerima": "string",
+  "pengirim": "string",
+  "ekspedisi": "string",
+  "hpPenerima": "string",
+  "hpPengirim": "string",
+  "keterangan": "string",
+  "semuaHargaItem": 3681802,
+  "alamatPenerima": "string",
+  "namaPengiriman": "string",
+  "semuaHargaOrderan": 3681802,
+  "semuaHargaProduct": 3681802,
+  "semuaProduct": [
+    {
+      "id": "asdasda",
+      "img": "string",
+      "harga": 3681802,
+      "nama": "string",
+      "jenis": "string",
+      "jumlah": 3681802,
+      "lokasi": "string",
+      "keterangan": "string"
+    }
+  ],
+  "total": 3681802,
+  "status": "string",
+  "totalBayar": 3681802,
+  "totalHarga": 3681802,
+  "waktuKirim": "2023-07-04",
+  "totalPenjualan": 3681802,
+  "typePembayaran": "string"
+}
+###
 POST http://localhost:3000/api/orderan
 Content-Type: application/json
 
 {
+  "pengirim": "orang genah",
+  "hpPengirim": "Hp Pengirim",
+  "penerima": "Penerima",
+  "alamatPenerima": "Alamat Penerima",
+  "hpPenerima": "Hp Penerima",
+  "pesan": "1999-07-01T00:00:00.000Z",
+  "kirim": "1999-07-01T00:00:00.000Z",
+  "waktuKirim": "2023-07-20T00:00:00.000Z",
+  "guna": "Keterangan",
+  "keterangan": "sangat jelas",
+  "lokasi": "Lokasi",
+  "namaPengiriman": "Nama Travel",
+  "ekspedisi": "Ekspedisi",
+  "ongkir": 23,
+  "id": "order1",
+  "no": "Nso",
+  "typePembayaran": "Pemsbayaran",
+  "total": 123,
+  "totalBayar": 123,
+  "totalPenjualan": 232,
+  "status": "Status",
+  "semuaHargaProduct": 12312,
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "totalHarga": 1231,
+  "created_at": "1999-07-01T05:00:00.000Z",
+  "updated_at": "1999-07-01T05:00:00.000Z",
+  "semuaProduct": [
+    {
+      "id": "produk1",
+      "nama": "Tahu sBakso Rebus",
+      "lokasi": "Ungsaran",
+      "jenis": "Itesm",
+      "img": "bagsus",
+      "harga": 42000,
+      "jumlah": 10,
+      "keterangan": "Esnak",
+      "created_at": "2023-07-28T18:37:27.166Z",
+      "updated_at": "2023-07-28T18:37:27.166Z",
+      "orderanId": "datas5"
+    }
+  ]
 }

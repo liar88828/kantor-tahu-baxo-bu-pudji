@@ -1,20 +1,12 @@
 import { prisma } from '@/server/models/prisma/config';
 import { Prisma } from '../../../../prisma/data';
 
-// interface IOrderanAccess {
-//
-// }
-
-// type PrismaCreate = Prisma.OrderanUpdateInput | {
-//   semuaProduct: Prisma.ProdukFind
-// }
 export type TYPE = Prisma.travelCreateInput
 export default class AccessTravel {
 
   async findOne( id: string ) {
     return prisma.travel.findUnique( {
-      where: { id: id },
-
+      where: { id: id }
     } )
   }
 
@@ -44,35 +36,15 @@ export default class AccessTravel {
   }
 
   async CreateMany( data: TYPE ) {
-
     return prisma.travel.create( {
-      data: {
-        harga         : data.harga,
-        id            : data.id,
-        img           : data.img,
-        jenis         : data.jenis,
-        keterangan    : data.keterangan,
-        lokasi        : data.lokasi,
-        namaPengiriman: data.namaPengiriman,
-        noHpPerusahaan: data.noHpPerusahaan
-      }
+      data: this.setData( data ),
     } )
   }
 
   async UpdateMany( id: string, data: TYPE ) {
-
     return prisma.travel.updateMany( {
       where: { id },
-      data : {
-        harga         : data.harga,
-        id            : data.id,
-        img           : data.img,
-        jenis         : data.jenis,
-        keterangan    : data.keterangan,
-        lokasi        : data.lokasi,
-        namaPengiriman: data.namaPengiriman,
-        noHpPerusahaan: data.noHpPerusahaan
-      },
+      data: this.setData( data ),
 
     } )
   }
@@ -80,39 +52,32 @@ export default class AccessTravel {
   async UpdateOne( id: string, data: TYPE ) {
     return prisma.travel.updateMany( {
       where: { id },
-      data : {
-        harga         : data.harga,
-        id            : data.id,
-        img           : data.img,
-        jenis         : data.jenis,
-        keterangan    : data.keterangan,
-        lokasi        : data.lokasi,
-        namaPengiriman: data.namaPengiriman,
-        noHpPerusahaan: data.noHpPerusahaan
-      },
-
+      data: this.setData( data ),
     } )
   }
 
-  async DeleteOne( id
-    :
-    string
-  ) {
+  async DeleteOne( id: string ) {
     return prisma.travel.delete( {
       where: { id: id }
     } )
   }
 
-  async DeleteMany( id
-    :
-    string
-  ) {
+  async DeleteMany( id: string ) {
     return prisma.travel.deleteMany( {
       where: { id: id }
     } )
   }
 
+  setData( d: TYPE ) {
+    return {
+      harga         : d.harga,
+      id            : d.id,
+      img           : d.img,
+      jenis         : d.jenis,
+      keterangan    : d.keterangan,
+      lokasi        : d.lokasi,
+      namaPengiriman: d.namaPengiriman,
+      noHpPerusahaan: d.noHpPerusahaan
+    }
+  }
 }
-
-
-

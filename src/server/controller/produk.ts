@@ -24,8 +24,8 @@ const create = async ( body: TYPE ) => {
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id         = Service.findById( valid.ZFindById( id ), id )
-  body       = Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  id   = await Service.findById( valid.ZFindById( id ), id )
+  body = await Service.create( valid.Input( body, valid.ProdukSchema ), body )
   const repo = await Repo.update( body, id )
   // console.log( repo )
   return repo

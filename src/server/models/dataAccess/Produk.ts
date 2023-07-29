@@ -1,14 +1,7 @@
 import { prisma } from '@/server/models/prisma/config';
 import { Prisma } from '../../../../prisma/data';
 
-// interface IOrderanAccess {
-//
-// }
-
-// type PrismaCreate = Prisma.OrderanUpdateInput | {
-//   semuaProduct: Prisma.ProdukFind
-// }
-export type TYPE = Prisma.produkCreateInput
+export type TYPE = Prisma.ProdukCreateInput
 
 export default class AccessTravel {
 
@@ -19,7 +12,7 @@ export default class AccessTravel {
     } )
   }
 
-  async findAll( data: Prisma.produkSelectScalar ) {
+  async findAll( data: TYPE ) {
     return prisma.produk.findMany( {
       take   : 400,
       orderBy: { nama: "asc" }
@@ -44,13 +37,13 @@ export default class AccessTravel {
     } )
   }
 
-  async CreateMany( data: Prisma.produkCreateInput ) {
+  async CreateMany( data: TYPE ) {
     return prisma.produk.create( {
       data: this.setData( data )
     } )
   }
 
-  async UpdateMany( id: string, data: Prisma.produkCreateInput ) {
+  async UpdateMany( id: string, data: TYPE ) {
 
     return prisma.produk.updateMany( {
       where: { id },
@@ -59,7 +52,7 @@ export default class AccessTravel {
     } )
   }
 
-  async UpdateOne( id: string, data: Prisma.produkCreateInput ) {
+  async UpdateOne( id: string, data: TYPE ) {
     return prisma.produk.updateMany( {
       where: { id },
       data : this.setData( data )
