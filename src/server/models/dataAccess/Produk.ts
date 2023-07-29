@@ -12,7 +12,7 @@ export default class AccessTravel {
     } )
   }
 
-  async findAll( data: TYPE ) {
+  async findAlls( data: TYPE ) {
     return prisma.produk.findMany( {
       take   : 400,
       orderBy: { nama: "asc" }

@@ -19,21 +19,21 @@ const findById = async ( id: string ) => {
 
 const create = async ( body: TYPE ) => {
   body       = Service.create( valid.Input( body, valid.ProdukSchema ), body )
-  const repo = await Repo.create( body )
+  const repo = await Repo.createOne( body )
   return repo
 }
 
 const edit = async ( body: TYPE, id: string ) => {
   id   = await Service.findById( valid.ZFindById( id ), id )
   body = await Service.create( valid.Input( body, valid.ProdukSchema ), body )
-  const repo = await Repo.update( body, id )
+  const repo = await Repo.updateOne( body, id )
   // console.log( repo )
   return repo
 }
 
 const destroy = async ( id: string ) => {
   id         = Service.findById( valid.ZFindById( id ), id )
-  const repo = await Repo.destroy( id )
+  const repo = await Repo.destroyOne( id )
   // console.log( repo )
   return repo
 }
