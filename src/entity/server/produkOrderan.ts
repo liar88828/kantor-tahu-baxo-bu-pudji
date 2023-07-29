@@ -6,5 +6,6 @@ export type TPOrderan = {
   jumlah: number,
   jenis: "Orderan" | "Item" | string,
   img?: string
-  keterangan: string
+  keterangan: string,
+  orderanId: string
 }

@@ -8,7 +8,9 @@ export type TProduct = {
   jumlah: number,
   jenis: "Orderan" | "Item" | string,
   img?: string
-  keterangan: string
+  "orderanId": "order lagi 1"
+  keterangan: string,
+
 }
 
 export const ServiceProduk: z.ZodType<TProduct> = z.object( {
