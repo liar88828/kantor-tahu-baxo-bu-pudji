@@ -1,4 +1,4 @@
-import { TYPE }                   from '@/server/models/dataAccess/Produk';
+import type { TYPE } from '@/server/models/dataAccess/Produk';
 import { newError }               from '@/server/exeption/errorHandler';
 import { SafeParseReturnType, z } from "zod";
 

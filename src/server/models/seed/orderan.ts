@@ -1,5 +1,5 @@
-import { TOrder } from '@/entity/orderan';
-import times from 'lodash.times';
+import { TOrder } from '@/entity/client/orderan';
+import times      from 'lodash.times';
 import { factoryOrderan } from '@/server/models/factory/orderan';
 
 export function seedOrderan(): TOrder[] {

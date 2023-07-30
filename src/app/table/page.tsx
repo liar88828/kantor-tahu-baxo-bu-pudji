@@ -18,7 +18,7 @@ import {
 import { RowData } from '@tanstack/table-core';
 import { faker } from '@faker-js/faker';
 import { makeData } from '@/server/models/seed/person';
-import { TPerson } from '@/entity/person';
+import { TPerson }  from '@/entity/client/person';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {

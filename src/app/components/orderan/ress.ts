@@ -1,4 +1,4 @@
-import { TOrder } from '@/entity/orderan';
+import { TOrder } from '@/entity/client/orderan';
 
 export const createOrder = async ( valueForm: TOrder ) => {
   const response = await fetch( "http://localhost:3000/api/orderan", {

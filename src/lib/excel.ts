@@ -21,4 +21,4 @@ const exportToExcel = ( table: any ) => {
   saveAsExcelFile( excelBuffer, 'table_data.xlsx' );
 };
 
-export default { saveAsExcelFile, exportToExcel }
+export { saveAsExcelFile, exportToExcel }

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { Status } from '@/app/style/status';
-import { TotalOrderan } from '@/entity/orderan';
+import { TotalOrderan } from '@/entity/client/orderan';
 import { PopUp } from '@/app/components/orderan/PopUp';
 import { Button } from '@material-tailwind/react';
-import { TProduct } from '@/entity/produk';
+import { TProduct } from '@/entity/client/produk';
 
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );

@@ -1,8 +1,10 @@
 'use client'
 import React from 'react'
 
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable, } from '@tanstack/react-table'
-import { TOrder } from '@/entity/orderan';
+import {
+  createColumnHelper, flexRender, getCoreRowModel, useReactTable,
+}                 from '@tanstack/react-table'
+import { TOrder } from '@/entity/client/orderan';
 
 // const columnHelper = createColumnHelper<TPeople>()
 
@@ -64,27 +66,27 @@ import { TOrder } from '@/entity/orderan';
 const columnHelper = createColumnHelper<TOrder>()
 
 const columns = [
-  columnHelper.accessor( "total.no", {} ),
+  columnHelper.accessor( "no", {} ),
 
   columnHelper.group( {
-    id: 'tanggal',
-    header: () => <span>tanggal</span>,
+    id     : 'tanggal',
+    header : () => <span>tanggal</span>,
     columns: [
-      columnHelper.accessor( 'tanggal.pesan', {} ),
-      columnHelper.accessor( "tanggal.kirim", {} ),
+      columnHelper.accessor( 'pesan', {} ),
+      columnHelper.accessor( "kirim", {} ),
     ],
   } ),
 
   columnHelper.group( {
     header: 'Nama', columns: [
-      columnHelper.accessor( 'orang.pengirim', { header: 'pengirim', } ),
-      columnHelper.accessor( 'orang.hpPengirim', { header: 'hp_pengirim', } ),
-      columnHelper.accessor( 'orang.penerima', { header: 'penerima', } ),
+      columnHelper.accessor( 'pengirim', { header: 'pengirim', } ),
+      columnHelper.accessor( 'hpPengirim', { header: 'hp_pengirim', } ),
+      columnHelper.accessor( 'penerima', { header: 'penerima', } ),
     ],
   } ),
 
-  columnHelper.accessor( "orang.alamatPenerima", {} ),
-  columnHelper.accessor( "orang.hpPenerima", { cell: info => info.getValue(), } ),
+  columnHelper.accessor( "alamatPenerima", {} ),
+  columnHelper.accessor( "hpPenerima", { cell: info => info.getValue(), } ),
   columnHelper.accessor( "listOrderan", {} ),
 
   columnHelper.group( {
@@ -93,17 +95,17 @@ const columns = [
       columnHelper.accessor( 'total', { header: 'total', } ),
     ],
   } ),
-  columnHelper.accessor( "travel.ekspedisi", {} ),
-  columnHelper.accessor( "travel.ongkir", {} ),
+  columnHelper.accessor( "ekspedisi", {} ),
+  columnHelper.accessor( "ongkir", {} ),
   columnHelper.accessor( "total", {} ),
-  columnHelper.accessor( "total.totalBayar", {} ),
-  columnHelper.accessor( "total.totalPenjualan", {} ),
+  columnHelper.accessor( "totalBayar", {} ),
+  columnHelper.accessor( "totalPenjualan", {} ),
 
 ]
 
 export function Tables() {
   const [ data, setData ] = React.useState( () => [] )
-  const rerender = React.useReducer( () => ( {} ), {} )[ 1 ]
+  const rerender          = React.useReducer( () => ( {} ), {} )[ 1 ]
 
   const table = useReactTable( {
     data,

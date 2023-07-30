@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
-import { TPerson } from '@/entity/person';
+import { faker }   from '@faker-js/faker'
+import { TPerson } from '@/entity/client/person';
 
 export const factoryPerson: TPerson = {
   firstName: faker.name.firstName(),

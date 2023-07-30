@@ -6,9 +6,10 @@ import { Donat } from '@/lib/chart/donat';
 const Dashboard = () => {
   return (
     <>
-      <div className={ " flex gap-5 flex-col p-5" }>
+      <div className={ " flex gap-2 flex-col p-5" }>
         {/*flex-wrap*/ }
-        <div className="sm:flex-row flex gap-2 justify-between bg-slate-50 p-5 rounded-2xl shadow-xl shadow-slate-200">
+        <div
+          className="flex flex-wrap my-5 p-2 md:p-5  gap-2 sm:gap-3 justify-between bg-slate-50  rounded-2xl shadow-xl shadow-slate-200">
           <HorizontalCard/>
         </div>
         <div className="   border border-black bg-white rounded-3xl">

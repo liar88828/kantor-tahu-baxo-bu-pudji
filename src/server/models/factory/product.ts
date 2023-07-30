@@ -1,5 +1,5 @@
-import { TProduct } from '@/entity/produk';
-import { faker } from '@faker-js/faker';
+import { TProduct } from '@/entity/client/produk';
+import { faker }    from '@faker-js/faker';
 
 export const factoryProduct: TProduct = {
   id: faker.commerce.productDescription(),

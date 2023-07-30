@@ -1,31 +1,46 @@
 "use client"
 import React, { ChangeEvent, ReactElement, Suspense, useState } from 'react';
-import { StyleInputForm, styleLabelForm } from '@/app/style/form';
-import { TFormProduct } from '@/entity/produk';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { InputFormProps } from '@/entity/InputForm';
-import { defaultFormProduct, formProduct } from '@/app/components/product/format';
-import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
+import {
+  StyleInputForm, styleLabelForm
+}                                                               from '@/app/style/form';
+import type {
+  TProduct
+}                                                               from '@/entity/client/produk';
+import {
+  Controller, SubmitHandler, useForm
+}                                                               from 'react-hook-form';
+import {
+  InputFormProps
+}                                                               from '@/entity/client/InputForm';
+import {
+  defaultFormProduct, formProduct
+}                                                               from '@/app/components/product/format';
+import {
+  handleUpload, SendData, UploadDescription
+}                                                               from '@/app/elements/upload/UploadDescription';
 
 export default function Home() {
 
-  const { control, register, handleSubmit, } = useForm<TFormProduct>( {/* defaultValues: defaultValues, */
+  const { control, register, handleSubmit, } = useForm<TProduct>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
-  const [ selectedFile, setSelectedFile ] = useState<File | null>();
-  const [ previewURL, setPreviewURL ] = useState<string | null>( null ); // State to store the preview image URL
-  const [ message, setMessage ] = useState<string>( '' );
+  const [ selectedFile, setSelectedFile ]    = useState<File | null>();
+  const [ previewURL, setPreviewURL ]        = useState<string | null>( null ); // State to store the preview image URL
+  const [ message, setMessage ]              = useState<string>( '' );
 
   const handleFileChange = ( event: ChangeEvent<HTMLInputElement> ) => {
     SendData( event, setSelectedFile, setPreviewURL );
   };
 
-  const onSubmit: SubmitHandler<TFormProduct> = ( data ) => {
-    handleUpload( selectedFile, setMessage, data, "product" ).then( r => console.log( r ) )
+  const onSubmit: SubmitHandler<TProduct> = ( data ) => {
+    handleUpload( selectedFile, setMessage, data, "product" )
+    .then( r => console.log( r ) )
   };
 
   const InputForm: React.FC<InputFormProps> = (
-    { tag: Tag = "input", title, type, reg, value, min, defaultValue }: InputFormProps ): ReactElement => {
+    {
+      tag: Tag = "input", title, type, reg, value, min, defaultValue
+    }: InputFormProps ): ReactElement => {
 
     let ress = {
       placeholder: ` Masukan ${ title }....`,
@@ -39,7 +54,8 @@ export default function Home() {
 
     return (
       <div className="flex flex-col">
-        <label className={ styleLabelForm } htmlFor="grid-password"> { title } </label>
+        <label className={ styleLabelForm }
+               htmlFor="grid-password"> { title } </label>
         <Controller
           control={ control }
           name={ "nama" }
@@ -51,21 +67,27 @@ export default function Home() {
 
   const FormProduct = () => {
     return ( <>
-        <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) }
+        <InputForm title={ formProduct.nama } type="text"
+                   reg={ register( "nama" ) }
                    defaultValue={ defaultFormProduct.nama }/>
-        <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }
+        <InputForm title={ formProduct.harga } type="number"
+                   reg={ register( "harga" ) }
                    defaultValue={ defaultFormProduct.harga }/>
 
-        <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }
+        <InputForm title={ formProduct.lokasi } type="text"
+                   reg={ register( "lokasi" ) }
                    defaultValue={ defaultFormProduct.lokasi }/>
         <div className="flex flex-col">
-          <label className={ styleLabelForm } htmlFor="grid-state">{ formProduct.jenis }  </label>
-          <select id="lokasi" className='border border-gray-300 p-2 rounded-md'{ ...register( "jenis" ) }>
+          <label className={ styleLabelForm }
+                 htmlFor="grid-state">{ formProduct.jenis }  </label>
+          <select id="lokasi"
+                  className='border border-gray-300 p-2 rounded-md'{ ...register( "jenis" ) }>
             <option value="Orderan">Orderan</option>
             <option value="Item">Item</option>
           </select>
         </div>
-        <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }
+        <InputForm title={ formProduct.keterangan } type="textarea"
+                   reg={ register( "keterangan" ) }
                    defaultValue={ defaultFormProduct.keterangan }/>
       </>
     )
@@ -80,12 +102,16 @@ export default function Home() {
           <FormProduct/>
         </div>
 
-        <div className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
+        <div
+          className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
           <Suspense fallback={ <p>Loading feed...</p> }>
-            <UploadDescription previewURL={ previewURL } onChange={ handleFileChange } message={ message }
+            <UploadDescription previewURL={ previewURL }
+                               onChange={ handleFileChange } message={ message }
                                title={ "Product" }/>
           </Suspense>
-          <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">Simpan</button>
+          <button type="submit"
+                  className="bg-blue-500 p-2 rounded-md text-white">Simpan
+          </button>
         </div>
 
       </form>

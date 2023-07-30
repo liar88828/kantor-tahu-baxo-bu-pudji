@@ -1,7 +1,7 @@
 import { prisma }       from '@/server/models/prisma/config';
 import { Prisma }       from '../../../../prisma/data';
 import { TOrderServer } from '@/entity/server/orderan';
-import { TProduct }     from '@/entity/produk';
+import { TProduct }     from '@/entity/client/produk';
 
 export type TYPE = Prisma.OrderanCreateInput
 export default class AccessOrderan {

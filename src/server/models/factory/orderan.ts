@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker';
-import { TOrder } from '@/entity/orderan';
+import { faker }  from '@faker-js/faker';
+import { TOrder } from '@/entity/client/orderan';
 import { factoryProduct } from '@/server/models/factory/product';
 
 faker.seed( 14 )

@@ -1,7 +1,9 @@
-import { TOrder, TotalOrderan } from '@/entity/orderan';
+import { TOrder, TotalOrderan } from '@/entity/client/orderan';
 import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
 
-export const format = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.toString().slice( 0, 2 ) + "/" +
+export const format = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.toString()
+                                                                    .slice( 0, 2 ) +
+  "/" +
   dataBaru.hpPenerima.toString().slice( 0, 2 ) + "/" +
   dataBaru.alamatPenerima.toString().slice( 0, 2 ) + "/" +
   dataBaru.pesan.toString().slice( 0, 2 ) + "/" +
@@ -12,9 +14,9 @@ export const format = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.to
 
 export const defaultValues: TOrder = {
   //data orang
-  pengirim: 'Kantor Tahu Baxo',
+  pengirim  : 'Kantor Tahu Baxo',
   hpPengirim: '',
-  penerima: '',
+  penerima  : '',
   alamatPenerima: '',
   hpPenerima: '',
   // waktu
@@ -25,24 +27,24 @@ export const defaultValues: TOrder = {
 
   // product
   listOrderan: [],
-  listItem: [],
+  listItem   : [],
   semuaProduct: [],
 
   //keterangan
-  guna: "",
+  guna     : "",
   lokasi: "",
 
   //travel
   namaPengiriman: "Kantor Tahu Baxo ",
   ekspedisi: '',
-  ongkir: 0,
+  ongkir   : 0,
 
   //transaksi
-  no: "",
+  no        : "",
   typePembayaran: "",
-  total: 0,
+  total     : 0,
   totalBayar: 0,
   totalPenjualan: 0,
-  status: 'Di terima',
+  status    : 'Di terima',
 
 }

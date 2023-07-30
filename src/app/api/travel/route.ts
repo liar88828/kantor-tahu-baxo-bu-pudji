@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import Control from '@/server/controller/travel';
-import { TTravel } from '@/entity/travel';
+import Control          from '@/server/controller/travel';
+import { TTravel }      from '@/entity/client/travel';
 import { TYPE }    from '@/server/models/dataAccess/Travel';
 
 export async function GET() {

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { TotalOrderan } from '@/entity/orderan';
-import { Rupiah } from '@/lib/utils/rupiah';
+import { TotalOrderan }    from '@/entity/client/orderan';
+import { Rupiah }          from '@/lib/utils/rupiah';
 import {
   Button,
   Card,
@@ -13,7 +13,7 @@ import {
   Typography
 } from '@material-tailwind/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { TProduct } from '@/entity/produk';
+import { TProduct }        from '@/entity/client/produk';
 
 export function PopUp( { clickPopUp, setClickPopUp, onCreate, data }: {
   clickPopUp: boolean,

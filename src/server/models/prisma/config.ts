@@ -245,7 +245,8 @@ const dataku: TOrderServer =
               "jenis"     : "string",
               "jumlah"    : 3681802,
               "lokasi"    : "string",
-              "keterangan": "string"
+              "keterangan": "string",
+              orderanId   : "asdada"
             },
 
             {
@@ -256,7 +257,8 @@ const dataku: TOrderServer =
               "jenis"     : "string",
               "jumlah"    : 3681802,
               "lokasi"    : "string",
-              "keterangan": "string"
+              "keterangan": "string",
+              orderanId   : "asdada"
             }
           ],
           "total"            : 3681802,

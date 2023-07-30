@@ -1,6 +1,6 @@
-import { TFromTravel } from '@/entity/travel';
+import type { TTravel } from '@/entity/client/travel';
 
-export const formTravel: Record<keyof TFromTravel, any> = {
+export const formTravel: Record<keyof TTravel, any> = {
   id: "1231",
   namaPengiriman: "Nama Travel",
   noHpPerusahaan: "No Hp Perusahan",
@@ -11,7 +11,7 @@ export const formTravel: Record<keyof TFromTravel, any> = {
   keterangan: "Keterangan "
 }
 
-export const defaultFormTravel: TFromTravel = {
+export const defaultFormTravel: TTravel = {
   id: " ",
   namaPengiriman: " Tahu Baxo Bu Pudji ",
   noHpPerusahaan: ( 8123456789 ).toString(),

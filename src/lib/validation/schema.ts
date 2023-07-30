@@ -2,8 +2,31 @@ import { z }              from 'zod';
 import { TYPE as Travel } from '@/server/models/dataAccess/Travel';
 import { TYPE as Produk } from '@/server/models/dataAccess/Produk';
 import { TOrderServer }   from '@/entity/server/orderan';
+import { Res, TProduct }  from '@/entity/client/produk';
 
 export default class Validation {
+
+  ServiceProduk: z.ZodType<TProduct> = z.object( {
+    id    : z.string().min( 1 ),
+    nama  : z.string().min( 1 ),
+    harga : z.number().int().positive(),
+    lokasi: z.string().min( 1 ),
+    jumlah: z.number().int().positive(),
+    // jenis: z.enum(["Orderan","Item"]),
+    jenis     : z.string(),
+    img       : z.string(),
+    keterangan: z.string()
+  } )
+
+  userSchema = z.object( {
+    name: z.string(),
+    age : z.number(),
+  } );
+
+  schema: z.ZodType<Res> = z.object( {
+    films : z.string(),
+    people: z.string(),
+  } );
 
   TravelSchema: z.ZodType<Travel> = z.object( {
     id            : z.string(),
@@ -74,59 +97,6 @@ export default class Validation {
     semuaProduct     : z.array( this.semuaProduk )
   } )
 
-  exampleData: TOrderServer =
-    {
-      "alamatPenerima"   : "Alamat Penerima",
-      "ekspedisi"        : "Ekspedisi",
-      "guna"             : "Keterangan",
-      "hpPenerima"       : "Hp Penerima",
-      "hpPengirim"       : "Hp Pengirim",
-      "id"               : "qwe",
-      "keterangan"       : "sangat jelas",
-      "kirim"            : "1999-07-01T00:00:00.000Z",
-      "lokasi"           : "Lokasi",
-      "namaPengiriman"   : "Nama Travel",
-      "no"               : "Nso",
-      "ongkir"           : 23,
-      "penerima"         : "Penerima",
-      "pengirim"         : "orang genah",
-      "pesan"            : "1999-07-01T00:00:00.000Z",
-      "semuaHargaItem"   : 12312,
-      "semuaHargaOrderan": 12312,
-      "semuaHargaProduct": 12312,
-      "semuaProduct"     : [
-        {
-          "harga"     : 42000,
-          "id"        : "produk lagi1 123",
-          "img"       : "bagsus",
-          "jumlah"    : 10,
-          "jenis"     : "Itesm",
-          "keterangan": "Esnak",
-          "lokasi"    : "Ungsaran",
-          "nama"      : "Tahu sBakso Rebus",
-          "orderanId" : "qwe"
-        },
-        {
-          "harga"     : 42000,
-          "id"        : "produk lagi 123",
-          "img"       : "bagsus",
-          "jumlah"    : 10,
-          "jenis"     : "Itesm",
-          "keterangan": "Esnak",
-          "lokasi"    : "Ungsaran",
-          "nama"      : "Tahu sBakso Rebus",
-          "orderanId" : "qwe"
-        }
-      ],
-      "status"           : "Status",
-      "total"            : 123,
-      "totalBayar"       : 123,
-      "totalHarga"       : 1231,
-      "totalPenjualan"   : 232,
-      "typePembayaran"   : "Pemsbayaran",
-      "waktuKirim"       : "2023-07-20T00:00:00.000Z"
-    }
-
   Produk(): z.ZodType<Produk> {return this.ProdukSchema}
 
   ZFindById( id: string ) {
@@ -134,10 +104,7 @@ export default class Validation {
   }
 
   Input<T>( data: T, Schema: z.ZodType<T, z.ZodTypeDef, T> ) {
-    // console.log( data )
-    const dataValid = Schema.safeParse( data )
-    // console.info( dataValid, "test" )
-    return dataValid
+    return Schema.safeParse( data )
   }
 }
 

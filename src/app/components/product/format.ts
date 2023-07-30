@@ -1,6 +1,6 @@
-import { TFormProduct } from '@/entity/produk';
+import type { TProduct } from '@/entity/client/produk';
 
-export const formProduct: Record<keyof TFormProduct, any> = {
+export const formProduct: Record<keyof TProduct, any> = {
   id: "1231",
   nama: "Nama Produk",
   harga: "Harga Produk",
@@ -11,7 +11,7 @@ export const formProduct: Record<keyof TFormProduct, any> = {
   keterangan: "Keterangan Produk"
 }
 
-export const defaultFormProduct: TFormProduct = {
+export const defaultFormProduct: TProduct = {
   id: " ",
   nama: " Tahu Baxo Bu Pudji ",
   harga: 20000,
