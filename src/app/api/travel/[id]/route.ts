@@ -24,12 +24,7 @@ export async function PUT(
 ) {
   const json = await request.json()
   const id: string = route.params.id
-  // const url = new URL( request.url )
-
   try {
-    // console.log( dataControl )
-    // console.log( json )
-    // console.log( id )
     const dataControl = await Control.edit( json, id )
     return NextResponse.json( {
       msg: "Success EDIT",
@@ -41,13 +36,10 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: NextApiRequest,
+  _: NextApiRequest,
   route: { params: { id: string } },
 ) {
-  // const query = request.body
-  // const url = request.url
   const id: string = route.params.id
-
   try {
     const dataControl = await Control.destroy( id )
     return NextResponse

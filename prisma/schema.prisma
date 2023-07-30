@@ -14,8 +14,8 @@ model SemuaProduct {
   lokasi     String   @db.VarChar(100)
   jenis      String   @db.VarChar(100)
   img        String   @db.VarChar(100)
-  harga      Int?     @db.MediumInt
-  jumlah     Int?     @db.MediumInt
+  harga      Int      @db.MediumInt
+  jumlah     Int      @db.MediumInt
   keterangan String   @db.Text
   // at update / create
   created_at DateTime @default(now())
