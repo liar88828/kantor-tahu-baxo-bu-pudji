@@ -1,8 +1,12 @@
-###
+### get all
 GET http://localhost:3000/api/orderan
 Content-Type: application/json
 
-###
+### get by id
+GET http://localhost:3000/api/orderan/asd
+Content-Type: application/json
+
+### post
 POST http://localhost:3000/api/orderanSalah
 Content-Type: application/json
 
@@ -45,51 +49,67 @@ Content-Type: application/json
   "totalPenjualan": 3681802,
   "typePembayaran": "string"
 }
-###
-POST http://localhost:3000/api/orderan
+
+### Update
+PUT http://localhost:3000/api/orderan/asd
 Content-Type: application/json
 
 {
-  "pengirim": "orang genah",
-  "hpPengirim": "Hp Pengirim",
-  "penerima": "Penerima",
   "alamatPenerima": "Alamat Penerima",
-  "hpPenerima": "Hp Penerima",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "waktuKirim": "2023-07-20T00:00:00.000Z",
-  "guna": "Keterangan",
-  "keterangan": "sangat jelas",
-  "lokasi": "Lokasi",
-  "namaPengiriman": "Nama Travel",
-  "ekspedisi": "Ekspedisi",
   "ongkir": 23,
-  "id": "order1",
+  "id": "asd",
   "no": "Nso",
-  "typePembayaran": "Pemsbayaran",
-  "total": 123,
-  "totalBayar": 123,
-  "totalPenjualan": 232,
-  "status": "Status",
-  "semuaHargaProduct": 12312,
   "semuaHargaItem": 12312,
   "semuaHargaOrderan": 12312,
-  "totalHarga": 1231,
-  "created_at": "1999-07-01T05:00:00.000Z",
-  "updated_at": "1999-07-01T05:00:00.000Z",
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "keterangan": "sangat jelas update",
+  "penerima": "Penerima update update",
+  "kirim": "1999-07-01T00:00:00.000Z",
+  "pesan": "1999-07-01T00:00:00.000Z",
   "semuaProduct": [
     {
-      "id": "produk1",
-      "nama": "Tahu sBakso Rebus",
-      "lokasi": "Ungsaran",
-      "jenis": "Itesm",
-      "img": "bagsus",
       "harga": 42000,
+      "id": "produk lagi1 asd",
+      "img": "bagsus",
       "jumlah": 10,
+      "jenis": "Itesm",
       "keterangan": "Esnak",
-      "created_at": "2023-07-28T18:37:27.166Z",
-      "updated_at": "2023-07-28T18:37:27.166Z",
-      "orderanId": "datas5"
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "asd"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "img": "bagsus",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "asd"
     }
-  ]
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+
+### delete
+DELETE http://localhost:3000/api/orderan/data1
+Content-Type: application/json
+
+{
 }

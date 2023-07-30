@@ -3,52 +3,6 @@ import { Prisma }       from '../../../../prisma/data';
 import { TOrderServer } from '@/entity/server/orderan';
 import { TProduct }     from '@/entity/produk';
 
-// interface IOrderanAccess {
-//
-// }
-
-// type PrismaCreate = Prisma.OrderanUpdateInput | {
-//   semuaProduct: Prisma.ProdukFind
-// }
-
-interface OrderData {
-  alamatPenerima: string;
-  ekspedisi: string;
-  guna: string;
-  hpPenerima: string;
-  hpPengirim: string;
-  id: string;
-  keterangan: string;
-  kirim: string;
-  lokasi: string;
-  namaPengiriman: string;
-  no: string;
-  ongkir: number;
-  penerima: string;
-  pengirim: string;
-  pesan: string;
-  semuaHargaItem: number;
-  semuaHargaOrderan: number;
-  semuaHargaProduct: number;
-  semuaProduct: {
-    harga: number;
-    id: string;
-    img: string;
-    jenis: string;
-    jumlah: number;
-    keterangan: string;
-    lokasi: string;
-    nama: string;
-  };
-  status: string;
-  total: number;
-  totalBayar: number;
-  totalHarga: number;
-  totalPenjualan: number;
-  typePembayaran: string;
-  waktuKirim: string;
-}
-
 export type TYPE = Prisma.OrderanCreateInput
 export default class AccessOrderan {
 
@@ -93,18 +47,15 @@ export default class AccessOrderan {
     } )
   }
 
-  async CreateMany( data: Prisma.OrderanCreateInput & TOrderServer ) {
-
-// @ts-ignore
-
+  async CreateManyNesting( data: Prisma.OrderanCreateInput & TOrderServer ) {
     return prisma.orderan.create( {
       data: {
         //orang
         alamatPenerima: data.alamatPenerima,
-        ekspedisi : data.ekspedisi,
-        guna      : data.guna,
+        ekspedisi     : data.ekspedisi,
+        guna          : data.guna,
         hpPenerima    : data.hpPenerima,
-        hpPengirim: data.hpPenerima,
+        hpPengirim    : data.hpPenerima,
 //tanggal pesan
         id        : data.id,
         keterangan: data.keterangan,
@@ -115,7 +66,7 @@ export default class AccessOrderan {
 
 //keterangan
         namaPengiriman: data.namaPengiriman,
-        no    : data.no,
+        no            : data.no,
         ongkir        : data.ongkir,
 //travel
         penerima: data.penerima,
@@ -168,14 +119,75 @@ export default class AccessOrderan {
         //total semua,
 
         totalPenjualan: data.totalPenjualan,
-        typePembayaran   : data.typePembayaran,
-        waktuKirim       : data.waktuKirim
+        typePembayaran: data.typePembayaran,
+        waktuKirim    : data.waktuKirim
       },
 
       include: {
         semuaProduct: true, // Include all posts in the returned object
       },
     } )
+  }
+
+  async CreateManyTransaction( data: TOrderServer ) {
+
+    const createOrderan = prisma.orderan.create( {
+      data: {
+        //orang
+        alamatPenerima: data.alamatPenerima,
+        ekspedisi     : data.ekspedisi,
+        guna          : data.guna,
+        hpPenerima    : data.hpPenerima,
+        hpPengirim    : data.hpPenerima,
+//tanggal pesan
+        id        : data.id,
+        keterangan: data.keterangan,
+        kirim     : data.kirim,
+//orderan
+        lokasi: data.lokasi,
+//keterangan
+        namaPengiriman: data.namaPengiriman,
+        no            : data.no,
+        ongkir        : data.ongkir,
+//travel
+        penerima: data.penerima,
+        pengirim: data.pengirim,
+        pesan   : data.pesan,
+//total
+        //total semua,
+        semuaHargaItem   : data.semuaHargaItem,
+        semuaHargaOrderan: data.semuaHargaOrderan,
+        semuaHargaProduct: data.semuaHargaProduct,
+
+        status    : data.status,
+        total     : data.total,
+        totalBayar: data.totalBayar,
+        totalHarga: data.totalHarga,
+        //total semua,
+
+        totalPenjualan: data.totalPenjualan,
+        typePembayaran: data.typePembayaran,
+        waktuKirim    : data.waktuKirim
+      },
+    } )
+
+    const createSemuaProduk = prisma.semuaProduct.createMany( {
+      data: data.semuaProduct.map( d => (
+        {
+          harga     : d.harga,
+          id        : d.id,
+          img       : d.img || "no image",
+          jenis     : d.jenis,
+          jumlah    : d.jumlah,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi,
+          nama      : d.nama,
+          orderanId : data.id
+        }
+      ) )
+    } )
+
+    return prisma.$transaction( [ createOrderan, createSemuaProduk ] )
   }
 
   async UpdateMany( id: string, data: Prisma.OrderanUpdateManyMutationInput ) {
@@ -220,29 +232,86 @@ export default class AccessOrderan {
     } )
   }
 
-  async UpdateOne( id
-    :
-    string, data
-    :
-    Prisma.OrderanUpdateInput
-  ) {
-    return prisma.orderan.updateMany( {
-      where: { id },
-      data : this.DataOrder( data )
+  async UpdateOne( id: string, data: TOrderServer ) {
+    const updateOrderan = prisma.orderan.update( {
+      where: { id: data.id },
+      data : {
+        //orang
+        alamatPenerima: data.alamatPenerima,
+        ekspedisi     : data.ekspedisi,
+        guna          : data.guna,
+        hpPenerima    : data.hpPenerima,
+        hpPengirim    : data.hpPenerima,
+//tanggal pesan
+        id        : data.id,
+        keterangan: data.keterangan,
+        kirim     : data.kirim,
+//orderan
+        lokasi: data.lokasi,
+//keterangan
+        namaPengiriman: data.namaPengiriman,
+        no            : data.no,
+        ongkir        : data.ongkir,
+//travel
+        penerima: data.penerima,
+        pengirim: data.pengirim,
+        pesan   : data.pesan,
+//total
+        //total semua,
+        semuaHargaItem   : data.semuaHargaItem,
+        semuaHargaOrderan: data.semuaHargaOrderan,
+        semuaHargaProduct: data.semuaHargaProduct,
 
+        status    : data.status,
+        total     : data.total,
+        totalBayar: data.totalBayar,
+        totalHarga: data.totalHarga,
+        //total semua,
+
+        totalPenjualan: data.totalPenjualan,
+        typePembayaran: data.typePembayaran,
+        waktuKirim    : data.waktuKirim
+      },
     } )
+
+    const updateSemuaProduk = prisma.semuaProduct.updateMany( {
+      data: data.semuaProduct.map( d => (
+        {
+          harga     : d.harga,
+          id        : d.id,
+          img       : d.img || "no image",
+          jenis     : d.jenis,
+          jumlah    : d.jumlah,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi,
+          nama      : d.nama,
+          orderanId : data.id
+        }
+      ) )
+    } )
+
+    return prisma.$transaction( [ updateOrderan, updateSemuaProduk ] )
   }
 
   async DeleteOne( id: string ) {
     return prisma.orderan.delete( {
-      where: { id: id }
+      where  : { id: id },
+      include: { semuaProduct: { where: { orderanId: id } } }
     } )
   }
 
   async DeleteMany( id: string ) {
-    return prisma.orderan.deleteMany( {
-      where: { id: id }
+
+    const deleteProduk = prisma.semuaProduct.deleteMany( {
+      where: { orderanId: id }
     } )
+
+    const deleteOrder = prisma.orderan.delete( {
+      where  : { id: id },
+      include: { semuaProduct: true }
+    } )
+    await prisma.$transaction( [ deleteProduk, deleteOrder ]
+    )
   }
 
   protected setCreate( data: Prisma.OrderanCreateInput ) {
@@ -287,5 +356,41 @@ export default class AccessOrderan {
 
 }
 
-
-
+//
+// interface OrderData {
+//   alamatPenerima: string;
+//   ekspedisi: string;
+//   guna: string;
+//   hpPenerima: string;
+//   hpPengirim: string;
+//   id: string;
+//   keterangan: string;
+//   kirim: string;
+//   lokasi: string;
+//   namaPengiriman: string;
+//   no: string;
+//   ongkir: number;
+//   penerima: string;
+//   pengirim: string;
+//   pesan: string;
+//   semuaHargaItem: number;
+//   semuaHargaOrderan: number;
+//   semuaHargaProduct: number;
+//   semuaProduct: [ {
+//     harga: number;
+//     id: string;
+//     img: string;
+//     jenis: string;
+//     jumlah: number;
+//     keterangan: string;
+//     lokasi: string;
+//     nama: string;
+//   } ];
+//   status: string;
+//   total: number;
+//   totalBayar: number;
+//   totalHarga: number;
+//   totalPenjualan: number;
+//   typePembayaran: string;
+//   waktuKirim: string;
+// }

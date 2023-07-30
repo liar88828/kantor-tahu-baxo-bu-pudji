@@ -1,7 +1,7 @@
-import { TProduct } from '@/entity/produk';
+import { TPOrderan } from '@/entity/server/produkOrderan';
 
 export type TOrderServer = {
-  semuaProduct: TProduct[ ]
+  semuaProduct: TPOrderan[ ]
 //waktu
   pesan: Date | string
   kirim: Date | string
@@ -48,6 +48,7 @@ export const formInput: TOrderServer = {
 //orderan
   semuaProduct: [
     {
+      orderanId: "asdasd",
       id        : "Se/Or/TBSp/42",
       nama      : "Tahu Bakso Rebus",
       harga     : 42_000,
@@ -70,7 +71,7 @@ export const formInput: TOrderServer = {
   no            : "No",
   typePembayaran: "Pembayaran",
   total         : 123,
-  keterangan: "asdasd",
+  keterangan  : "asdasd",
 
   totalBayar    : 123,
   totalPenjualan: 232,
