@@ -1,0 +1,23 @@
+questions.jpg
+{
+  nama: 'Tahu Baxo Bu Pudji',
+  harga: '20000',
+  lokasi: 'Ungaran ',
+  jenis: 'Orderan',
+  keterangan: 'Pedas '
+}
+-----------------------------------------
+public/img/produk/Tahu Baxo Bu Pudji.jpg
+File {
+  size: 16681,
+  type: 'image/jpeg',
+  name: 'questions.jpg',
+  lastModified: 1691148856395
+}
+file not found!
+{
+  dataArray: [
+    '{"nama":"Tahu Baxo Bu Pudji","harga":"20000","lokasi":"Ungaran ","jenis":"Orderan","keterangan":"Pedas "}'
+  ],
+  image: 'public/img/produk/Tahu Baxo Bu Pudji.jpg'
+}

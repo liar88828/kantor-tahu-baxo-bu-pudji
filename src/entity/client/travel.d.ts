@@ -3,8 +3,8 @@ export  type TTravel = {
   namaPengiriman: string,
   noHpPerusahaan: string,
   lokasi: string,
-  jenis: string,
   harga: number,
+  jenis: string,
   img?: string,
   keterangan: string
 }

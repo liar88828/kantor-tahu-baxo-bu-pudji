@@ -32,22 +32,30 @@ export async function handleUpload<T>(
   formData.append( 'file', selectedFile );
   formData.append( 'data', dataku ); // Assuming data is a JSON string
 
-  // -------------------------------------------------------------------send to Api
+  // -------------------------------------------------------------------send to
+  // Api
   try {
-    const response = await fetch( '/api/' + apiEndPoint, {
-      method: 'POST',
-      body: formData,
-    } );
+    // console.log(formData)
+    const response = await fetch(
+      '/api/' + apiEndPoint,
+      {
+        method: 'POST',
+        body  : formData,
+      } )
+    const data     = await response.json()
+    console.log( data.msg )
+    console.log( data.data )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }
     else {
       setMessage( 'Error uploading file' );
     }
-  } catch ( error ) {
+  }
+  catch ( error ) {
     setMessage( 'Error uploading file' );
   }
-};
+}
 
 export function UploadDescription( props: {
   previewURL: string | null,
@@ -60,8 +68,7 @@ export function UploadDescription( props: {
     <h1>Upload Image</h1>
 
     { props.previewURL &&
-	  <img src={ props.previewURL }
-		   alt="Preview"
+	  <img src={ props.previewURL } alt="Preview"
 		   className={ 'w-[100%] h-auto border-2 border-gray-300    rounded-3xl' }/> }
 
     <input type="file" onChange={ props.onChange }/>

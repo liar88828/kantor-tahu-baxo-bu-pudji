@@ -1,8 +1,8 @@
-### get data Produk`
+### get data Produk
 GET http://localhost:3000/api/produk
 
-### get data Produk` by id
-GET http://localhost:3000/api/produk/ss
+### get data Produk by id
+GET http://localhost:3000/api/produk/wi_20_Un_Or_Pe_1691153943604
 
 ### create data Produk`
 POST http://localhost:3000/api/produk
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 
 ### update data Produk`
-PUT http://localhost:3000/api/produk/ss
+PUT http://localhost:3000/api/produk/wi_20_Un_Or_Pe_1691153943604
 Content-Type: application/json
 
 {

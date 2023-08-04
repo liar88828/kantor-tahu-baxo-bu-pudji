@@ -32,9 +32,12 @@ export default function Home() {
     SendData( event, setSelectedFile, setPreviewURL );
   };
 
-  const onSubmit: SubmitHandler<TProduct> = ( data ) => {
-    handleUpload( selectedFile, setMessage, data, "product" )
-    .then( r => console.log( r ) )
+  const onSubmit: SubmitHandler<TProduct> = async ( data ) => {
+    await handleUpload( selectedFile, setMessage, data, "produk" )
+    .then( () => {
+      // let data
+    } )
+
   };
 
   const InputForm: React.FC<InputFormProps> = (
@@ -81,7 +84,8 @@ export default function Home() {
           <label className={ styleLabelForm }
                  htmlFor="grid-state">{ formProduct.jenis }  </label>
           <select id="lokasi"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "jenis" ) }>
+                  className='border border-gray-300 p-2 rounded-md'
+                  { ...register( "jenis" ) }>
             <option value="Orderan">Orderan</option>
             <option value="Item">Item</option>
           </select>

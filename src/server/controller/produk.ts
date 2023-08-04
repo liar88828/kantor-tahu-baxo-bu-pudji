@@ -18,8 +18,8 @@ const findById = async ( id: string ) => {
 }
 
 const create = async ( body: TYPE ) => {
-  body       = Service.create( valid.Input( body, valid.ProdukSchema ), body )
-  const repo = await Repo.createOne( body )
+  const datas = Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  const repo = await Repo.createOne( datas )
   return repo
 }
 

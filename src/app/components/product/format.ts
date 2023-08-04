@@ -13,12 +13,12 @@ export const formProduct: Record<keyof TProduct, any> = {
 
 export const defaultFormProduct: TProduct = {
   id: " ",
-  nama: " Tahu Baxo Bu Pudji ",
+  nama      : "Tahu Baxo Bu Pudji",
   harga: 20000,
-  lokasi: " Ungaran ",
+  lokasi    : "Ungaran ",
   jumlah: 0,
-  jenis: " Orderan ",
+  jenis     : "Orderan ",
   img: "img",
-  keterangan: " Pedas "
+  keterangan: "Pedas "
 }
 

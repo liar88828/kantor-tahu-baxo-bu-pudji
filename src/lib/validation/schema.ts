@@ -41,9 +41,9 @@ export default class Validation {
 
   ProdukSchema = z.object( {
     id        : z.string(),
-    nama      : z.string().min( 1 ),
+    nama  : z.string(),
     harga     : z.number().int().positive(),
-    lokasi    : z.string().min( 1 ),
+    lokasi: z.string(),
     jumlah    : z.number().int().positive(),
     img       : z.string(),
     keterangan: z.string(),

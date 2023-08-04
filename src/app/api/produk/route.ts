@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Control                       from '@/server/controller/produk';
+import { saveFile }                  from '@/server/service/image';
+import { formatData }                from '@/lib/utils/formatData';
 
 export async function GET() {
 
@@ -14,12 +16,18 @@ export async function GET() {
 
 export async function POST( request: NextRequest, ) {
   try {
-    const json = await request.json();
 
-    const dataControl = await Control.create( json )
-    return NextResponse.json( { msg: "Success Create", data: dataControl } )
+    const json        = await saveFile( request, "produk/" )
+    const formatJson  = formatData( json, "produk" )
+    const dataControl = await Control.create( formatJson )
+    return NextResponse.json( {
+      msg: "Success Create",
+      // data: json
+      data: dataControl
+    } )
   }
   catch ( e ) {
     return NextResponse.json( { msg: "Error Create", error: e } )
   }
 }
+
