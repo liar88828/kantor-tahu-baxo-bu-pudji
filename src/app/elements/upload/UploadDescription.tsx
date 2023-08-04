@@ -1,4 +1,3 @@
-import React from 'react';
 import { styleLabelForm } from '@/app/style/form';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
@@ -36,12 +35,10 @@ export async function handleUpload<T>(
   // Api
   try {
     // console.log(formData)
-    const response = await fetch(
-      '/api/' + apiEndPoint,
-      {
-        method: 'POST',
-        body  : formData,
-      } )
+    const response = await fetch( '/api/' + apiEndPoint, {
+      method: 'POST',
+      body  : formData,
+    } )
     const data     = await response.json()
     console.log( data.msg )
     console.log( data.data )
@@ -65,13 +62,15 @@ export function UploadDescription( props: {
 } ) {
   return <div className={ 'flex flex-col gap-5' }>
     <label className={ styleLabelForm }>Masukan Gambar { props.title }</label>
-    <h1>Upload Image</h1>
+    { !props.previewURL && <h1>Upload Image</h1> }
 
     { props.previewURL &&
 	  <img src={ props.previewURL } alt="Preview"
 		   className={ 'w-[100%] h-auto border-2 border-gray-300    rounded-3xl' }/> }
 
-    <input type="file" onChange={ props.onChange }/>
+    <input type="file"
+           className="file-input file-input-bordered bg-gray-100 file-input-accent"
+           onChange={ props.onChange }/>
 
     { props.message && <p>{ props.message }</p> }
   </div>;

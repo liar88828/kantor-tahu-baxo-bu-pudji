@@ -1,25 +1,31 @@
 "use client"
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from "next/navigation";
+import Link                from 'next/link';
+import { usePathname }     from "next/navigation";
+import { styleLabelForm }  from '@/app/style/form';
 
 // Initialization for ES Users
 
 function Navbar() {
   const [ open, setOpen ] = useState<boolean>( true );
-  const path = usePathname().split( "/" )[ 1 ].toUpperCase()
+  const path       = usePathname().split( "/" )[ 1 ].toUpperCase()
   const linkNavbar = "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-green-400 md:dark:hover:text-blue-500 md:hover:text-white md:dark:hover:bg-transparent md:p-0.5  md:border-0  dark:hover:bg-gray-200 ";
   return (
     <div className={ "block w-[100%]" }>
       <nav className="bg-green-400 border-gray-200 ">
 
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div
+          className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a className="flex items-center">
-            <img src="https://tahubaxo-ibupudji.com/wp-content/uploads/2018/05/cropped-logo-e1547694806898-1.png"
-                 className=" mr-3  h-8"
-                 alt="Flowbite Logo"/>
+            <img
+              src="https://tahubaxo-ibupudji.com/wp-content/uploads/2018/05/cropped-logo-e1547694806898-1.png"
+              className=" mr-3  h-8"
+              alt="Flowbite Logo"/>
             <span
-              className="self-center text-2xl font-semibold whitespace-nowrap  ">{ path ? path : "DASHBOARD" }</span>
+              className={ "self-center text-2xl font-semibold whitespace-nowrap  " +
+                styleLabelForm }>
+              { path ? path : "DASHBOARD" }
+            </span>
           </a>
 
           <button
@@ -28,9 +34,11 @@ function Navbar() {
             className="inline-flex items-center p-2 w-10  justify-center text-sm text-black rounded-lg md:hidden bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  "
             aria-controls="navbar-default" aria-expanded="false">
             <span className="sr-only">Open main menu</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            <svg className="w-5 h-5" aria-hidden="true"
+                 xmlns="http://www.w3.org/2000/svg" fill="none"
                  viewBox="0 0 17 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+              <path stroke="currentColor" strokeLinecap="round"
+                    strokeLinejoin="round" strokeWidth="2"
                     d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
           </button>

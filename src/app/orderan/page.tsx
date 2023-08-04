@@ -133,7 +133,8 @@ export default function FormOrder() {
   function Nama() {
     return (
       <>
-        <div className={ "flex-col flex gap-3 " }><h2>Nama</h2>
+        <div className={ "flex-col flex gap-3 " }>
+          <h2 className={ styleLabelForm }>Nama</h2>
           <hr/>
           <InputForm title={ "Pengirim" } type="text"
                      reg={ register( "pengirim" ) }
@@ -237,9 +238,9 @@ export default function FormOrder() {
         <div className={ "flex flex-col gap-3" }>
 
           {/* combo box  */ }
-          <label htmlFor="">Ekspedisi</label>
+          <label htmlFor="" className={ styleLabelForm }>Ekspedisi</label>
           <select id="ekspedisi"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "ekspedisi" ) }>
+                  className='bg-gray-50  border border-gray-300 p-2 rounded-md'{ ...register( "ekspedisi" ) }>
             <option value="Paxel">Paxel</option>
             <option value="JNE">JNE</option>
             <option value="Travel Omega">Travel Omega</option>
@@ -252,26 +253,26 @@ export default function FormOrder() {
           {/* tulis sendiri */ }
           <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
                      reg={ register( "ongkir", { valueAsNumber: true } ) }/>
-          <label htmlFor="">Lokasi</label>
+          <label htmlFor="" className={ styleLabelForm }>Lokasi</label>
           <select id="lokasi"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
+                  className='bg-gray-50 border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
             <option value="Ungaran">Ungaran</option>
             <option value="Semarang">Semarang</option>
           </select>
 
           {/* jenis Pembayaran */ }
-          <label htmlFor="">Pembayaran</label>
+          <label htmlFor="" className={ styleLabelForm }>Pembayaran</label>
           <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "typePembayaran" ) }>
+                  className='bg-gray-50 border border-gray-300 p-2 rounded-md'{ ...register( "typePembayaran" ) }>
             <option value="Cash">Cash</option>
             <option value="BCA">BCA</option>
             <option value="Mandiri">Mandiri</option>
             <option value="BRI">BRI</option>
           </select>
 
-          <label htmlFor="">Status</label>
+          <label htmlFor="" className={ styleLabelForm }>Status</label>
           <select id="pembayaran"
-                  className='border border-gray-300 p-2 rounded-md'{ ...register( "status" ) }>
+                  className='bg-gray-50 border border-gray-300 p-2 rounded-md'{ ...register( "status" ) }>
             {/*/status/*/ }
             <option className={ SDiTerima } value="Di Terima">Di Terima</option>
             <option className={ SProcess } value='Di Proses'>Di Proses</option>
@@ -295,15 +296,18 @@ export default function FormOrder() {
 
               <span
                 className=" flex flex-row items-center px-4 justify-around ">
-                  <span>{ !cariProduct ? <AiOutlineCloseCircle
-                                         className={ " w-[1.5rem]     h-auto " }/> :
-                          <AiOutlineSearch
-                            className={ " w-[1.5rem]  h-auto " }/> }
+                  <span>{
+                    !cariProduct
+                    ? <AiOutlineCloseCircle
+                      className={ " w-[1.5rem]   h-auto " }/> :
+                    <AiOutlineSearch
+                      className={ " w-[1.5rem]  h-auto " }/> }
                 </span>
 
-                <span className=" hidden sm:block sm:mx-2 ">{ !cariProduct
-                                                              ? "Tutup"
-                                                              : "Cari" }</span>
+                <span className=" hidden sm:block sm:mx-2 ">
+                  { !cariProduct
+                    ? "Tutup"
+                    : "Cari" }</span>
               </span>
             </button>
 
@@ -339,13 +343,17 @@ export default function FormOrder() {
 
                   <p className={ "flex flex-col" }>
                     <span
-                      className={ "text-sm sm:text-base" }>{ item.nama }</span>
+                      className={ "text-sm sm:text-base " +
+                        styleLabelForm }>{ item.nama }</span>
                     <span
-                      className={ "text-sm sm:text-base" }>{ Rupiah( item.harga ) }</span>
+                      className={ "text-sm sm:text-base" +
+                        styleLabelForm }>{ Rupiah( item.harga ) }</span>
                     <span
-                      className={ "text-sm sm:text-base" }>{ item.jenis }</span>
+                      className={ "text-sm sm:text-base" +
+                        styleLabelForm }>{ item.jenis }</span>
                     <span
-                      className={ "text-sm sm:text-base" }>{ item.lokasi }</span>
+                      className={ "text-sm sm:text-base" +
+                        styleLabelForm }>{ item.lokasi }</span>
                   </p>
 
                   <button
@@ -402,7 +410,8 @@ export default function FormOrder() {
 
                       <tr>
                         <td className={ "hidden sm:block" }>
-                          <span>Nama Produk </span></td>
+                          <span className={ styleLabelForm }>Nama Produk </span>
+                        </td>
                         <td className={ "text-sm sm:text-base" }>{ item.nama }
 
                           <input className={ StyleInputForm( false ) }

@@ -12,7 +12,7 @@ function addDot( extensionData: string, nama: string ) {
 
 export async function saveFile( req: Request, image: string = "images/" ) {
   const formData   = await req.formData();
-  const folderName = "public/img/" + image
+  const folderName = "public/" + image
 
   if( !checkFolder( folderName ) ) {
     console.log( 'folder create' );
@@ -34,12 +34,12 @@ export async function saveFile( req: Request, image: string = "images/" ) {
         console.log( "format data is true" )
 
         const name = addDot( extensionData, dataku.nama )
-
+        console.log( name )
         const filePath = folderName + name
         dataArray.push( formDataEntryValues[ 0 ] )
         const oData = JSON.parse( dataArray )
 
-        oData.img    = filePath
+        oData.img = image + name
         const buffer = Buffer.from( await file.arrayBuffer() );
 
         return validateFileImage( filePath, buffer, oData )
