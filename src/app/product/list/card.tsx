@@ -1,48 +1,19 @@
-import { TProduct }          from '@/entity/client/produk';
-import { Rupiah }            from '@/lib/utils/rupiah';
-import React                 from 'react';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { TProduct }            from '@/entity/client/produk';
+import { Rupiah }              from '@/lib/utils/rupiah';
+import React                   from 'react';
+import { AppRouterInstance }   from 'next/dist/shared/lib/app-router-context';
+import { deleteData, getData } from '@/app/product/api';
 
-const url = "http://localhost:3000/"
-
-async function getData() {
-  const res = await fetch( url + "api/product",
-    {
-      cache: 'default',
-      next : {
-        tags      : [ "product" ],
-        revalidate: 2
-      }
-    }
-  )
-
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-  return res.json()
-}
-
-export const CardList = async ( { router }: {
+export const CardList = async ( { router, urlApi }: {
   router: AppRouterInstance
+  urlApi: string
 
 } ) => {
   const { data }: { data: TProduct[ ] } = await getData()
 
-  const deleteData = async ( id: string ) => {
-    const res = await fetch(
-      url + "api/product/" + id,
-      {
-        method : "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        },
-      } )
-    if( !res.ok ) {
-      throw new Error( 'Failed to fetch data' )
-    }
-    const { msg }: { msg: string } = await res.json()
-    router.refresh()
-    return msg
+  const goEdit = ( id: string ) => {
+    console.log( "click" )
+    router.push( "/product/" + id + "/edit" )
   }
 
   return (
@@ -51,7 +22,7 @@ export const CardList = async ( { router }: {
         <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
 
           <figure className={ "w-[20%] h-auto" }>
-            <img src={ url + d.img } alt="Movie"/>
+            <img src={ urlApi + d.img } alt="Movie"/>
           </figure>
 
           <div className="card-body flex flex-row justify-between py-4 px-6 ">
@@ -72,14 +43,16 @@ export const CardList = async ( { router }: {
             <div
               className="card-actions justify-center  items-stretch flex flex-col  ">
               <button className="btn btn-info  text-white"
+                      type={ "button" }
+                      onClick={ () => goEdit( d.id ) }
+
               >Edit
               </button>
               <button className="btn btn-error text-white"
                       type={ "button" }
-                      onClick={ () => deleteData( d.id ) }
+                      onClick={ () => deleteData( d.id, router ) }
               >Delete
               </button>
-              {/*<button className="btn btn-success text-white">Detail</button>*/ }
             </div>
           </div>
         </li>

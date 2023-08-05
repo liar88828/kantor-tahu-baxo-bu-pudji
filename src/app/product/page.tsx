@@ -17,17 +17,10 @@ import {
   handleUpload, SendData, UploadDescription
 }                                             from '@/app/elements/upload/UploadDescription';
 import { LinkList }                           from '@/app/product/Links';
+import {
+  InputForm
+}                                             from '@/app/elements/input/InputNew';
 
-// async function getData() {
-//   const res = await fetch( "http://localhost:3000/api/produk",
-//     { next: { revalidate: 10 } } )
-//
-//   if( !res.ok ) {
-//     throw new Error( 'Failed to fetch data' )
-//   }
-//
-//   return res.json()
-// }
 
 export default function Home() {
 
@@ -53,33 +46,7 @@ export default function Home() {
   };
 
   // make input
-  const InputForm: React.FC<InputFormProps> = (
-    {
-      tag: Tag = "input", title, type, reg, value, min, defaultValue
-    }: InputFormProps ): ReactElement => {
 
-    let ress = {
-      placeholder: ` Masukan ${ title }....`,
-      className: `${ StyleInputForm( false ) }`
-    }
-
-    if( type ) ress = Object.assign( ress, { type } );
-    if( value ) ress = Object.assign( ress, { value } );
-    if( min ) ress = Object.assign( ress, { min } );
-    if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
-
-    return (
-      <div className="flex flex-col">
-        <label className={ styleLabelForm }
-               htmlFor="grid-password"> { title } </label>
-        <Controller
-          control={ control }
-          name={ "nama" }
-          render={ () => <Tag{ ...ress }{ ...reg }/> }
-        />
-      </div>
-    )
-  }
 
   const FormProduct = () => {
     return ( <>
@@ -94,17 +61,22 @@ export default function Home() {
                    reg={ register( "lokasi" ) }
                    defaultValue={ defaultFormProduct.lokasi }/>
 
-        <div className="flex flex-col">
-          <label className={ styleLabelForm }
-                 htmlFor="grid-state">{ formProduct.jenis }  </label>
+        {/*<div className="flex flex-col">*/ }
+        {/*  <label className={ styleLabelForm }*/ }
+        {/*         htmlFor="grid-state">{ formProduct.jenis }  </label>*/ }
 
-          <select id="lokasi"
-                  className='border border-gray-300 p-2 rounded-md bg-gray-100'
-                  { ...register( "jenis" ) }>
-            <option value="Orderan">Orderan</option>
-            <option value="Item">Item</option>
-          </select>
-        </div>
+        {/*  <select id="lokasi"*/ }
+        {/*          className='border border-gray-300 p-2 rounded-md bg-gray-100'*/ }
+        {/*          { ...register( "jenis" ) }>*/ }
+        {/*    <option value="Orderan">Orderan</option>*/ }
+        {/*    <option value="Item">Item</option>*/ }
+        {/*  </select>*/ }
+        {/*</div>*/ }
+
+        <InputForm title={ formProduct.jenis } type="text"
+                   reg={ register( "jenis" ) }
+                   defaultValue={ defaultFormProduct.jenis }/>
+
         <InputForm title={ formProduct.keterangan } type="textarea"
                    reg={ register( "keterangan" ) }
                    defaultValue={ defaultFormProduct.keterangan }/>

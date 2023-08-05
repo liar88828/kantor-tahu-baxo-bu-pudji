@@ -20,7 +20,9 @@ export async function handleUpload<T>(
   selectedFile: File | null | undefined,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   data: T,
-  apiEndPoint: string
+  apiEndPoint: string,
+  id: string     = "",
+  method: string = 'POST'
 ) {
   if( !selectedFile ) {
     setMessage( 'Please select a file' );
@@ -34,9 +36,8 @@ export async function handleUpload<T>(
   // -------------------------------------------------------------------send to
   // Api
   try {
-    // console.log(formData)
-    const response = await fetch( '/api/' + apiEndPoint, {
-      method: 'POST',
+    const response = await fetch( '/api/' + apiEndPoint + "/" + id, {
+      method: method,
       body  : formData,
     } )
     const data     = await response.json()
