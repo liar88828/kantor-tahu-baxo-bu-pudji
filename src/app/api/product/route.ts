@@ -1,35 +1,42 @@
-import fs from "fs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse }     from 'next/server'
+import Control                           from '@/server/controller/produk';
+import { saveFile }                      from '@/server/service/image';
+import { formatData }                    from '@/lib/utils/formatData';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
-export async function POST( req: Request ) {
+// import { revalidatePath }            from 'next/cache'
 
+export async function GET( request: NextRequest ) {
 
-  const formData = await req.formData();
-  const folderName = 'public/product/';
-
-  if( !fs.existsSync( folderName ) ) {
-    console.log( 'folder create' );
-    fs.mkdirSync( folderName );
+  try {
+    // revalidateTag('product');
+    const dataControl = await Control.find()
+    return NextResponse.json( {
+      msg        : "Success GET",
+      data       : dataControl,
+      revalidated: true,
+      // now        : Date.now()
+    } )
   }
-  let dataArray = []
-  const formDataEntryValues = Array.from( formData.values() );
-  for( const formDataEntryValue of formDataEntryValues ) {
-    if( typeof formDataEntryValue === "object" && "arrayBuffer" in formDataEntryValue ) {
-      const file = formDataEntryValue as unknown as Blob;
-
-      // console.log(formDataEntryValues[0])
-      dataArray.push( formDataEntryValues[ 0 ] )
-      const buffer = Buffer.from( await file.arrayBuffer() );
-      if( fs.existsSync( folderName + file.name ) ) {
-        console.log( 'file exists' );
-      }
-      else {
-        console.log( 'file not found!' );
-        fs.writeFileSync( folderName + file.name, buffer );
-
-      }
-    }
+  catch ( e ) {
+    return NextResponse.json( { msg: "Error GET", error: e, } )
   }
-  console.log( dataArray )
-  return NextResponse.json( { success: true } );
 }
+
+export async function POST( request: NextRequest, ) {
+  try {
+
+    const json        = await saveFile( request, "img/produk/" )
+    const formatJson  = formatData( json, "produk" )
+    const dataControl = await Control.create( formatJson )
+    return NextResponse.json( {
+      msg: "Success Create",
+      // data: json
+      data: dataControl
+    } )
+  }
+  catch ( e ) {
+    return NextResponse.json( { msg: "Error Create", error: e } )
+  }
+}
+

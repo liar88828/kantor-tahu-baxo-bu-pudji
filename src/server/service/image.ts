@@ -1,7 +1,7 @@
-import { checkFolder, makeFolder }              from '@/lib/utils/deleteFile';
+import { checkFolder, makeFolder } from '@/lib/utils/fileSystem';
 import {
   newError
-}                                               from '@/server/exeption/errorHandler';
+}                                  from '@/server/exeption/errorHandler';
 import { validateExtension, validateFileImage } from '@/lib/validation/image';
 
 function addDot( extensionData: string, nama: string ) {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Control                       from '@/server/controller/produk';
+import { revalidateTag }             from 'next/cache';
 
 export async function GET( _: NextRequest, route: {
   params: { id: string }
@@ -26,7 +27,6 @@ export async function PUT( request: NextRequest, route: {
 
   try {
     const dataControl = await Control.edit( json, id )
-
     return NextResponse.json( {
       msg: "Success EDIT",
       data: dataControl
@@ -37,14 +37,22 @@ export async function PUT( request: NextRequest, route: {
   }
 }
 
-export async function DELETE( _: NextRequest, route: { params: { id: string } },
+export async function DELETE( request: NextRequest, route: {
+    params: { id: string }
+  },
 ) {
   const id: string = route.params.id
-
+  // const tag = request.nextUrl.searchParams
+  // console.log(tag)
+  // revalidateTag("product/list/"+id)
+  revalidateTag( 'product/[id]' );
   try {
-    const dataControl = await Control.destroy( id )
+    await Control.destroy( id )
+    return NextResponse.json( {
+      msg: "Success DELETE",
+      // revalidated: true,
 
-    return NextResponse.json( { msg: "Success DELETE", data: dataControl } )
+    } )
   }
   catch ( e ) {
     return NextResponse.json( { msg: "Error DELETE", error: e } )

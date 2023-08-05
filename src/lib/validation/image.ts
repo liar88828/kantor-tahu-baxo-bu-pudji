@@ -1,4 +1,4 @@
-import { checkFile, createFile } from '@/lib/utils/deleteFile';
+import { checkFile, createFile } from '@/lib/utils/fileSystem';
 
 export const validateFileImage = ( filePath: string, buffer: Buffer, data: any ) => {
   if( checkFile( filePath ) ) {

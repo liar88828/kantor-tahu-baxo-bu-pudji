@@ -16,19 +16,18 @@ import {
 import {
   handleUpload, SendData, UploadDescription
 }                                             from '@/app/elements/upload/UploadDescription';
-import Link                                   from 'next/link';
-import { LinkList, Links }                    from '@/app/product/Links';
+import { LinkList }                           from '@/app/product/Links';
 
-async function getData() {
-  const res = await fetch( "http://localhost:3000/api/produk",
-    { next: { revalidate: 10 } } )
-
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-
-  return res.json()
-}
+// async function getData() {
+//   const res = await fetch( "http://localhost:3000/api/produk",
+//     { next: { revalidate: 10 } } )
+//
+//   if( !res.ok ) {
+//     throw new Error( 'Failed to fetch data' )
+//   }
+//
+//   return res.json()
+// }
 
 export default function Home() {
 
@@ -46,7 +45,7 @@ export default function Home() {
 
   // save data
   const onSubmit: SubmitHandler<TProduct> = async ( data ) => {
-    await handleUpload( selectedFile, setMessage, data, "produk" )
+    await handleUpload( selectedFile, setMessage, data, "product" )
     .then( () => {
       // let data
     } )

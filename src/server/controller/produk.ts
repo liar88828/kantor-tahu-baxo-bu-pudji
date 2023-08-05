@@ -2,6 +2,7 @@ import RepoProduk    from '@/server/repository/produk';
 import Validation    from '@/lib/validation/schema';
 import type { TYPE } from '@/server/models/dataAccess/Produk';
 import Service       from '@/server/service/produk';
+import { fileSystem } from '@/lib/utils/fileSystem';
 
 const Repo  = new RepoProduk()
 const valid = new Validation()
@@ -34,6 +35,7 @@ const edit = async ( body: TYPE, id: string ) => {
 const destroy = async ( id: string ) => {
   id         = Service.findById( valid.ZFindById( id ), id )
   const repo = await Repo.destroyOne( id )
+  await fileSystem( repo.img )
   // console.log( repo )
   return repo
 }

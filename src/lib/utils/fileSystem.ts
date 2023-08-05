@@ -1,7 +1,14 @@
 import fs from 'fs';
 
-export const deleteFile = ( filePath: string ) => {
-  return fs.unlinkSync( filePath )
+export const fileSystem = async ( filePath: string ) => {
+  return fs.unlink( "public/" + filePath, err => {
+    if( err ) {
+      console.log( "Delete error" )
+      throw err;
+    }
+    console.log( "Delete Success" )
+    return "Delete file Success "
+  } )
 }
 
 export const checkFolder = ( folderName: string ) => {
