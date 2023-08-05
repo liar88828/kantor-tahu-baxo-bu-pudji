@@ -10,7 +10,7 @@ export const CardList = async ( { router, urlApi }: {
 
 } ) => {
   const { data }: { data: TProduct[ ] } = await getData()
-
+  console.log( data )
   const goEdit = ( id: string ) => {
     console.log( "click" )
     router.push( "/product/" + id + "/edit" )

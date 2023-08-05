@@ -24,6 +24,7 @@ export async function handleUpload<T>(
   id: string     = "",
   method: string = 'POST'
 ) {
+  // console.log(method,id,data,selectedFile)
   if( !selectedFile ) {
     setMessage( 'Please select a file' );
     return;
@@ -41,8 +42,8 @@ export async function handleUpload<T>(
       body  : formData,
     } )
     const data     = await response.json()
-    console.log( data.msg )
-    console.log( data.data )
+    // console.log( data.msg )
+    // console.log( data.data )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }

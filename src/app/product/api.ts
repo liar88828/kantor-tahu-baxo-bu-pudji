@@ -16,11 +16,8 @@ export async function getDataById( id: string ) {
 export async function getData() {
   const res = await fetch( urlApi + "api/product/",
     {
-      cache: 'default',
-      next : {
-        tags      : [ "product" ],
-        revalidate: 2
-      }
+
+      // next: { revalidate: 2 }
     }
   )
 

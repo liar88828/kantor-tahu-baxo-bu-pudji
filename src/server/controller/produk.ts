@@ -19,16 +19,17 @@ const findById = async ( id: string ) => {
 }
 
 const create = async ( body: TYPE ) => {
-  const datas = Service.create( valid.Input( body, valid.ProdukSchema ), body )
-  const repo = await Repo.createOne( datas )
+  const service = Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  const repo    = await Repo.createOne( service )
   return repo
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id   = await Service.findById( valid.ZFindById( id ), id )
-  body = await Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  id   = Service.findById( valid.ZFindById( id ), id )
+  body = Service.create( valid.Input( body, valid.ProdukSchema ), body )
+  console.log( body )
   const repo = await Repo.updateOne( body, id )
-  // console.log( repo )
+  console.log( repo )
   return repo
 }
 
@@ -36,7 +37,6 @@ const destroy = async ( id: string ) => {
   id         = Service.findById( valid.ZFindById( id ), id )
   const repo = await Repo.destroyOne( id )
   await fileSystem( repo.img )
-  // console.log( repo )
   return repo
 }
 

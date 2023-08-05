@@ -16,12 +16,32 @@ import {
 }                                                 from '@/app/components/product/format';
 import { urlApi }                                 from '@/app/product/api';
 
-export function FormEdit( { data }: { data: TProduct } ) {
+export function FormEdit( { id }:
+  { id: string } ) {
 
-  const { register, handleSubmit, }       = useForm<TProduct>( {/* defaultValues: defaultValues, */
-    mode: "onChange",
+  const { register, handleSubmit, } = useForm<TProduct>( {
+    defaultValues: async () => {
+
+      const res                          = await fetch( urlApi +
+        "api/product/" + id )
+      const { data }: { data: TProduct } = await res.json()
+      console.log( data )
+      setImage( data.img || "tidak ada" )
+      return {
+        nama      : data.nama,
+        jenis     : data.jenis,
+        lokasi    : data.lokasi,
+        keterangan: data.keterangan,
+        jumlah    : data.jumlah,
+        img       : data.img || "tidak ada",
+        id        : data.id,
+        harga     : data.harga
+      }
+    },
+    mode         : "onChange",
   } );
   const [ selectedFile, setSelectedFile ] = useState<File | null>();
+  const [ image, setImage ]         = useState<string | null>( null );
   const [ previewURL, setPreviewURL ]     = useState<string | null>( null );
   const [ message, setMessage ]           = useState<string>( '' );
 
@@ -32,7 +52,7 @@ export function FormEdit( { data }: { data: TProduct } ) {
 
   // save data
   const onSubmit: SubmitHandler<TProduct> = async ( data ) => {
-    console.log( data )
+    // console.log( data )
     await handleUpload(
       selectedFile,
       setMessage,
@@ -49,22 +69,22 @@ export function FormEdit( { data }: { data: TProduct } ) {
     return ( <>
         <InputForm title={ formProduct.nama } type="text"
                    reg={ register( "nama" ) }
-                   defaultValue={ data.nama }/>
+        />
         <InputForm title={ formProduct.harga } type="number"
                    reg={ register( "harga" ) }
-                   defaultValue={ data.harga }/>
+        />
 
         <InputForm title={ formProduct.lokasi } type="text"
                    reg={ register( "lokasi" ) }
-                   defaultValue={ data.lokasi }/>
+        />
 
         <InputForm title={ formProduct.jenis } type="text"
                    reg={ register( "jenis" ) }
-                   defaultValue={ data.jenis }/>
+        />
 
         <InputForm title={ formProduct.keterangan } type="textarea"
                    reg={ register( "keterangan" ) }
-                   defaultValue={ data.keterangan }/>
+        />
       </>
     )
   }
@@ -86,10 +106,15 @@ export function FormEdit( { data }: { data: TProduct } ) {
             className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
             <Suspense fallback={ <p>Loading feed...</p> }>
               <UploadDescription
-                previewURL={ !previewURL ? urlApi + data.img : previewURL }
+                previewURL={ !previewURL
+                             ? urlApi + image
+                             : previewURL }
                 onChange={ handleFileChange }
                 message={ message }
+
+
                 title={ "Product" }/>
+
             </Suspense>
             <button type="submit"
                     className="btn btn-accent text-white">Simpan

@@ -6,7 +6,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 
 // import { revalidatePath }            from 'next/cache'
 
-export async function GET( request: NextRequest ) {
+export async function GET( _: NextRequest ) {
 
   try {
     // revalidateTag('product');
@@ -14,7 +14,7 @@ export async function GET( request: NextRequest ) {
     return NextResponse.json( {
       msg        : "Success GET",
       data       : dataControl,
-      revalidated: true,
+      // revalidated: true,
       // now        : Date.now()
     } )
   }
@@ -26,7 +26,7 @@ export async function GET( request: NextRequest ) {
 export async function POST( request: NextRequest, ) {
   try {
 
-    const json        = await saveFile( request, "img/produk/" )
+    const json = await saveFile( request, "img/produk/", "create" )
     const formatJson  = formatData( json, "produk" )
     const dataControl = await Control.create( formatJson )
     return NextResponse.json( {

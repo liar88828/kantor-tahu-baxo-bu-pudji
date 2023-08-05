@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Control                       from '@/server/controller/produk';
 import { revalidateTag }             from 'next/cache';
+import { saveFile }                  from '@/server/service/image';
+import { formatData }                from '@/lib/utils/formatData';
 
 export async function GET( _: NextRequest, route: {
   params: { id: string }
@@ -21,12 +23,13 @@ export async function GET( _: NextRequest, route: {
 export async function PUT( request: NextRequest, route: {
   params: { id: string }
 } ) {
-  const json       = await request.json()
+  // const json       = await request.json()
   const id: string = route.params.id
-  json.id          = id
 
   try {
-    const dataControl = await Control.edit( json, id )
+    const json        = await saveFile( request, "img/produk/", "edit" )
+    const formatJson  = formatData( json, "produk" )
+    const dataControl = await Control.edit( formatJson, id )
     return NextResponse.json( {
       msg: "Success EDIT",
       data: dataControl
@@ -42,9 +45,6 @@ export async function DELETE( request: NextRequest, route: {
   },
 ) {
   const id: string = route.params.id
-  // const tag = request.nextUrl.searchParams
-  // console.log(tag)
-  // revalidateTag("product/list/"+id)
   revalidateTag( 'product/[id]' );
   try {
     await Control.destroy( id )
