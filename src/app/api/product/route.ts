@@ -14,7 +14,7 @@ export async function GET( _: NextRequest ) {
     return NextResponse.json( {
       msg        : "Success GET",
       data       : dataControl,
-      // revalidated: true,
+      revalidated: true,
       // now        : Date.now()
     } )
   }

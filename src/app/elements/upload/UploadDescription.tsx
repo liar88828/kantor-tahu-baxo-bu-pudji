@@ -1,4 +1,7 @@
-import { styleLabelForm } from '@/app/style/form';
+import { styleLabelForm }                      from '@/app/style/form';
+import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
+// import { getExtensionData }  from '@/lib/utils/fileExtension';
+// import { validateExtension } from '@/lib/validation/image';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
   const file = event.target.files && event.target.files[ 0 ];
@@ -25,25 +28,43 @@ export async function handleUpload<T>(
   method: string = 'POST'
 ) {
   // console.log(method,id,data,selectedFile)
+
+  if( method === "PUT" ) {
+    console.log( "true" )
+
+    if( !selectedFile ) {
+      console.log( "with out image" )
+      setMessage( 'Update Text Success' );
+    }
+  }
+
   if( !selectedFile ) {
     setMessage( 'Please select a file' );
     return;
   }
+
+  const extensionData = getExtensionData( selectedFile )
+
+  if( !validateExtension( extensionData ) ) {
+    setMessage( 'Please insert a file with format' +
+      ' ( jpg bmp png gif webp jpeg )' );
+    return;
+  }
+
   const dataku = JSON.stringify( data )
   const formData = new FormData();
-  formData.append( 'file', selectedFile );
-  formData.append( 'data', dataku ); // Assuming data is a JSON string
 
-  // -------------------------------------------------------------------send to
-  // Api
+  formData.append( 'file', selectedFile );
+  // Assuming data is a JSON string
+  formData.append( 'data', dataku );
+
+  //----------------------send to
   try {
     const response = await fetch( '/api/' + apiEndPoint + "/" + id, {
       method: method,
       body  : formData,
     } )
     const data     = await response.json()
-    // console.log( data.msg )
-    // console.log( data.data )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }
@@ -65,10 +86,10 @@ export function UploadDescription( props: {
   return <div className={ 'flex flex-col gap-5' }>
     <label className={ styleLabelForm }>Masukan Gambar { props.title }</label>
     { !props.previewURL && <h1>Upload Image</h1> }
-
     { props.previewURL &&
-	  <img src={ props.previewURL } alt="Preview"
-		   className={ 'w-[100%] h-auto border-2 border-gray-300    rounded-3xl' }/> }
+	  <img src={ props.previewURL }
+		   alt="Preview"
+		   className={ 'w-[100%] h-auto border-2 border-gray-300  rounded-3xl' }/> }
 
     <input type="file"
            className="file-input file-input-bordered bg-gray-100 file-input-accent"

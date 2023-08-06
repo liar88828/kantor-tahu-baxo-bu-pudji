@@ -2,13 +2,10 @@ import { checkFolder, makeFolder } from '@/lib/utils/fileSystem';
 import {
   newError
 }                                  from '@/server/exeption/errorHandler';
-import { validateExtension, validateFileImage } from '@/lib/validation/image';
-
-export function addDot( extensionData: string, nama: string ) {
-  return ( extensionData === "webp" || extensionData === "jpeg" )
-         ? nama + "." + extensionData
-         : nama + extensionData;
-}
+import { validateFileImage }       from '@/lib/validation/image';
+import {
+  addDot, getExtensionData, validateExtension
+}                                  from '@/lib/utils/fileExtension';
 
 export async function saveFile(
   req: Request,
@@ -29,10 +26,10 @@ export async function saveFile(
   for( const formDataEntryValue of formDataEntryValues ) {
     if( typeof formDataEntryValue === "object" && "arrayBuffer" in
       formDataEntryValue ) {
-      const file = formDataEntryValue as unknown as Blob;
-
+      const file          = formDataEntryValue as unknown as Blob;
       const dataku        = Object.assign( JSON.parse( <string>formDataEntryValues[ 0 ] ) )
-      const extensionData = file.name.slice( -4 )
+      //get file extension
+      const extensionData = getExtensionData( file )
 
       if( validateExtension( extensionData ) ) {
         console.log( "format data is true" )

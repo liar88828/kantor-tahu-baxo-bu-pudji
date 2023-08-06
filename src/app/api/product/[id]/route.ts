@@ -3,6 +3,7 @@ import Control                       from '@/server/controller/produk';
 import { revalidateTag }             from 'next/cache';
 import { saveFile }                  from '@/server/service/image';
 import { formatData }                from '@/lib/utils/formatData';
+import { log }                       from 'util';
 
 export async function GET( _: NextRequest, route: {
   params: { id: string }
@@ -10,7 +11,6 @@ export async function GET( _: NextRequest, route: {
   const id: string = route.params.id
   try {
     const dataControl = await Control.findById( id )
-
     return NextResponse.json( {
       msg: `Success GET by id  ${ id }`, data: dataControl
     } )
@@ -23,11 +23,11 @@ export async function GET( _: NextRequest, route: {
 export async function PUT( request: NextRequest, route: {
   params: { id: string }
 } ) {
-  // const json       = await request.json()
   const id: string = route.params.id
-
+  console.log( request.json() )
   try {
     const json        = await saveFile( request, "img/produk/", "edit" )
+    // console.log(json)
     const formatJson  = formatData( json, "produk" )
     const dataControl = await Control.edit( formatJson, id )
     return NextResponse.json( {

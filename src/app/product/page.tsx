@@ -1,30 +1,30 @@
 "use client"
-import React, {
-  ChangeEvent, Fragment, ReactElement, Suspense, useState
-}                                             from 'react';
-import { StyleInputForm, styleLabelForm }     from '@/app/style/form';
+import React, { ChangeEvent, Fragment, Suspense, useState } from 'react';
 import type {
   TProduct
-}                                             from '@/entity/client/produk';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+}                                                           from '@/entity/client/produk';
 import {
-  InputFormProps
-}                                             from '@/entity/client/InputForm';
+  SubmitHandler, useForm
+}                                                           from 'react-hook-form';
 import {
   defaultFormProduct, formProduct
-}                                             from '@/app/components/product/format';
+}                                                           from '@/app/format/product';
 import {
   handleUpload, SendData, UploadDescription
-}                                             from '@/app/elements/upload/UploadDescription';
-import { LinkList }                           from '@/app/product/Links';
+}                                                           from '@/app/elements/upload/UploadDescription';
+import {
+  LinkList
+}                                                           from '@/app/product/Links';
 import {
   InputForm
-}                                             from '@/app/elements/input/InputNew';
-
+}                                                           from '@/app/elements/input/InputNew';
+import {
+  usePathname
+}                                                           from 'next/navigation';
 
 export default function Home() {
 
-  const { control, register, handleSubmit, } = useForm<TProduct>( {/* defaultValues: defaultValues, */
+  const { register, handleSubmit, } = useForm<TProduct>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
   const [ selectedFile, setSelectedFile ]    = useState<File | null>();
@@ -44,10 +44,8 @@ export default function Home() {
     } )
 
   };
-
-  // make input
-
-
+  const pathname = usePathname()
+  const path     = pathname.split( "/" ).pop()
   const FormProduct = () => {
     return ( <>
         <InputForm title={ formProduct.nama } type="text"
@@ -64,7 +62,6 @@ export default function Home() {
         {/*<div className="flex flex-col">*/ }
         {/*  <label className={ styleLabelForm }*/ }
         {/*         htmlFor="grid-state">{ formProduct.jenis }  </label>*/ }
-
         {/*  <select id="lokasi"*/ }
         {/*          className='border border-gray-300 p-2 rounded-md bg-gray-100'*/ }
         {/*          { ...register( "jenis" ) }>*/ }
@@ -86,7 +83,9 @@ export default function Home() {
 
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
-      <LinkList/>
+
+
+      <LinkList path={ path || "" }/>
 
       <div className="flex flex-row">
 

@@ -28,23 +28,25 @@ const deleteFile = async (
 
 export const validateFileImage = async ( filePath: string, buffer: Buffer, data: any, image: string, newImage: string, option: string = "create", ) => {
   if( option === "create" ) {
-    console.log( "create" )
+    // console.log( "create" )
     return saveFile( filePath, buffer, data )
   }
   else if( option === "edit" ) {
     const find = checkFile( "public/" + image )
     if( find ) {
+      // console.log("find")
+      createFile( "public/" + newImage, buffer )
+      // console.log( data.img)
+
+      data.img = newImage
+      // console.log(  data.img)
       await deleteFile( image )
-      .then( () => {
-        createFile( "public/" + newImage, buffer )
-        // console.log( data.img)
-        data.img = newImage
-        // console.log(  data.img)
-        return data
-      } )
+      .then( () => {} )
+      return data
 
     }
     else {
+      // console.log("not find")
       createFile( "public/" + newImage, buffer )
       // console.log( data.img)
       data.img = newImage
@@ -53,14 +55,5 @@ export const validateFileImage = async ( filePath: string, buffer: Buffer, data:
     }
   }
   return new newError( "error option " )
-}
-
-export const validateExtension = ( extensionData: string ) => {
-  return ( extensionData === ".jpg" ||
-    extensionData === ".png" ||
-    extensionData === ".bmp" ||
-    extensionData === ".gif" ||
-    extensionData === "webp" ||
-    extensionData === "jpeg" )
 }
 
