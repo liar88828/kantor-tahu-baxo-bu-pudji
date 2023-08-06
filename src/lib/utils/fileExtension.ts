@@ -4,9 +4,8 @@ export function addDot( extensionData: string, nama: string ) {
          : nama + extensionData;
 }
 
-export function getExtensionData( file: Blob ) {
-
-  return file.name.slice( -4 );
+export function getExtensionData( name: string ) {
+  return name.slice( -4 );
 }
 
 export const validateExtension = ( extensionData: string ) => {
@@ -16,6 +15,9 @@ export const validateExtension = ( extensionData: string ) => {
     extensionData === ".bmp" ||
     extensionData === ".gif" ||
     extensionData === "webp" ||
-    extensionData === "jpeg" )
+    extensionData === "jpeg" ||
+    extensionData === ".webp" ||
+    extensionData === ".jpeg"
+  )
 }
 

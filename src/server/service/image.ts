@@ -29,7 +29,7 @@ export async function saveFile(
       const file          = formDataEntryValue as unknown as Blob;
       const dataku        = Object.assign( JSON.parse( <string>formDataEntryValues[ 0 ] ) )
       //get file extension
-      const extensionData = getExtensionData( file )
+      const extensionData = getExtensionData( file.name )
 
       if( validateExtension( extensionData ) ) {
         console.log( "format data is true" )

@@ -2,7 +2,7 @@ import { UseFormRegisterReturn }          from 'react-hook-form';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import {
   defaultFormProduct, formProduct
-} from '@/app/format/product';
+} from '@/app/utils/format/product';
 import React, { ReactElement }            from 'react';
 import { InputFormProps }                 from '@/entity/client/InputForm';
 

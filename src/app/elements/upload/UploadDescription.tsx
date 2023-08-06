@@ -1,7 +1,6 @@
 import { styleLabelForm }                      from '@/app/style/form';
 import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-// import { getExtensionData }  from '@/lib/utils/fileExtension';
-// import { validateExtension } from '@/lib/validation/image';
+import React                                   from 'react';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
   const file = event.target.files && event.target.files[ 0 ];
@@ -22,7 +21,7 @@ export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelecte
 export async function handleUpload<T>(
   selectedFile: File | null | undefined,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
-  data: T,
+  json: T,
   apiEndPoint: string,
   id: string     = "",
   method: string = 'POST'
@@ -43,15 +42,23 @@ export async function handleUpload<T>(
     return;
   }
 
-  const extensionData = getExtensionData( selectedFile )
-
+  // if( method === "PUT" ) {
+  const extensionData = getExtensionData( selectedFile.name )
   if( !validateExtension( extensionData ) ) {
     setMessage( 'Please insert a file with format' +
       ' ( jpg bmp png gif webp jpeg )' );
     return;
   }
-
-  const dataku = JSON.stringify( data )
+  // }
+  // else {
+  //   const extensionData = getExtensionData( selectedFile.name )
+  //   if( !validateExtension( extensionData ) ) {
+  //     setMessage( 'Please insert a file with format' +
+  //       ' ( jpg bmp png gif webp jpeg )' );
+  //     return;
+  //   }
+  // }
+  const dataku = JSON.stringify( json )
   const formData = new FormData();
 
   formData.append( 'file', selectedFile );
@@ -64,7 +71,7 @@ export async function handleUpload<T>(
       method: method,
       body  : formData,
     } )
-    const data     = await response.json()
+    // const data     = await response.json()
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }
