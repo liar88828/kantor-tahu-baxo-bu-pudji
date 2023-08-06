@@ -1,8 +1,8 @@
 import { TOrder, TotalOrderan } from '@/entity/client/orderan';
 import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
 
-export const format = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.toString()
-                                                                    .slice( 0, 2 ) +
+export const orderan = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.toString()
+                                                                     .slice( 0, 2 ) +
   "/" +
   dataBaru.hpPenerima.toString().slice( 0, 2 ) + "/" +
   dataBaru.alamatPenerima.toString().slice( 0, 2 ) + "/" +

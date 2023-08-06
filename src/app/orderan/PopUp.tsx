@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   Typography
-} from '@material-tailwind/react';
+}                    from '@material-tailwind/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { TProduct }        from '@/entity/client/produk';
 

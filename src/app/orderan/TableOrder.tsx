@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Rupiah } from '@/lib/utils/rupiah';
-import { Status } from '@/app/style/status';
-import { TotalOrderan } from '@/entity/client/orderan';
-import { PopUp } from '@/app/components/orderan/PopUp';
-import { Button } from '@material-tailwind/react';
-import { TProduct } from '@/entity/client/produk';
+import { Rupiah }          from '@/lib/utils/rupiah';
+import { Status }          from '@/app/style/status';
+import { TotalOrderan }    from '@/entity/client/orderan';
+import { PopUp }           from '@/app/orderan/PopUp';
+import { Button }          from '@material-tailwind/react';
+import { TProduct }        from '@/entity/client/produk';
 
 function TableOrder( props: any ) {
   const [ clickPopUp, setClickPopUp ] = useState( false );
@@ -57,8 +57,10 @@ function TableOrder( props: any ) {
   }
   return (
     <>
-      <div className=" z-10 ml-2  relative overflow-x-auto shadow-md rounded-lg bg-white p-2 mt-1 ">
-        <table className="w-full text-sm text-left text-gray-500  rounded table-auto">
+      <div
+        className=" z-10 ml-2 p-2 mt-1     overflow-scroll   rounded-lg bg-white  w-[96%] ">
+        <table
+          className="    text-sm text-left text-gray-500  rounded table-auto overflow-x-auto">
           <thead className="text-xs text-gray-700 uppercase   rounded">
           <tr>
             <th scope="col" className="px-4 py-3 bg-gray-400 ">No.</th>

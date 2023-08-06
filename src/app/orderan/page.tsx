@@ -1,16 +1,16 @@
 "use client"
 import React, { ReactElement, useState }         from 'react'
 import TableOrder
-                                                 from '@/app/components/orderan/TableOrder';
+                                                 from '@/app/orderan/TableOrder';
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { BiAddToQueue }                          from 'react-icons/bi';
 import {
   createOrder
-}                                                from '@/app/components/orderan/ress';
+}                                                from '@/app/ress/orderan';
 import { defaultDate, getTime }                  from '@/lib/utils/formatDate';
 import {
-  defaultValues, format
-}                                                from '@/app/components/orderan/format';
+  defaultValues, orderan
+}                                                from '@/app/format/orderan';
 import {
   InputFormProps
 }                                                from '@/entity/client/InputForm';
@@ -89,7 +89,7 @@ export default function FormOrder() {
   }
   const dataBaru: TotalOrderan = Object.assign( { hitung, }, mergeData )
 
-  dataBaru.no = format( dataBaru )
+  dataBaru.no = orderan( dataBaru )
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
 
@@ -527,13 +527,14 @@ export default function FormOrder() {
     )
   }
 
-  const fomIsi = "bg-white flex-col flex w-[50%]  sm:w-[44%]  md:w-[45%]   lg:w-[47%]  ml-2  gap-3 rounded p-2  sm:p-5";
+  // sm:w-[44%]  md:w-[45%]   lg:w-[47%]
+  const fomIsi = "bg-white flex-col flex w-[49%] sm:w-[48%]  md:w-[49%]      ml-2  gap-3 rounded p-2  sm:p-5";
 
   return (
     <>
-      <form className="bg-green-100 sm:bg-green-50 "
+      <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
-        <div className="flex flex-row gap-1 sm:gap-3 mt-5">
+        <div className="flex flex-row  sm:gap-3 mt-5">
           <div className={ fomIsi }>
             <Nama/>
             <Tanggal/>
