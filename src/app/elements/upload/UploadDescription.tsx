@@ -71,7 +71,8 @@ export async function handleUpload<T>(
       method: method,
       body  : formData,
     } )
-    // const data     = await response.json()
+    const data     = await response.json()
+    console.log( data )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }
@@ -80,7 +81,9 @@ export async function handleUpload<T>(
     }
   }
   catch ( error ) {
+
     setMessage( 'Error uploading file' );
+
   }
 }
 

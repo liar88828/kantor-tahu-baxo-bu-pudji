@@ -3,11 +3,14 @@ import Control                       from '@/server/controller/produk';
 import { revalidateTag }             from 'next/cache';
 import { saveFile }                  from '@/server/service/image';
 import { formatData }                from '@/lib/utils/formatData';
-import { log }                       from 'util';
+import { fileSystem }                from '@/lib/utils/fileSystem';
 
-export async function GET( _: NextRequest, route: {
-  params: { id: string }
-}, ) {
+export async function GET(
+  _: NextRequest,
+  route: {
+    params: { id: string }
+  },
+) {
   const id: string = route.params.id
   try {
     const dataControl = await Control.findById( id )
@@ -24,7 +27,7 @@ export async function PUT( request: NextRequest, route: {
   params: { id: string }
 } ) {
   const id: string = route.params.id
-  console.log( request.json() )
+  // console.log( request.json() )
   try {
     const json        = await saveFile( request, "img/produk/", "edit" )
     // console.log(json)
@@ -40,14 +43,16 @@ export async function PUT( request: NextRequest, route: {
   }
 }
 
-export async function DELETE( request: NextRequest, route: {
+export async function DELETE( _: NextRequest, route: {
     params: { id: string }
   },
 ) {
   const id: string = route.params.id
   revalidateTag( 'product/[id]' );
   try {
-    await Control.destroy( id )
+    const dataControl = await Control.destroy( id )
+    await fileSystem( dataControl.img )
+
     return NextResponse.json( {
       msg: "Success DELETE",
       // revalidated: true,

@@ -1,52 +1,57 @@
 "use client"
-import React, { ChangeEvent, Fragment, Suspense, useState } from 'react';
+import React, { ChangeEvent, Suspense, useState } from 'react';
 import type {
   TProduct
-}                                                           from '@/entity/client/produk';
-import {
-  SubmitHandler, useForm
-}                                                           from 'react-hook-form';
+}                                                 from '@/entity/client/produk';
+import { SubmitHandler, useForm }                 from 'react-hook-form';
 import {
   defaultFormProduct, formProduct
-}                                                           from '@/app/format/product';
+}                                                 from '@/app/utils/format/product';
 import {
   handleUpload, SendData, UploadDescription
-}                                                           from '@/app/elements/upload/UploadDescription';
+}                                                 from '@/app/elements/upload/UploadDescription';
 import {
-  LinkList
-}                                                           from '@/app/product/Links';
+  LinkProduct
+}                                                 from '@/app/elements/link/Links';
 import {
   InputForm
-}                                                           from '@/app/elements/input/InputNew';
-import {
-  usePathname
-}                                                           from 'next/navigation';
+}                                                 from '@/app/elements/input/InputNew';
+import { usePathname }                            from 'next/navigation';
 
 export default function Home() {
 
-  const { register, handleSubmit, } = useForm<TProduct>( {/* defaultValues: defaultValues, */
+  const { register, handleSubmit, }       = useForm<TProduct>( {/* defaultValues: defaultValues, */
     mode: "onChange",
   } );
-  const [ selectedFile, setSelectedFile ]    = useState<File | null>();
-  const [ previewURL, setPreviewURL ]        = useState<string | null>( null ); // State to store the preview image URL
-  const [ message, setMessage ]              = useState<string>( '' );
+  const [ selectedFile, setSelectedFile ] = useState<File | null>();
+  const [ previewURL, setPreviewURL ]     = useState<string | null>( null );
+  const [ message, setMessage ]           = useState<string>( '' );
 
   // handle change
   const handleFileChange = ( event: ChangeEvent<HTMLInputElement> ) => {
-    SendData( event, setSelectedFile, setPreviewURL );
+    SendData(
+      event,
+      setSelectedFile,
+      setPreviewURL );
   };
 
   // save data
   const onSubmit: SubmitHandler<TProduct> = async ( data ) => {
-    await handleUpload( selectedFile, setMessage, data, "product" )
+    await handleUpload(
+      selectedFile,
+      setMessage,
+      data,
+      "product" )
     .then( () => {
       // let data
     } )
-
   };
+
   const pathname = usePathname()
   const path     = pathname.split( "/" ).pop()
+
   const FormProduct = () => {
+
     return ( <>
         <InputForm title={ formProduct.nama } type="text"
                    reg={ register( "nama" ) }
@@ -85,7 +90,7 @@ export default function Home() {
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
 
 
-      <LinkList path={ path || "" }/>
+      <LinkProduct path={ path || "" }/>
 
       <div className="flex flex-row">
 

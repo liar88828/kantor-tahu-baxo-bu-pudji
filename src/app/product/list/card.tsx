@@ -2,7 +2,7 @@ import { TProduct }            from '@/entity/client/produk';
 import { Rupiah }              from '@/lib/utils/rupiah';
 import React                   from 'react';
 import { AppRouterInstance }   from 'next/dist/shared/lib/app-router-context';
-import { deleteData, getData, urlApi } from '@/app/ress/product';
+import { deleteData, getData, urlApi } from '@/app/utils/ress/product';
 
 export const CardList = async ( { router }: {
   router: AppRouterInstance

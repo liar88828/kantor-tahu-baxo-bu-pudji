@@ -43,6 +43,6 @@ export const setData    = ( file: Blob, json: TTravel, folderPath: string ) => {
     throw new newError( "Extension is not allow", "Invalid Value" )
   }
   const dTravel = formatData( json, "travel" )
-  dTravel.img   = folderPath + dTravel.namaPengiriman + "_" + nama
+  dTravel.img   = folderPath + Date.now() + "_" + nama
   return dTravel
 }

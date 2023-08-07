@@ -1,12 +1,8 @@
 import {
   checkFile, checkFolder, createFile, makeFolder
-}                                              from '@/lib/utils/fileSystem';
-import {
-  newError
-}                                              from '@/server/exeption/errorHandler';
-import fs                                      from 'fs';
-import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-import { NextResponse }                        from 'next/server';
+}                   from '@/lib/utils/fileSystem';
+import { newError } from '@/server/exeption/errorHandler';
+import fs           from 'fs';
 
 const saveFile = (
   filePath: string,
@@ -38,39 +34,34 @@ const deleteFile = async (
 
 export const validateFileImage = async ( filePath: string, buffer: Buffer, data: any, image: string, newImage: string, option: string = "create", ) => {
   if( option === "create" ) {
-    // console.log( "create" )
     return saveFile( filePath, buffer, data )
   }
   else if( option === "edit" ) {
     const find = checkFile( "public/" + image )
     if( find ) {
-      // console.log("find")
       createFile( "public/" + newImage, buffer )
-      // console.log( data.img)
 
       data.img = newImage
-      // console.log(  data.img)
       await deleteFile( image )
       .then( () => {} )
       return data
 
     }
     else {
-      // console.log("not find")
       createFile( "public/" + newImage, buffer )
-      // console.log( data.img)
       data.img = newImage
-      // console.log(  data.img)
       return data
     }
   }
   return new newError( "error option " )
 }
 
-export const validImage = (
+export const validImage = async (
   buffer: Buffer,
   path: string,
-  img: string
+  img: string,
+  option: string = "POST",
+  data: any
 ) => {
 
   //check directory
@@ -86,10 +77,26 @@ export const validImage = (
   //   return NextResponse.json( { msg: "The extension is not allowed", } )
   // }
 
-  //check file exist
-  console.log( checkFile( "public/" + img ) )
-  if( checkFile( "public/" + img ) ) {
-    throw new newError( "File is Exist", "Invalid file" )
+  if( option === "POST" ) {
+    //check file exist
+    // console.log( checkFile( "public/" + img ) )
+    if( checkFile( "public/" + img ) ) {
+      throw new newError( "File is Exist", "Invalid file" )
+    }
+  }
+
+  if( option === "PUT" ) {
+    if( checkFile( "public/" + img ) ) {
+      createFile( "public/" + img, buffer )
+
+      await deleteFile( img ).then( () => {} )
+      return data
+
+    }
+    else {
+      createFile( "public/" + img, buffer )
+      return data
+    }
   }
 
   //save image

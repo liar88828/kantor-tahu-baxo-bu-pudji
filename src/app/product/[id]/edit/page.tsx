@@ -7,15 +7,15 @@ import type {
 import { SubmitHandler, useForm }                 from 'react-hook-form';
 import {
   handleUpload, SendData, UploadDescription
-}                                                 from '@/app/elements/upload/UploadDescription';
-import { LinkList }                               from '@/app/product/Links';
+}                      from '@/app/elements/upload/UploadDescription';
+import { LinkProduct } from '@/app/elements/link/Links';
 import {
   InputForm
-}                                                 from '@/app/elements/input/InputNew';
+}                      from '@/app/elements/input/InputNew';
 import {
   formProduct
-}                                                 from '@/app/format/product';
-import { urlApi }                                 from '@/app/ress/product';
+}                      from '@/app/utils/format/product';
+import { urlApi }      from '@/app/utils/ress/product';
 
 export default function Page() {
   const { id }   = useParams()
@@ -100,7 +100,7 @@ export function FormEdit( { id, path }:
 
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
-      <LinkList path={ path || "" }/>
+      <LinkProduct path={ path || "" }/>
 
       <div className="flex flex-row">
 
