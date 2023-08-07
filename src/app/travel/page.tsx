@@ -79,18 +79,23 @@ export default function Home() {
         <InputForm title={ formTravel.namaPengiriman } type="text"
                    reg={ register( "namaPengiriman" ) }
                    defaultValue={ defaultFormTravel.namaPengiriman }/>
+
         <InputForm title={ formTravel.noHpPerusahaan } type="number"
                    reg={ register( "noHpPerusahaan" ) }
                    defaultValue={ defaultFormTravel.noHpPerusahaan }/>
+
         <InputForm title={ formTravel.lokasi } type="text"
                    reg={ register( "lokasi" ) }
                    defaultValue={ defaultFormTravel.lokasi }/>
+
         <InputForm title={ formTravel.jenis } type="text"
                    reg={ register( "jenis" ) }
                    defaultValue={ defaultFormTravel.jenis }/>
+
         <InputForm title={ formTravel.harga } type="text"
                    reg={ register( "harga" ) }
                    defaultValue={ defaultFormTravel.harga }/>
+
         <InputForm title={ formTravel.keterangan } type="textarea"
                    reg={ register( "keterangan" ) }
                    defaultValue={ defaultFormTravel.keterangan }/>

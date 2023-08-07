@@ -62,23 +62,23 @@ export default class RepoTravel implements InterfaceRepoTravel {
     return prisma.travel.deleteMany( { where: { id } } )
   }
 
-  createMany( data: TYPE[] ): Promise<Prisma.BatchPayload> {
+  async createMany( data: TYPE[] ) {
     return prisma.travel.createMany( {
       data: this.setMany( data )
     } );
   }
 
-  destroyMany( id: string ): Promise<Prisma.BatchPayload> {
+  async destroyMany( id: string ) {
     return prisma.travel.deleteMany( { where: { id } } )
 
   }
 
-  destroyOne( id: string ): Promise<any> {
+  async destroyOne( id: string ) {
     return prisma.travel.delete( { where: { id } } )
 
   }
 
-  updateMany( data: TYPE[], id: string ): Promise<Prisma.BatchPayload> {
+  async updateMany( data: TYPE[], id: string ) {
     return prisma.travel.updateMany( {
       where: { id: id },
       data : this.setMany( data )

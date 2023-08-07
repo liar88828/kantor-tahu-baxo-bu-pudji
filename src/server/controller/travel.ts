@@ -35,7 +35,7 @@ const edit     = async ( body: TYPE, id: string ) => {
 
 const destroy  = async ( id: string ) => {
   id               = Service.findById( valid.ZFindById( id ), id )
-  const repo       = await Repo.destroy( id )
+  const repo       = await Repo.destroyOne( id )
   return repo
 }
 

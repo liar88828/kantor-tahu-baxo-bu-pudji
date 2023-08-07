@@ -1,14 +1,11 @@
-import { NextResponse } from 'next/server'
-import Control          from '@/server/controller/travel';
-import { extractData }  from '@/server/service/extractForm';
-import { setData }      from '@/lib/utils/formatData';
-import { newError }     from '@/server/exeption/errorHandler';
-import { validImage }   from '@/lib/validation/image';
-import { TTravel }      from '@/entity/client/travel';
-
-type Textract =
-  { dataImage: { file: Blob, buffer: Buffer }, json: any }
-  | undefined
+import { NextResponse }  from 'next/server'
+import Control           from '@/server/controller/travel';
+import { extractData }   from '@/server/service/extractForm';
+import { setData }       from '@/lib/utils/formatData';
+import { newError }      from '@/server/exeption/errorHandler';
+import { validImage }    from '@/lib/validation/image';
+import type { TTravel }  from '@/entity/client/travel';
+import type { Textract } from '@/entity/server/image';
 
 export async function GET() {
   try {
@@ -35,8 +32,9 @@ export async function POST( request: Request ) {
     if( !dataControl ) {
       throw new newError( "Fail Create DataBase", "Invalid Value" )
     }
-
-    validImage( data.dataImage.buffer, "public/img/travel", json.img || "" )
+    console.log( dataControl )
+    await validImage( data.dataImage.buffer, "public/img/travel", json.img ||
+      "", "POST", data )
 
     return NextResponse.json( { msg: "Success Create", data: dataControl } )
   }
