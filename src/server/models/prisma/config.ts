@@ -1,23 +1,22 @@
 import { TOrderServer } from '@/entity/server/orderan';
 import { Prisma, PrismaClient } from '../../../../prisma/data';
 
-export const prisma = new PrismaClient()
+export const prisma = new PrismaClient( {} )
 
 //create data from database
 export const create = async ( data: Prisma.OrderanCreateInput ) => {
   const {
-          lokasi, jenis, nama, harga,
-          id, jumlah,
-          // keterangan, img,
+          lokasi, jenis, nama, harga, id, jumlah, keterangan,
+          // img,
         } = data.semuaProduct as Prisma.SemuaProductCreateInput;
   return prisma.orderan.create( {
     data   : {
-      alamatPenerima   : data.alamatPenerima,
-      ekspedisi        : data.ekspedisi,
-      guna             : data.guna,
-      hpPenerima       : data.hpPenerima,
-      hpPengirim       : data.hpPenerima,
-      id               : data.id,
+      alamatPenerima: data.alamatPenerima,
+      ekspedisi     : data.ekspedisi,
+      guna          : data.guna,
+      hpPenerima    : data.hpPenerima,
+      hpPengirim    : data.hpPenerima,
+      id            : data.id,
       // keterangan       : data.keterangan,
       kirim            : data.kirim,
       lokasi           : data.lokasi,
@@ -62,11 +61,37 @@ export const create = async ( data: Prisma.OrderanCreateInput ) => {
 
 class Seed {
   async ShowOrderan() {
-    return prisma.orderan.findMany( {
-      include: {
-        semuaProduct: true
-      }
-    } )
+    return prisma.orderan.findMany(
+      {
+        select: {
+          updated_at  : false,
+          created_at  : false,
+          semuaProduct: {
+            select: {
+              created_at: false,
+              updated_at: false
+            },
+            // include: {
+            //   Orderan: {
+            //     include: {
+            //       semuaProduct: true
+            //     }
+            //   }
+            // }
+          }
+        },
+        // include: {
+        //   semuaProduct: true,
+        //
+        // },
+        where  : {},
+        take   : 100,
+        orderBy: { created_at: "asc" }
+        // distinct;
+        // select : {
+        //   created_at: false,
+        // }
+      } )
   }
 
   async CreateOrderan() {
@@ -220,18 +245,18 @@ const dataset: Prisma.OrderanCreateInput = {
 
 const dataku: TOrderServer =
         {
-          "id"               : "asdasd",
-          "no"               : "string",
-          "guna"             : "string",
-          "ongkir"           : 3681802,
-          "lokasi"           : "string",
-          "kirim"            : "12:00:00",
-          "pesan"            : "12:00:00",
-          "penerima"         : "string",
-          "pengirim"         : "string",
-          "ekspedisi"        : "string",
-          "hpPenerima"       : "string",
-          "hpPengirim"       : "string",
+          "id"        : "asdasd",
+          "no"        : "string",
+          "guna"      : "string",
+          "ongkir"    : 3681802,
+          "lokasi"    : "string",
+          "kirim"     : "12:00:00",
+          "pesan"     : "12:00:00",
+          "penerima"  : "string",
+          "pengirim"  : "string",
+          "ekspedisi" : "string",
+          "hpPenerima": "string",
+          "hpPengirim": "string",
           // "keterangan"       : "string",
           "semuaHargaItem"   : 3681802,
           "alamatPenerima"   : "string",

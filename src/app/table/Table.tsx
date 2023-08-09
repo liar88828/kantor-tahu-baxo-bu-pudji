@@ -2,14 +2,18 @@
 import { RowData }             from '@tanstack/table-core';
 import { Table as ReactTable } from '@tanstack/table-core/build/lib/types';
 import { TPerson }             from '@/entity/client/person';
-import React, { HTMLProps }    from 'react';
-import { dataVisitor }         from '@/app/table/dataKu';
+import React, { HTMLProps, useEffect } from 'react';
+import { dataVisitor } from '@/app/table/dataKu';
 import { faker }               from '@faker-js/faker';
 import {
   Column, ColumnDef, ColumnOrderState, flexRender, getCoreRowModel,
   getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState,
   useReactTable
 }                              from '@tanstack/react-table';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { notifBaru }      from '@/app/utils/notif/toash';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -18,9 +22,39 @@ declare module '@tanstack/react-table' {
 }
 
 //-------------------------Main Table
-export function TableOrder( { dataOrderan }: { dataOrderan: any } ) {
+export function TableOrder( { dataOrderan }: {
+  dataOrderan: {
+    msg: string,
+    data: any
+  }
+} ) {
 
-  console.log( dataOrderan )
+  // console.log( dataOrderan )
+  const { msg, data: dataOrder } = dataOrderan
+  // console.log( dataOrderan )
+
+  // const myPromise = new Promise( ( resolve ) =>
+  //   fetch( "https://jsonplaceholder.typicode.com/todos" )
+  //   .then( ( response ) => response.json() )
+  //   .then( ( json ) => setTimeout( () => resolve( json ), 3000 ) )
+  // );
+
+  useEffect( () => {
+    notifBaru( msg )
+    // toast.promise(
+    //
+    //   // dataOrder
+    //   myPromise
+    //   , {
+    //   pending: "Promise is pending",
+    //   success: "Promise  Loaded",
+    //   error  : "error"
+    // } )
+    //      .then( r => console.log( r, "response" ) );
+
+    //myPromise.then( d => console.log( d, "data" ) )
+
+  }, [] );
 
   const rerender = React.useReducer( () => ( {} ), {} )[ 1 ]
 
@@ -213,6 +247,18 @@ export function TableOrder( { dataOrderan }: { dataOrderan: any } ) {
     <>
       <Tables{ ...{ table, randomizeColumns, sorting, rowSelection } }/>
       <hr/>
+      <ToastContainer
+        position="top-right"
+        autoClose={ 5000 }
+        hideProgressBar
+        newestOnTop={ false }
+        closeOnClick={ false }
+        rtl={ false }
+        pauseOnFocusLoss={ false }
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div>
         <button onClick={ () => rerender() }>Force Rerender</button>
       </div>
@@ -467,11 +513,10 @@ function Tables(
 
 // asli
 
-function Filter(
-  { column, table, }:
-    {
-      column: Column<any, any>; table: ReactTable<any>
-    } ) {
+function Filter( { column, table, }: {
+  column: Column<any, any>;
+  table: ReactTable<any>
+} ) {
   const firstValue = table
   .getPreFilteredRowModel()
     .flatRows[ 0 ]?.getValue( column.id )
@@ -534,7 +579,9 @@ function useSkipper() {
 
 function IndeterminateCheckbox(
   { indeterminate, className = '', ...rest }:
-    { indeterminate?: boolean } & HTMLProps<HTMLInputElement> ) {
+    {
+      indeterminate?: boolean
+    } & HTMLProps<HTMLInputElement> ) {
   const ref = React.useRef<HTMLInputElement>( null! )
 
   React.useEffect( () => {

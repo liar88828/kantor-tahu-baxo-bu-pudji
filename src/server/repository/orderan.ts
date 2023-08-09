@@ -7,7 +7,48 @@ export default class RepoOrderan {
 // getAll data from database
   async findAll() {
     return prisma.orderan.findMany( {
-      // take   : 500,
+      select : {
+        id               : true,
+        pengirim         : true,
+        hpPengirim       : true,
+        penerima         : true,
+        alamatPenerima   : true,
+        hpPenerima       : true,
+        pesan            : true,
+        kirim            : true,
+        waktuKirim       : true,
+        guna             : true,
+        lokasi           : true,
+        namaPengiriman   : true,
+        ekspedisi        : true,
+        ongkir           : true,
+        no               : true,
+        typePembayaran   : true,
+        totalBayar       : true,
+        totalPenjualan   : true,
+        status           : true,
+        semuaHargaProduct: true,
+        semuaHargaItem   : true,
+        semuaHargaOrderan: true,
+        totalHarga       : true,
+        semuaProduct     : {
+          select: {
+            id        : true,
+            nama      : true,
+            lokasi    : true,
+            jenis     : true,
+            harga     : true,
+            jumlah    : true,
+            keterangan: true,
+            orderanId : true,
+          }
+        }
+      },
+      take   : 100,
+      orderBy: {
+        created_at: "desc"
+      },
+
       // include: {
       //   semuaProduct: {
       //     select: {
@@ -15,13 +56,9 @@ export default class RepoOrderan {
       //     }
       //   }
       // }
-      take   : 400,
-      orderBy: {
-        created_at: "asc"
-      },
-      include: {
-        semuaProduct: true
-      }
+      // include: {
+      //   semuaProduct: true
+      // }
 
     } )
   }
@@ -191,7 +228,7 @@ export default class RepoOrderan {
 //tanggal pesan
         id: data.id,
         // keterangan: data.keterangan,
-        kirim         : data.kirim,
+        kirim: data.kirim,
 //orderan
         lokasi: data.lokasi,
 //keterangan
