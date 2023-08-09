@@ -1,5 +1,3 @@
-import { z }      from "zod";
-import Validation from '@/lib/validation/schema';
 
 export type TProduct = {
   id: string
@@ -8,8 +6,8 @@ export type TProduct = {
   harga: number,
   jumlah: number,
   jenis: "Orderan" | "Item" | string,
-  img?: string
   keterangan: string,
+  img?: string
 
 }
 // '{"nama":"Tahu Baxo Bu Pudji",

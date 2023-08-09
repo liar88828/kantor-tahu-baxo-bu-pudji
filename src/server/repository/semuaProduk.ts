@@ -8,7 +8,7 @@ export default class RepoSemuaProduk implements InterfaceSemuaProduk {
     return {
       harga     : d.harga,
       id        : d.id,
-      img       : d.img || "no image",
+      // img       : d.img || "no image",
       jenis     : d.jenis,
       keterangan: d.keterangan,
       lokasi    : d.lokasi,

@@ -6,7 +6,9 @@ export const prisma = new PrismaClient()
 //create data from database
 export const create = async ( data: Prisma.OrderanCreateInput ) => {
   const {
-          lokasi, jenis, nama, harga, img, id, jumlah, keterangan
+          lokasi, jenis, nama, harga,
+          id, jumlah,
+          // keterangan, img,
         } = data.semuaProduct as Prisma.SemuaProductCreateInput;
   return prisma.orderan.create( {
     data   : {
@@ -16,7 +18,7 @@ export const create = async ( data: Prisma.OrderanCreateInput ) => {
       hpPenerima       : data.hpPenerima,
       hpPengirim       : data.hpPenerima,
       id               : data.id,
-      keterangan       : data.keterangan,
+      // keterangan       : data.keterangan,
       kirim            : data.kirim,
       lokasi           : data.lokasi,
       namaPengiriman   : data.namaPengiriman,
@@ -32,9 +34,9 @@ export const create = async ( data: Prisma.OrderanCreateInput ) => {
         createMany: {
           data: [
             {
-              harga     : harga,
-              id        : id,
-              img       : img,
+              harga: harga,
+              id   : id,
+              // img       : img,
               jenis     : jenis,
               jumlah    : jumlah,
               keterangan: keterangan,
@@ -45,12 +47,12 @@ export const create = async ( data: Prisma.OrderanCreateInput ) => {
         }
       },
       status           : data.status,
-      total            : data.total,
-      totalBayar       : data.totalBayar,
-      totalHarga       : data.totalHarga,
-      totalPenjualan   : data.totalPenjualan,
-      typePembayaran   : data.typePembayaran,
-      waktuKirim       : data.waktuKirim,
+      // total            : data.total,
+      totalBayar    : data.totalBayar,
+      totalHarga    : data.totalHarga,
+      totalPenjualan: data.totalPenjualan,
+      typePembayaran: data.typePembayaran,
+      waktuKirim    : data.waktuKirim,
     },
     include: {
       semuaProduct: true,
@@ -94,7 +96,7 @@ class Seed {
                 jenis     : "Item",
                 jumlah    : 10,
                 keterangan: "Enak",
-                img       : "bagus"
+                // img       : "bagus"
               },
               {
                 id: "734e7c49-c11s9-4146-bad-d2a4a247e",
@@ -104,16 +106,16 @@ class Seed {
                 jenis     : "Item",
                 jumlah    : 10,
                 keterangan: "Enak",
-                img       : "bagus"
+                // img       : "bagus"
               },
             ]
           }
         },
 
 //keterangan
-        guna      : "Keterangan",
-        keterangan: "sangat jelas",
-        lokasi    : "Lokasi",
+        guna: "Keterangan",
+        // keterangan: "sangat jelas",
+        lokasi: "Lokasi",
 //travel
         namaPengiriman: "Nama Travel",
         ekspedisi     : "Ekspedisi",
@@ -122,7 +124,7 @@ class Seed {
         id: "efcebef1-2e79-44b4-asccb-282494a0",
         no            : "No",
         typePembayaran: "Pembayaran",
-        total         : 123,
+        // total         : 123,
         totalBayar    : 123,
         totalPenjualan: 232,
         status        : "Status",
@@ -175,7 +177,7 @@ const dataset: Prisma.OrderanCreateInput = {
           jenis     : "Item",
           jumlah    : 10,
           keterangan: "Enak",
-          img       : "bagus"
+          // img       : "bagus"
         },
         {
           id        : "Se/Or/TBSp/42asdas",
@@ -185,16 +187,16 @@ const dataset: Prisma.OrderanCreateInput = {
           jenis     : "Item",
           jumlah    : 10,
           keterangan: "Enak",
-          img       : "bagus"
+          // img       : "bagus"
         },
       ]
     }
   },
 
 //keterangan
-  guna      : "Keterangan",
-  keterangan: "sangat jelas",
-  lokasi    : "Lokasi",
+  guna: "Keterangan",
+  // keterangan: "sangat jelas",
+  lokasi: "Lokasi",
 //travel
   namaPengiriman: "Nama Travel",
   ekspedisi     : "Ekspedisi",
@@ -203,7 +205,7 @@ const dataset: Prisma.OrderanCreateInput = {
   id            : "1231231",
   no            : "No",
   typePembayaran: "Pembayaran",
-  total         : 123,
+  // total         : 123,
   totalBayar    : 123,
   totalPenjualan: 232,
   status        : "Status",
@@ -230,7 +232,7 @@ const dataku: TOrderServer =
           "ekspedisi"        : "string",
           "hpPenerima"       : "string",
           "hpPengirim"       : "string",
-          "keterangan"       : "string",
+          // "keterangan"       : "string",
           "semuaHargaItem"   : 3681802,
           "alamatPenerima"   : "string",
           "namaPengiriman"   : "string",
@@ -238,8 +240,8 @@ const dataku: TOrderServer =
           "semuaHargaProduct": 3681802,
           "semuaProduct"     : [
             {
-              "id"        : "asdasda",
-              "img"       : "string",
+              "id": "asdasda",
+              // "img"       : "string",
               "harga"     : 3681802,
               "nama"      : "string",
               "jenis"     : "string",
@@ -250,8 +252,8 @@ const dataku: TOrderServer =
             },
 
             {
-              "id"        : "asdasda",
-              "img"       : "string",
+              "id": "asdasda",
+              // "img"       : "string",
               "harga"     : 3681802,
               "nama"      : "string",
               "jenis"     : "string",
@@ -261,13 +263,13 @@ const dataku: TOrderServer =
               orderanId   : "asdada"
             }
           ],
-          "total"            : 3681802,
-          "status"           : "string",
-          "totalBayar"       : 3681802,
-          "totalHarga"       : 3681802,
-          "waktuKirim"       : "12:00:00",
-          "totalPenjualan"   : 3681802,
-          "typePembayaran"   : "string"
+          // "total"            : 3681802,
+          "status"        : "string",
+          "totalBayar"    : 3681802,
+          "totalHarga"    : 3681802,
+          "waktuKirim"    : "12:00:00",
+          "totalPenjualan": 3681802,
+          "typePembayaran": "string"
         }
 
 export type validDataOrder = {

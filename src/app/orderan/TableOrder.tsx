@@ -7,14 +7,20 @@ import { Button }          from '@material-tailwind/react';
 import { TProduct }        from '@/entity/client/produk';
 
 function TableOrder( props: any ) {
+  const { data, onCreate, notify }: {
+    data: TotalOrderan,
+    onCreate: () => Promise<{ msg: string, data: any }>,
+    notify: ( msg: string, option: "error" | "success" ) => void
+  } = props
+
   const [ clickPopUp, setClickPopUp ] = useState( false );
-  const { data }: { data: TotalOrderan } = props
 
   const Jumlah: React.FC<{ d: TProduct[] }> = ( { d } ) => {
     return (
       <>
         { d.map( ( o ) => (
-          <span key={ o.harga + o.jenis } className={ "flex border-gray-200 border" }>
+          <span key={ o.harga + o.jenis }
+                className={ "flex border-gray-200 border" }>
           { Rupiah( Number( o.harga ) * Number( o.jumlah ) ) }
         </span>
         ) ) }
@@ -22,7 +28,11 @@ function TableOrder( props: any ) {
     );
   };
 
-  const KeteranganProduct: React.FC<{ d: TProduct[], k: string, t: string }> = ( { d, k, t } ) => {
+  const KeteranganProduct: React.FC<{
+    d: TProduct[],
+    k: string,
+    t: string
+  }> = ( { d, k, t } ) => {
     const filteredItems = d.filter( ( o ) => {
       if( t === "Item" ) {
         return o.jenis === "Item";
@@ -45,7 +55,8 @@ function TableOrder( props: any ) {
           else if( k == "jumlah" ) {
             ket = o.jumlah
           }
-            else if( k == "total" ) ket = Rupiah( Number( o.harga ) * Number( o.jumlah ) )
+          else if( k == "total" ) ket = Rupiah( Number( o.harga ) *
+            Number( o.jumlah ) )
 
             return ( <span className={ "flex border-gray-200 border" }
                            key={ o.harga + o.jenis }>{ ket }</span> )
@@ -55,6 +66,7 @@ function TableOrder( props: any ) {
 
     )
   }
+
   return (
     <>
       <div
@@ -70,31 +82,46 @@ function TableOrder( props: any ) {
             <th scope="col" className="px-4 py-3 bg-red-500 ">Waktu Kirim</th>
 
             {/*---------------------------------------------------------------*/ }
-            <th scope="col" className="px-4 py-3 bg-green-200 ">Nama Pengirim</th>
-            <th scope="col" className="px-4 py-3 bg-green-200 ">Telpon Pengirim</th>
-            <th scope="col" className="px-4 py-3 bg-blue-300 ">Nama Penerima</th>
-            <th scope="col" className="px-4 py-3 bg-blue-300 ">Alamat Penerima</th>
-            <th scope="col" className="px-4 py-3 bg-blue-300 ">Ho Hp Penerima</th>
+            <th scope="col" className="px-4 py-3 bg-green-200 ">Nama Pengirim
+            </th>
+            <th scope="col" className="px-4 py-3 bg-green-200 ">Telpon
+              Pengirim
+            </th>
+            <th scope="col" className="px-4 py-3 bg-blue-300 ">Nama Penerima
+            </th>
+            <th scope="col" className="px-4 py-3 bg-blue-300 ">Alamat Penerima
+            </th>
+            <th scope="col" className="px-4 py-3 bg-blue-300 ">Ho Hp Penerima
+            </th>
             {/*---------------------Order----------------*/ }
             <th scope="col" className="px-4 py-3 bg-yellow-200 ">Orderan</th>
-            <th scope="col" className="px-4 py-3 bg-yellow-200 ">Harga Order</th>
-            <th scope="col" className="px-4 py-3 bg-yellow-200 ">Jumlah Order</th>
-            <th scope="col" className="px-4 py-3 bg-yellow-200 ">Total Order</th>
+            <th scope="col" className="px-4 py-3 bg-yellow-200 ">Harga Order
+            </th>
+            <th scope="col" className="px-4 py-3 bg-yellow-200 ">Jumlah Order
+            </th>
+            <th scope="col" className="px-4 py-3 bg-yellow-200 ">Total Order
+            </th>
 
             {/*---------------------Item----------------*/ }
             <th scope="col" className="px-4 py-3 bg-orange-400 ">Item</th>
             <th scope="col" className="px-4 py-3 bg-orange-400 ">Harga Item</th>
-            <th scope="col" className="px-4 py-3 bg-orange-400 ">Jumlah Item</th>
+            <th scope="col" className="px-4 py-3 bg-orange-400 ">Jumlah Item
+            </th>
             <th scope="col" className="px-4 py-3 bg-orange-400 ">Total Item</th>
 
             {/*----------------------Travel-----------------------------------*/ }
             <th scope="col" className="px-4 py-3 bg-fuchsia-400">Lokasi</th>
             <th scope="col" className="px-4 py-3 bg-fuchsia-400 ">Ekspedisi</th>
-            <th scope="col" className="px-4 py-3 bg-fuchsia-400 ">Tipe Pembayaran</th>
-            <th scope="col" className="px-4 py-3 bg-fuchsia-400 w-3/4">Keterangan</th>
+            <th scope="col" className="px-4 py-3 bg-fuchsia-400 ">Tipe
+              Pembayaran
+            </th>
+            <th scope="col"
+                className="px-4 py-3 bg-fuchsia-400 w-3/4">Keterangan
+            </th>
             {/*---------------------------Hitung---------------------*/ }
             <th scope="col" className="px-4 py-3 bg-lime-300">Ongkir</th>
-            <th scope="col" className="px-4 py-3 bg-lime-300">Total Penjualan</th>
+            <th scope="col" className="px-4 py-3 bg-lime-300">Total Penjualan
+            </th>
             <th scope="col" className="px-4 py-3 bg-lime-300">Total Bayar</th>
             {/*-------------------Opsi----------------*/ }
             <th scope="col" className="px-4 py-3 bg-gray-200">Status</th>
@@ -106,11 +133,13 @@ function TableOrder( props: any ) {
 
           <tr className="border-b border-gray-200 dark:border-gray-700">
 
-            <th scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
+            <th scope="row"
+                className="border border-slate-300 px-4 py-4 whitespace-nowrap">
               { data?.no }
             </th>
             {/*------------Tanggal----------------*/ }
-            <td scope="row" className="border border-slate-300 px-4 py-4 whitespace-nowrap">
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 whitespace-nowrap">
               <time>{ data?.pesan.toString() }</time>
             </td>
 
@@ -135,30 +164,36 @@ function TableOrder( props: any ) {
             </td>
 
             {/*------------Penerima----------------*/ }
-            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
               { data?.penerima }
             </td>
 
-            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
               { data?.alamatPenerima }
             </td>
 
-            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap">
               { data?.hpPenerima }
             </td>
 
             {/*------------Orderan----------------*/ }
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              <KeteranganProduct d={ data.listOrderan } k={ "nama" } t={ "Order" }/>
+              <KeteranganProduct d={ data.listOrderan } k={ "nama" }
+                                 t={ "Order" }/>
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              <KeteranganProduct d={ data.listOrderan } k={ "harga" } t={ "Orderan" }/>
+              <KeteranganProduct d={ data.listOrderan } k={ "harga" }
+                                 t={ "Orderan" }/>
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              <KeteranganProduct d={ data.listOrderan } k={ "jumlah" } t={ "Orderan" }/>
+              <KeteranganProduct d={ data.listOrderan } k={ "jumlah" }
+                                 t={ "Orderan" }/>
             </td>
 
             <td scope="row"
@@ -175,11 +210,14 @@ function TableOrder( props: any ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
-              <KeteranganProduct d={ data.listItem } k={ "harga" } t={ "Item" }/>
+              <KeteranganProduct d={ data.listItem } k={ "harga" }
+                                 t={ "Item" }/>
             </td>
 
-            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              <KeteranganProduct d={ data.listItem } k={ "jumlah" } t={ "Item" }/>
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 ">
+              <KeteranganProduct d={ data.listItem } k={ "jumlah" }
+                                 t={ "Item" }/>
             </td>
 
             <td scope="row"
@@ -192,13 +230,15 @@ function TableOrder( props: any ) {
               { data?.lokasi }
             </td>
 
-            <td scope="row" className="border border-slate-300 px-4 py-4 bg-gray-50 ">
+            <td scope="row"
+                className="border border-slate-300 px-4 py-4 bg-gray-50 ">
               { data?.ekspedisi }
             </td>
             <td scope="row" className="border border-slate-300 px-4 py-4">
               { data.typePembayaran }
             </td>
-            <td scope="row" className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
+            <td scope="row"
+                className="border border-slate-300  py-4  px-4  break-all w-3/4 ">
               <div className="w-[10rem]">
                 <div className="line-clamp-3">
                   { data?.guna }
@@ -208,7 +248,7 @@ function TableOrder( props: any ) {
 
             {/*---------------------------Hitung---------------------*/ }
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              { data?.ongkir }
+              { Rupiah( data?.ongkir ) }
             </td>
 
             <td scope="row"
@@ -222,9 +262,11 @@ function TableOrder( props: any ) {
             </td>
 
             {/*--------------------Aksi---------------------------*/ }
-            <td scope="row" className={ ` border border-slate-300 py-4 px-4  break-all w-3/4 ` }>
+            <td scope="row"
+                className={ ` border border-slate-300 py-4 px-4  break-all w-3/4 ` }>
               <div
-                className={ Status( data.status ) + " w-[7rem] p-2 rounded-lg text-center shadow-black/40 shadow" }>
+                className={ Status( data.status ) +
+                  " w-[7rem] p-2 rounded-lg text-center shadow-black/40 shadow" }>
                 { data.status }
               </div>
             </td>
@@ -245,14 +287,16 @@ function TableOrder( props: any ) {
                 <PopUp
                   clickPopUp={ clickPopUp }
                   setClickPopUp={ setClickPopUp }
-                  onCreate={ props.onCreate }
+                  onCreate={ onCreate }
                   data={ data }
+                  notify={ notify }
                 />
               </div>
             </td>
           </tr>
           </tbody>
         </table>
+        {/*<ToastContainer/>*/ }
       </div>
     </>
   )

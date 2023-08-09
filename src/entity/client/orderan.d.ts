@@ -19,34 +19,39 @@ export type TOrder = {
   penerima: string
   alamatPenerima: string
   hpPenerima: string
-// keterangan
+
+  // keterangan
   guna: string
   lokasi: string
-//Travel
+
+  //Travel
   namaPengiriman: string
   ekspedisi: string
   ongkir: number
-//total
-  id?: string
+
+  //id
+  id: string
   no: string
+
+  //Total
   typePembayaran: string
-  total?: number
-  totalBayar?: number
-  totalPenjualan?: number,
+  totalBayar: number
+  totalPenjualan: number,
   status: 'Di terima' | 'Proses' | 'Kirim' | "Selesai"
 }
 
 export  type Thitung = {
   semuaHargaOrderan: number,
   semuaHargaItem: number,
-  semuaHargaProduct: number | false,
+  semuaHargaProduct: number,
   totalHarga: number
+
 }
 
 export  type TotalOrderan =
-  { hitung: Thitung }
-  & { semuaProduct: TProduct[] }
-  & TOrder
+  { hitung: Thitung } &
+  { semuaProduct: TProduct[] } &
+  TOrder
 
 export type TOnlyKey = Record<keyof TOrder, any>
 

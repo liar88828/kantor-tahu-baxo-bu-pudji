@@ -16,8 +16,7 @@ export async function getDataById( id: string ) {
 export async function getData() {
   const res = await fetch( urlApi + "api/product/",
     {
-      // cache: 'default',
-      // next : { revalidate: 2 }
+      // cache: 'default', next : { revalidate: 2 }
     }
   )
 

@@ -1,15 +1,20 @@
 import { TOrder, TotalOrderan } from '@/entity/client/orderan';
 import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
 
-export const orderan = ( dataBaru: TotalOrderan ): string => dataBaru.penerima.toString()
-                                                                     .slice( 0, 2 ) +
+export const orderan = ( dataBaru: TotalOrderan ): string =>
+  dataBaru.penerima.slice( 0, 5 ) + "/" +
+  dataBaru.hpPenerima.toString().slice( 0, 4 ) + "/" +
+  dataBaru.alamatPenerima.toString().slice( 0, 4 ) + "/" +
+  dataBaru.pesan.toString().slice( 2, 4 ) +
+  dataBaru.pesan.toString().slice( 5, 7 ) +
+  dataBaru.pesan.toString().slice( 8, 10 ) +
   "/" +
-  dataBaru.hpPenerima.toString().slice( 0, 2 ) + "/" +
-  dataBaru.alamatPenerima.toString().slice( 0, 2 ) + "/" +
-  dataBaru.pesan.toString().slice( 0, 2 ) + "/" +
-  dataBaru.kirim.toString().slice( 0, 2 ) + "/" +
-  dataBaru.waktuKirim.toString().slice( 0, 2 ) + "/" +
-  dataBaru.lokasi.toString().slice( 0, 2 ) + "/"
+  // dataBaru.kirim.toString().slice( 8, 10 ) + "/" +
+  dataBaru.waktuKirim.toString().slice( 0, 2 ) +
+  dataBaru.waktuKirim.toString().slice( 3, 5 ) +
+  "/" +
+  dataBaru.lokasi.toString().slice( 0, 3 ) + "/"
+
 // dataBaru.travel.namaPengiriman.toString().slice( 0, 2 ) + "/"
 
 export const defaultValues: TOrder = {
@@ -40,9 +45,10 @@ export const defaultValues: TOrder = {
   ongkir   : 0,
 
   //transaksi
-  no        : "",
+  id: "",
+  no: "",
   typePembayaran: "",
-  total     : 0,
+  // total         : 0,
   totalBayar: 0,
   totalPenjualan: 0,
   status    : 'Di terima',

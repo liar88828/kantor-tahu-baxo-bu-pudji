@@ -1,19 +1,13 @@
 "use client"
-import React, { ReactElement, useState }         from 'react'
+import React, { useState }                           from 'react'
 import TableOrder
                                                  from '@/app/orderan/TableOrder';
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 import { BiAddToQueue }                          from 'react-icons/bi';
-import {
-  createOrder
-}                                                from '@/app/utils/ress/orderan';
 import { defaultDate, getTime }                  from '@/lib/utils/formatDate';
 import {
   defaultValues, orderan
 }                                                from '@/app/utils/format/orderan';
-import {
-  InputFormProps
-}                                                from '@/entity/client/InputForm';
 import { Rupiah }                                from '@/lib/utils/rupiah';
 import { SDiTerima, SKirim, SProcess, SSelesai } from '@/app/style/status';
 import { StyleInputForm, styleLabelForm }        from '@/app/style/form';
@@ -24,6 +18,16 @@ import type { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
 import {
   sProduct
 }                                             from '@/entity/client/example/produk';
+import {
+  InputForm
+}                                                    from '@/app/elements/input/InputNew';
+import {
+  onCreate
+}                                                    from '@/app/utils/ress/orderan';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  notify
+}                                                    from '@/app/utils/notif/toash';
 
 export default function FormOrder() {
   const { control, register, handleSubmit, formState: {}, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
@@ -76,12 +80,16 @@ export default function FormOrder() {
   // -----------------------Calculator Product
   const semuaHargaOrderan = mergeData.listOrderan.reduce( ( acc, item ) => acc +
     item.harga * item.jumlah, 0 )
-  const semuaHargaItem    = mergeData.listItem.reduce( ( acc, item ) => acc +
+
+  const semuaHargaItem = mergeData.listItem.reduce( ( acc, item ) => acc +
     item.harga * item.jumlah, 0 )
-  const semuaHargaProduct = mergeData.semuaProduct.length > 0 &&
-    mergeData.semuaProduct.reduce( ( acc, item ) => acc + item.harga *
-      item.jumlah, 0 )
-  const totalHarga        = Number( semuaHargaOrderan ) +
+
+  const semuaHargaProduct = mergeData.semuaProduct.length > 0 ?
+                            mergeData.semuaProduct.reduce( ( acc, item ) => acc +
+                              item.harga *
+                              item.jumlah, 0 ) : 0
+
+  const totalHarga = Number( semuaHargaOrderan ) +
     Number( semuaHargaItem ) + Number( mergeData.ongkir )
 
   const hitung: Thitung = {
@@ -89,46 +97,45 @@ export default function FormOrder() {
   }
   const dataBaru: TotalOrderan = Object.assign( { hitung, }, mergeData )
 
-  dataBaru.no = orderan( dataBaru )
+  dataBaru.no             = orderan( dataBaru )
+  dataBaru.id             = orderan( dataBaru )
+  dataBaru.totalBayar     = dataBaru.hitung.totalHarga
+  dataBaru.totalPenjualan = dataBaru.hitung.semuaHargaOrderan
+  dataBaru.namaPengiriman = dataBaru.ekspedisi
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
 
-  const onCreate = async () => {
-    if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
-      // Save it!
-      // console.log( 'Thing was saved to the database.', valueForm );
+  // const InputForm: React.FC<InputFormProps> = (
+  //   {
+  //     tag: Tag = "input", title, type, reg, value, min, defaultValue
+  //   }: InputFormProps ): ReactElement => {
+  //   let ress = {
+  //     className  : `${ StyleInputForm( false ) }`,
+  //     placeholder: `Masukan ${ title }....`,
+  //   }
+  //   if( type ) ress = Object.assign( ress, { type } );
+  //   if( value ) ress = Object.assign( ress, { value } );
+  //   if( min ) ress = Object.assign( ress, { min } );
+  //   if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
+  //
+  //   return (
+  //     <div className="flex flex-col">
+  //       <label className={ styleLabelForm }
+  //              htmlFor="grid-password">{ title }</label>
+  //       <Tag { ...ress }{ ...reg }/>
+  //       {/*<p>{ errors. }</p>*/ }
+  //     </div>
+  //   )
+  // }
 
-      const responseData = await createOrder( valueForm )
-      // console.log( responseData )
-    }
-    else {
-      // Do nothing!
-      // console.log( 'Thing was not saved to the database.' );
-    }
-  }
-
-  const InputForm: React.FC<InputFormProps> = (
-    {
-      tag: Tag = "input", title, type, reg, value, min, defaultValue
-    }: InputFormProps ): ReactElement => {
-    let ress = {
-      className  : `${ StyleInputForm( false ) }`,
-      placeholder: `Masukan ${ title }....`,
-    }
-    if( type ) ress = Object.assign( ress, { type } );
-    if( value ) ress = Object.assign( ress, { value } );
-    if( min ) ress = Object.assign( ress, { min } );
-    if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
-
-    return (
-      <div className="flex flex-col">
-        <label className={ styleLabelForm }
-               htmlFor="grid-password">{ title }</label>
-        <Tag { ...ress }{ ...reg }/>
-        {/*<p>{ errors. }</p>*/ }
-      </div>
-    )
-  }
+  // const notify = () => toast.success( '🦄 Wow so easy!', {
+  //   position       : "top-right",
+  //   autoClose      : 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick   : true,
+  //   pauseOnHover   : true,
+  //   theme          : "light",
+  // } );
 
   function Nama() {
     return (
@@ -402,7 +409,8 @@ export default function FormOrder() {
                        src={ item.img } alt={ item.nama }/>
 
                   <input className={ StyleInputForm( false ) } type={ 'hidden' }
-                         value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
+                         value={ item.id }
+                         { ...register( `semuaProduct.${ index }.id` ) }/>
                   <div className=" flex flex-col">
 
                     <table className={ "border-transparent" }>
@@ -420,7 +428,7 @@ export default function FormOrder() {
 
                           <input className={ StyleInputForm( false ) }
                                  type={ 'hidden' }
-                                 value={ item.img }{ ...register( `semuaProduct.${ index }.img` ) }/>
+                                 value={ item.keterangan }{ ...register( `semuaProduct.${ index }.keterangan` ) }/>
                         </td>
                       </tr>
 
@@ -545,7 +553,14 @@ export default function FormOrder() {
         </div>
       </form>
       {/*<p>{ errors.semuaProduct?.root?.message }</p>*/ }
-      <TableOrder data={ dataBaru } onCreate={ onCreate }/>
+      <TableOrder data={ dataBaru } onCreate={ onCreate } notify={ notify }/>
+      {/*<button onClick={()=>notify("test",'success')}>test</button>*/ }
+      {/*<ToastContainer />*/ }
+
+      <div>
+        {/*<button onClick={ notify }>Notify!</button>*/ }
+        {/*<ToastContainer/>*/ }
+      </div>
     </>
   )
 }

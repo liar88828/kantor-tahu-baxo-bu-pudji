@@ -3,10 +3,11 @@ import { SafeParseReturnType, z } from "zod";
 import { TOrderServer as TYPE }   from '@/entity/server/orderan';
 
 const create   = ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
-  // console.log(z)
 
   if( !z.success ) {
-    throw new newError( "Error Invalid Value", "Invalid Value" )
+    console.log( z.error.message )
+
+    throw new newError( "", `Invalid Value` )
   }
   else {
     return data
@@ -17,7 +18,7 @@ const findById = (
   id: string
 ) => {
   if( !z.success ) {
-    throw new newError( "Error Invalid Value", "Invalid Id" )
+    throw new newError( "", "Invalid Id" )
   }
   else {
     return id

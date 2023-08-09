@@ -7,51 +7,52 @@ GET http://localhost:3000/api/orderan/asd
 Content-Type: application/json
 
 ### post
-POST http://localhost:3000/api/orderanSalah
+POST http://localhost:3000/api/orderan
 Content-Type: application/json
 
 {
-  "id": "asdasd",
-  "no": "string",
-  "guna": "string",
-  "ongkir": 3681802,
-  "lokasi": "string",
-  "kirim": "2023-07-04",
-  "pesan": "2023-07-04",
-  "penerima": "string",
-  "pengirim": "string",
+  "alamatPenerima": "string",
   "ekspedisi": "string",
+  "guna": "string",
   "hpPenerima": "string",
   "hpPengirim": "string",
-  "keterangan": "string",
-  "semuaHargaItem": 3681802,
-  "alamatPenerima": "string",
+  "id": "baru1",
+  "kirim": "2023-07-04",
+  "lokasi": "string",
   "namaPengiriman": "string",
+  "no": "string",
+  "ongkir": 3681802,
+  "penerima": "string",
+  "pengirim": "string",
+  "pesan": "2023-07-04",
+  "keterangan": "dadsadsa",
+  "semuaHargaItem": 3681802,
   "semuaHargaOrderan": 3681802,
   "semuaHargaProduct": 3681802,
   "semuaProduct": [
     {
-      "id": "asdasda",
-      "img": "string",
+      "orderanId": "baru1",
       "harga": 3681802,
-      "nama": "string",
+      "id": "asdasda",
       "jenis": "string",
       "jumlah": 3681802,
+      "keterangan": "string",
       "lokasi": "string",
-      "keterangan": "string"
+      "nama": "string",
+      "img": "dasda"
     }
   ],
-  "total": 3681802,
   "status": "string",
+  "total": 3681802,
   "totalBayar": 3681802,
   "totalHarga": 3681802,
-  "waktuKirim": "2023-07-04",
   "totalPenjualan": 3681802,
-  "typePembayaran": "string"
+  "typePembayaran": "string",
+  "waktuKirim": "2023-07-04"
 }
 
 ### Update
-PUT http://localhost:3000/api/orderan/asd
+PUT http://localhost:3000/api/orderan
 Content-Type: application/json
 
 {
@@ -71,8 +72,8 @@ Content-Type: application/json
   "pengirim": "orang genah update",
   "keterangan": "sangat jelas update",
   "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
+  "kirim": "2023-07-04",
+  "pesan": "2023-07-04",
   "semuaProduct": [
     {
       "harga": 42000,
@@ -111,5 +112,57 @@ Content-Type: application/json
 DELETE http://localhost:3000/api/orderan/data1
 Content-Type: application/json
 
+####
+POST http://localhost:3000/api/orderan
+Content-Type: application/json
+
 {
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "1",
+  "no": "1",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "1999-07-01",
+  "pesan": "2000-07-01",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "1",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    },
+    {
+      "harga": 42000,
+      "id": "2",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    }
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "03:00:00"
 }
+
+

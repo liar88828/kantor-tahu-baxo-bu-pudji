@@ -5,7 +5,13 @@ export type TPOrderan = {
   lokasi: string,
   jumlah: number,
   jenis: "Orderan" | "Item" | string,
-  img?: string
   keterangan: string,
-  orderanId: string
+  orderanId?: string
 }
+
+// id
+// nama
+// harga
+// lokasi
+// jumlah
+// jenis

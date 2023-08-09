@@ -13,7 +13,6 @@ model SemuaProduct {
   nama       String   @db.VarChar(100)
   lokasi     String   @db.VarChar(100)
   jenis      String   @db.VarChar(100)
-  img        String   @db.VarChar(100)
   harga      Int      @db.MediumInt
   jumlah     Int      @db.MediumInt
   keterangan String   @db.Text
@@ -40,10 +39,9 @@ model Orderan {
   // tanggal
   pesan             DateTime?      @db.Date
   kirim             DateTime?      @db.Date
-  waktuKirim        DateTime?      @db.Date
+  waktuKirim        DateTime?      @db.Time()
   // keterangan
   guna              String         @db.Text
-  keterangan        String         @db.Text
   lokasi            String         @db.VarChar(100)
   // travel
   namaPengiriman    String         @db.VarChar(100)
@@ -52,7 +50,6 @@ model Orderan {
   // total
   no                String         @db.VarChar(100)
   typePembayaran    String         @db.VarChar(100)
-  total             Int            @db.MediumInt
   totalBayar        Int            @db.MediumInt
   totalPenjualan    Int            @db.MediumInt
   status            String         @db.VarChar(20)

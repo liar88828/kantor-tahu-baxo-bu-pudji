@@ -11,26 +11,32 @@ export type TOrderServer = {
   hpPengirim: string
   penerima: string
   alamatPenerima: string
-  keterangan: string
+  // keterangan: string
   hpPenerima: string
+
 // keterangan
   guna: string
   lokasi: string
+
 //Travel
   namaPengiriman: string
   ekspedisi: string
   ongkir: number
-//total
-  id: string
+
+//id
+  id?: string
   no: string
+
+//total
   typePembayaran: string
-  total: number
   totalBayar: number
   totalPenjualan: number,
   status: string
+//hitung
   semuaHargaOrderan: number,
   semuaHargaItem: number,
   semuaHargaProduct: number,
   totalHarga: number
+
 }
 

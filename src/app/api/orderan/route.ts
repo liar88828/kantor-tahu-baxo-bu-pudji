@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Seed                          from '@/server/models/prisma/config';
 import Control                       from '@/server/controller/orderan';
+import { TOrderServer }              from '@/entity/server/orderan';
 
 const seed = new Seed()
 
 export async function GET() {
   try {
     return NextResponse.json( {
-      msg : "Success GET",
+      msg: "Success GET",
       // data: await seed.ShowOrderan()
       data: await Control.find()
     } )
@@ -19,8 +20,12 @@ export async function GET() {
 
 export async function POST( request: NextRequest, ) {
   try {
-    const json        = await request.json();
-    const dataControl = await Control.create( json )
+    const data: TOrderServer = await request.json();
+    // console.log( data )
+
+    const dataControl = await Control.create( data )
+    console.log( "success" )
+    console.log( dataControl )
     return NextResponse.json( {
       msg : "Success Create",
       data: dataControl
