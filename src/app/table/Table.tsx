@@ -1,19 +1,21 @@
 "use client"
-import { RowData }             from '@tanstack/table-core';
-import { Table as ReactTable } from '@tanstack/table-core/build/lib/types';
-import { TPerson }             from '@/entity/client/person';
+import { RowData }                     from '@tanstack/table-core';
+import {
+  Table as ReactTable
+}                                      from '@tanstack/table-core/build/lib/types';
 import React, { HTMLProps, useEffect } from 'react';
-import { dataVisitor } from '@/app/table/dataKu';
-import { faker }               from '@faker-js/faker';
+import { faker }                       from '@faker-js/faker';
 import {
   Column, ColumnDef, ColumnOrderState, flexRender, getCoreRowModel,
   getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState,
   useReactTable
-}                              from '@tanstack/react-table';
+}                                      from '@tanstack/react-table';
 
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer }    from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { notifBaru }      from '@/app/utils/notif/toash';
+import { notifBaru }         from '@/app/utils/notif/toash';
+import type { TOrderServer } from '@/entity/server/orderan';
+import { Rupiah }            from '@/lib/utils/rupiah';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -51,7 +53,6 @@ export function TableOrder( { dataOrderan }: {
     //   error  : "error"
     // } )
     //      .then( r => console.log( r, "response" ) );
-
     //myPromise.then( d => console.log( d, "data" ) )
 
   }, [] );
@@ -66,18 +67,13 @@ export function TableOrder( { dataOrderan }: {
   const [ columnOrder, setColumnOrder ]           = React.useState<ColumnOrderState>( [] )
 
   //check box
-  const [ rowSelection, setRowSelection ] = React.useState( {} )
-
-  const [ globalFilter, setGlobalFilter ] = React.useState( '' )
-  const [ data, setData ]                 = React.useState( dataVisitor
+  const [ rowSelection, setRowSelection ]              = React.useState( {} )
+  const [ globalFilter, setGlobalFilter ]              = React.useState( '' )
+  const [ data, setData ]                              = React.useState( dataOrder
     //  () => makeData( 100 )
   )
-
-  // console.log(data)
-
   const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
-
-  const columns = React.useMemo<ColumnDef<TPerson>[]>( () => [
+  const columns                                        = React.useMemo<ColumnDef<TOrderServer>[]>( () => [
 
       {
         id: 'select', header: ( { table } ) => (
@@ -89,7 +85,8 @@ export function TableOrder( { dataOrderan }: {
             } }
           />
         ),
-        cell                : ( { row } ) => ( <div className="px-1">
+
+        cell: ( { row } ) => ( <div className="px-1">
             <IndeterminateCheckbox
               { ...{
                 checked      : row.getIsSelected(),
@@ -103,73 +100,219 @@ export function TableOrder( { dataOrderan }: {
       },
 
       {
-        header: 'Name', footer: props => props.column.id, columns: [
-          {
-            accessorKey: 'firstName', cell: info => info.getValue(),
-            footer                        : props => props.column.id,
-          },
-          {
-            accessorFn: row => row.lastName,
-            id        : 'lastName',
-            cell      : info => info.getValue(),
-            header    : () => <span>Last Name</span>,
-            footer    : props => props.column.id,
-          },
-        ],
+        accessorKey: 'no',
+        cell       : info => info.getValue(),
+        footer     : props => props.column.id,
       },
+
       {
-        header : 'Info',
-        footer : props => props.column.id,
-        columns: [
-
+        header: 'Waktu', footer: props => props.column.id, columns: [
           {
-            header : 'More Info',
-            columns: [
+            accessorKey: 'pesan',
+            cell       : info => {
+              const d = new Date( info.getValue() )
+              return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay()
+            },
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'kirim',
+            cell       : info => {
+              const d = new Date( info.getValue() )
+              return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()
+            },
+            footer     : props => props.column.id,
+          }, {
+            accessorKey: 'waktuKirim',
+            cell       : info => {
+              const d = new Date( info.getValue() )
+              return d.getHours() + ":" + d.getMinutes()
+            },
 
-              {
-                accessorKey: 'age',
-                header     : () => 'Age',
-                footer     : props => props.column.id,
-              },
+            footer: props => props.column.id,
+          },
 
-              {
-                accessorKey: 'visits',
-                header     : () => <span>Visits</span>,
-                footer     : props => props.column.id,
-              },
-              {
-                accessorKey: 'status',
-                header     : 'Status',
-                footer     : props => props.column.id,
-              },
-              {
-                accessorKey: 'progress',
-                header     : 'Profile Progress',
-                footer     : props => props.column.id,
-              },
-            ],
+          // {
+          //   accessorFn: row => row.lastName,
+          //   id        : 'lastName',
+          //   cell      : info => info.getValue(),
+          //   header    : () => <span>Last Name</span>,
+          //   footer    : props => props.column.id,
+          // },
+        ],
+      },
+
+      {
+        header: 'Data Orang', footer: props => props.column.id, columns: [
+          {
+            accessorKey: 'pengirim',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'hpPengirim',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'penerima',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'alamatPenerima',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'hpPenerima',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
           },
         ],
       },
+
+      {
+        header: 'Keterangan', footer: props => props.column.id, columns: [
+          {
+            accessorKey: 'guna',
+
+            cell: info => <p
+              className={ "line-clamp-3" }> { info.getValue() }</p>,
+            // header: () => <span>Visits</span>,
+            footer: props => props.column.id,
+          },
+          {
+            accessorKey: 'lokasi',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+        ],
+      },
+
+      {
+        header: 'Travel', footer: props => props.column.id, columns: [
+          {
+            accessorKey: 'status',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'namaPengiriman',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'ekspedisi',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          }, {
+            accessorKey: 'ongkir',
+            cell       : info => Rupiah( info.getValue() ),
+            footer     : props => props.column.id,
+          },
+        ],
+      },
+
+      {
+        header: 'Total', footer: props => props.column.id, columns: [
+          {
+            accessorKey: 'typePembayaran',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'totalBayar',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'totalPenjualan',
+            cell       : info => Rupiah( info.getValue() ),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'status',
+            cell       : info => Rupiah( info.getValue() ),
+            footer     : props => props.column.id,
+          },
+        ],
+      },
+
+      {
+        header: 'Hitung', footer: props => props.column.id, columns: [
+          {
+            accessorKey: 'semuaHargaOrderan',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'semuaHargaItem',
+            cell       : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'semuaHargaProduct',
+            cell       : info => Rupiah( info.getValue() ),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'totalHarga',
+            cell       : info => Rupiah( info.getValue() ),
+            footer     : props => props.column.id,
+          },
+        ],
+      },
+      //
+      // {
+      //   header : 'Info',
+      //   footer : props => props.column.id,
+      //   columns: [
+      //
+      //     // {
+      //     //   header : 'More Info',
+      //     //   columns: [
+      //
+      //     {
+      //       accessorKey: 'ongkir',
+      //       header     : () => 'Ongkir',
+      //       footer     : props => props.column.id,
+      //     },
+      //
+      //     {
+      //       accessorKey: 'visits',
+      //       header     : () => <span>Visits</span>,
+      //       footer     : props => props.column.id,
+      //     },
+      //     {
+      //       accessorKey: 'status',
+      //       header     : 'Status',
+      //       footer     : props => props.column.id,
+      //     },
+      //     {
+      //       accessorKey: 'progress',
+      //       header     : 'Profile Progress',
+      //       footer     : props => props.column.id,
+      //     },
+      //     // ],
+      //     // },
+      //   ],
+      // },
+      //
     ],
     [] )
 
   // const refreshData = () => setData( () => makeData( 100 ) )
 
-  // Give our default column cell renderer editing superpowers!
-  const defaultColumn: Partial<ColumnDef<TPerson>> = {
+  const defaultColumn: Partial<ColumnDef<TOrderServer>> = {
     cell: ( { getValue, row: { index }, column: { id }, table } ) => {
       const initialValue = getValue()
 
-      // We need to keep and update the state of the cell normally
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [ value, setValue ] = React.useState( initialValue )
 
-      // When the input is blurred, we'll call our table meta's updateData
-      // function
       const onBlur = () => table.options.meta?.updateData( index, id, value )
 
-      // If the initialValue is changed external, sync it up with our state
       // eslint-disable-next-line react-hooks/rules-of-hooks
       React.useEffect( () => setValue( initialValue ), [ initialValue ] )
 
@@ -259,9 +402,13 @@ export function TableOrder( { dataOrderan }: {
         pauseOnHover
         theme="light"
       />
-      <div>
-        <button onClick={ () => rerender() }>Force Rerender</button>
-      </div>
+
+
+      {/*<div>*/ }
+      {/*  <button onClick={ () => rerender() }>Force Rerender</button>*/ }
+      {/*</div>*/ }
+
+
       {/*<div>*/ }
       {/*  <button onClick={ () => refreshData() }>Refresh Data</button>*/ }
       {/*</div>*/ }
@@ -272,7 +419,7 @@ export function TableOrder( { dataOrderan }: {
 function Tables(
   { table, randomizeColumns, sorting, rowSelection }:
     {
-      table: ReactTable<TPerson>,
+      table: ReactTable<TOrderServer>,
       randomizeColumns: () => void,
       sorting: SortingState,
       rowSelection: {}
@@ -417,6 +564,7 @@ function Tables(
           >
             { '⏪' }
           </button>
+
           <button
             className="border rounded p-1"
             onClick={ () => table.previousPage() }
@@ -431,6 +579,7 @@ function Tables(
           >
             { '➡️' }
           </button>
+
           <button
             className="border rounded p-1"
             onClick={ () => table.setPageIndex( table.getPageCount() - 1 ) }
