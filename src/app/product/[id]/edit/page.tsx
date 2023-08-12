@@ -1,27 +1,19 @@
 'use client'
-import { useParams, usePathname }                 from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import React, { ChangeEvent, Suspense, useState } from 'react';
-import type {
-  TProduct
-}                                                 from '@/entity/client/produk';
-import { SubmitHandler, useForm }                 from 'react-hook-form';
-import {
-  handleUpload, SendData, UploadDescription
-}                      from '@/app/elements/upload/UploadDescription';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
 import { LinkProduct } from '@/app/elements/link/Links';
-import {
-  InputForm
-}                      from '@/app/elements/input/InputNew';
-import {
-  formProduct
-}                      from '@/app/utils/format/product';
-import { urlApi }      from '@/app/utils/ress/product';
+import { InputForm } from '@/app/elements/input/InputNew';
+import { formProduct } from '@/app/utils/format/product';
+
+import { urlApi } from '@/app/utils/config/urlApi';
 
 export default function Page() {
   const { id }   = useParams()
   const pathname = usePathname()
-  const path     = pathname.split( "/" ).pop()
-  return ( <FormEdit id={ id } path={ path || "" }/> )
+  const path     = pathname.split( "/" ).pop() as string
+  return ( <FormEdit id={ id } path={ path }/> )
 
 }
 
@@ -30,9 +22,7 @@ export function FormEdit( { id, path }:
 
   const { register, handleSubmit, }       = useForm<TProduct>( {
     defaultValues: async () => {
-
-      const res                          = await fetch( urlApi +
-        "api/product/" + id )
+      const res = await fetch( "/api/product/" + id )
       const { data }: { data: TProduct } = await res.json()
       // console.log( data )
       setImage( data.img || "tidak ada" )
@@ -75,42 +65,23 @@ export function FormEdit( { id, path }:
 
   };
   const FormProduct                       = () => {
-    return ( <>
-        <InputForm title={ formProduct.nama } type="text"
-                   reg={ register( "nama" ) }
-        />
-        <InputForm title={ formProduct.harga } type="number"
-                   reg={ register( "harga" ) }
-        />
-
-        <InputForm title={ formProduct.lokasi } type="text"
-                   reg={ register( "lokasi" ) }
-        />
-
-        <InputForm title={ formProduct.jenis } type="text"
-                   reg={ register( "jenis" ) }
-        />
-
-        <InputForm title={ formProduct.keterangan } type="textarea"
-                   reg={ register( "keterangan" ) }
-        />
-      </>
+    return ( <div className={ "sm:m-4 bg-white rounded p-5 w-1/2" }>
+        <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) }/>
+        <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }/>
+        <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }/>
+        <InputForm title={ formProduct.jenis } type="text" reg={ register( "jenis" ) }/>
+        <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }/>
+      </div>
     )
   }
 
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
       <LinkProduct path={ path || "" }/>
-
       <div className="flex flex-row">
-
         <form onSubmit={ handleSubmit( onSubmit ) }
               className="w-full flex  flex-row gap-5 ">
-
-          <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
-            <FormProduct/>
-          </div>
-
+          <FormProduct/>
           <div
             className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
             <Suspense fallback={ <p>Loading feed...</p> }>
@@ -120,8 +91,6 @@ export function FormEdit( { id, path }:
                              : previewURL }
                 onChange={ handleFileChange }
                 message={ message }
-
-
                 title={ "Product" }/>
 
             </Suspense>

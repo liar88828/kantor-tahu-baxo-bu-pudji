@@ -1,7 +1,8 @@
 import RepoProduk    from '@/server/repository/produk';
 import Validation    from '@/lib/validation/schema';
-import type { TYPE } from '@/server/models/dataAccess/Produk';
 import Service       from '@/server/service/produk';
+import { TYPE } from '@/server/models/dataAccess/Produk';
+
 
 const Repo  = new RepoProduk()
 const valid = new Validation()

@@ -1,22 +1,11 @@
 "use client"
 import React, { ChangeEvent, Suspense, useState } from 'react';
-import type {
-  TProduct
-}                                                 from '@/entity/client/produk';
-import { SubmitHandler, useForm }                 from 'react-hook-form';
-import {
-  defaultFormProduct, formProduct
-}                                                 from '@/app/utils/format/product';
-import {
-  handleUpload, SendData, UploadDescription
-}                                                 from '@/app/elements/upload/UploadDescription';
-import {
-  LinkProduct
-}                                                 from '@/app/elements/link/Links';
-import {
-  InputForm
-}                                                 from '@/app/elements/input/InputNew';
-import { usePathname }                            from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { defaultFormProduct, formProduct } from '@/app/utils/format/product';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
+import { LinkProduct } from '@/app/elements/link/Links';
+import { InputForm } from '@/app/elements/input/InputNew';
+import { usePathname } from 'next/navigation';
 
 export default function Home() {
 
@@ -52,16 +41,12 @@ export default function Home() {
 
   const FormProduct = () => {
 
-    return ( <>
-        <InputForm title={ formProduct.nama } type="text"
-                   reg={ register( "nama" ) }
+    return ( <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
+        <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) }
                    defaultValue={ defaultFormProduct.nama }/>
-        <InputForm title={ formProduct.harga } type="number"
-                   reg={ register( "harga" ) }
+        <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }
                    defaultValue={ defaultFormProduct.harga }/>
-
-        <InputForm title={ formProduct.lokasi } type="text"
-                   reg={ register( "lokasi" ) }
+        <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }
                    defaultValue={ defaultFormProduct.lokasi }/>
 
         {/*<div className="flex flex-col">*/ }
@@ -74,15 +59,11 @@ export default function Home() {
         {/*    <option value="Item">Item</option>*/ }
         {/*  </select>*/ }
         {/*</div>*/ }
-
-        <InputForm title={ formProduct.jenis } type="text"
-                   reg={ register( "jenis" ) }
+        <InputForm title={ formProduct.jenis } type="text" reg={ register( "jenis" ) }
                    defaultValue={ defaultFormProduct.jenis }/>
-
-        <InputForm title={ formProduct.keterangan } type="textarea"
-                   reg={ register( "keterangan" ) }
+        <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }
                    defaultValue={ defaultFormProduct.keterangan }/>
-      </>
+      </div>
     )
   }
 
@@ -96,11 +77,7 @@ export default function Home() {
 
         <form onSubmit={ handleSubmit( onSubmit ) }
               className="w-full flex  flex-row gap-5 ">
-
-          <div className="  sm:m-4 bg-white rounded p-5 w-1/2">
-            <FormProduct/>
-          </div>
-
+          <FormProduct/>
           <div
             className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
             <Suspense fallback={ <p>Loading feed...</p> }>

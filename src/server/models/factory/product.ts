@@ -1,4 +1,3 @@
-import { TProduct } from '@/entity/client/produk';
 import { faker }    from '@faker-js/faker';
 
 export const factoryProduct: TProduct = {

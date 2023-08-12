@@ -4,7 +4,8 @@ import { SafeParseReturnType, z } from "zod";
 
 const create   = ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
   if( !z.success ) {
-    throw new newError( "Error Invalid Value", "Invalid Value" )
+    const error = z.error.message
+    throw new newError( `Invalid Value ${ error }` )
   }
   else {
     return data
@@ -15,7 +16,8 @@ const findById = (
   id: string
 ) => {
   if( !z.success ) {
-    throw new newError( "Error Invalid Value", "Invalid Id" )
+    const error = z.error.message
+    throw new newError( `Invalid Id ${ error }` )
   }
   else {
     return id

@@ -1,6 +1,5 @@
 import Validation        from '@/lib/validation/schema';
 import { z }             from 'zod';
-import type { TProduct } from '@/entity/client/produk';
 
 const valid = new Validation()
 
