@@ -45,7 +45,6 @@ model Orderan {
   lokasi            String         @db.VarChar(100)
   // travel
   namaPengiriman    String         @db.VarChar(100)
-  ekspedisi         String         @db.VarChar(100)
   ongkir            Int            @db.MediumInt
   // total
   no                String         @db.VarChar(100)

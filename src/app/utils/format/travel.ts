@@ -1,4 +1,3 @@
-import type { TTravel } from '@/entity/client/travel';
 
 export const formTravel: Record<keyof TTravel, any> = {
   id: "1231",

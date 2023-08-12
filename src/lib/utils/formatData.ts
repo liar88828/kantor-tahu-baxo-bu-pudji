@@ -1,9 +1,7 @@
 import {
   addDot, getExtensionData, validateExtension
 }                   from '@/lib/utils/fileExtension';
-import { TTravel }  from '@/entity/client/travel';
 import { newError } from '@/server/exeption/errorHandler';
-import { TProduct } from '@/entity/client/produk';
 
 export const formatData = ( d: any, option: string ) => {
   if( option === "produk" ) {
@@ -40,7 +38,7 @@ export const setData    = ( file: Blob, json: TTravel, folderPath: string ) => {
   const extension = getExtensionData( file.name )
   const nama      = addDot( extension, json.namaPengiriman )
   if( !validateExtension( extension ) ) {
-    throw new newError( "Extension is not allow", "Invalid Value" )
+    throw new newError( "Extension is not allow", )
   }
   const dTravel = formatData( json, "travel" )
   dTravel.img   = folderPath + Date.now() + "_" + nama

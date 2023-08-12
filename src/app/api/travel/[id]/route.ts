@@ -4,7 +4,6 @@ import { extractData }               from '@/server/service/extractForm';
 import { newError }                  from '@/server/exeption/errorHandler';
 import { setData }                   from '@/lib/utils/formatData';
 import { validImage }                from '@/lib/validation/image';
-import type { TTravel }              from '@/entity/client/travel';
 import type { Textract }             from '@/entity/server/image';
 import { revalidateTag }             from 'next/cache';
 import { fileSystem }                from '@/lib/utils/fileSystem';
@@ -36,14 +35,14 @@ export async function PUT(
   try {
     const data: Textract = await extractData( request )
     if( !data ) {
-      throw new newError( "Fail Create", "Invalid Value" )
+      throw new newError( "Fail Create", )
     }
     // console.log( data )
     const json: TTravel = setData( data.dataImage.file, data.json, "img/travel/" )
 
     const dataControl = await Control.edit( data.json, id )
     if( !dataControl ) {
-      throw new newError( "Fail Create DataBase", "Invalid Value" )
+      throw new newError( "Fail Create DataBase" )
     }
     // console.log( data )
 

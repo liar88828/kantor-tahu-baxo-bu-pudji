@@ -1,22 +1,11 @@
 "use client"
 import React, { ChangeEvent, Suspense, useState } from 'react';
-import { SubmitHandler, useForm }                 from 'react-hook-form';
-import type {
-  TTravel
-}                                                 from '@/entity/client/travel';
-import {
-  defaultFormTravel, formTravel
-}                                                 from '@/app/utils/format/travel';
-import {
-  handleUpload, SendData, UploadDescription
-}                                                 from '@/app/elements/upload/UploadDescription';
-import {
-  InputForm
-}                                                 from '@/app/elements/input/InputNew';
-import { usePathname }                            from 'next/navigation';
-import {
-  LinkTravel
-}                                                 from '@/app/elements/link/Links';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { defaultFormTravel, formTravel } from '@/app/utils/format/travel';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
+import { InputForm } from '@/app/elements/input/InputNew';
+import { usePathname } from 'next/navigation';
+import { LinkTravel } from '@/app/elements/link/Links';
 
 export default function Home() {
   const { register, handleSubmit, } = useForm<TTravel>( {/* defaultValues: defaultValues, */
@@ -25,7 +14,7 @@ export default function Home() {
 
   const [ selectedFile, setSelectedFile ] = useState<File | null>();
   const [ previewURL, setPreviewURL ] = useState<string | null>( null );
-  const [ message, setMessage ]     = useState<string>( '' );
+  const [ message, setMessage ]       = useState<string>( '' );
 
   const handleFileChange = ( event: ChangeEvent<HTMLInputElement> ) => {
     SendData(

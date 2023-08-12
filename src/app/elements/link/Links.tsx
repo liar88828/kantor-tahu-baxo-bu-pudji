@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link';
+import { Status } from '@/app/style/status';
 
 export function LinkProduct( { path }: { path: string } ) {
   // console.log(path)
@@ -42,4 +45,43 @@ export function LinkTravel( { path }: { path: string } ) {
     </div>
   )
 }
+
+export function LinkTable( { path, slug }: { path: string, slug: string } ) {
+
+  return (
+    <div className={ "flex flex-row gap-5 pl-5" }>
+
+      <Link href={ "Semua " }
+            className={ `btn  ${ slug === "Semua" ? "info btn-disabled "
+                                                  : `  text-white  ` } btn-secondary     ` }>
+        Semua
+      </Link>
+
+      <Link href={ "Di Terima " }
+            className={ `btn  ${ slug === "Di Terima" ? "info btn-disabled "
+                                                      : `   text-white  ${ Status( "Di Terima" ) } }` }   ` }>
+        Di Terima
+      </Link>
+      <Link href={ "Di Proses" }
+            className={ `btn ${ slug === "Di Proses" ? " btn-disabled text-black"
+                                                     : `  text-white   ${ Status( "Di Proses" ) } ` } ` }>
+        Di Proses
+      </Link>
+
+      <Link href={ "Di Kirim" }
+            className={ `btn ${ slug === "Di Kirim" ? " btn-disabled text-black"
+                                                    : `  text-white ` }   ${ Status( "Di Kirim" ) } ` }>
+        Di Kirim
+      </Link>
+
+      <Link href={ "Selesai" } replace={ false }
+            className={ `btn ${ slug === "Selesai" ? " btn-disabled text-black"
+                                                   : `  text-white  ` }  ${ Status( "Selesai" ) } ` }>
+        Selesai
+      </Link>
+
+    </div>
+  )
+}
+
 

@@ -1,4 +1,3 @@
-import { TTravel } from '@/entity/client/travel';
 
 const exampleTravel: TTravel = {
   id            : "1",

@@ -254,7 +254,6 @@ const dataku: TOrderServer =
           "pesan"     : "12:00:00",
           "penerima"  : "string",
           "pengirim"  : "string",
-          "ekspedisi" : "string",
           "hpPenerima": "string",
           "hpPengirim": "string",
           // "keterangan"       : "string",

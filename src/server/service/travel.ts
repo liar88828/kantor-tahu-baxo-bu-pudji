@@ -4,7 +4,7 @@ import { TYPE }                   from '@/server/models/dataAccess/Travel';
 
 const create   = ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
   if( !z.success ) {
-    throw new newError( "Error Invalid Value", "Invalid Value" )
+    throw new newError( "Invalid Value" )
   }
   else {
     return data
@@ -15,7 +15,7 @@ const findById = (
   id: string
 ) => {
   if( !z.success ) {
-    throw new newError( "Error Invalid Value", "Invalid Id" )
+    throw new newError( "Invalid Id" )
   }
   else {
     return id

@@ -165,4 +165,5 @@ Content-Type: application/json
   "waktuKirim": "03:00:00"
 }
 
-
+###
+GET http://localhost:3000/api/orderan/table/

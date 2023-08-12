@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { notify }         from '@/app/coba/notif';
+import { notify } from '@/app/coba/notif/notif';
 
 export default function Page() {
 

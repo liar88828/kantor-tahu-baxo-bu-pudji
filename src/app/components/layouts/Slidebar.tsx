@@ -3,14 +3,12 @@ import React from "react";
 // import YtIcon from './youtube.png'
 // import  from "randomcolor";
 import {
-  AiFillPieChart,
-  AiFillSetting,
-  AiOutlineArrowLeft,
+  AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineSearch,
   AiOutlineTable,
-  AiOutlineInbox,
-  AiOutlineSearch,
 } from "react-icons/ai";
-import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
+import {
+  MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports
+} from "react-icons/md";
 import Link from 'next/link';
 
 const menuList = [
@@ -18,26 +16,27 @@ const menuList = [
   { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "orderan" },
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "product" },
   { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "travel" },
+  { title: "Files", icon: AiOutlineTable, link: "table/Semua" },
   { title: "Search", icon: AiOutlineSearch, link: "form" },
-  { title: "Files", icon: AiOutlineTable, link: "table" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "form" },
   { title: "Setting", icon: AiFillSetting, link: "form" },
 ];
 
 export const Slidebar = () => {
   const [ open, setOpen ] = React.useState( false );
-  let color = "#74e39a";
-  let color2 = "#6ae78b";
-  let colorIcon = "white";
+  let color             = "#74e39a";
+  let color2            = "#6ae78b";
+  let colorIcon         = "white";
   let colorTextSlideBar = "black"
-  let titleSlideBar = "black"
-  let bgColorSlideBar = "#d6ffe0"
+  let titleSlideBar     = "black"
+  let bgColorSlideBar   = "#d6ffe0"
 
   return (
     <div className="flex ">
       {/* body slide bar*/ }
       <div
-        className={ ` ${ open ? "w-72 p-4 sm:p-1" : "w-12 sm:w-20" }   relative transition-all duration-150 ` }
+        className={ ` ${ open ? "w-72 p-4 sm:p-1"
+                              : "w-12 sm:w-20" }   relative transition-all duration-150 ` }
         style={ { background: bgColorSlideBar } }>
 
         <AiOutlineArrowLeft
@@ -78,20 +77,21 @@ export const Slidebar = () => {
                     WebkitTransition: "all .5s ease",
                     MozTransition: "all .5s ease",
                   } }
-                  className={ `flex gap-4 p-2 ${ item.gap ? 'mt-9' : 'mt-2' } ${ !open && 'justify-center' }
-                group hover:bg-blue-800 rounded-md transition-all duration-300 cursor:pointer ` }
+                  className={ `flex gap-4 p-2 ${ item.gap ? 'mt-9' : 'mt-2' } ${ !open &&
+                  'justify-center' }
+                group hover:bg-blue-800 rounded-md   cursor:pointer ` }
                   key={ index }
                 >
 
 
-                <span
-                  className={ `   hover:scale-100` }
-                  style={ { color: colorIcon } }>
+                <span className={ "text-white  hover:scale-100" }
+                >
                   <Icons size={ '26px' }/>
                 </span>
+
                   { open && <span
-					style={ { color: colorTextSlideBar } }
-					className="text-white hover:font-bold group-hover:text-red-100 ">
+                    style={ { color: colorTextSlideBar } }
+                    className="text-white hover:font-bold group-hover:text-red-100 ">
                   { item.title }
                 </span> }
                 </li>

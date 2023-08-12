@@ -81,7 +81,7 @@ export const validImage = async (
     //check file exist
     // console.log( checkFile( "public/" + img ) )
     if( checkFile( "public/" + img ) ) {
-      throw new newError( "File is Exist", "Invalid file" )
+      throw new newError( "File is Exist" )
     }
   }
 

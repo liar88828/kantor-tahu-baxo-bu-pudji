@@ -1,25 +1,12 @@
 'use client'
-import { useParams, usePathname }                 from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import React, { ChangeEvent, Suspense, useState } from 'react';
-import { SubmitHandler, useForm }                 from 'react-hook-form';
-import {
-  handleUpload, SendData, UploadDescription
-}                                                 from '@/app/elements/upload/UploadDescription';
-import {
-  LinkTravel
-}                                                 from '@/app/elements/link/Links';
-import {
-  InputForm
-}                                                 from '@/app/elements/input/InputNew';
-import {
-  urlApi
-}                                                 from '@/app/utils/ress/product';
-import {
-  TTravel
-}                                                 from '@/entity/client/travel';
-import {
-  formTravel
-}                                                 from '@/app/utils/format/travel';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
+import { LinkTravel } from '@/app/elements/link/Links';
+import { InputForm } from '@/app/elements/input/InputNew';
+import { formTravel } from '@/app/utils/format/travel';
+import { urlApi } from '@/app/utils/config/urlApi';
 
 export default function Page() {
   const { id }   = useParams()
@@ -35,8 +22,7 @@ export function FormEdit( { id, path }:
   const { register, handleSubmit, }       = useForm<TTravel>( {
     defaultValues: async () => {
 
-      const res                         = await fetch( urlApi +
-        "api/travel/" + id )
+      const res = await fetch( "/api/travel/" + id )
       const { data }: { data: TTravel } = await res.json()
       // console.log( data )
       setImage( data.img || "tidak ada" )

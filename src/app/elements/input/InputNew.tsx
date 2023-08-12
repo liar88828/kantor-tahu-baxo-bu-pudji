@@ -1,10 +1,8 @@
-import { UseFormRegisterReturn }          from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
-import {
-  defaultFormProduct, formProduct
-} from '@/app/utils/format/product';
-import React, { ReactElement }            from 'react';
-import { InputFormProps }                 from '@/entity/client/InputForm';
+import { defaultFormProduct, formProduct } from '@/app/utils/format/product';
+import React, { ReactElement } from 'react';
+import { InputFormProps } from '@/entity/client/InputForm';
 
 export function InputNew( props: { register: UseFormRegisterReturn<string> } ) {
   return <div className="flex flex-col">
@@ -20,10 +18,7 @@ export function InputNew( props: { register: UseFormRegisterReturn<string> } ) {
 }
 
 export function InputForm(
-  {
-
-    tag: Tag = "input", title, type, reg, value, min, defaultValue
-  }
+  { tag: Tag = "input", title, type, reg, value, min, defaultValue }
     : InputFormProps ): ReactElement {
 
   let ress = {

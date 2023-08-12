@@ -1,7 +1,6 @@
-import { z }              from 'zod';
+import { z } from 'zod';
 import { TYPE as Travel } from '@/server/models/dataAccess/Travel';
-import { Res, TProduct }  from '@/entity/client/produk';
-import { TOrderServer }   from '@/entity/server/orderan';
+import { TOrderServer } from '@/entity/server/orderan';
 
 export default class Validation {
 
@@ -22,11 +21,6 @@ export default class Validation {
     age : z.number(),
   } );
 
-  schema: z.ZodType<Res> = z.object( {
-    films : z.string(),
-    people: z.string(),
-  } );
-
   TravelSchema: z.ZodType<Travel> = z.object( {
     id            : z.string(),
     namaPengiriman: z.string().min( 1 ),
@@ -38,23 +32,24 @@ export default class Validation {
     keterangan    : z.string(),
   } )
 
-  ProdukSchema = z.object( {
-    id        : z.string(),
-    // idBarang  : z.string().optional(),
+  ProductOnly = z.object( {
+    id    : z.string().optional(),
     nama  : z.string(),
-    harga     : z.number().int().positive(),
     lokasi: z.string(),
-    jumlah    : z.number().int().positive(),
-    img   : z.string().optional(),
     keterangan: z.string(),
     jenis     : z.string(),
+    harga : z.number().int().positive(),
+    jumlah: z.number().int().positive(),
   } )
 
-  semuaProduk = this.ProdukSchema.merge(
+  ProdukSchema = this.ProductOnly.merge(
     z.object( {
+      img: z.string()
+    } ) )
 
+  semuaProduk = this.ProductOnly.merge(
+    z.object( {
       orderanId: z.string()
-
     } ) )
 
   OrderanSchema: z.ZodType<TOrderServer> = z.object( {
@@ -69,10 +64,8 @@ export default class Validation {
     guna          : z.string( { required_error: 'guna is required', } ),
     lokasi        : z.string( { required_error: 'lokasi is required', } ),
     namaPengiriman: z.string( { required_error: 'namaPengiriman is required', } ),
-    ekspedisi     : z.string( { required_error: 'ekspedisi is required', } ),
-    id            : z.string( { required_error: 'id is required', } )
-    ,
-    no            : z.string( { required_error: 'no is required', } ),
+    id: z.string( { required_error: 'ID is required', } ),
+    no: z.string( { required_error: 'No is required', } ),
     typePembayaran: z.string( { required_error: 'typePembayaran is required', } ),
     // keterangan    : z.string( { required_error: 'keterangan is required', }
     // ),
@@ -111,8 +104,7 @@ export default class Validation {
 
   Input<T>(
     data: T,
-    Schema: z.ZodType<T,
-      z.ZodTypeDef,
+    Schema: z.ZodType<T, z.ZodTypeDef,
       T>
   ) {
     return Schema.safeParse( data )

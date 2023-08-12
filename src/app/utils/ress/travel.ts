@@ -1,10 +1,9 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-
-export const urlApi = "http://localhost:3000/"
+import { urlApi } from '@/app/utils/config/urlApi';
 
 export async function getDataById( id: string ) {
 
-  const res = await fetch( urlApi + "api/travel/" + id,
+  const res = await fetch( "/api/travel/" + id,
   )
   if( !res.ok ) {
     throw new Error( 'Failed to fetch data' )
@@ -14,10 +13,10 @@ export async function getDataById( id: string ) {
 }
 
 export async function getData() {
-  const res = await fetch( urlApi + "api/travel/",
+  const res = await fetch( "/api/travel",
     {
       // cache: 'default',
-      // next : { revalidate: 2 }
+      next: { revalidate: 2 }
     }
   )
 

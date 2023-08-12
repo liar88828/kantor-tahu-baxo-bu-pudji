@@ -27,7 +27,7 @@ export default function RootLayout( {
       <Navbar/>
       <div className={ "flex " }>
         <Slidebar/>
-        <div className=" w-[89%] ">
+        <div className=" w-[89%]">
           { children }
         </div>
       </div>

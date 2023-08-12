@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { HorizontalCard } from '@/app/components/dashboard/card';
 import { Lines } from '@/lib/chart/line';
 import { Donat } from '@/lib/chart/donat';
@@ -13,15 +13,21 @@ const Dashboard = () => {
           <HorizontalCard/>
         </div>
         <div className="   border border-black bg-white rounded-3xl">
-          <Lines/>
+          <Suspense fallback={ <div>Loading...</div> }>
+            <Lines/>
+          </Suspense>
         </div>
 
         <div className="flex flex-row gap-5">
           <div className="w-[50%]  border border-black bg-white rounded-3xl p-2">
-            <Donat/>
+            <Suspense fallback={ <div>Loading...</div> }>
+              <Donat/>
+            </Suspense>
           </div>
           <div className="w-[50%]  border border-black bg-white rounded-3xl  p-2">
-            <Donat/>
+            <Suspense fallback={ <div>Loading...</div> }>
+              <Donat/>
+            </Suspense>
           </div>
         </div>
       </div>

@@ -1,7 +1,10 @@
-export const SDiTerima = " bg-red-100 text-black "
-export const SProcess = " bg-yellow-100 text-gray-700  "
-export const SKirim = " bg-blue-100 text-black  "
-export const SSelesai = " bg-green-100 text-gray-500    "
+const SDiTerima = " btn-error shadow-md shadow-slate-400 "
+const SProcess  = " btn-warning shadow-md shadow-slate-400 "
+const SKirim    = " btn-info shadow-md shadow-slate-400 "
+const SSelesai  = " btn-success shadow-md shadow-slate-400 "
+
+
+
 
 export const Status = ( s: string ): string => {
   return ( s === "Di Terima" )

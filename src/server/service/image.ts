@@ -58,7 +58,7 @@ export async function saveFile(
       }
       else {
         console.log( "format data is false" )
-        throw new newError( "format data is false", "format data is false" )
+        throw new newError( "format data is false" )
       }
     }
   }
