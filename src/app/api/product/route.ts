@@ -26,7 +26,7 @@ export async function GET( _: NextRequest ) {
 export async function POST( request: NextRequest, ) {
   try {
 
-    const json = await saveFile( request, "img/produk/", "create" )
+    const json = await saveFile( request, "/img/produk/", "create" )
     const formatJson  = formatData( json, "produk" )
     const dataControl = await Control.create( formatJson )
     return NextResponse.json( {
