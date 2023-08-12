@@ -1,4 +1,5 @@
 import type { TOnlyKey } from '@/entity/client/orderan';
+import { TOrder } from '@/entity/client/orderan';
 
 export const formInput: TOnlyKey = {
 //keterangan orang
@@ -41,15 +42,18 @@ export const formInput: TOnlyKey = {
   lokasi: "Lokasi",
 //travel
   namaPengiriman: "Nama Travel",
-  ekspedisi     : "Ekspedisi",
   ongkir        : "Ongkir",
 //total
   id            : "1231231",
   no            : "No",
   typePembayaran: "Pembayaran",
-  total         : "Total",
+  // total         : "Total",
   totalBayar    : "Total Bayar",
   totalPenjualan: "Total Penjualan",
   status        : "Status"
 
+}
+const exampleKeyOnly: Partial<TOrder> = {
+  lokasi: "asdas",
+  ongkir: 1231
 }

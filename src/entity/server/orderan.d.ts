@@ -20,9 +20,7 @@ export type TOrderServer = {
 
 //Travel
   namaPengiriman: string
-  ekspedisi: string
   ongkir: number
-
 //id
   id?: string
   no: string

@@ -1,4 +1,4 @@
-import { TOrder, TotalOrderan } from '@/entity/client/orderan';
+import type { TOrder, TotalOrderan } from '@/entity/client/orderan';
 import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
 
 export const orderan = ( dataBaru: TotalOrderan ): string =>
@@ -29,21 +29,16 @@ export const defaultValues: TOrder = {
   pesan: getDateNow(),
   kirim: getDateNow(),
   waktuKirim: getLocaleTime(),
-
   // product
   listOrderan: [],
   listItem   : [],
   semuaProduct: [],
-
   //keterangan
-  guna     : "",
+  guna  : "",
   lokasi: "",
-
   //travel
   namaPengiriman: "Kantor Tahu Baxo ",
-  ekspedisi: '',
-  ongkir   : 0,
-
+  ongkir: 0,
   //transaksi
   id: "",
   no: "",

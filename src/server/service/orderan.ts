@@ -7,7 +7,7 @@ const create   = ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
   if( !z.success ) {
     console.log( z.error.message )
 
-    throw new newError( "", `Invalid Value` )
+    throw new newError( `Invalid Value` )
   }
   else {
     return data
@@ -18,7 +18,7 @@ const findById = (
   id: string
 ) => {
   if( !z.success ) {
-    throw new newError( "", "Invalid Id" )
+    throw new newError( "Invalid Id" )
   }
   else {
     return id

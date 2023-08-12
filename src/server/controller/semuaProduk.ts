@@ -19,15 +19,15 @@ const findById = async ( id: string ) => {
 }
 
 const create = async ( body: TYPE, id: string ) => {
-  id         = await serviceSP.findById( valid.ZFindById( id ), id )
+  id = serviceSP.findById( valid.ZFindById( id ), id )
   body       = serviceSP.create( valid.Input( body, valid.semuaProduk ), body )
   const repo = await Repo.createOne( body, id )
   return repo
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id         = await serviceSP.findById( valid.ZFindById( id ), id )
-  body       = await serviceSP.create( valid.Input( body, valid.semuaProduk ), body )
+  id   = serviceSP.findById( valid.ZFindById( id ), id )
+  body = serviceSP.create( valid.Input( body, valid.semuaProduk ), body )
   const repo = await Repo.updateOne( body, id )
   // console.log( repo )
   return repo

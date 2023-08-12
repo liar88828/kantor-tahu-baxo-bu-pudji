@@ -22,7 +22,7 @@ export const formInput: TOrderServer = {
       jenis     : "Item",
       jumlah    : 10,
       keterangan: "Enak",
-      img       : "bagus"
+      // img       : "bagus"
     },
   ],
 //keterangan
@@ -36,8 +36,8 @@ export const formInput: TOrderServer = {
   id            : "1231231",
   no            : "No",
   typePembayaran: "Pembayaran",
-  total         : 123,
-  keterangan    : "asdasd",
+  // total         : 123,
+  // keterangan    : "asdasd",
 
   totalBayar    : 123,
   totalPenjualan: 232,
@@ -53,12 +53,10 @@ export const formInput: TOrderServer = {
 const exampleData: TOrderServer      =
         {
           "alamatPenerima"   : "Alamat Penerima",
-          "ekspedisi"        : "Ekspedisi",
           "guna"             : "Keterangan",
           "hpPenerima"       : "Hp Penerima",
           "hpPengirim"       : "Hp Pengirim",
           "id"               : "qwe",
-          "keterangan"       : "sangat jelas",
           "kirim"            : "1999-07-01T00:00:00.000Z",
           "lokasi"           : "Lokasi",
           "namaPengiriman"   : "Nama Travel",
@@ -74,7 +72,6 @@ const exampleData: TOrderServer      =
             {
               "harga"     : 42000,
               "id"        : "produk lagi1 123",
-              "img"       : "bagsus",
               "jumlah"    : 10,
               "jenis"     : "Itesm",
               "keterangan": "Esnak",
@@ -85,7 +82,6 @@ const exampleData: TOrderServer      =
             {
               "harga"     : 42000,
               "id"        : "produk lagi 123",
-              "img"       : "bagsus",
               "jumlah"    : 10,
               "jenis"     : "Itesm",
               "keterangan": "Esnak",
@@ -95,7 +91,6 @@ const exampleData: TOrderServer      =
             }
           ],
           "status"           : "Status",
-          "total"            : 123,
           "totalBayar"       : 123,
           "totalHarga"       : 1231,
           "totalPenjualan"   : 232,

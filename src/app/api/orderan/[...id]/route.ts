@@ -1,18 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { NextApiRequest }            from 'next';
-import Control                       from '@/server/controller/orderan';
+import { NextApiRequest } from 'next';
+import Control from '@/server/controller/orderan';
 
 export async function GET(
   _: NextRequest,
-  route: { params: { id: string } }
+  route: { params: { id: string[] } }
 ) {
+  // console.log( route )
+  const id: string[] = route.params.id
   try {
-    const id: string  = route.params.id
-    const dataControl = await Control.findById( id )
-    return NextResponse.json( {
-      msg : `Success GET ${ id }`,
-      data: dataControl
-    } )
+    if( id[ 0 ] !== "table" ) {
+      return NextResponse.json( {
+        msg : `Success GET ${ id }`,
+        data: await Control.findById( id[ 0 ] )
+      } )
+    }
+    else {
+      return NextResponse.json( {
+        msg : `Success GET ${ id }`,
+        data: await Control.findByStatus( id[ 1 ] )
+      } )
+    }
   }
   catch ( e ) {
     return NextResponse.json( { msg: "Error GET", error: e } )

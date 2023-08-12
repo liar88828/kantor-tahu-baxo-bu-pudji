@@ -5,7 +5,7 @@ import { SafeParseReturnType, z } from "zod";
 export default class Service {
   create( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) {
     if( !z.success ) {
-      throw new newError( "Error Invalid Value", "Invalid Value" )
+      throw new newError( "Error Invalid Value", )
     }
     else {
       return data
@@ -14,7 +14,7 @@ export default class Service {
 
   findById( z: SafeParseReturnType<string, string>, id: string ) {
     if( !z.success ) {
-      throw new newError( "Error Invalid Value", "Invalid Id" )
+      throw new newError( "Error Invalid Value", )
     }
     else {
       return id

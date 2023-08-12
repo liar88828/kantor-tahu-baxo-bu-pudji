@@ -1,5 +1,5 @@
 export type TPOrderan = {
-  id: string
+  id?: string
   nama: string,
   harga: number,
   lokasi: string,

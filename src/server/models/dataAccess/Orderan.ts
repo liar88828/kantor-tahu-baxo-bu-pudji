@@ -1,7 +1,7 @@
 import { prisma }       from '@/server/models/prisma/config';
 import { Prisma }       from '../../../../prisma/data';
 import { TOrderServer } from '@/entity/server/orderan';
-import { TProduct }     from '@/entity/client/produk';
+import { TPOrderan } from '@/entity/server/produkOrderan';
 
 export type TYPE = Prisma.OrderanCreateInput
 export default class AccessOrderan {
@@ -58,7 +58,7 @@ export default class AccessOrderan {
         hpPengirim    : data.hpPenerima,
 //tanggal pesan
         id        : data.id,
-        keterangan: data.keterangan,
+        // keterangan: data.keterangan,
         kirim     : data.kirim,
 
 //orderan
@@ -79,7 +79,7 @@ export default class AccessOrderan {
         semuaHargaProduct: data.semuaHargaProduct,
         semuaProduct     : {
           createMany: {
-            data: data.semuaProduct.map( ( d: TProduct ) => {
+            data: data.semuaProduct.map( ( d: TPOrderan ) => {
 
               // if( !d.img ) {
               //   d.img = "no image"
@@ -99,7 +99,7 @@ export default class AccessOrderan {
 
               return (
                 {
-                  img       : d.img || "no image",
+                  // img       : d.img || "no image",
                   id        : d.id,
                   harga     : d.harga,
                   jenis     : d.jenis,
@@ -113,7 +113,7 @@ export default class AccessOrderan {
           }
         },
         status           : data.status,
-        total            : data.total,
+        // total            : data.total,
         totalBayar       : data.totalBayar,
         totalHarga       : data.totalHarga,
         //total semua,
@@ -135,13 +135,12 @@ export default class AccessOrderan {
       data: {
         //orang
         alamatPenerima: data.alamatPenerima,
-        ekspedisi     : data.ekspedisi,
         guna          : data.guna,
         hpPenerima    : data.hpPenerima,
         hpPengirim    : data.hpPenerima,
 //tanggal pesan
         id        : data.id,
-        keterangan: data.keterangan,
+        // keterangan: data.keterangan,
         kirim     : data.kirim,
 //orderan
         lokasi: data.lokasi,
@@ -160,7 +159,7 @@ export default class AccessOrderan {
         semuaHargaProduct: data.semuaHargaProduct,
 
         status    : data.status,
-        total     : data.total,
+        // total     : data.total,
         totalBayar: data.totalBayar,
         totalHarga: data.totalHarga,
         //total semua,
@@ -176,13 +175,14 @@ export default class AccessOrderan {
         {
           harga     : d.harga,
           id        : d.id,
-          img       : d.img || "no image",
+
+          // img       : d.img || "no image",
           jenis     : d.jenis,
           jumlah    : d.jumlah,
           keterangan: d.keterangan,
           lokasi    : d.lokasi,
           nama      : d.nama,
-          orderanId : data.id
+          orderanId: data.id || ""
         }
       ) )
     } )
@@ -207,7 +207,7 @@ export default class AccessOrderan {
         kirim     : data.kirim,
 //keterangan
         guna      : data.guna,
-        keterangan: data.keterangan,
+        // keterangan: data.keterangan,
         lokasi    : data.lokasi,
 //travel
         namaPengiriman: data.namaPengiriman,
@@ -217,7 +217,7 @@ export default class AccessOrderan {
         id            : data.id,
         no            : data.no,
         typePembayaran: data.typePembayaran,
-        total         : data.total,
+        // total         : data.total,
         totalBayar    : data.totalBayar,
         totalPenjualan: data.totalPenjualan,
         status        : data.status,
@@ -244,7 +244,7 @@ export default class AccessOrderan {
         hpPengirim    : data.hpPenerima,
 //tanggal pesan
         id        : data.id,
-        keterangan: data.keterangan,
+        // keterangan: data.keterangan,
         kirim     : data.kirim,
 //orderan
         lokasi: data.lokasi,
@@ -263,7 +263,7 @@ export default class AccessOrderan {
         semuaHargaProduct: data.semuaHargaProduct,
 
         status    : data.status,
-        total     : data.total,
+        // total     : data.total,
         totalBayar: data.totalBayar,
         totalHarga: data.totalHarga,
         //total semua,
@@ -279,7 +279,7 @@ export default class AccessOrderan {
         {
           harga     : d.harga,
           id        : d.id,
-          img       : d.img || "no image",
+          // img       : d.img || "no image",
           jenis     : d.jenis,
           jumlah    : d.jumlah,
           keterangan: d.keterangan,
@@ -332,7 +332,7 @@ export default class AccessOrderan {
       kirim     : data.kirim,
 //keterangan
       guna      : data.guna,
-      keterangan: data.keterangan,
+      // keterangan: data.keterangan,
       lokasi    : data.lokasi,
 //travel
       namaPengiriman: data.namaPengiriman,
@@ -342,7 +342,7 @@ export default class AccessOrderan {
       id            : data.id,
       no            : data.no,
       typePembayaran: data.typePembayaran,
-      total         : data.total,
+      // total         : data.total,
       totalBayar    : data.totalBayar,
       totalPenjualan: data.totalPenjualan,
       status        : data.status,

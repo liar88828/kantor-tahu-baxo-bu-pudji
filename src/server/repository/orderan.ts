@@ -1,7 +1,8 @@
-import { prisma, }      from '@/server/models/prisma/config';
+import { prisma, } from '@/server/models/prisma/config';
 // import { TYPE }         from '@/server/models/dataAccess/Orderan';
 import { TOrderServer } from '@/entity/server/orderan';
-import { Prisma }       from '../../../prisma/data';
+import { Prisma } from '../../../prisma/data';
+import { TOptional } from '@/entity/server/types';
 
 export default class RepoOrderan {
 // getAll data from database
@@ -71,6 +72,22 @@ export default class RepoOrderan {
     } )
   }
 
+  async findByStatus( status: TOrderServer["status"] ) {
+    let option = {
+      include: { semuaProduct: true }
+    }
+    if( status !== "Semua" ) {
+      option = Object.assign( option, { where: { status } } )
+    }
+    return prisma.orderan.findMany(
+      //   {
+      //   // where  : { status: status !== "Semua" ? status : "" },
+      //   // include: { semuaProduct: true }
+      // }
+      option
+    )
+  }
+
 //get per page data from database
   async paginate( data: {
     row: number,
@@ -86,7 +103,6 @@ export default class RepoOrderan {
         data: {
           //orang
           alamatPenerima: data.alamatPenerima,
-          ekspedisi     : data.ekspedisi,
           guna          : data.guna,
           hpPenerima    : data.hpPenerima,
           hpPengirim    : data.hpPenerima,
@@ -121,18 +137,20 @@ export default class RepoOrderan {
     // if( data.semuaProduct ) {
 
     const createMany  = prisma.semuaProduct.createMany( {
-      data: data.semuaProduct.map( d => ( {
-        harga: d.harga,
-        id   : d.id + Date.now(),
-        // img       : d.img || "no image",
-        jenis     : d.jenis,
-        keterangan: d.keterangan,
-        lokasi    : d.lokasi,
-        jumlah    : d.jumlah,
-        nama      : d.nama,
-        orderanId : d.orderanId || data.id || "null"
+      data: data.semuaProduct.map( d => {
+        return ( {
+          harga: d.harga,
+          id   : d.id,
+          // img       : d.img || "no image",
+          jenis     : d.jenis,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi,
+          jumlah    : d.jumlah,
+          nama      : d.nama,
+          orderanId : d.orderanId || data.id || "null"
 
-      } ) )
+        } )
+      } )
     } )
     // }
     const transaction = await prisma.$transaction( [ createOne ] )
@@ -142,44 +160,28 @@ export default class RepoOrderan {
 
 //create data from database
   async createNesting( data: TOrderServer ) {
-    // console.log( new Date( data.pesan ), )
-    // console.log( data.pesan )
-    // console.log( data.waktuKirim )
+    // console.log(data)
     const time = ( data.waktuKirim.toString().length === 5 )
                  ? data.waktuKirim + ":00"
                  : data.waktuKirim
-    // console.log( data.waktuKirim.toString().length )
-
     const timeHour = new Date( data.pesan + "T" + time + ".000Z" )
-    // console.log( timeHour )
-    // console.log( new Date( "2000-00-00T" + data.waktuKirim + ".000Z" ), )
     return prisma.orderan.create( {
       data: {
         //orang
-        alamatPenerima: data.alamatPenerima,
-        ekspedisi     : data.ekspedisi,
-        guna          : data.guna,
-        hpPenerima    : data.hpPenerima,
-        hpPengirim    : data.hpPenerima,
-//tanggal pesan
-        id: data.id,
-        // keterangan: data.keterangan,
-
-//orderan
-        lokasi: data.lokasi,
-
-//keterangan
-        namaPengiriman: data.namaPengiriman,
-        no            : data.no,
-        ongkir        : data.ongkir,
-//travel
+        alamatPenerima   : data.alamatPenerima,
+        guna             : data.guna,
+        hpPenerima       : data.hpPenerima,
+        hpPengirim       : data.hpPenerima,
+        id               : data.id,
+        lokasi           : data.lokasi,
+        namaPengiriman   : data.namaPengiriman,
+        no               : data.no,
+        ongkir           : data.ongkir,
         penerima         : data.penerima,
         pengirim         : data.pengirim,
         pesan            : new Date( data.pesan ),
         kirim            : new Date( data.kirim ),
         waktuKirim       : timeHour,
-//total
-        //total semua,
         semuaHargaItem   : data.semuaHargaItem,
         semuaHargaOrderan: data.semuaHargaOrderan,
         semuaHargaProduct: data.semuaHargaProduct,
@@ -187,7 +189,7 @@ export default class RepoOrderan {
           createMany: {
             data: data.semuaProduct.map( d => ( {
               // img       : d.img || "no image",
-              id    : d.id + Date.now(),
+              id    : d.id ? d.id + Date.now() : "",
                 harga     : d.harga,
                 jenis     : d.jenis,
                 keterangan: d.keterangan,
@@ -306,6 +308,11 @@ export default class RepoOrderan {
     } )
     return prisma.$transaction( [ deleteMany, delete1 ] )
 
+  }
+
+  async updateOneOnly( id: string, data: Partial<TOptional> ) {
+    return prisma.orderan.update( { where: { id: id }, data },
+    )
   }
 
   async UpdateOneEx( id: string, data: TOrderServer ) {

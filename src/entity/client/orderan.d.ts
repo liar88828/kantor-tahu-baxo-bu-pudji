@@ -1,14 +1,11 @@
-import React        from 'react';
-import { TProduct } from '@/entity/client/produk';
-
-export type Props =
+type Props =
   { tag?: keyof JSX.IntrinsicElements; }
   & React.HTMLAttributes<HTMLOrSVGElement>;
 
 export type TOrder = {
-  listOrderan: TProduct[ ]
-  listItem: TProduct[ ]
-  semuaProduct: TProduct[ ]
+  listOrderan: Omit<TProduct, "img">[ ]
+  listItem: Omit<TProduct, "img">[ ]
+  semuaProduct: TProduct[]
 //waktu
   pesan: Date | string
   kirim: Date | string
@@ -26,7 +23,6 @@ export type TOrder = {
 
   //Travel
   namaPengiriman: string
-  ekspedisi: string
   ongkir: number
 
   //id
