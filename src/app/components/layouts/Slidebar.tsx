@@ -3,12 +3,9 @@ import React from "react";
 // import YtIcon from './youtube.png'
 // import  from "randomcolor";
 import {
-  AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineSearch,
-  AiOutlineTable,
+  AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineSearch, AiOutlineTable,
 } from "react-icons/ai";
-import {
-  MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports
-} from "react-icons/md";
+import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
 import Link from 'next/link';
 
 const menuList = [
@@ -24,8 +21,8 @@ const menuList = [
 
 export const Slidebar = () => {
   const [ open, setOpen ] = React.useState( false );
-  let color             = "#74e39a";
-  let color2            = "#6ae78b";
+  let color             = "#3de237";
+  let color2            = "#3dc81e";
   let colorIcon         = "white";
   let colorTextSlideBar = "black"
   let titleSlideBar     = "black"
@@ -39,11 +36,13 @@ export const Slidebar = () => {
                               : "w-12 sm:w-20" }   relative transition-all duration-150 ` }
         style={ { background: bgColorSlideBar } }>
 
+        {/*----------------button arrow---------------*/ }
         <AiOutlineArrowLeft
           className={ `z-[6] mt-3 bg-white w-9 h-9 -right-3  p-1 absolute  rounded-xl  border-black border-2 transition-all duration-500 ` }
           onClick={ () => setOpen( !open ) }
           style={ { cursor: "pointer", transform: open ? "rotate(180deg)" : "" } }
         />
+        {/*----------------button arrow---------------*/ }
 
 
         <div className="flex gap-4 justify-center">
@@ -69,29 +68,26 @@ export const Slidebar = () => {
           { menuList.map( ( item, index ) => {
             const Icons = item.icon
             return (
-              <Link href={ "/" + item.link } key={ item.title }>
+              <Link href={ "/" + item.link } key={ item.title } className={ "" }>
                 <li
                   style={ {
-                    background: `linear-gradient(to bottom, ${ color } 0%,${ color2 } 100%)`,
-                    transition: "all .5s ease",
+                    transition   : "all .5s ease",
+                    borderRadius : ".5rem",
                     WebkitTransition: "all .5s ease",
                     MozTransition: "all .5s ease",
                   } }
-                  className={ `flex gap-4 p-2 ${ item.gap ? 'mt-9' : 'mt-2' } ${ !open &&
-                  'justify-center' }
-                group hover:bg-blue-800 rounded-md   cursor:pointer ` }
-                  key={ index }
-                >
-
-
-                <span className={ "text-white  hover:scale-100" }
-                >
-                  <Icons size={ '26px' }/>
-                </span>
+                  className={ `flex gap-4 p-2  hover:bg-gradient-to-t hover:from-green-200 hover:via-green-400 hover:to-green-500
+                   bg-gradient-to-b from-green-400 to-green-500
+                   ${ item.gap ? 'mt-9' : 'mt-2' } 
+                  ${ !open && 'justify-center' } `
+                  }
+                  key={ index }>
+                <span className={ "text-white  hover:scale-100  " }>
+                  <Icons size={ '26px' }/></span>
 
                   { open && <span
                     style={ { color: colorTextSlideBar } }
-                    className="text-white hover:font-bold group-hover:text-red-100 ">
+                    className="text-white hover:font-bold  ">
                   { item.title }
                 </span> }
                 </li>
