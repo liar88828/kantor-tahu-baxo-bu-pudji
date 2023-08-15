@@ -5,15 +5,14 @@ import {
   Card, CardBody, CardHeader, Dialog, DialogBody, DialogFooter, DialogHeader, Typography
 } from '@material-tailwind/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { ToastContainer } from 'react-toastify';
-import { notify } from '@/app/utils/notif/toash';
+import { notifyData } from '@/app/utils/notif/toash';
 
 export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
   clickPopUp: boolean,
   setClickPopUp: React.Dispatch<React.SetStateAction<boolean>>,
   onCreate: ( data: TotalOrderan ) => Promise<{ msg: string, data: any }>
   data: TotalOrderan
-
+  // notify:number
 } ) {
 
   return (
@@ -21,7 +20,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
       <button onClick={ () => {setClickPopUp( !clickPopUp )} }
               data-modal-target="defaultModal"
               data-modal-toggle="defaultModal"
-              className="btn btn-info  text-white"
+              className="btn btn-info text-white"
               type="button">
         Check
       </button>
@@ -64,10 +63,8 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
                     <Typography color="black">Keterangan Lokasi : { data.lokasi }</Typography>
                   </Card>
 
-                  <Card
-                    variant="gradient"
-                    color="blue"
-                    className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-5">
+                  <Card variant="gradient" color="blue"
+                        className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-5">
                     <Typography color="black">Lokasi : { data.lokasi }</Typography>
                     <Typography color="black">Travel Pengirim : { data.pengirim }</Typography>
                     <Typography color="black">Ekspedisi : { data.namaPengiriman }</Typography>
@@ -122,12 +119,13 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
                     data.hpPengirim = data.hpPengirim.toString()
                     data.hpPenerima = data.hpPenerima.toString()
                     const getData   = await onCreate( data )
-                    const option    = getData.msg
-                                             .toLowerCase()
-                                             .includes( "success" )
-                                      ? "success"
-                                      : "error"
-                    notify( getData.msg, option )
+                    console.log( getData.msg )
+                    const option = getData.msg
+                                          .toLowerCase()
+                                          .includes( "success" )
+                                   ? "success"
+                                   : "error"
+                    notifyData( getData.msg )
                   } }
                   data-modal-hide="defaultModal" type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -146,7 +144,6 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
           </div>
         </Dialog>
       </div>
-      <ToastContainer/>
     </Fragment>
   )
     ;

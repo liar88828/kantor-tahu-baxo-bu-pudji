@@ -1,13 +1,11 @@
-import { newError }               from '@/server/exeption/errorHandler';
+import { newError } from '@/server/exeption/errorHandler';
 import { SafeParseReturnType, z } from "zod";
-import { TOrderServer as TYPE }   from '@/entity/server/orderan';
+import { TOrderServer as TYPE } from '@/entity/server/orderan';
 
-const create   = ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
-
+const create = async ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
   if( !z.success ) {
-    console.log( z.error.message )
-
-    throw new newError( `Invalid Value` )
+    // console.log(z.error.message)
+    return z.error.message
   }
   else {
     return data

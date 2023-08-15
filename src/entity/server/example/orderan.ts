@@ -30,7 +30,6 @@ export const formInput: TOrderServer = {
   lokasi: "Lokasi",
 //travel
   namaPengiriman: "Nama Travel",
-  ekspedisi     : "Ekspedisi",
   ongkir        : 23,
 //total
   id            : "1231231",

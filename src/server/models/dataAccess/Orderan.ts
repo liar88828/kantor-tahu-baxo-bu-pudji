@@ -52,7 +52,7 @@ export default class AccessOrderan {
       data: {
         //orang
         alamatPenerima: data.alamatPenerima,
-        ekspedisi     : data.ekspedisi,
+
         guna          : data.guna,
         hpPenerima    : data.hpPenerima,
         hpPengirim    : data.hpPenerima,
@@ -211,7 +211,7 @@ export default class AccessOrderan {
         lokasi    : data.lokasi,
 //travel
         namaPengiriman: data.namaPengiriman,
-        ekspedisi     : data.ekspedisi,
+        // ekspedisi     : data.ekspedisi,
         ongkir        : data.ongkir,
 //total
         id            : data.id,
@@ -238,7 +238,7 @@ export default class AccessOrderan {
       data : {
         //orang
         alamatPenerima: data.alamatPenerima,
-        ekspedisi     : data.ekspedisi,
+        // ekspedisi     : data.ekspedisi,
         guna          : data.guna,
         hpPenerima    : data.hpPenerima,
         hpPengirim    : data.hpPenerima,
@@ -336,7 +336,7 @@ export default class AccessOrderan {
       lokasi    : data.lokasi,
 //travel
       namaPengiriman: data.namaPengiriman,
-      ekspedisi     : data.ekspedisi,
+
       ongkir        : data.ongkir,
 //total
       id            : data.id,

@@ -1,10 +1,11 @@
+"use client"
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
 import React, { useState } from 'react';
 import { defaultValues, orderan } from '@/app/utils/format/orderan';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/elements/input/InputNew';
-import { defaultDate, getTime } from '@/lib/utils/formatDate';
+import { defaultDate, getLocaleTime, getTime } from '@/lib/utils/formatDate';
 import { sProduct } from '@/entity/client/example/produk';
 import { Status } from '@/app/style/status';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
@@ -13,13 +14,27 @@ import { BiAddToQueue } from 'react-icons/bi';
 import { OrderanTable } from '@/app/components/table/Orderan';
 import { onCreate } from '@/app/utils/ress/orderan';
 import { PopUp } from '@/app/components/popup/orderan';
+import { notifyData } from '@/app/utils/notif/toash';
 
 export function FormOrder() {
-  const { control, register, handleSubmit, formState: {}, } = useForm<TOrder>( {/* defaultValues: defaultValues, */
-    mode: "onChange",
-  } );
+  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
+    {
+      // defaultValues: defaultValues,
+      mode: "onChange",
+    } );
 
-  const { fields, append, remove }    = useFieldArray( {
+  const [ isError, setIsError ] = useState( true )
+  console.log( errors )
+
+  const requiress = Object.keys( errors )
+  if( requiress.length !== 0 && isError ) {
+    requiress.map( ( d, index ) => {
+        notifyData( `fail, require ${ requiress[ index ] }` )
+      }
+    )
+  }
+
+  const { fields, append, remove, } = useFieldArray( {
     control,
     name : "semuaProduct",
     rules: { required: "Please append at last 1 ", }
@@ -97,17 +112,15 @@ export function FormOrder() {
         <div className={ "flex-col flex gap-3 " + styles }>
           <h2 className={ styleLabelForm }>Nama</h2>
           <hr/>
-          <InputForm title={ "Pengirim" } type="text"
-                     reg={ register( "pengirim" ) }
+          <InputForm title={ "Pengirim" } type="text" reg={ register( "pengirim", { required: true } ) }
                      defaultValue={ "Kantor Tahu Baxo" }/>
           <InputForm title={ "Hp Pengirim" } type={ "number" }
-                     reg={ register( "hpPengirim", { valueAsNumber: true } ) }/>
-          <InputForm title={ "Penerima" } type={ "text" }
-                     reg={ register( "penerima" ) }/>
+                     reg={ register( "hpPengirim", { required: true, valueAsNumber: true } ) }/>
+          <InputForm title={ "Penerima" } type={ "text" } reg={ register( "penerima", { required: true } ) }/>
           <InputForm title={ "Alamat Penerima" } type={ "text" }
-                     reg={ register( "alamatPenerima" ) }/>
+                     reg={ register( "alamatPenerima", { required: true } ) }/>
           <InputForm title={ "Hp Penerima" } type={ "number" }
-                     reg={ register( "hpPenerima", { valueAsNumber: true } ) }/>
+                     reg={ register( "hpPenerima", { required: true, valueAsNumber: true } ) }/>
         </div>
       </>
     );
@@ -119,18 +132,14 @@ export function FormOrder() {
         <div className={ " flex-col flex gap-3 " + styles }>
           <h2>Tanggal</h2>
           <hr/>
-          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" }
-                     reg={ register( "pesan" ) }
-                     min="2023-01-01"
-                     defaultValue={ defaultDate() }/>
-          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" }
-                     reg={ register( "kirim" ) }
+          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ register( "pesan", { required: true, } ) }
+                     min="2023-01-01" defaultValue={ defaultDate() }/>
+          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ register( "kirim", { required: true, } ) }
                      defaultValue={ defaultDate() }/>
           <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" }
-                     reg={ register( "waktuKirim" ) }
-                     defaultValue={ getTime() }/>
+                     reg={ register( "waktuKirim", { required: true, } ) } defaultValue={ getTime() }/>
           <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" }
-                     reg={ register( "guna" ) }/>
+                     reg={ register( "guna", { required: true, } ) }/>
         </div>
       </> )
   }
@@ -212,7 +221,7 @@ export function FormOrder() {
 
           {/* tulis sendiri */ }
           <InputForm tag={ 'input' } title={ "Harga Ongkir" } type={ "number" }
-                     reg={ register( "ongkir", { valueAsNumber: true } ) }/>
+                     reg={ register( "ongkir", { required: true, valueAsNumber: true } ) }/>
           <label htmlFor="" className={ styleLabelForm }>Lokasi</label>
           <select id="lokasi"
                   className='bg-gray-50 border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
@@ -243,8 +252,7 @@ export function FormOrder() {
       )
     }
 
-    return (
-      <>
+    return ( <>
         <div className="flex flex-col gap-3">{/*<h1Product Search</h1>*/ }
           <div className=" flex flex-row  gap-1 sm:gap-7 w-[100%] ">
 
@@ -345,8 +353,7 @@ export function FormOrder() {
 
           <div className="flex flex-col gap-1"
                onClick={ () => setCariProduct( true ) }>
-            <ul
-              className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
+            <ul className={ " border-gray-300 border overflow-y-auto relative h-[15rem] bg-gray-50 p-2 rounded" }>
 
               {/*--------------------------------------------------------loop-------------------------*/ }
               { fields.map( ( item: TProduct, index: number ) => {
@@ -356,16 +363,21 @@ export function FormOrder() {
 
                   <img className={ " rounded bg-blue-300 w-20 h-auto" }
                        src={ item.img } alt={ item.nama }/>
-                  <input type={ 'hidden' } value={ item.id }{ ...register( `semuaProduct.${ index }.id` ) }/>
-                  <input type={ 'hidden' } value={ item.nama }{ ...register( `semuaProduct.${ index }.nama` ) }/>
                   <input type={ 'hidden' }
-                         value={ item.keterangan }{ ...register( `semuaProduct.${ index }.keterangan` ) }/>
-                  <input type={ 'hidden' } value={ item.jenis }{ ...register( `semuaProduct.${ index }.lokasi` ) }/>
-                  <input type={ 'hidden' } value={ item.jenis }{ ...register( `semuaProduct.${ index }.jenis` ) }/>
-                  <input type={ 'hidden' } value={ item.harga }{ ...register( `semuaProduct.${ index }.harga` ) }/>
+                         value={ item.id }{ ...register( `semuaProduct.${ index }.id`, { required: true } ) }/>
+                  <input type={ 'hidden' }
+                         value={ item.nama }{ ...register( `semuaProduct.${ index }.nama`, { required: true } ) }/>
+                  <input type={ 'hidden' }
+                         value={ item.keterangan }{ ...register( `semuaProduct.${ index }.keterangan`, { required: true } ) }/>
+                  <input type={ 'hidden' }
+                         value={ item.jenis }{ ...register( `semuaProduct.${ index }.lokasi`, { required: true } ) }/>
+                  <input type={ 'hidden' }
+                         value={ item.jenis }{ ...register( `semuaProduct.${ index }.jenis`, { required: true } ) }/>
+                  <input type={ 'hidden' }
+                         value={ item.harga }{ ...register( `semuaProduct.${ index }.harga`, { required: true } ) }/>
 
                   <div className=" flex flex-col">
-                    <p className={ " " }>{ item.nama }</p>
+                    <p>{ item.nama }</p>
                     <table className={ "border-transparent" }>
                       <tbody className={ "border-transparent" }>
                       <tr>
@@ -433,25 +445,31 @@ export function FormOrder() {
         </div>
         <hr className={ "m-2" }/>
         <Keterangan/>
-        <button type="submit"
-                className="btn btn-success text-white">Add Product
-        </button>
-        <PopUp
-          clickPopUp={ clickPopUp }
-          setClickPopUp={ setClickPopUp }
-          onCreate={ onCreate }
-          data={ dataBaru }
 
-        />
+        <button type="submit"
+                className="btn btn-success text-white"
+        >Add Product
+        </button>
+
+        { dataBaru.semuaProduct.length !== 0
+          && ( <PopUp
+            clickPopUp={ clickPopUp }
+            setClickPopUp={ setClickPopUp }
+            onCreate={ onCreate }
+            data={ dataBaru }
+          /> ) }
+        <button className={ "btn btn-error text-white" }
+                onClick={ () => reset( defaultValues ) }
+                type="button"
+        >Reset
+        </button>
       </>
     )
   }
 
   const fomIsi = "bg-white flex-col flex   sm:w-[48%]  md:w-[49%] ml-2 gap-3 rounded p-2  sm:p-5";
 
-  return (
-    <>
-      {/*-----------------------Page-------------   */ }
+  return ( < >{/*-----------------------Page-------------   */ }
       <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-col sm:flex-row  sm:gap-3 mt-5">
@@ -465,10 +483,8 @@ export function FormOrder() {
           </div>
         </div>
       </form>
-      {/*<p>{ errors.semuaProduct?.root?.message }</p>*/ }
       <OrderanTable data={ dataBaru }/>
-      <div>
-      </div>
+      {/*<DevTool control={ control }/>*/ }
     </>
   )
 }

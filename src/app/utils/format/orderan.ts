@@ -1,5 +1,5 @@
 import type { TOrder, TotalOrderan } from '@/entity/client/orderan';
-import { getDateNow, getLocaleTime } from '@/lib/utils/formatDate';
+import { defaultDate, getDateNow, getLocaleTime, getTime } from '@/lib/utils/formatDate';
 
 export const orderan = ( dataBaru: TotalOrderan ): string =>
   dataBaru.penerima.slice( 0, 5 ) + "/" +
@@ -26,9 +26,9 @@ export const defaultValues: TOrder = {
   hpPenerima: '',
   // waktu
   //toLocaleString === harus di isi parameternya
-  pesan: getDateNow(),
-  kirim: getDateNow(),
-  waktuKirim: getLocaleTime(),
+  pesan     : defaultDate(),
+  kirim     : defaultDate(),
+  waktuKirim: getTime(),
   // product
   listOrderan: [],
   listItem   : [],

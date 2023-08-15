@@ -25,29 +25,45 @@ const findByStatus = async ( status: string ) => {
 }
 
 const create = async ( body: TYPE ) => {
-  body       = Service.create( valid.Input( body, valid.OrderanSchema ), body )
-  const repo = await Repo.createNesting( body )
-  return repo
+  // console.log( body )
+  const validData = await Service.create( await valid.Input( body, valid.OrderanSchema ), body )
+  if( typeof validData === "object" ) {
+    return await Repo.createNesting( validData )
+  }
+  return validData
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id   = Service.findById( valid.ZFindById( id ), id )
-  body = Service.create( valid.Input( body, valid.OrderanSchema ), body )
-  const repo = await Repo.UpdateMany( id, body )
+  id              = Service.findById( valid.ZFindById( id ), id )
+  const validData = await Service.create( await valid.Input( body, valid.OrderanSchema ), body )
 
-  return repo
+  if( typeof validData === 'object' ) {
+    return Repo.UpdateMany( id, validData )
+  }
+  return validData
 }
 
-const destroy       = async ( id: string ) => {
-  id         = Service.findById( await valid.ZFindById( id ), id )
-  // console.log(id)
-  const repo = await Repo.destroyOne( id )
-  return repo
-}
 const updateOneOnly = async ( id: string, option: string, value: Partial<TOptional> ) => {
-  id         = Service.findById( await valid.ZFindById( id ), id )
+  id         = Service.findById( valid.ZFindById( id ), id )
   const repo = await Repo.updateOneOnly( id, value )
 
 }
-const Control       = { find, create, edit, destroy, findById, updateOneOnly, findByStatus, }
+const destroy       = async ( id: string ) => {
+  id = Service.findById( valid.ZFindById( id ), id )
+  const repo = await Repo.destroyOne( id )
+  return repo
+}
+
+const deleteMany = async ( body: any ) => {
+  const validData = await Service.create( await valid.Input( body, valid.ZIdMany ), body )
+  // console.log(validData)
+  if( typeof validData === 'object' ) {
+    const data = Repo.deleteMany( body )
+  }
+
+  // console.log(typeof validData);
+  return validData
+}
+
+const Control = { find, create, edit, destroy, findById, updateOneOnly, findByStatus, deleteMany }
 export default Control

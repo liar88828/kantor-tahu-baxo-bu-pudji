@@ -21,7 +21,6 @@ export default class RepoOrderan {
         guna             : true,
         lokasi           : true,
         namaPengiriman   : true,
-        ekspedisi        : true,
         ongkir           : true,
         no               : true,
         typePembayaran   : true,
@@ -223,10 +222,10 @@ export default class RepoOrderan {
       data : {
         //orang
         alamatPenerima: data.alamatPenerima,
-        ekspedisi     : data.ekspedisi,
-        guna          : data.guna,
-        hpPenerima    : data.hpPenerima,
-        hpPengirim    : data.hpPenerima,
+        // ekspedisi     : data.ekspedisi,
+        guna      : data.guna,
+        hpPenerima: data.hpPenerima,
+        hpPengirim: data.hpPenerima,
 //tanggal pesan
         id: data.id,
         // keterangan: data.keterangan,
@@ -321,10 +320,10 @@ export default class RepoOrderan {
       data : {
         //orang
         alamatPenerima: data.alamatPenerima,
-        ekspedisi     : data.ekspedisi,
-        guna          : data.guna,
-        hpPenerima    : data.hpPenerima,
-        hpPengirim    : data.hpPenerima,
+        // ekspedisi     : data.ekspedisi,
+        guna      : data.guna,
+        hpPenerima: data.hpPenerima,
+        hpPengirim: data.hpPenerima,
 //tanggal pesan
         id: data.id,
         // keterangan: data.keterangan,
@@ -395,8 +394,8 @@ export default class RepoOrderan {
         lokasi: data.lokasi,
 //travel
         namaPengiriman: data.namaPengiriman,
-        ekspedisi     : data.ekspedisi,
-        ongkir        : data.ongkir,
+        // ekspedisi     : data.ekspedisi,
+        ongkir: data.ongkir,
 //total
         id            : data.id,
         no            : data.no,
@@ -415,4 +414,19 @@ export default class RepoOrderan {
     } )
   }
 
+  async deleteMany( data: string [] ) {
+
+    const id = data.map( d => d )
+    // console.log( id)
+
+    const deleteOrder = prisma.orderan.deleteMany( {
+      where: { id: { in: id } }
+    } )
+
+    const deleteProduct = prisma.semuaProduct.deleteMany( {
+      where: { orderanId: { in: id } }
+    } )
+
+    return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
+  }
 }

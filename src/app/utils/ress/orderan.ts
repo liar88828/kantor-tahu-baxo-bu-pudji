@@ -1,6 +1,7 @@
 import { TOrderServer } from '@/entity/server/orderan';
 import { TotalOrderan } from '@/entity/client/orderan';
 import { TPOrderan } from '@/entity/server/produkOrderan';
+import { config } from '../../../../dataEnv';
 
 export const onCreate = async ( sendData: TotalOrderan ) => {
 
@@ -29,16 +30,25 @@ export const onCreate = async ( sendData: TotalOrderan ) => {
   }
 }
 
-export const createOrder = async (
-  json: Omit<TOrderServer, "semuaProduct">
-) => {
+export const createOrder = async ( json: Omit<TOrderServer, "semuaProduct"> ) => {
 
-  const response = await fetch( "/api/orderan", {
+  const response = await fetch( config.url + "/api/orderan", {
     method: "POST",
     body  : JSON.stringify( json ),
     headers: { "Content-Type": "application/json", }
   } )
-  return await response.json()
+
+  if( !response.ok ) {
+    throw new Error( 'Failed to fetch data' )
+  }
+
+  const data = await response.json()
+  if( data.success === false ) {
+    const arrays = JSON.parse( data.data )
+    // console.log( arrays )
+  }
+
+  return data
 }
 
 

@@ -8,17 +8,22 @@ export async function GET(
 ) {
   // console.log( route )
   const id: string[] = route.params.id
+  // console.log(route)
   try {
     if( id[ 0 ] !== "table" ) {
       return NextResponse.json( {
         msg : `Success GET ${ id }`,
-        data: await Control.findById( id[ 0 ] )
+        data       : await Control.findById( id[ 0 ] ),
+        revalidated: true,
+
       } )
     }
     else {
       return NextResponse.json( {
         msg : `Success GET ${ id }`,
-        data: await Control.findByStatus( id[ 1 ] )
+        data       : await Control.findByStatus( id[ 1 ] ),
+        revalidated: true,
+
       } )
     }
   }
@@ -37,8 +42,9 @@ export async function PUT(
     // console.log(id)
     const dataControl = await Control.edit( json, id )
     return NextResponse.json( {
-      msg : "Success EDIT",
-      data: dataControl
+      msg        : "Success EDIT",
+      data       : dataControl,
+      revalidated: true,
     } )
   }
   catch ( e ) {
@@ -46,17 +52,22 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  _: NextApiRequest,
-  route: { params: { id: string } },
+export async function DELETE( _: NextRequest, route: { params: { id: string[] } },
 ) {
-  const id: string = route.params.id
+  const array: string[] = route.params.id
+  // console.log(_.nextUrl.pathname)
+
   try {
+    const id = array[ 0 ].replaceAll( "_", "/" )
+    // const dataControl = "asdasd"
+    // console.log("test")
     const dataControl = await Control.destroy( id )
     return NextResponse
     .json( {
-      msg : "Success DELETE",
-      data: dataControl
+      msg        : "Success DELETE",
+      revalidated: true,
+
+      // data: dataControl,
     } )
   }
   catch ( e ) {
