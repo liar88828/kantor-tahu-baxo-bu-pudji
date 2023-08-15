@@ -1,6 +1,6 @@
-import Validation      from '@/lib/validation/schema';
-import type { TYPE }   from '@/server/models/dataAccess/semuaProduk';
-import Service         from '@/server/service/semuaProduk';
+import Validation from '@/lib/validation/schema';
+import type { TYPE } from '@/server/models/dataAccess/semuaProduk';
+import Service from '@/server/service/semuaProduk';
 import RepoSemuaProduk from '@/server/repository/semuaProduk';
 
 const Repo      = new RepoSemuaProduk()
@@ -19,18 +19,21 @@ const findById = async ( id: string ) => {
 }
 
 const create = async ( body: TYPE, id: string ) => {
-  id = serviceSP.findById( valid.ZFindById( id ), id )
-  body       = serviceSP.create( valid.Input( body, valid.semuaProduk ), body )
-  const repo = await Repo.createOne( body, id )
-  return repo
+  id              = serviceSP.findById( valid.ZFindById( id ), id )
+  const validData = serviceSP.create( await valid.Input( body, valid.semuaProduk ), body )
+  if( typeof validData === 'object' ) {
+    return Repo.createOne( body, id )
+  }
+  return validData
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id   = serviceSP.findById( valid.ZFindById( id ), id )
-  body = serviceSP.create( valid.Input( body, valid.semuaProduk ), body )
-  const repo = await Repo.updateOne( body, id )
-  // console.log( repo )
-  return repo
+  id              = serviceSP.findById( valid.ZFindById( id ), id )
+  const validData = serviceSP.create( await valid.Input( body, valid.semuaProduk ), body )
+  if( typeof validData === 'object' ) {
+    return Repo.updateOne( body, id )
+  }
+  return validData
 }
 
 const destroy = async ( id: string ) => {

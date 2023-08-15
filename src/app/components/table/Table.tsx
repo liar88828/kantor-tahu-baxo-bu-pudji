@@ -1,18 +1,18 @@
 "use client"
 import { RowData } from '@tanstack/table-core';
 import { Table as ReactTable } from '@tanstack/table-core/build/lib/types';
-import React, { HTMLProps, useEffect, useState } from 'react';
+import React, { HTMLProps, Suspense, useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import {
   Column, ColumnDef, ColumnOrderState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, SortingState, useReactTable
 } from '@tanstack/react-table';
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { notifBaru } from '@/app/utils/notif/toash';
+import { notifBaru, notifyData } from '@/app/utils/notif/toash';
 import type { TOrderServer } from '@/entity/server/orderan';
 import { Rupiah } from '@/lib/utils/rupiah';
+import { useRouter } from 'next/navigation';
+import { deleteDataMany, deleteDataOne } from '@/app/utils/ress/table';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -25,10 +25,11 @@ export function TableOrder( { dataOrderan }: {
   dataOrderan: {
     msg: string,
     data: TOrderServer[]
-  }
-} ) {
-  // console.log( dataOrderan )
+  },
+} ) {// console.log( dataOrderan )
   const { msg, data: dataOrder } = dataOrderan
+
+  const router                                         = useRouter()
 
   useEffect( () => {
     notifBaru( msg )
@@ -44,6 +45,7 @@ export function TableOrder( { dataOrderan }: {
   //check box
   const [ rowSelection, setRowSelection ] = React.useState( {} )
   const [ data, setData ]                 = React.useState( dataOrder )
+  const [ open, setOpen ]                              = useState( true )
 
   const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
   const columns                                        = React.useMemo<ColumnDef<TOrderServer>[]>( () => [
@@ -59,7 +61,8 @@ export function TableOrder( { dataOrderan }: {
           />
         ),
 
-        cell: ( { row } ) => ( <div className="px-1">
+        cell: ( { row } ) => (
+          <div className="px-1">
             <IndeterminateCheckbox
               { ...{
                 checked      : row.getIsSelected(),
@@ -184,8 +187,9 @@ export function TableOrder( { dataOrderan }: {
           //   footer     : props => props.column.id,
           // },
           {
-            accessorKey: 'ekspedisi',
-            cell       : info => info.getValue(),
+            accessorKey: 'namaPengiriman',
+            header     : 'ekspedisi',
+            cell       : info => <p> { info.getValue() }</p>,
             footer     : props => props.column.id,
           }, {
             accessorKey: 'ongkir',
@@ -212,11 +216,11 @@ export function TableOrder( { dataOrderan }: {
             cell       : info => Rupiah( info.getValue() ),
             footer     : props => props.column.id,
           },
-          {
-            accessorKey: 'status',
-            cell       : info => info.getValue(),
-            footer     : props => props.column.id,
-          },
+          // {
+          //   accessorKey: 'status',
+          //   cell       : info => info.getValue(),
+          //   footer     : props => props.column.id,
+          // },
         ],
       },
 
@@ -337,9 +341,9 @@ export function TableOrder( { dataOrderan }: {
     getSortedRowModel    : getSortedRowModel(),
     autoResetPageIndex,
     // debug
-    debugTable  : true,
-    debugHeaders: true,
-    debugColumns: true,
+    // debugTable  : true,
+    // debugHeaders: true,
+    // debugColumns: true,
 
     // select and change
     meta: {
@@ -370,209 +374,165 @@ export function TableOrder( { dataOrderan }: {
   }
 
   return (
-    <>
-      <Tables {
-                ...{
-                  table,
-                  randomizeColumns,
-                  sorting,
-                  rowSelection
-                } }/>
-      <hr/>
+    < >
+      <Suspense fallback={ <div>Loading...</div> }>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={ 5000 }
-        hideProgressBar
-        newestOnTop={ false }
-        closeOnClick={ false }
-        rtl={ false }
-        pauseOnFocusLoss={ false }
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+        <div className="p-2 ">
 
+          {/*----------------Button Random-----------------*/ }
+          <div className="flex  flex-wrap gap-2">
+            {/*<button onClick={() => rerender()} className="border p-1">*/ }
+            {/*  Regenerate*/ }
+            {/*</button>*/ }
 
-      {/*<div>*/ }
-      {/*  <button onClick={ () => rerender() }>Force Rerender</button>*/ }
-      {/*</div>*/ }
+            {/*<button onClick={ () => randomizeColumns() } className="border p-1">*/ }
+            {/*  Shuffle Columns*/ }
+            {/*</button>*/ }
+          </div>
 
+          {/*------------Table------------*/ }
+          <div className="overflow-x-auto border rounded border-black  ">
+            <table className="table table-xs      ">
+              {/*--------------------------------tHead---------------------------*/ }
+              <thead className={ "    " }>
+              { table.getHeaderGroups().map( headerGroup => (
+                <tr key={ headerGroup.id }
+                    className={ "  hover:bg-gray-50" }
 
-      {/*<div>*/ }
-      {/*  <button onClick={ () => refreshData() }>Refresh Data</button>*/ }
-      {/*</div>*/ }
-    </>
-  )
-}
+                >
+                  { headerGroup.headers.map( header => {
+                    return (
+                      <th
+                        className={ " border border-black  hover:bg-gray-50 text-center bg-gray-200" +
+                          " text-black" }
+                        key={ header.id }
+                        colSpan={ header.colSpan }>
+                        { header.isPlaceholder ? null : (
+                          <div
+                            { ...{
+                              className: header.column.getCanSort()
+                                         ? 'cursor-pointer select-none'
+                                         : '',
+                              onClick  : header.column.getToggleSortingHandler(),
+                            } }
+                          >
+                            { flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            ) }
 
-function Tables(
-  { table, randomizeColumns, sorting, rowSelection }:
-    {
-      table: ReactTable<TOrderServer>,
-      randomizeColumns: () => void,
-      sorting: SortingState,
-      rowSelection: {}
-    } ) {
+                            { {
+                              asc : ' 🔼',
+                              desc: ' 🔽',
+                            }[ header.column.getIsSorted() as string ] ?? null }
 
-  const [ open, setOpen ] = useState( true )
-  return (
-    <div className="p-2 ">
-
-      {/*----------------Button Random-----------------*/ }
-      <div className="flex  flex-wrap gap-2">
-        {/*<button onClick={() => rerender()} className="border p-1">*/ }
-        {/*  Regenerate*/ }
-        {/*</button>*/ }
-
-        {/*<button onClick={ () => randomizeColumns() } className="border p-1">*/ }
-        {/*  Shuffle Columns*/ }
-        {/*</button>*/ }
-      </div>
-
-      {/*------------Table------------*/ }
-      <div className="overflow-x-auto border rounded border-black  ">
-        <table className="table table-xs      ">
-          {/*--------------------------------tHead---------------------------*/ }
-          <thead className={ "    " }>
-          { table.getHeaderGroups().map( headerGroup => (
-            <tr key={ headerGroup.id }
-                className={ "  hover:bg-gray-50" }
-
-            >
-              { headerGroup.headers.map( header => {
-                return (
-                  <th
-                    className={ " border border-black  hover:bg-gray-50 text-center bg-gray-200" +
-                      " text-black" }
-                    key={ header.id }
-                    colSpan={ header.colSpan }>
-                    { header.isPlaceholder ? null : (
-                      <div
-                        { ...{
-                          className: header.column.getCanSort()
-                                     ? 'cursor-pointer select-none'
-                                     : '',
-                          onClick  : header.column.getToggleSortingHandler(),
-                        } }
-                      >
-                        { flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        ) }
-
-                        { {
-                          asc : ' 🔼',
-                          desc: ' 🔽',
-                        }[ header.column.getIsSorted() as string ] ?? null }
-
-                        { header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={ header.column } table={ table }/>
+                            { header.column.getCanFilter() ? (
+                              <div>
+                                <Filter column={ header.column } table={ table }/>
+                              </div>
+                            ) : null }
                           </div>
-                        ) : null }
-                      </div>
-                    ) }
-                  </th>
-                )
-              } ) }
-            </tr>
-          ) ) }
-          </thead>
+                        ) }
+                      </th>
+                    )
+                  } ) }
+                </tr>
+              ) ) }
+              </thead>
 
-          {/*--------------------------------tBody----------*/ }
-          <tbody
-            className={ " " }
-          >
-          { table.getRowModel().rows
-          // .slice( 0, 10 )
-                 .map( ( row, i ) => {
-                   return (
-                     <tr key={ row.id }
-                         className={ ` bg-white hover:bg-slate-200 ${
-                           i % 2 === 0 ? "bg-slate-50" : "bg-slate-100"
-                         }` }
-                     >
-                       { row.getVisibleCells().map( cell => {
-                         return (
-                           <td
-                             className={ "border border-black " }
-                             key={ cell.id }>
-                             { flexRender(
-                               cell.column.columnDef.cell,
-                               cell.getContext()
-                             ) }
-                           </td>
-                         )
-                       } ) }
-                     </tr>
-                   )
-                 } ) }
-          </tbody>
+              {/*--------------------------------tBody----------*/ }
+              <tbody
+                className={ " " }
+              >
+              { table.getRowModel().rows
+              // .slice( 0, 10 )
+                     .map( ( row, i ) => {
+                       return (
+                         <tr key={ row.id }
+                             className={ ` bg-white hover:bg-slate-200 ${
+                               i % 2 === 0 ? "bg-slate-50" : "bg-slate-100"
+                             }` }
+                         >
+                           { row.getVisibleCells().map( cell => {
+                             return (
+                               <td
+                                 className={ "border border-black " }
+                                 key={ cell.id }>
+                                 { flexRender(
+                                   cell.column.columnDef.cell,
+                                   cell.getContext()
+                                 ) }
+                               </td>
+                             )
+                           } ) }
+                         </tr>
+                       )
+                     } ) }
+              </tbody>
 
-          {/*--------------------------------tFoot----------*/ }
-          <tfoot>
-          <tr>
-            <td className="p-1">
-              <IndeterminateCheckbox
-                { ...{
-                  checked      : table.getIsAllPageRowsSelected(),
-                  indeterminate: table.getIsSomePageRowsSelected(),
-                  onChange     : table.getToggleAllPageRowsSelectedHandler(),
-                } }
-              />
-            </td>
-            <td colSpan={ 20 }>Page Rows ({ table.getRowModel().rows.length })
-            </td>
-          </tr>
-          </tfoot>
+              {/*--------------------------------tFoot----------*/ }
+              <tfoot>
+              <tr>
+                <td className="p-1">
+                  <IndeterminateCheckbox
+                    { ...{
+                      checked      : table.getIsAllPageRowsSelected(),
+                      indeterminate: table.getIsSomePageRowsSelected(),
+                      onChange     : table.getToggleAllPageRowsSelectedHandler(),
+                    } }
+                  />
+                </td>
+                <td colSpan={ 20 }>Page Rows ({ table.getRowModel().rows.length })
+                </td>
+              </tr>
+              </tfoot>
 
-        </table>
-      </div>
+            </table>
+          </div>
 
-      {/*------------Move Page -----------*/ }
-      <div className="flex items-center bg-white p-2 border ">
-        <div className="px-2 flex flex-row items-center gap-2 rounded ">
+          {/*------------Move Page -----------*/ }
+          <div className="flex items-center bg-white p-2 border ">
+            <div className="px-2 flex flex-row items-center gap-2 rounded ">
 
-          <button
-            className="border rounded p-1 bg-gray-300 w-9 h-9"
-            onClick={ () => table.setPageIndex( 0 ) }
-            disabled={ !table.getCanPreviousPage() }
-          >
-            { '⏪' }
-          </button>
+              <button
+                className="border rounded p-1 bg-gray-300 w-9 h-9"
+                onClick={ () => table.setPageIndex( 0 ) }
+                disabled={ !table.getCanPreviousPage() }
+              >
+                { '⏪' }
+              </button>
 
-          <button
-            className="border rounded p-1 bg-gray-300 w-9 h-9"
-            onClick={ () => table.previousPage() }
-            disabled={ !table.getCanPreviousPage() }
-          >
-            { '⬅️' }
-          </button>
-          <button
-            className="border rounded p-1 bg-gray-300 w-9 h-9"
-            onClick={ () => table.nextPage() }
-            disabled={ !table.getCanNextPage() }
-          >
-            { '➡️' }
-          </button>
+              <button
+                className="border rounded p-1 bg-gray-300 w-9 h-9"
+                onClick={ () => table.previousPage() }
+                disabled={ !table.getCanPreviousPage() }
+              >
+                { '⬅️' }
+              </button>
+              <button
+                className="border rounded p-1 bg-gray-300 w-9 h-9"
+                onClick={ () => table.nextPage() }
+                disabled={ !table.getCanNextPage() }
+              >
+                { '➡️' }
+              </button>
 
-          <button
-            className="border rounded p-1 bg-gray-300 w-9 h-9"
-            onClick={ () => table.setPageIndex( table.getPageCount() - 1 ) }
-            disabled={ !table.getCanNextPage() }
-          >
-            { '⏩' }
-          </button>
+              <button
+                className="border rounded p-1 bg-gray-300 w-9 h-9"
+                onClick={ () => table.setPageIndex( table.getPageCount() - 1 ) }
+                disabled={ !table.getCanNextPage() }
+              >
+                { '⏩' }
+              </button>
 
 
-          <span className="flex items-center gap-1  ">
+              <span className="flex items-center gap-1  ">
             <div>Page</div>
             <strong>{ table.getState().pagination.pageIndex + 1 } of { table.getPageCount() }
             </strong>
          </span>
 
-          <span className="flex items-center gap-1  p-2">| Go to page:
+              <span className="flex items-center gap-1  p-2">| Go to page:
 
           <input
             type="number"
@@ -586,10 +546,9 @@ function Tables(
 
            </span>
 
-          {/*--------------Show ---------------*/ }
+              {/*--------------Show ---------------*/ }
 
-          <span className="flex items-center gap-1  p-2"> | Max Row
-
+              <span className="flex items-center gap-1  p-2">  Max Row
           <select
             className={ "p-1 rounded" }
             value={ table.getState().pagination.pageSize }
@@ -602,89 +561,150 @@ function Tables(
             ) ) }
           </select>
           </span>
+            </div>
+          </div>
+
+          {/*------------Console ------------------*/ }
+          <div className="flex gap-2">
+            <button
+              className="border rounded p-2 mb-2"
+              onClick={ () => console.info( 'rowSelection', rowSelection ) }
+            >
+              Console.log()
+              Log `rowSelection` state
+            </button>
+
+
+            <button
+              className="border rounded p-2 mb-2 bg-red-300"
+              onClick={ () =>
+                console.info(
+                  'table.getSelectedRowModel().flatRows',
+                  table.getSelectedRowModel().flatRows
+                )
+              }
+            >
+              Log table.getSelectedRowModel().flatRows
+            </button>
+            <p>   { table.getSelectedRowModel().flatRows.length }</p>
+            { table.getSelectedRowModel().flatRows.length > 0 ?
+              ( <button
+                className="border rounded p-2 mb-2 bg-red-300"
+                onClick={ async () => {
+                  const arrays: string [] = []
+                  const tables            = table.getSelectedRowModel().flatRows
+                  tables.map( ( d ) => arrays.push( d.original.id ?? "not found" ) )
+                  // console.log( tables.length )
+                  if( table.getSelectedRowModel().flatRows.length > 1 ) {
+                    // console.log( "test1" )
+                    const res = await deleteDataMany( arrays );
+                    notifyData( res.msg )
+                  }
+
+                  else if( tables.length === 1 ) {
+                    // console.log( "test2" )
+                    const id  = table.getSelectedRowModel().flatRows[ 0 ].original.id as string
+                    const res = await deleteDataOne( id );
+                    // console.log(res)
+                    notifyData( res.msg )
+                    // router.refresh()
+                    // history.go();
+                  }
+                  // router.refresh()
+                  history.go();
+
+                } }
+              >
+                DELETE
+              </button> ) : ""
+            }
+            <button type="button" onClick={ () => {
+              // router.refresh()
+              history.go();
+            } }>Refresh
+            </button>
+          </div>
+
+          {/*------------Check Visible----------------*/ }
+          <div className="inline-block border border-black shadow rounded">
+
+            <button
+              onClick={ () => setOpen( !open ) }
+              className={ "btn btn-info text-white" }>
+              { open ? "Open" : "Close" }
+            </button>
+
+            <div className="px-1 border-b border-black ">
+              <label>
+                <input
+                  { ...{
+                    type    : 'checkbox',
+                    checked : table.getIsAllColumnsVisible(),
+                    onChange: table.getToggleAllColumnsVisibilityHandler(),
+                  } }
+                />
+                Toggle All
+              </label>
+            </div>
+
+            <div className={ ` bg-red-200 ${ open ? "hidden" : "" }` }>
+              { table.getAllLeafColumns().map( column => {
+                return (
+                  <>
+                    <div
+                      key={ column.id }
+                      className="px-1">
+                      <label>
+                        <input
+                          { ...{
+                            type    : 'checkbox',
+                            checked : column.getIsVisible(),
+                            onChange: column.getToggleVisibilityHandler(),
+                          } }
+                        />
+                        { column.id }
+                      </label>
+
+                    </div>
+                  </>
+                )
+              } ) }
+            </div>
+          </div>
+
+          {/*------------DEBUG-----*/ }
+          <div className="">
+            <div>{ table.getRowModel().rows.length } Rows</div>
+            <pre>{ JSON.stringify( table.getState().pagination, null, 2 ) }</pre>
+            <pre>{ JSON.stringify( sorting, null, 2 ) }</pre>
+          </div>
+
         </div>
-      </div>
+      </Suspense>
 
-      {/*------------Console ------------------*/ }
-      <div className="flex gap-2">
-        <button
-          className="border rounded p-2 mb-2"
-          onClick={ () => console.info( 'rowSelection', rowSelection ) }
-        >
-          Console.log()
-          Log `rowSelection` state
-        </button>
+      {/*<ToastContainer*/ }
+      {/*  position="top-right"*/ }
+      {/*  autoClose={ 5000 }*/ }
+      {/*  hideProgressBar*/ }
+      {/*  newestOnTop={ false }*/ }
+      {/*  closeOnClick={ false }*/ }
+      {/*  rtl={ false }*/ }
+      {/*  pauseOnFocusLoss={ false }*/ }
+      {/*  draggable*/ }
+      {/*  pauseOnHover*/ }
+      {/*  theme="light"*/ }
+      {/*/>*/ }
 
 
-        <button
-          className="border rounded p-2 mb-2 bg-red-300"
-          onClick={ () =>
-            console.info(
-              'table.getSelectedRowModel().flatRows',
-              table.getSelectedRowModel().flatRows
-            )
-          }
-        >
-          Log table.getSelectedRowModel().flatRows
-        </button>
-      </div>
+      {/*<div>*/ }
+      {/*  <button onClick={ () => rerender() }>Force Rerender</button>*/ }
+      {/*</div>*/ }
 
-      {/*------------Check Visible----------------*/ }
-      <div className="inline-block border border-black shadow rounded">
 
-        <button
-          onClick={ () => setOpen( !open ) }
-          className={ "btn btn-info text-white" }>
-          { open ? "Open" : "Close" }
-        </button>
-
-        <div className="px-1 border-b border-black ">
-          <label>
-            <input
-              { ...{
-                type    : 'checkbox',
-                checked : table.getIsAllColumnsVisible(),
-                onChange: table.getToggleAllColumnsVisibilityHandler(),
-              } }
-            />
-            Toggle All
-          </label>
-        </div>
-
-        <div className={ ` bg-red-200 ${ open ? "hidden" : "" }` }>
-          { table.getAllLeafColumns().map( column => {
-            return (
-              <>
-                <div
-                  key={ column.id }
-                  className="px-1">
-                  <label>
-                    <input
-                      { ...{
-                        type    : 'checkbox',
-                        checked : column.getIsVisible(),
-                        onChange: column.getToggleVisibilityHandler(),
-                      } }
-                    />
-                    { column.id }
-                  </label>
-
-                </div>
-              </>
-            )
-          } ) }
-        </div>
-      </div>
-
-      {/*------------DEBUG-----*/ }
-      <div className="">
-        <div>{ table.getRowModel().rows.length } Rows</div>
-        <pre>{ JSON.stringify( table.getState().pagination, null, 2 ) }</pre>
-        <pre>{ JSON.stringify( sorting, null, 2 ) }</pre>
-      </div>
-
-    </div>
-
+      {/*<div>*/ }
+      {/*  <button onClick={ () => refreshData() }>Refresh Data</button>*/ }
+      {/*</div>*/ }
+    </ >
   )
 }
 

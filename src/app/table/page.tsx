@@ -88,8 +88,7 @@ export default function App() {
 }
 
 function Table( {
-  data,
-  columns,
+  data, columns,
 }: {
   data: TPerson[]
   columns: ColumnDef<TPerson>[]

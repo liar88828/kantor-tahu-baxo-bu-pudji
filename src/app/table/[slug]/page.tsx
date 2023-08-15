@@ -12,21 +12,21 @@ export default function Page() {
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
       <LinkTable path={ path[ 1 ] } slug={ path[ 2 ].replace( "%20", " " ) }/>
       <Suspense fallback={ <div>Loading...</div> }>
-        <Table path={ path[ 2 ] }/>
+        <Table path={ path[ 2 ].replace( "%20", " " ) }/>
       </Suspense>
     </main>
   )
 }
 
-async function Table( { path }: {
-  path: string
+async function Table( { path, }: {
+  path: string,
 } ) {
+  // console.log(path)
   const data = await getDataByStatus( path )
   return (
-    <div>
-      <h1>table</h1>
+    < ><h1>table</h1>
       <TableOrder dataOrderan={ data }/>
-    </div>
+    </ >
   )
 }
 
