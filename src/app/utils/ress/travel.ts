@@ -1,5 +1,7 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { urlApi } from '@/app/utils/config/urlApi';
+import { config } from '../../../../dataEnv';
+
+
 
 export async function getDataById( id: string ) {
 
@@ -9,27 +11,30 @@ export async function getDataById( id: string ) {
     throw new Error( 'Failed to fetch data' )
   }
   const { data } = await res.json()
+
   return data
 }
 
 export async function getData() {
-  const res = await fetch( "/api/travel",
+  const res  = await fetch( config.url + "/api/travel",
     {
       // cache: 'default',
-      next: { revalidate: 2 }
+      next: { revalidate: 10 }
     }
   )
+  const data = await res.json()
 
   if( !res.ok ) {
     throw new Error( 'Failed to fetch data' )
   }
 
-  return res.json()
+  // console.log( data )
+  return data
 }
 
 export const deleteData = async ( id: string, router: AppRouterInstance ) => {
   const res = await fetch(
-    urlApi + "api/travel/" + id,
+    "/api/travel/" + id,
     {
       method : "DELETE",
       headers: {

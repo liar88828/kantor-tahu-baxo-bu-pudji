@@ -25,10 +25,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  route: { params: { id: string } }
-) {
+export async function PUT( request: NextRequest, route: { params: { id: string } } ) {
   // const json       = await request.json()
   const id: string = route.params.id
 
@@ -62,10 +59,8 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  _: NextRequest,
-  route: { params: { id: string } },
-) {
+export async function DELETE( _: NextRequest, route: { params: { id: string } }, ) {
+
   const id: string = route.params.id
   revalidateTag( 'travel/[id]' );
   try {
