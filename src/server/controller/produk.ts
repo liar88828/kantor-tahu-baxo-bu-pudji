@@ -1,8 +1,7 @@
-import RepoProduk    from '@/server/repository/produk';
-import Validation    from '@/lib/validation/schema';
-import Service       from '@/server/service/produk';
+import RepoProduk from '@/server/repository/produk';
+import Validation from '@/lib/validation/schema';
+import Service from '@/server/service/produk';
 import { TYPE } from '@/server/models/dataAccess/Produk';
-
 
 const Repo  = new RepoProduk()
 const valid = new Validation()
@@ -19,18 +18,21 @@ const findById = async ( id: string ) => {
 }
 
 const create = async ( body: TYPE ) => {
-  const service = Service.create( valid.Input( body, valid.ProdukSchema ), body )
-  const repo    = await Repo.createOne( service )
-  return repo
+  const validData = Service.create( await valid.Input( body, valid.ProdukSchema ), body )
+  if( typeof validData === 'object' ) {
+    return Repo.createOne( validData )
+  }
+  return validData
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id   = Service.findById( valid.ZFindById( id ), id )
-  body = Service.create( valid.Input( body, valid.ProdukSchema ), body )
-  console.log( body )
-  const repo = await Repo.updateOne( body, id )
-  console.log( repo )
-  return repo
+  id              = Service.findById( valid.ZFindById( id ), id )
+  const validData = Service.create( await valid.Input( body, valid.ProdukSchema ), body )
+
+  if( typeof validData === 'object' ) {
+    return Repo.updateOne( validData, id, )
+  }
+  return validData
 }
 
 const destroy = async ( id: string ) => {

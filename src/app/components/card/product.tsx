@@ -22,7 +22,7 @@ export const CardList = async ( { router }: {
           <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
 
             <figure className={ "w-[20%] h-auto" }>
-              <Image src={ "/" + d.img }
+              <Image src={ d.img }
                      alt={ d.nama }
                      width={ 500 }
                      height={ 500 }

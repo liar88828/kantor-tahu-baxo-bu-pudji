@@ -90,7 +90,6 @@ export default function Home() {
                     className="btn btn-accent text-white">Simpan
             </button>
           </div>
-
         </form>
       </div>
 

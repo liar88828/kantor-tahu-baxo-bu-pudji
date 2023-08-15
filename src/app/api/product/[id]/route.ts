@@ -5,10 +5,8 @@ import { saveFile }                  from '@/server/service/image';
 import { formatData }                from '@/lib/utils/formatData';
 import { fileSystem }                from '@/lib/utils/fileSystem';
 
-export async function GET(
-  _: NextRequest,
-  route: {
-    params: { id: string }
+export async function GET( _: NextRequest, route: {
+  params: { id: string }
   },
 ) {
   const id: string = route.params.id

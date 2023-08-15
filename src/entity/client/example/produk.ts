@@ -1,5 +1,5 @@
-import Validation        from '@/lib/validation/schema';
-import { z }             from 'zod';
+import Validation from '@/lib/validation/schema';
+import { z } from 'zod';
 
 const valid = new Validation()
 
@@ -21,7 +21,7 @@ const inputData = {
   age : 30,
 };
 
-const isValidZod = valid.userSchema.safeParse( inputData ).success;
+// const isValidZod = valid.userSchema.safeParse( inputData ).success;
 
 export const sProduct: TProduct[] = [
   {

@@ -9,13 +9,11 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 export async function GET( _: NextRequest ) {
 
   try {
-    // revalidateTag('product');
     const dataControl = await Control.find()
     return NextResponse.json( {
       msg        : "Success GET",
       data       : dataControl,
       revalidated: true,
-      // now        : Date.now()
     } )
   }
   catch ( e ) {
