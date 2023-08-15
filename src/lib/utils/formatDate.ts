@@ -12,7 +12,7 @@ export function formatDate( date: Date | string ) {
   return [ day, month, year ].join( '-' );
 }
 
-export const getTime = ( d: boolean = false ) => {
+export const getTime = () => {
   let today = new Date();
   let detik = ":" + today.getSeconds()
   return today.getHours() + ":" + today.getMinutes();

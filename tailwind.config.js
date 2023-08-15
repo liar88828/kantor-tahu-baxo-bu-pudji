@@ -9,7 +9,7 @@ module.exports = {
     themes: [
       "light",
       // "dark",
-      "cupcake"
+      // "cupcake"
     ],
   },
   theme: {

@@ -72,7 +72,7 @@ export async function handleUpload<T>(
       body  : formData,
     } )
     const data     = await response.json()
-    console.log( data )
+    // console.log( data )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }

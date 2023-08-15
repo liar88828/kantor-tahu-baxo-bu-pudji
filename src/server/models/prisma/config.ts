@@ -12,7 +12,7 @@ export const create = async ( data: Prisma.OrderanCreateInput ) => {
   return prisma.orderan.create( {
     data   : {
       alamatPenerima: data.alamatPenerima,
-      ekspedisi     : data.ekspedisi,
+      // ekspedisi     : data.ekspedisi,
       guna          : data.guna,
       hpPenerima    : data.hpPenerima,
       hpPengirim    : data.hpPenerima,
@@ -143,7 +143,7 @@ class Seed {
         lokasi: "Lokasi",
 //travel
         namaPengiriman: "Nama Travel",
-        ekspedisi     : "Ekspedisi",
+        // ekspedisi     : "Ekspedisi",
         ongkir        : 23,
 //total
         id: "efcebef1-2e79-44b4-asccb-282494a0",
@@ -224,7 +224,7 @@ const dataset: Prisma.OrderanCreateInput = {
   lokasi: "Lokasi",
 //travel
   namaPengiriman: "Nama Travel",
-  ekspedisi     : "Ekspedisi",
+
   ongkir        : 23,
 //total
   id            : "1231231",

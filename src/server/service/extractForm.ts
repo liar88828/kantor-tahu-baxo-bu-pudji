@@ -15,7 +15,6 @@ export async function extractData(
       const buffer    = Buffer.from( await file.arrayBuffer() );
       const json      = JSON.parse( dataArray )
       const dataImage = { file, buffer }
-      // console.log(dataImage,json)
 
       return { dataImage, json }
     }

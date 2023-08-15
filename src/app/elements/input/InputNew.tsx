@@ -9,6 +9,7 @@ export function InputNew( props: { register: UseFormRegisterReturn<string> } ) {
     <label className={ styleLabelForm }
            htmlFor="grid-password"> { formProduct.lokasi } </label>
     <input
+
       placeholder={ ` Masukan  ${ formProduct.lokasi }....` }
       className={ `${ StyleInputForm( false ) }` }
       defaultValue={ defaultFormProduct.lokasi }
@@ -34,7 +35,7 @@ export function InputForm(
     <div className="flex flex-col">
       <label className={ styleLabelForm }
              htmlFor="grid-password"> { title } </label>
-      <Tag{ ...ress }{ ...reg }/>
+      <Tag{ ...ress }{ ...reg } />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-export const notifBaru = ( msg: string ) => {
+export const notifBaru  = ( msg: string ) => {
 
   if( msg.toLowerCase().includes( "suc" ) ) {
     return toast.success( msg, {
@@ -35,28 +35,29 @@ export const notifBaru = ( msg: string ) => {
     } )
   }
 }
-export const notify    = ( msg: string, option: "error" | "success" ) => {
-  if( msg.includes( "success" ) )
+export const notifyData = ( msg: string ) => {
+  // console.log( msg )
+  // console.log( "test" )
+  if( msg.toLowerCase().includes( "success" ) ) {
+    toast.success( msg, {
+      position       : "top-right",
+      autoClose      : 5000,
+      hideProgressBar: false,
+      closeOnClick   : true,
+      pauseOnHover   : true,
+      theme          : "light",
+    } )
+  }
+  if( msg.toLowerCase().includes( "fail" ) || msg.toLowerCase().includes( "error" ) ) {
+    toast.error( msg, {
+      position       : "top-right",
+      autoClose      : 5000,
+      hideProgressBar: false,
+      closeOnClick   : true,
+      pauseOnHover   : true,
+      theme          : "dark",
+    } );
+  }
 
-    if( option === 'success' ) {
-      toast.success( msg, {
-        position       : "top-right",
-        autoClose      : 5000,
-        hideProgressBar: false,
-        closeOnClick   : true,
-        pauseOnHover   : true,
-        theme          : "light",
-      } )
-    }
-    else if( option === 'error' ) {
-      toast.error( msg, {
-        position       : "top-right",
-        autoClose      : 5000,
-        hideProgressBar: false,
-        closeOnClick   : true,
-        pauseOnHover   : true,
-        theme          : "dark",
-      } );
-    }
 }
 
