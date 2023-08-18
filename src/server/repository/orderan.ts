@@ -44,20 +44,19 @@ export default class RepoOrderan implements InterfaceOrderan {
     };
   }
 
-  private setDataProduct( data: TOrderServer, method: string = "POST" ) {
-    return data.semuaProduct.map( ( d: TPOrderan ) => (
-        {
-          harga     : d.harga,
-          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-          jenis     : d.jenis,
-          jumlah    : d.jumlah,
-          keterangan: d.keterangan,
-          lokasi    : d.lokasi,
-          nama      : d.nama,
-          orderanId : data.id
-        }
-      )
-    );
+  // ---------CREATE
+  async createTransaction( data: TOrderServer ) {
+    // console.log( data )
+    const createOne = prisma.orderan.create( {
+      data: this.setOne( data )
+    } )
+
+    const createMany  = prisma.semuaProduct.createMany( {
+      data: this.setDataProduct( data )
+    } )
+    const transaction = await prisma.$transaction( [ createOne, createMany ] )
+    // console.log( transaction )
+    return transaction
   }
 
   private setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
@@ -130,19 +129,21 @@ export default class RepoOrderan implements InterfaceOrderan {
     return prisma.orderan.findMany( { take: row, skip } )
   }
 
-  // ---------CREATE
-  async createTransaction( data: TOrderServer ) {
-    // console.log( data )
-    const createOne = prisma.orderan.create( {
-      data: this.setOne( data )
-    } )
-
-    const createMany  = prisma.semuaProduct.createMany( {
-      data: this.setDataProduct( data )
-    } )
-    const transaction = await prisma.$transaction( [ createOne, createMany ] )
-    console.log( transaction )
-    return transaction
+  private setDataProduct( data: TOrderServer, method: string = "POST" ) {
+    return data.semuaProduct.map( ( d: TPOrderan ) => (
+        Object.assign( {
+          harga     : d.harga,
+          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
+          jenis     : d.jenis,
+          jumlah    : d.jumlah,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi,
+          img       : d.img,
+          nama      : d.nama,
+          orderanId : data.id
+        } )
+      )
+    );
   }
 
   async createNesting( data: TOrderServer ) {

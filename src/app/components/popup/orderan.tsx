@@ -16,7 +16,6 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
   method: string
   id: string
 } ) {
-
   async function handleSave() {
     data.hpPengirim = data.hpPengirim.toString()
     data.hpPenerima = data.hpPenerima.toString()

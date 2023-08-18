@@ -1,4 +1,4 @@
-import { TotalOrderan } from '@/entity/client/orderan';
+import { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
 
 export const setIdTravel = ( dTravel: TTravel ): string =>
   dTravel.namaPengiriman.slice( 0, 2 ) + "_" +

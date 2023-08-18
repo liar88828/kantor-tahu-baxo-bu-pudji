@@ -5,8 +5,8 @@ type Props =
   & React.HTMLAttributes<HTMLOrSVGElement>;
 
 export type TOrder = {
-  listOrderan: Omit<TProduct, "img">[ ]
-  listItem: Omit<TProduct, "img">[ ]
+  listOrderan: TProduct[ ]
+  listItem: TProduct[ ]
   semuaProduct: TProduct[]
 //waktu
   pesan: Date | string
@@ -18,16 +18,13 @@ export type TOrder = {
   penerima: string
   alamatPenerima: string
   hpPenerima: string
-  // keterangan
   guna: string
   lokasi: string
-  //Travel
   namaPengiriman: string
-  ongkir: number
-  //id
   id: string
-  //Total
   typePembayaran: string
+
+  ongkir: number
   totalBayar: number
   totalPenjualan: number,
   status: 'Di terima' | 'Proses' | 'Kirim' | "Selesai"

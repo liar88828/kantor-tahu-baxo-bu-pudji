@@ -27,6 +27,7 @@ export async function GET() {
 }
 
 export async function POST( request: NextRequest, ) {
+  // console.log(await request.json() )
   return tryCatch( "CREATE", Control.create, await request.json() )
 }
 

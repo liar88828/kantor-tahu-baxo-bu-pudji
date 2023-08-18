@@ -7,18 +7,15 @@ import { redirect } from 'next/navigation';
 
 export const onCreate = async ( sendData: TotalOrderan, method: string = "POST", id: string ) => {
 
-  const updatedArrayOfObjects = sendData.semuaProduct.map( obj => ( { ...obj, orderanId: sendData.id } ) );
+  const updatedArrayOfObjects                        = sendData.semuaProduct.map( obj => ( { ...obj, orderanId: sendData.id } ) );
   const semuaProduct: Omit<TPOrderan, "orderanId">[] = updatedArrayOfObjects.map( obj => {
-    const { [ "img" ]: _, ...rest } = obj;
+    const { ...rest } = obj;
     return rest;
   } )
 
   const { listItem, listOrderan, semuaProduct: semua, hitung, ...rest } = sendData
 
   const dataBaru1      = Object.assign( { semuaProduct }, rest )
-  dataBaru1.hpPenerima = `${ dataBaru1.hpPenerima }`
-  dataBaru1.hpPengirim = `${ dataBaru1.hpPengirim }`
-
   const dataBaru2: TOrderServer = Object.assign( hitung, dataBaru1 )
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
@@ -63,7 +60,7 @@ export const defaultData = async ( id: string ): Promise<TOrder> => {
   if( !response.ok ) {
     return redirect( '/not-found/' + id )
   }
-  // console.log( data )
+  console.log( data.data.semuaProduct.map( d => d.id.split( "_" ) ), )
 
   return {
     listOrderan   : [],

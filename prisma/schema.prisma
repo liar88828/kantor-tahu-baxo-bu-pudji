@@ -15,6 +15,7 @@ model SemuaProduct {
   jenis      String   @db.VarChar(100)
   harga      Int      @db.MediumInt
   jumlah     Int      @db.MediumInt
+  img        String
   keterangan String   @db.Text
   // at update / create
   created_at DateTime @default(now())
@@ -47,7 +48,6 @@ model Orderan {
   namaPengiriman    String         @db.VarChar(100)
   ongkir            Int            @db.MediumInt
   // total
-  no                String         @db.VarChar(100)
   typePembayaran    String         @db.VarChar(100)
   totalBayar        Int            @db.MediumInt
   totalPenjualan    Int            @db.MediumInt
