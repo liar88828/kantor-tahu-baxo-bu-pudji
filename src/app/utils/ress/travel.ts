@@ -1,50 +1,30 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { config } from '../../../../dataEnv';
 
-
-
-export async function getDataById( id: string ) {
-
-  const res = await fetch( "/api/travel/" + id,
+async function sendData( method: string, id: string ) {
+  const res = await fetch( config.url + "/api/travel/" + id, {
+      method: method,
+      cache : "no-cache"
+    }
   )
   if( !res.ok ) {
     throw new Error( 'Failed to fetch data' )
   }
-  const { data } = await res.json()
-
+  const data = await res.json()
+  console.log( data )
   return data
+}
+
+export async function getDataById( id: string ) {
+  return await sendData( "GET", id );
 }
 
 export async function getData() {
-  const res  = await fetch( config.url + "/api/travel",
-    {
-      // cache: 'default',
-      next: { revalidate: 10 }
-    }
-  )
-  const data = await res.json()
-
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-
-  // console.log( data )
-  return data
+  return await sendData( "GET", "" );
 }
 
 export const deleteData = async ( id: string, router: AppRouterInstance ) => {
-  const res = await fetch(
-    "/api/travel/" + id,
-    {
-      method : "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
-    } )
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-  const { msg }: { msg: string } = await res.json()
+  const data = await sendData( "DELETE", id );
   router.refresh()
-  return msg
+  return data
 }

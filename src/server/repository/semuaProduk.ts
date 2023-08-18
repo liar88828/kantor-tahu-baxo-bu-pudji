@@ -1,14 +1,14 @@
-import { prisma }               from '../models/prisma/config';
-import { Prisma }               from '../../../prisma/data';
+import { prisma } from '../models/prisma/config';
+import { Prisma } from '../../../prisma/data';
 import { InterfaceSemuaProduk } from './interface/repository/semuaProduk';
-import type { TYPE }            from '../models/dataAccess/semuaProduk';
+import type { TYPE } from '../models/dataAccess/semuaProduk';
 
 export default class RepoSemuaProduk implements InterfaceSemuaProduk {
   setOne( d: TYPE, id: string ): TYPE {
     return {
       harga     : d.harga,
       id        : d.id,
-      // img       : d.img || "no image",
+      img: d.img || "no image",
       jenis     : d.jenis,
       keterangan: d.keterangan,
       lokasi    : d.lokasi,

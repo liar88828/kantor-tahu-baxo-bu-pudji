@@ -22,7 +22,7 @@ export const formInput: TOrderServer = {
       jenis     : "Item",
       jumlah    : 10,
       keterangan: "Enak",
-      // img       : "bagus"
+      img: "bagus"
     },
   ],
 //keterangan
@@ -74,7 +74,8 @@ const exampleData: TOrderServer      =
               "keterangan": "Esnak",
               "lokasi"    : "Ungsaran",
               "nama"      : "Tahu sBakso Rebus",
-              "orderanId" : "qwe"
+              "orderanId": "qwe",
+              "img"      : "qwe"
             },
             {
               "harga"     : 42000,
@@ -84,7 +85,9 @@ const exampleData: TOrderServer      =
               "keterangan": "Esnak",
               "lokasi"    : "Ungsaran",
               "nama"      : "Tahu sBakso Rebus",
-              "orderanId" : "qwe"
+              "orderanId": "qwe",
+              "img"      : "qwe"
+
             }
           ],
           "status"           : "Status",

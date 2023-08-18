@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Control from '@/server/controller/orderan';
-import { tryCatch } from '@/app/api/orderan/route';
+
+import { tryCatch } from '@/app/api/orderan/tryCatch';
 
 export async function GET( _: NextRequest, route: { params: { id: string[] } } ) {
   const id: string[] = route.params.id

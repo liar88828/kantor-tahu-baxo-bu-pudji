@@ -1,5 +1,5 @@
-import { prisma }       from '@/server/models/prisma/config';
-import { Prisma }       from '../../../../prisma/data';
+import { prisma } from '@/server/models/prisma/config';
+import { Prisma } from '../../../../prisma/data';
 import { TOrderServer } from '@/entity/server/orderan';
 import { TPOrderan } from '@/entity/server/produkOrderan';
 
@@ -80,25 +80,9 @@ export default class AccessOrderan {
           createMany: {
             data: data.semuaProduct.map( ( d: TPOrderan ) => {
 
-              // if( !d.img ) {
-              //   d.img = "no image"
-              // }
-
-              // if( d.img == null || d.img == undefined ) {
-              //   d.img = "no image"
-              // }
-
-              // if( typeof d.img !== "string" ) {
-              //   d.img = "no image"
-              // }
-
-              // d.img = !d.img ? "no image" : d.img
-              // let imgDenganOr       = d.img || "no image"
-              // let imgDenganQuestion = d.img ?? "no image"
-
               return (
                 {
-                  // img       : d.img || "no image",
+                  img: d.img || "no image",
                   id        : d.id,
                   harga     : d.harga,
                   jenis     : d.jenis,
@@ -174,7 +158,7 @@ export default class AccessOrderan {
           harga     : d.harga,
           id        : d.id,
 
-          // img       : d.img || "no image",
+          img: d.img || "no image",
           jenis     : d.jenis,
           jumlah    : d.jumlah,
           keterangan: d.keterangan,

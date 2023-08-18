@@ -8,7 +8,7 @@ const valid = new Validation()
 
 const find = async () => {
   const repo = await Repo.findAll()
-  // console.log( "test Travel find" )
+  console.log( "test Travel find" )
   return repo
 }
 

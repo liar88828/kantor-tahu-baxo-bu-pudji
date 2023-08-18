@@ -18,10 +18,7 @@ export async function getData() {
     }
   )
   console.log( await res.json() )
-// if( !res.ok ) {
-//   throw new Error( 'Failed to fetch data' )
-// }
-// console.log(data)
+
   return await res.json()
 }
 
@@ -43,14 +40,11 @@ export async function deleteDataMany( send: string [] ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
-    // console.log( arrays )
   }
-  // revalidateTag( "table" )
   return data
 }
 
 export async function deleteDataOne( send: string ) {
-  // revalidateTag( 'table/[slug]' );
   const id  = send.replaceAll( "/", "_" )
   const res = await fetch( config.url + `/api/orderan/` + id, {
     method: "DELETE",
@@ -65,9 +59,7 @@ export async function deleteDataOne( send: string ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
-    // console.log( arrays )
   }
-  // await res.revalidate()
   return data
 }
 
@@ -82,10 +74,6 @@ export async function editData( id: string, json: any ) {
     }
   )
 
-  // if( !res.ok ) {
-  //   throw new Error( 'Failed to fetch data' )
-  // }
-  // console.log(data)
   return await res.json()
 }
 
@@ -93,16 +81,10 @@ export async function updateOneData( id: string, value: string | number, router:
 
   const res = await fetch( config.url + `/api/orderan?id=${ id }&value=${ value }`,
     {
-      // cache: 'no-cache',
-      // next  : { revalidate: 10 },
       method: "PUT",
     }
   )
 
-  // if( !res.ok ) {
-  //   throw new Error( 'Failed to fetch data' )
-  // }
-  // console.log(data)
   return await res.json()
 }
 

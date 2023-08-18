@@ -23,9 +23,7 @@ async function ServerComponent( { path }: { path: string } ) {
   const data = await getDataByStatus( path )
 
   return (
-    // <ErrorBoundary fallback={ <h1>Error...</h1> }>
     <TableOrder dataOrderan={ data }/>
-    // </ErrorBoundary>
   )
 }
 

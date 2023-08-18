@@ -1,36 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Control from '@/server/controller/produk';
-import { revalidateTag } from 'next/cache';
 import { saveFile } from '@/server/service/image';
 import { formatData } from '@/lib/utils/formatData';
-import { fileSystem } from '@/lib/utils/fileSystem';
+import { tryCatch } from '@/app/api/orderan/tryCatch';
 
 export async function GET( _: NextRequest, route: {
   params: { id: string }
   },
 ) {
   const id: string = route.params.id
-  try {
-    const dataControl = await Control.findById( id )
-    return NextResponse.json( {
-      msg: `Success GET by id  ${ id }`, data: dataControl
-    } )
-  }
-  catch ( e ) {
-    return NextResponse.json( { msg: "Error GET by id", error: e, } )
-  }
+
+  return tryCatch( "GET", Control.findById, id )
 }
 
 export async function PUT( request: NextRequest, route: {
   params: { id: string }
 } ) {
   const id: string = route.params.id
-  // console.log( request.json() )
-  // console.log( id )
   try {
-    const json        = await saveFile( request, "img/produk/", "edit" )
-    // console.log(json)
+    const json        = await saveFile( request, "/img/produk/", "edit" )
     const formatJson  = formatData( json, "produk" )
+    console.log( formatJson, id )
+
     const dataControl = await Control.edit( formatJson, id )
     return NextResponse.json( {
       msg: "Success EDIT",
@@ -46,19 +37,6 @@ export async function DELETE( _: NextRequest, route: {
     params: { id: string }
   },
 ) {
-  const id: string = route.params.id
-  revalidateTag( 'product/[id]' );
-  try {
-    const dataControl = await Control.destroy( id )
-    await fileSystem( dataControl.img )
+  return tryCatch( "DELETE", Control.destroy, route.params.id )
 
-    return NextResponse.json( {
-      msg: "Success DELETE",
-      // revalidated: true,
-
-    } )
-  }
-  catch ( e ) {
-    return NextResponse.json( { msg: "Error DELETE", error: e } )
-  }
 }

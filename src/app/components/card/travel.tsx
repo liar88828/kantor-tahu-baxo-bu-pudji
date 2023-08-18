@@ -1,5 +1,4 @@
 import { Rupiah } from '@/lib/utils/rupiah';
-import React from 'react';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { deleteData, getData } from '@/app/utils/ress/travel';
 import Image from 'next/image';
@@ -8,12 +7,9 @@ export const CardList = async ( { router }: {
   router: AppRouterInstance
 
 } ) => {
-  const { data }: {
-    data: TTravel[ ]
-  }            = await getData()
-  // console.log( data )
+  const { data }: { data: TTravel[ ] } = await getData()
+  console.log( data )
   const goEdit = ( id: string ) => {
-    // console.log( "click" )
     router.push( "/travel/" + id + "/edit" )
   }
   if( data.length == 0 ) {
@@ -25,7 +21,8 @@ export const CardList = async ( { router }: {
         <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
 
           <figure className={ "w-[20%] h-auto" }>
-            <Image src={ d.img ?? "" } width={ 500 } height={ 500 } alt={ d.namaPengiriman }/>
+            <Image src={ d.img } width={ 200 } height={ 200 }
+                   alt={ d.namaPengiriman }/>
           </figure>
 
           <div className="card-body flex flex-row justify-between py-4 px-6 ">

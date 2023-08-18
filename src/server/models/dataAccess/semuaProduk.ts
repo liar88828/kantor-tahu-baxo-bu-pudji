@@ -1,4 +1,4 @@
-import { prisma }  from '@/server/models/prisma/config';
+import { prisma } from '@/server/models/prisma/config';
 import { Prisma, } from '../../../../prisma/data';
 
 export type TYPE = Prisma.SemuaProductUncheckedCreateInput
@@ -65,7 +65,7 @@ export default class AccessTravel {
     return {
       harga     : data.harga,
       id        : data.id,
-      // img       : data.img || "no image",
+      img: data.img || "no image",
       jenis     : data.jenis,
       keterangan: data.keterangan,
       lokasi    : data.lokasi,

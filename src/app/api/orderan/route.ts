@@ -1,33 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import Control from '@/server/controller/orderan';
-
-export async function tryCatch( method: string, control: any, ...data: any ) {
-  try {
-    const controls: any = await control( ...data )
-    // console.log( controls, )
-    const status        = typeof controls === "object"
-    return NextResponse.json( {
-      msg    : status ? `Success ${ method }` : `Fail ${ method }`,
-      success: status,
-      data   : status
-    } );
-  }
-  catch ( err ) {
-    console.log( err );
-    return NextResponse.json( {
-      msg    : `Error ${ method }`,
-      error  : err,
-      success: false
-    } );
-  }
-}
+import { tryCatch } from '@/app/api/orderan/tryCatch';
 
 export async function GET() {
   return tryCatch( "GET", Control.find(), )
 }
 
 export async function POST( request: NextRequest, ) {
-  // console.log(await request.json() )
   return tryCatch( "CREATE", Control.create, await request.json() )
 }
 
@@ -49,7 +28,11 @@ export async function PUT( request: NextRequest, ) {
   return tryCatch( "EDIT", Control.updateOneOnly, id, option, value )
 }
 
-export async function DELETE( request: NextRequest, route: { params: { id: string } }
+export async function DELETE( request: NextRequest, route: {
+    params: {
+      id: string
+    }
+  }
 ) {
   const formData            = await request.formData();
   const formDataEntryValues = Array.from( formData.values() );

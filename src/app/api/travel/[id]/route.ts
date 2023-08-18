@@ -5,7 +5,6 @@ import { newError } from '@/server/exeption/errorHandler';
 import { setData } from '@/lib/utils/formatData';
 import { validImage } from '@/lib/validation/image';
 import type { Textract } from '@/entity/server/image';
-import { revalidateTag } from 'next/cache';
 import { fileSystem } from '@/lib/utils/fileSystem';
 
 export async function GET(
@@ -35,7 +34,7 @@ export async function PUT( request: NextRequest, route: { params: { id: string }
       return new newError( "Fail Create", )
     }
     // console.log( data )
-    const json: TTravel = setData( data.dataImage.file, data.json, "img/travel/" )
+    const json: TTravel = setData( data.dataImage.file, data.json, "/img/travel/" )
 
     const dataControl = await Control.edit( data.json, id )
     if( !dataControl ) {
@@ -60,9 +59,8 @@ export async function PUT( request: NextRequest, route: { params: { id: string }
 export async function DELETE( _: NextRequest, route: { params: { id: string } }, ) {
 
   const id: string = route.params.id
-  revalidateTag( 'travel/[id]' );
   try {
-
+    console.log( id )
     const dataControl = await Control.destroy( id )
     await fileSystem( dataControl.img )
     return NextResponse

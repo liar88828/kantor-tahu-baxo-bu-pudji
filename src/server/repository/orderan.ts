@@ -306,20 +306,21 @@ export default class RepoOrderan implements InterfaceOrderan {
     )
 
   }
-
-  async updateOne( data: TOrderServer, id: string, ) {
-    return prisma.orderan.update( {
-      where: { id: id },
-      data :
-        Object.assign( this.setOne( data ),
-          {
-            semuaProduct: {
-              updateMany: {
-                where: { id: data.semuaProduct.map( d => d.id ) },
-                data : this.setDataProduct( data )
-              }
-            }
-          } )
-    } )
-  }
 }
+
+//   async updateOne( data: TOrderServer, id: string, ) {
+//     return prisma.orderan.update( {
+//       where: { id: id },
+//       data :
+//         Object.assign( this.setOne( data ),
+//           {
+//             semuaProduct: {
+//               updateMany: {
+//                 where: { id: data.semuaProduct.map( d => d.id ) },
+//                 data : this.setDataProduct( data )
+//               }
+//             }
+//           } )
+//     } )
+//   }
+// }

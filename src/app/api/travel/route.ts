@@ -26,7 +26,7 @@ export async function POST( request: Request ) {
       return new newError( "Fail Create", )
     }
 
-    const json: TTravel = setData( data.dataImage.file, data.json, "img/travel/" )
+    const json: TTravel = setData( data.dataImage.file, data.json, "/img/travel/" )
     const dataControl   = await Control.create( data.json )
     if( !dataControl ) {
       return new newError( "Fail Create DataBase", )

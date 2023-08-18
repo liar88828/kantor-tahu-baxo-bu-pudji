@@ -1,12 +1,9 @@
 "use client"
 import React from "react";
-// import YtIcon from './youtube.png'
-// import  from "randomcolor";
-import {
-  AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineSearch, AiOutlineTable,
-} from "react-icons/ai";
+import { AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineTable, } from "react-icons/ai";
 import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
 import Link from 'next/link';
+import { HiOutlineBanknotes } from 'react-icons/hi2';
 
 const menuList = [
   { title: "Dashboard", icon: AiFillPieChart, link: "/" },
@@ -14,7 +11,7 @@ const menuList = [
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product" },
   { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel" },
   { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
-  { title: "Search", icon: AiOutlineSearch, link: "/form" },
+  { title: "Bank", icon: HiOutlineBanknotes, link: "/bank" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
   { title: "Setting", icon: AiFillSetting, link: "/form" },
 ];

@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
       <Suspense fallback={ <div>Loading...</div> }>
-        <FormOrder id={ "" } defaultDataOrder={ {} } method={ "POST" }/>
+        <FormOrder id={ "" } defaultDataOrder={ defaultValues } method={ "POST" }/>
       </Suspense>
     </main>
   )

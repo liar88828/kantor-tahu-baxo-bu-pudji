@@ -43,7 +43,10 @@ export default class Validation {
 
   semuaProduk = this.ProductOnly.merge(
     z.object( {
-      orderanId: z.string().min( 1 )
+      orderanId: z.string().min( 1 ),
+
+      img: z.string().min( 1 )
+
     } ) )
 
   OrderanSchema: z.ZodType<TOrderServer> = z.object( {
