@@ -2,7 +2,6 @@
 CREATE TABLE `SemuaProducts`
 (
     `id`         VARCHAR(191) NOT NULL,
-    `idBarang`   VARCHAR(100) NOT NULL,
     `nama`       VARCHAR(100) NOT NULL,
     `lokasi`     VARCHAR(100) NOT NULL,
     `jenis`      VARCHAR(100) NOT NULL,
@@ -32,9 +31,7 @@ CREATE TABLE `Orderans`
     `guna`              TEXT         NOT NULL,
     `lokasi`            VARCHAR(100) NOT NULL,
     `namaPengiriman`    VARCHAR(100) NOT NULL,
-    `ekspedisi`         VARCHAR(100) NOT NULL,
     `ongkir`            MEDIUMINT    NOT NULL,
-    `no`                VARCHAR(100) NOT NULL,
     `typePembayaran`    VARCHAR(100) NOT NULL,
     `totalBayar`        MEDIUMINT    NOT NULL,
     `totalPenjualan`    MEDIUMINT    NOT NULL,
@@ -79,6 +76,21 @@ CREATE TABLE `Travels`
     `harga`          MEDIUMINT    NOT NULL,
     `img`            VARCHAR(191) NOT NULL,
     `keterangan`     TEXT         NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Bank`
+(
+    `id`         VARCHAR(191) NOT NULL,
+    `nama`       VARCHAR(100) NOT NULL,
+    `jenis`      VARCHAR(100) NOT NULL,
+    `noRekening` VARCHAR(100) NOT NULL,
+    `keterangan` TEXT         NOT NULL,
+    `created_at` DATETIME(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3)  NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4

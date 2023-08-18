@@ -1,3 +1,1372 @@
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1162
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "status": "Status",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ]
+}
+
+<> 2023-08-17T111116.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1162
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "status": "Status",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ]
+}
+
+<> 2023-08-17T110953.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1162
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "status": "Status",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ]
+}
+
+<> 2023-08-17T110937.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1163
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "status": "Status",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ],
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z"
+}
+
+<> 2023-08-16T205335.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1167
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ],
+  "status": "Di Proses",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z"
+}
+
+<> 2023-08-16T205318.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1213
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "2023-07-04",
+  "lokasi": "Lokasi update",
+  "namaPengiriman": "Nama Travel update",
+  "ongkir": 23,
+  "penerima": "Penerima update update",
+  "pengirim": "orang genah update",
+  "pesan": "2023-07-04",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
+  "status": "Status",
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T205253.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1213
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "2023-07-04",
+  "lokasi": "Lokasi update",
+  "namaPengiriman": "Nama Travel update",
+  "ongkir": 23,
+  "penerima": "Penerima update update",
+  "pengirim": "orang genah update",
+  "pesan": "2023-07-04",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
+  "status": "Status",
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T205241.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1162
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 42000,
+  "semuaHargaOrderan": 0,
+  "semuaHargaProduct": 42000,
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ],
+  "status": "Di Proses",
+  "totalBayar": 42232,
+  "totalHarga": 42232,
+  "totalPenjualan": 0,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z"
+}
+
+<> 2023-08-16T205149.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1162
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 1x",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 42000,
+  "semuaHargaOrderan": 0,
+  "semuaHargaProduct": 42000,
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ],
+  "status": "Di Proses",
+  "totalBayar": 42232,
+  "totalHarga": 42232,
+  "totalPenjualan": 0,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z"
+}
+
+<> 2023-08-16T205028.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1213
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "2023-07-04",
+  "lokasi": "Lokasi update",
+  "namaPengiriman": "Nama Travel update",
+  "ongkir": 23,
+  "penerima": "Penerima update update",
+  "pengirim": "orang genah update",
+  "pesan": "2023-07-04",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
+  "status": "Status",
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T205023.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1162
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 1x",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 42000,
+  "semuaHargaOrderan": 0,
+  "semuaHargaProduct": 42000,
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ],
+  "status": "Di Proses",
+  "totalBayar": 42232,
+  "totalHarga": 42232,
+  "totalPenjualan": 0,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z"
+}
+
+<> 2023-08-16T203049.200.json
+
+###
+
+POST http://localhost:3000/api/orderan
+Content-Type: application/json
+Content-Length: 1232
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "Lam5b_327_Ot_240229_1312_Sem_327464sd",
+  "no": "1",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "1999-07-01",
+  "pesan": "2000-07-01",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "1",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
+    },
+    {
+      "harga": 42000,
+      "id": "2",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
+    }
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "03:00:00"
+}
+
+<> 2023-08-16T203042.200.json
+
+###
+
+POST http://localhost:3000/api/orderan
+Content-Type: application/json
+Content-Length: 1124
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "1",
+  "no": "1",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "1999-07-01",
+  "pesan": "2000-07-01",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "1",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    },
+    {
+      "harga": 42000,
+      "id": "2",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    }
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "03:00:00"
+}
+
+<> 2023-08-16T202955.200.json
+
+###
+
+POST http://localhost:3000/api/orderan
+Content-Type: application/json
+Content-Length: 1124
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "1",
+  "no": "1",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "1999-07-01",
+  "pesan": "2000-07-01",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "1",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    },
+    {
+      "harga": 42000,
+      "id": "2",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    }
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "03:00:00"
+}
+
+<> 2023-08-16T202817.200.json
+
+###
+
+POST http://localhost:3000/api/orderan
+Content-Type: application/json
+Content-Length: 1124
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "1",
+  "no": "1",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "1999-07-01",
+  "pesan": "2000-07-01",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "1",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    },
+    {
+      "harga": 42000,
+      "id": "2",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "1"
+    }
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "03:00:00"
+}
+
+<> 2023-08-16T202528.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1213
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "2023-07-04",
+  "lokasi": "Lokasi update",
+  "namaPengiriman": "Nama Travel update",
+  "ongkir": 23,
+  "penerima": "Penerima update update",
+  "pengirim": "orang genah update",
+  "pesan": "2023-07-04",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
+  "status": "Status",
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T202522.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1212
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "2023-07-04",
+  "pesan": "2023-07-04",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId":"Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
+  "status": "Status",
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T202048.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1218
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "penerima": "Penerima update update",
+  "kirim": "2023-07-04",
+  "pesan": "2023-07-04",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "id": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "id": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
+  "status": "Status",
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T202029.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1354
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima"   : "Alamat Penerima",
+  "ongkir"           : 23,
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "semuaHargaItem"   : 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi"           : "Lokasi update",
+  "guna"             : "Keterangan update",
+  "hpPenerima"       : "Hp Penerima update",
+  "hpPengirim"       : "Hp Pengirim update",
+  "namaPengiriman"   : "Nama Travel update",
+  "pengirim"         : "orang genah update",
+  "penerima"         : "Penerima update update",
+  "kirim"            : "2023-07-04",
+  "pesan"            : "2023-07-04",
+  "semuaProduct"     : [
+    {
+      "harga"     : 42000,
+      "id"        : "produk lagi1 asd",
+      "jumlah"    : 10,
+      "jenis"     : "Itesm",
+      "keterangan": "Esnak",
+      "lokasi"    : "Ungsaran",
+      "nama"      : "Tahu sBakso Rebus",
+      "orderanId" : "asd"
+    },
+    {
+      "harga"     : 42000,
+      "id"        : "produk lagi asd",
+      "jumlah"    : 10,
+      "jenis"     : "Itesm",
+      "keterangan": "Esnak",
+      "lokasi"    : "Ungsaran",
+      "nama"      : "Tahu sBakso Rebus",
+      "orderanId" : "asd"
+    }
+  ],
+  "status"           : "Status",
+  "totalBayar"       : 123,
+  "totalHarga"       : 1231,
+  "totalPenjualan"   : 232,
+  "typePembayaran"   : "Pemsbayaran",
+  "waktuKirim"       : "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T202005.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1335
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima"   : "Alamat Penerima",
+  "ongkir"           : 23,
+  "id"               : "asd",
+  "semuaHargaItem"   : 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi"           : "Lokasi update",
+  "guna"             : "Keterangan update",
+  "hpPenerima"       : "Hp Penerima update",
+  "hpPengirim"       : "Hp Pengirim update",
+  "namaPengiriman"   : "Nama Travel update",
+  "pengirim"         : "orang genah update",
+  "penerima"         : "Penerima update update",
+  "kirim"            : "2023-07-04",
+  "pesan"            : "2023-07-04",
+  "semuaProduct"     : [
+    {
+      "harga"     : 42000,
+      "id"        : "produk lagi1 asd",
+      "jumlah"    : 10,
+      "jenis"     : "Itesm",
+      "keterangan": "Esnak",
+      "lokasi"    : "Ungsaran",
+      "nama"      : "Tahu sBakso Rebus",
+      "orderanId" : "asd"
+    },
+    {
+      "harga"     : 42000,
+      "id"        : "produk lagi asd",
+      "jumlah"    : 10,
+      "jenis"     : "Itesm",
+      "keterangan": "Esnak",
+      "lokasi"    : "Ungsaran",
+      "nama"      : "Tahu sBakso Rebus",
+      "orderanId" : "asd"
+    }
+  ],
+  "status"           : "Status",
+  "totalBayar"       : 123,
+  "totalHarga"       : 1231,
+  "totalPenjualan"   : 232,
+  "typePembayaran"   : "Pemsbayaran",
+  "waktuKirim"       : "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T201950.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1335
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima"   : "Alamat Penerima",
+  "ongkir"           : 23,
+  "id"               : "asd",
+  "semuaHargaItem"   : 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi"           : "Lokasi update",
+  "guna"             : "Keterangan update",
+  "hpPenerima"       : "Hp Penerima update",
+  "hpPengirim"       : "Hp Pengirim update",
+  "namaPengiriman"   : "Nama Travel update",
+  "pengirim"         : "orang genah update",
+  "penerima"         : "Penerima update update",
+  "kirim"            : "2023-07-04",
+  "pesan"            : "2023-07-04",
+  "semuaProduct"     : [
+    {
+      "harga"     : 42000,
+      "id"        : "produk lagi1 asd",
+      "jumlah"    : 10,
+      "jenis"     : "Itesm",
+      "keterangan": "Esnak",
+      "lokasi"    : "Ungsaran",
+      "nama"      : "Tahu sBakso Rebus",
+      "orderanId" : "asd"
+    },
+    {
+      "harga"     : 42000,
+      "id"        : "produk lagi asd",
+      "jumlah"    : 10,
+      "jenis"     : "Itesm",
+      "keterangan": "Esnak",
+      "lokasi"    : "Ungsaran",
+      "nama"      : "Tahu sBakso Rebus",
+      "orderanId" : "asd"
+    }
+  ],
+  "status"           : "Status",
+  "totalBayar"       : 123,
+  "totalHarga"       : 1231,
+  "totalPenjualan"   : 232,
+  "typePembayaran"   : "Pemsbayaran",
+  "waktuKirim"       : "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T201839.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1250
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "pengirim": "Kantor Tahu Baxo",
+  "hpPengirim": "327",
+  "penerima": "update 1x",
+  "alamatPenerima": "Ot",
+  "hpPenerima": "327",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "typePembayaran": "Cash",
+  "totalBayar": 42232,
+  "totalPenjualan": 0,
+  "status": "Di Proses",
+  "semuaHargaProduct": 42000,
+  "semuaHargaItem": 42000,
+  "semuaHargaOrderan": 0,
+  "totalHarga": 42232,
+  "created_at": "2023-08-16T10:07:03.713Z",
+  "updated_at": "2023-08-16T10:07:03.713Z",
+  "semuaProduct": [
+    {
+      "id": "Un/It/TBR/421692180423705",
+      "nama": "Tahu Bakso Rebus",
+      "lokasi": "Ungaran",
+      "jenis": "Item",
+      "harga": 42000,
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "updated_at": "2023-08-16T10:07:03.713Z",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ]
+}
+
+<> 2023-08-16T201126.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1247
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "pengirim": "Kantor Tahu Baxo",
+  "hpPengirim": "327",
+  "penerima": "update",
+  "alamatPenerima": "Ot",
+  "hpPenerima": "327",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "typePembayaran": "Cash",
+  "totalBayar": 42232,
+  "totalPenjualan": 0,
+  "status": "Di Proses",
+  "semuaHargaProduct": 42000,
+  "semuaHargaItem": 42000,
+  "semuaHargaOrderan": 0,
+  "totalHarga": 42232,
+  "created_at": "2023-08-16T10:07:03.713Z",
+  "updated_at": "2023-08-16T10:07:03.713Z",
+  "semuaProduct": [
+    {
+      "id": "Un/It/TBR/421692180423705",
+      "nama": "Tahu Bakso Rebus",
+      "lokasi": "Ungaran",
+      "jenis": "Item",
+      "harga": 42000,
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "updated_at": "2023-08-16T10:07:03.713Z",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ]
+}
+
+<> 2023-08-16T200959.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 1262
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "alamatPenerima": "Alamat Penerima",
+  "ongkir": 23,
+  "id": "asd",
+  "no": "Nso",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "lokasi": "Lokasi update",
+  "ekspedisi": "Ekspedisi update",
+  "guna": "Keterangan update",
+  "hpPenerima": "Hp Penerima update",
+  "hpPengirim": "Hp Pengirim update",
+  "namaPengiriman": "Nama Travel update",
+  "pengirim": "orang genah update",
+  "keterangan": "sangat jelas update",
+  "penerima": "Penerima update update",
+  "kirim": "2023-07-04",
+  "pesan": "2023-07-04",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "img": "bagsus",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "asd"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "img": "bagsus",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "asd"
+    }
+  ],
+  "status": "Status",
+  "total": 123,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Pemsbayaran",
+  "waktuKirim": "2023-07-20T00:00:00.000Z"
+}
+
+<> 2023-08-16T200908.200.json
+
+###
+
+GET http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_1312_Sem_32746412
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-16T200856.200.json
+
+###
+
+GET http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_2012_Sem_32732712
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-16T200816.200.json
+
+###
+
+GET http://localhost:3000/api/orderan/Lam%20b_327_Ot_240229_2012_Sem_32732712
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-16T200811.200.json
+
+###
+
+GET http://localhost:3000/api/orderan/TlrU_251_Gaol_230818_1221_Ung_70
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-15T132319.500.html
+
+###
+
+GET http://localhost:3000/api/orderan/TlrU_251_Gaol_230818_1221_Ung_705
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-15T123412.200.json
+
+###
+
+GET http://localhost:3000/api/orderan/TlrU_251_Gaol_230818_1221_Ung_705
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-15T123400.200.json
+
+###
+
 GET http://localhost:3000/api/orderan
 Content-Type: application/json
 Connection: Keep-Alive
@@ -1146,1689 +2515,6 @@ Accept-Encoding: br,deflate,gzip,x-gzip
 }
 
 <> 2023-08-08T110718.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1170
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "4",
-  "no": "4",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "2000-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    },
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T00:00:00.000Z"
-}
-
-<> 2023-08-08T110702.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1140
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "4",
-  "no": "4",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "2023-07-04",
-  "pesan": "2023-07-04",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    },
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T00:00:00.000Z"
-}
-
-<> 2023-08-08T110643.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1170
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "4",
-  "no": "4",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    },
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T00:00:00.000Z"
-}
-
-<> 2023-08-08T110630.200.json
-
-###
-
-PUT http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1262
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "asd",
-  "no": "Nso",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "keterangan": "sangat jelas update",
-  "penerima": "Penerima update update",
-  "kirim": "2023-07-04",
-  "pesan": "2023-07-04",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "produk lagi1 asd",
-      "img": "bagsus",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "asd"
-    },
-    {
-      "harga": 42000,
-      "id": "produk lagi asd",
-      "img": "bagsus",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "asd"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1142
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "4",
-  "no": "4",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01",
-  "pesan":  "1999-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    },
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T03:00:00.000Z"
-}
-
-<> 2023-08-08T110551.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1128
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "4",
-  "no": "4",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01",
-  "pesan":  "1999-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    },
-    {
-      "harga": 42000,
-      "id": "5",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "4"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": " T03:00:00"
-}
-
-<> 2023-08-08T110544.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1170
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "3",
-  "no": "3",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    },
-    {
-      "harga": 42000,
-      "id": "3",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T00:00:00.000Z"
-}
-
-<> 2023-08-08T110433.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1170
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "1",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    },
-    {
-      "harga": 42000,
-      "id": "3",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T00:00:00.000Z"
-}
-
-<> 2023-08-08T110427.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1170
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "1",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "1999-07-01T00:00:00.000Z"
-}
-
-<> 2023-08-08T110412.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1154
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "1",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "12:12:12"
-}
-
-<> 2023-08-08T110332.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1154
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "1",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim":  "1999-07-01T00:00:00.000Z",
-  "pesan":  "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "12:12:12"
-}
-
-<> 2023-08-08T110329.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1124
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "1",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "1999-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "12:12:12"
-}
-
-<> 2023-08-08T110309.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1202
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru1",
-  "no": "baru1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "baru1baru2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru1"
-    },
-    {
-      "harga": 42000,
-      "id": "baru1baru1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-<> 2023-08-08T110220.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1154
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru3",
-  "no": "baru3",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "2023-08-16",
-  "pesan": "2023-08-16",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan3",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan4",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "10:58:47"
-}
-
-<> 2023-08-08T105927.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1154
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru3",
-  "no": "baru3",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "1999-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan3",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan4",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "20:20:30"
-}
-
-<> 2023-08-08T105803.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1151
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru3",
-  "no": "baru3",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "1999-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan3",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan4",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "20:20"
-}
-
-<> 2023-08-08T105751.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1179
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru3",
-  "no": "baru3",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan3",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan4",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru3"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "12:12"
-}
-
-<> 2023-08-08T104815.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1198
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru2",
-  "no": "baru2",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru2"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru2"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-<> 2023-08-08T104732.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1198
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru2",
-  "no": "baru2",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru2"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru2"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-<> 2023-08-08T104720.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1198
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru2",
-  "no": "baru2",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "orderan1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru2"
-    },
-    {
-      "harga": 42000,
-      "id": "orderan2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru2"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-<> 2023-08-08T104702.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1202
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "baru1",
-  "no": "baru1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "baru1baru2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru1"
-    },
-    {
-      "harga": 42000,
-      "id": "baru1baru1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "baru1"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-<> 2023-08-07T155036.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 900
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154934.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1290
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "asd",
-  "no": "Nso",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "keterangan": "sangat jelas update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01T00:00:00.000Z",
-  "pesan": "1999-07-01T00:00:00.000Z",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "produk lagi1 asd",
-      "img": "bagsus",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "asd"
-    },
-    {
-      "harga": 42000,
-      "id": "produk lagi asd",
-      "img": "bagsus",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "asd"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
-}
-
-<> 2023-08-07T154847.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 873
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "asdasd",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154813.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 845
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "asdasd",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154802.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 823
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "asdasd",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154736.200.json
-
-###
-
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-08-07T154658.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 823
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "asdasd",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154157.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 823
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "asdasd",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154034.200.json
-
-###
-
-POST http://localhost:3000/api/orderanSalah
-Content-Type: application/json
-Content-Length: 823
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "asdasd",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-08-07T154030.404.html
 
 ###
 
