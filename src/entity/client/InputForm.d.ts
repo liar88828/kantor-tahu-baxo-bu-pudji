@@ -7,5 +7,6 @@ export interface InputFormProps {
   reg: any;
   value?: string
   min?: string
-  defaultValue?: string | number
+  defaultValue?: string | number,
+
 }

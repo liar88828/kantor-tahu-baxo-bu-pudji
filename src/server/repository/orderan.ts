@@ -1,74 +1,114 @@
 import { prisma, } from '@/server/models/prisma/config';
-// import { TYPE }         from '@/server/models/dataAccess/Orderan';
 import { TOrderServer } from '@/entity/server/orderan';
-import { Prisma } from '../../../prisma/data';
 import { TOptional } from '@/entity/server/types';
+import { InterfaceOrderan } from '@/server/repository/interface/repository/orderan';
+import { TPOrderan } from '@/entity/server/produkOrderan';
 
-export default class RepoOrderan {
+export default class RepoOrderan implements InterfaceOrderan {
 // getAll data from database
+  private getSelect() {
+    return {
+      id               : true,
+      pengirim         : true,
+      hpPengirim       : true,
+      penerima         : true,
+      alamatPenerima   : true,
+      hpPenerima       : true,
+      pesan            : true,
+      kirim            : true,
+      waktuKirim       : true,
+      guna             : true,
+      lokasi           : true,
+      namaPengiriman   : true,
+      ongkir           : true,
+      typePembayaran   : true,
+      totalBayar       : true,
+      totalPenjualan   : true,
+      status           : true,
+      semuaHargaProduct: true,
+      semuaHargaItem   : true,
+      semuaHargaOrderan: true,
+      totalHarga       : true,
+      semuaProduct     : {
+        select: {
+          id        : true,
+          nama      : true,
+          lokasi    : true,
+          jenis     : true,
+          harga     : true,
+          jumlah    : true,
+          keterangan: true,
+          orderanId : true,
+        }
+      }
+    };
+  }
+
+  private setDataProduct( data: TOrderServer, method: string = "POST" ) {
+    return data.semuaProduct.map( ( d: TPOrderan ) => (
+        {
+          harga     : d.harga,
+          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
+          jenis     : d.jenis,
+          jumlah    : d.jumlah,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi,
+          nama      : d.nama,
+          orderanId : data.id
+        }
+      )
+    );
+  }
+
+  private setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
+    const time = ( d.waktuKirim.toString().length === 5 )
+                 ? d.waktuKirim + ":00"
+                 : d.waktuKirim
+    // console.log(new Date( d.pesan ),)
+    return {
+      alamatPenerima   : d.alamatPenerima,
+      guna             : d.guna,
+      hpPenerima       : d.hpPenerima,
+      hpPengirim       : d.hpPenerima,
+      id               : d.id,
+      lokasi           : d.lokasi,
+      namaPengiriman   : d.namaPengiriman,
+      ongkir           : d.ongkir,
+      penerima         : d.penerima,
+      pengirim         : d.pengirim,
+      pesan            : new Date( d.pesan ),
+      kirim            : new Date( d.kirim ),
+      waktuKirim       : new Date( d.pesan + "T" + time + ".000Z" ),
+      semuaHargaItem   : d.semuaHargaItem,
+      semuaHargaOrderan: d.semuaHargaOrderan,
+      semuaHargaProduct: d.semuaHargaProduct,
+      status           : d.status,
+      totalBayar       : d.totalBayar,
+      totalHarga       : d.totalHarga,
+      totalPenjualan   : d.totalPenjualan,
+      typePembayaran   : d.typePembayaran,
+    }
+
+  }
+
   async findAll() {
     return prisma.orderan.findMany( {
-      select : {
-        id               : true,
-        pengirim         : true,
-        hpPengirim       : true,
-        penerima         : true,
-        alamatPenerima   : true,
-        hpPenerima       : true,
-        pesan            : true,
-        kirim            : true,
-        waktuKirim       : true,
-        guna             : true,
-        lokasi           : true,
-        namaPengiriman   : true,
-        ongkir           : true,
-        no               : true,
-        typePembayaran   : true,
-        totalBayar       : true,
-        totalPenjualan   : true,
-        status           : true,
-        semuaHargaProduct: true,
-        semuaHargaItem   : true,
-        semuaHargaOrderan: true,
-        totalHarga       : true,
-        semuaProduct     : {
-          select: {
-            id        : true,
-            nama      : true,
-            lokasi    : true,
-            jenis     : true,
-            harga     : true,
-            jumlah    : true,
-            keterangan: true,
-            orderanId : true,
-          }
-        }
-      },
+      select: this.getSelect(),
       take   : 100,
       orderBy: {
         created_at: "desc"
       },
-
-      // include: {
-      //   semuaProduct: {
-      //     select: {
-      //       nama: true
-      //     }
-      //   }
-      // }
-      // include: {
-      //   semuaProduct: true
-      // }
-
     } )
   }
 
-//get only one  data from database
   async findById( id: string ) {
-    return prisma.orderan.findUnique( {
+    console.log( id )
+    const data = await prisma.orderan.findUnique( {
       where  : { id },
       include: { semuaProduct: true }
     } )
+    console.log( data )
+    return data
   }
 
   async findByStatus( status: TOrderServer["status"] ) {
@@ -78,16 +118,10 @@ export default class RepoOrderan {
     if( status !== "Semua" ) {
       option = Object.assign( option, { where: { status } } )
     }
-    return prisma.orderan.findMany(
-      //   {
-      //   // where  : { status: status !== "Semua" ? status : "" },
-      //   // include: { semuaProduct: true }
-      // }
-      option
-    )
+
+    return prisma.orderan.findMany( option )
   }
 
-//get per page data from database
   async paginate( data: {
     row: number,
     skip: number
@@ -96,118 +130,33 @@ export default class RepoOrderan {
     return prisma.orderan.findMany( { take: row, skip } )
   }
 
+  // ---------CREATE
   async createTransaction( data: TOrderServer ) {
     // console.log( data )
     const createOne = prisma.orderan.create( {
-        data: {
-          //orang
-          alamatPenerima: data.alamatPenerima,
-          guna          : data.guna,
-          hpPenerima    : data.hpPenerima,
-          hpPengirim    : data.hpPenerima,
-          id            : data.id,
-          kirim         : data.kirim,
-          lokasi        : data.lokasi,
-          namaPengiriman: data.namaPengiriman,
-          no            : data.no,
-          ongkir        : data.ongkir,
-//travel
-          penerima: data.penerima,
-          pengirim: data.pengirim,
-          pesan   : data.pesan,
-//total
-          //total semua,
-          semuaHargaItem   : data.semuaHargaItem,
-          semuaHargaOrderan: data.semuaHargaOrderan,
-          semuaHargaProduct: data.semuaHargaProduct,
-
-          status    : data.status,
-          totalBayar: data.totalBayar,
-          totalHarga: data.totalHarga,
-          //total semua,
-
-          totalPenjualan: data.totalPenjualan,
-          typePembayaran: data.typePembayaran,
-          waktuKirim    : data.waktuKirim
-
-        },
-      }
-    )
-    // if( data.semuaProduct ) {
+      data: this.setOne( data )
+    } )
 
     const createMany  = prisma.semuaProduct.createMany( {
-      data: data.semuaProduct.map( d => {
-        return ( {
-          harga: d.harga,
-          id   : d.id,
-          // img       : d.img || "no image",
-          jenis     : d.jenis,
-          keterangan: d.keterangan,
-          lokasi    : d.lokasi,
-          jumlah    : d.jumlah,
-          nama      : d.nama,
-          orderanId : d.orderanId || data.id || "null"
-
-        } )
-      } )
+      data: this.setDataProduct( data )
     } )
-    // }
-    const transaction = await prisma.$transaction( [ createOne ] )
+    const transaction = await prisma.$transaction( [ createOne, createMany ] )
     console.log( transaction )
     return transaction
   }
 
-//create data from database
   async createNesting( data: TOrderServer ) {
-    // console.log(data)
-    const time = ( data.waktuKirim.toString().length === 5 )
-                 ? data.waktuKirim + ":00"
-                 : data.waktuKirim
-    const timeHour = new Date( data.pesan + "T" + time + ".000Z" )
+
     return prisma.orderan.create( {
-      data: {
-        //orang
-        alamatPenerima   : data.alamatPenerima,
-        guna             : data.guna,
-        hpPenerima       : data.hpPenerima,
-        hpPengirim       : data.hpPenerima,
-        id               : data.id,
-        lokasi           : data.lokasi,
-        namaPengiriman   : data.namaPengiriman,
-        no               : data.no,
-        ongkir           : data.ongkir,
-        penerima         : data.penerima,
-        pengirim         : data.pengirim,
-        pesan            : new Date( data.pesan ),
-        kirim            : new Date( data.kirim ),
-        waktuKirim       : timeHour,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        semuaHargaProduct: data.semuaHargaProduct,
-        semuaProduct     : {
-          createMany: {
-            data: data.semuaProduct.map( d => ( {
-              // img       : d.img || "no image",
-              id    : d.id ? d.id + Date.now() : "",
-                harga     : d.harga,
-                jenis     : d.jenis,
-                keterangan: d.keterangan,
-                lokasi    : d.lokasi,
-              nama  : d.nama,
-              jumlah: d.jumlah
-              } )
-            )
-          }
-        },
-        status           : data.status,
-        totalBayar       : data.totalBayar,
-        totalHarga       : data.totalHarga,
-        //total semua,
-
-        totalPenjualan: data.totalPenjualan,
-        typePembayaran: data.typePembayaran,
-
-      },
+      data:
+        Object.assign( this.setOne( data ),
+          {
+            semuaProduct: {
+              createMany: {
+                data: this.setDataProduct( data )
+              }
+            },
+          }, ),
 
       include: {
         semuaProduct: true, // Include all posts in the returned object
@@ -216,87 +165,10 @@ export default class RepoOrderan {
 
   }
 
-  async updateOne( data: TOrderServer, id: string, ) {
-    return prisma.orderan.update( {
-      where: { id: id },
-      data : {
-        //orang
-        alamatPenerima: data.alamatPenerima,
-        // ekspedisi     : data.ekspedisi,
-        guna      : data.guna,
-        hpPenerima: data.hpPenerima,
-        hpPengirim: data.hpPenerima,
-//tanggal pesan
-        id: data.id,
-        // keterangan: data.keterangan,
-        kirim: data.kirim,
-//orderan
-        lokasi: data.lokasi,
-//keterangan
-        namaPengiriman: data.namaPengiriman,
-        no            : data.no,
-        ongkir        : data.ongkir,
-//travel
-        penerima: data.penerima,
-        pengirim: data.pengirim,
-        pesan   : data.pesan,
-//total
-        //total semua,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        semuaHargaProduct: data.semuaHargaProduct,
-
-        status    : data.status,
-        totalBayar: data.totalBayar,
-        totalHarga: data.totalHarga,
-        //total semua,
-
-        totalPenjualan: data.totalPenjualan,
-        typePembayaran: data.typePembayaran,
-        waktuKirim    : data.waktuKirim,
-        semuaProduct  : {
-          updateMany: {
-            where: { id },
-            data : data.semuaProduct.map( d => ( {
-                // img       : d.img || "no image",
-                id        : d.id,
-                harga     : d.harga,
-                jenis     : d.jenis,
-                keterangan: d.keterangan,
-                lokasi    : d.lokasi,
-                nama      : d.nama,
-                jumlah    : d.jumlah,
-
-              }
-            ) )
-          }
-        }
-
-      },
-    } )
-
-    // const updateAll = prisma.semuaProduct.updateMany( {
-    //   where:{id},
-    //   data: data.semuaProduct.map( ( d: TPOrderan ): TPOrderan => ( {
-    //     harga     : d.harga,
-    //     id        : d.id,
-    //     img       : d.img || "no image",
-    //     jenis     : d.jenis,
-    //     jumlah    : d.jumlah,
-    //     keterangan: d.keterangan,
-    //     lokasi    : d.lokasi,
-    //     nama      : d.nama,
-    //     orderanId : id,
-    //
-    //   } ) )
-    // } )
-
-    // return prisma.$transaction( [ updateAll, update1,
-    // ] )
-  }
-
-//delete data from database
+  // -----DELETE
   async destroyOne( id: string ) {
+    console.log( id )
+    console.log( "one" )
     const delete1 = prisma.orderan.delete( {
       where : { id: id },
       select: { semuaProduct: true }
@@ -306,127 +178,147 @@ export default class RepoOrderan {
       where: { orderanId: id },
     } )
     return prisma.$transaction( [ deleteMany, delete1 ] )
-
   }
 
-  async updateOneOnly( id: string, data: Partial<TOptional> ) {
+  // -----DELETE
+  async deleteMany( array: string [] ) {
+    console.log( array )
+    console.log( "many" )
+    const id            = array.map( d => d )
+    const deleteOrder   = prisma.orderan.deleteMany( { where: { id: { in: id } } } )
+    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: { in: id } } } )
+    return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
+  }
+
+  async updateOneOnly( data: Partial<TOptional>, id: string, ) {
     return prisma.orderan.update( { where: { id: id }, data },
     )
   }
 
-  async UpdateOneEx( id: string, data: TOrderServer ) {
-    const updateOrderan = prisma.orderan.update( {
-      where: { id: data.id },
-      data : {
-        //orang
-        alamatPenerima: data.alamatPenerima,
-        // ekspedisi     : data.ekspedisi,
-        guna      : data.guna,
-        hpPenerima: data.hpPenerima,
-        hpPengirim: data.hpPenerima,
-//tanggal pesan
-        id: data.id,
-        // keterangan: data.keterangan,
-        kirim: data.kirim,
-//orderan
-        lokasi: data.lokasi,
-//keterangan
-        namaPengiriman: data.namaPengiriman,
-        no            : data.no,
-        ongkir        : data.ongkir,
-//travel
-        penerima: data.penerima,
-        pengirim: data.pengirim,
-        pesan   : data.pesan,
-//total
-        //total semua,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        semuaHargaProduct: data.semuaHargaProduct,
+  async UpdateOneEx( data: TOrderServer, id: string, ) {
+    const time = ( data.waktuKirim.toString().length === 5 )
+                 ? data.waktuKirim + ":00"
+                 : data.waktuKirim
 
-        status    : data.status,
-        totalBayar: data.totalBayar,
-        totalHarga: data.totalHarga,
-        //total semua,
+    return await prisma.$transaction( [
+      ...data.semuaProduct.map( d =>
+        prisma.semuaProduct.updateMany( {
+          where: { id: d.id },
+          data : {
+            // harga     : d.harga,
+            // jenis     : d.jenis,
+            jumlah: d.jumlah,
+            // keterangan: d.keterangan,
+            // lokasi    : d.lokasi,
+            // nama      : d.nama,
+            // orderanId : id
+          },
+        } )
+      ),
+      prisma.orderan.update( {
+        where: { id: data.id },
+        data : {
+          alamatPenerima   : data.alamatPenerima,
+          guna             : data.guna,
+          hpPenerima       : data.hpPenerima,
+          hpPengirim       : data.hpPenerima,
+          id               : data.id,
+          lokasi           : data.lokasi,
+          namaPengiriman   : data.namaPengiriman,
+          ongkir           : data.ongkir,
+          penerima         : data.penerima,
+          pengirim         : data.pengirim,
+          pesan            : new Date( data.pesan ),
+          kirim            : new Date( data.kirim ),
+          waktuKirim       : new Date( data.pesan + "T" + time + ".000Z" ),
+          semuaHargaItem   : data.semuaHargaItem,
+          semuaHargaOrderan: data.semuaHargaOrderan,
+          semuaHargaProduct: data.semuaHargaProduct,
+          status           : data.status,
+          totalBayar       : data.totalBayar,
+          totalHarga       : data.totalHarga,
+          totalPenjualan   : data.totalPenjualan,
+          typePembayaran   : data.typePembayaran,
+        },
+      } ),
+    ] );
 
-        totalPenjualan: data.totalPenjualan,
-        typePembayaran: data.typePembayaran,
-        waktuKirim    : data.waktuKirim
-      },
-    } )
+    // const updateOrderan = prisma.orderan.update( {
+    //   where: { id: id },
+    //   data : this.setOne( data ),
+    // } )
+    // const dataku        = data.semuaProduct.map( d =>
+    //   prisma.semuaProduct.update( {
+    //     where: { id: d.id },
+    //     data : {
+    //       harga     : d.harga,
+    //       jenis     : d.jenis,
+    //       jumlah    : d.jumlah,
+    //       keterangan: d.keterangan,
+    //       lokasi    : d.lokasi,
+    //       nama      : d.nama,
+    //       orderanId : id
+    //     },
+    //   } )
+    // )
+    //
+    // return await prisma.$transaction( [ updateOrderan, ...dataku ] );
 
-    const updateSemuaProduk = prisma.semuaProduct.updateMany( {
-      data: data.semuaProduct.map( d => (
-        {
-          harga: d.harga,
-          id   : d.id,
-          // img       : d.img || "no image",
-          jenis     : d.jenis,
-          jumlah    : d.jumlah,
-          keterangan: d.keterangan,
-          lokasi    : d.lokasi,
-          nama      : d.nama,
-          orderanId : data.id
-        }
-      ) )
-    } )
+    // const updateMany = data.semuaProduct.map( ( d: TPOrderan ) =>
+    //   prisma.semuaProduct.update( {
+    //     where: { id: d.id },
+    //     data : {
+    //       harga     : d.harga,
+    //       jenis     : d.jenis,
+    //       jumlah    : d.jumlah,
+    //       keterangan: d.keterangan,
+    //       lokasi    : d.lokasi,
+    //       nama      : d.nama,
+    //       orderanId : id
+    //     }
+    //   } ) )
 
-    return prisma.$transaction( [ updateOrderan, updateSemuaProduk ] )
+    // return prisma.$transaction( [    updateMany] )
   }
 
-  async UpdateMany( id: string, data: Prisma.OrderanUpdateManyMutationInput ) {
-    return prisma.orderan.updateMany( {
+  async UpdateMany( data: TOrderServer, id: string, ) {
+
+    const updateData = prisma.orderan.update( {
       where: { id },
-      data : {
-        //orang
-        pengirim      : data.pengirim,
-        hpPengirim    : data.hpPenerima,
-        penerima      : data.penerima,
-        alamatPenerima: data.alamatPenerima,
-        hpPenerima    : data.hpPenerima,
-//tanggal pesan
-        pesan     : data.pesan,
-        waktuKirim: data.waktuKirim,
-        kirim     : data.kirim,
-//keterangan
-        guna: data.guna,
-        // keterangan: data.keterangan,
-        lokasi: data.lokasi,
-//travel
-        namaPengiriman: data.namaPengiriman,
-        // ekspedisi     : data.ekspedisi,
-        ongkir: data.ongkir,
-//total
-        id            : data.id,
-        no            : data.no,
-        typePembayaran: data.typePembayaran,
-        totalBayar    : data.totalBayar,
-        totalPenjualan: data.totalPenjualan,
-        status        : data.status,
-        //total semua
-        semuaHargaProduct: data.semuaHargaProduct,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        totalHarga       : data.totalHarga,
+      data: this.setOne( data )
+    } );
 
-      },
-
+    const createMany = prisma.semuaProduct.createMany( {
+      data: this.setDataProduct( data )
     } )
+
+    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
+    return await prisma.$transaction( [ deleteProduct, createMany, updateData ] )
   }
 
-  async deleteMany( data: string [] ) {
+  async updateOneNew( data: TOrderServer, id: string, ) {
+    // console.log(data)
+    return prisma.orderan.update( {
+        where: { id: id },
+        data : this.setOne( data )
+      }
+    )
 
-    const id = data.map( d => d )
-    // console.log( id)
+  }
 
-    const deleteOrder = prisma.orderan.deleteMany( {
-      where: { id: { in: id } }
+  async updateOne( data: TOrderServer, id: string, ) {
+    return prisma.orderan.update( {
+      where: { id: id },
+      data :
+        Object.assign( this.setOne( data ),
+          {
+            semuaProduct: {
+              updateMany: {
+                where: { id: data.semuaProduct.map( d => d.id ) },
+                data : this.setDataProduct( data )
+              }
+            }
+          } )
     } )
-
-    const deleteProduct = prisma.semuaProduct.deleteMany( {
-      where: { orderanId: { in: id } }
-    } )
-
-    return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
   }
 }

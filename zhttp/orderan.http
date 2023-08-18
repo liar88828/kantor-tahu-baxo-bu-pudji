@@ -3,8 +3,9 @@ GET http://localhost:3000/api/orderan
 Content-Type: application/json
 
 ### get by id
-GET http://localhost:3000/api/orderan/asd
-Content-Type: application/json
+GET http://localhost:3000/api/orderan/Lam b_327_Ot_240229_1312_Sem_32746412
+
+
 
 ### post
 POST http://localhost:3000/api/orderan
@@ -52,59 +53,99 @@ Content-Type: application/json
 }
 
 ### Update
-PUT http://localhost:3000/api/orderan
+PUT http://localhost:3000/api/orderan/Lam b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+
+{
+  "alamatPenerima": "Ot",
+  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "hpPenerima": "327",
+  "hpPengirim": "327",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
+  "kirim": "1961-08-27T00:00:00.000Z",
+  "lokasi": "Semarang",
+  "namaPengiriman": "Travel Omega",
+  "ongkir": 232,
+  "penerima": "update 2x",
+  "status": "Status",
+  "pengirim": "Kantor Tahu Baxo",
+  "pesan": "2024-02-29T00:00:00.000Z",
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
+  "totalBayar": 123,
+  "totalHarga": 1231,
+  "totalPenjualan": 232,
+  "typePembayaran": "Cash",
+  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "semuaProduct": [
+    {
+      "created_at": "2023-08-16T10:07:03.713Z",
+      "harga": 42000,
+      "id": "Un/It/TBR/421692180423705",
+      "jenis": "Item",
+      "jumlah": 1,
+      "keterangan": "Ada Sedikit Berair",
+      "lokasi": "Ungaran",
+      "nama": "Tahu Bakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
+      "updated_at": "2023-08-16T10:07:03.713Z"
+    }
+  ]
+}
+
+
+
+
+
+### Update
+PUT http://localhost:3000/api/orderan/Lam b_327_Ot_240229_1312_Sem_32746412
 Content-Type: application/json
 
 {
   "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "asd",
-  "no": "Nso",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
   "guna": "Keterangan update",
   "hpPenerima": "Hp Penerima update",
   "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "keterangan": "sangat jelas update",
-  "penerima": "Penerima update update",
+  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
   "kirim": "2023-07-04",
+  "lokasi": "Lokasi update",
+  "namaPengiriman": "Nama Travel update",
+  "ongkir": 23,
+  "penerima": "Penerima update update",
+  "pengirim": "orang genah update",
   "pesan": "2023-07-04",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "produk lagi1 asd",
-      "img": "bagsus",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "asd"
-    },
-    {
-      "harga": 42000,
-      "id": "produk lagi asd",
-      "img": "bagsus",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "asd"
-    }
-  ],
+  "semuaHargaItem": 12312,
+  "semuaHargaOrderan": 12312,
+  "semuaHargaProduct": 12312,
   "status": "Status",
-  "total": 123,
   "totalBayar": 123,
   "totalHarga": 1231,
   "totalPenjualan": 232,
   "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "2023-07-20T00:00:00.000Z"
+  "waktuKirim": "2023-07-20T00:00:00.000Z",
+  "semuaProduct": [
+    {
+      "harga": 42000,
+      "id": "produk lagi1 asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    },
+    {
+      "harga": 42000,
+      "id": "produk lagi asd",
+      "jumlah": 10,
+      "jenis": "Itesm",
+      "keterangan": "Esnak",
+      "lokasi": "Ungsaran",
+      "nama": "Tahu sBakso Rebus",
+      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412"
+    }
+  ],
 }
 
 
@@ -119,7 +160,7 @@ Content-Type: application/json
 {
   "alamatPenerima": "Alamat Penerima",
   "ongkir": 23,
-  "id": "1",
+  "id": "Lam5b_327_Ot_240229_1312_Sem_327464sd",
   "no": "1",
   "semuaHargaItem": 12312,
   "semuaHargaOrderan": 12312,
@@ -143,7 +184,7 @@ Content-Type: application/json
       "keterangan": "Esnak",
       "lokasi": "Ungsaran",
       "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
+      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
     },
     {
       "harga": 42000,
@@ -153,7 +194,7 @@ Content-Type: application/json
       "keterangan": "Esnak",
       "lokasi": "Ungsaran",
       "nama": "Tahu sBakso Rebus",
-      "orderanId": "1"
+      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
     }
   ],
   "status": "Status",

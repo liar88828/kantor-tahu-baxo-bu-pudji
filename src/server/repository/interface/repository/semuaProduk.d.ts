@@ -1,5 +1,5 @@
 import { Repository } from './Repository';
-import { Prisma }     from '../../../../../prisma/data';
+import { Prisma } from '../../../../../prisma/data';
 
 export class InterfaceSemuaProduk implements Repository {
   createMany( data: any[], id: string ): Promise<Prisma.BatchPayload>;

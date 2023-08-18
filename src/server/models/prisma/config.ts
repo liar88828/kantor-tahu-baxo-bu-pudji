@@ -21,7 +21,6 @@ export const create = async ( data: Prisma.OrderanCreateInput ) => {
       kirim            : data.kirim,
       lokasi           : data.lokasi,
       namaPengiriman   : data.namaPengiriman,
-      no               : data.no,
       ongkir           : data.ongkir,
       penerima         : data.penerima,
       pengirim         : data.penerima,
@@ -147,7 +146,7 @@ class Seed {
         ongkir        : 23,
 //total
         id: "efcebef1-2e79-44b4-asccb-282494a0",
-        no            : "No",
+
         typePembayaran: "Pembayaran",
         // total         : 123,
         totalBayar    : 123,
@@ -228,7 +227,7 @@ const dataset: Prisma.OrderanCreateInput = {
   ongkir        : 23,
 //total
   id            : "1231231",
-  no            : "No",
+
   typePembayaran: "Pembayaran",
   // total         : 123,
   totalBayar    : 123,
@@ -246,7 +245,6 @@ const dataset: Prisma.OrderanCreateInput = {
 const dataku: TOrderServer =
         {
           "id"        : "asdasd",
-          "no"        : "string",
           "guna"      : "string",
           "ongkir"    : 3681802,
           "lokasi"    : "string",

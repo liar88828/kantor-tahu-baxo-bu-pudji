@@ -1,8 +1,8 @@
 export function formatDate( date: Date | string ) {
-  var d = new Date( date ),
-    month = '' + ( d.getMonth() + 1 ),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
+  let d     = new Date( date ),
+      month = '' + ( d.getMonth() + 1 ),
+      day   = '' + d.getDate(),
+      year  = d.getFullYear();
 
   if( month.length < 2 )
     month = '0' + month;
@@ -24,22 +24,28 @@ export const getDay = () => {
 
 }
 
-export const getLocaleTime = () => {
-  return new Date().toLocaleTimeString( "id-ID",
+export const setHours = ( time: string ): Date | string => {
+  const t = new Date( Date.parse( time ) ).toLocaleTimeString(
+    "id-ID",
     {
-      hour: '2-digit', minute: '2-digit',
+      hour  : '2-digit',
+      minute: '2-digit',
     }
-  )
+  ).split( "." )
+
+  return t[ 0 ] + ":" + t[ 1 ]// + ":" + "00"
 }
 
-export const getDateNow = () => {
-  return new Date( getDay() ).toLocaleString(
+export const setDates = ( date: string, ): Date | string => {
+  const d     = new Date( Date.parse( date ) ).toLocaleString(
     "id-ID",
     {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit',
+      day : '2-digit',
     } )
+  const array = d.split( "/" )
+  return array[ 2 ] + "-" + array[ 1 ] + "-" + array[ 0 ]
 }
 
 export const defaultDate = () => {
@@ -49,15 +55,13 @@ export const defaultDate = () => {
 }
 
 export function toDay() {
-  const date = new Date()
-  const year = date.getFullYear()
-
+  const date                 = new Date()
+  const year                 = date.getFullYear()
   let month: number | string = date.getMonth() + 1
-  let day: number | string = date.getDate()
-
+  let day: number | string   = date.getDate()
   if( month < 10 ) month = '0' + month
   if( day < 10 ) day = '0' + day
-
   return `${ year }/${ month }/${ day }`
-
 }
+
+

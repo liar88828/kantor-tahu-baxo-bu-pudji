@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-export const notifBaru  = ( msg: string ) => {
+export const notifBaru  = ( msg: string, data: any[] = [] ) => {
 
   if( msg.toLowerCase().includes( "suc" ) ) {
     return toast.success( msg, {
@@ -36,8 +36,7 @@ export const notifBaru  = ( msg: string ) => {
   }
 }
 export const notifyData = ( msg: string ) => {
-  // console.log( msg )
-  // console.log( "test" )
+  // console.log(msg)
   if( msg.toLowerCase().includes( "success" ) ) {
     toast.success( msg, {
       position       : "top-right",

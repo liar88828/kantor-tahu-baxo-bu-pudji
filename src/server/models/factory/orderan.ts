@@ -31,7 +31,6 @@ export const factoryOrderan: TOrder =
                  namaPengiriman: faker.company.name(),
                  ongkir        : faker.datatype.number( 10 ),
 
-                 no            : faker.datatype.number( 100 ).toString(),
                  typePembayaran: faker.music.genre(),
                  // total: faker.datatype.number( 100 ),
                  totalBayar    : faker.datatype.number( 100 ),

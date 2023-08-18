@@ -9,14 +9,14 @@ import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorspo
 import Link from 'next/link';
 
 const menuList = [
-  { title: "Dashboard", icon: AiFillPieChart, link: "" },
-  { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "orderan" },
-  { title: "Product", icon: AiOutlineInbox, gap: true, link: "product" },
-  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "travel" },
-  { title: "Files", icon: AiOutlineTable, link: "table/Semua" },
-  { title: "Search", icon: AiOutlineSearch, link: "form" },
-  { title: "Analytic", icon: MdAnalytics, gap: true, link: "form" },
-  { title: "Setting", icon: AiFillSetting, link: "form" },
+  { title: "Dashboard", icon: AiFillPieChart, link: "/" },
+  { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "/orderan" },
+  { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product" },
+  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel" },
+  { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
+  { title: "Search", icon: AiOutlineSearch, link: "/form" },
+  { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
+  { title: "Setting", icon: AiFillSetting, link: "/form" },
 ];
 
 export const Slidebar = () => {
@@ -52,7 +52,7 @@ export const Slidebar = () => {
           {/*  className={ ` text-red-600  w-40 h-20 duration-500  } ` }*/ }
           {/*/>*/ }
 
-          {/* name logo------------- */ }
+          {/* ------------------name logo------------- */ }
           { open && ( <h3
               className="text-white mt-6  font-bold text-22"
               style={ { transition: open && "opacity 2s linear", } }>
@@ -68,7 +68,7 @@ export const Slidebar = () => {
           { menuList.map( ( item, index ) => {
             const Icons = item.icon
             return (
-              <Link href={ "/" + item.link } key={ item.title } className={ "" }>
+              <Link href={ item.link } replace={ true } key={ item.title } className={ "" }>
                 <li
                   style={ {
                     transition   : "all .5s ease",

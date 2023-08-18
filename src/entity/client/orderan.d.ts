@@ -1,3 +1,5 @@
+import React from 'react';
+
 type Props =
   { tag?: keyof JSX.IntrinsicElements; }
   & React.HTMLAttributes<HTMLOrSVGElement>;
@@ -16,19 +18,14 @@ export type TOrder = {
   penerima: string
   alamatPenerima: string
   hpPenerima: string
-
   // keterangan
   guna: string
   lokasi: string
-
   //Travel
   namaPengiriman: string
   ongkir: number
-
   //id
   id: string
-  no: string
-
   //Total
   typePembayaran: string
   totalBayar: number

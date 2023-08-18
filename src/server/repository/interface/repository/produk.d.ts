@@ -1,8 +1,4 @@
-import { TYPE }   from '@/server/models/dataAccess/Produk';
-import { Prisma } from '../../../../../prisma/data';
-import {
-  Repository
-} from '@/server/repository/interface/repository/Repository';
+import { Repository } from '@/server/repository/interface/repository/Repository';
 
 export interface InterfaceProduk extends Repository {
   // findAll(): Promise<TYPE[]>;

@@ -58,8 +58,7 @@ export default class Validation {
     guna          : z.string( { required_error: 'guna is required', } ).min( 1 ),
     lokasi        : z.string( { required_error: 'lokasi is required', } ).min( 1 ),
     namaPengiriman: z.string( { required_error: 'namaPengiriman is required', } ).min( 1 ),
-    id            : z.string( { required_error: 'ID is required', } ).min( 27 ).max( 34 ),
-    no            : z.string( { required_error: 'No is required', } ).min( 1 ),
+    id: z.string( { required_error: 'ID is required', } ).min( 30 ).max( 41 ),
     typePembayaran: z.string( { required_error: 'typePembayaran is required', } ).min( 1 ),
     status        : z.string( { required_error: 'status is required', } ).min( 1 ),
     //
@@ -73,7 +72,10 @@ export default class Validation {
     semuaProduct     : z.array( this.semuaProduk )
   } )
 
-  ZIdMany: z.ZodType<string[]> = z.array( z.string( { required_error: "Is Not String" } ).min( 27 ).max( 34 )
+  ZIdMany: z.ZodType<string[]> = z.array(
+    z.string( { required_error: "Is Not String" } )
+     .min( 30 )
+     .max( 41 )
   )
 
 // : z.ZodType<Produk>

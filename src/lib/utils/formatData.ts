@@ -1,17 +1,12 @@
-import {
-  addDot, getExtensionData, validateExtension
-}                   from '@/lib/utils/fileExtension';
+import { addDot, getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
 import { newError } from '@/server/exeption/errorHandler';
+import { setIdProduct, setIdTravel } from '@/lib/utils/formatId';
 
 export const formatData = ( d: any, option: string ) => {
   if( option === "produk" ) {
     const dProduct = d as TProduct | any
 
-    const setId = dProduct.nama.slice( 0, 2 ) + "_" +
-      dProduct.harga.toString().slice( 0, 2 ) + "_" +
-      dProduct.lokasi.slice( 0, 2 ) + "_" +
-      dProduct.jenis.slice( 0, 2 ) + "_" +
-      dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now()
+    const setId = setIdProduct( dProduct )
 
     dProduct.jumlah = dProduct.jumlah ? dProduct.jumlah : 1
     dProduct.harga  = dProduct.harga ? dProduct.harga : Number( dProduct.harga )
@@ -22,14 +17,8 @@ export const formatData = ( d: any, option: string ) => {
   }
 
   if( option === "travel" ) {
-
     const dTravel = d as TTravel | any
-
-    dTravel.id    = dTravel.namaPengiriman.slice( 0, 2 ) + "_" +
-      dTravel.harga.toString().slice( 0, 2 ) + "_" +
-      dTravel.lokasi.slice( 0, 2 ) + "_" +
-      dTravel.jenis.slice( 0, 2 ) + "_" +
-      dTravel.keterangan.slice( 0, 2 ) + "_" + Date.now()
+    dTravel.id    = setIdTravel( dTravel )
     dTravel.harga = Number( dTravel.harga )
     return dTravel
   }

@@ -45,7 +45,6 @@ export const formInput: TOnlyKey = {
   ongkir        : "Ongkir",
 //total
   id            : "1231231",
-  no            : "No",
   typePembayaran: "Pembayaran",
   // total         : "Total",
   totalBayar    : "Total Bayar",

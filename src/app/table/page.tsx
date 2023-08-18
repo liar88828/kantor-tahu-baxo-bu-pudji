@@ -68,8 +68,7 @@ export default function App() {
   const [ data, setData ] = React.useState( () => makeData( 100 ) )
   const refreshData       = () => setData( () => makeData( 100 ) )
 
-  return (
-    <>
+  return ( <>
       <Table
         { ...{
           data,
@@ -87,12 +86,7 @@ export default function App() {
   )
 }
 
-function Table( {
-  data, columns,
-}: {
-  data: TPerson[]
-  columns: ColumnDef<TPerson>[]
-} ) {
+function Table( { data, columns, }: { data: TPerson[]; columns: ColumnDef<TPerson>[] } ) {
   const table = useReactTable( {
     data,
     columns,
@@ -225,13 +219,7 @@ function Table( {
   )
 }
 
-function Filter( {
-  column,
-  table,
-}: {
-  column: Column<any, any>
-  table: ReactTable<any>
-} ) {
+function Filter( { column, table, }: { column: Column<any, any>; table: ReactTable<any> } ) {
   const firstValue = table
   .getPreFilteredRowModel()
     .flatRows[ 0 ]?.getValue( column.id )

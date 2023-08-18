@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import './globals.css'
 import './flag.css';
-import Navbar       from '@/app/components/layouts/Navbar';
+import Navbar from '@/app/components/layouts/Navbar';
 import { Slidebar } from '@/app/components/layouts/Slidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,13 +19,11 @@ export default function RootLayout( {
 
   children: React.ReactNode
 
-
 } ) {
 
   return (
     <html lang="en">
     <body>
-
     <div className={ " bg-green-50" }>
       <Navbar/>
       <div className={ "flex " }>
@@ -33,7 +31,6 @@ export default function RootLayout( {
         <div className=" w-[89%]">
           { children }
           <ToastContainer/>
-
         </div>
       </div>
     </div>

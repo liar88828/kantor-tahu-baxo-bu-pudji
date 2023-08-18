@@ -97,7 +97,7 @@ export function OrderanTable( { data, }: { data: TotalOrderan, } ) {
 
             <th scope="row"
                 className="border border-slate-300 px-4 py-4 whitespace-nowrap">
-              { data?.no }
+              { data?.id }
             </th>
             {/*------------Tanggal----------------*/ }
             <td scope="row"

@@ -6,14 +6,24 @@ import {
 } from '@material-tailwind/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { notifyData } from '@/app/utils/notif/toash';
+import { onCreate } from '@/app/utils/ress/orderan';
+import { Status } from '@/app/style/status';
 
-export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
+export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
   clickPopUp: boolean,
   setClickPopUp: React.Dispatch<React.SetStateAction<boolean>>,
-  onCreate: ( data: TotalOrderan ) => Promise<{ msg: string, data: any }>
   data: TotalOrderan
-  // notify:number
+  method: string
+  id: string
 } ) {
+
+  async function handleSave() {
+    data.hpPengirim = data.hpPengirim.toString()
+    data.hpPenerima = data.hpPenerima.toString()
+    const getData   = await onCreate( data, method, id )
+    console.error( getData )
+    notifyData( getData.msg )
+  }
 
   return (
     <Fragment>
@@ -40,7 +50,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
                 className=" px-10 pt-10 pb-5  flex items-start justify-between  border-b rounded-t dark:border-gray-600">
                 <DialogHeader>
                   <Typography variant="h5" color="black">
-                    Detail Pesanan
+                    Detail Pesanan <span className={ Status( data.status ) + "p-2" }>{ data.status }</span>
                   </Typography>
                 </DialogHeader>
                 <XMarkIcon type="button"
@@ -53,7 +63,7 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
                 <div className="  flex gap-5 flex-col sm:flex-row">
                   <Card variant="gradient" color="blue"
                         className="gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
-                    <Typography color="black">Kode : { data.no }</Typography>
+                    <Typography color="black">Kode : { data.id }</Typography>
                     <Typography color="black">Nama Penerima: { data.penerima }</Typography>
                     <Typography color="black">Hp Penerima: { data.hpPenerima }</Typography>
                     <Typography color="black">Alamat Penerima : { data.alamatPenerima }</Typography>
@@ -116,20 +126,11 @@ export function PopUp( { clickPopUp, setClickPopUp, onCreate, data, }: {
                 className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <button
                   onClick={ async () => {
-                    data.hpPengirim = data.hpPengirim.toString()
-                    data.hpPenerima = data.hpPenerima.toString()
-                    const getData   = await onCreate( data )
-                    console.log( getData.msg )
-                    const option = getData.msg
-                                          .toLowerCase()
-                                          .includes( "success" )
-                                   ? "success"
-                                   : "error"
-                    notifyData( getData.msg )
+                    await handleSave();
                   } }
                   data-modal-hide="defaultModal" type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Simpan
+                  { method !== "PUT" ? "Simpan" : "Update" }
                 </button>
 
                 <button

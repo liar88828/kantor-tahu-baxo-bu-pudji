@@ -33,7 +33,6 @@ export const formInput: TOrderServer = {
   ongkir        : 23,
 //total
   id            : "1231231",
-  no            : "No",
   typePembayaran: "Pembayaran",
   // total         : 123,
   // keterangan    : "asdasd",
@@ -59,7 +58,6 @@ const exampleData: TOrderServer      =
           "kirim"            : "1999-07-01T00:00:00.000Z",
           "lokasi"           : "Lokasi",
           "namaPengiriman"   : "Nama Travel",
-          "no"               : "Nso",
           "ongkir"           : 23,
           "penerima"         : "Penerima",
           "pengirim"         : "orang genah",

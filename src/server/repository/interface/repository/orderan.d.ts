@@ -1,10 +1,6 @@
-import { TYPE }   from '@/server/models/dataAccess/Produk';
-import { Prisma } from '../../../../../prisma/data';
-import {
-  Repository
-}                 from '@/server/repository/interface/repository/Repository';
+import { Repository } from '@/server/repository/interface/repository/Repository';
 
-export interface InterfaceProduk extends Repository {
+export interface InterfaceOrderan extends Repository {
   // findAll(): Promise<TYPE[]>;
   // findById( id: string ): Promise<any>;
   // paginate( data: { row: number, skip: number } ): Promise<any>;

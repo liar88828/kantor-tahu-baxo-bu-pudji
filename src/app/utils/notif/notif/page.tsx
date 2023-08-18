@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 
-import { notify } from '@/app/coba/notif/notif';
+import { notify } from '@/app/utils/notif/notif/notif';
 
 export default function Page() {
 

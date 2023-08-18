@@ -66,7 +66,6 @@ export default class AccessOrderan {
 
 //keterangan
         namaPengiriman: data.namaPengiriman,
-        no            : data.no,
         ongkir        : data.ongkir,
 //travel
         penerima: data.penerima,
@@ -146,7 +145,6 @@ export default class AccessOrderan {
         lokasi: data.lokasi,
 //keterangan
         namaPengiriman: data.namaPengiriman,
-        no            : data.no,
         ongkir        : data.ongkir,
 //travel
         penerima: data.penerima,
@@ -215,7 +213,6 @@ export default class AccessOrderan {
         ongkir        : data.ongkir,
 //total
         id            : data.id,
-        no            : data.no,
         typePembayaran: data.typePembayaran,
         // total         : data.total,
         totalBayar    : data.totalBayar,
@@ -250,7 +247,6 @@ export default class AccessOrderan {
         lokasi: data.lokasi,
 //keterangan
         namaPengiriman: data.namaPengiriman,
-        no            : data.no,
         ongkir        : data.ongkir,
 //travel
         penerima: data.penerima,
@@ -340,7 +336,6 @@ export default class AccessOrderan {
       ongkir        : data.ongkir,
 //total
       id            : data.id,
-      no            : data.no,
       typePembayaran: data.typePembayaran,
       // total         : data.total,
       totalBayar    : data.totalBayar,

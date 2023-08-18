@@ -52,31 +52,36 @@ export function LinkTable( { path, slug }: { path: string, slug: string } ) {
     <div className={ "flex flex-row gap-5 pl-5" }>
 
       <Link href={ "Semua " }
-            className={ `btn  ${ slug === "Semua" ? "info btn-disabled "
-                                                  : `  text-white  ` } btn-secondary     ` }>
+            className={ `btn   ${ slug === "Semua"
+                                  ? "info btn-disabled "
+                                  : `  text-white  ` } btn-secondary shadow-md shadow-slate-400 ` }>
         Semua
       </Link>
 
       <Link href={ "Di Terima " }
-            className={ `btn  ${ slug === "Di Terima" ? "info btn-disabled "
-                                                      : `   text-white  ${ Status( "Di Terima" ) } }` }   ` }>
+            className={ `btn  ${ slug === "Di Terima"
+                                 ? "info btn-disabled "
+                                 : `   text-white  ${ Status( "Di Terima" ) } }` }   ` }>
         Di Terima
       </Link>
       <Link href={ "Di Proses" }
-            className={ `btn ${ slug === "Di Proses" ? " btn-disabled text-black"
-                                                     : `  text-white   ${ Status( "Di Proses" ) } ` } ` }>
+            className={ `btn ${ slug === "Di Proses"
+                                ? " btn-disabled text-black"
+                                : `  text-white   ${ Status( "Di Proses" ) } ` } ` }>
         Di Proses
       </Link>
 
       <Link href={ "Di Kirim" }
-            className={ `btn ${ slug === "Di Kirim" ? " btn-disabled text-black"
-                                                    : `  text-white ` }   ${ Status( "Di Kirim" ) } ` }>
+            className={ `btn ${ slug === "Di Kirim"
+                                ? " btn-disabled text-black"
+                                : `  text-white ` }   ${ Status( "Di Kirim" ) } ` }>
         Di Kirim
       </Link>
 
       <Link href={ "Selesai" } replace={ false }
-            className={ `btn ${ slug === "Selesai" ? " btn-disabled text-black"
-                                                   : `  text-white  ` }  ${ Status( "Selesai" ) } ` }>
+            className={ `btn ${ slug === "Selesai"
+                                ? " btn-disabled text-black"
+                                : `  text-white  ` }  ${ Status( "Selesai" ) } ` }>
         Selesai
       </Link>
 

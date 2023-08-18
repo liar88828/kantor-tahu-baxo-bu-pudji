@@ -1,6 +1,5 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { config } from '../../../../dataEnv';
-import { revalidateTag } from 'next/cache';
 
 export const getDataByStatus = async ( slug: string ) => {
   const res = await fetch( config.url + "/api/orderan/table/" + slug, {
@@ -15,8 +14,7 @@ export async function getData() {
     {
       // cache: 'no-cache',
       next  : { revalidate: 10, tags: [ "table" ] },
-      method:
-        "GET"
+      method: "GET"
     }
   )
   console.log( await res.json() )
@@ -33,8 +31,8 @@ export async function deleteDataMany( send: string [] ) {
   formData.append( "data", JSON.stringify( send ) )
   const res = await fetch( config.url + "/api/orderan/", {
       method: "DELETE",
-      body: formData,
-
+    body: formData,
+    next: { tags: [ "table" ] }
     }
   )
 
@@ -45,7 +43,7 @@ export async function deleteDataMany( send: string [] ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
-    console.log( arrays )
+    // console.log( arrays )
   }
   // revalidateTag( "table" )
   return data
@@ -55,8 +53,8 @@ export async function deleteDataOne( send: string ) {
   // revalidateTag( 'table/[slug]' );
   const id  = send.replaceAll( "/", "_" )
   const res = await fetch( config.url + `/api/orderan/` + id, {
-    method: "DELETE"
-    // next  : { tags: [ "table" ] }
+    method: "DELETE",
+    next  : { tags: [ "table" ] }
     }
   )
 
@@ -67,7 +65,7 @@ export async function deleteDataOne( send: string ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
-    console.log( arrays )
+    // console.log( arrays )
   }
   // await res.revalidate()
   return data
@@ -79,6 +77,8 @@ export async function editData( id: string, json: any ) {
       // cache: 'no-cache',
       // next  : { revalidate: 10 },
       method: "PUT",
+      next: { tags: [ "table" ] }
+
     }
   )
 

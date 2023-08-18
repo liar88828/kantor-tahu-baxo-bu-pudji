@@ -19,7 +19,7 @@ export function InputNew( props: { register: UseFormRegisterReturn<string> } ) {
 }
 
 export function InputForm(
-  { tag: Tag = "input", title, type, reg, value, min, defaultValue }
+  { tag: Tag = "input", title, type, reg, value, min, defaultValue, }
     : InputFormProps ): ReactElement {
 
   let ress = {
@@ -35,7 +35,7 @@ export function InputForm(
     <div className="flex flex-col">
       <label className={ styleLabelForm }
              htmlFor="grid-password"> { title } </label>
-      <Tag{ ...ress }{ ...reg } />
+      <Tag { ...ress }{ ...reg } />
     </div>
   )
 }

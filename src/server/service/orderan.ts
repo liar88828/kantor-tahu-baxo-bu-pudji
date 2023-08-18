@@ -16,7 +16,7 @@ const findById = (
   id: string
 ) => {
   if( !z.success ) {
-    throw new newError( "Invalid Id" )
+    return z.error.message
   }
   else {
     return id

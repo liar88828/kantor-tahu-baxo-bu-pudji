@@ -10,8 +10,8 @@ export async function GET( request: NextRequest ) {
   // const skip = searchParams.get("skip"); // Retrieves the value of the 'skip' parameter
   // const limit = searchParams.get("limit"); // Retrieves the value of the 'limit' parameter
 
-  // console.log(skip);
-  // console.log(limit);
+  console.log( url );
+  console.log( searchParams );
   try {
     return NextResponse.json( {
       msg: "Success GET",

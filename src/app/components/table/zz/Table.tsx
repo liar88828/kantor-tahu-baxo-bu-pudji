@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { HTMLProps } from 'react'
 
 import {
   createColumnHelper, flexRender, getCoreRowModel, useReactTable,
@@ -66,7 +66,7 @@ import { TOrder } from '@/entity/client/orderan';
 const columnHelper = createColumnHelper<TOrder>()
 
 const columns = [
-  columnHelper.accessor( "no", {} ),
+  // columnHelper.accessor( "no", {} ),
 
   columnHelper.group( {
     id     : 'tanggal',
@@ -173,3 +173,43 @@ export function Tables() {
     </div>
   )
 }
+
+function useSkipper() {
+  const shouldSkipRef = React.useRef( true )
+  const shouldSkip    = shouldSkipRef.current
+
+  // Wrap a function with this to skip a pagination reset temporarily
+  const skip = React.useCallback( () => {
+    shouldSkipRef.current = false
+  }, [] )
+
+  React.useEffect( () => {
+    shouldSkipRef.current = true
+  } )
+
+  return [ shouldSkip, skip ] as const
+}
+
+function IndeterminateCheckbox(
+  { indeterminate, className = '', ...rest }:
+    {
+      indeterminate?: boolean
+    } & HTMLProps<HTMLInputElement> ) {
+  const ref = React.useRef<HTMLInputElement>( null! )
+
+  React.useEffect( () => {
+    if( typeof indeterminate === 'boolean' ) {
+      ref.current.indeterminate = !rest.checked && indeterminate
+    }
+  }, [ ref, indeterminate ] )
+
+  return (
+    <input
+      type="checkbox"
+      ref={ ref }
+      className={ className + ' cursor-pointer' }
+      { ...rest }
+    />
+  )
+}
+

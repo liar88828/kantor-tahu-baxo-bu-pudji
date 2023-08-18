@@ -2,34 +2,45 @@
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
 import React, { useState } from 'react';
-import { defaultValues, orderan } from '@/app/utils/format/orderan';
+import { defaultValues } from '@/app/utils/format/orderan';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/elements/input/InputNew';
-import { defaultDate, getLocaleTime, getTime } from '@/lib/utils/formatDate';
 import { sProduct } from '@/entity/client/example/produk';
 import { Status } from '@/app/style/status';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { BiAddToQueue } from 'react-icons/bi';
 import { OrderanTable } from '@/app/components/table/Orderan';
-import { onCreate } from '@/app/utils/ress/orderan';
 import { PopUp } from '@/app/components/popup/orderan';
+import { setIdOrderan } from '@/lib/utils/formatId';
 import { notifyData } from '@/app/utils/notif/toash';
 
-export function FormOrder() {
+const regExp = /^[a-zA-Z0-9.,_ ]+$/i;
+
+export function FormOrder( { id = "", method = "POST", defaultDataOrder }: {
+  id: string,
+  method: string,
+  defaultDataOrder: Awaited<TOrder>
+} ) {
   const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
     {
-      // defaultValues: defaultValues,
-      mode: "onChange",
+      defaultValues: defaultDataOrder,
+      mode         : "onChange",
     } );
 
-  const [ isError, setIsError ] = useState( true )
-  console.log( errors )
+  const [ isError, ] = useState( true )
 
   const requiress = Object.keys( errors )
   if( requiress.length !== 0 && isError ) {
-    requiress.map( ( d, index ) => {
-        notifyData( `fail, require ${ requiress[ index ] }` )
+    const entries = Object.entries( errors );
+    // console.log( entries )
+    entries.forEach( ( d, i ) => {
+      // console.log( d )
+      // console.log("name "+ d[0] )
+      // console.log( "type " + d[ 1 ].type )
+      notifyData( `fail, ${ d[ 0 ].toUpperCase() } is ${ d[ 1 ].type === "pattern"
+                                                         ? "symbol is not allow "
+                                                         : "value is require" }` )
       }
     )
   }
@@ -93,55 +104,87 @@ export function FormOrder() {
   const totalHarga = Number( semuaHargaOrderan ) +
     Number( semuaHargaItem ) + Number( mergeData.ongkir )
 
-  const hitung: Thitung        = {
-    semuaHargaOrderan, semuaHargaItem, semuaHargaProduct, totalHarga
-  }
+  const hitung: Thitung        = { semuaHargaOrderan, semuaHargaItem, semuaHargaProduct, totalHarga }
   const dataBaru: TotalOrderan = Object.assign( { hitung, }, mergeData )
+  console.log( id )
 
-  dataBaru.no             = orderan( dataBaru ) +
-    ( ( dataBaru.hpPenerima + dataBaru.hpPengirim ) + dataBaru.penerima.length )
-  dataBaru.id             = dataBaru.no
+  dataBaru.id = id || setIdOrderan( dataBaru )
   dataBaru.totalBayar     = dataBaru.hitung.totalHarga
   dataBaru.totalPenjualan = dataBaru.hitung.semuaHargaOrderan
 
-  const onSubmit: SubmitHandler<TOrder> = ( data ) => setValueForm( data );
+  const onSubmit: SubmitHandler<TOrder> = ( data ) => {
 
-  function Nama( { styles }: { styles: string } ) {
+    console.log( data )
+    setValueForm( data )
+  };
+
+  function Nama( { styles }: {
+    styles: string
+  } ) {
+
     return (
       <>
         <div className={ "flex-col flex gap-3 " + styles }>
           <h2 className={ styleLabelForm }>Nama</h2>
           <hr/>
-          <InputForm title={ "Pengirim" } type="text" reg={ register( "pengirim", { required: true } ) }
+          <InputForm title={ "Pengirim" } type="text"
+                     reg={ register( "pengirim", {
+                       required: true,
+                       pattern : regExp
+                     } ) }
                      defaultValue={ "Kantor Tahu Baxo" }/>
+
           <InputForm title={ "Hp Pengirim" } type={ "number" }
-                     reg={ register( "hpPengirim", { required: true, valueAsNumber: true } ) }/>
-          <InputForm title={ "Penerima" } type={ "text" } reg={ register( "penerima", { required: true } ) }/>
+                     reg={ register( "hpPengirim",
+                       {
+                         required     : true,
+                         valueAsNumber: true,
+                       } ) }/>
+          <InputForm title={ "Penerima" } type={ "text" }
+                     reg={ register( "penerima", {
+                       required: true,
+                       pattern : regExp
+                     } ) }/>
           <InputForm title={ "Alamat Penerima" } type={ "text" }
-                     reg={ register( "alamatPenerima", { required: true } ) }/>
+                     reg={ register( "alamatPenerima", {
+                       required: true,
+                       pattern : regExp
+                     } ) }/>
           <InputForm title={ "Hp Penerima" } type={ "number" }
-                     reg={ register( "hpPenerima", { required: true, valueAsNumber: true } ) }/>
+                     reg={ register( "hpPenerima", {
+                       required     : true,
+                       valueAsNumber: true,
+                     } ) }/>
         </div>
       </>
     );
   }
 
-  function Tanggal( { styles }: { styles: string } ) {
-    return (
-      <>
-        <div className={ " flex-col flex gap-3 " + styles }>
-          <h2>Tanggal</h2>
-          <hr/>
-          <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } reg={ register( "pesan", { required: true, } ) }
-                     min="2023-01-01" defaultValue={ defaultDate() }/>
-          <InputForm tag={ "input" } title={ "Kirim" } type={ "date" } reg={ register( "kirim", { required: true, } ) }
-                     defaultValue={ defaultDate() }/>
-          <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" }
-                     reg={ register( "waktuKirim", { required: true, } ) } defaultValue={ getTime() }/>
-          <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" }
-                     reg={ register( "guna", { required: true, } ) }/>
-        </div>
-      </> )
+  function Tanggal( { styles }: {
+    styles: string
+  } ) {
+    return ( <>
+      <div className={ " flex-col flex gap-3 " + styles }>
+        <h2>Tanggal</h2>
+        <hr/>
+        <InputForm tag={ "input" } title={ "Pesan" } type={ "date" } min="2023-01-01"
+                   reg={ register( "pesan", { required: true, } ) }
+          // defaultValue={ defaultDate() }
+        />
+        <InputForm tag={ "input" } title={ "Kirim" } type={ "date" }
+                   min="2023-01-01"
+                   reg={ register( "kirim", { required: true, } ) }
+          // defaultValue={ defaultDate() }
+        />
+        <InputForm tag={ "input" } title={ "Waktu Kirim" } type={ "time" }
+                   reg={ register( "waktuKirim", { required: true, } ) }
+          // defaultValue={ getTime() }
+        />
+        <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" }
+                   reg={ register( "guna", { required: true, pattern: regExp } ) }
+        />
+      </div>
+    </> )
   }
 
   function Orderan() {
@@ -192,15 +235,6 @@ export function FormOrder() {
 
     const isItemAdded = ( item: TProduct ) => cart.some( ( cartItem ) => cartItem.nama ===
       item.nama )
-
-    //-----------------------------------------------search
-    // function SearchItemList( { items, addToCart, cart }: { items:
-    // TProduct[], addToCart: any, cart: TProduct[] } ) { return ( ) }
-    // function CariProduct() {
-    //   return (
-    //
-    //   )
-    // }
 
     function Keterangan() {
       return (
@@ -455,9 +489,11 @@ export function FormOrder() {
           && ( <PopUp
             clickPopUp={ clickPopUp }
             setClickPopUp={ setClickPopUp }
-            onCreate={ onCreate }
             data={ dataBaru }
+            id={ id }
+            method={ method }
           /> ) }
+
         <button className={ "btn btn-error text-white" }
                 onClick={ () => reset( defaultValues ) }
                 type="button"
