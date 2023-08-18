@@ -17,14 +17,14 @@ export default function Page() {
 
 }
 
-export function FormEdit( { id, path }:
-  { id: string, path: string } ) {
-
-  const { register, handleSubmit, }       = useForm<TProduct>( {
+export function FormEdit( { id, path }: { id: string, path: string } ) {
+  const { register, handleSubmit, } = useForm<TProduct>( {
     defaultValues: async () => {
+
       const res = await fetch( "/api/product/" + id )
       const { data }: { data: TProduct } = await res.json()
       // console.log( data )
+
       setImage( data.img || "tidak ada" )
       return {
         nama      : data.nama,
@@ -39,6 +39,7 @@ export function FormEdit( { id, path }:
     },
     mode         : "onChange",
   } );
+
   const [ selectedFile, setSelectedFile ] = useState<File | null>();
   const [ image, setImage ]               = useState<string | null>( null );
   const [ previewURL, setPreviewURL ]     = useState<string | null>( null );
@@ -64,16 +65,6 @@ export function FormEdit( { id, path }:
     } )
 
   };
-  const FormProduct                       = () => {
-    return ( <div className={ "sm:m-4 bg-white rounded p-5 w-1/2" }>
-        <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) }/>
-        <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }/>
-        <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }/>
-        <InputForm title={ formProduct.jenis } type="text" reg={ register( "jenis" ) }/>
-        <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }/>
-      </div>
-    )
-  }
 
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
@@ -81,7 +72,13 @@ export function FormEdit( { id, path }:
       <div className="flex flex-row">
         <form onSubmit={ handleSubmit( onSubmit ) }
               className="w-full flex  flex-row gap-5 ">
-          <FormProduct/>
+          <div className={ "sm:m-4 bg-white rounded p-5 w-1/2" }>
+            <InputForm title={ formProduct.nama } type="text" reg={ register( "nama" ) }/>
+            <InputForm title={ formProduct.harga } type="number" reg={ register( "harga" ) }/>
+            <InputForm title={ formProduct.lokasi } type="text" reg={ register( "lokasi" ) }/>
+            <InputForm title={ formProduct.jenis } type="text" reg={ register( "jenis" ) }/>
+            <InputForm title={ formProduct.keterangan } type="textarea" reg={ register( "keterangan" ) }/>
+          </div>
           <div
             className=" sm:m-4 bg-white rounded p-5 w-1/2  flex  flex-col gap-5 ">
             <Suspense fallback={ <p>Loading feed...</p> }>
@@ -98,10 +95,8 @@ export function FormEdit( { id, path }:
                     className="btn btn-accent text-white">Simpan
             </button>
           </div>
-
         </form>
       </div>
-
     </main>
   );
 }

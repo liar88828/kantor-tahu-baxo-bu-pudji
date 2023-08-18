@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Control                       from '@/server/controller/produk';
-import { revalidateTag }             from 'next/cache';
-import { saveFile }                  from '@/server/service/image';
-import { formatData }                from '@/lib/utils/formatData';
-import { fileSystem }                from '@/lib/utils/fileSystem';
+import Control from '@/server/controller/produk';
+import { revalidateTag } from 'next/cache';
+import { saveFile } from '@/server/service/image';
+import { formatData } from '@/lib/utils/formatData';
+import { fileSystem } from '@/lib/utils/fileSystem';
 
 export async function GET( _: NextRequest, route: {
   params: { id: string }
@@ -26,6 +26,7 @@ export async function PUT( request: NextRequest, route: {
 } ) {
   const id: string = route.params.id
   // console.log( request.json() )
+  // console.log( id )
   try {
     const json        = await saveFile( request, "img/produk/", "edit" )
     // console.log(json)

@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse }     from 'next/server'
-import Control                           from '@/server/controller/produk';
-import { saveFile }                      from '@/server/service/image';
-import { formatData }                    from '@/lib/utils/formatData';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { NextRequest, NextResponse } from 'next/server'
+import Control from '@/server/controller/produk';
+import { saveFile } from '@/server/service/image';
+import { formatData } from '@/lib/utils/formatData';
 
 // import { revalidatePath }            from 'next/cache'
 
