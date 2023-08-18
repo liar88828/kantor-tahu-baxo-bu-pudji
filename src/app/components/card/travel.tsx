@@ -8,9 +8,11 @@ export const CardList = async ( { router }: {
   router: AppRouterInstance
 
 } ) => {
-  const { data }: { data: TTravel[ ] } = await getData()
+  const { data }: {
+    data: TTravel[ ]
+  }            = await getData()
   // console.log( data )
-  const goEdit                         = ( id: string ) => {
+  const goEdit = ( id: string ) => {
     // console.log( "click" )
     router.push( "/travel/" + id + "/edit" )
   }
@@ -23,7 +25,7 @@ export const CardList = async ( { router }: {
         <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
 
           <figure className={ "w-[20%] h-auto" }>
-            <Image src={ "/" + d.img } width={ 500 } height={ 500 } alt={ d.namaPengiriman }/>
+            <Image src={ d.img ?? "" } width={ 500 } height={ 500 } alt={ d.namaPengiriman }/>
           </figure>
 
           <div className="card-body flex flex-row justify-between py-4 px-6 ">

@@ -1,6 +1,4 @@
-import {
-  Repository
-} from '@/server/repository/interface/repository/Repository';
+import { Repository } from '@/server/repository/interface/repository/Repository';
 
 // export interface InterfaceRepoTravel {
 //   setData( d: TYPE ): TYPE
