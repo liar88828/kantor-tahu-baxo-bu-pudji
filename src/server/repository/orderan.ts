@@ -5,6 +5,11 @@ import { InterfaceOrderan } from '@/server/repository/interface/repository/order
 import { TPOrderan } from '@/entity/server/produkOrderan';
 
 export default class RepoOrderan implements InterfaceOrderan {
+
+  createMany( data: any[] ): Promise<any> {
+    throw new Error( 'Method not implemented.' );
+  }
+
 // getAll data from database
   private getSelect() {
     return {
@@ -44,21 +49,6 @@ export default class RepoOrderan implements InterfaceOrderan {
     };
   }
 
-  // ---------CREATE
-  async createTransaction( data: TOrderServer ) {
-    // console.log( data )
-    const createOne = prisma.orderan.create( {
-      data: this.setOne( data )
-    } )
-
-    const createMany  = prisma.semuaProduct.createMany( {
-      data: this.setDataProduct( data )
-    } )
-    const transaction = await prisma.$transaction( [ createOne, createMany ] )
-    // console.log( transaction )
-    return transaction
-  }
-
   private setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
     const time = ( d.waktuKirim.toString().length === 5 )
                  ? d.waktuKirim + ":00"
@@ -90,6 +80,27 @@ export default class RepoOrderan implements InterfaceOrderan {
 
   }
 
+  // ---------CREATE
+  async createOne( data: TOrderServer ) {
+    // console.log( data )
+    const createOne = prisma.orderan.create( {
+      data: this.setOne( data )
+    } )
+
+    const createMany = prisma.semuaProduct.createMany( {
+      data: this.setMany( data )
+    } )
+    return await prisma.$transaction( [ createOne, createMany ] )
+  }
+
+  async findOne( id: string ) {
+    // console.log( id )
+    return prisma.orderan.findUnique( {
+      where  : { id },
+      include: { semuaProduct: true }
+    } )
+  }
+
   async findAll() {
     return prisma.orderan.findMany( {
       select: this.getSelect(),
@@ -100,17 +111,7 @@ export default class RepoOrderan implements InterfaceOrderan {
     } )
   }
 
-  async findById( id: string ) {
-    console.log( id )
-    const data = await prisma.orderan.findUnique( {
-      where  : { id },
-      include: { semuaProduct: true }
-    } )
-    console.log( data )
-    return data
-  }
-
-  async findByStatus( status: TOrderServer["status"] ) {
+  async findById( status: TOrderServer["status"] ) {
     let option = {
       include: { semuaProduct: true }
     }
@@ -121,31 +122,6 @@ export default class RepoOrderan implements InterfaceOrderan {
     return prisma.orderan.findMany( option )
   }
 
-  async paginate( data: {
-    row: number,
-    skip: number
-  } ) {
-    const { row, skip } = data
-    return prisma.orderan.findMany( { take: row, skip } )
-  }
-
-  private setDataProduct( data: TOrderServer, method: string = "POST" ) {
-    return data.semuaProduct.map( ( d: TPOrderan ) => (
-        Object.assign( {
-          harga     : d.harga,
-          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-          jenis     : d.jenis,
-          jumlah    : d.jumlah,
-          keterangan: d.keterangan,
-          lokasi    : d.lokasi,
-          img       : d.img,
-          nama      : d.nama,
-          orderanId : data.id
-        } )
-      )
-    );
-  }
-
   async createNesting( data: TOrderServer ) {
 
     return prisma.orderan.create( {
@@ -154,7 +130,7 @@ export default class RepoOrderan implements InterfaceOrderan {
           {
             semuaProduct: {
               createMany: {
-                data: this.setDataProduct( data )
+                data: this.setMany( data )
               }
             },
           }, ),
@@ -164,6 +140,24 @@ export default class RepoOrderan implements InterfaceOrderan {
       },
     } )
 
+  }
+
+  async paginate( data: {
+    row: number,
+    skip: number
+  } ) {
+    const { row, skip } = data
+    return prisma.orderan.findMany( { take: row, skip } )
+  }
+
+  // -----DELETE
+  async destroyMany( array: string [] ) {
+    // console.log( array )
+    // console.log( "many" )
+    const id            = array.map( d => d )
+    const deleteOrder   = prisma.orderan.deleteMany( { where: { id: { in: id } } } )
+    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: { in: id } } } )
+    return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
   }
 
   // -----DELETE
@@ -181,14 +175,19 @@ export default class RepoOrderan implements InterfaceOrderan {
     return prisma.$transaction( [ deleteMany, delete1 ] )
   }
 
-  // -----DELETE
-  async deleteMany( array: string [] ) {
-    console.log( array )
-    console.log( "many" )
-    const id            = array.map( d => d )
-    const deleteOrder   = prisma.orderan.deleteMany( { where: { id: { in: id } } } )
-    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: { in: id } } } )
-    return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
+  async updateMany( data: TOrderServer, id: string, ) {
+
+    const updateData = prisma.orderan.update( {
+      where: { id },
+      data: this.setOne( data )
+    } );
+
+    const createMany = prisma.semuaProduct.createMany( {
+      data: this.setMany( data )
+    } )
+
+    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
+    return await prisma.$transaction( [ deleteProduct, createMany, updateData ] )
   }
 
   async updateOneOnly( data: Partial<TOptional>, id: string, ) {
@@ -244,60 +243,9 @@ export default class RepoOrderan implements InterfaceOrderan {
       } ),
     ] );
 
-    // const updateOrderan = prisma.orderan.update( {
-    //   where: { id: id },
-    //   data : this.setOne( data ),
-    // } )
-    // const dataku        = data.semuaProduct.map( d =>
-    //   prisma.semuaProduct.update( {
-    //     where: { id: d.id },
-    //     data : {
-    //       harga     : d.harga,
-    //       jenis     : d.jenis,
-    //       jumlah    : d.jumlah,
-    //       keterangan: d.keterangan,
-    //       lokasi    : d.lokasi,
-    //       nama      : d.nama,
-    //       orderanId : id
-    //     },
-    //   } )
-    // )
-    //
-    // return await prisma.$transaction( [ updateOrderan, ...dataku ] );
-
-    // const updateMany = data.semuaProduct.map( ( d: TPOrderan ) =>
-    //   prisma.semuaProduct.update( {
-    //     where: { id: d.id },
-    //     data : {
-    //       harga     : d.harga,
-    //       jenis     : d.jenis,
-    //       jumlah    : d.jumlah,
-    //       keterangan: d.keterangan,
-    //       lokasi    : d.lokasi,
-    //       nama      : d.nama,
-    //       orderanId : id
-    //     }
-    //   } ) )
-
-    // return prisma.$transaction( [    updateMany] )
   }
 
-  async UpdateMany( data: TOrderServer, id: string, ) {
-
-    const updateData = prisma.orderan.update( {
-      where: { id },
-      data: this.setOne( data )
-    } );
-
-    const createMany = prisma.semuaProduct.createMany( {
-      data: this.setDataProduct( data )
-    } )
-
-    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
-    return await prisma.$transaction( [ deleteProduct, createMany, updateData ] )
-  }
-
-  async updateOneNew( data: TOrderServer, id: string, ) {
+  async updateOne( data: TOrderServer, id: string, ) {
     // console.log(data)
     return prisma.orderan.update( {
         where: { id: id },
@@ -306,21 +254,21 @@ export default class RepoOrderan implements InterfaceOrderan {
     )
 
   }
-}
 
-//   async updateOne( data: TOrderServer, id: string, ) {
-//     return prisma.orderan.update( {
-//       where: { id: id },
-//       data :
-//         Object.assign( this.setOne( data ),
-//           {
-//             semuaProduct: {
-//               updateMany: {
-//                 where: { id: data.semuaProduct.map( d => d.id ) },
-//                 data : this.setDataProduct( data )
-//               }
-//             }
-//           } )
-//     } )
-//   }
-// }
+  private setMany( data: TOrderServer, method: string = "POST" ) {
+    return data.semuaProduct.map( ( d: TPOrderan ) => (
+        Object.assign( {
+          harga     : d.harga,
+          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
+          jenis     : d.jenis,
+          jumlah    : d.jumlah,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi,
+          img       : d.img,
+          nama      : d.nama,
+          orderanId : data.id
+        } )
+      )
+    );
+  }
+}

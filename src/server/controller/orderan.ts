@@ -8,28 +8,24 @@ const Repo  = new RepoOrderan()
 const valid = new Validation()
 
 const find = async () => {
-  const repo = await Repo.findAll()
-  return repo
+  return Repo.findAll()
 }
 
-const findById = async ( id: string ) => {
-  id         = Service.findById( valid.ZFindById( id ), id )
-  const repo = await Repo.findById( id )
-  console.log( repo )
-  return repo
+const findOne = async ( id: string ) => {
+  id = Service.findById( valid.ZFindById( id ), id )
+  return Repo.findOne( id )
 }
 
 const findByStatus = async ( status: string ) => {
   const service = Service.findById( valid.ZFindById( status ), status )
-  const repo    = await Repo.findByStatus( service )
-  return repo
+  return Repo.findById( service )
 }
 
 const create = async ( body: TYPE ) => {
   const validData = await Service.create( await valid.Input( body, valid.OrderanSchema ), body )
   // console.log( validData  )
   if( typeof validData === "object" ) {
-    return await Repo.createTransaction( validData )
+    return await Repo.createOne( validData )
   }
   return validData
 }
@@ -41,7 +37,7 @@ const edit = async ( body: TYPE, id: string ) => {
   // console.log( body.id.length )
   // console.log( validData )
   if( typeof validData === 'object' ) {
-    const data = await Repo.UpdateMany( validData, id )
+    const data = await Repo.updateMany( validData, id )
     console.log( data )
     return data
   }
@@ -49,28 +45,21 @@ const edit = async ( body: TYPE, id: string ) => {
 }
 
 const updateOneOnly = async ( id: string, option: string, value: Partial<TOptional> ) => {
-  // id         = Service.findById( valid.ZFindById( id ), id )
-  // const data = {}
-  // const repo = await Repo.updateOne( data, id, )
   return {}
-
 }
 
 const destroy = async ( id: string ) => {
   id = Service.findById( valid.ZFindById( id ), id )
-  const repo = await Repo.destroyOne( id )
-  return repo
+  return await Repo.destroyOne( id )
 }
 
 const deleteMany = async ( body: any ) => {
   const validData = await Service.create( await valid.Input( body, valid.ZIdMany ), body )
-  // console.log(body  )
-  // console.log(validData)
   if( typeof validData === 'object' ) {
-    const data = Repo.deleteMany( body )
+    return Repo.destroyMany( validData )
   }
   return validData
 }
 
-const Control = { find, create, edit, destroy, findById, findByStatus, deleteMany, updateOneOnly }
+const Control = { find, create, edit, destroy, findOne, findByStatus, deleteMany, updateOneOnly }
 export default Control

@@ -15,5 +15,5 @@ export interface Repository {
   destroyMany( id: string ): Promise<any>;
   // utils
   setOne( d: any ): any
-  setMany( d: any[] ): any[]
+  setMany( data: any, method: string ): any[];
 }

@@ -1,20 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Control from '@/server/controller/orderan';
 
-import { tryCatch } from '@/app/api/orderan/tryCatch';
+import { tryCatch } from '@/lib/tryCatch';
 
-export async function GET( _: NextRequest, route: { params: { id: string[] } } ) {
+export async function GET( _: NextRequest, route: {
+  params: {
+    id: string[]
+  }
+} ) {
   const id: string[] = route.params.id
-  const getData      = await Control.findById( id[ 0 ] )
-  // console.log( getData )
+  console.log( id )
   try {
     if( id[ 0 ] !== "table" ) {
+      console.log( "test id 1" )
+
       return NextResponse.json( {
         msg : `Success GET ${ id }`,
-        data: getData
+        data: await Control.findOne( id[ 0 ] )
       } )
     }
     else {
+      console.log( "test id 2" )
       return NextResponse.json( {
         msg : `Success GET ${ id }`,
         data: await Control.findByStatus( id[ 1 ] ),
@@ -27,7 +33,11 @@ export async function GET( _: NextRequest, route: { params: { id: string[] } } )
   }
 }
 
-export async function PUT( request: NextRequest, route: { params: { id: string } } ) {
+export async function PUT( request: NextRequest, route: {
+  params: {
+    id: string
+  }
+} ) {
   const json       = await request.json()
   const id: string = route.params.id
   // console.log(json)
@@ -36,7 +46,11 @@ export async function PUT( request: NextRequest, route: { params: { id: string }
 
 }
 
-export async function DELETE( _: NextRequest, route: { params: { id: string } },
+export async function DELETE( _: NextRequest, route: {
+    params: {
+      id: string
+    }
+  },
 ) {
   const array: string = route.params.id
   const id            = array[ 0 ]

@@ -1,7 +1,7 @@
 "use client"
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { defaultValues } from '@/app/utils/format/orderan';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/elements/input/InputNew';
@@ -14,15 +14,33 @@ import { OrderanTable } from '@/app/components/table/Orderan';
 import { PopUp } from '@/app/components/popup/orderan';
 import { setIdOrderan } from '@/lib/utils/formatId';
 import { notifyData } from '@/app/utils/notif/toash';
+import { config } from '../../../../dataEnv';
 
 let regExp: RegExp;
 regExp = /^[a-zA-Z0-9.,_ ]+$/i;
 
-export function FormOrder( { id = "", method = "POST", defaultDataOrder }: {
+export function FormOrder( {
+  id = "", method = "POST", defaultDataOrder,
+}: {
   id: string,
   method: string,
-  defaultDataOrder: Awaited<TOrder>
+  defaultDataOrder: Awaited<TOrder>,
 } ) {
+
+  const getData = async () => {
+    const dataProduct = await fetch( config.url + "/api/product/" ).then( res => res.json() )
+    const dataTravel  = await fetch( config.url + "/api/travel/" ).then( res => res.json() )
+    return { dataProduct, dataTravel }
+  }
+
+  const [ travel, setTravel ] = useState<TTravel[]>( [] )
+  const [ product, setProduct ] = useState<TProduct[]>( [] )
+  useEffect( async () => {
+    const { dataProduct, dataTravel } = await getData()
+    setProduct( dataProduct.data )
+    setTravel( dataTravel.data )
+  }, [] )
+
   const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
     {
       defaultValues: defaultDataOrder,
@@ -259,7 +277,7 @@ export function FormOrder( { id = "", method = "POST", defaultDataOrder }: {
                 {/*<SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>*/ }
                 <ul
                   className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-                  { filteredItems.map( ( item: TProduct, ) => ( <li
+                  { product.map( ( item: TProduct, ) => ( <li
                       className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden"
                                                            : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
                       style={ {
@@ -415,16 +433,15 @@ export function FormOrder( { id = "", method = "POST", defaultDataOrder }: {
             <div className={ "flex flex-col gap-3" }>
 
               {/* combo box  */ }
+
               <label htmlFor="" className={ styleLabelForm }>Ekspedisi</label>
               <select id="ekspedisi"
                       className='bg-gray-50  border border-gray-300 p-2 rounded-md'{ ...register( "namaPengiriman" ) }>
-                <option value="Paxel">Paxel</option>
-                <option value="JNE">JNE</option>
-                <option value="Travel Omega">Travel Omega</option>
-                <option value="Travel Serasi">Travel Serasi</option>
-                <option value="Go Send">Go Send</option>
-                <option value="Maxim">Maxim</option>
-                <option value="Delivery">Delivery</option>
+                { travel.map( t => {
+                  return (
+                    <option key={ t.namaPengiriman } value={ t.namaPengiriman }>{ t.namaPengiriman }</option>
+                  )
+                } ) }
               </select>
 
               {/* tulis sendiri */ }

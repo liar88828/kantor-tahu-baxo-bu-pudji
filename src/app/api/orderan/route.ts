@@ -1,9 +1,24 @@
 import { NextRequest } from 'next/server'
 import Control from '@/server/controller/orderan';
-import { tryCatch } from '@/app/api/orderan/tryCatch';
+import { tryCatch } from '@/lib/tryCatch';
 
-export async function GET() {
-  return tryCatch( "GET", Control.find(), )
+export async function GET( request: NextRequest, ) {
+  const url          = new URL( request.url );
+  const searchParams = new URLSearchParams( url.search );
+  const id           = searchParams.get( "id" ) as string
+  const option       = searchParams.get( "option" ) as string
+  const value        = searchParams.get( "value" ) as string | number
+
+  if( option === "table" ) {
+    return tryCatch( "GET", Control.findByStatus, id )
+  }
+  if( id && !option && !value ) {
+    return tryCatch( "GET", Control.findOne, id )
+  }
+
+  if( url.pathname === "/api/orderan" && !id ) {
+    return tryCatch( "GET", Control.find, )
+  }
 }
 
 export async function POST( request: NextRequest, ) {
@@ -28,14 +43,18 @@ export async function PUT( request: NextRequest, ) {
   return tryCatch( "EDIT", Control.updateOneOnly, id, option, value )
 }
 
-export async function DELETE( request: NextRequest, route: {
-    params: {
-      id: string
-    }
+export async function DELETE( request: NextRequest, ) {
+  const url          = new URL( request.url );
+  const searchParams = new URLSearchParams( url.search );
+  const id           = searchParams.get( "id" ) as string
+  console.log( id )
+  if( id ) {
+    return tryCatch( "DELETE", Control.destroy, id )
   }
-) {
-  const formData            = await request.formData();
-  const formDataEntryValues = Array.from( formData.values() );
-  let array: string[] = JSON.parse( <string>formDataEntryValues[ 0 ] )
-  return tryCatch( "DELETE", Control.deleteMany, array );
+  if( !id ) {
+    const formData            = await request.formData();
+    const formDataEntryValues = Array.from( formData.values() );
+    let array: string[]       = JSON.parse( <string>formDataEntryValues[ 0 ] )
+    return tryCatch( "DELETE", Control.deleteMany, array );
+  }
 }

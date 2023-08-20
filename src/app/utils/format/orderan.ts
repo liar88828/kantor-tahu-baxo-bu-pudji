@@ -6,7 +6,7 @@ import { defaultDate, getTime } from '@/lib/utils/formatDate';
 export const defaultValues: TOrder = {
   //data orang
   pengirim  : 'Kantor Tahu Baxo',
-  hpPengirim: '',
+  hpPengirim: '0123456789',
   penerima  : '',
   alamatPenerima: '',
   hpPenerima: '',

@@ -6,15 +6,15 @@ import {
   getSortedRowModel, SortingState, useReactTable
 } from '@tanstack/react-table';
 
-import { notifBaru, notifyData } from '@/app/utils/notif/toash';
+import { notifyData } from '@/app/utils/notif/toash';
 import type { TOrderServer } from '@/entity/server/orderan';
 import { Rupiah } from '@/lib/utils/rupiah';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useSkipper } from '@/app/components/table/utils/Skipper';
 import { IndeterminateCheckbox } from '@/app/components/table/utils/IndeterminateCheckbox';
 import { Filter } from '@/app/components/table/utils/FirstValue';
 import { exportToExcel } from '@/lib/excel';
-import { deleteDataMany, deleteDataOne } from '@/app/utils/ress/table';
+import { deleteDataMany, deleteDataOne } from '@/app/utils/ress/orderan';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -23,15 +23,15 @@ declare module '@tanstack/react-table' {
 }
 
 //-------------------------Main Table
-export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data: TOrderServer[] }, } ) {
+export function TableOrder( { dataOrderan }: {
+  dataOrderan: {
+    msg: string,
+    data: TOrderServer[]
+  },
+} ) {
   // console.log( dataOrderan )
   const { msg, data: dataOrder } = dataOrderan
   const router                   = useRouter()
-  const param                    = useParams()
-  // console.log(param)
-  useEffect( () => {
-    notifBaru( msg )
-  }, [] );
 
   // sorting
   const [ sorting, setSorting ] = useState<SortingState>( [] )
@@ -156,6 +156,60 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
         ],
       },
 
+      // {
+      //   header: 'Semua Produk', footer: props => props.column.id, columns: [ {
+      //     accessorKey: 'semuaProduct',
+      //     header     : 'Nama Product',
+      //     cell       : info => info.getValue()
+      //                              .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
+      //                                <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
+      //                                { d.harga } , </p> ),
+      //     footer     : props => props.column.id,
+      //   },
+      //
+      //   ],
+      // },
+
+      {
+        header: 'Semua Produk', footer: props => props.column.id, columns: [ {
+          accessorKey: 'semuaProduct',
+          header     : 'Orderan',
+          cell       : info => info.getValue()
+                                   .filter( ( j: TProduct ) => j.jenis === "Orderan" )
+                                   .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
+                                     <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
+                                     { d.harga } , </p> ),
+          footer     : props => props.column.id,
+        },
+          {
+            accessorKey: 'semuaProduct',
+            header     : 'Item',
+            cell       : info => info.getValue()
+                                     .filter( ( j: TProduct ) => j.jenis === "Item" )
+                                     .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
+                                       <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
+                                       { d.harga } , </p> ),
+            footer     : props => props.column.id,
+          },
+        ],
+      },
+
+      // {
+      // header: 'Semua Item', footer: props => props.column.id, columns: [
+      {
+        accessorKey: 'semuaProduct',
+        header     : 'Nama Item',
+        cell       : info => info.getValue()
+                                 .filter( ( j: TProduct ) => j.jenis === "Item" )
+                                 .map( ( d: TProduct ) => (
+                                   <p key={ d.id }>{ d.nama }
+                                     <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
+                                     { d.harga } , </p> ) ),
+        footer     : props => props.column.id,
+      },
+      // ],
+      // },
+
       {
         header: 'Keterangan', footer: props => props.column.id, columns: [ {
           accessorKey: 'guna',
@@ -181,7 +235,7 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
 
           {
             accessorKey: 'namaPengiriman',
-            header     : 'ekspedisi',
+            header: 'Ekspedisi',
             cell       : info => <p> { info.getValue() }</p>,
             footer     : props => props.column.id,
           }, {
@@ -318,11 +372,11 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
 
   // delete row
   const handlerDelete        = async () => {
-    console.log( selected );
+    // console.log( selected );
     if( selected ) {
-      console.log()
+      // console.log()
       const filteredData = data.filter( ( item ) => item.id !== selected );
-      console.log( selected );
+      // console.log( selected );
       setData( filteredData );
     }
   };
@@ -332,7 +386,7 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
     if( setSelected ) {
       const originIds = filteredSelectedRows.map( ( row ) => row.original.id )[ 0 ];
 
-      console.log( "originIds", originIds );
+      // console.log( "originIds", originIds );
       // console.log("tabl row", table.getRow(1))
       setSelected( originIds );
     }
@@ -340,21 +394,24 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
 
   async function deleteTable( array: Row<TOrderServer>[] ) {
     const id: string[] = array.map( row => row.original.id )
-    if( array.length > 1 ) {
+    if( array.length === 1 ) {
       // console.log( "test1" )
-      const res = await deleteDataMany( id );
-      notifyData( res.msg )
-    }
-    else if( array.length === 1 ) {
-      const id  = array[ 0 ].original.id
       const res = await deleteDataOne( id );
       notifyData( res.msg )
     }
+    if( id.length > 1 ) {
+      // console.log( "test2" )
+      const res = await deleteDataMany( id );
+      notifyData( res.msg )
+    }
+
     await handlerDelete()
 
   }
 
-  if( dataOrderan.data.length == 0 ) <h1>Data Kosong</h1>
+  if( !dataOrderan ) {
+    return ( <h1>Data Kosong</h1> )
+  }
 
   return <div className="p-2 ">
 
@@ -522,7 +579,9 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
     <div className="flex gap-2">
       <button
         className="border rounded p-2 mb-2"
-        onClick={ () => console.info( 'rowSelection', rowSelection ) }
+        onClick={ () => {
+          // console.info( 'rowSelection', rowSelection )
+        } }
       >
         Console.log()
         Log `rowSelection` state
@@ -531,12 +590,12 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
 
       <button
         className="border rounded p-2 mb-2 bg-red-300"
-        onClick={ () =>
-          console.info(
-            'table.getSelectedRowModel().flatRows',
-            table.getSelectedRowModel().flatRows
-          )
-        }
+        onClick={ () => {
+          // console.info(
+          //   'table.getSelectedRowModel().flatRows',
+          //   table.getSelectedRowModel().flatRows
+          // )
+        } }
       >
         Log table.getSelectedRowModel().flatRows
       </button>
@@ -569,7 +628,16 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
       { table.getSelectedRowModel().flatRows.length > 0 && <button onClick={ () => {
         // console.log( table.getSelectedRowModel().flatRows )
 
-        exportToExcel( table.getSelectedRowModel().flatRows )
+        exportToExcel( table.getRowModel()
+          //                     .rows.map( row => {
+          //   return row.cells.map( cell => ( {
+          //     value: cell.value,
+          //     style: {
+          //       background: getBackgroundColorForRow( cell.row.original.color )
+          //     }
+          //   } ) )
+          // } )
+        )
       } }
 
                                                                    className=" btn  bg-green-400 text-white ">
@@ -624,10 +692,7 @@ export function TableOrder( { dataOrderan }: { dataOrderan: { msg: string, data:
       <pre>{ JSON.stringify( table.getState().pagination, null, 2 ) }</pre>
       <pre>{ JSON.stringify( sorting, null, 2 ) }</pre>
     </div>
-
   </div>
-
 }
 
-// asli
 
