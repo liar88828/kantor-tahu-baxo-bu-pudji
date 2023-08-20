@@ -5,10 +5,13 @@ import Image from 'next/image';
 
 export const CardList = async ( { router }: {
   router: AppRouterInstance
-
 } ) => {
-  const { data }: { data: TTravel[ ] } = await getData()
-  console.log( data )
+  const res = await getData()
+  const { data, msg }: {
+    data: Required<TTravel[ ]>,
+    msg: string
+  }         = res
+
   const goEdit = ( id: string ) => {
     router.push( "/travel/" + id + "/edit" )
   }
@@ -21,7 +24,7 @@ export const CardList = async ( { router }: {
         <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
 
           <figure className={ "w-[20%] h-auto" }>
-            <Image src={ d.img } width={ 200 } height={ 200 }
+            <Image src={ d.img || "" } width={ 200 } height={ 200 }
                    alt={ d.namaPengiriman }/>
           </figure>
 

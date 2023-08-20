@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 export const notifBaru  = ( msg: string, data: any[] = [] ) => {
 
@@ -60,3 +61,14 @@ export const notifyData = ( msg: string ) => {
 
 }
 
+export function useNotifyEffect( path: string[] | string ) {
+  useEffect( () => {
+    if( Array.isArray( path ) ) {
+      notifyData( "success " + path[ 1 ] + " " + path[ 2 ] )
+    }
+    else {
+      notifyData( path )
+    }
+
+  }, [] )
+}

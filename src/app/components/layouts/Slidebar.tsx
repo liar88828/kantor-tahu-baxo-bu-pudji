@@ -8,8 +8,8 @@ import { HiOutlineBanknotes } from 'react-icons/hi2';
 const menuList = [
   { title: "Dashboard", icon: AiFillPieChart, link: "/" },
   { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "/orderan" },
-  { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product" },
-  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel" },
+  { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product/list" },
+  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel/list" },
   { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
   { title: "Bank", icon: HiOutlineBanknotes, link: "/bank" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },

@@ -3,45 +3,31 @@
 import Link from 'next/link';
 import { Status } from '@/app/style/status';
 
-export function LinkProduct( { path }: { path: string } ) {
+export function LinkNavigation( { path }: {
+  path: string[]
+} ) {
   // console.log(path)
   return (
     <div className={ "  flex  flex-row gap-5 pl-5" }>
-      <Link href={ "/product/list" }
-            className={ `btn  ${ path === "list" ? "info btn-disabled "
-                                                 : " btn-info text-white" }    ` }>
+      <Link href={ `/${ path[ 1 ] }/list` }
+            className={ `btn  ${ path[ 2 ] === "list" ? "info btn-disabled "
+                                                      : " btn-info text-white" }    ` }>
         List
       </Link>
-      <Link href={ "/product" } replace={ false }
-            className={ `btn${ path === "product" ? " btn-disabled text-black"
-                                                  : " btn-info text-white" }   ` }>
+      <Link href={ `/${ path[ 1 ] }/create` } replace={ false }
+            className={ `btn${ path[ 2 ] === "create" ? " btn-disabled text-black"
+                                                      : " btn-info text-white" }   ` }>
         Create
       </Link>
-      <p className={ `btn  ${ path === "edit" ? "  btn-disabled text-black "
-                                              : " btn-info  " } text-white  ` }>
+      <p className={ `btn  ${ path[ 3 ] === "edit" ? "  btn-disabled text-black "
+                                                   : " btn-info  " } text-white  ` }>
         Edit
       </p>
-    </div>
-  )
-}
-
-export function LinkTravel( { path }: { path: string } ) {
-  return (
-    <div className={ "  flex  flex-row gap-5 pl-5" }>
-      <Link href={ "/travel/list" }
-            className={ `btn  ${ path === "list" ? "info btn-disabled "
-                                                 : " btn-info text-white" }    ` }>
-        List
+      <Link href={ `/${ path[ 1 ] }/print` } replace={ false }
+            className={ `btn  ${ path[ 3 ] === "print" ? "  btn-disabled text-black "
+                                                       : " btn-info  " } text-white  ` }>
+        Print
       </Link>
-      <Link href={ "/travel" } replace={ false }
-            className={ `btn${ path === "travel" ? " btn-disabled text-black"
-                                                 : " btn-info text-white" }   ` }>
-        Create
-      </Link>
-      <p className={ `btn  ${ path === "edit" ? "  btn-disabled text-black "
-                                              : " btn-info  " } text-white  ` }>
-        Edit
-      </p>
     </div>
   )
 }

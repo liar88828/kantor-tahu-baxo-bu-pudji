@@ -1,13 +1,13 @@
-import { styleLabelForm }                      from '@/app/style/form';
+import { styleLabelForm } from '@/app/style/form';
 import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-import React                                   from 'react';
+import { notifyData } from '@/app/utils/notif/toash';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
   const file = event.target.files && event.target.files[ 0 ];
   setSelectedFile( file || null );
 
   if( file ) {
-    const reader = new FileReader();
+    const reader     = new FileReader();
     reader.onloadend = () => {
       setPreviewURL( reader.result as string );
     };
@@ -42,7 +42,6 @@ export async function handleUpload<T>(
     return;
   }
 
-  // if( method === "PUT" ) {
   const extensionData = getExtensionData( selectedFile.name )
   if( !validateExtension( extensionData ) ) {
     setMessage( 'Please insert a file with format' +
@@ -58,7 +57,7 @@ export async function handleUpload<T>(
   //     return;
   //   }
   // }
-  const dataku = JSON.stringify( json )
+  const dataku   = JSON.stringify( json )
   const formData = new FormData();
 
   formData.append( 'file', selectedFile );
@@ -72,7 +71,7 @@ export async function handleUpload<T>(
       body  : formData,
     } )
     const data     = await response.json()
-    // console.log( data )
+    notifyData( data.msg )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
     }
@@ -97,9 +96,9 @@ export function UploadDescription( props: {
     <label className={ styleLabelForm }>Masukan Gambar { props.title }</label>
     { !props.previewURL && <h1>Upload Image</h1> }
     { props.previewURL &&
-	  <img src={ props.previewURL }
-		   alt="Preview"
-		   className={ 'w-[100%] h-auto border-2 border-gray-300  rounded-3xl' }/> }
+      <img src={ props.previewURL }
+           alt="Preview"
+           className={ 'w-[100%] h-auto border-2 border-gray-300  rounded-3xl' }/> }
 
     <input type="file"
            className="file-input file-input-bordered bg-gray-100 file-input-accent"
