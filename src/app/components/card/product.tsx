@@ -1,16 +1,18 @@
 import { Rupiah } from '@/lib/utils/rupiah';
 import Image from 'next/image';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { deleteData, getData } from '@/app/utils/ress/travel';
+import { deleteData, getData } from '@/app/utils/ress/product';
 
 export const CardList = async ( { router }: {
   router: AppRouterInstance
 
 } ) => {
-  const { data }: { data: TTravel[ ] } = await getData()
+  const { data }: {
+    data: TProduct[ ]
+  } = await getData()
   console.log( data )
   const goEdit = ( id: string ) => {
-    router.push( "/travel/" + id + "/edit" )
+    router.push( "/product/" + id + "/edit" )
   }
   if( data.length == 0 ) {
     return <h1>Data Kosong</h1>

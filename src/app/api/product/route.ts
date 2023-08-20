@@ -3,7 +3,7 @@ import Control from '@/server/controller/produk';
 import { saveFile } from '@/server/service/image';
 import { formatData } from '@/lib/utils/formatData';
 
-import { tryCatch } from '@/app/api/orderan/tryCatch';
+import { tryCatch } from '@/lib/tryCatch';
 
 // import { revalidatePath }            from 'next/cache'
 

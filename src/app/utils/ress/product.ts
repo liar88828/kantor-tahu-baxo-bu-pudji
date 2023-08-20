@@ -10,9 +10,9 @@ async function sendData( method: string, id: string ) {
   if( !res.ok ) {
     throw new Error( 'Failed to fetch data' )
   }
-  const data = await res.json()
-  console.log( data )
-  return data
+
+  const { data, msg } = await res.json()
+  return { data, msg }
 }
 
 export async function getDataById( id: string ) {

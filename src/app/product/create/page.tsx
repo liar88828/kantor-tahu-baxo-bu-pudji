@@ -2,10 +2,10 @@
 import React, { ChangeEvent, Suspense, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { defaultFormProduct, formProduct } from '@/app/utils/format/product';
-import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/UploadDescription';
-import { LinkProduct } from '@/app/elements/link/Links';
+import { LinkNavigation } from '@/app/elements/link/Links';
 import { InputForm } from '@/app/elements/input/InputNew';
 import { usePathname } from 'next/navigation';
+import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/Upload';
 
 export default function Home() {
 
@@ -37,11 +37,11 @@ export default function Home() {
   };
 
   const pathname = usePathname()
-  const path     = pathname.split( "/" ).pop()
+  const path     = pathname.split( "/" )
 
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
-      <LinkProduct path={ path ?? "" }/>
+      <LinkNavigation path={ path }/>
       <div className="flex flex-row">
         <form onSubmit={ handleSubmit( onSubmit ) }
               className="w-full flex  flex-row gap-5 ">

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Control from '@/server/controller/produk';
 import { saveFile } from '@/server/service/image';
 import { formatData } from '@/lib/utils/formatData';
-import { tryCatch } from '@/app/api/orderan/tryCatch';
+import { tryCatch } from '@/lib/tryCatch';
 
 export async function GET( _: NextRequest, route: {
   params: { id: string }
