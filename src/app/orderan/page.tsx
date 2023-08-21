@@ -6,7 +6,8 @@ import { defaultValues } from '@/app/utils/format/orderan';
 export default function Page() {
   return (
     <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
-      <Suspense fallback={ <div>Loading...</div> }>
+
+    <Suspense fallback={ <div>Loading...</div> }>
         <FormOrder id={ "" } defaultDataOrder={ defaultValues } method={ "POST" }/>
       </Suspense>
     </main>

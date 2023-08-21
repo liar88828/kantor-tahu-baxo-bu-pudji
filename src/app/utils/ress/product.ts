@@ -4,7 +4,6 @@ import { config } from '../../../../dataEnv';
 async function sendData( method: string, id: string ) {
   const res = await fetch( config.url + "/api/product/" + id, {
       method: method,
-      cache : "no-cache"
     }
   )
   if( !res.ok ) {

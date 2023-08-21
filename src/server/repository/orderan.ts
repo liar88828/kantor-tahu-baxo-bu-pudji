@@ -60,7 +60,7 @@ export default class RepoOrderan implements InterfaceOrderan {
       hpPenerima       : d.hpPenerima,
       hpPengirim       : d.hpPenerima,
       id               : d.id,
-      lokasi           : d.lokasi,
+      lokasi: d.lokasi.replaceAll( " ", "" ),
       namaPengiriman   : d.namaPengiriman,
       ongkir           : d.ongkir,
       penerima         : d.penerima,
@@ -260,10 +260,10 @@ export default class RepoOrderan implements InterfaceOrderan {
         Object.assign( {
           harga     : d.harga,
           id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-          jenis     : d.jenis,
+          jenis : d.jenis.replaceAll( " ", "" ),
           jumlah    : d.jumlah,
           keterangan: d.keterangan,
-          lokasi    : d.lokasi,
+          lokasi: d.lokasi.replaceAll( " ", "" ),
           img       : d.img,
           nama      : d.nama,
           orderanId : data.id

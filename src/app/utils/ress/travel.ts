@@ -4,14 +4,12 @@ import { config } from '../../../../dataEnv';
 async function sendData( method: string, id: string ) {
   const res = await fetch( config.url + "/api/travel/" + id, {
       method: method,
-      cache : "no-cache"
     }
   )
   if( !res.ok ) {
     throw new Error( 'Failed to fetch data' )
   }
-  const { data, msg } = await res.json()
-  // console.log( data )
+  const { data, msg }: { data: TTravel[], msg: string } = await res.json()
   return { data, msg }
 }
 
@@ -19,7 +17,7 @@ export async function getDataById( id: string ) {
   return await sendData( "GET", id );
 }
 
-export async function getData() {
+export async function getData(): Promise<{ data: TTravel[], msg: string }> {
   return await sendData( "GET", "" );
 }
 

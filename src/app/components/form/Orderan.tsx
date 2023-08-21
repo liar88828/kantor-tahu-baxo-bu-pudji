@@ -1,11 +1,10 @@
 "use client"
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { defaultValues } from '@/app/utils/format/orderan';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/elements/input/InputNew';
-import { sProduct } from '@/entity/client/example/produk';
 import { Status } from '@/app/style/status';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
 import { Rupiah } from '@/lib/utils/rupiah';
@@ -14,32 +13,75 @@ import { OrderanTable } from '@/app/components/table/Orderan';
 import { PopUp } from '@/app/components/popup/orderan';
 import { setIdOrderan } from '@/lib/utils/formatId';
 import { notifyData } from '@/app/utils/notif/toash';
-import { config } from '../../../../dataEnv';
+import Image from 'next/image';
+import { getData as getTravelData } from '@/app/utils/ress/travel';
+import { getData as getProductData } from '@/app/utils/ress/product';
 
 let regExp: RegExp;
 regExp = /^[a-zA-Z0-9.,_ ]+$/i;
 
-export function FormOrder( {
-  id = "", method = "POST", defaultDataOrder,
+// async function getTravel() {
+//   return await getTravelData()
+// }
+//
+// async function getProduct() {
+//   return await getProductData()
+// }
+
+export async function FormOrder( {
+  id = "",
+  method = "POST",
+  defaultDataOrder,
 }: {
   id: string,
   method: string,
   defaultDataOrder: Awaited<TOrder>,
+
+} ) {
+  const travelData: Promise<{ data: TTravel[], msg: string }>   = getTravelData()
+  const productData: Promise<{ data: TProduct[], msg: string }> = getProductData()
+
+  const [ travel, product ] = await Promise.all( [ travelData, productData ] )
+  return ( <ClientComponent id={ id } method={ method }
+                            defaultDataOrder={ defaultDataOrder }
+                            travel={ travel.data }
+                            product={ product.data }/>
+  )
+}
+
+export function ClientComponent( {
+  id = "", method = "POST", defaultDataOrder, product, travel
+}: {
+  id: string,
+  method: string,
+  defaultDataOrder: Awaited<TOrder>,
+  travel: TTravel[],
+  product: TProduct[]
 } ) {
 
-  const getData = async () => {
-    const dataProduct = await fetch( config.url + "/api/product/" ).then( res => res.json() )
-    const dataTravel  = await fetch( config.url + "/api/travel/" ).then( res => res.json() )
-    return { dataProduct, dataTravel }
-  }
+  // const getData = async () => {
+  //   const dataProduct = await fetch( config.url + "/api/product/" ).then( res => res.json() )
+  //   const dataTravel  = await fetch( config.url + "/api/travel/" ).then( res => res.json() )
+  //   return { dataProduct, dataTravel }
+  // }
 
-  const [ travel, setTravel ] = useState<TTravel[]>( [] )
-  const [ product, setProduct ] = useState<TProduct[]>( [] )
-  useEffect( async () => {
-    const { dataProduct, dataTravel } = await getData()
-    setProduct( dataProduct.data )
-    setTravel( dataTravel.data )
-  }, [] )
+  // const [ travel, setTravel ]   = useState<TTravel[]>( [] )
+  // const [ product, setProduct ] = useState<TProduct[]>( [] )
+  // console.log( travel )
+  // console.log( product )
+
+  // const myFunction = async () => {
+  //   const { dataProduct, dataTravel } = await getData()
+  //   setProduct( dataProduct.data )
+  //   setTravel( dataTravel.data )
+  // };
+
+  // useEffect( () => {
+  //   // setIsLoading( true )
+  //   myFunction().then( r => console.log( r ) )
+  //   // setIsLoading( false )
+  //
+  // }, [] )
 
   const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
     {
@@ -135,7 +177,7 @@ export function FormOrder( {
   const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     setSearchQuery( event.target.value );
 
-    const filtered = sProduct.filter(
+    const filtered = product.filter(
       ( item ) => {
         return (
           item.nama.toLowerCase().includes( searchQuery.toLowerCase() ) ||
@@ -173,6 +215,11 @@ export function FormOrder( {
 
   const fomIsi = "bg-white flex-col flex   sm:w-[48%]  md:w-[49%] ml-2 gap-3 rounded p-2  sm:p-5";
 
+  // if( isLoading ) {
+  //   return ( <h1>Loading ya ....</h1> )
+  // }
+  console.log( travel )
+  console.log( product )
   return ( < >{/*-----------------------Page-------------   */ }
       <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
@@ -277,9 +324,10 @@ export function FormOrder( {
                 {/*<SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>*/ }
                 <ul
                   className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-                  { product.map( ( item: TProduct, ) => ( <li
-                      className={ ` ${ isItemAdded( item ) ? "w-0 h-0  hidden"
-                                                           : "" }p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
+                  { filteredItems.map( ( item: TProduct, ) => ( <li
+                      className={ ` ${ isItemAdded( item )
+                                       ? " w-0 h-0  hidden "
+                                       : "" } p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
                       style={ {
                         backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
                         fontWeight     : isItemAdded( item ) ? 'bold' : 'normal',
@@ -287,9 +335,12 @@ export function FormOrder( {
                       } }
                       key={ item.id }>
 
-                      <img className={ " rounded bg-blue-300 w-20 h-20" }
-                           src={ item.img }
-                           alt={ item.nama }/>
+                      <Image
+                        height={ 100 }
+                        width={ 100 }
+                        className={ " rounded bg-blue-300 w-[20%] h-auto" }
+                        src={ item.img }
+                        alt={ item.nama }/>
 
                       <p className={ "flex flex-col" }>
                     <span
@@ -342,11 +393,13 @@ export function FormOrder( {
                   {/*--------------------------------------------------------loop-------------------------*/ }
                   { fields.map( ( item: TProduct, index: number ) => {
                     return ( <li
-                      className={ " flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
+                      className={ "flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
                       key={ item.id }>
 
-                      <img className={ " rounded bg-blue-300 w-20 h-auto" }
-                           src={ item.img } alt={ index.toString() }/>
+                      <Image height={ 100 }
+                             width={ 100 }
+                             className={ " rounded bg-blue-300 w-20 h-auto" }
+                             src={ item.img } alt={ index.toString() }/>
                       <input type={ 'hidden' }
                              value={ item.id }{ ...register( `semuaProduct.${ index }.id`, { required: true } ) }/>
                       <input type={ 'hidden' }
@@ -439,7 +492,9 @@ export function FormOrder( {
                       className='bg-gray-50  border border-gray-300 p-2 rounded-md'{ ...register( "namaPengiriman" ) }>
                 { travel.map( t => {
                   return (
-                    <option key={ t.namaPengiriman } value={ t.namaPengiriman }>{ t.namaPengiriman }</option>
+                    <option key={ t.namaPengiriman } value={ t.namaPengiriman }>{ t.namaPengiriman }
+                      {/*<img src={"http://localhost:3000/"+  t.img } alt={ t.namaPengiriman } height={100} width={100}/>*/ }
+                    </option>
                   )
                 } ) }
               </select>

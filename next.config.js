@@ -6,6 +6,7 @@ const nextConfig = {
   // reactStrictMode: true,
   // // Enable the React DevTools profiler
   // profiler: true,
+
 }
 
 module.exports = nextConfig

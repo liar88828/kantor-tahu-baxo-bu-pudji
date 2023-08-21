@@ -3,20 +3,16 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { deleteData, getData } from '@/app/utils/ress/travel';
 import Image from 'next/image';
 
-export const CardList = async ( { router }: {
-  router: AppRouterInstance
-} ) => {
+export async function CardList( { router }: { router: AppRouterInstance } ) {
   const res = await getData()
-  const { data, msg }: {
-    data: Required<TTravel[ ]>,
-    msg: string
-  }         = res
+
+  const { data, msg }: { data: Required<TTravel[ ]>, msg: string } = res
 
   const goEdit = ( id: string ) => {
     router.push( "/travel/" + id + "/edit" )
   }
-  if( data.length == 0 ) {
-    return <h1>Data Kosong</h1>
+  if( !data ) {
+    return ( <h1>Data Kosong</h1> )
   }
   return (
     <ul className={ "px-10" }>

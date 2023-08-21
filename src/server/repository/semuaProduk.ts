@@ -9,9 +9,9 @@ export default class RepoSemuaProduk implements InterfaceSemuaProduk {
       harga     : d.harga,
       id        : d.id,
       img: d.img || "no image",
-      jenis     : d.jenis,
-      keterangan: d.keterangan,
-      lokasi    : d.lokasi,
+      jenis     : d.jenis.replaceAll( " ", "" ),
+      keterangan: d.keterangan.replaceAll( " ", "" ),
+      lokasi    : d.lokasi.replaceAll( " ", "" ),
       jumlah    : d.jumlah,
       nama      : d.nama,
       orderanId : d.orderanId || id

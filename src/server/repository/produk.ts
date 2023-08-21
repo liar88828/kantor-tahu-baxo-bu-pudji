@@ -1,17 +1,15 @@
-import { prisma }    from '@/server/models/prisma/config';
+import { prisma } from '@/server/models/prisma/config';
 import type { TYPE } from '@/server/models/dataAccess/Produk';
-import { Prisma }    from '../../../prisma/data';
-import {
-  InterfaceProduk
-}                    from '@/server/repository/interface/repository/produk';
+import { Prisma } from '../../../prisma/data';
+import { InterfaceProduk } from '@/server/repository/interface/repository/produk';
 
 export default class RepoProduk implements InterfaceProduk {
   setOne( d: TYPE ): TYPE {
     return {
       id        : d.id,
       nama      : d.nama,
-      jenis     : d.jenis,
-      lokasi: d.lokasi,
+      jenis : d.jenis.replaceAll( " ", "" ),
+      lokasi: d.lokasi.replaceAll( " ", "" ),
       harga     : d.harga || 0,
       keterangan: d.keterangan,
       jumlah    : d.jumlah || 0,

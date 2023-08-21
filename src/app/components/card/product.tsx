@@ -3,20 +3,22 @@ import Image from 'next/image';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { deleteData, getData } from '@/app/utils/ress/product';
 
-export const CardList = async ( { router }: {
+async function getResponse() {
+  return await getData()
+}
+
+export async function CardList( { router }: {
   router: AppRouterInstance
 
-} ) => {
-  const { data }: {
-    data: TProduct[ ]
-  } = await getData()
+} ) {
+  const { data }: { data: TProduct[ ] } = await getResponse()
   console.log( data )
   const goEdit = ( id: string ) => {
     router.push( "/product/" + id + "/edit" )
   }
-  if( data.length == 0 ) {
-    return <h1>Data Kosong</h1>
-  }
+
+  if( !data ) ( <h1>Data Kosong</h1> )
+
   return ( <ul className={ "px-10" }>
       { data.map( ( d: TProduct ) => {
         return (

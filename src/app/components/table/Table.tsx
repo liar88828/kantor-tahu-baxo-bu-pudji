@@ -175,7 +175,7 @@ export function TableOrder( { dataOrderan }: {
           accessorKey: 'semuaProduct',
           header     : 'Orderan',
           cell       : info => info.getValue()
-                                   .filter( ( j: TProduct ) => j.jenis === "Orderan" )
+                                   .filter( ( j: TProduct ) => j.jenis.replaceAll( " ", "" ) === "Orderan" )
                                    .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
                                      <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
                                      { d.harga } , </p> ),
@@ -184,31 +184,18 @@ export function TableOrder( { dataOrderan }: {
           {
             accessorKey: 'semuaProduct',
             header     : 'Item',
-            cell       : info => info.getValue()
-                                     .filter( ( j: TProduct ) => j.jenis === "Item" )
-                                     .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
-                                       <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
-                                       { d.harga } , </p> ),
-            footer     : props => props.column.id,
+            cell: info =>// console.log(info.getValue())
+
+              info.getValue().filter( ( j: TProduct ) => j.jenis.replaceAll( " ", "" ) !== "Orderan" )
+                  .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
+                    <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
+                    { d.harga } , </p> )
+            ,
+            footer: props => props.column.id,
           },
         ],
       },
 
-      // {
-      // header: 'Semua Item', footer: props => props.column.id, columns: [
-      {
-        accessorKey: 'semuaProduct',
-        header     : 'Nama Item',
-        cell       : info => info.getValue()
-                                 .filter( ( j: TProduct ) => j.jenis === "Item" )
-                                 .map( ( d: TProduct ) => (
-                                   <p key={ d.id }>{ d.nama }
-                                     <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
-                                     { d.harga } , </p> ) ),
-        footer     : props => props.column.id,
-      },
-      // ],
-      // },
 
       {
         header: 'Keterangan', footer: props => props.column.id, columns: [ {
