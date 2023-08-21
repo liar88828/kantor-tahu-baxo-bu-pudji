@@ -1,28 +1,16 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { config } from '../../../../dataEnv';
-
-async function sendData( method: string, id: string ) {
-  const res = await fetch( config.url + "/api/travel/" + id, {
-      method: method,
-    }
-  )
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-  const { data, msg }: { data: TTravel[], msg: string } = await res.json()
-  return { data, msg }
-}
+import { sendData } from '@/app/utils/ress/sendApi';
 
 export async function getDataById( id: string ) {
-  return await sendData( "GET", id );
+  return await sendData( "travel", "GET", id );
 }
 
 export async function getData(): Promise<{ data: TTravel[], msg: string }> {
-  return await sendData( "GET", "" );
+  return await sendData( "travel", "GET", "" );
 }
 
 export const deleteData = async ( id: string, router: AppRouterInstance ) => {
-  const data = await sendData( "DELETE", id );
+  const data = await sendData( "travel", "DELETE", id );
   router.refresh()
   return data
 }

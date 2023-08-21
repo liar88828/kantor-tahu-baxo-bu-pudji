@@ -1,17 +1,19 @@
 "use client"
 import React, { useState } from 'react';
-import Link                from 'next/link';
-import { usePathname }     from "next/navigation";
-import { styleLabelForm }  from '@/app/style/form';
+import Link from 'next/link';
+import { usePathname } from "next/navigation";
+import { styleLabelForm } from '@/app/style/form';
 
 // Initialization for ES Users
 
 function Navbar() {
   const [ open, setOpen ] = useState<boolean>( true );
-  const path       = usePathname().split( "/" )[ 1 ].toUpperCase()
+  const path = usePathname().split( "/" )[ 1 ].toUpperCase()
+  console.log( path )
+
   const linkNavbar = "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-green-400 md:dark:hover:text-blue-500 md:hover:text-white md:dark:hover:bg-transparent md:p-0.5  md:border-0  dark:hover:bg-gray-200 ";
   return (
-    <div className={ "block w-[100%]" }>
+    <div className={ `${ path.toLowerCase() === "print" ? "hidden" : "block" } w-[100%]` }>
       <nav className="bg-green-400 border-gray-200 ">
 
         <div

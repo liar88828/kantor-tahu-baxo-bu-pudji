@@ -35,6 +35,24 @@ export const setHours = ( time: string ): Date | string => {
 
   return t[ 0 ] + ":" + t[ 1 ]// + ":" + "00"
 }
+export const setTanggalHari = ( date: string, ): Date | string => {
+  return new Date( Date.parse( date ) ).toLocaleDateString(
+    "id-ID",
+    { weekday: "long", } )
+}
+
+export const setTanggalAngka = ( date: string, ): Date | string => {
+  return new Date( Date.parse( date ) ).toLocaleDateString(
+    "id-ID",
+    { dateStyle: "long", } )
+}
+
+export const setTanggalFull = ( date: string, ): Date | string => {
+  return new Date( Date.parse( date ) ).toLocaleDateString(
+    "id-ID",
+    { dateStyle: "full", } )
+}
+
 
 export const setDates = ( date: string, ): Date | string => {
   const d     = new Date( Date.parse( date ) ).toLocaleString(

@@ -196,7 +196,6 @@ export function TableOrder( { dataOrderan }: {
         ],
       },
 
-
       {
         header: 'Keterangan', footer: props => props.column.id, columns: [ {
           accessorKey: 'guna',
@@ -625,11 +624,39 @@ export function TableOrder( { dataOrderan }: {
           //   } ) )
           // } )
         )
-      } }
-
-                                                                   className=" btn  bg-green-400 text-white ">
+      } } className=" btn  bg-green-400 text-white ">
         Export to Excel
       </button> }
+
+      { table.getSelectedRowModel().flatRows.length > 0
+        && <button onClick={ () => {
+
+          if( sessionStorage.getItem( "table" ) ) {
+            sessionStorage.removeItem( "table" )
+          }
+          sessionStorage.setItem( "table", JSON.stringify(
+            table.getSelectedRowModel().flatRows.map( d => d.original )
+          ) )
+          router.replace( "/print/kirim" )
+
+        } } className=" btn  bg-yellow-400 text-white ">
+          Print
+        </button> }
+
+      { table.getSelectedRowModel().flatRows.length > 0
+        && <button onClick={ () => {
+
+          if( sessionStorage.getItem( "table" ) ) {
+            sessionStorage.removeItem( "table" )
+          }
+          sessionStorage.setItem( "table", JSON.stringify(
+            table.getSelectedRowModel().flatRows.map( d => d.original )
+          ) )
+          router.replace( "/print/excel" )
+
+        } } className=" btn  bg-yellow-400 text-white ">
+          Excel
+        </button> }
     </div>
 
     {/*------------Check Visible----------------*/ }

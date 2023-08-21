@@ -5,8 +5,9 @@ import { config } from '../../../../dataEnv';
 import { setDates, setHours } from '@/lib/utils/formatDate';
 import { redirect } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { sendAPI } from '@/app/utils/ress/sendApi';
 
-export const onCreate = async ( sendData: TotalOrderan, method: string = "POST", id: string ) => {
+export async function onCreate( sendData: TotalOrderan, method: string = "POST", id: string ) {
 
   const updatedArrayOfObjects                        = sendData.semuaProduct.map( obj => ( { ...obj, orderanId: sendData.id } ) );
   const semuaProduct: Omit<TPOrderan, "orderanId">[] = updatedArrayOfObjects.map( obj => {
@@ -20,10 +21,10 @@ export const onCreate = async ( sendData: TotalOrderan, method: string = "POST",
   const dataBaru2: TOrderServer = Object.assign( hitung, dataBaru1 )
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
-      return await sendAPI( "POST", dataBaru2, "" );
+      return await sendAPI( "orderan", "POST", dataBaru2, "" );
     }
     if( method === "PUT" ) {
-      return await sendAPI( "PUT", dataBaru2, id );
+      return await sendAPI( "orderan", "PUT", dataBaru2, id );
     }
   }
   else {
@@ -32,40 +33,7 @@ export const onCreate = async ( sendData: TotalOrderan, method: string = "POST",
   }
 }
 
-async function sendAPI( method: string, json: TOrderServer, id: string ) {
-  const response = await fetch( config.url + "/api/orderan/" + id, {
-    method: method,
-    body  : JSON.stringify( json ),
-    headers: { "Content-Type": "application/json", }
-  } )
-
-  if( !response.ok ) {
-    redirect( '/not-found' )
-  }
-
-  const data = await response.json()
-  // console.log( data )
-  return data
-}
-
-export const defaultData = async ( id: string ): Promise<TOrder> => {
-  const response = await fetch(
-      config.url + "/api/orderan?id=" + id,
-    {
-      method: "GET",
-      next  : { tags: [ "table" ] }
-    } )
-
-  const data: {
-    data: TOrder,
-    msg: string
-  } = await response.json()
-
-  if( !response.ok ) {
-    return redirect( '/not-found/' + id )
-  }
-  // console.log( data )
-
+function formatData( data: { data: TOrder; msg: string } ) {
   return {
     listOrderan   : [],
     listItem      : [],
@@ -90,10 +58,24 @@ export const defaultData = async ( id: string ): Promise<TOrder> => {
   }
 }
 
-export const getDataByStatus = async ( slug: string ): Promise<{
-  msg: string,
-  data: TOrderServer[]
-}> => {
+export async function defaultData( id: string ): Promise<TOrder> {
+  const response = await fetch(
+    config.url + "/api/orderan?id=" + id,
+    { method: "GET", } )
+
+  const data: {
+    data: TOrder,
+    msg: string
+  } = await response.json()
+
+  if( !response.ok ) {
+    return redirect( '/not-found/' + id )
+  }
+  // console.log( data )
+  return formatData( data );
+}
+
+export async function getDataByStatus( slug: string ): Promise<{ msg: string, data: TOrderServer[] }> {
   const res = await fetch( config.url + `/api/orderan?id=${ slug }&option=table`, {
     method: "GET",
     next  : { revalidate: 20 }
@@ -122,7 +104,6 @@ export async function deleteDataMany( send: string [] ) {
   const res = await fetch( config.url + "/api/orderan/", {
       method: "DELETE",
       body  : formData,
-      next  : { tags: [ "table" ] }
     }
   )
 
@@ -138,13 +119,8 @@ export async function deleteDataMany( send: string [] ) {
 }
 
 export async function deleteDataOne( id: string[] ) {
-  console.log( "-----------" )
-  console.log( id )
-  console.log( "-----------" )
-
   const res = await fetch( config.url + `/api/orderan?id=` + id[ 0 ], {
       method: "DELETE",
-      next  : { tags: [ "table" ] }
     }
   )
   if( !res.ok ) {
@@ -159,13 +135,8 @@ export async function deleteDataOne( id: string[] ) {
 }
 
 export async function editData( id: string, json: any ) {
-  const res = await fetch( config.url + "/api/orderan/" + id,
-    {
-      // cache: 'no-cache',
-      // next  : { revalidate: 10 },
-      method: "PUT",
-      next  : { tags: [ "table" ] }
-
+  const res = await fetch( config.url + "/api/orderan/" + id, {
+    method: "PUT",
     }
   )
 

@@ -1,10 +1,10 @@
 'use client'
-import React, { Suspense, use } from 'react';
+import { Suspense, use } from 'react';
 import { LinkTable } from '@/app/elements/link/Links';
 import { usePathname } from 'next/navigation';
 import { getDataByStatus } from '@/app/utils/ress/orderan';
-import { TableOrder } from '@/app/components/table/Table';
 import { useNotifyEffect } from '@/app/utils/notif/toash';
+import { TableOrder } from '@/app/components/table/Table';
 
 export default function Page() {
   const pathname = usePathname()
@@ -23,8 +23,22 @@ export default function Page() {
 }
 
 function ServerComponent( { path }: { path: string } ) {
-  const data = use( getDataByStatus( path ) )
-  return ( <TableOrder dataOrderan={ data }/>
+  let data: any[] = []
+  if( Object.keys( data ).length === 0 ) {
+    const array = use( getDataByStatus( path ) )
+    console.log( array )
+    let num = 0
+    if( num == 0 ) {
+      console.log( num )
+      num++
+      data.push( JSON.stringify( array ) )
+    }
+    console.log( num )
+
+  }
+
+  console.log( data[ 0 ] )
+  return ( <TableOrder dataOrderan={ JSON.parse( data[ 0 ] ) }/>
   )
 
 }

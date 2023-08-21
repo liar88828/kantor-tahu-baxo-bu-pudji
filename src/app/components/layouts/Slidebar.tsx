@@ -1,9 +1,10 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import { AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineTable, } from "react-icons/ai";
 import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
 import Link from 'next/link';
 import { HiOutlineBanknotes } from 'react-icons/hi2';
+import { usePathname } from 'next/navigation';
 
 const menuList = [
   { title: "Dashboard", icon: AiFillPieChart, link: "/" },
@@ -17,7 +18,9 @@ const menuList = [
 ];
 
 export const Slidebar = () => {
-  const [ open, setOpen ] = React.useState( false );
+  const [ open, setOpen ] = useState( false );
+  const path              = usePathname().split( "/" )[ 1 ].toUpperCase()
+
   let color             = "#3de237";
   let color2            = "#3dc81e";
   let colorIcon         = "white";
@@ -26,7 +29,7 @@ export const Slidebar = () => {
   let bgColorSlideBar   = "#d6ffe0"
 
   return (
-    <div className="flex ">
+    <div className={ `flex ${ path.toLowerCase() === "print" ? "hidden" : "block" }` }>
       {/* body slide bar*/ }
       <div
         className={ ` ${ open ? "w-72 p-4 sm:p-1"
