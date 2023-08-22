@@ -53,7 +53,7 @@ export function FormEdit( { id, path }: {
 
   } )
   useEffect( () => {
-    fetch( config.url + "/api/travel/" + id )
+    fetch( config.url + "/api/travel?id=" + id )
     .then( res => res.json() )
     .then( d => {
       setData( prev => ( d.data ) )

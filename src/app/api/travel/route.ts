@@ -1,21 +1,21 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import Control from '@/server/controller/travel';
 import { extractData } from '@/server/service/extractForm';
 import { setData } from '@/lib/utils/formatData';
 import { newError } from '@/server/exeption/errorHandler';
 import { validImage } from '@/lib/validation/image';
 import type { Textract } from '@/entity/server/image';
+import { tryCatch } from '@/lib/tryCatch';
 
-export async function GET() {
-  try {
-    const dataControl = await Control.find()
-    return NextResponse.json( {
-      msg: "Success GET",
-      data: dataControl
-    } )
+export async function GET( request: NextRequest, ) {
+  const url          = new URL( request.url );
+  const searchParams = new URLSearchParams( url.search );
+  const id           = searchParams.get( "id" ) as string
+  if( id ) {
+    return await tryCatch( "GET", Control.findById, id )
   }
-  catch ( e ) {
-    return NextResponse.json( { msg: "Error GET", error: e } )
+  if( !id ) {
+    return await tryCatch( "GET", Control.find )
   }
 }
 
@@ -40,5 +40,54 @@ export async function POST( request: Request ) {
   }
   catch ( e ) {
     return NextResponse.json( { msg: "Error Create", error: e } )
+  }
+}
+
+export async function DELETE( request: NextRequest ) {
+  const url          = new URL( request.url );
+  const searchParams = new URLSearchParams( url.search );
+  const id           = searchParams.get( "id" ) as string
+  if( id ) {
+    return await tryCatch( "DELETE", Control.destroy, id )
+  }
+  if( !id ) {
+    return NextResponse.json( {
+      msg    : `Bad A Value`,
+      success: false,
+      data   : `Please Input a ID  `,
+    } );
+  }
+}
+
+export async function PUT( request: NextRequest ) {
+  const url          = new URL( request.url );
+  const searchParams = new URLSearchParams( url.search );
+  const id           = searchParams.get( "id" ) as string
+
+  try {
+    const data: Textract = await extractData( request )
+    if( !data ) {
+      return new newError( "Fail Create", )
+    }
+    // console.log( data )
+    const json: TTravel = setData( data.dataImage.file, data.json, "/img/travel/" )
+
+    const dataControl = await Control.edit( data.json, id )
+    if( !dataControl ) {
+      return new newError( "Fail Create DataBase" )
+    }
+    // console.log( data )
+
+    await validImage(
+      data.dataImage.buffer,
+      "public/img/travel",
+      json.img ?? "", "PUT", data )
+    return NextResponse.json( {
+      msg : "Success EDIT",
+      data: dataControl
+    } )
+  }
+  catch ( e ) {
+    return NextResponse.json( { msg: "Error EDIT", error: e } )
   }
 }
