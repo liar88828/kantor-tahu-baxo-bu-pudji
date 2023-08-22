@@ -15,21 +15,26 @@ export const setIdProduct = ( dProduct: TProduct ): string =>
   dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
 function setIdOrderanString( dataBaru: { hitung: Thitung } & { semuaProduct: TProduct[] } & TOrder ) {
-  return dataBaru.penerima.slice( 0, 5 ) + "_" +
-    dataBaru.hpPenerima.toString().slice( 0, 4 ) + "_" +
-    dataBaru.alamatPenerima.toString().slice( 0, 4 ) + "_" +
+  function getNumbers( hpPenerima: string, hpPengirim: string, penerima: string ) {
+    return hpPenerima + hpPengirim + penerima.length;
+  }
+
+  return dataBaru.penerima.slice( 0, 5 )
+    + "_" +
+    dataBaru.alamatPenerima.toString().slice( 0, 4 )
+    + "_" +
 
     dataBaru.pesan.toString().slice( 2, 4 ) +
     dataBaru.pesan.toString().slice( 5, 7 ) +
-    dataBaru.pesan.toString().slice( 8, 10 ) +
-    "_" +
-    dataBaru.waktuKirim.toString().slice( 0, 2 ) +
-    dataBaru.waktuKirim.toString().slice( 3, 5 ) +
-    "_" +
-    dataBaru.lokasi.toString().slice( 0, 3 ) + "_" +
-    dataBaru.hpPenerima +
-    dataBaru.hpPengirim +
-    dataBaru.penerima.length;
+    dataBaru.pesan.toString().slice( 8, 10 )
+    + "_" +
+    dataBaru.lokasi.toString().slice( 0, 3 )
+    + "_" +
+    getNumbers(
+      dataBaru.hpPenerima,
+      dataBaru.hpPengirim,
+      dataBaru.penerima
+    ).toString().slice( 0, 5 );
 }
 
 export const setIdOrderan = ( dataBaru: TotalOrderan ): string =>

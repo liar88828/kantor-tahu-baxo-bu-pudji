@@ -24,8 +24,8 @@ export const getDay = () => {
 
 }
 
-export const setHours = ( time: string ): Date | string => {
-  const t = new Date( Date.parse( time ) ).toLocaleTimeString(
+export const setHours = ( time: string | Date ): string => {
+  const t = new Date( Date.parse( time.toString() ) ).toLocaleTimeString(
     "id-ID",
     {
       hour  : '2-digit',
@@ -35,24 +35,33 @@ export const setHours = ( time: string ): Date | string => {
 
   return t[ 0 ] + ":" + t[ 1 ]// + ":" + "00"
 }
-export const setTanggalHari = ( date: string, ): Date | string => {
-  return new Date( Date.parse( date ) ).toLocaleDateString(
-    "id-ID",
-    { weekday: "long", } )
+
+export const setTanggalxxxx = ( date: string | Date, option: string = "hari" || "angka" || "full" ) => {
+  const d = new Date( Date.parse( date.toString() ) )
+  if( option === "hari" ) {
+    return d.toLocaleDateString( "id-ID", { weekday: "long", } )
+  }
+
+  if( option === "angka" ) {
+    return d.toLocaleDateString( "id-ID", { dateStyle: "long", } )
+  }
+
+  if( option === "full" ) {
+    return d.toLocaleDateString( "id-ID", { dateStyle: "full", } )
+  }
 }
 
-export const setTanggalAngka = ( date: string, ): Date | string => {
-  return new Date( Date.parse( date ) ).toLocaleDateString(
-    "id-ID",
-    { dateStyle: "long", } )
-}
+export const setTanggal = ( date: string | Date, option: "hari" | "angka" | "full" = "hari" ) => {
+  const d = new Date( Date.parse( date.toString() ) );
 
-export const setTanggalFull = ( date: string, ): Date | string => {
-  return new Date( Date.parse( date ) ).toLocaleDateString(
-    "id-ID",
-    { dateStyle: "full", } )
-}
+  const formattingOptions: Record<string, Intl.DateTimeFormatOptions> = {
+    hari : { weekday: "long" },
+    angka: { dateStyle: "long" },
+    full : { dateStyle: "full" }
+  };
 
+  return d.toLocaleDateString( "id-ID", formattingOptions[ option ] );
+};
 
 export const setDates = ( date: string, ): Date | string => {
   const d     = new Date( Date.parse( date ) ).toLocaleString(

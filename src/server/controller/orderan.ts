@@ -23,7 +23,7 @@ const findByStatus = async ( status: string ) => {
 
 const create = async ( body: TYPE ) => {
   const validData = await Service.create( await valid.Input( body, valid.OrderanSchema ), body )
-  // console.log( validData  )
+  console.log( validData )
   if( typeof validData === "object" ) {
     return await Repo.createOne( validData )
   }

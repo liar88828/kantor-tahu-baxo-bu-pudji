@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { TOrderServer } from '@/entity/server/orderan';
-import { setHours, setTanggalAngka, setTanggalHari } from '@/lib/utils/formatDate';
+import { setHours, setTanggal } from '@/lib/utils/formatDate';
 import { TPOrderan } from '@/entity/server/produkOrderan';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { statusWarna } from '@/app/style/status';
@@ -16,6 +16,20 @@ const MyComponent = () => {
     }
   }, [] )
 
+  function getPrint( data: TPOrderan[], option: string ) {
+    if( option === "total" ) {
+      return data.reduce( ( acc: number, item: TPOrderan ): number => acc +
+        item.harga * item.jumlah, 0 );
+    }
+    if( option === "subTotal" ) {
+      return data.reduce( ( acc: number, item: TPOrderan ): number => acc +
+        item.harga * item.jumlah, 0 )
+    }
+    if( option === "paket" ) {
+      return data.reduce( ( a, c ) => a + c.jumlah, 0 )
+    }
+  }
+
   return (
 
     <div className={ "flex flex-wrap bg-white border border-black w-[297mm]" }>{
@@ -24,7 +38,7 @@ const MyComponent = () => {
       .map( ( d: TOrderServer ) => {
         return (
 
-          <div className={ "border border-black p-2 m-2 w-[calc(297mm/2)] text-xs " }
+          <div className={ "border border-black p-2 m-2 w-[calc(297mm/2-.5cm)] text-xs " }
                key={ d.id }>
             {/*----------------------Head*/ }
             <div className=" flex flex-row justify-between ">
@@ -39,7 +53,7 @@ const MyComponent = () => {
                   <h1 className={ "uppercase" }>Pengirim</h1>
                   <p>:</p>
 
-                  <span>nama { d.pengirim }</span>
+                  <span>{ d.pengirim }</span>
 
                 </li>
                 <li className={ "flex gap-1" }>
@@ -58,13 +72,13 @@ const MyComponent = () => {
               </ul>
 
               <div className=" w-[30%] text-center text-xs">
-                <div className={ "border border-black  break-alls " +
+                <div className={ "border border-black break-alls " +
                   statusWarna( d.status ) }>
                   <h1
                     className={ "uppercase text-xs font-bold" }>{ d.status }</h1>
                   <h1
-                    className={ "uppercase text-md font-bold" }>{ setTanggalHari( d.kirim ) }</h1>
-                  <p>{ setTanggalAngka( d.kirim ) }</p>
+                    className={ "uppercase text-md font-bold" }>{ setTanggal( d.kirim, "hari" ) }</h1>
+                  <p>{ setTanggal( d.kirim.toString(), "angka" ) }</p>
                   <p className={ "font-bold" }>{ setHours( d.kirim ) }</p>
                 </div>
                 <div className="border border-black text-xs">
@@ -80,7 +94,7 @@ const MyComponent = () => {
             </div>
             {/*---------------------Table*/ }
 
-            <table className={ "text-xs  w-full" }>
+            <table className={ "text-xs w-full" }>
               <thead className={ "border-black border" }>
               <tr className={ "border-black border" }>
                 <th className={ "border-black border" }>No.</th>
@@ -114,8 +128,7 @@ const MyComponent = () => {
                 <td></td>
                 <td></td>
                 <td className={ "font-bold" }> SubTotal</td>
-                <td>{ Rupiah( d.semuaProduct.reduce( ( acc, item ) => acc +
-                  item.harga * item.jumlah, 0 ) ) }</td>
+                <td>{ Rupiah( getPrint( d.semuaProduct, "subTotal" ) ) }</td>
               </tr>
 
               </tbody>
@@ -151,8 +164,7 @@ const MyComponent = () => {
                   <tr>
                     <td className={ "text-[7pt]" }>Total</td>
                     <td className={ "text-[7pt]" }>:</td>
-                    <td className={ "text-[7pt]" }>{ Rupiah( d.semuaProduct.reduce( ( acc, item ) => acc +
-                      item.harga * item.jumlah, 0 ) ) }</td>
+                    <td className={ "text-[7pt]" }>{ Rupiah( getPrint( d.semuaProduct, "total" ) ) }</td>
                   </tr>
                   <tr>
                     <td className={ "text-[7pt]" }>Biaya Kirim</td>
@@ -175,7 +187,7 @@ const MyComponent = () => {
                   <tr>
                     <td className={ "text-[7pt]" }>Jumlah Paket</td>
                     <td className={ "text-[7pt]" }>:</td>
-                    <td className={ "text-[7pt]" }>10 Paket</td>
+                    <td className={ "text-[7pt]" }> { getPrint( d.semuaProduct, "paket" ) } Paket</td>
                   </tr>
                   </tbody>
 

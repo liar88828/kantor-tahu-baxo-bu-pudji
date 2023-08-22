@@ -61,7 +61,7 @@ export default class Validation {
     guna          : z.string( { required_error: 'guna is required', } ).min( 1 ),
     lokasi        : z.string( { required_error: 'lokasi is required', } ).min( 1 ),
     namaPengiriman: z.string( { required_error: 'namaPengiriman is required', } ).min( 1 ),
-    id: z.string( { required_error: 'ID is required', } ).min( 30 ).max( 45 ),
+    id: z.string( { required_error: 'ID is required', } ).min( 30 ).max( 50 ),
     typePembayaran: z.string( { required_error: 'typePembayaran is required', } ).min( 1 ),
     status        : z.string( { required_error: 'status is required', } ).min( 1 ),
     //
