@@ -17,14 +17,11 @@ export default function Page() {
 
 }
 
-export function FormEdit( { id, path }: {
-  id: string,
-  path: string[]
-} ) {
+export function FormEdit( { id, path }: { id: string, path: string[] } ) {
   const { register, handleSubmit, } = useForm<TProduct>( {
     defaultValues: async () => {
 
-      const res = await fetch( "/api/product/" + id )
+      const res = await fetch( "/api/product?id=" + id )
       const { data }: { data: TProduct } = await res.json()
       // console.log( data )
 

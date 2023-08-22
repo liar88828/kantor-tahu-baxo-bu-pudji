@@ -1,6 +1,7 @@
 import { styleLabelForm } from '@/app/style/form';
 import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
 import { notifyData } from '@/app/utils/notif/toash';
+import { sendImage } from '@/app/utils/ress/sendApi';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
   const file = event.target.files && event.target.files[ 0 ];
@@ -66,11 +67,8 @@ export async function handleUpload<T>(
 
   //----------------------send to
   try {
-    const response = await fetch( '/api/' + apiEndPoint + "/" + id, {
-      method: method,
-      body  : formData,
-    } )
-    const data     = await response.json()
+    const { response, data } = await sendImage( apiEndPoint, id, method, formData );
+
     notifyData( data.msg )
     if( response.ok ) {
       setMessage( 'File uploaded successfully' );
@@ -80,7 +78,6 @@ export async function handleUpload<T>(
     }
   }
   catch ( error ) {
-
     setMessage( 'Error uploading file' );
 
   }

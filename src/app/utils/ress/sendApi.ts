@@ -24,15 +24,23 @@ export async function sendAPI(
 }
 
 export async function sendData( to: string, method: string, id: string ) {
-  const res = await fetch( config.url + `/api/${ to }/` + id, {
+  const res = await fetch( config.url + `/api/${ to }?id=` + id, {
       method: method,
     }
   )
   if( !res.ok ) {
     throw new Error( 'Failed to fetch data' )
-
   }
 
   const { data, msg } = await res.json()
   return { data, msg }
+}
+
+export async function sendImage( apiEndPoint: string, id: string, method: string, formData: FormData ) {
+  const response = await fetch( '/api/' + apiEndPoint + "?id=" + id, {
+    method: method,
+    body  : formData,
+  } )
+  const data     = await response.json()
+  return { response, data };
 }
