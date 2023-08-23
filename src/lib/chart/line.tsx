@@ -33,20 +33,20 @@ export function Lines( { datas }: {
     },
   };
 
-  const monthName = datas.map( d => new Date( d.pesan )
-  .toLocaleString( "id-ID",
-    { month: "long" }
-  ) )
+  const monthName = datas.map( d => new Date( d.pesan ).toLocaleString( "id-ID", { month: "long" } ) )
   const count     = datas.map( d => d._count.pesan )
   // console.log( count )
-  // console.log( labels )
   // console.log( monthName )
+  // console.log(new Date("2023-08-23T16:15:00.554Z"))
+  // console.log( datas )
+  const currentYear = new Date().getFullYear();
+
   // ---------
   const data = {
     labels  : monthName,
     datasets: [
       {
-        label          : '2022',
+        label: currentYear,
         data           : count,// monthName.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
         borderColor    : 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',

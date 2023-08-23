@@ -6,35 +6,27 @@ import { TPOrderan } from '@/entity/server/produkOrderan';
 
 export default class RepoOrderan implements InterfaceOrderan {
 
-  createMany( data: any[] ): Promise<any> {
-    throw new Error( 'Method not implemented.' );
-  }
-
 // getAll data from database
   private getSelect() {
     return {
-      id               : true,
-      pengirim         : true,
-      hpPengirim       : true,
-      penerima         : true,
-      alamatPenerima   : true,
-      hpPenerima       : true,
-      pesan            : true,
-      kirim            : true,
-      waktuKirim       : true,
-      guna             : true,
-      lokasi           : true,
-      namaPengiriman   : true,
-      ongkir           : true,
-      typePembayaran   : true,
-      totalBayar       : true,
-      totalPenjualan   : true,
-      status           : true,
-      semuaHargaProduct: true,
-      semuaHargaItem   : true,
-      semuaHargaOrderan: true,
-      totalHarga       : true,
-      semuaProduct     : {
+      id            : true,
+      pengirim      : true,
+      hpPengirim    : true,
+      penerima      : true,
+      alamatPenerima: true,
+      hpPenerima    : true,
+      pesan         : true,
+      kirim         : true,
+      waktuKirim    : true,
+      guna          : true,
+      lokasi        : true,
+      namaPengiriman: true,
+      ongkir        : true,
+      typePembayaran: true,
+      totalBayar    : true,
+      totalPenjualan: true,
+      status        : true,
+      semuaProduct  : {
         select: {
           id        : true,
           nama      : true,
@@ -55,29 +47,28 @@ export default class RepoOrderan implements InterfaceOrderan {
                  : d.waktuKirim
     // console.log(new Date( d.pesan ),)
     return {
-      alamatPenerima   : d.alamatPenerima,
-      guna             : d.guna,
-      hpPenerima       : d.hpPenerima,
-      hpPengirim       : d.hpPenerima,
-      id               : d.id,
-      lokasi: d.lokasi.replaceAll( " ", "" ),
-      namaPengiriman   : d.namaPengiriman,
-      ongkir           : d.ongkir,
-      penerima         : d.penerima,
-      pengirim         : d.pengirim,
-      pesan            : new Date( d.pesan ),
-      kirim            : new Date( d.kirim ),
-      waktuKirim       : new Date( d.pesan + "T" + time + ".000Z" ),
-      semuaHargaItem   : d.semuaHargaItem,
-      semuaHargaOrderan: d.semuaHargaOrderan,
-      semuaHargaProduct: d.semuaHargaProduct,
-      status           : d.status,
-      totalBayar       : d.totalBayar,
-      totalHarga       : d.totalHarga,
-      totalPenjualan   : d.totalPenjualan,
-      typePembayaran   : d.typePembayaran,
+      alamatPenerima: d.alamatPenerima,
+      guna          : d.guna,
+      hpPenerima    : d.hpPenerima,
+      hpPengirim    : d.hpPenerima,
+      id            : d.id,
+      lokasi        : d.lokasi.replaceAll( " ", "" ),
+      namaPengiriman: d.namaPengiriman,
+      ongkir        : d.ongkir,
+      penerima      : d.penerima,
+      pengirim      : d.pengirim,
+      pesan         : new Date( d.pesan ),
+      kirim         : new Date( d.kirim ),
+      waktuKirim    : new Date( d.pesan + "T" + time + ".000Z" ),
+      status        : d.status,
+      totalBayar    : d.totalBayar,
+      totalPenjualan: d.totalPenjualan,
+      typePembayaran: d.typePembayaran,
     }
+  }
 
+  createMany( data: any[] ): Promise<any> {
+    throw new Error( 'Method not implemented.' );
   }
 
   // ---------CREATE
@@ -128,7 +119,6 @@ export default class RepoOrderan implements InterfaceOrderan {
         },
       }
     )
-
     const semuaProductCount = prisma.semuaProduct.groupBy( {
         by    : [ "nama" ],
         _count: { nama: true, },
@@ -269,56 +259,6 @@ export default class RepoOrderan implements InterfaceOrderan {
     )
   }
 
-  async UpdateOneEx( data: TOrderServer, id: string, ) {
-    const time = ( data.waktuKirim.toString().length === 5 )
-                 ? data.waktuKirim + ":00"
-                 : data.waktuKirim
-
-    return await prisma.$transaction( [
-      ...data.semuaProduct.map( d =>
-        prisma.semuaProduct.updateMany( {
-          where: { id: d.id },
-          data : {
-            // harga     : d.harga,
-            // jenis     : d.jenis,
-            jumlah: d.jumlah,
-            // keterangan: d.keterangan,
-            // lokasi    : d.lokasi,
-            // nama      : d.nama,
-            // orderanId : id
-          },
-        } )
-      ),
-      prisma.orderan.update( {
-        where: { id: data.id },
-        data : {
-          alamatPenerima   : data.alamatPenerima,
-          guna             : data.guna,
-          hpPenerima       : data.hpPenerima,
-          hpPengirim       : data.hpPenerima,
-          id               : data.id,
-          lokasi           : data.lokasi,
-          namaPengiriman   : data.namaPengiriman,
-          ongkir           : data.ongkir,
-          penerima         : data.penerima,
-          pengirim         : data.pengirim,
-          pesan            : new Date( data.pesan ),
-          kirim            : new Date( data.kirim ),
-          waktuKirim       : new Date( data.pesan + "T" + time + ".000Z" ),
-          semuaHargaItem   : data.semuaHargaItem,
-          semuaHargaOrderan: data.semuaHargaOrderan,
-          semuaHargaProduct: data.semuaHargaProduct,
-          status           : data.status,
-          totalBayar       : data.totalBayar,
-          totalHarga       : data.totalHarga,
-          totalPenjualan   : data.totalPenjualan,
-          typePembayaran   : data.typePembayaran,
-        },
-      } ),
-    ] );
-
-  }
-
   async updateOne( data: TOrderServer, id: string, ) {
     // console.log(data)
     return prisma.orderan.update( {
@@ -329,15 +269,61 @@ export default class RepoOrderan implements InterfaceOrderan {
 
   }
 
+  async UpdateOneEx( data: TOrderServer, id: string, ) {
+    const time = ( data.waktuKirim.toString().length === 5 )
+                 ? data.waktuKirim + ":00"
+                 : data.waktuKirim
+
+    return await prisma.$transaction( [
+      ...data.semuaProduct.map( d =>
+        prisma.semuaProduct.updateMany( {
+          where: { id: d.id },
+          data : {
+            harga     : d.harga,
+            jenis     : d.jenis,
+            jumlah    : d.jumlah,
+            keterangan: d.keterangan,
+            lokasi    : d.lokasi,
+            nama      : d.nama,
+            orderanId : id
+          },
+        } )
+      ),
+      prisma.orderan.update( {
+        where: { id: data.id },
+        data : {
+          alamatPenerima: data.alamatPenerima,
+          guna          : data.guna,
+          hpPenerima    : data.hpPenerima,
+          hpPengirim    : data.hpPenerima,
+          id            : data.id,
+          lokasi        : data.lokasi,
+          namaPengiriman: data.namaPengiriman,
+          ongkir        : data.ongkir,
+          penerima      : data.penerima,
+          pengirim      : data.pengirim,
+          pesan         : new Date( data.pesan ),
+          kirim         : new Date( data.kirim ),
+          waktuKirim    : new Date( data.pesan + "T" + time + ".000Z" ),
+          status        : data.status,
+          totalBayar    : data.totalBayar,
+          totalPenjualan: data.totalPenjualan,
+          typePembayaran: data.typePembayaran,
+        },
+      } ),
+    ] );
+
+  }
+
   private setMany( data: TOrderServer, method: string = "POST" ) {
     return data.semuaProduct.map( ( d: TPOrderan ) => (
         Object.assign( {
           harga     : d.harga,
           id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-          jenis : d.jenis.replaceAll( " ", "" ),
+          jenis     : d.jenis.replaceAll( " ", "" ),
           jumlah    : d.jumlah,
           keterangan: d.keterangan,
-          lokasi: d.lokasi.replaceAll( " ", "" ),
+          lokasi    : d.lokasi.replaceAll( " ", "" ),
           img       : d.img,
           nama      : d.nama,
           orderanId : data.id
@@ -345,4 +331,5 @@ export default class RepoOrderan implements InterfaceOrderan {
       )
     );
   }
+
 }

@@ -2,16 +2,7 @@ import type { TOnlyKey } from '@/entity/client/orderan';
 import { TOrder } from '@/entity/client/orderan';
 
 export const formInput: TOnlyKey = {
-//keterangan orang
-  pengirim      : "Pengirim",
-  hpPengirim    : "Hp Pengirim",
-  penerima      : "Penerima",
-  alamatPenerima: "Alamat Penerima",
-  hpPenerima    : "Hp Penerima",
-//tanggal pesan
-  pesan     : "Pesan",
-  kirim     : "Kirim",
-  waktuKirim: "Waktu Kirim",
+
 //orderan
   listOrderan : [ {
     id    : "Se/Or/TBSp/42",
@@ -37,6 +28,16 @@ export const formInput: TOnlyKey = {
     jenis : "Item"
   },
   ],
+//keterangan orang
+  pengirim      : "Pengirim",
+  hpPengirim    : "Hp Pengirim",
+  penerima      : "Penerima",
+  alamatPenerima: "Alamat Penerima",
+  hpPenerima    : "Hp Penerima",
+//tanggal pesan
+  pesan     : "Pesan",
+  kirim     : "Kirim",
+  waktuKirim: "Waktu Kirim",
 //keterangan
   guna  : "Keterangan",
   lokasi: "Lokasi",

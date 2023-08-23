@@ -1,19 +1,21 @@
 "use client"
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Thitung, TOrder } from '@/entity/client/orderan';
+import { getData as getTravelData } from '@/app/utils/ress/travel';
+import { getData as getProductData } from '@/app/utils/ress/product';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import React, { useState } from 'react';
+import { notifyData } from '@/app/utils/notif/toash';
 import { defaultValues } from '@/app/utils/format/orderan';
+import { calculateTotal, getSemuaHargaProduct, regExp } from '@/app/components/table/utils/orderan';
+import { setIdOrderan } from '@/lib/utils/formatId';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/elements/input/InputNew';
-import { Status } from '@/app/style/status';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
+import Image from 'next/image';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { BiAddToQueue } from 'react-icons/bi';
-import { PopUp } from '@/app/components/popup/orderan';
-import { setIdOrderan } from '@/lib/utils/formatId';
-import { notifyData } from '@/app/utils/notif/toash';
-import { calculateTotal, getSemuaHargaProduct, regExp } from '@/app/components/table/utils/orderan';
-import Image from 'next/image';
+import { Status } from '@/app/style/status';
+import { config } from '../../../../../dataEnv';
 
 // async function getTravel() {
 //   return await getTravelData()
@@ -23,15 +25,22 @@ import Image from 'next/image';
 //   return await getProductData()
 // }
 
-export function ClientComponent( {
-  id = "", method = "POST", defaultDataOrder, product, travel
-}: {
-  id: string,
-  method: string,
-  defaultDataOrder: Awaited<TOrder>,
-  travel: TTravel[],
-  product: TProduct[]
-} ) {
+async function ServerComponent( { id = "", method = "POST", defaultDataOrder, }:
+  { id: string, method: string, defaultDataOrder: Awaited<TOrder>, } ) {
+  const travelData: Promise<{ data: TTravel[], msg: string }>   = getTravelData()
+  const productData: Promise<{ data: TProduct[], msg: string }> = getProductData()
+
+  const [ travel, product ] = await Promise.all( [ travelData, productData ] )
+  return ( <ClientComponent id={ id }
+                            method={ method }
+                            defaultDataOrder={ defaultDataOrder }
+                            travel={ travel.data }
+                            product={ product.data }/>
+  )
+}
+
+function ClientComponent( { id = "", method = "POST", defaultDataOrder, product, travel }:
+  { id: string, method: string, defaultDataOrder: Awaited<TOrder>, travel: TTravel[], product: TProduct[] } ) {
 
   // const getData = async () => {
   //   const dataProduct = await fetch( config.url + "/api/product/" ).then( res => res.json() )
@@ -68,23 +77,21 @@ export function ClientComponent( {
   const requiress = Object.keys( errors )
   if( requiress.length !== 0 && isError ) {
     const entries = Object.entries( errors );
-    // console.log( entries )
     entries.forEach( ( d, i ) => {
-      notifyData( `fail, ${ d[ 0 ].toUpperCase() } is ${ d[ 1 ].type === "pattern"
-                                                         ? "symbol is not allow "
-                                                         : "value is require" }` )
+        notifyData( `fail, ${ d[ 0 ].toUpperCase() } is ${ d[ 1 ].type === "pattern"
+                                                           ? "symbol is not allow "
+                                                           : "value is require" }` )
       }
     )
   }
 
-  const { fields, append, remove, } = useFieldArray( {
+  const { fields, append, remove, }   = useFieldArray( {
     control,
     name : "semuaProduct",
     rules: { required: "Please append at last 1 ", }
   } );
-
   const [ clickPopUp, setClickPopUp ] = useState( false );
-  const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
+  const [ valueForm, setValueForm ]   = useState<TOrder>( defaultValues )
 
   // -----------------------Calculator Product
 
@@ -109,8 +116,10 @@ export function ClientComponent( {
     setList( "Orderan", data.listOrderan );
 
     setValueForm( data )
-    console.log( valueForm )
+
   };
+
+  // ---------------------Search---------------------------
 
   const [ searchQuery, setSearchQuery ]     = useState( '' );
   const [ cart, setCart ]                   = useState<TOrder["semuaProduct"]>( fields );
@@ -163,7 +172,8 @@ export function ClientComponent( {
   // }
   // console.log( travel )
   // console.log( product )
-  return ( < >{/*-----------------------Page-------------   */ }
+  return ( < >
+      {/*-----------------------Page-------------   */ }
       <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-col sm:flex-row  sm:gap-3 mt-5">
@@ -267,61 +277,59 @@ export function ClientComponent( {
                 {/*<SearchItemList items={ filteredItems } addToCart={ addToCart } cart={ cart }/>*/ }
                 <ul
                   className={ "p-0.5 sm:p-2 border border-gray-50 rounded  overflow-y-auto relative h-[20rem] " }>
-                  { filteredItems.map( ( item: TProduct, ) => ( <li
-                      className={ ` ${ isItemAdded( item )
-                                       ? " w-0 h-0  hidden "
-                                       : "" } p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
-                      style={ {
-                        backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
-                        fontWeight     : isItemAdded( item ) ? 'bold' : 'normal',
-                        visibility     : isItemAdded( item ) ? 'hidden' : 'visible',
-                      } }
-                      key={ item.id }>
+                  { filteredItems.map( ( item: TProduct, ) => {
+                    // console.log( item.img )
+                    return (
+                      <li className={ ` ${ isItemAdded( item ) ? " w-0 h-0  hidden "
+                                                               : "" } p-0.5 sm:p-4 flex flex-row gap-2 border border-gray-200 rounded items-center justify-around bg-white` }
+                          style={ {
+                            backgroundColor: isItemAdded( item ) ? 'lightgreen' : 'transparent',
+                            fontWeight     : isItemAdded( item ) ? 'bold' : 'normal',
+                            visibility     : isItemAdded( item ) ? 'hidden' : 'visible',
+                          } } key={ item.id }>
 
-                      <Image src={ item.img }
-                             alt={ item.nama }
-                             width={ 100 }
-                             height={ 100 }
-                             className=" rounded object-cover  w-20     "
-                      />
-                      <p className={ "flex flex-col" }>
+                        <img className={ " rounded bg-blue-300 w-20 h-auto" }
+                             src={ config.url + item.img }
+                             alt={ item.id }/>
+
+                        <p className={ "flex flex-col" }>
                     <span
                       className={ "text-sm sm:text-base " +
                         styleLabelForm }>{ item.nama }</span>
-                        <span
-                          className={ "text-sm sm:text-base" +
-                            styleLabelForm }>{ Rupiah( item.harga ) }</span>
-                        <span
-                          className={ "text-sm sm:text-base" +
-                            styleLabelForm }>{ item.jenis }</span>
-                        <span
-                          className={ "text-sm sm:text-base" +
-                            styleLabelForm }>{ item.lokasi }</span>
-                      </p>
-
-                      <button type={ "button" } onClick={ () => {
-                        append(
-                          {
-                            id        : item.id,
-                            nama      : item.nama,
-                            harga     : item.harga,
-                            lokasi    : item.lokasi,
-                            jumlah    : 1,
-                            keterangan: item.keterangan,
-                            jenis     : item.jenis,
-                            img       : item.img,
-                          }
-                        )
-                        addToCart( item )
-                      } }
-                              className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
-                        <BiAddToQueue/>
-                        <span className="invisible sm:visible w-0 sm:w-auto">  Add
+                          <span
+                            className={ "text-sm sm:text-base" +
+                              styleLabelForm }>{ Rupiah( item.harga ) }</span>
+                          <span
+                            className={ "text-sm sm:text-base" +
+                              styleLabelForm }>{ item.jenis }</span>
+                          <span
+                            className={ "text-sm sm:text-base" +
+                              styleLabelForm }>{ item.lokasi }</span>
+                        </p>
+                        <button type={ "button" } onClick={ () => {
+                          append(
+                            {
+                              id        : item.id,
+                              nama      : item.nama,
+                              harga     : item.harga,
+                              lokasi    : item.lokasi,
+                              jumlah    : 1,
+                              keterangan: item.keterangan,
+                              jenis     : item.jenis,
+                              img       : item.img,
+                            }
+                          )
+                          addToCart( item )
+                        } }
+                                className={ "bg-blue-600 text-white p-1 sm:p-2 rounded flex flex-row justify-center items-center gap-1" }>
+                          <BiAddToQueue/>
+                          <span className="invisible sm:visible w-0 sm:w-auto">  Add
                       <span className={ "sm:hidden" }>to Cart</span>
                     </span>
-                      </button>
-                    </li>
-                  ) ) }
+                        </button>
+                      </li>
+                    )
+                  } ) }
                 </ul>
 
               </div>
@@ -334,23 +342,14 @@ export function ClientComponent( {
 
                   {/*--------------------------------------------------------loop-------------------------*/ }
                   { fields.map( ( item: TProduct, index: number ) => {
-                    // console.log(item.img)
                     return ( <li
                       className={ "flex flex-row justify-between  items-center gap-2 p-1 sm:p-3 border border-gray-300 bg-white" }
                       key={ item.id }>
 
-                      <Image src={ item.img }
-                             alt={ item.nama }
+                      <Image height={ 100 }
                              width={ 100 }
-                             height={ 100 }
-                             className=" rounded object-cover w-20    "
-                      />
-
-                      {/*<img*/ }
-                      {/*  className={ " rounded bg-blue-300 object-cover h-28" }*/ }
-                      {/*  src={ item.img }*/ }
-                      {/*  alt={ index.toString()*/ }
-                      {/*}/>*/ }
+                             className={ " rounded bg-blue-300 w-20 h-auto" }
+                             src={ item.img } alt={ index.toString() }/>
                       <input type={ 'hidden' }
                              value={ item.id }{ ...register( `semuaProduct.${ index }.id`, { required: true } ) }/>
                       <input type={ 'hidden' }
@@ -455,7 +454,7 @@ export function ClientComponent( {
                          reg={ register( "ongkir", { required: true, valueAsNumber: true } ) }/>
               <label htmlFor="" className={ styleLabelForm }>Lokasi</label>
               <select id="lokasi"
-                      className='bg-gray-50 border border-gray-300 p-2 rounded-md'{ ...register( "lokasi" ) }>
+                      className='bg-gray-50 border border-gray-300 p-2 rounded-md' { ...register( "lokasi" ) }>
                 <option value="Ungaran">Ungaran</option>
                 <option value="Semarang">Semarang</option>
               </select>
@@ -486,109 +485,20 @@ export function ClientComponent( {
             >Add Product
             </button>
 
-            { valueForm.semuaProduct.length !== 0
-              && ( <PopUp
-                clickPopUp={ clickPopUp }
-                setClickPopUp={ setClickPopUp }
-                data={ valueForm }
-                id={ id }
-                method={ method }
-              /> ) }
+            {/*{ valueForm.semuaProduct.length !== 0*/ }
+            {/*  && ( <PopUp*/ }
+            {/*    clickPopUp={ clickPopUp }*/ }
+            {/*    setClickPopUp={ setClickPopUp }*/ }
+            {/*    data={ valueForm }*/ }
+            {/*    id={ id }*/ }
+            {/*    method={ method }*/ }
+            {/*  /> ) }*/ }
 
-            <button className={ "btn btn-error text-white" }
-                    onClick={ () => reset( defaultValues ) }
-                    type="button"
-            >Reset
+            <button className={ "btn btn-error text-white" } onClick={ () => reset( defaultValues ) }
+                    type="button">Reset
             </button>
-            <button className="btn" onClick={ () => window.my_modal_2.showModal() }>open modal</button>
-
-            <dialog id="my_modal_2" className="modal  ">
-              <form method="dialog" className="modal-box w-11/12 max-w-5xl">
-                <div className="card">
-                  <div className="card-title"> Detail Pesanan <span
-                    className={ Status( valueForm.status ) + "p-2" }>{ valueForm.status }</span>
-                  </div>
-                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                  <div className=" flex gap-5 flex-col sm:flex-row">
-                    <div className="card-body gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
-                      <p>Kode : { valueForm.id }</p>
-                      <p>Nama Penerima: { valueForm.penerima }</p>
-                      <p>Hp Penerima: { valueForm.hpPenerima }</p>
-                      <p>Alamat Penerima : { valueForm.alamatPenerima }</p>
-                      <p>Tanggal Pesan : { valueForm.pesan.toString() }</p>
-                      <p>Tanggal Kirim : { valueForm.kirim.toString() }</p>
-                      <p> waktu Kirim : { valueForm.waktuKirim.toString() }</p>
-                      <p>Keterangan Lokasi : { valueForm.lokasi }</p>
-                    </div>
-                    <hr/>
-                    <div className={ "border-l-black border" }/>
-                    <div className="gap-5 flex flex-col sm:ml-10 w-full sm:w-[50%]   border border-white p-5">
-                      <p color="black">Lokasi : { valueForm.lokasi }</p>
-                      <p color="black">Travel Pengirim : { valueForm.pengirim }</p>
-                      <p color="black">Ekspedisi : { valueForm.namaPengiriman }</p>
-                      <hr/>
-                      <p color="black">Biaya Kirim/Ongkir : { Rupiah( valueForm.ongkir ) }</p>
-                      <p color="black">Semua Harga Orderan : { Rupiah( calculateTotal( valueForm.listOrderan ) ) }</p>
-                      <p color="black">Semua Harga Item : { Rupiah( calculateTotal( valueForm.listItem ) ) }</p>
-                      <p color="black">Total Beli : { Rupiah( calculateTotal( valueForm.semuaProduct ) ) }</p>
-                      <p color="black">Total Beli + Biaya Kirim :{ Rupiah( calculateTotal( valueForm.listOrderan ) +
-                        calculateTotal( valueForm.listItem ) + valueForm.ongkir ) }</p>
-                    </div>
-                  </div>
-
-                  <div className="my-4">
-                    <ul
-                      className=" bg-gray-200  relative overflow-x-auto rounded-lg  p-2 mt-1 gap-2 flex shadow shadow-slate-300">
-                      { valueForm.semuaProduct.map( ( item: TProduct, index: number ) => {
-                        return (
-                          <div key={ item.id } className={ "card flex-nowrap flex" }>
-                            <div
-                              className="w-[10rem]  bg-white border border-slate-100 rounded-lg shadow shadow-black  p-2">
-
-                              <div>
-                                <img
-                                  height={ 100 }
-                                  width={ 100 }
-                                  className=" rounded object-cover  h-32   w-full"
-                                  src={ item.img }
-                                  alt={ item.id }/>
-                              </div>
-
-                              <div className="card-body rounded p-2 ">
-                                <p className="mb-2 font-bold">{ item.nama }</p>
-                                <p className={ "text-sm" }> { Rupiah( item.harga ) }</p>
-                                <p className={ "text-sm" }>Jenis : { item.jenis }</p>
-                                <p className={ "text-sm" }> Jumlah : { item.jumlah }</p>
-                              </div>
-                            </div>
-                          </div>
-                        )
-                      } ) }
-                    </ul>
-                  </div>
 
 
-                  <div className="shadow shadow-slate-300 p-2 rounded ">
-                    <p>Keterangan : </p>
-                    <p>{ valueForm.guna }</p>
-                  </div>
-
-                  <div
-                    className="card-actions flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button
-                      onClick={ async () => //await handleSave()
-                        console.log( "click" )
-                      }
-                      type="button"
-                      className="btn btn-info text-white">
-
-                      { method !== "PUT" ? "Simpan" : "Update" }
-                    </button>
-                    <button className="btn btn-ghost btn-outline">Close</button>
-                  </div>
-                </div>
-              </form>
-            </dialog>
           </div>
         </div>
       </form>

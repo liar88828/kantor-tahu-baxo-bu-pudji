@@ -32,8 +32,8 @@ export function TableOrder( { dataOrderan }: {
 
   console.log( dataOrderan.data )
 
-  const { msg, data: dataOrder } = dataOrderan
-  const router                   = useRouter()
+  const { data: dataOrder }       = dataOrderan
+  const router                    = useRouter()
 
   // sorting
   const [ sorting, setSorting ] = useState<SortingState>( [] )
@@ -49,7 +49,7 @@ export function TableOrder( { dataOrderan }: {
 
   const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
   //
-  const [ selected, setSelected ]                      = useState<number[]>( [] );
+  const [ selected, setSelected ] = useState<string | number[]>( [] );
 
   //---------table value---------------
   const columns = useMemo<ColumnDef<TOrderServer>[]>( () => [
@@ -300,7 +300,7 @@ export function TableOrder( { dataOrderan }: {
         header: 'Total', footer: props => props.column.id, columns: [
 
           {
-            accessorKey: 'semuaHargaProduct',
+            accessorKey: 'totalPenjualan',
             header     : 'Total',
             cell       : info => Rupiah( info.getValue() ),
             footer     : props => props.column.id,
@@ -401,11 +401,8 @@ export function TableOrder( { dataOrderan }: {
 
   // delete row
   const handlerDelete        = async () => {
-    // console.log( selected );
     if( selected ) {
-      // console.log()
       const filteredData = data.filter( ( item ) => item.id !== selected );
-      // console.log( selected );
       setData( filteredData );
     }
   };
@@ -414,9 +411,6 @@ export function TableOrder( { dataOrderan }: {
   useEffect( () => {
     if( setSelected ) {
       const originIds = filteredSelectedRows.map( ( row ) => row.original.id )[ 0 ];
-
-      // console.log( "originIds", originIds );
-      // console.log("tabl row", table.getRow(1))
       setSelected( originIds );
     }
   }, [ setSelected, filteredSelectedRows ] );

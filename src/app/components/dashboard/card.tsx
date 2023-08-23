@@ -46,7 +46,8 @@ export function HorizontalCard( { datas }: {
     const nama  = d.status
     return { count, nama }
   } )
-  console.log( objectarray )
+
+  // console.log( objectarray )
 
   function getDiTerimaObject( status: TTextStatus ) {
     // return objectarray.some( obj => obj.nama === status );// back boolean

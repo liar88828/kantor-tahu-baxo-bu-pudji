@@ -30,38 +30,33 @@ model SemuaProduct {
 }
 
 model Orderan {
-  id                String         @id @default(uuid()) @db.VarChar(100)
+  id             String         @id @default(uuid()) @db.VarChar(100)
   // orang
-  pengirim          String         @db.VarChar(100)
-  hpPengirim        String         @db.VarChar(20)
-  penerima          String         @db.VarChar(100)
-  alamatPenerima    String         @db.VarChar(100)
-  hpPenerima        String         @db.VarChar(100)
+  pengirim       String         @db.VarChar(100)
+  hpPengirim     String         @db.VarChar(20)
+  penerima       String         @db.VarChar(100)
+  alamatPenerima String         @db.VarChar(100)
+  hpPenerima     String         @db.VarChar(100)
   // tanggal
-  pesan             DateTime?      @db.Date
-  kirim             DateTime?      @db.Date
-  waktuKirim        DateTime?      @db.Time()
+  pesan          DateTime?      @db.Date
+  kirim          DateTime?      @db.Date
+  waktuKirim     DateTime?      @db.Time()
   // keterangan
-  guna              String         @db.Text
-  lokasi            String         @db.VarChar(100)
+  guna           String         @db.Text
+  lokasi         String         @db.VarChar(100)
   // travel
-  namaPengiriman    String         @db.VarChar(100)
-  ongkir            Int            @db.MediumInt
+  namaPengiriman String         @db.VarChar(100)
+  ongkir         Int            @db.MediumInt
   // total
-  typePembayaran    String         @db.VarChar(100)
-  totalBayar        Int            @db.MediumInt
-  totalPenjualan    Int            @db.MediumInt
-  status            String         @db.VarChar(20)
+  typePembayaran String         @db.VarChar(100)
+  totalBayar     Int            @db.MediumInt
+  totalPenjualan Int            @db.MediumInt
+  status         String         @db.VarChar(20)
   // semua
-  semuaHargaProduct Int            @db.MediumInt
-  semuaHargaItem    Int            @db.MediumInt
-  semuaHargaOrderan Int            @db.MediumInt
-  totalHarga        Int            @db.MediumInt
-  // relational /orderan
-  semuaProduct      SemuaProduct[]
+  semuaProduct   SemuaProduct[]
   // at update / create
-  created_at        DateTime       @default(now())
-  updated_at        DateTime       @updatedAt
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
 
   @@map("Orderans")
 }

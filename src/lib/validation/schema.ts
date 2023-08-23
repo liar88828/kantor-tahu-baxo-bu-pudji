@@ -43,9 +43,8 @@ export default class Validation {
 
   semuaProduk = this.ProductOnly.merge(
     z.object( {
-      orderanId: z.string().min( 1 ),
-
-      img: z.string().min( 1 )
+      orderanId: z.string().min( 1 ).optional(),
+      img      : z.string().min( 1 )
 
     } ) )
 
@@ -61,18 +60,14 @@ export default class Validation {
     guna          : z.string( { required_error: 'guna is required', } ).min( 1 ),
     lokasi        : z.string( { required_error: 'lokasi is required', } ).min( 1 ),
     namaPengiriman: z.string( { required_error: 'namaPengiriman is required', } ).min( 1 ),
-    id: z.string( { required_error: 'ID is required', } ).min( 30 ).max( 50 ),
+    id: z.string( { required_error: 'ID is required', } ).min( 25 ).max( 50 ),
     typePembayaran: z.string( { required_error: 'typePembayaran is required', } ).min( 1 ),
     status        : z.string( { required_error: 'status is required', } ).min( 1 ),
     //
-    ongkir           : z.number( { required_error: ' ongkir is required', } ).int().nonnegative(),
-    totalBayar       : z.number( { required_error: ' totalBayar is required', } ).int().nonnegative(),
-    totalPenjualan   : z.number( { required_error: ' totalPenjualan is required', } ).int().nonnegative(),
-    semuaHargaOrderan: z.number( { required_error: ' semuaHargaOrderan is required', } ).int().nonnegative(),
-    semuaHargaItem   : z.number( { required_error: ' semuaHargaItem is required', } ).int().nonnegative(),
-    semuaHargaProduct: z.number( { required_error: ' semuaHargaProduct is required', } ).int().nonnegative(),
-    totalHarga       : z.number( { required_error: ' totalHarga is required', } ).int().nonnegative(),
-    semuaProduct     : z.array( this.semuaProduk )
+    ongkir        : z.number( { required_error: ' ongkir is required', } ).int().nonnegative(),
+    totalBayar    : z.number( { required_error: ' totalBayar is required', } ).int().nonnegative(),
+    totalPenjualan: z.number( { required_error: ' totalPenjualan is required', } ).int().nonnegative(),
+    semuaProduct  : z.array( this.semuaProduk )
   } )
 
   ZIdMany: z.ZodType<string[]> = z.array(

@@ -1,48 +1,11 @@
 import React from 'react';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { Status } from '@/app/style/status';
-import type { TotalOrderan } from '@/entity/client/orderan';
-import { Button } from '@material-tailwind/react';
+import { TOrder } from '@/entity/client/orderan';
+import { getListData } from '@/app/elements/table/format';
+import { calculateTotal, getSemuaHargaProduct } from '@/app/components/table/utils/orderan';
 
-export function OrderanTable( { data, }: { data: TotalOrderan, } ) {
-
-  const KeteranganProduct: React.FC<{
-    d: Omit<TProduct, "img">[],
-    k: string,
-    t: string
-  }> = ( { d, k, t } ) => {
-    const filteredItems = d.filter( ( o ) => {
-      if( t === "Item" ) {
-        return o.jenis === "Item";
-      }
-      else if( t === "Orderan" ) {
-        return o.jenis === "Orderan";
-      }
-      return true; // If 'j' is neither "Item" nor "Orderan", show all items
-    } );
-
-    return ( <>
-        { filteredItems.map( ( o: Omit<TProduct, "img"> ) => {
-          let ket
-          if( k === "harga" ) {
-            ket = o.harga
-          }
-          else if( k == "nama" ) {
-            ket = o.nama
-          }
-          else if( k == "jumlah" ) {
-            ket = o.jumlah
-          }
-          else if( k == "total" ) ket = Rupiah( Number( o.harga ) *
-            Number( o.jumlah ) )
-
-            return ( <span className={ "flex border-gray-200 border" }
-                           key={ o.harga + o.jenis }>{ ket }</span> )
-          }
-        ) }
-      </>
-    )
-  }
+export function OrderanTable( { data, }: { data: TOrder, } ) {
 
   return (
     <>
@@ -87,7 +50,6 @@ export function OrderanTable( { data, }: { data: TotalOrderan, } ) {
             <th scope="col" className="px-4 py-3 bg-lime-300">Total Bayar</th>
             {/*-------------------Opsi----------------*/ }
             <th scope="col" className="px-4 py-3 bg-gray-200">Status</th>
-            <th scope="col" className="px-4 py-3 bg-gray-200">Action</th>
           </tr>
           </thead>
 
@@ -143,48 +105,45 @@ export function OrderanTable( { data, }: { data: TotalOrderan, } ) {
 
             {/*------------Orderan----------------*/ }
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              <KeteranganProduct d={ data.listOrderan } k={ "nama" }
-                                 t={ "Order" }/>
+              { getListData( data, 'Orderan', 'nama' ) }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              <KeteranganProduct d={ data.listOrderan } k={ "harga" }
-                                 t={ "Orderan" }/>
+              { getListData( data, 'Orderan', 'harga' ) }
             </td>
 
             <td scope="row" className="border border-slate-300 px-4 py-4">
-              <KeteranganProduct d={ data.listOrderan } k={ "jumlah" }
-                                 t={ "Orderan" }/>
+              { getListData( data, 'Orderan', 'jumlah' ) }
+
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              { Rupiah( data.hitung.semuaHargaOrderan ) }
+              { Rupiah( calculateTotal( data.listOrderan ) ) }
             </td>
 
             {/*----------------------Item-----------------------*/ }
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              <KeteranganProduct d={ data.listItem } k={ "nama" } t={ "Item" }/>
+              { getListData( data, 'Item', 'nama' ) }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
-              <KeteranganProduct d={ data.listItem } k={ "harga" }
-                                 t={ "Item" }/>
+              { getListData( data, 'Item', 'harga' ) }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              <KeteranganProduct d={ data.listItem } k={ "jumlah" }
-                                 t={ "Item" }/>
+              { getListData( data, 'Item', 'jumlah' ) }
+
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              { Rupiah( data.hitung.semuaHargaItem ) }
+              { Rupiah( calculateTotal( data.listItem ) ) }
             </td>
             {/*------------Orderan----------------*/ }
 
@@ -213,12 +172,15 @@ export function OrderanTable( { data, }: { data: TotalOrderan, } ) {
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50 ">
-              { Rupiah( data.hitung.semuaHargaOrderan ) }
+              { Rupiah( getSemuaHargaProduct( data, calculateTotal ) ) }
             </td>
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4">
-              { Rupiah( data.hitung.totalHarga ) }
+              { Rupiah(
+                calculateTotal( data.listOrderan ) +
+                calculateTotal( data.listItem ) +
+                data.ongkir ) }
             </td>
 
             {/*--------------------Aksi---------------------------*/ }
@@ -230,20 +192,6 @@ export function OrderanTable( { data, }: { data: TotalOrderan, } ) {
             </td>
 
 
-            <td scope="row" className="border border-slate-300 px-4 py-4 ">
-              <div className="gap-2 flex flex-col h-full">
-                <Button
-                  onClick={ () => {
-                    // onCreate()
-                    // console.log( "create" )
-                  }
-                  }
-                  className="bg-blue-500 p-2 rounded-md text-white">
-                  Simpan
-                </Button>
-
-              </div>
-            </td>
           </tr>
           </tbody>
         </table>

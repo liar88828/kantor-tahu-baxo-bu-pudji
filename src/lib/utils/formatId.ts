@@ -1,5 +1,6 @@
-import { Thitung, TOrder, TotalOrderan } from '@/entity/client/orderan';
+import { TOrder, } from '@/entity/client/orderan';
 
+// Travel
 export const setIdTravel = ( dTravel: TTravel ): string =>
   dTravel.namaPengiriman.slice( 0, 2 ) + "_" +
   dTravel.harga.toString().slice( 0, 2 ) + "_" +
@@ -7,6 +8,7 @@ export const setIdTravel = ( dTravel: TTravel ): string =>
   dTravel.jenis.slice( 0, 2 ) + "_" +
   dTravel.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
+// product
 export const setIdProduct = ( dProduct: TProduct ): string =>
   dProduct.nama.slice( 0, 2 ) + "_" +
   dProduct.harga.toString().slice( 0, 2 ) + "_" +
@@ -14,7 +16,11 @@ export const setIdProduct = ( dProduct: TProduct ): string =>
   dProduct.jenis.slice( 0, 2 ) + "_" +
   dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
-function setIdOrderanString( dataBaru: { hitung: Thitung } & { semuaProduct: TProduct[] } & TOrder ) {
+// Orderan
+function setIdOrderanString(
+  dataBaru: {
+    semuaProduct: TProduct[]
+  } & TOrder ) {
   function getNumbers( hpPenerima: string, hpPengirim: string, penerima: string ) {
     return hpPenerima + hpPengirim + penerima.length;
   }
@@ -37,5 +43,5 @@ function setIdOrderanString( dataBaru: { hitung: Thitung } & { semuaProduct: TPr
     ).toString().slice( 0, 5 );
 }
 
-export const setIdOrderan = ( dataBaru: TotalOrderan ): string =>
+export const setIdOrderan = ( dataBaru: TOrder ): string =>
   setIdOrderanString( dataBaru ).replaceAll( " ", "_" )

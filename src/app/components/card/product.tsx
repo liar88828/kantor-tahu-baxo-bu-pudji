@@ -23,7 +23,7 @@ export async function CardList( { router }: {
       { data.map( ( d: TProduct ) => {
         return (
           <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
-            <figure className={ "w-[20%] h-auto" }>
+            <figure className={ "w-[20%] h-auto   " }>
               <Image src={ d.img }
                      alt={ d.nama }
                      width={ 100 }

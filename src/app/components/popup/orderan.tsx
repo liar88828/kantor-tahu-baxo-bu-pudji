@@ -1,24 +1,25 @@
 import React, { Fragment } from 'react';
-import { TotalOrderan } from '@/entity/client/orderan';
+import { TOrder } from '@/entity/client/orderan';
 import { Rupiah } from '@/lib/utils/rupiah';
 import {
   Card, CardBody, CardHeader, Dialog, DialogBody, DialogFooter, DialogHeader, Typography
 } from '@material-tailwind/react';
-import { XMarkIcon } from '@heroicons/react/20/solid';
 import { notifyData } from '@/app/utils/notif/toash';
 import { onCreate } from '@/app/utils/ress/orderan';
 import { Status } from '@/app/style/status';
+import { AiOutlineClose } from 'react-icons/ai';
+import { calculateTotal } from '@/app/components/table/utils/orderan';
+import Image from 'next/image';
 
 export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
   clickPopUp: boolean,
   setClickPopUp: React.Dispatch<React.SetStateAction<boolean>>,
-  data: TotalOrderan
+  data: TOrder
   method: string
   id: string
 } ) {
   async function handleSave() {
-    data.hpPengirim = data.hpPengirim.toString()
-    data.hpPenerima = data.hpPenerima.toString()
+
     const getData   = await onCreate( data, method, id )
     console.error( getData )
     notifyData( getData.msg )
@@ -27,8 +28,6 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
   return (
     <Fragment>
       <button onClick={ () => {setClickPopUp( !clickPopUp )} }
-              data-modal-target="defaultModal"
-              data-modal-toggle="defaultModal"
               className="btn btn-info text-white"
               type="button">
         Check
@@ -38,7 +37,6 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
       <div className="z-0">
         <Dialog open={ clickPopUp }
                 handler={ () => {setClickPopUp( !clickPopUp )} }
-                id="defaultModal" tabIndex={ -1 }
                 className={ "m-20 " }
                 size="xxl"
         >
@@ -52,10 +50,11 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
                     Detail Pesanan <span className={ Status( data.status ) + "p-2" }>{ data.status }</span>
                   </Typography>
                 </DialogHeader>
-                <XMarkIcon type="button"
-                           onClick={ () => setClickPopUp( !clickPopUp ) }
-                           className="  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                           data-modal-hide="defaultModal"/>
+                <AiOutlineClose
+                  className="  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  onClick={ () => setClickPopUp( !clickPopUp ) }
+                />
+
               </div>
 
               <div className="px-10 py-5 space-y-6">
@@ -78,13 +77,22 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
                     <Typography color="black">Travel Pengirim : { data.pengirim }</Typography>
                     <Typography color="black">Ekspedisi : { data.namaPengiriman }</Typography>
                     <hr/>
-                    <Typography color="black">Ongkir : { Rupiah( data.ongkir ) }</Typography>
-                    <Typography color="black">Semua Harga Orderan
-                      : { Rupiah( data.hitung.semuaHargaOrderan ) }</Typography>
-                    <Typography color="black">Semua Harga Item : { Rupiah( data.hitung.semuaHargaItem ) }</Typography>
-                    <Typography color="black">Semua Harga Produk
-                      : { Rupiah( data.hitung.semuaHargaProduct ) }</Typography>
-                    <Typography color="black">Semua Harga Total: { Rupiah( data.hitung.totalHarga ) }</Typography>
+                    <Typography color="black">Biaya Kirim/Ongkir : { Rupiah( data.ongkir ) }</Typography>
+                    <Typography color="black">Semua Harga Orderan :
+                      { Rupiah( calculateTotal( data.listOrderan ) ) }
+                    </Typography>
+                    <Typography color="black">Semua Harga Item :
+                      { Rupiah( calculateTotal( data.listItem ) ) }
+                    </Typography>
+                    <Typography color="black">Total Beli :
+                      { Rupiah( calculateTotal( data.semuaProduct ) ) }
+                    </Typography>
+                    <Typography color="black">Total Beli + Biaya Kirim :
+                      { Rupiah(
+                        calculateTotal( data.listOrderan ) +
+                        calculateTotal( data.listItem ) +
+                        data.ongkir ) }
+                    </Typography>
                   </Card>
                 </div>
 
@@ -98,8 +106,14 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
                           <div
                             className="w-[10rem]  bg-white border border-slate-100 rounded-lg shadow shadow-black  p-2">
                             <CardHeader floated={ false }>
-                              <img className="rounded  " src={ item.img }
-                                   alt={ item.id }/>
+                              <figure className={ " h-32 object-cover rounded  " }>
+                                <Image src={ item.img }
+                                       alt={ item.nama }
+                                       width={ 100 }
+                                       height={ 100 }
+                                       className=" rounded object-cover  h-32   w-full"
+                                />
+                              </figure>
                             </CardHeader>
 
                             <CardBody className=" rounded p-2 ">

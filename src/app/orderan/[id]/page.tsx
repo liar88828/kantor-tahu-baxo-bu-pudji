@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense, use } from 'react';
+import React, { Suspense } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { TOrder } from '@/entity/client/orderan';
 import { defaultData } from '@/app/utils/ress/orderan';
@@ -24,10 +24,10 @@ const queryClient = globalQueryClient()
 export function ServerComponents( { id }: {
   id: string
 } ) {
-  const data: TOrder = use( queryClient(
+  const data: TOrder = queryClient(
     "Orderan",
     () => defaultData( id ) as Promise<TOrder>
-  ) )
+  )
 
   return <FormOrder id={ id } method={ "PUT" } defaultDataOrder={ data }/>
 }

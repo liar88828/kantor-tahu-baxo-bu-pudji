@@ -51,7 +51,6 @@ const ClientComponent = ( { line, donat, status }: {
               </div>
               <div className="   border border-black bg-white rounded-3xl">
                 <Suspense fallback={ <div>Loading...</div> }>
-
                   <Lines datas={ line }/>
                 </Suspense>
               </div>

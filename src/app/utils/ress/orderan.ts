@@ -1,30 +1,25 @@
 import { TOrderServer } from '@/entity/server/orderan';
-import { TOrder, TotalOrderan } from '@/entity/client/orderan';
-import { TPOrderan } from '@/entity/server/produkOrderan';
+import { TOrder } from '@/entity/client/orderan';
 import { config } from '../../../../dataEnv';
 import { setDates, setHours } from '@/lib/utils/formatDate';
 import { redirect } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { sendAPI } from '@/app/utils/ress/sendApi';
 
-export async function onCreate( sendData: TotalOrderan, method: string = "POST", id: string ) {
-
-  const updatedArrayOfObjects                        = sendData.semuaProduct.map( obj => ( { ...obj, orderanId: sendData.id } ) );
-  const semuaProduct: Omit<TPOrderan, "orderanId">[] = updatedArrayOfObjects.map( obj => {
-    const { ...rest } = obj;
-    return rest;
-  } )
-
-  const { listItem, listOrderan, semuaProduct: semua, hitung, ...rest } = sendData
-
-  const dataBaru1 = Object.assign( { semuaProduct }, rest )
-  const dataBaru2: TOrderServer = Object.assign( hitung, dataBaru1 )
+export async function onCreate(
+  sendData: TOrder,
+  method: string | "POST" | "PUT" = "POST",
+  id: string
+) {
+  sendData.hpPengirim                      = sendData.hpPengirim.toString()
+  sendData.hpPenerima                      = sendData.hpPenerima.toString()
+  const { listItem, listOrderan, ...ress } = sendData
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
-      return await sendAPI( "orderan", "POST", dataBaru2, "" );
+      return await sendAPI( "orderan", "POST", ress, "" );
     }
     if( method === "PUT" ) {
-      return await sendAPI( "orderan", "PUT", dataBaru2, id );
+      return await sendAPI( "orderan", "PUT", ress, id );
     }
   }
   else {

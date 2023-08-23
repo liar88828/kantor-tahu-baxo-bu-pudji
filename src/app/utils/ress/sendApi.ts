@@ -11,6 +11,7 @@ export async function sendAPI(
   const response = await fetch( config.url + `/api/${ to }/` + id, {
     method : method,
     body   : JSON.stringify( json ),
+    next: { revalidate: 100 },
     headers: { "Content-Type": "application/json", }
   } )
 
@@ -20,7 +21,7 @@ export async function sendAPI(
 
   const data = await response.json()
   console.log( "------------------" )
-  // console.table( data )
+  console.table( data )
   console.log( "------------------" )
 
   return data
@@ -29,6 +30,7 @@ export async function sendAPI(
 export async function sendData( to: string, method: string, id: string ) {
   const res = await fetch( config.url + `/api/${ to }?id=` + id, {
       method: method,
+    // cache : 'no-store'
     }
   )
   if( !res.ok ) {
