@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react';
-import Dashboard from '@/app/dashboard/dashboard';
-export default async function Home() {
+import { ServerComponent } from '@/app/dashboard/dashboard';
 
-  return <Suspense fallback={ <div>Loading...</div> }>
-    <Dashboard/>
+export default function Home() {
 
-  </Suspense>
-
+  return <div>
+    <Suspense fallback={ <div>Loading...</div> }>
+      <ServerComponent/>
+    </Suspense>
+  </div>
 }
 
 

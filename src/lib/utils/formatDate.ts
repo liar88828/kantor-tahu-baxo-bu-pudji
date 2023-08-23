@@ -91,4 +91,7 @@ export function toDay() {
   return `${ year }/${ month }/${ day }`
 }
 
-
+// console.log( monthlyUserCounts.map( d => new Date( d.pesan )
+// .toLocaleString( "id-ID",
+//   { month: "long" }
+// ) ) )

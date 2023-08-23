@@ -47,7 +47,7 @@ export async function DELETE( request: NextRequest, ) {
   const url          = new URL( request.url );
   const searchParams = new URLSearchParams( url.search );
   const id           = searchParams.get( "id" ) as string
-  console.log( id )
+  // console.log( id )
   if( id ) {
     return tryCatch( "DELETE", Control.destroy, id )
   }

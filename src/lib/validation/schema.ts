@@ -78,7 +78,7 @@ export default class Validation {
   ZIdMany: z.ZodType<string[]> = z.array(
     z.string( { required_error: "Is Not String" } )
      .min( 30 )
-     .max( 41 )
+     .max( 45 )
   )
 
 // : z.ZodType<Produk>

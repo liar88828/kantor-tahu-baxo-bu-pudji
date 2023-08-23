@@ -19,7 +19,10 @@ export async function sendAPI(
   }
 
   const data = await response.json()
-  // console.log( data )
+  console.log( "------------------" )
+  // console.table( data )
+  console.log( "------------------" )
+
   return data
 }
 

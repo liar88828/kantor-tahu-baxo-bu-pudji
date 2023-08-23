@@ -111,6 +111,80 @@ export default class RepoOrderan implements InterfaceOrderan {
     } )
   }
 
+  async findDashboard() {
+
+    const currentDate  = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
+    const currentYear  = currentDate.getFullYear();
+
+    const monthlyUserCounts = prisma.orderan.groupBy( {
+        by    : [ "pesan" ],
+        _count: { pesan: true, },
+        where : {
+          pesan: {
+            gte: new Date( `${ currentYear }-01-01` ),
+            lte: new Date( `${ currentYear }-12-30` ),
+          }
+        },
+      }
+    )
+
+    const semuaProductCount = prisma.semuaProduct.groupBy( {
+        by    : [ "nama" ],
+        _count: { nama: true, },
+      }
+    )
+
+    const semuaStatusOrder = prisma.orderan.groupBy( {
+        by    : [ "status" ],
+        _count: { status: true, },
+        where : {
+          created_at: {
+            gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
+            lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+          }
+        },
+      }
+    )
+
+    //   where : {
+    //     created_at: {
+    //       lte: new Date( `${currentYear}-${currentMonth}-30` ),
+    //       gte: new Date( "2022-01-15" ),
+    //       // month: currentMonth,
+    //       // year: currentYear,
+    //     },
+    //   },
+    //   _count: {
+    //     created_at: true,
+    //   },
+    // } );
+
+    //--------------get jumlah lokasi
+    // const monthlyUserCounts = await prisma.orderan.groupBy( {
+    //     by   : [ "lokasi" ],
+    //     _count: {
+    //       lokasi: true,
+    //     },
+    //   }
+    // )
+
+    //--------------get jumlah lokasi
+    // const monthlyUserCounts = await prisma.orderan.count( {
+    //   where: {
+    //     created_at: {
+    //       gte: new Date( `${ currentYear }-01-01` ),
+    //       lte: new Date( `${ currentYear }-12-30` ),
+    //     }
+    //   },
+    // } )
+    // return { data: monthlyUserCounts }
+
+    // return semuaProductCount
+    return prisma.$transaction( [ monthlyUserCounts, semuaProductCount, semuaStatusOrder ] )
+
+  }
+
   async findById( status: TOrderServer["status"] ) {
     let option = {
       include: { semuaProduct: true }

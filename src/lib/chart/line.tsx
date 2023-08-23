@@ -1,17 +1,10 @@
 "use client"
 import React from 'react';
 import {
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
+  CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import { TLine } from '@/app/dashboard/dashboard';
 
 ChartJS.register(
   CategoryScale,
@@ -23,45 +16,55 @@ ChartJS.register(
   Legend
 );
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
+export function Lines( { datas }: {
+  datas: TLine[]
+} ) {
+  // console.log( datas )
+  const options = {
+    responsive: true,
+    plugins   : {
+      legend: {
+        position: 'top' as const,
+      },
+      title : {
+        display: true,
+        text   : 'Per Tahun',
+      },
     },
-    title: {
-      display: true,
-      text: 'Per Tahun',
-    },
-  },
-};
+  };
 
-const labels = [ 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', "Agustus", "September", "Oktober", "November", "Desember" ];
+  const monthName = datas.map( d => new Date( d.pesan )
+  .toLocaleString( "id-ID",
+    { month: "long" }
+  ) )
+  const count     = datas.map( d => d._count.pesan )
+  // console.log( count )
+  // console.log( labels )
+  // console.log( monthName )
+  // ---------
+  const data = {
+    labels  : monthName,
+    datasets: [
+      {
+        label          : '2022',
+        data           : count,// monthName.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
+        borderColor    : 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      // {
+      //   label          : '2023',
+      //   data           : labels.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
+      //   borderColor    : 'rgb(53, 162, 235)',
+      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      // },
+      // {
+      //   label          : '2024',
+      //   data           : labels.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
+      //   borderColor    : 'rgb(126,235,53)',
+      //   backgroundColor: 'rgba(116,255,98,0.5)',
+      // },
+    ],
+  };
 
-const data = {
-  labels,
-  datasets: [
-    {
-      label: '2022',
-      data: labels.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: '2023',
-      data: labels.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-    {
-      label: '2024',
-      data: labels.map( () => faker.datatype.number( { min: -100, max: 100 } ) ),
-      borderColor: 'rgb(126,235,53)',
-      backgroundColor: 'rgba(116,255,98,0.5)',
-    },
-  ],
-};
-
-export function Lines() {
   return <Line options={ options } data={ data }/>;
 }

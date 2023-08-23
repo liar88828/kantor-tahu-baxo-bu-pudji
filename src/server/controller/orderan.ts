@@ -11,6 +11,10 @@ const find = async () => {
   return Repo.findAll()
 }
 
+const findDashboard = async () => {
+  return Repo.findDashboard()
+}
+
 const findOne = async ( id: string ) => {
   id = Service.findById( valid.ZFindById( id ), id )
   return Repo.findOne( id )
@@ -23,7 +27,6 @@ const findByStatus = async ( status: string ) => {
 
 const create = async ( body: TYPE ) => {
   const validData = await Service.create( await valid.Input( body, valid.OrderanSchema ), body )
-  console.log( validData )
   if( typeof validData === "object" ) {
     return await Repo.createOne( validData )
   }
@@ -33,12 +36,8 @@ const create = async ( body: TYPE ) => {
 const edit = async ( body: TYPE, id: string ) => {
   id              = Service.findById( valid.ZFindById( id ), id )
   const validData = await Service.create( await valid.Input( body, valid.OrderanSchema ), body )
-  // console.log( id )
-  // console.log( body.id.length )
-  // console.log( validData )
   if( typeof validData === 'object' ) {
     const data = await Repo.updateMany( validData, id )
-    console.log( data )
     return data
   }
   return validData
@@ -53,13 +52,13 @@ const destroy = async ( id: string ) => {
   return await Repo.destroyOne( id )
 }
 
-const deleteMany = async ( body: any ) => {
-  const validData = await Service.create( await valid.Input( body, valid.ZIdMany ), body )
+const deleteMany = async ( body: string[] ) => {
+  const validData = await Service.create<string[]>( await valid.Input( body, valid.ZIdMany ), body )
   if( typeof validData === 'object' ) {
     return Repo.destroyMany( validData )
   }
   return validData
 }
 
-const Control = { find, create, edit, destroy, findOne, findByStatus, deleteMany, updateOneOnly }
+const Control = { findDashboard, find, create, edit, destroy, findOne, findByStatus, deleteMany, updateOneOnly }
 export default Control

@@ -1,8 +1,6 @@
-import { newError } from '@/server/exeption/errorHandler';
 import { SafeParseReturnType, z } from "zod";
-import { TOrderServer as TYPE } from '@/entity/server/orderan';
 
-const create = async ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
+async function create<T>( z: z.SafeParseReturnType<T, T>, data: T ) {
   if( !z.success ) {
     // console.log(z.error.message)
     return z.error.message
@@ -11,6 +9,7 @@ const create = async ( z: z.SafeParseReturnType<TYPE, TYPE>, data: TYPE ) => {
     return data
   }
 }
+
 const findById = (
   z: SafeParseReturnType<string, string>,
   id: string

@@ -29,7 +29,9 @@ export function TableOrder( { dataOrderan }: {
     data: TOrderServer[]
   },
 } ) {
-  // console.log( dataOrderan )
+
+  console.log( dataOrderan.data )
+
   const { msg, data: dataOrder } = dataOrderan
   const router                   = useRouter()
 
@@ -94,7 +96,7 @@ export function TableOrder( { dataOrderan }: {
       },
 
       {
-        header : 'Waktu',
+        header: 'Tanggal',
         footer : props => props.column.id,
         columns: [
           {
@@ -125,7 +127,7 @@ export function TableOrder( { dataOrderan }: {
       },
 
       {
-        header: 'Data Orang', footer: props => props.column.id, columns: [
+        header: 'Nama', footer: props => props.column.id, columns: [
           {
             accessorKey: 'pengirim',
             accessorFn: row => row.pengirim,
@@ -135,27 +137,38 @@ export function TableOrder( { dataOrderan }: {
           },
           {
             accessorKey: 'hpPengirim',
+            header: 'Telepon Pengirim',
             cell       : info => info.getValue(),
             footer     : props => props.column.id,
           },
           {
             accessorKey: 'penerima',
+            header: 'Penerima',
             cell       : info => info.getValue(),
             footer     : props => props.column.id,
           },
-          {
-            accessorKey: 'alamatPenerima',
-            cell       : info => info.getValue(),
-            footer     : props => props.column.id,
-          },
-          {
-            accessorKey: 'hpPenerima',
-            cell       : info => info.getValue(),
-            footer     : props => props.column.id,
-          },
+
+          // {
+          //   accessorKey: 'hpPenerima',
+          //   cell       : info => info.getValue(),
+          //   footer     : props => props.column.id,
+          // },
         ],
       },
 
+      {
+        accessorKey: 'alamatPenerima',
+        header     : 'Alamat Penerima',
+        cell       : info => info.getValue(),
+        footer     : props => props.column.id,
+      },
+
+      {
+        accessorKey: 'hpPenerima',
+        header     : 'Telephone Penerima',
+        cell       : info => info.getValue(),
+        footer     : props => props.column.id,
+      },
       // {
       //   header: 'Semua Produk', footer: props => props.column.id, columns: [ {
       //     accessorKey: 'semuaProduct',
@@ -171,7 +184,7 @@ export function TableOrder( { dataOrderan }: {
       // },
 
       {
-        header: 'Semua Produk', footer: props => props.column.id, columns: [ {
+        header: 'Orderan Utama', footer: props => props.column.id, columns: [ {
           accessorKey: 'semuaProduct',
           header     : 'Orderan',
           cell       : info => info.getValue()
@@ -197,15 +210,21 @@ export function TableOrder( { dataOrderan }: {
       },
 
       {
-        header: 'Keterangan', footer: props => props.column.id, columns: [ {
-          accessorKey: 'guna',
-
-          cell  : info => <p className={ "line-clamp-3" }> { info.getValue() }</p>,
-          footer: props => props.column.id,
-        },
+        header: 'Lain-Lain', footer: props => props.column.id, columns: [
           {
-            accessorKey: 'lokasi',
-            cell       : info => info.getValue(),
+            accessorKey: 'semuaProduct',
+            header     : 'Item',
+            cell       : info => info.getValue()
+                                     .filter( ( j: TProduct ) => j.jenis.replaceAll( " ", "" ) === "Item" )
+                                     .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }x { d.jumlah }</p> ),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'semuaProduct',
+            header     : 'Total',
+            cell       : info => info.getValue()
+                                     .filter( ( j: TProduct ) => j.jenis.replaceAll( " ", "" ) === "Item" )
+                                     .map( ( d: TProduct ) => <p key={ d.id }>{ Rupiah( d.jumlah * d.harga ) }</p> ),
             footer     : props => props.column.id,
           },
         ],
@@ -213,65 +232,89 @@ export function TableOrder( { dataOrderan }: {
 
       {
         header: 'Travel', footer: props => props.column.id, columns: [
+
+          {
+            accessorKey: 'namaPengiriman',
+            header: 'Ekspedisi',
+            cell  : info => info.getValue(),
+            footer     : props => props.column.id,
+          },
+          {
+            accessorKey: 'ongkir',
+            cell       : info => Rupiah( info.getValue() ),
+            footer     : props => props.column.id,
+          },
+
           {
             accessorKey: 'status',
             cell       : info => info.getValue(),
             footer     : props => props.column.id,
           },
 
-          {
-            accessorKey: 'namaPengiriman',
-            header: 'Ekspedisi',
-            cell       : info => <p> { info.getValue() }</p>,
-            footer     : props => props.column.id,
-          }, {
-            accessorKey: 'ongkir',
-            cell       : info => Rupiah( info.getValue() ),
-            footer     : props => props.column.id,
-          },
         ],
       },
 
+      //
+      // {
+      //   header: 'Hitung', footer: props => props.column.id, columns: [
+      //     {
+      //       accessorKey: 'semuaHargaOrderan',
+      //       cell       : info => info.getValue(),
+      //       footer     : props => props.column.id,
+      //     },
+      //     {
+      //       accessorKey: 'semuaHargaItem',
+      //       cell       : info => info.getValue(),
+      //       footer     : props => props.column.id,
+      //     },
+      //     {
+      //       accessorKey: 'semuaHargaProduct',
+      //       cell       : info => Rupiah( info.getValue() ),
+      //       footer     : props => props.column.id,
+      //     },
+      //     {
+      //       accessorKey: 'totalHarga',
+      //       cell       : info => Rupiah( info.getValue() ),
+      //       footer     : props => props.column.id,
+      //     },
+      //   ],
+      // },
+      //
+
+      // {
+      //   header: 'Keterangan', footer: props => props.column.id, columns: [ {
+      //     accessorKey: 'guna',
+      //
+      //     cell  : info => <p className={ "line-clamp-3" }> { info.getValue() }</p>,
+      //     footer: props => props.column.id,
+      //   },
+      //     {
+      //       accessorKey: 'lokasi',
+      //       cell       : info => info.getValue(),
+      //       footer     : props => props.column.id,
+      //     },
+      //   ],
+      // },
+
       {
         header: 'Total', footer: props => props.column.id, columns: [
+
           {
-            accessorKey: 'typePembayaran',
-            cell       : info => info.getValue(),
+            accessorKey: 'semuaHargaProduct',
+            header     : 'Total',
+            cell       : info => Rupiah( info.getValue() ),
             footer     : props => props.column.id,
           },
           {
             accessorKey: 'totalBayar',
-            cell       : info => info.getValue(),
-            footer     : props => props.column.id,
-          },
-          {
-            accessorKey: 'totalPenjualan',
-            cell       : info => Rupiah( info.getValue() ),
-            footer     : props => props.column.id,
-          },
-        ],
-      },
-
-      {
-        header: 'Hitung', footer: props => props.column.id, columns: [
-          {
-            accessorKey: 'semuaHargaOrderan',
-            cell       : info => info.getValue(),
-            footer     : props => props.column.id,
-          },
-          {
-            accessorKey: 'semuaHargaItem',
-            cell       : info => info.getValue(),
-            footer     : props => props.column.id,
-          },
-          {
-            accessorKey: 'semuaHargaProduct',
+            header: 'Total Bayar',
             cell       : info => Rupiah( info.getValue() ),
             footer     : props => props.column.id,
           },
           {
-            accessorKey: 'totalHarga',
-            cell       : info => Rupiah( info.getValue() ),
+            accessorKey: 'typePembayaran',
+            header     : 'Pembayaran',
+            cell       : info => info.getValue(),
             footer     : props => props.column.id,
           },
         ],

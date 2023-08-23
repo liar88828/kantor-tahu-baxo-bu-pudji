@@ -4,6 +4,9 @@ import { AiOutlineBook, AiOutlineCheckCircle, AiOutlineShoppingCart } from 'reac
 import { FiTruck } from 'react-icons/fi';
 import { Status } from '@/app/style/status';
 import Link from 'next/link';
+import { TStatus } from '@/app/dashboard/dashboard';
+
+export type TTextStatus = "Di terima" | "Di Kirim" | "Di Proses" | "Selesai"
 
 function Cards( { title, icon, rout, totalStatus }: {
   title: string,
@@ -33,30 +36,48 @@ function Cards( { title, icon, rout, totalStatus }: {
   </div>;
 }
 
-export function HorizontalCard() {
+export function HorizontalCard( { datas }: {
+  datas: TStatus[]
+} ) {
   const iconStyle = "w-6 sm:w-6 h-auto";
+
+  const objectarray = datas.map( d => {
+    const count = d._count.status
+    const nama  = d.status
+    return { count, nama }
+  } )
+  console.log( objectarray )
+
+  function getDiTerimaObject( status: TTextStatus ) {
+    // return objectarray.some( obj => obj.nama === status );// back boolean
+    return objectarray.find( obj => obj.nama === status );
+  }
+
+  getDiTerimaObject( "Di Kirim" );
   return (
-    <Fragment>
-      <Cards totalStatus={ 10 }
+    <>
+
+      <Cards totalStatus={ getDiTerimaObject( "Di terima" )?.count || 0 }
              title={ "Di Terima" }
              rout={ "table/Di Terima" }
              icon={ <AiOutlineBook className={ iconStyle }/> }
       />
-      <Cards totalStatus={ 20 } title={ "Di Proses" }
+      <Cards totalStatus={ getDiTerimaObject( "Di Proses" )?.count || 0 }
+             title={ "Di Proses" }
              rout={ "table/Di Proses" }
              icon={ < AiOutlineShoppingCart className={ iconStyle }/> }
       />
-      <Cards totalStatus={ 40 }
+      <Cards totalStatus={ getDiTerimaObject( "Di Kirim" )?.count || 0 }
              title={ "Di Kirim" }
              rout={ "table/Di Kirim" }
              icon={ <FiTruck className={ iconStyle }/> }
       />
-      <Cards totalStatus={ 30 }
+      <Cards totalStatus={ getDiTerimaObject( "Selesai" )?.count || 0 }
              title={ "Selesai" }
              rout={ "table/Selesai" }
              icon={ <AiOutlineCheckCircle className={ iconStyle }/> }
       />
-    </Fragment>
+    </ >
   );
 }
 

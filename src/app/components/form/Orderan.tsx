@@ -164,7 +164,7 @@ export function ClientComponent( {
   dataBaru.totalPenjualan      = dataBaru.hitung.semuaHargaOrderan
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => {
-    console.log( data )
+    // console.log( data )
     setValueForm( data )
   };
 
@@ -217,8 +217,8 @@ export function ClientComponent( {
   // if( isLoading ) {
   //   return ( <h1>Loading ya ....</h1> )
   // }
-  console.log( travel )
-  console.log( product )
+  // console.log( travel )
+  // console.log( product )
   return ( < >{/*-----------------------Page-------------   */ }
       <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
