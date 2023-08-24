@@ -1,5 +1,5 @@
 "use client"
-import { Row, RowData } from '@tanstack/table-core';
+import { CellContext, HeaderContext, Row, RowData } from '@tanstack/table-core';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ColumnDef, ColumnOrderState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
@@ -15,6 +15,8 @@ import { IndeterminateCheckbox } from '@/app/components/table/utils/Indeterminat
 import { Filter } from '@/app/components/table/utils/FirstValue';
 import { exportToExcel } from '@/lib/excel';
 import { deleteDataMany, deleteDataOne } from '@/app/utils/ress/orderan';
+import { TPOrderan } from '@/entity/server/produkOrderan';
+import { TOrderanData } from '@/entity/orderan';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -30,7 +32,7 @@ export function TableOrder( { dataOrderan }: {
   },
 } ) {
 
-  console.log( dataOrderan.data )
+  // console.log( dataOrderan.data )
 
   const { data: dataOrder }       = dataOrderan
   const router                    = useRouter()
@@ -51,7 +53,50 @@ export function TableOrder( { dataOrderan }: {
   //
   const [ selected, setSelected ] = useState<string | number[]>( [] );
 
-  //---------table value---------------
+  function getInfo(
+    info: CellContext<{ semuaProduct: TPOrderan[]; pesan: Date | string; kirim: Date | string; waktuKirim: Date | string } & TOrderanData, any>,
+    jenis: string | "Orderan" | "Item",
+    nama: string,
+    lokasi: string | "ungaran" | "semarang"
+  ) {
+    return info.getValue()
+               .filter( ( j: TProduct ) => {
+                 const namas   = j.nama.includes( nama )
+                 const jeniss  = j.jenis.includes( jenis )
+                 const lokasis = j.lokasi.toLowerCase().includes( lokasi )
+                 return namas && jeniss && lokasis
+               } )
+               .map( ( d: TProduct ) => {
+                 return ( <p key={ d.id }>
+                   { d.nama }
+                   <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
+                   { d.harga }
+                 </p> )
+               } );
+  }
+
+  function getOrderan( header: string ) {
+    return {
+      header: header,
+      footer: ( props: HeaderContext<TOrderServer, any> ) => props.column.id, columns:
+        [
+          {
+            accessorKey: 'semuaProduct',
+            header     : 'UNG',
+            cell       : ( info: CellContext<TOrderServer, any> ) => getInfo( info, 'Orderan', header, 'ungaran' ),
+            footer     : ( props: HeaderContext<TOrderServer, any> ) => props.column.id,
+          },
+          {
+            accessorKey: 'semuaProduct',
+            header     : 'SMG',
+            cell       : ( info: CellContext<TOrderServer, any> ) => getInfo( info, 'Orderan', header, 'semarang' ),
+            footer     : ( props: HeaderContext<TOrderServer, any> ) => props.column.id,
+          }
+        ]
+    };
+  }
+
+//---------table value---------------
   const columns = useMemo<ColumnDef<TOrderServer>[]>( () => [
       {
         id    : 'select',
@@ -176,7 +221,7 @@ export function TableOrder( { dataOrderan }: {
       //     cell       : info => info.getValue()
       //                              .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
       //                                <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
-      //                                { d.harga } , </p> ),
+      //                                { d.harga }</p> ),
       //     footer     : props => props.column.id,
       //   },
       //
@@ -184,28 +229,20 @@ export function TableOrder( { dataOrderan }: {
       // },
 
       {
-        header: 'Orderan Utama', footer: props => props.column.id, columns: [ {
-          accessorKey: 'semuaProduct',
-          header     : 'Orderan',
-          cell       : info => info.getValue()
-                                   .filter( ( j: TProduct ) => j.jenis.replaceAll( " ", "" ) === "Orderan" )
-                                   .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
-                                     <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
-                                     { d.harga } , </p> ),
-          footer     : props => props.column.id,
-        },
-          {
-            accessorKey: 'semuaProduct',
-            header     : 'Item',
-            cell: info =>// console.log(info.getValue())
+        header: 'Orderan Utama', footer: props => props.column.id, columns: [
 
-              info.getValue().filter( ( j: TProduct ) => j.jenis.replaceAll( " ", "" ) !== "Orderan" )
-                  .map( ( d: TProduct ) => <p key={ d.id }>{ d.nama }
-                    <span className={ "bg-red-200 p-1 rounded" }>x{ d.jumlah }</span>
-                    { d.harga } , </p> )
-            ,
-            footer: props => props.column.id,
-          },
+          getOrderan( "Tahu Bakso Rebus" ),
+          getOrderan( "Tahu Bakso Goreng" ),
+          getOrderan( "Bandeng Presto" ),
+          getOrderan( "Otak-Otak Bandeng" ),
+          getOrderan( "Bakso Sapi 20" ),
+          getOrderan( "Bakso Sapi 12" ),
+          getOrderan( "Bakso Aneka" ),
+          getOrderan( "Nugget" ),
+          getOrderan( "Rolade Tahu" ),
+          getOrderan( "Rolade Singkong" ),
+          getOrderan( "Tahu Bakso Vakum" ),
+
         ],
       },
 
