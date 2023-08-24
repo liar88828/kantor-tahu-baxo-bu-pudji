@@ -22,7 +22,16 @@ export default class RepoProduk implements InterfaceProduk {
   }
 
   async findAll() {
-    return prisma.produk.findMany()
+    return prisma.produk.findMany( {
+      select: {
+        id        : true,
+        nama      : true,
+        lokasi    : true,
+        jenis     : true,
+        harga     : true,
+        keterangan: true,
+      }
+    } )
   }
 
   async findById( id: string ) {

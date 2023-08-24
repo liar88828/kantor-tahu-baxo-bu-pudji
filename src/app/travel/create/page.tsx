@@ -1,10 +1,10 @@
 "use client"
 import React, { ChangeEvent, Suspense, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { LinkNavigation } from '@/app/elements/link/Links';
 import { Form } from '@/app/components/form/Travel';
 import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/Upload';
 import { defaultFormTravel } from '@/app/utils/format/travel';
+import { LinkNavbar } from '@/app/elements/link/LinksNavbar';
 
 export default function Home() {
 
@@ -30,8 +30,8 @@ export default function Home() {
 
   const data = defaultFormTravel
   return (
-    <main className="flex p-3 sm:p-6 flex-col z-50 bg-green-50 gap-3">
-      <LinkNavigation path={ path }/>
+    <LinkNavbar>
+
       <div className="flex flex-row">
         <Form sendDataImage={ sendDataImage } data={ data }>
           <Suspense fallback={ <p>Loading feed...</p> }>
@@ -45,7 +45,8 @@ export default function Home() {
 
         </Form>
       </div>
-    </main>
+    </LinkNavbar>
+
   )
 }
 
