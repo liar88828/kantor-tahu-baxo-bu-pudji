@@ -1,7 +1,7 @@
-import { Repository } from './Repository';
+import { InterRepository } from './Repository';
 import { Prisma } from '../../../../../prisma/data';
 
-export class InterfaceSemuaProduk implements Repository {
+export class InterfaceSemuaProduk implements InterRepository {
   createMany( data: any[], id: string ): Promise<Prisma.BatchPayload>;
 
   createOne( data: any, id: string ): Promise<any>;
