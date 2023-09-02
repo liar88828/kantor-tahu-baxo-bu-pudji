@@ -5,7 +5,7 @@ import { Rupiah } from '@/lib/utils/rupiah';
 import { calculateTotal } from '@/app/components/table/utils/orderan';
 import Image from 'next/image';
 
-export const PopUpOrder = ( { data, method }: { data: TOrder, method: string | "PUT" | "POST" } ) => {
+const PopUpOrder = ( { valueForm, method }: { valueForm: TOrder, method: "PUT" | "POST" } ) => {
   return (
     <>
       <button className="btn" onClick={ () => {
@@ -103,5 +103,4 @@ export const PopUpOrder = ( { data, method }: { data: TOrder, method: string | "
 
   );
 };
-
 
