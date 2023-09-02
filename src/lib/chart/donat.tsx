@@ -1,7 +1,7 @@
 "use client"
-import React, { Suspense } from 'react';
+import React from 'react';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { TDonat } from '@/app/dashboard/dashboard';
 
@@ -13,26 +13,54 @@ export function Donat( { datas }: {
 
   // console.log( datas )
 
-  const namaProdak = [
-    'Tahu Bakso Rebus',
-    'Tahu Bakso Vakum',
-    'Tahu Bakso Special',
-    'Tahu Bakso Goreng',
-    'Bandeng Presto',
-    'Otak-Otak Bandeng',
-    'Bakso Sapi 20',
-    'Bakso Sapi 12',
-    'Bakso Aneka',
-    'Nugget',
-    'Rolade Tahu',
-    'Rolade Singkong',
+  const namaProdak: string[] = [
+    // 'Tahu Bakso Rebus',
+    // 'Tahu Bakso Vakum',
+    // 'Tahu Bakso Special',
+    // 'Tahu Bakso Goreng',
+    // 'Bandeng Presto',
+    // 'Otak-Otak Bandeng',
+    // 'Bakso Sapi 20',
+    // 'Bakso Sapi 12',
+    // 'Bakso Aneka',
+    // 'Nugget',
+    // 'Rolade Tahu',
+    // 'Rolade Singkong',
   ]
-
+  datas.forEach( nama => namaProdak.push( nama.nama ) )
   const options = {
+    scales: {},
+    // cutout             : "30%",
+
     responsive: true,
-    plugins   : {
+    // maintainAspectRatio: false,
+    // dataset: {
+    //   formatter: ( value, context ) => {
+    //     console.log(value, context)
+    //     return value
+    //   }
+    // },
+    plugins: {
+
+      datalabels: {
+        // formatter: ( value ) => {
+        //   return value + '%';
+        // },
+        labels: {
+          index: {
+            color: '#404040',
+            font : {
+              size: 18,
+            },
+          }
+        }
+      },
+
+      // tooltip: {
+      //   enabled: false
+      // },
       legend: {
-        position: 'top' as const,
+        position: 'left' as const,
       },
       title : {
         display: true,
@@ -42,14 +70,16 @@ export function Donat( { datas }: {
   };
 
   const namaProduk = datas.map( d => d.nama )
-  const dataAngka  = datas.map( d => d._count.nama )
 
   const data = {
-    labels  : namaProduk,
+    labels : namaProduk,
+    spacing: 1,
+    // borderAlign: "inner",
+    // clip       : "objectMode",
     datasets: [
       {
         label          : 'Per Bulan',
-        data           : dataAngka,//namaProdak.map( () => faker.datatype.number( { min: 10, max: 1000 } ) ),
+        data: datas.map( d => d._count.nama ),
         backgroundColor: namaProdak.map( () => faker.color.rgb( { format: 'css' } ) ),
         borderColor    : [
           'rgba(255, 99, 132, 1)',
@@ -72,7 +102,7 @@ export function Donat( { datas }: {
     ],
   };
 
-  return <Suspense fallback={ <p>Loading feed...</p> }>
-    <Doughnut data={ data } options={ options }/>
-  </Suspense>
+  return <Pie data={ data }
+              options={ options }
+  />
 }
