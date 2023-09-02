@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation';
 
 export default function Custom404() {
+  // @ts-ignore
   const { not_found }: { not_found: string } = useParams()
 
   const path = not_found.split( "/" )[ 1 ]

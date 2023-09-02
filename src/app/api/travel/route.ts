@@ -5,17 +5,15 @@ import { setData } from '@/lib/utils/formatData';
 import { newError } from '@/server/exeption/errorHandler';
 import { validImage } from '@/lib/validation/image';
 import type { Textract } from '@/entity/server/image';
-import { tryCatch } from '@/lib/tryCatch';
+import { getReq, getRes } from '@/server/service/GetRes';
 
 export async function GET( request: NextRequest, ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
+  const { id } = await getReq( request );
   if( id ) {
-    return await tryCatch( "GET", Control.findById, id )
+    return await getRes( "GET", Control.findById, id )
   }
   if( !id ) {
-    return await tryCatch( "GET", Control.find )
+    return await getRes( "GET", Control.find )
   }
 }
 
@@ -44,11 +42,9 @@ export async function POST( request: Request ) {
 }
 
 export async function DELETE( request: NextRequest ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
+  const { id } = await getReq( request );
   if( id ) {
-    return await tryCatch( "DELETE", Control.destroy, id )
+    return await getRes( "DELETE", Control.destroy, id )
   }
   if( !id ) {
     return NextResponse.json( {
@@ -60,9 +56,7 @@ export async function DELETE( request: NextRequest ) {
 }
 
 export async function PUT( request: NextRequest ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
+  const { id } = await getReq( request );
 
   try {
     const data: Textract = await extractData( request )

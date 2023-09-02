@@ -19,16 +19,18 @@ export function InputNew( props: { register: UseFormRegisterReturn<string> } ) {
 }
 
 export function InputForm(
-  { tag: Tag = "input", title, type, reg, value, min, defaultValue, }
+  { tag: Tag = "input", title, type, reg, value, min, max, defaultValue, }
     : InputFormProps ): ReactElement {
 
   let ress = {
     placeholder: ` Masukan ${ title }....`,
     className  : `${ StyleInputForm( false ) }`
   }
+
   if( type ) ress = Object.assign( ress, { type } );
   if( value ) ress = Object.assign( ress, { value } );
   if( min ) ress = Object.assign( ress, { min } );
+  if( max ) ress = Object.assign( ress, { max } );
   if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
 
   return (

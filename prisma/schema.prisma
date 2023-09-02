@@ -89,3 +89,15 @@ model Travel {
 
   @@map("Travels")
 }
+
+model Bank {
+  id         String @id @default(uuid())
+  hp         String
+  no         String
+  nama       String
+  lokasi     String
+  jenis      String
+  keterangan String @db.Text
+
+  @@map("Banks")
+}

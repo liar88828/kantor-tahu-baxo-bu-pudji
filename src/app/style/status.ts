@@ -1,7 +1,8 @@
-const SDiTerima = " btn text-white bg-error shadow-md shadow-slate-400 "
-const SProcess  = " btn text-white bg-info shadow-md shadow-slate-400 "
-const SKirim    = " btn text-white bg-warning shadow-md shadow-slate-400 "
-const SSelesai  = " btn text-white bg-purple-400 shadow-md shadow-slate-400 "
+const btnS      = " btn text-white hover:shadow-none  shadow-md shadow-slate-400 "
+const SDiTerima = " bg-error  " + btnS
+const SProcess  = " bg-info  " + btnS
+const SKirim    = " bg-warning  " + btnS
+const SSelesai  = " bg-purple-400  " + btnS
 
 export const Status = ( s: string ): string => {
   return ( s === "Di Terima" ) ? SDiTerima :

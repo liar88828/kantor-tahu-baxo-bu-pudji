@@ -16,6 +16,14 @@ export const setIdProduct = ( dProduct: TProduct ): string =>
   dProduct.jenis.slice( 0, 2 ) + "_" +
   dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
+// product
+export const setIdBank = ( dProduct: TBank ): string =>
+  dProduct.nama.slice( 0, 2 ) + "_" +
+  dProduct.no.toString().slice( 0, 2 ) + "_" +
+  dProduct.lokasi.slice( 0, 2 ) + "_" +
+  dProduct.jenis.slice( 0, 2 ) + "_" +
+  dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
+
 // Orderan
 function setIdOrderanString(
   dataBaru: {

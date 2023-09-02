@@ -6,7 +6,7 @@ const nextConfig = {
   // reactStrictMode: true,
   // // Enable the React DevTools profiler
   // profiler: true,
-  reactStrictMode: true,
+  // reactStrictMode: true,
   images: {
     domains: [ "localhost", ]
   },

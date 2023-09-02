@@ -1,4 +1,4 @@
-export interface Repository {
+export interface InterRepository {
   //find
   findAll(): Promise<any[]>;
   findOne( id: string ): Promise<any>;

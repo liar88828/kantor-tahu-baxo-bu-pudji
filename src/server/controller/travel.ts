@@ -1,26 +1,26 @@
 import RepoTravel from '../repository/travel';
 import Validation from '@/lib/validation/schema';
-import Service from '@/server/service/travel';
 import type { TYPE } from '@/server/models/dataAccess/Travel';
+import Service from '@/lib/validation/validation';
 
 const Repo  = new RepoTravel()
 const valid = new Validation()
-
+const s     = Service
 const find = async () => {
   const repo = await Repo.findAll()
-  console.log( "test Travel find" )
+  // console.log( "test Travel find" )
   return repo
 }
 
 const findById = async ( id: string ) => {
-  const service = Service.findById( valid.ZFindById( id ), id )
+  const service = s.findById( valid.ZFindById( id ), id )
   const repo    = await Repo.findById( service )
   return repo
 }
 
 const create = async ( body: TYPE ) => {
 
-  const validData = Service.create( await valid.Input( body, valid.TravelSchema ), body )
+  const validData = s.create( await valid.Input( body, valid.TravelSchema ), body )
   if( typeof validData === 'object' ) {
     return Repo.createOne( body )
   }
@@ -28,8 +28,8 @@ const create = async ( body: TYPE ) => {
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id              = Service.findById( valid.ZFindById( id ), id )
-  const validData = Service.create( await valid.Input( body, valid.TravelSchema ), body )
+  id              = s.findById( valid.ZFindById( id ), id )
+  const validData = s.create( await valid.Input( body, valid.TravelSchema ), body )
   if( typeof validData === 'object' ) {
     return Repo.updateOne( body, id )
   }
@@ -37,7 +37,7 @@ const edit = async ( body: TYPE, id: string ) => {
 }
 
 const destroy = async ( id: string ) => {
-  id         = Service.findById( valid.ZFindById( id ), id )
+  id = s.findById( valid.ZFindById( id ), id )
   const repo = await Repo.destroyOne( id )
   return repo
 }

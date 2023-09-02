@@ -1,4 +1,4 @@
-import { Repository } from '@/server/repository/interface/repository/Repository';
+import { InterRepository } from '@/server/repository/interface/repository/Repository';
 
 // export interface InterfaceRepoTravel {
 //   setData( d: TYPE ): TYPE
@@ -9,6 +9,6 @@ import { Repository } from '@/server/repository/interface/repository/Repository'
 //   update( data: TYPE, id: string ): Promise<Prisma.BatchPayload>;
 //   destroy( id: string ): Promise<Prisma.BatchPayload>;
 // }
-export interface InterfaceRepoTravel extends Repository {
+export interface InterfaceRepoTravel extends InterRepository {
 
 }

@@ -9,10 +9,10 @@ import { usePathname } from 'next/navigation';
 const menuList = [
   { title: "Dashboard", icon: AiFillPieChart, link: "/" },
   { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "/orderan" },
+  { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product/list" },
   { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel/list" },
-  { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
-  { title: "Bank", icon: HiOutlineBanknotes, link: "/bank" },
+  { title: "Bank", icon: HiOutlineBanknotes, link: "/bank/create" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
   { title: "Setting", icon: AiFillSetting, link: "/form" },
 ];
@@ -21,9 +21,9 @@ export const Slidebar = () => {
   const [ open, setOpen ] = useState( false );
   const path              = usePathname().split( "/" )[ 1 ].toUpperCase()
 
-  let color             = "#3de237";
-  let color2            = "#3dc81e";
-  let colorIcon         = "white";
+  // let color             = "#3de237";
+  // let color2            = "#3dc81e";
+  // let colorIcon         = "white";
   let colorTextSlideBar = "black"
   let titleSlideBar     = "black"
   let bgColorSlideBar   = "#d6ffe0"

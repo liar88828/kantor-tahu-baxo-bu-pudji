@@ -1,3 +1,14 @@
+const currentDate         = new Date();
+export const currentYear  = currentDate.getFullYear();
+export const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
+
+export const today = new Date().getDate()
+
+export function addDays( days: number ) {
+  const theDate = new Date()
+  return new Date( theDate.getTime() + days * 24 * 60 * 60 * 1000 );
+}
+
 export function formatDate( date: Date | string ) {
   let d     = new Date( date ),
       month = '' + ( d.getMonth() + 1 ),
@@ -51,15 +62,40 @@ export const setTanggalxxxx = ( date: string | Date, option: string = "hari" || 
   }
 }
 
-export const setTanggal = ( date: string | Date, option: "hari" | "angka" | "full" = "hari" ) => {
+// const formattingOptions: Record<string, Intl.DateTimeFormatOptions> = {
+//   hari   : { weekday: "long" },
+//   angka  : { dateStyle: "long" },
+//   tanggal: { dateStyle: "medium" },
+//   full   : { dateStyle: "full" }
+// };
+//
+// type MyTypeObject = keyof typeof formattingOptions;
+// export const setTanggal = (
+//   date: string | Date,
+//   option: MyTypeObject = "hari"
+// ) => {
+//   const d = new Date( Date.parse( date.toString() ) );
+//
+//   return d.toLocaleDateString( "id-ID", formattingOptions[ option ] );
+// };
+
+const formattingOptions = {
+
+  hari   : { weekday: "long" },
+  angka  : { dateStyle: "long" },
+  tanggal: { dateStyle: "medium" },
+  full   : { dateStyle: "full" }
+};
+
+type MyTypeObject = keyof typeof formattingOptions;
+
+export const setTanggal = (
+  date: string | Date,
+  option: MyTypeObject = "hari"
+) => {
   const d = new Date( Date.parse( date.toString() ) );
 
-  const formattingOptions: Record<string, Intl.DateTimeFormatOptions> = {
-    hari : { weekday: "long" },
-    angka: { dateStyle: "long" },
-    full : { dateStyle: "full" }
-  };
-
+  // @ts-ignore
   return d.toLocaleDateString( "id-ID", formattingOptions[ option ] );
 };
 
@@ -95,3 +131,40 @@ export function toDay() {
 // .toLocaleString( "id-ID",
 //   { month: "long" }
 // ) ) )
+
+type DateFormatOptions = {
+  hari: {
+    weekday: string
+  },
+  angka: {
+    dateStyle: string
+  },
+  tanggal: {
+    dateStyle: string
+  },
+  full: {
+    dateStyle: string
+  }
+};
+
+type MyType = keyof DateFormatOptions;
+
+const object: DateFormatOptions = {
+  hari   : { weekday: "long" },
+  angka  : { dateStyle: "long" },
+  tanggal: { dateStyle: "medium" },
+  full   : { dateStyle: "full" }
+};
+
+const typeKeys: MyType = "hari"; // This will be valid
+
+const objects = {
+  hari   : { weekday: "long" },
+  angka  : { dateStyle: "long" },
+  tanggal: { dateStyle: "medium" },
+  full   : { dateStyle: "full" }
+};
+
+type MyTypes = keyof typeof objects;
+
+const typeKey: MyTypes = "hari";

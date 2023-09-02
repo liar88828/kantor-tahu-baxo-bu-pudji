@@ -4,6 +4,19 @@ import { Prisma } from '../../../../prisma/data';
 export type TYPE = Prisma.TravelCreateInput
 export default class AccessTravel {
 
+  setData( d: TYPE ) {
+    return {
+      harga         : d.harga,
+      id            : d.id,
+      img           : d.img,
+      jenis         : d.jenis,
+      keterangan    : d.keterangan,
+      lokasi        : d.lokasi,
+      namaPengiriman: d.namaPengiriman,
+      noHpPerusahaan: d.noHpPerusahaan
+    }
+  }
+
   async findOne( id: string ) {
     return prisma.travel.findUnique( {
       where: { id: id }
@@ -66,18 +79,5 @@ export default class AccessTravel {
     return prisma.travel.deleteMany( {
       where: { id: id }
     } )
-  }
-
-  setData( d: TYPE ) {
-    return {
-      harga         : d.harga,
-      id            : d.id,
-      img           : d.img,
-      jenis         : d.jenis,
-      keterangan    : d.keterangan,
-      lokasi        : d.lokasi,
-      namaPengiriman: d.namaPengiriman,
-      noHpPerusahaan: d.noHpPerusahaan
-    }
   }
 }

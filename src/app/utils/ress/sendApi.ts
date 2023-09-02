@@ -1,5 +1,4 @@
 import { TOrderServer } from '@/entity/server/orderan';
-import { config } from '../../../../dataEnv';
 import { redirect } from 'next/navigation';
 
 export async function sendAPI(
@@ -8,11 +7,14 @@ export async function sendAPI(
   json: TOrderServer,
   id: string
 ) {
-  const response = await fetch( config.url + `/api/${ to }/` + id, {
+  console.log( json )
+
+  const response = await fetch( process.env.NEXT_PUBLIC_BASE_URL + `/api/${ to }/` + id, {
     method : method,
+    // cache: 'no-store',
+    // next   : { revalidate: 10,  },
     body   : JSON.stringify( json ),
-    next: { revalidate: 100 },
-    headers: { "Content-Type": "application/json", }
+    headers: { "Content-Type": "application/json" }
   } )
 
   if( !response.ok ) {
@@ -20,24 +22,36 @@ export async function sendAPI(
   }
 
   const data = await response.json()
-  console.log( "------------------" )
-  console.table( data )
-  console.log( "------------------" )
-
+  console.log( data )
   return data
 }
 
-export async function sendData( to: string, method: string, id: string ) {
-  const res = await fetch( config.url + `/api/${ to }?id=` + id, {
-      method: method,
-    // cache : 'no-store'
-    }
-  )
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
+export async function sendData( to: string, method: string, id: string, json: any = {} ) {
+
+  let methods = {
+    // cache  : "no-cache",
+    method : method,
+    headers: { "Content-Type": "application/json" }
   }
 
-  const { data, msg } = await res.json()
+  const option = {
+    body: JSON.stringify( json ),
+  }
+
+  if( method !== "GET" ) {
+    methods = Object.assign( option, methods )
+  }
+  const res = await fetch( process.env.NEXT_PUBLIC_BASE_URL + `/api/${ to }?id=` + id, methods )
+  if( !res.ok ) {
+
+    console.log( "error" )
+  }
+
+  const response = await res.json()
+  // console.log( "-----------" )
+  // console.log( response )
+  // console.log( "-----------" )
+  const { data, msg } = response
   return { data, msg }
 }
 
