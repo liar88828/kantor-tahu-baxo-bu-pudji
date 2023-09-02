@@ -7,10 +7,10 @@ import Image from 'next/image';
 export function ListProduct( { data }: { data: TProduct[ ] } ) {
   const router = useRouter()
   return (
-    <ul className={ "px-10" }>
+    <ul className={ "px-1 sm:px-10" }>
       { data.map( ( d: TProduct ) => (
-        <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
-          <figure className={ "w-[20%] h-auto" }>
+        <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-3 ">
+          <figure className={ "w-[40%] sm:w-[20%] h-auto" }>
             <Image src={ d.img || "" }
                    alt={ d.nama }
                    width={ 200 }
@@ -18,33 +18,41 @@ export function ListProduct( { data }: { data: TProduct[ ] } ) {
                    className={ "object-cover h-[100%]" }
             />
           </figure>
-          <div className="card-body flex flex-row justify-between py-4 px-6 ">
-            <div>
-              <h2 className="card-title"> { d.nama }</h2>
-              <p>{ Rupiah( d.harga ) }</p>
-              <p>Jenis : { d.jenis }</p>
-              <p>{ d.lokasi }</p>
-            </div>
+          <div className="card-body flex flex-row justify-between py-4 px-2 sm:px-6 ">
 
             <div>
-              <p>Keterangan : { d.keterangan }</p>
-            </div>
+              <h2 className="card-title text-xs sm:text-sm  md:text-md"> { d.nama }</h2>
+              <div className={ "flex flex-col sm:flex-row gap-0 sm:gap-2" }>
+                <div className="">
+                  <p className={ "text-xs sm:text-sm  md:text-md" }>{ Rupiah( d.harga ) }</p>
+                  <p className={ "text-xs sm:text-sm  md:text-md" }><span
+                    className={ "hidden sm:block" }>Jenis : </span> { d.jenis }</p>
+                  <p className={ "text-xs sm:text-sm  md:text-md" }>{ d.lokasi }</p>
+                </div>
+                <div className="">
+                  <p className={ "text-xs sm:text-sm  md:text-md" }><span
+                    className={ "hidden sm:block" }>Keterangan : </span>{ d.keterangan }</p>
+                </div>
+              </div>
 
+
+            </div>
             <div
               className="card-actions justify-center  items-stretch flex flex-col  ">
-              <button className="btn btn-info  text-white"
+              <button className="btn btn-xs   sm:btn-sm btn-info  text-white"
                       type={ "button" }
                       onClick={ () => router.push( "/product/" + d.id + "/edit" ) }
 
               >Edit
               </button>
-              <button className="btn btn-error text-white"
+              <button className="btn btn-xs sm:btn-sm  btn-error text-white"
                       type={ "button" }
                       onClick={ () => deleteData( d.id, router ) }
               >Delete
               </button>
             </div>
           </div>
+
         </li>
       ) ) }
 

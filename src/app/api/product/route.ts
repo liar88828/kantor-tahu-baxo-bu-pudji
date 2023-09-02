@@ -2,47 +2,43 @@ import { NextRequest, NextResponse } from 'next/server'
 import Control from '@/server/controller/produk';
 import { saveFile } from '@/server/service/image';
 import { formatData } from '@/lib/utils/formatData';
-import { tryCatch } from '@/lib/tryCatch';
+import { getReq, getRes } from '@/server/service/GetRes';
 
 export async function GET( request: NextRequest ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
+  const { id, } = await getReq( request )
+
   if( id ) {
-    return await tryCatch( "GET", Control.findById, id )
+    return await getRes( "GET", Control.findById, id )
   }
   if( !id ) {
-    return await tryCatch( "GET", Control.find )
+    return await getRes( "GET", Control.find )
   }
 }
 
 export async function POST( request: NextRequest, ) {
   const json       = await saveFile( request, "/img/produk/", "create" )
   const formatJson = formatData( json, "produk" )
-  return await tryCatch( "POST", Control.create, formatJson )
+  return await getRes( "POST", Control.create, formatJson )
 }
 
 export async function DELETE( request: NextRequest ) {
+  const { id, } = await getReq( request )
 
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
   if( id ) {
-    return await tryCatch( "DELETE", Control.destroy, id )
+    return await getRes( "DELETE", Control.destroy, id )
   }
   if( !id ) {
     return NextResponse.json( {
       msg    : `Bad A Value`,
       success: false,
-      data   : `Please Input a ID  `,
+      data: `Please Input an ID  `,
     } );
   }
 }
 
 export async function PUT( request: NextRequest, ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
+  const { id, } = await getReq( request )
+
   try {
     const json        = await saveFile( request, "/img/produk/", "edit" )
     const formatJson  = formatData( json, "produk" )

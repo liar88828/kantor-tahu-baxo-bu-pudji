@@ -1,6 +1,6 @@
-import { Repository } from '@/server/repository/interface/repository/Repository';
+import { InterRepository } from '@/server/repository/interface/repository/Repository';
 
-export interface InterfaceProduk extends Repository {
+export interface InterfaceProduk extends InterRepository {
   // findAll(): Promise<TYPE[]>;
   // findById( id: string ): Promise<any>;
   // paginate( data: { row: number, skip: number } ): Promise<any>;

@@ -29,6 +29,7 @@ export default class RepoProduk implements InterfaceProduk {
         lokasi    : true,
         jenis     : true,
         harga     : true,
+        img: true,
         keterangan: true,
       }
     } )
