@@ -1,60 +1,50 @@
 import { NextRequest } from 'next/server'
 import Control from '@/server/controller/orderan';
-import { tryCatch } from '@/lib/tryCatch';
+import { getReq, getRes } from '@/server/service/GetRes';
 
 export async function GET( request: NextRequest, ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
-  const option       = searchParams.get( "option" ) as string
-  const value        = searchParams.get( "value" ) as string | number
+  const { id, option, value, pathname } = await getReq( request )
 
   if( option === "table" ) {
-    return tryCatch( "GET", Control.findByStatus, id )
+    return getRes( "GET", Control.findByStatus, id )
   }
   if( id && !option && !value ) {
-    return tryCatch( "GET", Control.findOne, id )
+    return getRes( "GET", Control.findOne, id )
   }
 
-  if( url.pathname === "/api/orderan" && !id ) {
-    return tryCatch( "GET", Control.find, )
+  if( pathname === "/api/orderan" && !id ) {
+    return getRes( "GET", Control.find, )
   }
 }
 
 export async function POST( request: NextRequest, ) {
-  return tryCatch( "CREATE", Control.create, await request.json() )
+  const json = await request.json()
+  // console.log( json )
+  return getRes( "CREATE", Control.create, json )
 }
 
 export async function PATCH( request: NextRequest, ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
-  const option       = searchParams.get( "option" ) as string
-  const value        = searchParams.get( "value" ) as string | number
-  return tryCatch( "EDIT", Control.updateOneOnly, [ id, option, value ] )
+  const { id, option, value } = await getReq( request )
+
+  return getRes( "EDIT", Control.updateOneOnly, [ id, option, value ] )
 }
 
 export async function PUT( request: NextRequest, ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
-  const option       = searchParams.get( "option" ) as string
-  const value        = searchParams.get( "value" ) as string | number
-  return tryCatch( "EDIT", Control.updateOneOnly, id, option, value )
+  const { id, option, value } = await getReq( request )
+
+  return getRes( "EDIT", Control.updateOneOnly, id, option, value )
 }
 
 export async function DELETE( request: NextRequest, ) {
-  const url          = new URL( request.url );
-  const searchParams = new URLSearchParams( url.search );
-  const id           = searchParams.get( "id" ) as string
-  // console.log( id )
+  const { id, } = await getReq( request )
+
   if( id ) {
-    return tryCatch( "DELETE", Control.destroy, id )
+    return getRes( "DELETE", Control.destroy, id )
   }
   if( !id ) {
     const formData            = await request.formData();
     const formDataEntryValues = Array.from( formData.values() );
     let array: string[]       = JSON.parse( <string>formDataEntryValues[ 0 ] )
-    return tryCatch( "DELETE", Control.deleteMany, array );
+    return getRes( "DELETE", Control.deleteMany, array );
   }
 }

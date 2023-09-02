@@ -3,11 +3,13 @@ import { TOrderServer } from '@/entity/server/orderan';
 import { TOptional } from '@/entity/server/types';
 import { InterfaceOrderan } from '@/server/repository/interface/repository/orderan';
 import { TPOrderan } from '@/entity/server/produkOrderan';
+import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
+import { TLines } from '@/app/dashboard/dashboard';
 
 export default class RepoOrderan implements InterfaceOrderan {
 
 // getAll data from database
-  private getSelect() {
+  getSelect() {
     return {
       id            : true,
       pengirim      : true,
@@ -41,7 +43,7 @@ export default class RepoOrderan implements InterfaceOrderan {
     };
   }
 
-  private setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
+  setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
     const time = ( d.waktuKirim.toString().length === 5 )
                  ? d.waktuKirim + ":00"
                  : d.waktuKirim
@@ -59,7 +61,7 @@ export default class RepoOrderan implements InterfaceOrderan {
       pengirim      : d.pengirim,
       pesan         : new Date( d.pesan ),
       kirim         : new Date( d.kirim ),
-      waktuKirim    : new Date( d.pesan + "T" + time + ".000Z" ),
+      waktuKirim: new Date( d.kirim + "T" + time + ".000Z" ),
       status        : d.status,
       totalBayar    : d.totalBayar,
       totalPenjualan: d.totalPenjualan,
@@ -67,7 +69,7 @@ export default class RepoOrderan implements InterfaceOrderan {
     }
   }
 
-  createMany( data: any[] ): Promise<any> {
+  createMany( _: any[] ): Promise<any> {
     throw new Error( 'Method not implemented.' );
   }
 
@@ -102,76 +104,218 @@ export default class RepoOrderan implements InterfaceOrderan {
     } )
   }
 
-  async findDashboard() {
+  async findDashboard( a: string = "test" ) {
+    if( a === "false" ) {
+      const falseFeature = (): void => {
 
-    const currentDate  = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
-    const currentYear  = currentDate.getFullYear();
+        const monthlyUserCounts = prisma.orderan.groupBy( {
+              by    : [ "pesan" ],
+              _count: { pesan: true, },
+              where : {
+                pesan: {
+                  gte: new Date( `${ currentYear }-01-01` ),
+                  lte: new Date( `${ currentYear }-12-30` ),
+                }
+              },
+            }
+        )
+        console.debug( monthlyUserCounts )
 
-    const monthlyUserCounts = prisma.orderan.groupBy( {
-        by    : [ "pesan" ],
-        _count: { pesan: true, },
-        where : {
-          pesan: {
-            gte: new Date( `${ currentYear }-01-01` ),
-            lte: new Date( `${ currentYear }-12-30` ),
+        const aggregatedData = prisma.semuaProduct.groupBy( {
+          by     : [ 'nama' ],
+          where  : {
+            AND: [
+              {
+                created_at: {
+                  gte: new Date( new Date().getFullYear(), new Date().getMonth() - 1, 1 ),
+                  lt : new Date( new Date().getFullYear(), new Date().getMonth(), 1 ),
+                },
+              },
+            ],
+          },
+          _sum   : {
+            jumlah: true,
+            harga : true,
+          },
+          orderBy: {
+            _sum: {
+              harga: 'desc',
+            },
+          },
+        } );
+        console.debug( aggregatedData )
+
+        //--------------get jumlah lokasi
+        const monthlyUserCounts1 = prisma.orderan.groupBy( {
+              by    : [ "lokasi" ],
+              _count: {
+                lokasi: true,
+              },
+            }
+        )
+        console.debug( monthlyUserCounts1 )
+
+        const tanggalSekarang = prisma.orderan.findMany( {
+              where: {
+                kirim: {
+                  gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
+                  lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+                }
+              }
+            }
+        )
+        console.debug( tanggalSekarang )
+
+        //--------------get jumlah lokasi
+        const monthlyUserCounts2 = prisma.orderan.count( {
+          where: {
+            created_at: {
+              gte: new Date( `${ currentYear }-01-01` ),
+              lte: new Date( `${ currentYear }-12-30` ),
+            }
+          },
+        } )
+        console.debug( monthlyUserCounts2 )
+      }
+      console.debug( falseFeature )
+
+    }
+
+    // untuk list card
+    const semuaNotifyMonth = prisma.orderan.findMany( {
+      where : {
+        status: {
+          contains: "irim"
+        },
+        // status:"Di Kirim",  ,
+
+        kirim: {
+          gte: addDays( -30 ),
+          // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+        },
+      },
+      select: {
+        id: true,
+        //penerima
+        penerima      : true,
+        hpPenerima    : true,
+        alamatPenerima: true,
+        //
+        pengirim      : true,
+        namaPengiriman: true,
+
+        //
+        kirim         : true,
+        pesan         : true,
+        status        : true,
+        typePembayaran: true,
+        totalBayar    : true,
+        waktuKirim    : true,
+        semuaProduct  : true
+
+      },
+      take  : 100,
+    } );
+
+    // untuk donat Now Month
+    const semuaProductCountNow = prisma.semuaProduct.groupBy( {
+      by    : [ "nama" ],
+      _count: { nama: true, },
+      where : {
+        created_at: {
+          gte: addDays( -30 ),
+          // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
           }
         },
       }
     )
-    const semuaProductCount = prisma.semuaProduct.groupBy( {
+
+    // untuk donat Now Month Last
+    const semuaProductCountLast = prisma.semuaProduct.groupBy( {
         by    : [ "nama" ],
         _count: { nama: true, },
+      where: {
+        created_at: {
+          gte: new Date( `${ currentYear }-${ currentMonth === 0 ? 12 : currentMonth - 1 }-01` ),
+          lte: new Date( `${ currentYear }-${ currentMonth === 0 ? 12 : currentMonth - 1 }-30` ),
+        }
+      },
       }
     )
 
+    //untuk notify block status
     const semuaStatusOrder = prisma.orderan.groupBy( {
         by    : [ "status" ],
         _count: { status: true, },
         where : {
           created_at: {
-            gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
-            lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+            gte: addDays( -30 ),
+            // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
           }
         },
       }
     )
 
-    //   where : {
-    //     created_at: {
-    //       lte: new Date( `${currentYear}-${currentMonth}-30` ),
-    //       gte: new Date( "2022-01-15" ),
-    //       // month: currentMonth,
-    //       // year: currentYear,
-    //     },
-    //   },
-    //   _count: {
-    //     created_at: true,
-    //   },
-    // } );
+    // return { data: monthlyUserCounts}.
+    const transaction = await prisma.$transaction( [ semuaProductCountNow, semuaStatusOrder, semuaNotifyMonth, semuaProductCountLast, //aggregatedData
+    ] )
+    //untuk notif
 
-    //--------------get jumlah lokasi
-    // const monthlyUserCounts = await prisma.orderan.groupBy( {
-    //     by   : [ "lokasi" ],
-    //     _count: {
-    //       lokasi: true,
-    //     },
-    //   }
-    // )
+    type TLine = {
+      year: number,
+      month: string,
+      jumlah_pesanan: bigint
+    }[];
 
-    //--------------get jumlah lokasi
-    // const monthlyUserCounts = await prisma.orderan.count( {
-    //   where: {
-    //     created_at: {
-    //       gte: new Date( `${ currentYear }-01-01` ),
-    //       lte: new Date( `${ currentYear }-12-30` ),
-    //     }
-    //   },
-    // } )
-    // return { data: monthlyUserCounts }
+    const monthlyUserCounts: TLine = await prisma.$queryRaw`
+      SELECT YEAR(pesan)                AS year,
+             MONTHNAME(pesan)           AS month,
+             CAST(COUNT(*) AS UNSIGNED) AS jumlah_pesanan
+      FROM tahu_baxo_bupudji.orderans
+      WHERE YEAR(pesan) BETWEEN YEAR(CURRENT_DATE) - 3 AND YEAR(CURRENT_DATE)
+      GROUP BY YEAR(pesan), MONTH(pesan)
+      ORDER BY YEAR(pesan), MONTH(pesan);
+    `
 
-    // return semuaProductCount
-    return prisma.$transaction( [ monthlyUserCounts, semuaProductCount, semuaStatusOrder ] )
+    type TAggregate = {
+      nama: string
+      total_jumlah_current: number
+      total_jumlah_last: number
+      total_harga_current: number
+      total_harga_las: number
+    };
+
+    const aggregateProductPerMonth: TAggregate[] = await prisma.$queryRaw`
+      SELECT nama,
+             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
+             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
+             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN harga ELSE 0 END)      AS total_harga_current,
+             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN harga ELSE 0 END)  AS total_harga_last
+      FROM tahu_baxo_bupudji.semuaproducts
+      WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 1 AND MONTH(CURRENT_DATE)
+      GROUP BY nama;
+
+    `
+
+//untuk line
+    const semuaOrderTahun: TLines[] = monthlyUserCounts.map( ( item ) => ( {
+      ...item,
+      jumlah_pesanan: Number( item.jumlah_pesanan )
+    } ) );
+
+    const semuaProductNow  = transaction[ 0 ]
+    const semuaStatus      = transaction[ 1 ]
+    const notifyMonth      = transaction[ 2 ]
+    const semuaProductLast = transaction[ 3 ]
+
+    return {
+      semuaOrderTahun,//untuk line
+      semuaProductNow,// untuk donat Now
+      semuaProductLast,// untuk donat Last
+      semuaStatus,// untuk notify block status
+      notifyMonth,// untuk list card
+      aggregate: aggregateProductPerMonth
+    }
 
   }
 
@@ -179,6 +323,7 @@ export default class RepoOrderan implements InterfaceOrderan {
     let option = {
       include: { semuaProduct: true }
     }
+
     if( status !== "Semua" ) {
       option = Object.assign( option, { where: { status } } )
     }
@@ -187,7 +332,6 @@ export default class RepoOrderan implements InterfaceOrderan {
   }
 
   async createNesting( data: TOrderServer ) {
-
     return prisma.orderan.create( {
       data:
         Object.assign( this.setOne( data ),
@@ -206,10 +350,7 @@ export default class RepoOrderan implements InterfaceOrderan {
 
   }
 
-  async paginate( data: {
-    row: number,
-    skip: number
-  } ) {
+  async paginate( data: { row: number, skip: number } ) {
     const { row, skip } = data
     return prisma.orderan.findMany( { take: row, skip } )
   }
@@ -226,8 +367,8 @@ export default class RepoOrderan implements InterfaceOrderan {
 
   // -----DELETE
   async destroyOne( id: string ) {
-    console.log( id )
-    console.log( "one" )
+    // console.log( id )
+    // console.log( "one" )
     const delete1 = prisma.orderan.delete( {
       where : { id: id },
       select: { semuaProduct: true }
@@ -312,10 +453,9 @@ export default class RepoOrderan implements InterfaceOrderan {
         },
       } ),
     ] );
-
   }
 
-  private setMany( data: TOrderServer, method: string = "POST" ) {
+  setMany( data: TOrderServer, method: string = "POST" ) {
     return data.semuaProduct.map( ( d: TPOrderan ) => (
         Object.assign( {
           harga     : d.harga,

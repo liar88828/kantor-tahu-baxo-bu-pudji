@@ -3,17 +3,25 @@ import { TOrder } from '@/entity/client/orderan';
 import { config } from '../../../../dataEnv';
 import { setDates, setHours } from '@/lib/utils/formatDate';
 import { redirect } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { sendAPI } from '@/app/utils/ress/sendApi';
+import { TPOrderan } from '@/entity/server/produkOrderan';
+
+const test = "test"
 
 export async function onCreate(
   sendData: TOrder,
-  method: string | "POST" | "PUT" = "POST",
+    method: "POST" | "PUT",
   id: string
 ) {
-  sendData.hpPengirim                      = sendData.hpPengirim.toString()
-  sendData.hpPenerima                      = sendData.hpPenerima.toString()
-  const { listItem, listOrderan, ...ress } = sendData
+  sendData.hpPengirim                = "0" + sendData.hpPengirim.toString()
+  sendData.hpPenerima                = "0" + sendData.hpPenerima.toString()
+  const newSemuaProduct: TPOrderan[] = sendData.semuaProduct.map( ( d: TPOrderan ) => {
+    d.orderanId = sendData.id
+    return d
+  } )
+
+  const { listItem, listOrderan, semuaProduct, ...puts } = sendData
+  const ress                                             = Object.assign( { semuaProduct: newSemuaProduct }, puts )
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
       return await sendAPI( "orderan", "POST", ress, "" );
@@ -28,7 +36,9 @@ export async function onCreate(
   }
 }
 
-function formatData( data: { data: TOrder; msg: string } ) {
+export type TFormatDataOrder = { data: TOrder; msg: string }
+
+function formatData( data: TFormatDataOrder ) {
   return {
     listOrderan   : [],
     listItem      : [],
@@ -70,13 +80,19 @@ export async function defaultData( id: string ): Promise<TOrder> {
   return formatData( data );
 }
 
-export async function getDataByStatus( slug: string ): Promise<{ msg: string, data: TOrderServer[] }> {
-  const res = await fetch( config.url + `/api/orderan?id=${ slug }&option=table`, {
+export async function getDataByStatus( slug: string ): Promise<{
+  msg: string,
+  data: TOrderServer[]
+}> {
+  const test = "test"
+  const res  = await fetch( config.url + `/api/orderan?id=${ slug }&option=table`, {
     method: "GET",
     next  : { revalidate: 20 }
   } )
   const data = await res.json()
-  // console.log(data)
+  if( test !== "test" ) {
+    console.table( data )
+  }
   return data
 }
 
@@ -109,6 +125,7 @@ export async function deleteDataMany( send: string [] ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
+    console.log( arrays )
   }
   return data
 }
@@ -125,26 +142,36 @@ export async function deleteDataOne( id: string[] ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
+    console.error( arrays )
   }
   return data
 }
 
-export async function editData( id: string, json: any ) {
-  const res = await fetch( config.url + "/api/orderan/" + id, {
-    method: "PUT",
-    }
-  )
+if( test !== "test" ) {
+  async function editData( id: string, ) {
+    const res = await fetch( config.url + "/api/orderan/" + id, {
+          method: "PUT",
+        }
+    )
+    return await res.json()
+  }
 
-  return await res.json()
-}
+  console.log( editData( "test" ) )
 
-export async function updateOneData( id: string, value: string | number, router: AppRouterInstance ) {
+  async function updateOneData(
+      id: string,
+      value: string | number,
+      // router: AppRouterInstance
+  ) {
+    const res = await fetch( config.url + `/api/orderan?id=${ id }&value=${ value }`,
+        {
+          method: "PUT",
+        }
+    )
+    // router.refresh()
+    return await res.json()
+  }
 
-  const res = await fetch( config.url + `/api/orderan?id=${ id }&value=${ value }`,
-    {
-      method: "PUT",
-    }
-  )
-  return await res.json()
+  console.log( updateOneData( "test", 12 ) )
 }
 

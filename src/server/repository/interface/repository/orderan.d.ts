@@ -1,7 +1,7 @@
-import { Repository } from '@/server/repository/interface/repository/Repository';
+import { InterRepository } from '@/server/repository/interface/repository/Repository';
 import { TOrderServer } from '@/entity/server/orderan';
 
-export interface InterfaceOrderan extends Repository {
+export interface InterfaceOrderan extends InterRepository {
   // findAll(): Promise<TYPE[]>;
   // findById( id: string ): Promise<any>;
   // paginate( data: { row: number, skip: number } ): Promise<any>;

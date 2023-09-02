@@ -53,13 +53,13 @@ export default class AccessOrderan {
         //orang
         alamatPenerima: data.alamatPenerima,
 
-        guna          : data.guna,
-        hpPenerima    : data.hpPenerima,
-        hpPengirim    : data.hpPenerima,
+        guna      : data.guna,
+        hpPenerima: data.hpPenerima,
+        hpPengirim: data.hpPenerima,
 //tanggal pesan
-        id        : data.id,
+        id: data.id,
         // keterangan: data.keterangan,
-        kirim     : data.kirim,
+        kirim: data.kirim,
 
 //orderan
         lokasi: data.lokasi,
@@ -73,10 +73,7 @@ export default class AccessOrderan {
         pesan   : data.pesan,
 //total
         //total semua,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        semuaHargaProduct: data.semuaHargaProduct,
-        semuaProduct     : {
+        semuaProduct: {
           createMany: {
             data: data.semuaProduct.map( ( d: TPOrderan ) => {
 
@@ -95,12 +92,8 @@ export default class AccessOrderan {
             } )
           }
         },
-        status           : data.status,
-        // total            : data.total,
-        totalBayar       : data.totalBayar,
-        totalHarga       : data.totalHarga,
-        //total semua,
-
+        status      : data.status,
+        totalBayar  : data.totalBayar,
         totalPenjualan: data.totalPenjualan,
         typePembayaran: data.typePembayaran,
         waktuKirim    : data.waktuKirim
@@ -122,9 +115,9 @@ export default class AccessOrderan {
         hpPenerima    : data.hpPenerima,
         hpPengirim    : data.hpPenerima,
 //tanggal pesan
-        id        : data.id,
+        id: data.id,
         // keterangan: data.keterangan,
-        kirim     : data.kirim,
+        kirim: data.kirim,
 //orderan
         lokasi: data.lokasi,
 //keterangan
@@ -136,14 +129,10 @@ export default class AccessOrderan {
         pesan   : data.pesan,
 //total
         //total semua,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        semuaHargaProduct: data.semuaHargaProduct,
 
-        status    : data.status,
+        status: data.status,
         // total     : data.total,
         totalBayar: data.totalBayar,
-        totalHarga: data.totalHarga,
         //total semua,
 
         totalPenjualan: data.totalPenjualan,
@@ -155,8 +144,8 @@ export default class AccessOrderan {
     const createSemuaProduk = prisma.semuaProduct.createMany( {
       data: data.semuaProduct.map( d => (
         {
-          harga     : d.harga,
-          id        : d.id,
+          harga: d.harga,
+          id   : d.id,
 
           img: d.img || "no image",
           jenis     : d.jenis,
@@ -188,13 +177,13 @@ export default class AccessOrderan {
         waktuKirim: data.waktuKirim,
         kirim     : data.kirim,
 //keterangan
-        guna      : data.guna,
+        guna: data.guna,
         // keterangan: data.keterangan,
-        lokasi    : data.lokasi,
+        lokasi: data.lokasi,
 //travel
         namaPengiriman: data.namaPengiriman,
         // ekspedisi     : data.ekspedisi,
-        ongkir        : data.ongkir,
+        ongkir: data.ongkir,
 //total
         id            : data.id,
         typePembayaran: data.typePembayaran,
@@ -203,10 +192,6 @@ export default class AccessOrderan {
         totalPenjualan: data.totalPenjualan,
         status        : data.status,
         //total semua
-        semuaHargaProduct: data.semuaHargaProduct,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        totalHarga       : data.totalHarga,
 
       },
 
@@ -220,13 +205,13 @@ export default class AccessOrderan {
         //orang
         alamatPenerima: data.alamatPenerima,
         // ekspedisi     : data.ekspedisi,
-        guna          : data.guna,
-        hpPenerima    : data.hpPenerima,
-        hpPengirim    : data.hpPenerima,
+        guna      : data.guna,
+        hpPenerima: data.hpPenerima,
+        hpPengirim: data.hpPenerima,
 //tanggal pesan
-        id        : data.id,
+        id: data.id,
         // keterangan: data.keterangan,
-        kirim     : data.kirim,
+        kirim: data.kirim,
 //orderan
         lokasi: data.lokasi,
 //keterangan
@@ -238,14 +223,10 @@ export default class AccessOrderan {
         pesan   : data.pesan,
 //total
         //total semua,
-        semuaHargaItem   : data.semuaHargaItem,
-        semuaHargaOrderan: data.semuaHargaOrderan,
-        semuaHargaProduct: data.semuaHargaProduct,
 
-        status    : data.status,
+        status: data.status,
         // total     : data.total,
         totalBayar: data.totalBayar,
-        totalHarga: data.totalHarga,
         //total semua,
 
         totalPenjualan: data.totalPenjualan,
@@ -257,8 +238,8 @@ export default class AccessOrderan {
     const updateSemuaProduk = prisma.semuaProduct.updateMany( {
       data: data.semuaProduct.map( d => (
         {
-          harga     : d.harga,
-          id        : d.id,
+          harga: d.harga,
+          id   : d.id,
           // img       : d.img || "no image",
           jenis     : d.jenis,
           jumlah    : d.jumlah,
@@ -311,13 +292,13 @@ export default class AccessOrderan {
       waktuKirim: data.waktuKirim,
       kirim     : data.kirim,
 //keterangan
-      guna      : data.guna,
+      guna: data.guna,
       // keterangan: data.keterangan,
-      lokasi    : data.lokasi,
+      lokasi: data.lokasi,
 //travel
       namaPengiriman: data.namaPengiriman,
 
-      ongkir        : data.ongkir,
+      ongkir: data.ongkir,
 //total
       id            : data.id,
       typePembayaran: data.typePembayaran,
@@ -326,50 +307,45 @@ export default class AccessOrderan {
       totalPenjualan: data.totalPenjualan,
       status        : data.status,
       //total semua
-      semuaHargaProduct: data.semuaHargaProduct,
-      semuaHargaItem   : data.semuaHargaItem,
-      semuaHargaOrderan: data.semuaHargaOrderan,
-      totalHarga       : data.totalHarga
     }
   }
 
 }
 
-//
-// interface OrderData {
-//   alamatPenerima: string;
-//   ekspedisi: string;
-//   guna: string;
-//   hpPenerima: string;
-//   hpPengirim: string;
-//   id: string;
-//   keterangan: string;
-//   kirim: string;
-//   lokasi: string;
-//   namaPengiriman: string;
-//   no: string;
-//   ongkir: number;
-//   penerima: string;
-//   pengirim: string;
-//   pesan: string;
-//   semuaHargaItem: number;
-//   semuaHargaOrderan: number;
-//   semuaHargaProduct: number;
-//   semuaProduct: [ {
-//     harga: number;
-//     id: string;
-//     img: string;
-//     jenis: string;
-//     jumlah: number;
-//     keterangan: string;
-//     lokasi: string;
-//     nama: string;
-//   } ];
-//   status: string;
-//   total: number;
-//   totalBayar: number;
-//   totalHarga: number;
-//   totalPenjualan: number;
-//   typePembayaran: string;
-//   waktuKirim: string;
-// }
+interface OrderData {
+  alamatPenerima: string;
+  ekspedisi: string;
+  guna: string;
+  hpPenerima: string;
+  hpPengirim: string;
+  id: string;
+  keterangan: string;
+  kirim: string;
+  lokasi: string;
+  namaPengiriman: string;
+  no: string;
+  ongkir: number;
+  penerima: string;
+  pengirim: string;
+  pesan: string;
+  semuaHargaItem: number;
+  semuaHargaOrderan: number;
+  semuaHargaProduct: number;
+  semuaProduct: [ {
+    harga: number;
+    id: string;
+    img: string;
+    jenis: string;
+    jumlah: number;
+    keterangan: string;
+    lokasi: string;
+    nama: string;
+  } ];
+  status: string;
+  total: number;
+  totalBayar: number;
+  totalHarga: number;
+  totalPenjualan: number;
+  typePembayaran: string;
+  waktuKirim: string;
+}

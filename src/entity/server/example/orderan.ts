@@ -40,32 +40,23 @@ export const formInput: TOrderServer = {
   totalBayar    : 123,
   totalPenjualan: 232,
   status        : "Status",
-  //total
-  semuaHargaProduct: 12312,
-
-  semuaHargaItem   : 12312,
-  semuaHargaOrderan: 12312,
-  totalHarga       : 1231
 
 }
 const exampleData: TOrderServer      =
         {
-          "alamatPenerima"   : "Alamat Penerima",
-          "guna"             : "Keterangan",
-          "hpPenerima"       : "Hp Penerima",
-          "hpPengirim"       : "Hp Pengirim",
-          "id"               : "qwe",
-          "kirim"            : "1999-07-01T00:00:00.000Z",
-          "lokasi"           : "Lokasi",
-          "namaPengiriman"   : "Nama Travel",
-          "ongkir"           : 23,
-          "penerima"         : "Penerima",
-          "pengirim"         : "orang genah",
-          "pesan"            : "1999-07-01T00:00:00.000Z",
-          "semuaHargaItem"   : 12312,
-          "semuaHargaOrderan": 12312,
-          "semuaHargaProduct": 12312,
-          "semuaProduct"     : [
+          "alamatPenerima": "Alamat Penerima",
+          "guna"          : "Keterangan",
+          "hpPenerima"    : "Hp Penerima",
+          "hpPengirim"    : "Hp Pengirim",
+          "id"            : "qwe",
+          "kirim"         : "1999-07-01T00:00:00.000Z",
+          "lokasi"        : "Lokasi",
+          "namaPengiriman": "Nama Travel",
+          "ongkir"        : 23,
+          "penerima"      : "Penerima",
+          "pengirim"      : "orang genah",
+          "pesan"         : "1999-07-01T00:00:00.000Z",
+          "semuaProduct"  : [
             {
               "harga"     : 42000,
               "id"        : "produk lagi1 123",
@@ -90,10 +81,9 @@ const exampleData: TOrderServer      =
 
             }
           ],
-          "status"           : "Status",
-          "totalBayar"       : 123,
-          "totalHarga"       : 1231,
-          "totalPenjualan"   : 232,
-          "typePembayaran"   : "Pemsbayaran",
-          "waktuKirim"       : "2023-07-20T00:00:00.000Z"
+          "status"        : "Status",
+          "totalBayar"    : 123,
+          "totalPenjualan": 232,
+          "typePembayaran": "Pemsbayaran",
+          "waktuKirim"    : "2023-07-20T00:00:00.000Z"
         }

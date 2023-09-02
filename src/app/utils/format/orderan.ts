@@ -20,17 +20,17 @@ export const defaultValues: TOrder = {
   listItem   : [],
   semuaProduct: [],
   //keterangan
-  guna  : "Untuk apa ??",
+  // guna  : "Untuk apa ??",
   lokasi: "Semarang",
   //travel
-  namaPengiriman: "Kantor Tahu Baxo ",
-  ongkir: 0,
+  // namaPengiriman: "Kantor Tahu Baxo ",
+  // ongkir: 0,
   //transaksi
-  id            : "",
-  typePembayaran: "CASH",
+  // id            : "",
+  // typePembayaran: "CASH",
   // total         : 0,
-  totalBayar: 0,
-  totalPenjualan: 0,
+  // totalBayar: 0,
+  // totalPenjualan: 0,
   status    : 'Di terima',
 
 }

@@ -1,10 +1,8 @@
 "use client"
 import React, { Suspense } from 'react';
 import { useParams, usePathname } from 'next/navigation';
-import { TOrder } from '@/entity/client/orderan';
-import { defaultData } from '@/app/utils/ress/orderan';
-import { FormOrder } from '@/app/components/form/Orderan';
-import { globalQueryClient } from '@/lib/utils/queryClient';
+import { SComponents } from '@/app/orderan/[id]/SComponent';
+import { LinkTable } from '@/app/elements/link/Links';
 
 export default function Page() {
   const { id }   = useParams()
@@ -12,23 +10,13 @@ export default function Page() {
   const path     = pathname.split( "/" ).pop() as string
   const slug     = id && path ? path : ""
   return (
-    <main className="flex p-3 sm:p-6   z-50 bg-green-50 gap-3 flex-col">
+    <main className="flex p-3 sm:p-6 z-50 bg-green-50 gap-3 flex-col">
+      <div className=" overflow-x-auto pb-2">
+        <LinkTable slug={ slug.at( -1 ) as string }/>
+      </div>
       <Suspense fallback={ <div>Loading...</div> }>
-        <ServerComponents id={ slug }/>
+        <SComponents id={ slug }/>
       </Suspense>
     </main>
   )
 }
-const queryClient = globalQueryClient()
-
-export function ServerComponents( { id }: {
-  id: string
-} ) {
-  const data: TOrder = queryClient(
-    "Orderan",
-    () => defaultData( id ) as Promise<TOrder>
-  )
-
-  return <FormOrder id={ id } method={ "PUT" } defaultDataOrder={ data }/>
-}
-

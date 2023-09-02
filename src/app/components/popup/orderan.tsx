@@ -4,25 +4,25 @@ import { Rupiah } from '@/lib/utils/rupiah';
 import {
   Card, CardBody, CardHeader, Dialog, DialogBody, DialogFooter, DialogHeader, Typography
 } from '@material-tailwind/react';
-import { notifyData } from '@/app/utils/notif/toash';
 import { onCreate } from '@/app/utils/ress/orderan';
 import { Status } from '@/app/style/status';
 import { AiOutlineClose } from 'react-icons/ai';
 import { calculateTotal } from '@/app/components/table/utils/orderan';
 import Image from 'next/image';
+import { notifyData } from '@/app/utils/notif/toash';
 
 export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
   clickPopUp: boolean,
   setClickPopUp: React.Dispatch<React.SetStateAction<boolean>>,
   data: TOrder
-  method: string
+  method: "POST" | "PUT"
   id: string
 } ) {
   async function handleSave() {
 
     const getData   = await onCreate( data, method, id )
     console.error( getData )
-    notifyData( getData.msg )
+    notifyData( getData.msg, getData )
   }
 
   return (

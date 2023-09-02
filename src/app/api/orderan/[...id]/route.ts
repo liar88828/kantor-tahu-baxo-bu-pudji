@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Control from '@/server/controller/orderan';
 
-import { tryCatch } from '@/lib/tryCatch';
+import { getRes } from '@/server/service/GetRes';
 
 export async function GET( _: NextRequest, route: {
   params: {
@@ -42,7 +42,7 @@ export async function PUT( request: NextRequest, route: {
   const id: string = route.params.id
   // console.log(json)
   // console.log(id)
-  return tryCatch( "EDIT", Control.edit, json, id[ 0 ] )
+  return getRes( "EDIT", Control.edit, json, id[ 0 ] )
 
 }
 
@@ -54,5 +54,5 @@ export async function DELETE( _: NextRequest, route: {
 ) {
   const array: string = route.params.id
   const id            = array[ 0 ]
-  return tryCatch( "DELETE", Control.destroy, id )
+  return getRes( "DELETE", Control.destroy, id )
 }
