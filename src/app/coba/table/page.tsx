@@ -1,11 +1,9 @@
 "use client"
 import React from 'react'
 
-import './index.css'
-
 import {
-  Column, ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
-  Table as ReactTable, useReactTable,
+  Column, ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, Table as ReactTable,
+  useReactTable,
 } from '@tanstack/react-table'
 import { makeData } from '@/server/models/seed/person';
 import { TPerson } from '@/entity/client/person';
@@ -159,6 +157,22 @@ function Table( {
           )
         } ) }
         </tbody>
+        <tfoot>
+        { table.getFooterGroups().map( footerGroup => (
+          <tr key={ footerGroup.id }>
+            { footerGroup.headers.map( header => (
+              <th key={ header.id } colSpan={ header.colSpan }>
+                { header.isPlaceholder
+                  ? null
+                  : flexRender(
+                    header.column.columnDef.footer,
+                    header.getContext()
+                  ) }
+              </th>
+            ) ) }
+          </tr>
+        ) ) }
+        </tfoot>
       </table>
 
       <div className="h-2"/>

@@ -8,12 +8,18 @@ export async function getData() {
       method: "GET"
     }
   )
+
+  if( !res.ok ) {
+    throw new Error( 'Failed to fetch data' )
+  }
+
   const data = await res.json()
-  // console.log( "------------------" )
-  // console.table( data )
-  // console.log( "------------------" )
-  // const dashboardData = { line: data.data[ 0 ], donat: data.data[ 1 ] }
-  // console.table( dashboardData )
+
+  if( data.success === false ) {
+    const arrays = JSON.parse( data.data )
+    console.error( arrays )
+  }
+
   return data
 }
 
@@ -34,6 +40,7 @@ export async function deleteDataMany( send: string [] ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
+    console.error( arrays )
   }
   return data
 }
@@ -50,6 +57,8 @@ export async function deleteDataOne( id: string[] ) {
   const data = await res.json()
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
+    console.error( arrays )
+
   }
   return data
 }
