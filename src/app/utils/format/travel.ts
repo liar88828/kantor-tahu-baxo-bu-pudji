@@ -1,7 +1,7 @@
 export const formTravel: Record<keyof TTravel, any> = {
   id        : "1231",
   namaPengiriman: "Nama Travel",
-  noHpPerusahaan: "No Hp Perusahan",
+  noHpPerusahaan: "No Hp perusahaan",
   lokasi    : "Lokasi ",
   jenis     : "Jenis Pengiriman",
   harga     : "Kisaran Biaya Pengiriman",

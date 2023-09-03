@@ -48,7 +48,7 @@ export function FormEdit( { id, path }: {
     jenis         : "truck, pesawat, kapal",
     img           : "https://picsum.photos/seed/picsum/200/300",
     harga         : 20_000,
-    keterangan    : "perjalanaan jauh sekali",
+    keterangan: "perjalanan jauh sekali",
     lokasi        : "semarang"
 
   } )
@@ -56,7 +56,7 @@ export function FormEdit( { id, path }: {
     fetch( config.url + "/api/travel?id=" + id )
     .then( res => res.json() )
     .then( d => {
-      setData( prev => ( d.data ) )
+      setData( () => ( d.data ) )
       setImage( d.data.img ?? "tidak ada" )
       notifyData( "success " + d.data.namaPengiriman.toUpperCase() )
       setIsLoading( true )

@@ -1,15 +1,11 @@
 "use client"
-import React, { ChangeEvent, Suspense, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { ChangeEvent, Suspense, useState } from 'react';
 import { Form } from '@/app/components/form/Travel';
 import { handleUpload, SendData, UploadDescription } from '@/app/elements/upload/Upload';
 import { defaultFormTravel } from '@/app/utils/format/travel';
 import { LinkNavbar } from '@/app/elements/link/LinksNavbar';
 
 export default function Home() {
-
-  const pathname = usePathname()
-  const path     = pathname.split( "/" )
 
   const handleFileChange                  = ( event: ChangeEvent<HTMLInputElement> ) => {
     SendData(
@@ -28,12 +24,11 @@ export default function Home() {
       "travel" )
   }
 
-  const data = defaultFormTravel
   return (
     <LinkNavbar>
 
       <div className="flex flex-row">
-        <Form sendDataImage={ sendDataImage } data={ data }>
+        <Form sendDataImage={ sendDataImage } data={ defaultFormTravel }>
           <Suspense fallback={ <p>Loading feed...</p> }>
             <UploadDescription previewURL={ previewURL }
                                onChange={ handleFileChange }

@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { deleteData } from '@/app/utils/ress/travel';
+import { notifyData } from '@/app/utils/notif/toash';
 
 export function CardTravel( { data }: { data: TTravel[] } ) {
   const router = useRouter()
@@ -12,7 +13,7 @@ export function CardTravel( { data }: { data: TTravel[] } ) {
         <li key={ d.id } className="card card-side bg-gray-100 shadow-xl my-5 ">
 
           <figure className={ "w-[20%] h-auto" }>
-            <Image src={ d.img || "" }
+            <Image src={ d.img ?? "" }
                    width={ 200 }
                    height={ 200 }
                    alt={ d.namaPengiriman }
@@ -59,7 +60,11 @@ export function CardTravel( { data }: { data: TTravel[] } ) {
               </button>
               <button className="btn btn-error text-white"
                       type={ "button" }
-                      onClick={ () => deleteData( d.id, router ) }
+                      onClick={ async () => {
+                        const { msg }: { msg: string, } = await deleteData( d.id, )
+                        notifyData( msg )
+                        router.refresh()
+                      } }
               >Delete
               </button>
             </div>

@@ -70,7 +70,6 @@ export async function PUT( request: NextRequest ) {
     if( !dataControl ) {
       return new newError( "Fail Create DataBase" )
     }
-    // console.log( data )
 
     await validImage(
       data.dataImage.buffer,

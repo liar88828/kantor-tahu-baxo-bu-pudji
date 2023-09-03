@@ -1,22 +1,22 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import React from 'react';
 import { InputForm } from '@/app/elements/input/InputNew';
 import { formTravel } from '@/app/utils/format/travel';
+import { ReactNode } from 'react';
 
 export function Form( { children, sendDataImage, data }:
   {
-    children: React.ReactNode,
+    children: ReactNode,
     sendDataImage: ( data: TTravel ) => Promise<any>,
     data: Awaited<TTravel>
   } ) {
-  console.log( data )
+  // console.log( data )
   const { register, handleSubmit, } = useForm<TTravel>( {
     defaultValues: data,
     mode         : "onChange",
   } );
-  console.log( "-------------" )
-  console.log( data )
-  console.log( "-------------" )
+  // console.log( "-------------" )
+  // console.log( data )
+  // console.log( "-------------" )
 
   const onSubmit: SubmitHandler<TTravel> = async ( data ) => {
     await sendDataImage( data )
