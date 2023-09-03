@@ -1,11 +1,11 @@
 import Validation from '@/lib/validation/schema';
 import type { TYPE } from '@/server/models/dataAccess/semuaProduk';
-import Service from '@/server/service/semuaProduk';
 import RepoSemuaProduk from '@/server/repository/semuaProduk';
+import Service, { type IService } from '@/lib/validation/validation';
 
-const Repo      = new RepoSemuaProduk()
-const valid     = new Validation()
-const serviceSP = new Service()
+const Repo        = new RepoSemuaProduk()
+const valid       = new Validation()
+const s: IService = Service
 
 const find = async () => {
   const repo = await Repo.findAll()
@@ -13,14 +13,14 @@ const find = async () => {
 }
 
 const findById = async ( id: string ) => {
-  const service = serviceSP.findById( valid.ZFindById( id ), id )
+  const service = s.findById( valid.ZFindById( id ), id )
   const repo    = await Repo.findById( service )
   return repo
 }
 
 const create = async ( body: TYPE, id: string ) => {
-  id              = serviceSP.findById( valid.ZFindById( id ), id )
-  const validData = serviceSP.create( await valid.Input( body, valid.semuaProduk ), body )
+  id              = s.findById( valid.ZFindById( id ), id )
+  const validData = s.create( valid.Input( body, valid.semuaProduk ), body )
   if( typeof validData === 'object' ) {
     return Repo.createOne( body, id )
   }
@@ -28,8 +28,8 @@ const create = async ( body: TYPE, id: string ) => {
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id              = serviceSP.findById( valid.ZFindById( id ), id )
-  const validData = serviceSP.create( await valid.Input( body, valid.semuaProduk ), body )
+  id              = s.findById( valid.ZFindById( id ), id )
+  const validData = s.create( await valid.Input( body, valid.semuaProduk ), body )
   if( typeof validData === 'object' ) {
     return Repo.updateOne( body, id )
   }
@@ -37,9 +37,8 @@ const edit = async ( body: TYPE, id: string ) => {
 }
 
 const destroy = async ( id: string ) => {
-  id         = serviceSP.findById( valid.ZFindById( id ), id )
+  id = s.findById( valid.ZFindById( id ), id )
   const repo = await Repo.destroyOne( id )
-  // console.log( repo )
   return repo
 }
 

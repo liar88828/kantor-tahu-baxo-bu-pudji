@@ -25,7 +25,7 @@ function Navbar() {
             <span
               className={ "self-center text-2xl font-semibold whitespace-nowrap  " +
                 styleLabelForm }>
-              { path ? path : "DASHBOARD" }
+              { path || "DASHBOARD" }
             </span>
           </a>
 

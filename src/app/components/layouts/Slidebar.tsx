@@ -21,9 +21,6 @@ export const Slidebar = () => {
   const [ open, setOpen ] = useState( false );
   const path              = usePathname().split( "/" )[ 1 ].toUpperCase()
 
-  // let color             = "#3de237";
-  // let color2            = "#3dc81e";
-  // let colorIcon         = "white";
   let colorTextSlideBar = "black"
   let titleSlideBar     = "black"
   let bgColorSlideBar   = "#d6ffe0"
@@ -38,7 +35,8 @@ export const Slidebar = () => {
 
         {/*----------------button arrow---------------*/ }
         <AiOutlineArrowLeft
-          className={ `z-[6] mt-3 bg-white w-9 h-9 -right-3  p-1 absolute  rounded-xl  border-black border-2 transition-all duration-500 ` }
+          className={ ` z-[6] mt-3 bg-white w-9 h-9 -right-3 p-1 absolute rounded-xl border-black border-2
+           transition-all duration-500 ` }
           onClick={ () => setOpen( !open ) }
           style={ { cursor: "pointer", transform: open ? "rotate(180deg)" : "" } }
         />
@@ -49,7 +47,7 @@ export const Slidebar = () => {
           {/* logo -----------------------*/ }
           {/*<AiOutlineYoutube*/ }
           {/*  style={ { transform: open && "rotate(180deg)", } }*/ }
-          {/*  className={ ` text-red-600  w-40 h-20 duration-500  } ` }*/ }
+          {/*  className={`text-red-600 w-40 h-20 duration-500}`}*/ }
           {/*/>*/ }
 
           {/* ------------------name logo------------- */ }
@@ -65,7 +63,7 @@ export const Slidebar = () => {
 
 
         <ul className={ `${ !open && "mt-10" }  ml-1   sm:py-4 sm:px-4 ` }>
-          { menuList.map( ( item, index ) => {
+          { menuList.map( ( item ) => {
             const Icons = item.icon
             return (
               <Link href={ item.link } replace={ true } key={ item.title } className={ "" }>
@@ -81,8 +79,8 @@ export const Slidebar = () => {
                    ${ item.gap ? 'mt-9' : 'mt-2' } 
                   ${ !open && 'justify-center' } `
                   }
-                  key={ index }>
-                <span className={ "text-white  hover:scale-100  " }>
+                  key={ item.title }>
+                <span className={ "text-white hover:scale-100 " }>
                   <Icons size={ '26px' }/></span>
 
                   { open && <span

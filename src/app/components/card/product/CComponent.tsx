@@ -3,6 +3,7 @@ import { Rupiah } from '@/lib/utils/rupiah';
 import { deleteData } from '@/app/utils/ress/product';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { notifyData } from '@/app/utils/notif/toash';
 
 export function ListProduct( { data }: { data: TProduct[ ] } ) {
   const router = useRouter()
@@ -47,7 +48,11 @@ export function ListProduct( { data }: { data: TProduct[ ] } ) {
               </button>
               <button className="btn btn-xs sm:btn-sm  btn-error text-white"
                       type={ "button" }
-                      onClick={ () => deleteData( d.id, router ) }
+                      onClick={ async () => {
+                        const { msg }: { msg: string, data: any } = await deleteData( d.id, router )
+                        notifyData( msg )
+                        router.refresh()
+                      } }
               >Delete
               </button>
             </div>

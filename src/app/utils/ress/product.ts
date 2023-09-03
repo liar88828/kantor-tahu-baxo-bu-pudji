@@ -10,7 +10,5 @@ export async function getData() {
 }
 
 export const deleteData = async ( id: string, router: AppRouterInstance ) => {
-  const data = await sendData( "product", "DELETE", id );
-  router.refresh()
-  return data
+  return await sendData( "product", "DELETE", id )
 }

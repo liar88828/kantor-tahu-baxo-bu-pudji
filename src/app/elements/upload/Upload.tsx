@@ -2,6 +2,7 @@ import { styleLabelForm } from '@/app/style/form';
 import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
 import { notifyData } from '@/app/utils/notif/toash';
 import { sendImage } from '@/app/utils/ress/sendApi';
+import React from 'react';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
   const file = event.target.files && event.target.files[ 0 ];
@@ -25,12 +26,12 @@ export async function handleUpload<T>(
   json: T,
   apiEndPoint: string,
   id: string     = "",
-  method: string = 'POST'
+  method: "PUT" | "POST"
 ) {
   // console.log(method,id,data,selectedFile)
 
   if( method === "PUT" ) {
-    console.log( "true" )
+    // console.log( "true at put method" )
 
     if( !selectedFile ) {
       console.log( "with out image" )
@@ -49,28 +50,23 @@ export async function handleUpload<T>(
       ' ( jpg bmp png gif webp jpeg )' );
     return;
   }
-  // }
-  // else {
-  //   const extensionData = getExtensionData( selectedFile.name )
-  //   if( !validateExtension( extensionData ) ) {
-  //     setMessage( 'Please insert a file with format' +
-  //       ' ( jpg bmp png gif webp jpeg )' );
-  //     return;
-  //   }
-  // }
+
   const dataku   = JSON.stringify( json )
   const formData = new FormData();
 
   formData.append( 'file', selectedFile );
   // Assuming data is a JSON string
   formData.append( 'data', dataku );
+  // console.log("-------------")
+  // console.log(formData)
+  // console.log("-------------")
 
   //----------------------send to
   try {
-    const { response, data } = await sendImage( apiEndPoint, id, method, formData );
-
-    notifyData( data.msg )
-    if( response.ok ) {
+    const data: { msg: string } = await sendImage( apiEndPoint, id, method, formData );
+    notifyData( "", data )
+    console.log( data )
+    if( data.msg.includes( "ccess" ) ) {
       setMessage( 'File uploaded successfully' );
     }
     else {
@@ -79,7 +75,6 @@ export async function handleUpload<T>(
   }
   catch ( error ) {
     setMessage( 'Error uploading file' );
-
   }
 }
 

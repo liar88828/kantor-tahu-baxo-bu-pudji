@@ -2,37 +2,28 @@ const currentDate         = new Date();
 export const currentYear  = currentDate.getFullYear();
 export const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
 
-export const today = new Date().getDate()
+const formattingOptions = {
+
+  hari   : { weekday: "long" },
+  angka  : { dateStyle: "long" },
+  tanggal: { dateStyle: "medium" },
+  full   : { dateStyle: "full" },
+  month  : { month: 'long' }
+};
+
+type MyTypeObject = keyof typeof formattingOptions;
+
+export const today = currentDate.getDate()
 
 export function addDays( days: number ) {
-  const theDate = new Date()
-  return new Date( theDate.getTime() + days * 24 * 60 * 60 * 1000 );
+  return new Date( currentDate.getTime() + days * 24 * 60 * 60 * 1000 );
 }
 
-export function formatDate( date: Date | string ) {
-  let d     = new Date( date ),
-      month = '' + ( d.getMonth() + 1 ),
-      day   = '' + d.getDate(),
-      year  = d.getFullYear();
+export const getTime = ( detik: boolean = false ) => {
+  let today = currentDate
+  let d     = ":" + today.getSeconds()
 
-  if( month.length < 2 )
-    month = '0' + month;
-  if( day.length < 2 )
-    day = '0' + day;
-
-  return [ day, month, year ].join( '-' );
-}
-
-export const getTime = () => {
-  let today = new Date();
-  let detik = ":" + today.getSeconds()
-  return today.getHours() + ":" + today.getMinutes();
-}
-
-export const getDay = () => {
-  let today = new Date();
-  return today.getFullYear() + '/' + ( today.getMonth() + 1 ) + '/' + today.getDate();
-
+  return today.getHours() + ":" + today.getMinutes() + detik && d;
 }
 
 export const setHours = ( time: string | Date ): string => {
@@ -47,48 +38,6 @@ export const setHours = ( time: string | Date ): string => {
   return t[ 0 ] + ":" + t[ 1 ]// + ":" + "00"
 }
 
-export const setTanggalxxxx = ( date: string | Date, option: string = "hari" || "angka" || "full" ) => {
-  const d = new Date( Date.parse( date.toString() ) )
-  if( option === "hari" ) {
-    return d.toLocaleDateString( "id-ID", { weekday: "long", } )
-  }
-
-  if( option === "angka" ) {
-    return d.toLocaleDateString( "id-ID", { dateStyle: "long", } )
-  }
-
-  if( option === "full" ) {
-    return d.toLocaleDateString( "id-ID", { dateStyle: "full", } )
-  }
-}
-
-// const formattingOptions: Record<string, Intl.DateTimeFormatOptions> = {
-//   hari   : { weekday: "long" },
-//   angka  : { dateStyle: "long" },
-//   tanggal: { dateStyle: "medium" },
-//   full   : { dateStyle: "full" }
-// };
-//
-// type MyTypeObject = keyof typeof formattingOptions;
-// export const setTanggal = (
-//   date: string | Date,
-//   option: MyTypeObject = "hari"
-// ) => {
-//   const d = new Date( Date.parse( date.toString() ) );
-//
-//   return d.toLocaleDateString( "id-ID", formattingOptions[ option ] );
-// };
-
-const formattingOptions = {
-
-  hari   : { weekday: "long" },
-  angka  : { dateStyle: "long" },
-  tanggal: { dateStyle: "medium" },
-  full   : { dateStyle: "full" }
-};
-
-type MyTypeObject = keyof typeof formattingOptions;
-
 export const setTanggal = (
   date: string | Date,
   option: MyTypeObject = "hari"
@@ -98,6 +47,14 @@ export const setTanggal = (
   // @ts-ignore
   return d.toLocaleDateString( "id-ID", formattingOptions[ option ] );
 };
+
+export const getDates = ( option: MyTypeObject, value: number ) => {
+
+  const d = new Date( `${ currentYear }-${ currentMonth + value }-01` )
+
+  // @ts-ignore
+  return d.toLocaleString( 'id-ID', formattingOptions[ option ] );
+}
 
 export const setDates = ( date: string, ): Date | string => {
   const d     = new Date( Date.parse( date ) ).toLocaleString(
@@ -112,59 +69,8 @@ export const setDates = ( date: string, ): Date | string => {
 }
 
 export const defaultDate = () => {
-  let curr = new Date();
+  let curr = currentDate
   curr.setDate( curr.getDate() + 3 );
   return curr.toISOString().substring( 0, 10 );
 }
 
-export function toDay() {
-  const date                 = new Date()
-  const year                 = date.getFullYear()
-  let month: number | string = date.getMonth() + 1
-  let day: number | string   = date.getDate()
-  if( month < 10 ) month = '0' + month
-  if( day < 10 ) day = '0' + day
-  return `${ year }/${ month }/${ day }`
-}
-
-// console.log( monthlyUserCounts.map( d => new Date( d.pesan )
-// .toLocaleString( "id-ID",
-//   { month: "long" }
-// ) ) )
-
-type DateFormatOptions = {
-  hari: {
-    weekday: string
-  },
-  angka: {
-    dateStyle: string
-  },
-  tanggal: {
-    dateStyle: string
-  },
-  full: {
-    dateStyle: string
-  }
-};
-
-type MyType = keyof DateFormatOptions;
-
-const object: DateFormatOptions = {
-  hari   : { weekday: "long" },
-  angka  : { dateStyle: "long" },
-  tanggal: { dateStyle: "medium" },
-  full   : { dateStyle: "full" }
-};
-
-const typeKeys: MyType = "hari"; // This will be valid
-
-const objects = {
-  hari   : { weekday: "long" },
-  angka  : { dateStyle: "long" },
-  tanggal: { dateStyle: "medium" },
-  full   : { dateStyle: "full" }
-};
-
-type MyTypes = keyof typeof objects;
-
-const typeKey: MyTypes = "hari";

@@ -10,7 +10,7 @@ export async function sendAPI(
   console.log( json )
 
   const response = await fetch( process.env.NEXT_PUBLIC_BASE_URL + `/api/${ to }/` + id, {
-    method : method,
+    method: method,
     // cache: 'no-store',
     // next   : { revalidate: 10,  },
     body   : JSON.stringify( json ),
@@ -47,12 +47,8 @@ export async function sendData( to: string, method: string, id: string, json: an
     console.log( "error" )
   }
 
-  const response = await res.json()
-  // console.log( "-----------" )
-  // console.log( response )
-  // console.log( "-----------" )
-  const { data, msg } = response
-  return { data, msg }
+  const data: { data: any, msg: string } = await res.json()
+  return data
 }
 
 export async function sendImage( apiEndPoint: string, id: string, method: string, formData: FormData ) {
@@ -60,6 +56,5 @@ export async function sendImage( apiEndPoint: string, id: string, method: string
     method: method,
     body  : formData,
   } )
-  const data     = await response.json()
-  return { response, data };
+  return await response.json()
 }

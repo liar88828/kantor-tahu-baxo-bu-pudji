@@ -2,6 +2,9 @@ import { getData } from '@/app/utils/ress/product';
 import { ListProduct } from '@/app/components/card/product/CComponent';
 import { LinkNavbar } from '@/app/elements/link/LinksNavbar';
 
+export const revalidate = 0
+export const runtime    = 'nodejs'
+
 export default async function Home() {
   const { data }: { data: TProduct[ ] } = await getData()
 

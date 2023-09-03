@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function getReq( request: NextRequest ) {
+
   const url          = new URL( request.url );
   const pathname     = url.pathname
   const searchParams = new URLSearchParams( url.search );
   const id           = searchParams.get( "id" ) as string
   const option       = searchParams.get( "option" ) as string
   const value        = searchParams.get( "value" ) as string
-  const json         = request.method !== "GET" ? await request.json() : {}
-  // console.log(url)
+  if( request.method === "PUT" && ( pathname.includes( "travel" ) || pathname.includes( "product" ) ) ) {
+    return { id, option, value, pathname }
+  }
+  const json = request.method !== "GET" ? await request.json() : {}
   return { id, option, value, json, pathname }
 }
 
