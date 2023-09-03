@@ -1,14 +1,13 @@
 "use client"
 import React from 'react'
 import {
-  Column, ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
-  Table as ReactTable, useReactTable,
+  Column, ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, Table as ReactTable,
+  useReactTable,
 } from '@tanstack/react-table'
 import { makeData } from '@/server/models/seed/person';
 import { TPerson } from '@/entity/client/person';
 
 export default function App() {
-  const rerender = React.useReducer( () => ( {} ), {} )[ 1 ]
 
   const columns = React.useMemo<ColumnDef<TPerson>[]>(
     () => [

@@ -1,5 +1,5 @@
 "use client"
-import { CellContext, HeaderContext, Row, RowData } from '@tanstack/table-core';
+import { CellContext, HeaderContext, Row } from '@tanstack/table-core';
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import {
   ColumnDef, ColumnOrderState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
@@ -9,7 +9,6 @@ import {
 import { notifyData } from '@/app/utils/notif/toash';
 import type { TOrderServer } from '@/entity/server/orderan';
 import { useRouter } from 'next/navigation';
-import { useSkipper } from '@/app/components/table/utils/Skipper';
 import { IndeterminateCheckbox } from '@/app/components/table/utils/IndeterminateCheckbox';
 import { Filter } from '@/app/components/table/utils/FirstValue';
 import { exportToExcel } from '@/lib/export/excel';
@@ -18,12 +17,6 @@ import { TPOrderan } from '@/entity/server/produkOrderan';
 import { TOrderanData } from '@/entity/orderan';
 import { formatPhoneNumber } from '@/lib/utils/formatNumber';
 import { Rupiah } from '@/lib/utils/rupiah';
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    updateData: ( rowIndex: number, columnId: string, value: unknown ) => void
-  }
-}
 
 //-------------------------Main Table
 export function TableOrder( { dataOrderan }: {
@@ -52,7 +45,6 @@ export function TableOrder( { dataOrderan }: {
   const [ data, setData ]                 = useState( dataOrder )
   const [ open, setOpen ]                 = useState( true )
 
-  const [ autoResetPageIndex, skipAutoResetPageIndex ] = useSkipper()
   const [ selected, setSelected ]                      = useState<string | number[]>( [] );
 
   function getOrderan(
@@ -123,7 +115,7 @@ export function TableOrder( { dataOrderan }: {
                            .map( m => m.original )
                            .map( m => getNumber( m, "harga" )
                            ).reduce( ( a, d ) => a + d, 0 )
-        return `Jumlah ${ jumlah } : ${ Rupiah( harga * jumlah ) }`
+        return ` ${ Rupiah( harga * jumlah ) }`
       }
       return jumlah
 
@@ -237,11 +229,11 @@ export function TableOrder( { dataOrderan }: {
         columns: [
           {
             accessorKey: 'pengirim',
-            header: 'Pengirim',
+            header    : 'Pengirim',
             accessorFn: row => row.pengirim,
             id        : "pengirim",
             cell       : info => info.getValue(),
-            footer: 'Pengirim',
+            footer    : 'Pengirim',
           },
           {
             accessorKey: 'hpPengirim',
@@ -391,33 +383,9 @@ export function TableOrder( { dataOrderan }: {
     ],
     [] )
 
-  const defaultColumn: Partial<ColumnDef<TOrderServer>> = {
-    cell: ( { getValue, row: { index }, column: { id }, table } ) => {
-      const initialValue = getValue()
-
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [ value, setValue ] = useState( initialValue )
-
-      const onBlur = () => table.options.meta?.updateData( index, id, value )
-
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      useEffect( () => { setValue( initialValue )}, [ initialValue ] )
-      // console.log( table)
-      return (
-        <input value={ value as string }
-               onChange={ e => {
-                 setValue( e.target.value )
-
-               } }
-               onBlur={ onBlur }/>
-      )
-    },
-  }
-
   const table = useReactTable( {
     data,
     columns,
-    defaultColumn,
     state: {
       //sorting
       sorting,
@@ -443,27 +411,12 @@ export function TableOrder( { dataOrderan }: {
     getFilteredRowModel  : getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel    : getSortedRowModel(),
-    autoResetPageIndex,
     // debug
     // debugTable  : true,
     // debugHeaders: true,
     // debugColumns: true,
 
     // select and change
-    meta: {
-      updateData: ( rowIndex, columnId, value ) => {
-        // Skip page index reset until after next rerender
-        skipAutoResetPageIndex()
-        setData( ( old: any[] ) =>
-          old.map( ( row: any, index: number ) => {
-            if( index === rowIndex ) {
-              return { ...old[ rowIndex ]!, [ columnId ]: value, }
-            }
-            return row
-          } )
-        )
-      },
-    },
 
   } )
 
@@ -769,16 +722,17 @@ export function TableOrder( { dataOrderan }: {
       { table.getSelectedRowModel().flatRows.length > 0 && <button onClick={ () => {
         // console.log( table.getSelectedRowModel().flatRows )
 
-        exportToExcel( table.getRowModel()
-          //                     .rows.map( row => {
-          //   return row.cells.map( cell => ( {
-          //     value: cell.value,
-          //     style: {
-          //       background: getBackgroundColorForRow( cell.row.original.color )
-          //     }
-          //   } ) )
-          // } )
-        )
+        exportToExcel( table.getRowModel().flatRows )
+        // exportToExcel( table.getRowModel()
+        //                       .rows.map( row => {
+        //     return row.cells.map( cell => ( {
+        //       value: cell.value,
+        //       style: {
+        //         background: getBackgroundColorForRow( cell.row.original.color )
+        //       }
+        //     } ) )
+        //   } )
+        // )
       } } className=" btn  bg-green-400 text-white ">
         Export to Excel
       </button> }

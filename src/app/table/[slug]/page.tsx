@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <main className="flex p-3 sm:p-6  z-50 bg-green-50 gap-3 flex-col">
       <div className=" overflow-x-auto pb-2">
-        <LinkTable path={ path[ 1 ] } slug={ path[ 2 ].replace( "%20", " " ) }/>
+        <LinkTable slug={ path[ 2 ].replace( "%20", " " ) }/>
       </div>
       <ServerComponent path={ path[ 2 ].replace( "%20", " " ) }/>
     </main>
