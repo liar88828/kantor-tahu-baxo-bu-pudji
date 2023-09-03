@@ -8,7 +8,6 @@ export function CardBank( { data }: {
 } ) {
   // console.log( data )
   const router = useRouter()
-  // const [ datas, setDatas ] = useState<TBank[]>( data )
   return (
     <ul className={ " flex flex-wrap gap-4" }>
       { data.map( ( d ) => (
