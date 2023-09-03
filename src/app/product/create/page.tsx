@@ -30,7 +30,10 @@ export default function Home() {
       selectedFile,
       setMessage,
       data,
-      "product" )
+      "product",
+      "",
+      "POST",
+    )
     .then( () => {
       // let data
     } )
