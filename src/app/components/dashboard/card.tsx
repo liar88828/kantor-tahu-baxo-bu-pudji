@@ -1,20 +1,19 @@
 "use client"
-import React from 'react';
 import { AiOutlineBook, AiOutlineCheckCircle, AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiTruck } from 'react-icons/fi';
 import { Status } from '@/app/style/status';
 import Link from 'next/link';
 import { TStatus } from '@/app/dashboard/dashboard';
+import { ReactNode } from 'react';
 
 export type TTextStatus = "Di terima" | "Di Kirim" | "Di Proses" | "Selesai"
 
 function Cards( { title, icon, rout, totalStatus }: {
   title: string,
-  icon: React.ReactNode,
+  icon: ReactNode,
   rout: string,
   totalStatus: number
 } ) {
-  console.log()
   return <div
     className={ " flex card-compact card w-[47%] sm:w-[31%] md:w-[22%] px-2 sm:px-2 md:px-4 h-[60%] my-[.2rem] " +
       Status( title ) }>
@@ -37,21 +36,19 @@ function Cards( { title, icon, rout, totalStatus }: {
   </div>;
 }
 
-export function HorizontalCard( { datas }: {
-  datas: TStatus[]
+export function HorizontalCard( { data }: {
+  data: TStatus[]
 } ) {
   const iconStyle = "w-6 sm:w-6 h-auto";
 
-  const objectarray = datas.map( d => {
+  const objectArray = data.map( d => {
     const count = d._count.status
     const nama  = d.status
     return { count, nama }
   } )
 
-  // console.log( objectarray )
-
   function getDiTerimaObject( status: TTextStatus ) {
-    return objectarray.find( obj => obj.nama.toLowerCase().includes( status.toLowerCase() ) );
+    return objectArray.find( obj => obj.nama.toLowerCase().includes( status.toLowerCase() ) );
   }
 
   getDiTerimaObject( "Di Kirim" );

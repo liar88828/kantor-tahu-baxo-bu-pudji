@@ -2,13 +2,17 @@
 import React from 'react';
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip, } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { getDates } from '@/lib/utils/formatDate';
 
 export type TAggregate = {
   nama: string,
   total_jumlah_current: number,
   total_jumlah_last: number,
+  total_jumlah_last_two: number,
   total_harga_current: number,
   total_harga_last: number
+  total_harga_last_two: number
+
 }
 
 ChartJS.register(
@@ -23,7 +27,7 @@ ChartJS.register(
 export const options = ( title: string ) => {
   return {
     responsive         : true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
 
     plugins: {
       legend: {
@@ -37,26 +41,31 @@ export const options = ( title: string ) => {
   };
 }
 const setData        = ( a: TAggregate[] ) => {
-  // console.log( d )
   return {
     labels  : a.map( ( nama ) => nama.nama ),
     datasets: [
       {
-        label          : 'Jumlah Penjualan Produk Bulan Sekarang',
+        label: `Bulan ${ getDates( 'month', 0 ) }`,
         data           : a.map( ( nama ) => nama.total_jumlah_current ),
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
-        label          : 'Jumlah Penjualan Produk Bulan Kemarin',
+        label: `Bulan ${ getDates( 'month', -1 ) }`,
         data           : a.map( ( nama ) => nama.total_jumlah_last ),
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+      {
+        label          : `Bulan ${ getDates( 'month', -2 ) }`,
+        data           : a.map( ( nama ) => nama.total_jumlah_last_two ),
+        backgroundColor: 'rgba(116,255,98,0.5)',
       },
     ],
   };
 
 }
 const getData        = ( aggregate: TAggregate[] ) => {
-  return { o: options( "Data Produk Per Bulan" ), d: setData( aggregate ) }
+  // console.log(addDays(-1))
+  return { o: options( "Data Penjualan Produk Per Bulan" ), d: setData( aggregate ) }
 }
 
 export function BarVertical( { aggregate }: { aggregate: TAggregate[] } ) {

@@ -7,13 +7,11 @@ import { TDonat } from '@/app/dashboard/dashboard';
 
 ChartJS.register( ArcElement, Tooltip, Legend );
 
-export function Donat( { datas }: {
-  datas: TDonat[]
+export function Donat( { dataKu }: {
+  dataKu: TDonat[]
 } ) {
 
-  // console.log( datas )
-
-  const namaProdak: string[] = [
+  const produk: string[] = [
     // 'Tahu Bakso Rebus',
     // 'Tahu Bakso Vakum',
     // 'Tahu Bakso Special',
@@ -27,13 +25,13 @@ export function Donat( { datas }: {
     // 'Rolade Tahu',
     // 'Rolade Singkong',
   ]
-  datas.forEach( nama => namaProdak.push( nama.nama ) )
+  dataKu.forEach( nama => produk.push( nama.nama ) )
   const options = {
     scales: {},
-    // cutout             : "30%",
+    cutout: "30%",
 
-    responsive: true,
-    // maintainAspectRatio: false,
+    // responsive         : true,
+    maintainAspectRatio: true,
     // dataset: {
     //   formatter: ( value, context ) => {
     //     console.log(value, context)
@@ -50,7 +48,7 @@ export function Donat( { datas }: {
           index: {
             color: '#404040',
             font : {
-              size: 18,
+              size: 10,
             },
           }
         }
@@ -60,7 +58,7 @@ export function Donat( { datas }: {
       //   enabled: false
       // },
       legend: {
-        position: 'left' as const,
+        position: 'top' as const,
       },
       title : {
         display: true,
@@ -69,18 +67,18 @@ export function Donat( { datas }: {
     },
   };
 
-  const namaProduk = datas.map( d => d.nama )
+  const namaProduk = dataKu.map( d => d.nama )
 
   const data = {
     labels : namaProduk,
-    spacing: 1,
+    // spacing: 1,
     // borderAlign: "inner",
-    // clip       : "objectMode",
+    // clip: "objectMode",
     datasets: [
       {
         label          : 'Per Bulan',
-        data: datas.map( d => d._count.nama ),
-        backgroundColor: namaProdak.map( () => faker.color.rgb( { format: 'css' } ) ),
+        data           : dataKu.map( d => d._count.nama ),
+        backgroundColor: produk.map( () => faker.color.rgb( { format: 'css' } ) ),
         borderColor    : [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',

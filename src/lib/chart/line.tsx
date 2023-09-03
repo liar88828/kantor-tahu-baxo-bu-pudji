@@ -30,8 +30,8 @@ interface IMonthOrder {
   December: number;
 }
 
-export function Lines( { datas }: {
-  datas: TLines[]
+export function Lines( { dataKu }: {
+  dataKu: TLines[]
 } ) {
 
   const options = {
@@ -63,64 +63,43 @@ export function Lines( { datas }: {
     "December" : 12
   };
 
-  const availableYears = Array.from( new Set( datas.map( order => order.year ) ) );
+  const availableYears = Array.from( new Set( dataKu.map( order => order.year ) ) );
   const years          = availableYears.sort( ( a, b ) => a - b );
 
   function getPerAgeByValue( age: number ) {
-    return datas.filter( ( ( f ) => f.year == age ) )
-                .map( d => d.jumlah_pesanan );
+    return dataKu.filter( ( ( f ) => f.year == age ) )
+                 .map( d => d.jumlah_pesanan );
   }
 
-  const sortedAvailableMonths = Array.from(
-    new Set(
-      datas
-      .map( order => order.month ) )
-  ).sort( ( a, b ) => {
-    return monthOrder[ a ] - monthOrder[ b ]
-  } );
+  const setDate               = new Set( dataKu.map( order => order.month ) )
+  const mapDate               = Array.from( setDate )
+  // @ts-ignore
+  const sortedAvailableMonths = mapDate.sort( ( a, b ) => monthOrder[ a ] - monthOrder[ b ] );
 
-  // const count = datas.filter( ( f => f.year == currentYear ) )
-  //                    .map( d => d.jumlah_pesanan )
-
-  // console.log( years[ 0 ] )
-  // console.log( getPerAgeByValue( years[ 0 ] ) )
-  // console.log( years[ 1 ] )
-  // console.log( getPerAgeByValue( years[ 1 ] ) )
-
-  // ---------
   const data = {
     labels  : sortedAvailableMonths,
     datasets: [
       {
-        label: years[ 0 ],
-        // monthName.map( () => faker.datatype.number( { min: -100, } ) ),
-        data: getPerAgeByValue( years[ 0 ] ),
+        label: years[ 0 ].toString(),
+        data : getPerAgeByValue( years[ 0 ] ),
         borderColor    : 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
-        label          : years[ 1 ],
+        label: years[ 1 ].toString(),
         data           : getPerAgeByValue( years[ 1 ] ),
         borderColor    : 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
       {
-        label          : years[ 2 ],
+        label: years[ 2 ].toString(),
         data           : getPerAgeByValue( years[ 2 ] ),
         borderColor    : 'rgb(126,235,53)',
         backgroundColor: 'rgba(116,255,98,0.5)',
       },
     ],
-  };
+  }
 
   return <Line options={ options } data={ data }/>;
 }
 
-// [
-//   { year: 2021, month: "January", jumlah_pesanan: 3 },
-//   { year: 2022, month: "May", jumlah_pesanan: 1 },
-//   { year: 2022, month: "August", jumlah_pesanan: 1 },
-//   { year: 2023, month: "May", jumlah_pesanan: 1 },
-//   { year: 2023, month: "June", jumlah_pesanan: 1 },
-//   { year: 2023, month: "August", jumlah_pesanan: 1 }
-// ]
