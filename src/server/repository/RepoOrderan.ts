@@ -44,6 +44,7 @@ export default class RepoOrderan implements InterfaceOrderan {
   }
 
   setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
+    // console.log(d)
     const time = ( d.waktuKirim.toString().length === 5 )
                  ? d.waktuKirim + ":00"
                  : d.waktuKirim
@@ -259,8 +260,8 @@ export default class RepoOrderan implements InterfaceOrderan {
     // return { data: monthlyUserCounts}.
     const transaction = await prisma.$transaction( [ semuaProductCountNow, semuaStatusOrder, semuaNotifyMonth, semuaProductCountLast, //aggregatedData
     ] )
-    //untuk notif
 
+    //untuk notif
     type TLine = {
       year: number,
       month: string,
@@ -286,14 +287,17 @@ export default class RepoOrderan implements InterfaceOrderan {
     };
 
     const aggregateProductPerMonth: TAggregate[] = await prisma.$queryRaw`
-      SELECT nama,
-             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
-             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
-             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN harga ELSE 0 END)      AS total_harga_current,
-             SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN harga ELSE 0 END)  AS total_harga_last
-      FROM tahu_baxo_bupudji.semuaproducts
-      WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 1 AND MONTH(CURRENT_DATE)
-      GROUP BY nama;
+        SELECT nama,
+               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
+               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, jumlah,
+                      0))                                                                        AS total_jumlah_last_two,
+               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN harga ELSE 0 END)      AS total_harga_current,
+               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN harga ELSE 0 END)  AS total_harga_last,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, harga, 0))                    AS total_harga_last_two
+        FROM tahu_baxo_bupudji.semuaproducts
+        WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 2 AND MONTH(CURRENT_DATE)
+        GROUP BY nama;
 
     `
 

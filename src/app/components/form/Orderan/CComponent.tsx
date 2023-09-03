@@ -262,7 +262,7 @@ export function CComponent( {
 
                           <div className="">
                             <button
-                              className={ " text-white  btn btn-info " }
+                              className={ " text-white btn btn-info " }
                               type={ "button" }
                               onClick={ () => {
                                 append(

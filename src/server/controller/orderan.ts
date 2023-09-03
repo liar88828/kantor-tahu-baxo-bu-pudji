@@ -35,13 +35,13 @@ const create = async ( body: TYPE ) => {
 }
 
 const edit = async ( body: TYPE, id: string ) => {
-  id              = Service.findById( valid.ZFindById( id ), id )
-  const validData = Service.create<TYPE>( valid.Input( body, valid.OrderanSchema ), body )
-  if( typeof validData === 'object' ) {
-    const data = await Repo.updateMany( validData, id )
+  id   = Service.findById( valid.ZFindById( id ), id )
+  body = Service.create<TYPE>( valid.Input( body, valid.OrderanSchema ), body )
+  if( body.namaPengiriman ) {
+    const data = await Repo.updateMany( body, id )
     return data
   }
-  return validData
+  return body
 }
 
 const updateOneOnly = async ( id: string, option: string, value: Partial<TOptional> ) => {

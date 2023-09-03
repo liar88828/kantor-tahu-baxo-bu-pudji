@@ -22,7 +22,7 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
 
     const getData   = await onCreate( data, method, id )
     console.error( getData )
-    notifyData( getData.msg, getData )
+    notifyData( getData.msg, )
   }
 
   return (
@@ -99,7 +99,7 @@ export function PopUp( { clickPopUp, setClickPopUp, data, method, id }: {
                 <div className="">
                   <ul
                     className="  relative overflow-x-auto rounded-lg bg-white p-2 mt-1 gap-2 flex shadow shadow-slate-300">
-                    { data.semuaProduct.map( ( item: TProduct, index: number ) => {
+                    { data.semuaProduct.map( ( item: TProduct, ) => {
                       return (
                         <Card key={ item.id } color="blue"
                               className={ "flex-nowrap flex" }>

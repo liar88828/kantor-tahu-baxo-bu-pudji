@@ -27,6 +27,7 @@ export async function onCreate(
       return await sendAPI( "orderan", "POST", ress, "" );
     }
     if( method === "PUT" ) {
+      console.log( "true" )
       return await sendAPI( "orderan", "PUT", ress, id );
     }
   }
