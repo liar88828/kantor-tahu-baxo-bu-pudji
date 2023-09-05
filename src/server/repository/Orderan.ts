@@ -1,12 +1,12 @@
 import { prisma, } from '@/server/models/prisma/config';
 import { TOrderServer } from '@/entity/server/orderan';
 import { TOptional } from '@/entity/server/types';
-import { InterfaceOrderan } from '@/server/repository/interface/repository/orderan';
+import { InterfaceOrderan } from '@/interface/repository/orderan';
 import { TPOrderan } from '@/entity/server/produkOrderan';
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
-import { TLines } from '@/app/dashboard/dashboard';
+import { TAggregate, TLine, TLines, TSendDashboard, TStatus } from '@/entity/dashboard';
 
-export default class RepoOrderan implements InterfaceOrderan {
+export default class Orderan implements InterfaceOrderan {
 
 // getAll data from database
   getSelect() {
@@ -53,7 +53,7 @@ export default class RepoOrderan implements InterfaceOrderan {
       alamatPenerima: d.alamatPenerima,
       guna          : d.guna,
       hpPenerima    : d.hpPenerima,
-      hpPengirim    : d.hpPenerima,
+      hpPengirim: d.hpPengirim,
       id            : d.id,
       lokasi        : d.lokasi.replaceAll( " ", "" ),
       namaPengiriman: d.namaPengiriman,
@@ -110,15 +110,15 @@ export default class RepoOrderan implements InterfaceOrderan {
       const falseFeature = (): void => {
 
         const monthlyUserCounts = prisma.orderan.groupBy( {
-              by    : [ "pesan" ],
-              _count: { pesan: true, },
-              where : {
-                pesan: {
-                  gte: new Date( `${ currentYear }-01-01` ),
-                  lte: new Date( `${ currentYear }-12-30` ),
-                }
-              },
-            }
+            by    : [ "pesan" ],
+            _count: { pesan: true, },
+            where : {
+              pesan: {
+                gte: new Date( `${ currentYear }-01-01` ),
+                lte: new Date( `${ currentYear }-12-30` ),
+              }
+            },
+          }
         )
         console.debug( monthlyUserCounts )
 
@@ -148,22 +148,22 @@ export default class RepoOrderan implements InterfaceOrderan {
 
         //--------------get jumlah lokasi
         const monthlyUserCounts1 = prisma.orderan.groupBy( {
-              by    : [ "lokasi" ],
-              _count: {
-                lokasi: true,
-              },
-            }
+            by    : [ "lokasi" ],
+            _count: {
+              lokasi: true,
+            },
+          }
         )
         console.debug( monthlyUserCounts1 )
 
         const tanggalSekarang = prisma.orderan.findMany( {
-              where: {
-                kirim: {
-                  gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
-                  lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
-                }
+            where: {
+              kirim: {
+                gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
+                lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
               }
             }
+          }
         )
         console.debug( tanggalSekarang )
 
@@ -261,32 +261,17 @@ export default class RepoOrderan implements InterfaceOrderan {
     const transaction = await prisma.$transaction( [ semuaProductCountNow, semuaStatusOrder, semuaNotifyMonth, semuaProductCountLast, //aggregatedData
     ] )
 
-    //untuk notif
-    type TLine = {
-      year: number,
-      month: string,
-      jumlah_pesanan: bigint
-    }[];
-
-    const monthlyUserCounts: TLine = await prisma.$queryRaw`
-      SELECT YEAR(pesan)                AS year,
-             MONTHNAME(pesan)           AS month,
-             CAST(COUNT(*) AS UNSIGNED) AS jumlah_pesanan
-      FROM tahu_baxo_bupudji.orderans
-      WHERE YEAR(pesan) BETWEEN YEAR(CURRENT_DATE) - 3 AND YEAR(CURRENT_DATE)
-      GROUP BY YEAR(pesan), MONTH(pesan)
-      ORDER BY YEAR(pesan), MONTH(pesan);
+    const monthlyUserCounts: TLine[] = await prisma.$queryRaw`
+        SELECT YEAR(pesan)                AS year,
+               MONTHNAME(pesan)           AS month,
+               CAST(COUNT(*) AS UNSIGNED) AS jumlah_pesanan
+        FROM tahu_baxo_bupudji.orderans
+        WHERE YEAR(pesan) BETWEEN YEAR(CURRENT_DATE) - 3 AND YEAR(CURRENT_DATE)
+        GROUP BY YEAR(pesan), MONTH(pesan)
+        ORDER BY YEAR(pesan), MONTH(pesan);
     `
 
-    type TAggregate = {
-      nama: string
-      total_jumlah_current: number
-      total_jumlah_last: number
-      total_harga_current: number
-      total_harga_las: number
-    };
-
-    const aggregateProductPerMonth: TAggregate[] = await prisma.$queryRaw`
+    const aggregate: TAggregate[] = await prisma.$queryRaw`
         SELECT nama,
                SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
                SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
@@ -307,19 +292,20 @@ export default class RepoOrderan implements InterfaceOrderan {
       jumlah_pesanan: Number( item.jumlah_pesanan )
     } ) );
 
-    const semuaProductNow  = transaction[ 0 ]
-    const semuaStatus      = transaction[ 1 ]
-    const notifyMonth      = transaction[ 2 ]
-    const semuaProductLast = transaction[ 3 ]
+    const semuaProductNow        = transaction[ 0 ]
+    const semuaStatus: TStatus[] = transaction[ 1 ]
+    const notifyMonth            = transaction[ 2 ]
+    const semuaProductLast       = transaction[ 3 ]
 
-    return {
+    const send: TSendDashboard = {
       semuaOrderTahun,//untuk line
       semuaProductNow,// untuk donat Now
       semuaProductLast,// untuk donat Last
       semuaStatus,// untuk notify block status
       notifyMonth,// untuk list card
-      aggregate: aggregateProductPerMonth
+      aggregate
     }
+    return send
 
   }
 
@@ -477,3 +463,4 @@ export default class RepoOrderan implements InterfaceOrderan {
   }
 
 }
+

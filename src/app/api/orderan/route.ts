@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import Control from '@/server/controller/orderan';
+import Control from '@/server/controller/Orderan';
 import { getReq, getRes } from '@/server/service/GetRes';
 
 export async function GET( request: NextRequest, ) {
@@ -36,15 +36,17 @@ export async function PUT( request: NextRequest, ) {
 }
 
 export async function DELETE( request: NextRequest, ) {
-  const { id, } = await getReq( request )
-
-  if( id ) {
-    return getRes( "DELETE", Control.destroy, id )
-  }
-  if( !id ) {
-    const formData            = await request.formData();
-    const formDataEntryValues = Array.from( formData.values() );
-    let array: string[]       = JSON.parse( <string>formDataEntryValues[ 0 ] )
-    return getRes( "DELETE", Control.deleteMany, array );
+  const { json } = await getReq( request )
+  console.log( json )
+  if( Array.isArray( json ) ) {
+    if( json ) {
+      return getRes( "DELETE", Control.destroy, json[ 0 ] )
+    }
+    if( json ) {
+      // const formData            = await request.formData();
+      // const formDataEntryValues = Array.from( formData.values() );
+      // let array: string[]       = JSON.parse( <string>formDataEntryValues[ 0 ] )
+      return getRes( "DELETE", Control.deleteMany, json );
+    }
   }
 }

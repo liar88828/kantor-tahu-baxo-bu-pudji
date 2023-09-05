@@ -9,7 +9,9 @@ export async function SComponent( { id, method, defaultDataOrder, }:
   const travelData: Promise<{ data: TTravel[], msg: string }>   = getTravelData()
   const productData: Promise<{ data: TProduct[], msg: string }> = getProductData()
   const bankData: Promise<{ data: TBank[], msg: string }>       = getBankData()
+
   const [ travel, product, bank ]                               = await Promise.all( [ travelData, productData, bankData ] )
+
   return ( <CComponent id={ id } method={ method }
                        defaultDataOrder={ defaultDataOrder }
                        travel={ travel.data }

@@ -1,5 +1,5 @@
 "use client"
-import { Thitung, TOrder } from '@/entity/client/orderan';
+import { TOrder } from '@/entity/client/orderan';
 import { getData as getTravelData } from '@/app/utils/ress/travel';
 import { getData as getProductData } from '@/app/utils/ress/product';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
@@ -25,6 +25,29 @@ import { config } from '../../../../../dataEnv';
 //   return await getProductData()
 // }
 
+// const getData = async () => {
+//   const dataProduct = await fetch( config.url + "/api/product/" ).then( res => res.json() )
+//   const dataTravel  = await fetch( config.url + "/api/travel/" ).then( res => res.json() )
+//   return { dataProduct, dataTravel }
+// }
+
+// const [ travel, setTravel ]   = useState<TTravel[]>( [] )
+// const [ product, setProduct ] = useState<TProduct[]>( [] )
+// console.log( travel )
+// console.log( product )
+
+// const myFunction = async () => {
+//   const { dataProduct, dataTravel } = await getData()
+//   setProduct( dataProduct.data )
+//   setTravel( dataTravel.data )
+// };
+
+// useEffect( () => {
+//   // setIsLoading( true )
+//   myFunction().then( r => console.log( r ) )
+//   // setIsLoading( false )
+//
+// }, [] )
 async function ServerComponent( { id = "", method = "POST", defaultDataOrder, }:
   { id: string, method: string, defaultDataOrder: Awaited<TOrder>, } ) {
   const travelData: Promise<{ data: TTravel[], msg: string }>   = getTravelData()
@@ -42,29 +65,6 @@ async function ServerComponent( { id = "", method = "POST", defaultDataOrder, }:
 function ClientComponent( { id = "", method = "POST", defaultDataOrder, product, travel }:
   { id: string, method: string, defaultDataOrder: Awaited<TOrder>, travel: TTravel[], product: TProduct[] } ) {
 
-  // const getData = async () => {
-  //   const dataProduct = await fetch( config.url + "/api/product/" ).then( res => res.json() )
-  //   const dataTravel  = await fetch( config.url + "/api/travel/" ).then( res => res.json() )
-  //   return { dataProduct, dataTravel }
-  // }
-
-  // const [ travel, setTravel ]   = useState<TTravel[]>( [] )
-  // const [ product, setProduct ] = useState<TProduct[]>( [] )
-  // console.log( travel )
-  // console.log( product )
-
-  // const myFunction = async () => {
-  //   const { dataProduct, dataTravel } = await getData()
-  //   setProduct( dataProduct.data )
-  //   setTravel( dataTravel.data )
-  // };
-
-  // useEffect( () => {
-  //   // setIsLoading( true )
-  //   myFunction().then( r => console.log( r ) )
-  //   // setIsLoading( false )
-  //
-  // }, [] )
 
   const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
     {
@@ -90,7 +90,6 @@ function ClientComponent( { id = "", method = "POST", defaultDataOrder, product,
     name : "semuaProduct",
     rules: { required: "Please append at last 1 ", }
   } );
-  const [ clickPopUp, setClickPopUp ] = useState( false );
   const [ valueForm, setValueForm ]   = useState<TOrder>( defaultValues )
 
   // -----------------------Calculator Product
@@ -98,9 +97,9 @@ function ClientComponent( { id = "", method = "POST", defaultDataOrder, product,
   const semuaHargaOrderan = calculateTotal( valueForm.listOrderan )
   const semuaHargaItem    = calculateTotal( valueForm.listItem )
   const semuaHargaProduct = getSemuaHargaProduct( valueForm, calculateTotal )
+  const datasss           = semuaHargaOrderan + semuaHargaItem + valueForm.ongkir
 
-  const totalHarga         = semuaHargaOrderan + semuaHargaItem + valueForm.ongkir
-  const hitung: Thitung    = { semuaHargaOrderan, semuaHargaItem, semuaHargaProduct, totalHarga }
+  const totalHarga = datasss
   valueForm.id             = id || setIdOrderan( valueForm )
   valueForm.totalBayar     = totalHarga
   valueForm.totalPenjualan = semuaHargaOrderan
@@ -227,7 +226,7 @@ function ClientComponent( { id = "", method = "POST", defaultDataOrder, product,
                          reg={ register( "waktuKirim", { required: true, } ) }
                 // defaultValue={ getTime() }
               />
-              <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "" }
+              <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "textarea" }
                          reg={ register( "guna", {
                            required: true,
                            pattern : regExp

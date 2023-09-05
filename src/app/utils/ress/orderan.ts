@@ -3,14 +3,14 @@ import { TOrder } from '@/entity/client/orderan';
 import { config } from '../../../../dataEnv';
 import { setDates, setHours } from '@/lib/utils/formatDate';
 import { redirect } from 'next/navigation';
-import { sendAPI } from '@/app/utils/ress/sendApi';
+import { sendAPI, sendData } from '@/app/utils/ress/sendApi';
 import { TPOrderan } from '@/entity/server/produkOrderan';
 
 const test = "test"
 
 export async function onCreate(
   sendData: TOrder,
-    method: "POST" | "PUT",
+  method: "POST" | "PUT",
   id: string
 ) {
   sendData.hpPengirim                = "0" + sendData.hpPengirim.toString()
@@ -87,8 +87,9 @@ export async function getDataByStatus( slug: string ): Promise<{
 }> {
   const test = "test"
   const res  = await fetch( config.url + `/api/orderan?id=${ slug }&option=table`, {
-    method: "GET",
-    next  : { revalidate: 20 }
+    method : "GET",
+    headers: { "Content-Type": "application/json" },
+    cache  : "reload"
   } )
   const data = await res.json()
   if( test !== "test" ) {
@@ -111,48 +112,18 @@ export async function getData() {
 
 export async function deleteDataMany( send: string [] ) {
 
-  const formData = new FormData();
-  formData.append( "data", JSON.stringify( send ) )
-  const res = await fetch( config.url + "/api/orderan/", {
-      method: "DELETE",
-      body  : formData,
-    }
-  )
-
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-
-  const data = await res.json()
-  if( data.success === false ) {
-    const arrays = JSON.parse( data.data )
-    console.log( arrays )
-  }
-  return data
+  return await sendData( "orderan", "DELETE", "", send )
 }
 
 export async function deleteDataOne( id: string[] ) {
-  const res = await fetch( config.url + `/api/orderan?id=` + id[ 0 ], {
-      method: "DELETE",
-    }
-  )
-  if( !res.ok ) {
-    throw new Error( 'Failed to fetch data' )
-  }
-
-  const data = await res.json()
-  if( data.success === false ) {
-    const arrays = JSON.parse( data.data )
-    console.error( arrays )
-  }
-  return data
+  return await sendData( "orderan", "DELETE", "", id )
 }
 
 if( test !== "test" ) {
   async function editData( id: string, ) {
     const res = await fetch( config.url + "/api/orderan/" + id, {
-          method: "PUT",
-        }
+        method: "PUT",
+      }
     )
     return await res.json()
   }
@@ -160,14 +131,14 @@ if( test !== "test" ) {
   console.log( editData( "test" ) )
 
   async function updateOneData(
-      id: string,
-      value: string | number,
-      // router: AppRouterInstance
+    id: string,
+    value: string | number,
+    // router: AppRouterInstance
   ) {
     const res = await fetch( config.url + `/api/orderan?id=${ id }&value=${ value }`,
-        {
-          method: "PUT",
-        }
+      {
+        method: "PUT",
+      }
     )
     // router.refresh()
     return await res.json()

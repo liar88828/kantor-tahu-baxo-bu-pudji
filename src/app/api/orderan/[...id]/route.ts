@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Control from '@/server/controller/orderan';
+import Control from '@/server/controller/Orderan';
 
 import { getRes } from '@/server/service/GetRes';
 

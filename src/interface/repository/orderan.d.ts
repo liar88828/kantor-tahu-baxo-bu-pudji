@@ -1,4 +1,4 @@
-import { InterRepository } from '@/server/repository/interface/repository/Repository';
+import { InterRepository } from '@/interface/repository/Repository';
 import { TOrderServer } from '@/entity/server/orderan';
 
 export interface InterfaceOrderan extends InterRepository {

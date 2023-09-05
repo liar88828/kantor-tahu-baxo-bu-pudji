@@ -1,10 +1,12 @@
 import Validation from '@/lib/validation/schema';
 import Service from '@/lib/validation/validation';
-import RepoOrderan from '@/server/repository/RepoOrderan';
+import Orderan from '@/server/repository/Orderan';
 import { TOptional } from '@/entity/server/types';
 import type { TOrderServer as TYPE } from '@/entity/server/orderan';
+import { prisma } from '@/server/models/prisma/config';
+import { TStatusParams } from '@/interface/repository/SemuaProduk';
 
-const Repo  = new RepoOrderan()
+const Repo = new Orderan()
 const valid = new Validation()
 
 const find = async () => {
@@ -13,6 +15,13 @@ const find = async () => {
 
 const findDashboard = async () => {
   return Repo.findDashboard()
+}
+
+const status = async ( data: TStatusParams ) => {
+  return prisma.orderan.update( {
+    where: { id: data.id },
+    data : { status: data.status }
+  } );
 }
 
 const findOne = async ( id: string ) => {
@@ -61,5 +70,5 @@ const deleteMany = async ( body: string[] ) => {
   return validData
 }
 
-const Control = { findDashboard, find, create, edit, destroy, findOne, findByStatus, deleteMany, updateOneOnly }
+const Control = { findDashboard, find, create, edit, destroy, findOne, findByStatus, deleteMany, updateOneOnly, status }
 export default Control

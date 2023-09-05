@@ -31,8 +31,7 @@ export function CComponent( {
   product: TProduct[]
   bank: TBank[]
 } ) {
-  // console.log( travel )
-  // console.log( product )
+
   const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
     {
       defaultValues: defaultDataOrder,
@@ -79,7 +78,7 @@ export function CComponent( {
 
     setList( "Item", data.listItem );
     setList( "Orderan", data.listOrderan );
-    console.log( data )
+    // console.log( data )
     setValueForm( data )
   };
 
@@ -122,15 +121,11 @@ export function CComponent( {
   const removeFromCart = ( item: TProduct ) => {
     setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
     setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
-
-    // valueForm.listItem.filter( dataItem => dataItem.nama !== item.nama )
-    // valueForm.listOrderan.filter( dataItem => dataItem.nama !== item.nama )
   };
 
   const fomIsi = "bg-white flex-col flex sm:w-[48%]  md:w-[49%] ml-2 gap-3 rounded p-2 sm:p-5";
 
-  // @ts-ignore
-  return ( < >{/*-----------------------Page-------------   */ }
+  return ( <>{/*-----------------------Page-------------   */ }
       <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-col sm:flex-row  sm:gap-3 mt-5">
@@ -196,7 +191,8 @@ export function CComponent( {
             </div>
           </div>
           <div className={ fomIsi }>
-            <div className="flex flex-col gap-3">{/*<h1Product Search</h1>*/ }
+            <div className="flex flex-col gap-3">
+              {/*<h1Product Search</h1>*/ }
               <div className=" flex flex-row  gap-1 sm:gap-7 w-[100%] ">
 
                 <button type={ 'button' } className={ `w-1/4 py-2 mb-1  ${ !cariProduct ? " bg-red-600 "
@@ -367,6 +363,7 @@ export function CComponent( {
                 </ul>
               </div>
             </div>
+
             <hr className={ "m-2" }/>
             <div className={ "flex flex-col gap-3" }>
 
@@ -398,13 +395,9 @@ export function CComponent( {
               <label htmlFor="" className={ styleLabelForm }>Pembayaran</label>
               <select id="pembayaran"
                       className='bg-gray-50 border border-gray-300 p-2 rounded-md'{ ...register( "typePembayaran" ) }>
-                { bank.map( ( b: TBank ) => (
-                  <option value={ b.nama } key={ b.nama }>{ b.nama }</option>
+                { bank.map( ( b: TBank ) => ( <option value={ b.nama } key={ b.nama }>{ b.nama }</option>
                 ) ) }
-                {/*<option value="Cash">Cash</option>*/ }
-                {/*<option value="BCA">BCA</option>*/ }
-                {/*<option value="Mandiri">Mandiri</option>*/ }
-                {/*<option value="BRI">BRI</option>*/ }
+
               </select>
 
               <label htmlFor="" className={ styleLabelForm }>Status</label>
