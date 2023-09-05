@@ -1,7 +1,7 @@
-import { TYPE } from '@/server/models/dataAccess/Bank';
-import { PrismaClient } from '../../../../../prisma/data';
+import { Prisma, PrismaClient, } from '../../../prisma/data';
+import TypeMap = Prisma.TypeMap;
 
-export type TEntity = keyof PrismaClient
+export type TEntity = TypeMap["meta"]["modelProps"]
 
 // Define the conditional type
 export type GetModel<T extends TEntity> =
@@ -10,20 +10,17 @@ export type GetModel<T extends TEntity> =
   T extends "produk" ? PrismaClient["produk"] :
   never;
 
-export interface IModelPrisma {
-  bank: string;
-  semuaProduct: string;
-  produk: string;
-}
-
 export interface InterfaceAbstractRepository<T extends TEntity> {
   prisma: GetModel<T>;
-  setOne( d: any ): any;
-  setMany( data: any[] ): any[];
+  setOne( d: any, id?: string ): any;
+  setMany( data: any[], id?: string ): any[];
+  //
   findAll(): Promise<any>;
   findOne( id: string ): Promise<any>;
   findById( id: string ): Promise<any>;
+  //
   destroyOne( id: string ): Promise<any>;
-  createOne( data: TYPE ): Promise<any>;
-  updateOne( data: TYPE, id: string ): Promise<any>;
+  createOne<U>( data: U, id?: string ): Promise<any>;
+  updateOne<U>( data: U, id: string ): Promise<any>;
 }
+

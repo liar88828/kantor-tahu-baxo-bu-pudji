@@ -1,6 +1,6 @@
 import { prisma } from '@/server/models/prisma/config';
 import type { TYPE } from '@/server/models/dataAccess/Travel';
-import { InterfaceRepoTravel } from '@/server/repository/interface/repository/travel';
+import { InterfaceRepoTravel } from '@/interface/repository/travel';
 
 // getAll data from database
 export default class RepoTravel implements InterfaceRepoTravel {

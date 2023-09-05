@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { getReq, getRes } from '@/server/service/GetRes';
 import { prisma } from '@/server/models/prisma/config';
-import { BankRepository } from '@/server/repository/bank';
+import { BankRepository } from '@/server/repository/Bank';
 
 const bankPrisma = new BankRepository( prisma.bank )
 

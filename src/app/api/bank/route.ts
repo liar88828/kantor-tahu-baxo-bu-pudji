@@ -1,14 +1,14 @@
-import BankController from '@/server/controller/bank';
+import BankController from '@/server/controller/Bank';
 
 import Validation from '@/lib/validation/schema';
 import { NextRequest } from 'next/server';
 import { prisma } from '@/server/models/prisma/config';
 import { getReq, getRes } from '@/server/service/GetRes';
 import Service from '@/lib/validation/validation';
-import type { InterController } from '@/entity/server/controller/bank';
-import { BankRepository } from '@/server/repository/bank';
+import { IControlBank } from '@/interface/controller/Bank';
+import { BankRepository } from '@/server/repository/Bank';
 
-const c: InterController = new BankController(
+const c: IControlBank = new BankController(
   new BankRepository( prisma.bank ),
   new Validation(),
   Service )

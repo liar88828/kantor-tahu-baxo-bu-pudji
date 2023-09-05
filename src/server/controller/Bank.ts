@@ -1,19 +1,18 @@
 import type { TYPE } from '@/server/models/dataAccess/Bank';
-import { IValidations } from '@/lib/validation/schema';
-import { IService } from '@/lib/validation/validation';
-import { InterRepository } from '@/server/repository/interface/repository/Repository';
-import { InterController } from '@/entity/server/controller/bank';
+import type { IValidations } from '@/lib/validation/schema';
+import type { IService } from '@/lib/validation/validation';
+import { IControlBank } from '@/interface/controller/Bank';
+import { IBankRepository } from '@/interface/repository/Bank';
 
-export default class BankController implements InterController {
+export default class BankController implements IControlBank {
   constructor(
-    readonly r: InterRepository,
+    readonly r: IBankRepository<TYPE>,
     readonly v: IValidations,
     readonly s: IService
   ) {}
 
   async find() {
-    const repo = await this.r.findAll();
-    return repo;
+    return await this.r.findAll();
   }
 
   async findById( id: string ) {

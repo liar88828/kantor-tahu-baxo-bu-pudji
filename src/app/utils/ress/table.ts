@@ -1,8 +1,9 @@
 import { config } from '../../../../dataEnv';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { nextPublicBaseUrl } from '@/lib/config/nextPublicBaseUrl';
 
 export async function getData() {
-  const res  = await fetch( config.url + "/api/dashboard",
+  const res = await fetch( nextPublicBaseUrl + "/api/dashboard",
     {
       next  : { revalidate: 10, },
       method: "GET"
@@ -18,6 +19,7 @@ export async function getData() {
   if( data.success === false ) {
     const arrays = JSON.parse( data.data )
     console.error( arrays )
+    console.error( data )
   }
 
   return data

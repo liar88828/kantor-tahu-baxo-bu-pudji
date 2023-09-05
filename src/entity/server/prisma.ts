@@ -1,12 +1,12 @@
 export type TPProduk = {
-  id: string
-  nama: string;
-  harga: number;
-  lokasi: string;
-  jumlah: number;
-  jenis: "Orderan" | "Item" | string;
+  harga: number
+  id: string;
   img: string;
+  jenis: 'Orderan' | "Item" | string;
+  jumlah: number;
   keterangan: string;
+  lokasi: string;
+  nama: string;
 }
 
 // Interface for the product

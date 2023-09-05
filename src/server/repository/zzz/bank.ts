@@ -1,6 +1,6 @@
 import { PrismaClient } from '../../../../prisma/data';
 import type { TYPE } from '@/server/models/dataAccess/Bank';
-import { InterRepository } from '@/server/repository/interface/repository/Repository';
+import { InterRepository } from '@/interface/repository/Repository';
 
 // abstract class Repository
 

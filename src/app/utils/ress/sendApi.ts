@@ -1,5 +1,6 @@
 import { TOrderServer } from '@/entity/server/orderan';
 import { redirect } from 'next/navigation';
+import { nextPublicBaseUrl } from '../../../lib/config/nextPublicBaseUrl';
 
 export async function sendAPI(
   to: string,
@@ -7,9 +8,9 @@ export async function sendAPI(
   json: TOrderServer,
   id: string
 ) {
-  console.log( json )
+  // console.log( json )
 
-  const response = await fetch( process.env.NEXT_PUBLIC_BASE_URL + `/api/${ to }/` + id, {
+  const response = await fetch( nextPublicBaseUrl + `/api/${ to }/` + id, {
     method: method,
     // cache: 'no-store',
     // next   : { revalidate: 10,  },
@@ -41,9 +42,9 @@ export async function sendData( to: string, method: string, id: string, json: an
   if( method !== "GET" ) {
     methods = Object.assign( option, methods )
   }
-  const res = await fetch( process.env.NEXT_PUBLIC_BASE_URL + `/api/${ to }?id=` + id, methods )
+  const res = await fetch( nextPublicBaseUrl + `/api/${ to }?id=` + id, methods )
   if( !res.ok ) {
-
+    console.log( res )
     console.log( "error" )
   }
 

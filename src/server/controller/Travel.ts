@@ -1,4 +1,4 @@
-import RepoTravel from '../repository/travel';
+import RepoTravel from '../repository/Travel';
 import Validation from '@/lib/validation/schema';
 import type { TYPE } from '@/server/models/dataAccess/Travel';
 import Service from '@/lib/validation/validation';

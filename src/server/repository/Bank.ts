@@ -1,8 +1,8 @@
 import type { TYPE } from '@/server/models/dataAccess/Bank';
-import { AbstractRepository } from '@/server/repository/AbstractRepository';
-import { InterfaceBankRepository } from '@/server/repository/interface/repository/bank';
+import { Repository } from '@/server/repository/Abstract';
+import { IBankRepository } from '@/interface/repository/Bank';
 
-export class BankRepository extends AbstractRepository<"bank"> implements InterfaceBankRepository {
+export class BankRepository extends Repository<"bank"> implements IBankRepository<TYPE> {
 
   setOne( d: TYPE ): TYPE {
     return {

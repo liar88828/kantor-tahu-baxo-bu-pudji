@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Control from '@/server/controller/travel';
+import Control from '@/server/controller/Travel';
 import { extractData } from '@/server/service/extractForm';
 import { setData } from '@/lib/utils/formatData';
 import { newError } from '@/server/exeption/errorHandler';
