@@ -1,4 +1,4 @@
-import { TListCard } from '@/app/dashboard/CardList';
+import { TListCard } from '@/app/components/card/dashboard/CardList';
 
 export const dataOrderan = [
   { status: "di pesan", nama: 'Tahu Bakso Rebus', harga: 42000, tanggal: '2023-07-26' },

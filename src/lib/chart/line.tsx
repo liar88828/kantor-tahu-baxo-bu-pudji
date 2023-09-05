@@ -2,8 +2,8 @@
 import {
   CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip,
 } from 'chart.js';
-import { TLines } from '@/app/dashboard/dashboard';
 import { Line } from 'react-chartjs-2';
+import { TLines } from '@/entity/dashboard';
 
 ChartJS.register(
   CategoryScale,
@@ -29,6 +29,8 @@ interface IMonthOrder {
   November: number;
   December: number;
 }
+
+type TYear = { label: string, data: number[], borderColor: string, backgroundColor: string }[];
 
 export function Lines( { dataKu }: {
   dataKu: TLines[]
@@ -75,29 +77,40 @@ export function Lines( { dataKu }: {
   const mapDate               = Array.from( setDate )
   // @ts-ignore
   const sortedAvailableMonths = mapDate.sort( ( a, b ) => monthOrder[ a ] - monthOrder[ b ] );
+  const year: TYear = []
+  if( years[ 0 ] ) {
+    const year1 = {
+      label          : years[ 0 ].toString(),
+      data           : getPerAgeByValue( years[ 0 ] ),
+      borderColor    : 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    }
+    year.push( year1 )
+  }
 
+  if( years[ 1 ] ) {
+    const year2 = {
+      label          : years[ 1 ].toString(),
+      data           : getPerAgeByValue( years[ 1 ] ),
+      borderColor    : 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    }
+    year.push( year2 )
+  }
+
+  if( years[ 2 ] ) {
+    const year3 = {
+      label          : years[ 2 ].toString(),
+      data           : getPerAgeByValue( years[ 2 ] ),
+      borderColor    : 'rgb(126,235,53)',
+      backgroundColor: 'rgba(116,255,98,0.5)',
+    }
+    year.push( year3 )
+  }
   const data = {
     labels  : sortedAvailableMonths,
-    datasets: [
-      {
-        label: years[ 0 ].toString(),
-        data : getPerAgeByValue( years[ 0 ] ),
-        borderColor    : 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: years[ 1 ].toString(),
-        data           : getPerAgeByValue( years[ 1 ] ),
-        borderColor    : 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-      {
-        label: years[ 2 ].toString(),
-        data           : getPerAgeByValue( years[ 2 ] ),
-        borderColor    : 'rgb(126,235,53)',
-        backgroundColor: 'rgba(116,255,98,0.5)',
-      },
-    ],
+    datasets: year,
+
   }
 
   return <Line options={ options } data={ data }/>;

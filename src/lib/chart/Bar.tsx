@@ -3,17 +3,7 @@ import React from 'react';
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip, } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { getDates } from '@/lib/utils/formatDate';
-
-export type TAggregate = {
-  nama: string,
-  total_jumlah_current: number,
-  total_jumlah_last: number,
-  total_jumlah_last_two: number,
-  total_harga_current: number,
-  total_harga_last: number
-  total_harga_last_two: number
-
-}
+import { TAggregate } from '@/entity/dashboard';
 
 ChartJS.register(
   CategoryScale,

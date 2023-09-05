@@ -3,8 +3,8 @@ import { AiOutlineBook, AiOutlineCheckCircle, AiOutlineShoppingCart } from 'reac
 import { FiTruck } from 'react-icons/fi';
 import { Status } from '@/app/style/status';
 import Link from 'next/link';
-import { TStatus } from '@/app/dashboard/dashboard';
 import { ReactNode } from 'react';
+import { TStatus } from '@/entity/dashboard';
 
 export type TTextStatus = "Di terima" | "Di Kirim" | "Di Proses" | "Selesai"
 
@@ -19,7 +19,7 @@ function Cards( { title, icon, rout, totalStatus }: {
       Status( title ) }>
     <div className="card-body flex-row justify-between  flex flex-wrap">
 
-      <div className={ " card-title     " }>
+      <div className={ " card-title " }>
         <i>{ icon }</i>
         <div className=" card-title  "> { totalStatus }</div>
       </div>

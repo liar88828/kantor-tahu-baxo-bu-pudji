@@ -1,10 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { TOrderServer } from '@/entity/server/orderan';
-import { TPOrderan } from '@/entity/server/produkOrderan';
 import { config } from '../../../../dataEnv';
 import { setTanggal } from '@/lib/utils/formatDate';
 import Image from 'next/image';
+import { formatPhoneNumber } from '@/lib/utils/formatNumber';
 
 const MyComponent = () => {
   const [ table, setTable ] = useState( [] );
@@ -15,7 +15,8 @@ const MyComponent = () => {
       setTable( JSON.parse( tableData ) )
     }
   }, [] )
-
+  console.log( table )
+  console.log( "---------------------" )
   return (
 
     <div className={ "flex flex-wrap bg-white border border-black w-[297mm]" }>{
@@ -23,12 +24,7 @@ const MyComponent = () => {
       .sort( ( a: TOrderServer, b: TOrderServer ) => a.semuaProduct.length - b.semuaProduct.length )
       .map( ( d: TOrderServer ) => {
 
-        const ganjil: TPOrderan[] = []
-        const genap: TPOrderan[]  = []
         const idOrderan: string[] = []
-        d.semuaProduct.forEach( ( c, i ) => i % 2 === 0 ? ganjil.push( c )
-                                                        : genap.push( c )
-        )
 
         function getId( d: TOrderServer, idOrderan: string[], lokasi: string ) {
           const ids = d.id.split( lokasi )
@@ -45,7 +41,8 @@ const MyComponent = () => {
 
         return (
 
-          <div className={ "border-double border-4 border-black   m-2 w-[10cm] text-[7pt]" }
+          <div className={ "border-double border-4 border-black m-2 max-w-[10cm] min-w-[10cm] " +
+            " max-h-[10cm] min-h-[10cm] text-[7pt]" }
                key={ d.id }>
             {/*----------------------Head*/ }
             <div className="  flex justify-between p-1">
@@ -60,40 +57,27 @@ const MyComponent = () => {
             </div>
 
 
-            <div className=" flex flex-row justify-between border-white  border-dashed border border-y-black">
+            <div className=" flex flex-row justify-between border-white border-dashed border border-y-black">
 
               <ul className=" w-[70%] flex flex-col gap-2   p-1 ">
                 <li className={ "flex gap-1" }>
-                  <h1 className={ "uppercase" }>Kepada</h1>
-                  <p>:</p>
-                  <span>{ d.penerima }</span>
+                  <h1 className={ "uppercase font-bold" }>{ d.penerima }</h1>
                 </li>
                 <li className={ "flex gap-1" }>
-                  <h1 className={ "uppercase" }>Telp</h1>
-                  <p>:</p>
-                  <span>nama { d.hpPenerima }</span>
+                  <h1 className={ "uppercase" }>Tlp. <a>{ formatPhoneNumber( d.hpPenerima ?? 12 ) }</a></h1>
                 </li>
 
                 <li className={ "flex gap-1" }>
                   <h1
-                    className={ "uppercase whitespace-nowrap" }>Penerima </h1>
-                  <p>:</p>
-                  <br/>
-                  <p>
-                    <a> { d.penerima } </a> <a>{ d.hpPenerima }</a>
-                    <br/>
-                    <a> { d.alamatPenerima } </a>
-                    <br/>
-                    <a>Kota Semarang 50279</a>
-                  </p>
+                    className={ "uppercase whitespace-nowrap" }>{ d.alamatPenerima }</h1>
                 </li>
               </ul>
 
-              <div className=" w-[30%] text-xs border-dashed border-2 border-white  border-l-black">
-                <div className={ " break-alls  text-center" }>
+              <div className=" w-[30%] text-xs border-dashed border-2 border-white border-l-black">
+                <div className={ " break-alls text-center" }>
                   <p className={ "uppercase text-[8pt] font-bold" }>Dari :</p>
                   <p className={ "uppercase text-[8pt] font-bold" }> { d.pengirim }</p>
-                  <p className={ "uppercase text-[8pt] font-bold" }> { d.hpPengirim }</p>
+                  <p className={ "uppercase text-[8pt] font-bold" }> { formatPhoneNumber( d.hpPengirim ?? 12 ) }</p>
                 </div>
                 <div className="border border-t-black border-white">
                   <h1>QC : </h1>
@@ -106,71 +90,32 @@ const MyComponent = () => {
             {/*---------------------Table*/ }
             <div className="">
               <div className="ml-2">
-                <h1>Pesanan : </h1>
+                <h1 className={ "font-bold" }>Pesanan : </h1>
               </div>
-              <div className="flex justify-center">
+              <div className="ml-2  flex flex-wrap flex-col w-fit max-h-20">
 
-                <table className={ "text-xs   " }>
-                  <thead
-                    className={ " " }>
-                  <tr className={ "  " }>
-                    <th className={ "border-black border " }>No.</th>
-                    <th className={ "border-black border" }>Nama Barang</th>
-                    <th className={ "border-black border border-r-white" }>Banyaknya</th>
-                  </tr>
-                  </thead>
+                { d.semuaProduct
+                   .sort( ( a, b ) => a.nama.length - b.nama.length )
+                   .map( ( p, index ) => ( <p className={ "flex-inline  w-[6rem]" } key={ p.id }>
+                     {/*{ index + 1 }.*/ }
+                     { p.jumlah }x{ p.nama }</p> ) ) }
 
-                  <tbody>
-                  { ganjil.map( ( t: TPOrderan, i: number ) => {
-                    return (
-                      <tr className={ " " } key={ d.id }>
-                        <td className={ "border-black border text-center" }>{ i + 1 }</td>
-                        <td className={ "border-black border" }>{ t.nama }</td>
-                        <td className={ "border-black border border-r-white" }>{ t.jumlah }</td>
-                      </tr>
-                    )
-                  } ) }
-                  </tbody>
-                </table>
-
-                <table className={ "text-xs   " }>
-                  <thead className={ " " }>
-                  <tr className={ " " }>
-                    <th className={ "border-black border" }>No.</th>
-                    <th className={ "border-black border" }>Nama Barang</th>
-                    <th className={ "border-black border" }>Banyaknya</th>
-                  </tr>
-                  </thead>
-
-                  <tbody>
-                  { genap.map( ( t: TPOrderan, i: number ) => {
-                    return (
-                      <tr className={ " " } key={ d.id }>
-                        <td className={ "border-black border text-center" }>{ ganjil.length + i + 1 }</td>
-                        <td className={ "border-black border" }>{ t.nama }</td>
-                        <td className={ "border-black border" }>{ t.jumlah }</td>
-                      </tr>
-                    )
-                  } ) }
-                  </tbody>
-                </table>
               </div>
             </div>
 
             <div className="flex flex-row justify-between  mt-1 ">
               {/*tanda tangan */ }
-              <div className=" mb-10   ml-2">
-
+              <div className="ml-2 mb-2">
                 <h1 className={ "font-bold" }>Catatan : </h1>
                 <p> { d.guna }</p>
               </div>
             </div>
             {/*-----------------------Footer*/ }
 
-            <div className="border-t border-dotted border-black ">
-              <h1 className={ "text-lg uppercase text-center font-bold" }>
-                MAKANAN BASAH, MOHON SEGERA DIBUKA
-              </h1>
+            <div className="border-t-2 border-dotted border-black ">
+
+              <h1 className={ "text-lg uppercase font-bold text-center " }>
+                MAKANAN BASAH, SEGERA DIBUKA</h1>
             </div>
           </div>
 

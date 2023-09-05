@@ -1,22 +1,22 @@
 "use client"
-import { CellContext, HeaderContext, Row } from '@tanstack/table-core';
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
+import { CellContext, HeaderContext } from '@tanstack/table-core';
+import React, { useMemo, useState } from 'react';
 import {
-  ColumnDef, ColumnOrderState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
+  Column, ColumnDef, ColumnOrderState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, SortingState, useReactTable
 } from '@tanstack/react-table';
 
-import { notifyData } from '@/app/utils/notif/toash';
 import type { TOrderServer } from '@/entity/server/orderan';
 import { useRouter } from 'next/navigation';
 import { IndeterminateCheckbox } from '@/app/components/table/utils/IndeterminateCheckbox';
 import { Filter } from '@/app/components/table/utils/FirstValue';
 import { exportToExcel } from '@/lib/export/excel';
-import { deleteDataMany, deleteDataOne } from '@/app/utils/ress/orderan';
 import { TPOrderan } from '@/entity/server/produkOrderan';
 import { TOrderanData } from '@/entity/orderan';
 import { formatPhoneNumber } from '@/lib/utils/formatNumber';
 import { Rupiah } from '@/lib/utils/rupiah';
+import { StatusButton } from '@/app/elements/button/StatusButton';
+import { DeleteTable } from '@/app/elements/button/DeleteTable';
 
 //-------------------------Main Table
 export function TableOrder( { dataOrderan }: {
@@ -28,8 +28,8 @@ export function TableOrder( { dataOrderan }: {
 
   // console.log( dataOrderan.data )
 
-  const { data: dataOrder } = dataOrderan
-  const router              = useRouter()
+  const { data } = dataOrderan
+  const router   = useRouter()
 
   const [ rowShow, setRowShow ] = useState<number>( 1 )
 
@@ -42,107 +42,8 @@ export function TableOrder( { dataOrderan }: {
 
   //check box
   const [ rowSelection, setRowSelection ] = useState( {} )
-  const [ data, setData ]                 = useState( dataOrder )
   const [ open, setOpen ]                 = useState( true )
 
-  const [ selected, setSelected ]                      = useState<string | number[]>( [] );
-
-  function getOrderan(
-    header: string,
-    lokasi: [ "semarang", "ungaran" ],
-    jenis: [ "orderan", "item" ]
-  ) {
-
-    function cellData(
-      info: CellContext<{
-        semuaProduct: TPOrderan[];
-        pesan: Date | string;
-        kirim: Date | string;
-        waktuKirim: Date | string
-      } & TOrderanData, any>,
-      lok: string
-    ) {
-      return info.getValue()
-                 .filter( ( j: TProduct ) => {
-                   const namas   = j.nama.includes( header )
-                   const jeniss  = j.jenis.toLowerCase().includes( jenis[ 0 ] )
-                   const lokasis = j.lokasi.toLowerCase().includes( lok )
-                   return namas && jeniss && lokasis
-                 } )
-                 .map( ( d: TProduct ) => ( <p key={ d.id }>{ d.jumlah }</p> ) );
-    }
-
-    function footerData(
-      props: HeaderContext<TOrderServer, any>,
-      lok: string,
-      parent: string = ""
-    ) {
-      function getNumber(
-        m: {
-          semuaProduct: TPOrderan[];
-          pesan: Date | string;
-          kirim: Date | string;
-          waktuKirim: Date | string
-        } & TOrderanData,
-        option: "harga" | "jumlah"
-      ) {
-        return m.semuaProduct
-                .filter( ( f ) => {
-                  const namas   = f.nama.includes( header )
-                  const jeniss  = f.jenis.toLowerCase().includes( jenis[ 0 ] )
-                  const lokasis = f.lokasi.toLowerCase().includes( lok )
-                  if( parent === "parent" ) {
-                    return jeniss && namas
-                  }
-
-                  return jeniss && namas && lokasis
-                } )
-                .map( m => {
-                  if( option === "jumlah" ) return m.jumlah
-                  if( option === "harga" ) return m.harga
-                  return 0
-                } )
-                .reduce( ( a, d ) => a + d, 0 );
-      }
-
-      const jumlah = props.table.getRowModel().rows
-                          .map( m => m.original )
-                          .map( m => getNumber( m, "jumlah" )
-                          ).reduce( ( a, d ) => a + d, 0 )
-
-      if( parent === "parent" ) {
-        const harga = props.table.getRowModel().rows
-                           .map( m => m.original )
-                           .map( m => getNumber( m, "harga" )
-                           ).reduce( ( a, d ) => a + d, 0 )
-        return ` ${ Rupiah( harga * jumlah ) }`
-      }
-      return jumlah
-
-    }
-
-    return {
-      header: header,
-      footer: ( props: HeaderContext<TOrderServer, any> ) => footerData( props, lokasi[ 1 ], "parent" ),
-
-      columns:
-        [
-          {
-            accessorKey: 'semuaProduct',
-            header     : 'UNG',
-            cell  : ( info: CellContext<TOrderServer, any> ) => cellData( info, lokasi[ 1 ] ),
-            footer: ( props: HeaderContext<TOrderServer, any> ) => footerData( props, lokasi[ 1 ], "" ),
-
-          },
-          {
-            accessorKey: 'semuaProduct',
-            header     : 'SMG',
-            cell  : ( info: CellContext<TOrderServer, any> ) => cellData( info, lokasi[ 0 ] ),
-            footer: ( props: HeaderContext<TOrderServer, any> ) => footerData( props, lokasi[ 0 ] ),
-          }
-        ],
-    };
-  }
 
 //---------table value---------------
   const columns = useMemo<ColumnDef<TOrderServer>[]>( () => [
@@ -420,39 +321,6 @@ export function TableOrder( { dataOrderan }: {
 
   } )
 
-  // delete row
-  const handlerDelete        = async () => {
-    if( selected ) {
-      const filteredData = data.filter( ( item ) => item.id !== selected );
-      setData( filteredData );
-    }
-  };
-  const filteredSelectedRows = table.getFilteredSelectedRowModel().flatRows;
-
-  useEffect( () => {
-    if( setSelected ) {
-      const originIds = filteredSelectedRows.map( ( row ) => row.original.id )[ 0 ];
-      setSelected( originIds );
-    }
-  }, [ setSelected, filteredSelectedRows ] );
-
-  async function deleteTable( array: Row<TOrderServer>[] ) {
-    const id: string[] = array.map( row => row.original.id )
-    if( array.length === 1 ) {
-      // console.log( "test1" )
-      const res = await deleteDataOne( id );
-      notifyData( res.msg )
-    }
-    if( id.length > 1 ) {
-      // console.log( "test2" )
-      const res = await deleteDataMany( id );
-      notifyData( res.msg )
-    }
-
-    await handlerDelete()
-
-  }
-
   if( !dataOrderan ) {
     return ( <h1>Data Kosong</h1> )
   }
@@ -460,113 +328,113 @@ export function TableOrder( { dataOrderan }: {
   return <div className="p-2 ">
     {/*------------Table------------*/ }
     <div className="overflow-x-auto border rounded border-black  ">
-      <Suspense fallback={ <p>Fetching user details...</p> }>
-        <table className="table table-xs      ">
-          {/*--------------------------------tHead---------------------------*/ }
-          <thead className={ "    " }>
-          { table.getHeaderGroups().map( headerGroup => (
-            <tr key={ headerGroup.id } className={ "  hover:bg-gray-50" }>
-              { headerGroup.headers.map( header => {
-                return (
-                  <th className={ " border border-black  hover:bg-gray-50 text-center bg-gray-200 text-black" }
-                      key={ header.id } colSpan={ header.colSpan }>
-                    { header.isPlaceholder ? null : (
-                      <div
-                        { ...{
-                          className: header.column.getCanSort()
-                                     ? 'cursor-pointer select-none'
-                                     : '',
-                          onClick  : header.column.getToggleSortingHandler(),
-                        } }
-                      >
-                        { flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        ) }
+      <table className="table table-xs      ">
+        {/*--------------------------------tHead---------------------------*/ }
+        <thead className={ "    " }>
+        { table.getHeaderGroups().map( headerGroup => (
+          <tr key={ headerGroup.id } className={ "  hover:bg-gray-50" }>
 
-                        { {
-                          asc : ' 🔼',
-                          desc: ' 🔽',
-                        }[ header.column.getIsSorted() as string ] ?? null }
+            { headerGroup.headers.map( header => {
+              return (
+                <th className={ " border border-black  hover:bg-gray-50 text-center bg-gray-200 text-black" }
+                    key={ header.index } colSpan={ header.colSpan }>
+                  { header.isPlaceholder ? null : (
+                    <div
+                      { ...{
+                        className: header.column.getCanSort()
+                                   ? 'cursor-pointer select-none'
+                                   : '',
+                        onClick  : header.column.getToggleSortingHandler(),
+                      } }
+                    >
+                      { flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      ) }
 
-                        { header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={ header.column } table={ table }/>
-                          </div>
-                        ) : null }
-                      </div>
-                    ) }
-                  </th>
-                )
-              } ) }
-            </tr>
-          ) ) }
-          </thead>
+                      { {
+                        asc : ' 🔼',
+                        desc: ' 🔽',
+                      }[ header.column.getIsSorted() as string ] ?? null }
 
-          {/*--------------------------------tBody----------*/ }
-          <tbody>{ table.getRowModel().rows
-          // .slice( 0, 10 )
-                        .map( ( row, i ) => (
-                          <tr key={ row.id }
-                              className={ ` bg-white hover:bg-slate-200 ${ i % 2 === 0 ? "bg-slate-50"
-                                                                                       : "bg-slate-100" }` }
-                          >
-                            { row.getVisibleCells().map( cell => {
-                              return (
-                                <td className={ "border border-black " } key={ cell.id }>
-                                  { flexRender(
-                                    cell.column.columnDef.cell,
-                                    cell.getContext()
-                                  ) }
-                                </td>
-                              )
-                            } ) }
-                          </tr>
-                        ) ) }
-          </tbody>
-
-          {/*--------------------------------tFoot----------*/ }
-          <tfoot>
-          { table.getFooterGroups().map( footerGroup => (
-            <tr key={ footerGroup.id } className={ "hover:bg-gray-50" }>
-              { footerGroup.headers.map( header => (
-                <th key={ header.id }
-                    colSpan={ header.colSpan }
-                    className={ " border border-black  hover:bg-gray-50 text-center bg-gray-200 text-black" }
-                >
-                  { header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.footer,
-                      header.getContext()
-                    ) }
+                      { header.column.getCanFilter() ? (
+                        <div>
+                          <Filter column={ header.column } table={ table }/>
+                        </div>
+                      ) : null }
+                    </div>
+                  ) }
                 </th>
-              ) ) }
-            </tr>
-          ) ) }
-
-          <tr>
-            <td className="p-1">
-              <IndeterminateCheckbox
-                { ...{
-                  checked      : table.getIsAllPageRowsSelected(),
-                  indeterminate: table.getIsSomePageRowsSelected(),
-                  onChange     : table.getToggleAllPageRowsSelectedHandler(),
-                } }
-              />
-            </td>
-            <td colSpan={ 20 }>Page Rows ({ table.getRowModel().rows.length })
-            </td>
-
+              )
+            } ) }
           </tr>
-          </tfoot>
+        ) ) }
+        </thead>
 
-        </table>
-      </Suspense>
+        {/*--------------------------------tBody----------*/ }
+        <tbody>{ table.getRowModel().rows
+        // .slice( 0, 10 )
+                      .map( ( row, i ) => (
+                        <tr key={ row.original.id }
+                            className={ ` bg-white hover:bg-slate-200 ${ i % 2 === 0 ? "bg-slate-50"
+                                                                                     : "bg-slate-100" }` }
+                        >
+                          { row.getVisibleCells().map( ( cell, i ) => {
+                            return (
+                              <td className={ "border border-black " } key={ cell.id + `${ i }` }>
+                                { flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                ) }
+                              </td>
+                            )
+                          } ) }
+                        </tr>
+                      ) ) }
+        </tbody>
+
+        {/*--------------------------------tFoot----------*/ }
+        <tfoot>
+        { table.getFooterGroups().map( footerGroup => (
+          <tr key={ footerGroup.id } className={ "hover:bg-gray-50" }>
+
+            { footerGroup.headers.map( ( header, i ) => (
+              <th key={ header.id + `${ i }` }
+                  colSpan={ header.colSpan }
+                  className={ " border border-black  hover:bg-gray-50 text-center bg-gray-200 text-black" }
+              >
+                { header.isPlaceholder
+                  ? null
+                  : flexRender(
+                    header.column.columnDef.footer,
+                    header.getContext()
+                  ) }
+              </th>
+            ) ) }
+          </tr>
+        ) ) }
+
+        <tr>
+          <td className="p-1">
+            <IndeterminateCheckbox
+              { ...{
+                checked      : table.getIsAllPageRowsSelected(),
+                indeterminate: table.getIsSomePageRowsSelected(),
+                onChange     : table.getToggleAllPageRowsSelectedHandler(),
+              } }
+            />
+          </td>
+          <td colSpan={ 20 }>Page Rows ({ table.getRowModel().rows.length })
+          </td>
+
+        </tr>
+        </tfoot>
+
+      </table>
     </div>
 
     {/*------------Move Page -----------*/ }
-    <div className="flex items-center bg-white p-2 border ">
+    <div className="flex overflow-x-auto  items-center bg-white p-2 border ">
       <div className="px-2 flex flex-row items-center gap-2 rounded ">
 
         <button
@@ -635,8 +503,8 @@ export function TableOrder( { dataOrderan }: {
             value={ table.getState().pagination.pageSize }
             onChange={ e => table.setPageSize( Number( e.target.value ) ) }
           >
-            { [ 10, rowShow, 20, 30, 40, 50 ].map( pageSize => (
-              <option key={ pageSize } value={ pageSize }>
+            { [ 10, rowShow, 20, 30, 40, 50 ].map( ( pageSize, i ) => (
+              <option key={ pageSize + `${ i }` } value={ pageSize }>
                 Show { pageSize }
               </option>
             ) ) }
@@ -646,47 +514,9 @@ export function TableOrder( { dataOrderan }: {
     </div>
 
     {/*------------Console ------------------*/ }
-    <div className="flex gap-2">
+    <div className="flex gap-2 overflow-x-auto w-auto flex-wrap">
 
       {/*------------Check Visible----------------*/ }
-      <div>
-        <button
-          onClick={ () => setOpen( !open ) }
-          className={ "btn btn-info text-white" }>
-          { open ? "Open" : "Close" }
-        </button>
-
-        <div className="  ">
-          <label>
-            <input
-              { ...{
-                type    : 'checkbox',
-                checked : table.getIsAllColumnsVisible(),
-                onChange: table.getToggleAllColumnsVisibilityHandler(),
-              } }
-            />
-            Toggle All
-          </label>
-        </div>
-
-        <div className={ ` bg-red-200 ${ open ? "hidden" : "" }` }>
-          { table.getAllLeafColumns().map( column => ( <div
-              key={ column.id }
-              className="px-1">
-              <label>
-                <input
-                  { ...{
-                    type    : 'checkbox',
-                    checked : column.getIsVisible(),
-                    onChange: column.getToggleVisibilityHandler(),
-                  } }
-                />
-                { column.id }
-              </label>
-            </div>
-          ) ) }
-        </div>
-      </div>
 
 
       {/*<ConsoleLog onClick={ () => console.info( 'rowSelection', rowSelection ) }*/ }
@@ -695,20 +525,16 @@ export function TableOrder( { dataOrderan }: {
 
       {/*<p>   { table.getSelectedRowModel().flatRows.length }</p>*/ }
 
+
       { table.getSelectedRowModel().flatRows.length > 0 ?
-        ( <button
-          className="btn btn-error text-white"
-          onClick={ () => deleteTable( table.getSelectedRowModel().flatRows ) }
-        >
-          DELETE
-        </button> ) : ""
+        ( <DeleteTable ids={ table.getSelectedRowModel().flatRows.map( d => d.original.id ) }
+        /> ) : ""
       }
 
-      {/*{console.log(table.getSelectedRowModel().flatRows.length)}*/ }
 
       { table.getSelectedRowModel().flatRows.length === 1 ?
         ( <button
-          className=" btn btn-info text-white"
+          className=" btn btn-info btn-sm sm:btn-md text-white "
           onClick={ () => {
             const id: string = table.getSelectedRowModel().flatRows[ 0 ].original.id
             router.replace( "/orderan/" + id, )
@@ -733,7 +559,7 @@ export function TableOrder( { dataOrderan }: {
         //     } ) )
         //   } )
         // )
-      } } className=" btn  bg-green-400 text-white ">
+      } } className=" btn btn-sm sm:btn-md text-white bg-green-400 ">
         Export to Excel
       </button> }
 
@@ -748,7 +574,7 @@ export function TableOrder( { dataOrderan }: {
           ) )
           router.replace( "/print/kirim" )
 
-        } } className=" btn  bg-yellow-400 text-white ">
+        } } className=" btn btn-sm sm:btn-md text-white bg-orange-400 ">
           Print
         </button> }
 
@@ -763,9 +589,60 @@ export function TableOrder( { dataOrderan }: {
           ) )
           router.replace( "/print/excel" )
 
-        } } className=" btn  bg-yellow-400 text-white ">
+        } } className=" btn btn-sm sm:btn-md text-white bg-yellow-400  ">
           Excel
         </button> }
+
+      { table.getSelectedRowModel().flatRows.length === 1
+        && <StatusButton
+          id={ table.getSelectedRowModel().flatRows[ 0 ].original.id }
+          status={ table.getSelectedRowModel().flatRows[ 0 ].original.status }
+        /> }
+
+      <div>
+        <button
+          onClick={ () => setOpen( !open ) }
+          className={ " btn btn-sm sm:btn-md text-white bg-purple-600" }>
+          { open ? "Open" : "Close" }
+        </button>
+
+        <div className="   ">
+          <label className={ "" }>
+            <input
+              { ...{
+                type    : 'checkbox',
+                checked : table.getIsAllColumnsVisible(),
+                onChange: table.getToggleAllColumnsVisibilityHandler(),
+              } }
+            />
+            Toggle All
+          </label>
+        </div>
+
+        <div className={ ` block text-white  ${ open ? "hidden" : "" }` }>
+          { table.getAllLeafColumns().map( ( column, i ) => ( <div
+              key={ column.id + `${ i }` }
+              className="p-1  border border-black text-black z-50">
+              <label className={ `flex gap-1 ${ setColomn( column ) }` }>
+
+                <input
+                  { ...{
+                    type    : 'checkbox',
+                    checked : column.getIsVisible(),
+                    onChange: column.getToggleVisibilityHandler(),
+                  } }
+                />
+                { i + 1 }. { column.parent === undefined
+                             ? column.id
+                             : column.parent.id + " " + column.columnDef.header
+              }
+              </label>
+            </div>
+          ) ) }
+        </div>
+      </div>
+
+
     </div>
 
 
@@ -778,4 +655,120 @@ export function TableOrder( { dataOrderan }: {
   </div>
 }
 
+export const setColomn = ( c: Column<TOrderServer, unknown> ) => {
+
+  if( c.id.toLowerCase().includes( "kirim" ) || c.id.toLowerCase().includes( "item" ) ) {
+    return " bg-red-200 "
+  }
+  else if( c.id.toLowerCase().includes( "pesan" ) || c.columnDef.header === "SMG" ) {
+    return " bg-green-200 "
+  }
+  else if( c.id.toLowerCase().includes( "pembayaran" ) || c.columnDef.header === "UNG" ) {
+    return "bg-yellow-200"
+  }
+  else if( c.id.toLowerCase().includes( "ekspedisi" ) || c.columnDef.header === "UNG" ) {
+    return "bg-blue-300"
+  }
+
+  else {
+    return "bg-white"
+  }
+}
+
+export function getOrderan(
+  header: string,
+  lokasi: [ "semarang", "ungaran" ],
+  jenis: [ "orderan", "item" ]
+) {
+
+  function cellData(
+    info: CellContext<{
+      semuaProduct: TPOrderan[];
+      pesan: Date | string;
+      kirim: Date | string;
+      waktuKirim: Date | string
+    } & TOrderanData, any>,
+    lok: string
+  ) {
+    return info.getValue()
+               .filter( ( j: TProduct ) => {
+                 const namas   = j.nama.includes( header )
+                 const jeniss  = j.jenis.toLowerCase().includes( jenis[ 0 ] )
+                 const lokasis = j.lokasi.toLowerCase().includes( lok )
+                 return namas && jeniss && lokasis
+               } )
+               .map( ( d: TProduct ) => ( <p key={ d.id }>{ d.jumlah }</p> ) );
+  }
+
+  function footerData(
+    props: HeaderContext<TOrderServer, any>,
+    lok: string,
+    parent: string = ""
+  ) {
+    function getNumber(
+      m: {
+        semuaProduct: TPOrderan[];
+        pesan: Date | string;
+        kirim: Date | string;
+        waktuKirim: Date | string
+      } & TOrderanData,
+      option: "harga" | "jumlah"
+    ) {
+      return m.semuaProduct
+              .filter( ( f ) => {
+                const namas   = f.nama.includes( header )
+                const jeniss  = f.jenis.toLowerCase().includes( jenis[ 0 ] )
+                const lokasis = f.lokasi.toLowerCase().includes( lok )
+                if( parent === "parent" ) {
+                  return jeniss && namas
+                }
+
+                return jeniss && namas && lokasis
+              } )
+              .map( m => {
+                if( option === "jumlah" ) return m.jumlah
+                if( option === "harga" ) return m.harga
+                return 0
+              } )
+              .reduce( ( a, d ) => a + d, 0 );
+    }
+
+    const jumlah = props.table.getRowModel().rows
+                        .map( m => m.original )
+                        .map( m => getNumber( m, "jumlah" )
+                        ).reduce( ( a, d ) => a + d, 0 )
+
+    if( parent === "parent" ) {
+      const harga = props.table.getRowModel().rows
+                         .map( m => m.original )
+                         .map( m => getNumber( m, "harga" )
+                         ).reduce( ( a, d ) => a + d, 0 )
+      return ` ${ Rupiah( harga * jumlah ) }`
+    }
+    return jumlah
+
+  }
+
+  return {
+    header: header,
+    footer: ( props: HeaderContext<TOrderServer, any> ) => footerData( props, lokasi[ 1 ], "parent" ),
+
+    columns:
+      [
+        {
+          accessorKey: 'semuaProduct',
+          header     : 'UNG',
+          cell       : ( info: CellContext<TOrderServer, any> ) => cellData( info, lokasi[ 1 ] ),
+          footer     : ( props: HeaderContext<TOrderServer, any> ) => footerData( props, lokasi[ 1 ], "" ),
+
+        },
+        {
+          accessorKey: 'semuaProduct',
+          header     : 'SMG',
+          cell       : ( info: CellContext<TOrderServer, any> ) => cellData( info, lokasi[ 0 ] ),
+          footer     : ( props: HeaderContext<TOrderServer, any> ) => footerData( props, lokasi[ 0 ] ),
+        }
+      ],
+  };
+}
 
