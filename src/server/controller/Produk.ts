@@ -1,13 +1,13 @@
+import RepoProduk from '@/server/repository/Produk';
 import Validation from '@/lib/validation/schema';
-import type { TYPE } from '@/server/models/dataAccess/semuaProduk';
-import RepoSemuaProduk from '@/server/repository/semuaProduk';
-import Service, { type IService } from '@/lib/validation/validation';
+import { TYPE } from '@/server/models/dataAccess/Produk';
+import { fileSystem } from '@/lib/utils/fileSystem';
+import Service from '@/lib/validation/validation';
 
-const Repo        = new RepoSemuaProduk()
-const valid       = new Validation()
-const s: IService = Service
-
-const find = async () => {
+const Repo  = new RepoProduk()
+const valid = new Validation()
+const s     = Service
+const find  = async () => {
   const repo = await Repo.findAll()
   return repo
 }
@@ -18,20 +18,20 @@ const findById = async ( id: string ) => {
   return repo
 }
 
-const create = async ( body: TYPE, id: string ) => {
-  id              = s.findById( valid.ZFindById( id ), id )
-  const validData = s.create( valid.Input( body, valid.semuaProduk ), body )
+const create = async ( body: TYPE ) => {
+  const validData = s.create<TYPE>( valid.Input( body, valid.ProdukSchema ), body )
   if( typeof validData === 'object' ) {
-    return Repo.createOne( body, id )
+    return Repo.createOne( validData )
   }
   return validData
 }
 
 const edit = async ( body: TYPE, id: string ) => {
   id              = s.findById( valid.ZFindById( id ), id )
-  const validData = s.create( await valid.Input( body, valid.semuaProduk ), body )
+  const validData = s.create( valid.Input( body, valid.ProdukSchema ), body )
+
   if( typeof validData === 'object' ) {
-    return Repo.updateOne( body, id )
+    return Repo.updateOne( validData, id, )
   }
   return validData
 }
@@ -39,6 +39,8 @@ const edit = async ( body: TYPE, id: string ) => {
 const destroy = async ( id: string ) => {
   id = s.findById( valid.ZFindById( id ), id )
   const repo = await Repo.destroyOne( id )
+  console.log( repo )
+  await fileSystem( repo.img )
   return repo
 }
 

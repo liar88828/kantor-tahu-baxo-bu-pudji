@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Control from '@/server/controller/produk';
+import Control from '@/server/controller/Produk';
 import { saveFile } from '@/server/service/image';
 import { formatData } from '@/lib/utils/formatData';
 import { getReq, getRes } from '@/server/service/GetRes';

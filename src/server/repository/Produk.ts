@@ -1,7 +1,7 @@
 import { prisma } from '@/server/models/prisma/config';
 import type { TYPE } from '@/server/models/dataAccess/Produk';
 import { Prisma } from '../../../prisma/data';
-import { InterfaceProduk } from '@/server/repository/interface/repository/produk';
+import { InterfaceProduk } from '@/interface/repository/produk';
 
 export default class RepoProduk implements InterfaceProduk {
   setOne( d: TYPE ): TYPE {
