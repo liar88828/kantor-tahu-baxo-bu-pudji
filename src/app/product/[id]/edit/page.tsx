@@ -56,10 +56,10 @@ export function FormEdit( { id, path }: { id: string, path: string[] } ) {
     await handleUpload(
       selectedFile,
       setMessage,
-      data,
+      "PUT",
       "product",
+      data,
       data.id,
-      "PUT"
     )
     .then( () => {
     } )

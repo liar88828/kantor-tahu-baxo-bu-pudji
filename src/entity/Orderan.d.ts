@@ -1,4 +1,4 @@
-export type TOrderanData = {
+type TOrderanData = {
   id: string
   // data orang
   pengirim: string

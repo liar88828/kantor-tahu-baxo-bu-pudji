@@ -5,7 +5,7 @@ import { Lines } from '@/lib/chart/line';
 import { Donat } from '@/lib/chart/donat';
 import { BarVertical } from '@/lib/chart/Bar';
 import { CardList, TListCard } from '@/app/components/card/dashboard/CardList';
-import { TAggregate, TDonat, TLines, TStatus } from '@/entity/dashboard';
+import { TAggregate, TDonat, TLines, TStatus } from '@/entity/Dashboard';
 
 // export const dynamic         = 'auto'
 // export const dynamicParams   = true

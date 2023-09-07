@@ -1,4 +1,4 @@
-import { sendData } from '@/app/utils/ress/sendApi';
+import { sendData } from '@/app/utils/ress/SendApi';
 import { ToModel } from '@/app/utils/ress/GateWay';
 
 export async function getId( to: ToModel, id: string ) {

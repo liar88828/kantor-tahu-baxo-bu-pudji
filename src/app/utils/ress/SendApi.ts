@@ -2,7 +2,7 @@ import { TOrderServer } from '@/entity/server/orderan';
 import { redirect } from 'next/navigation';
 import { nextPublicBaseUrl } from '../../../lib/config/nextPublicBaseUrl';
 
-export async function sendAPI(
+export async function SendApi(
   to: string,
   method: string,
   json: TOrderServer,
@@ -28,7 +28,7 @@ export async function sendAPI(
 }
 
 export async function sendData<T>(
-  to: "bank" | "orderan" | "product" | "travel",
+  to: "bank" | "orderan" | "product" | "travel" | "dashboard",
   method: string,
   id: string,
   json: any = {}

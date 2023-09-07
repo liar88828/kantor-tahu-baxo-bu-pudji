@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { TOrderServer } from '@/entity/server/orderan';
-import { TPOrderan } from '@/entity/server/produkOrderan';
+import { TProOrderan } from '@/entity/server/produkOrderan';
 import { config } from '../../../../dataEnv';
 import { setTanggal } from '@/lib/utils/formatDate';
 import Image from 'next/image';
@@ -22,9 +22,9 @@ const MyComponent = () => {
       .sort( ( a: TOrderServer, b: TOrderServer ) => a.semuaProduct.length - b.semuaProduct.length )
       .map( ( d: TOrderServer ) => {
 
-        const ganjil: TPOrderan[] = []
-        const genap: TPOrderan[]  = []
-        const idOrderan: string[] = []
+        const ganjil: TProOrderan[] = []
+        const genap: TProOrderan[]  = []
+        const idOrderan: string[]   = []
         d.semuaProduct.forEach( ( c, i ) => i % 2 === 0 ? ganjil.push( c )
                                                         : genap.push( c )
         )
@@ -120,7 +120,7 @@ const MyComponent = () => {
                   </thead>
 
                   <tbody>
-                  { ganjil.map( ( t: TPOrderan, i: number ) => {
+                  { ganjil.map( ( t: TProOrderan, i: number ) => {
                     return (
                       <tr className={ " " } key={ d.id }>
                         <td className={ "border-black border text-center" }>{ i + 1 }</td>
@@ -142,7 +142,7 @@ const MyComponent = () => {
                   </thead>
 
                   <tbody>
-                  { genap.map( ( t: TPOrderan, i: number ) => {
+                  { genap.map( ( t: TProOrderan, i: number ) => {
                     return (
                       <tr className={ " " } key={ d.id }>
                         <td className={ "border-black border text-center" }>{ ganjil.length + i + 1 }</td>

@@ -1,4 +1,4 @@
-import type { TOrderanData } from '@/entity/orderan';
+import type { TOrderanData } from '@/entity/Orderan';
 
 type Props =
   {

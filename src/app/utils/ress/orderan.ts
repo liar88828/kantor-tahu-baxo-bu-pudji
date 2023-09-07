@@ -3,8 +3,8 @@ import { TOrder } from '@/entity/client/orderan';
 import { config } from '../../../../dataEnv';
 import { setDates, setHours } from '@/lib/utils/formatDate';
 import { redirect } from 'next/navigation';
-import { sendAPI, sendData } from '@/app/utils/ress/sendApi';
-import { TPOrderan } from '@/entity/server/produkOrderan';
+import { SendApi, sendData } from '@/app/utils/ress/SendApi';
+import { TProOrderan } from '@/entity/server/produkOrderan';
 
 const test = "test"
 
@@ -15,7 +15,7 @@ export async function onCreate(
 ) {
   sendData.hpPengirim                = "0" + sendData.hpPengirim.toString()
   sendData.hpPenerima                = "0" + sendData.hpPenerima.toString()
-  const newSemuaProduct: TPOrderan[] = sendData.semuaProduct.map( ( d: TPOrderan ) => {
+  const newSemuaProduct: TProOrderan[] = sendData.semuaProduct.map( ( d: TProOrderan ) => {
     d.orderanId = sendData.id
     return d
   } )
@@ -24,11 +24,11 @@ export async function onCreate(
   const ress                                             = Object.assign( { semuaProduct: newSemuaProduct }, puts )
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
-      return await sendAPI( "orderan", "POST", ress, "" );
+      return await SendApi( "orderan", "POST", ress, "" );
     }
     if( method === "PUT" ) {
       console.log( "true" )
-      return await sendAPI( "orderan", "PUT", ress, id );
+      return await SendApi( "orderan", "PUT", ress, id );
     }
   }
   else {
@@ -98,21 +98,10 @@ export async function getDataByStatus( slug: string ): Promise<{
   return data
 }
 
-export async function getData() {
-  const res = await fetch( config.url + "/api/orderan",
-    {
-      // cache: 'no-cache',
-      next  : { revalidate: 10, tags: [ "table" ] },
-      method: "GET"
-    }
-  )
-  console.log( await res.json() )
-  return await res.json()
-}
 
 export async function deleteDataMany( send: string [] ) {
 
-  return await sendData<TPOrderan>( "orderan", "DELETE", "", send )
+  return await sendData<TProOrderan>( "orderan", "DELETE", "", send )
 }
 
 export async function deleteDataOne( id: string[] ) {

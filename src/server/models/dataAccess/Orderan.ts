@@ -1,7 +1,7 @@
 import { prisma } from '@/server/models/prisma/config';
 import { Prisma } from '../../../../prisma/data';
 import { TOrderServer } from '@/entity/server/orderan';
-import { TPOrderan } from '@/entity/server/produkOrderan';
+import { TProOrderan } from '@/entity/server/produkOrderan';
 
 export type TYPE = Prisma.OrderanCreateInput
 export default class AccessOrderan {
@@ -75,7 +75,7 @@ export default class AccessOrderan {
         //total semua,
         semuaProduct: {
           createMany: {
-            data: data.semuaProduct.map( ( d: TPOrderan ) => {
+            data: data.semuaProduct.map( ( d: TProOrderan ) => {
 
               return (
                 {

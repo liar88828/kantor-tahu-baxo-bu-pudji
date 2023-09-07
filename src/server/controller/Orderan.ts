@@ -1,7 +1,6 @@
 import Validation from '@/lib/validation/schema';
 import Service from '@/lib/validation/validation';
 import Orderan from '@/server/repository/Orderan';
-import { TOptional } from '@/entity/server/types';
 import type { TOrderServer as TYPE } from '@/entity/server/orderan';
 import { prisma } from '@/server/models/prisma/config';
 import { TStatusParams } from '@/interface/repository/SemuaProduk';
@@ -47,15 +46,11 @@ const edit = async ( body: TYPE, id: string ) => {
   id   = Service.findById( valid.ZFindById( id ), id )
   body = Service.create<TYPE>( valid.Input( body, valid.OrderanSchema ), body )
   if( body.namaPengiriman ) {
-    const data = await Repo.updateMany( body, id )
-    return data
+    return await Repo.updateMany( body, id )
   }
   return body
 }
 
-const updateOneOnly = async ( id: string, option: string, value: Partial<TOptional> ) => {
-  return {}
-}
 
 const destroy = async ( id: string ) => {
   id = Service.findById( valid.ZFindById( id ), id )
@@ -70,5 +65,5 @@ const deleteMany = async ( body: string[] ) => {
   return validData
 }
 
-const Control = { findDashboard, find, create, edit, destroy, findOne, findByStatus, deleteMany, updateOneOnly, status }
+const Control = { findDashboard, find, create, edit, destroy, findOne, findByStatus, deleteMany, status }
 export default Control

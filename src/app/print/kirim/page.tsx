@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { TOrderServer } from '@/entity/server/orderan';
 import { setHours, setTanggal } from '@/lib/utils/formatDate';
-import { TPOrderan } from '@/entity/server/produkOrderan';
+import { TProOrderan } from '@/entity/server/produkOrderan';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { statusWarna } from '@/app/style/status';
 
@@ -16,13 +16,13 @@ const MyComponent = () => {
     }
   }, [] )
 
-  function getPrint( data: TPOrderan[], option: string ) {
+  function getPrint( data: TProOrderan[], option: string ) {
     if( option === "total" ) {
-      return data.reduce( ( acc: number, item: TPOrderan ): number => acc +
+      return data.reduce( ( acc: number, item: TProOrderan ): number => acc +
         item.harga * item.jumlah, 0 );
     }
     if( option === "subTotal" ) {
-      return data.reduce( ( acc: number, item: TPOrderan ): number => acc +
+      return data.reduce( ( acc: number, item: TProOrderan ): number => acc +
         item.harga * item.jumlah, 0 )
     }
     if( option === "paket" ) {
@@ -106,7 +106,7 @@ const MyComponent = () => {
               </thead>
 
               <tbody>
-              { d.semuaProduct.map( ( t: TPOrderan, i: number ) => {
+              { d.semuaProduct.map( ( t: TProOrderan, i: number ) => {
                 return (
 
                   <tr className={ "border-black border" } key={ d.id }>

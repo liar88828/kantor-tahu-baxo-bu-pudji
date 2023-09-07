@@ -1,7 +1,7 @@
 import { TOrderServer } from '@/entity/server/orderan';
 import { ToModel } from '@/app/utils/ress/GateWay';
 
-export async function errorData( to: ToModel ) {
+export async function ErrorData( to: ToModel ) {
   if( to === "bank" )
     return {
       nama      : "kosong",

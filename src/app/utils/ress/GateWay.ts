@@ -1,14 +1,16 @@
 "use server"
 
-import { sendData } from '@/app/utils/ress/sendApi';
+import { sendData } from '@/app/utils/ress/SendApi';
 import { setIdModel } from '@/lib/utils/formatId';
 import { getId } from '@/app/bank/setBank';
-import { errorData } from '@/app/utils/ress/errorData';
+import { ErrorData } from '@/app/utils/ress/ErrorData';
 
-export type ToModel = "bank" | "orderan" | "product" | "travel";
+export type ToModel = "bank" | "orderan" | "product" | "travel" | "dashboard";
+
+export type TMethod = "PUT" | "POST" | "GET" | "DELETE";
 
 export async function GateWay<T>(
-  method: "PUT" | "POST" | "GET" | "DELETE",
+  method: TMethod,
   to: ToModel,
   id: string | "all" = "",
   data: any          = {},
@@ -50,7 +52,7 @@ export async function GateWay<T>(
     return await sendData<T>( to, "DELETE", id );
   }
   return {
-    data: errorData( to ),
+    data: ErrorData( to ),
     msg : "error"
   }
 }

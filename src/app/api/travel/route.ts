@@ -4,7 +4,7 @@ import { extractData } from '@/server/service/extractForm';
 import { setData } from '@/lib/utils/formatData';
 import { newError } from '@/server/exeption/errorHandler';
 import { validImage } from '@/lib/validation/image';
-import type { Textract } from '@/entity/server/image';
+import type { TExtract } from '@/entity/server/image';
 import { getReq, getRes } from '@/server/service/GetRes';
 
 export async function GET( request: NextRequest, ) {
@@ -19,7 +19,7 @@ export async function GET( request: NextRequest, ) {
 
 export async function POST( request: Request ) {
   try {
-    const data: Textract = await extractData( request )
+    const data: TExtract = await extractData( request )
     if( !data ) {
       return new newError( "Fail Create", )
     }
@@ -59,7 +59,7 @@ export async function PUT( request: NextRequest ) {
   const { id } = await getReq( request );
 
   try {
-    const data: Textract = await extractData( request )
+    const data: TExtract = await extractData( request )
     if( !data ) {
       return new newError( "Fail Create", )
     }

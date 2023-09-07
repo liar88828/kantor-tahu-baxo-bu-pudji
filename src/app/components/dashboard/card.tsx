@@ -4,7 +4,7 @@ import { FiTruck } from 'react-icons/fi';
 import { Status } from '@/app/style/status';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { TStatus } from '@/entity/dashboard';
+import { TStatus } from '@/entity/Dashboard';
 
 export type TTextStatus = "Di terima" | "Di Kirim" | "Di Proses" | "Selesai"
 

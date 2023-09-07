@@ -1,10 +1,10 @@
 import { prisma, } from '@/server/models/prisma/config';
 import { TOrderServer } from '@/entity/server/orderan';
 import { TOptional } from '@/entity/server/types';
-import { InterfaceOrderan } from '@/interface/repository/orderan';
-import { TPOrderan } from '@/entity/server/produkOrderan';
+import { InterfaceOrderan } from '@/interface/repository/Orderan';
+import { TProOrderan } from '@/entity/server/produkOrderan';
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
-import { TAggregate, TLine, TLines, TSendDashboard, TStatus } from '@/entity/dashboard';
+import { TAggregate, TLine, TLines, TSendDashboard, TStatus } from '@/entity/Dashboard';
 
 export default class Orderan implements InterfaceOrderan {
 
@@ -347,8 +347,6 @@ export default class Orderan implements InterfaceOrderan {
 
   // -----DELETE
   async destroyMany( array: string [] ) {
-    // console.log( array )
-    // console.log( "many" )
     const id            = array.map( d => d )
     const deleteOrder   = prisma.orderan.deleteMany( { where: { id: { in: id } } } )
     const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: { in: id } } } )
@@ -446,7 +444,7 @@ export default class Orderan implements InterfaceOrderan {
   }
 
   setMany( data: TOrderServer, method: string = "POST" ) {
-    return data.semuaProduct.map( ( d: TPOrderan ) => (
+    return data.semuaProduct.map( ( d: TProOrderan ) => (
         Object.assign( {
           harga     : d.harga,
           id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),

@@ -1,6 +1,6 @@
 "use server"
 
-import { sendData } from '@/app/utils/ress/sendApi';
+import { sendData } from '@/app/utils/ress/SendApi';
 
 function setBank( d: TBank ) {
   return {
@@ -9,6 +9,7 @@ function setBank( d: TBank ) {
     lokasi    : d.lokasi,
     keterangan: d.keterangan,
     id        : d.id,
+    img: d.img,
     no        : d.no,
     hp        : d.hp
   };

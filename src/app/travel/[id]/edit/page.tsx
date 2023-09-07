@@ -33,10 +33,10 @@ export function FormEdit( { id, path }: {
     await handleUpload(
       selectedFile,
       setMessage,
-      data,
+      "PUT",
       "travel",
+      data,
       data.id,
-      "PUT"
     )
 
   };

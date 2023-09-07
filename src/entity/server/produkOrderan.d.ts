@@ -1,4 +1,4 @@
-export type TPOrderan = {
+type TProOrderan = {
   id?: string
   nama: string,
   harga: number,
@@ -10,9 +10,3 @@ export type TPOrderan = {
   orderanId?: string
 }
 
-// id
-// nama
-// harga
-// lokasi
-// jumlah
-// jenis

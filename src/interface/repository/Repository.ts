@@ -9,7 +9,7 @@ export interface InterRepository<T> {
   createMany( data: T[] ): Promise<any>;
   //update
   updateOne( data: T, id: string ): Promise<any>;
-  updateMany( data: T[], id: string ): Promise<any>;
+  updateMany( data: T, id: string ): Promise<any>;
   //delete
   destroyOne( id: string ): Promise<any>;
   destroyMany( id: string ): Promise<any>;

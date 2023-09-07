@@ -29,10 +29,10 @@ export default function Home() {
     await handleUpload(
       selectedFile,
       setMessage,
-      data,
-      "product",
-      "",
       "POST",
+      "product",
+      data,
+      "",
     )
     .then( () => {
       // let data

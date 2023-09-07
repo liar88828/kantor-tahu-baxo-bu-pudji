@@ -1,14 +1,19 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import { updateStatus } from '@/app/utils/ress/dashboard';
 import { OStatus, Status } from '@/app/style/status';
+import { TStatusParams } from '@/interface/repository/SemuaProduk';
+import { sendData } from '@/app/utils/ress/SendApi';
 
 export const StatusButton = ( { status, id }: { status: string, id: string } ) => {
   const route = useRouter()
 
   const handleUpdate = async ( status: string, id: string ) => {
-    const data = await updateStatus( status, id )
-    console.log( data )
+    const json: TStatusParams = {
+      id    : id,
+      status: status
+    }
+    await sendData( "dashboard", "PUT", id, json );
+
   }
   return ( <>
     <label

@@ -1,7 +1,7 @@
 import { styleLabelForm } from '@/app/style/form';
 import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
 import { notifyData } from '@/app/utils/notif/toash';
-import { sendImage } from '@/app/utils/ress/sendApi';
+import { sendImage } from '@/app/utils/ress/SendApi';
 import React from 'react';
 
 export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelectedFile: ( value: ( ( ( prevState: ( File | null | undefined ) ) => ( File | null | undefined ) ) | File | null | undefined ) ) => void, setPreviewURL: ( value: ( ( ( prevState: ( string | null ) ) => ( string | null ) ) | string | null ) ) => void ) {
@@ -23,10 +23,10 @@ export function SendData( event: React.ChangeEvent<HTMLInputElement>, setSelecte
 export async function handleUpload<T>(
   selectedFile: File | null | undefined,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
+  method: "PUT" | "POST",
+  apiEndPoint: "travel" | "product",
   json: T,
-  apiEndPoint: string,
-  id: string     = "",
-  method: "PUT" | "POST"
+  id: string = "",
 ) {
   // console.log(method,id,data,selectedFile)
 

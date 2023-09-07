@@ -1,6 +1,19 @@
 import { DeleteCard } from '@/app/elements/button/DeleteCard';
 import { EditCard } from '@/app/elements/button/EditCard';
-import { formatPhoneNumber } from '@/lib/utils/formatNumber';
+import { ButtonAction } from '@/app/elements/button/ActionButton';
+
+export const to = "bank"
+
+export const TextValue = ( { t, v }: {
+  t: string,
+  v: string
+} ) => {
+  return <p className={ "flex flex-nowrap" }>
+    <span className={ "sm:hidden md:block" }>{ t }
+    </span>
+    { v }
+  </p>
+}
 
 export function CardBank( { data }: {
   data: TBank[]
@@ -19,22 +32,16 @@ export function CardBank( { data }: {
 
             <div className="flex flex-row md:flex-col justify-between ">
               <div className="">
-                <p className={ "flex flex-nowrap" }><span className={ "hidden md:block" }>Lokasi : </span>{ d.lokasi }
-                </p>
-                <p className={ "flex flex-nowrap" }><span className={ "hidden md:block" }>Jenis : </span>{ d.jenis }</p>
-                <p className={ "flex flex-nowrap" }><span
-                  className={ "hidden md:block" }>Hp : </span>{ formatPhoneNumber( d.hp ) }</p>
-                <p className={ "flex flex-nowrap" }><span className={ "hidden md:block" }>No Rekening : </span>{ d.no }
-                </p>
-                <p className={ "flex flex-nowrap" }><span
-                  className={ "hidden md:block" }>Keterangan : </span>{ d.keterangan }</p>
+                <TextValue t={ "Lokasi : " } v={ d.lokasi }/>
+                <TextValue t={ "Jenis : " } v={ d.jenis }/>
+                <TextValue t={ "Hp : " } v={ d.hp }/>
+                <TextValue t={ "No Rekening : " } v={ d.no }/>
+                <TextValue t={ "Keterangan : " } v={ d.keterangan }/>
               </div>
-
-              <div className="card-actions justify-center items-stretch flex flex-col ">
-                <EditCard to={ "/bank/edit/" } id={ d.id }/>
-                <DeleteCard id={ d.id }/>
-              </div>
-
+              <ButtonAction>
+                <EditCard to={ to } id={ d.id } css={ " " }/>
+                <DeleteCard id={ d.id } to={ to } css={ " " }/>
+              </ButtonAction>
             </div>
           </div>
 

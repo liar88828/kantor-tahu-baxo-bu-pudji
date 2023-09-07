@@ -3,7 +3,7 @@ import { Repository } from '@/server/repository/Abstract';
 import type { TYPE } from '@/server/models/dataAccess/semuaProduk';
 import type { IRepoSemuaProduk } from '@/interface/repository/SemuaProduk';
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
-import { TLines } from '@/entity/dashboard';
+import { TLines } from '@/entity/Dashboard';
 
 export default class RepoSemuaProduk extends Repository<"semuaProduct"> implements IRepoSemuaProduk<TYPE> {
   async findDashboard( a: string = "test" ) {

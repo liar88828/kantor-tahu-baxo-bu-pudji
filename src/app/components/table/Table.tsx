@@ -11,8 +11,8 @@ import { useRouter } from 'next/navigation';
 import { IndeterminateCheckbox } from '@/app/components/table/utils/IndeterminateCheckbox';
 import { Filter } from '@/app/components/table/utils/FirstValue';
 import { exportToExcel } from '@/lib/export/excel';
-import { TPOrderan } from '@/entity/server/produkOrderan';
-import { TOrderanData } from '@/entity/orderan';
+import { TProOrderan } from '@/entity/server/produkOrderan';
+import { TOrderanData } from '@/entity/Orderan';
 import { formatPhoneNumber } from '@/lib/utils/formatNumber';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { StatusButton } from '@/app/elements/button/StatusButton';
@@ -683,7 +683,7 @@ export function getOrderan(
 
   function cellData(
     info: CellContext<{
-      semuaProduct: TPOrderan[];
+      semuaProduct: TProOrderan[];
       pesan: Date | string;
       kirim: Date | string;
       waktuKirim: Date | string
@@ -707,7 +707,7 @@ export function getOrderan(
   ) {
     function getNumber(
       m: {
-        semuaProduct: TPOrderan[];
+        semuaProduct: TProOrderan[];
         pesan: Date | string;
         kirim: Date | string;
         waktuKirim: Date | string

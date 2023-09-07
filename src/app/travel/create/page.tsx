@@ -20,8 +20,11 @@ export default function Home() {
     await handleUpload(
       selectedFile,
       setMessage,
+      "POST",
+      "travel",
       data,
-      "travel" )
+      "",
+    )
   }
 
   return (
