@@ -112,7 +112,7 @@ export async function getData() {
 
 export async function deleteDataMany( send: string [] ) {
 
-  return await sendData( "orderan", "DELETE", "", send )
+  return await sendData<TPOrderan>( "orderan", "DELETE", "", send )
 }
 
 export async function deleteDataOne( id: string[] ) {
