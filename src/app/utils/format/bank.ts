@@ -5,6 +5,7 @@ export const formBank: Record<keyof TBank, any> = {
   id        : "123_bank",
   lokasi    : "Lokasi Bank",
   jenis     : "Jenis Bank",
+  img: "Logo perusahaan",
   keterangan: "Keterangan"
 }
 
@@ -15,6 +16,7 @@ export const defaultFormBank: TBank = {
   id        : " ",
   lokasi    : "Ungaran",
   jenis     : "Kredit",
-  keterangan: "Bisa Di cicil"
+  keterangan: "Bisa Di cicil",
+  img       : ""
 }
 

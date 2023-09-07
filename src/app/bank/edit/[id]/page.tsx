@@ -1,10 +1,14 @@
-import { CComponent } from '@/app/bank/edit/[id]/CComponent';
+import { getDataById } from '@/app/utils/ress/bank';
+import { LinkNavbar } from '@/app/elements/link/LinksNavbar';
+import { Form } from '@/app/components/form/Bank';
 
-export default function Home( { params: { id } }: { params: { id: string } } ) {
-  console.log( id )
+export default async function Home( { params: { id } }: { params: { id: string } } ) {
+
+  const data: Awaited<TBank> = await getDataById( id )
+
   return (
-    <CComponent/> )
+    <LinkNavbar>
+      <Form data={ data } method={ "PUT" }/>
+    </LinkNavbar> )
 }
-
-
 

@@ -15,8 +15,8 @@ const MyComponent = () => {
       setTable( JSON.parse( tableData ) )
     }
   }, [] )
-  console.log( table )
-  console.log( "---------------------" )
+  // console.log( table )
+  // console.log( "---------------------" )
   return (
 
     <div className={ "flex flex-wrap bg-white border border-black w-[297mm]" }>{

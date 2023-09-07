@@ -17,6 +17,7 @@ export function LinkNavbar( { children }: {
       <Suspense fallback={ <div>Loading...</div> }>
         { children }
       </Suspense>
+
     </main>
   )
 }

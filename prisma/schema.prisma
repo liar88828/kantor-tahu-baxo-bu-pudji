@@ -97,6 +97,7 @@ model Bank {
   nama       String
   lokasi     String
   jenis      String
+  img        String @db.Text
   keterangan String @db.Text
 
   @@map("Banks")

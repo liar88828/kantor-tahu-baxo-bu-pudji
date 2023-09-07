@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-export const notifyData = ( msg: string, data: any = {}, ) => {
+export const notifyData = <T>( msg: string, data: any | undefined | T = {}, ) => {
   console.log( msg )
   if( typeof msg == "string" ) {
     if( msg.toLowerCase().includes( "succ" ) ) {

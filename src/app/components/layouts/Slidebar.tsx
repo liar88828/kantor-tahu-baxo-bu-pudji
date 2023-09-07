@@ -12,7 +12,7 @@ const menuList = [
   { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product/list" },
   { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel/list" },
-  { title: "Bank", icon: HiOutlineBanknotes, link: "/bank/create" },
+  { title: "Bank", icon: HiOutlineBanknotes, link: "/bank/list" },
   { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
   { title: "Setting", icon: AiFillSetting, link: "/form" },
 ];

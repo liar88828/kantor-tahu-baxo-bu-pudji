@@ -27,10 +27,14 @@ export async function sendAPI(
   return data
 }
 
-export async function sendData( to: string, method: string, id: string, json: any = {} ) {
+export async function sendData<T>(
+  to: "bank" | "orderan" | "product" | "travel",
+  method: string,
+  id: string,
+  json: any = {}
+) {
 
   let methods = {
-    // cache  : "no-cache",
     method : method,
     headers: { "Content-Type": "application/json" }
   }
@@ -42,13 +46,20 @@ export async function sendData( to: string, method: string, id: string, json: an
   if( method !== "GET" ) {
     methods = Object.assign( option, methods )
   }
+
+  if( id.length > 10 ) {
+
+    methods = Object.assign( { cache: "no-cache" }, methods )
+
+  }
+
   const res = await fetch( nextPublicBaseUrl + `/api/${ to }?id=` + id, methods )
   if( !res.ok ) {
     console.log( res )
     console.log( "error" )
   }
 
-  const data: { data: any, msg: string } = await res.json()
+  const data: { data: T, msg: string } = await res.json()
   return data
 }
 

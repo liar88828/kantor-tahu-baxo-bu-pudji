@@ -1,4 +1,5 @@
 import { TOrder, } from '@/entity/client/orderan';
+import { ToModel } from '@/app/utils/ress/GateWay';
 
 // Travel
 export const setIdTravel = ( dTravel: TTravel ): string =>
@@ -53,3 +54,19 @@ function setIdOrderanString(
 
 export const setIdOrderan = ( dataBaru: TOrder ): string =>
   setIdOrderanString( dataBaru ).replaceAll( " ", "_" )
+
+export async function setIdModel( to: ToModel, data: any ) {
+  if( to === "bank" ) {
+    return setIdBank( data );
+  }
+  if( to === "product" ) {
+    return setIdProduct( data );
+  }
+  if( to === "travel" ) {
+    return setIdTravel( data );
+  }
+  if( to === "orderan" ) {
+    return setIdOrderan( data );
+  }
+}
+

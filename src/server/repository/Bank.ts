@@ -12,7 +12,8 @@ export class BankRepository extends Repository<"bank"> implements IBankRepositor
       keterangan: d.keterangan,
       nama      : d.nama,
       no        : d.no,
-      hp        : d.hp
+      hp : d.hp,
+      img: d.img
     }
   }
   setMany( data: TYPE[] ) {

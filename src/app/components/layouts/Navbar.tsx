@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { styleLabelForm } from '@/app/style/form';
+import { nextPublicBaseUrl } from '@/lib/config/nextPublicBaseUrl';
 
 // Initialization for ES Users
 
@@ -19,9 +20,9 @@ function Navbar() {
           className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a className="flex items-center">
             <img
-              src="https://tahubaxo-ibupudji.com/wp-content/uploads/2018/05/cropped-logo-e1547694806898-1.png"
+              src={ nextPublicBaseUrl + "/logo.png" }
               className=" mr-3  h-8"
-              alt="Flowbite Logo"/>
+              alt="/logo.png"/>
             <span
               className={ "self-center text-2xl font-semibold whitespace-nowrap  " +
                 styleLabelForm }>

@@ -6,4 +6,5 @@ type TBank = {
   lokasi: string
   jenis: string
   keterangan: string
+  img: string
 }

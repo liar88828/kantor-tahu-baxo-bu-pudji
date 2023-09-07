@@ -1,50 +1,23 @@
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+"use server"
+
 import { sendData } from '@/app/utils/ress/sendApi';
-import { setIdBank } from '@/lib/utils/formatId';
 
-export async function getDataById( id: string ): Promise<{
-  data: TBank,
-  msg: string
-}> {
-  const to   = "bank"
-  const data = await sendData( to, "GET", id );
-  // console.log(data)
-  return data
+function setBank( d: TBank ) {
+  return {
+    nama      : d.nama,
+    jenis     : d.jenis,
+    lokasi    : d.lokasi,
+    keterangan: d.keterangan,
+    id        : d.id,
+    no        : d.no,
+    hp        : d.hp
+  };
 }
 
-export async function getData(): Promise<{
-  data: TBank[],
-  msg: string
-}> {
-  const to   = "bank"
-  const data = await sendData( to, "GET", "all" );
-  // console.log(data)
-  return data
+export async function getDataById( id: string ): Promise<TBank> {
+  const to                            = "bank"
+  const { data: d }: { data: TBank, } = await sendData( to, "GET", id );
+
+  return setBank( d )
 }
 
-export async function postData( json: TBank ): Promise<{
-  data: TBank,
-  msg: string
-}> {
-  console.log( json )
-
-  json.id = setIdBank( json )
-
-  const to = "bank"
-  return await sendData( to, "POST", "", json );
-}
-
-export async function putData( json: TBank, id: string ): Promise<{
-  data: TBank,
-  msg: string
-}> {
-
-  const to = "bank"
-  return await sendData( to, "PUT", id, json );
-}
-
-export const deleteData = async ( id: string, router: AppRouterInstance ) => {
-  const to   = "bank"
-  const data = await sendData( to, "DELETE", id );
-  return data
-}
