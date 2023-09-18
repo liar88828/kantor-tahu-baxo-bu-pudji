@@ -1,5 +1,11 @@
-import { InterRepository } from '@/interface/repository/Repository';
+import { TPTravel } from '@/server/models/prisma/config';
+import { InterfaceAbstractRepository } from '@/interface/repository/Abstract';
 
-export interface InterfaceRepoTravel extends InterRepository<TBank> {
-
+export interface IRepoTravel<T extends TPTravel> extends InterfaceAbstractRepository<"travel"> {
+  //get
+  paginate( data: { row: number, skip: number } ): Promise<any>;
+  //put
+  updateMany( data: T[], id: string ): Promise<any>;
+  //delete
+  destroyMany( id: string ): Promise<any>;
 }

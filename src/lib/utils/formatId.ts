@@ -1,9 +1,9 @@
 import { TOrder, } from '@/entity/client/orderan';
-import { ToModel } from '@/app/utils/ress/GateWay';
+import { ToModel } from '@/entity/Utils';
 
 // Travel
-export const setIdTravel = ( dTravel: TTravel ): string =>
-  dTravel.namaPengiriman.slice( 0, 2 ) + "_" +
+export const setIdTravel = ( dTravel: TTravel | TTravel ): string =>
+  dTravel.nama.slice( 0, 2 ) + "_" +
   dTravel.harga.toString().slice( 0, 2 ) + "_" +
   dTravel.lokasi.slice( 0, 2 ) + "_" +
   dTravel.jenis.slice( 0, 2 ) + "_" +
@@ -29,7 +29,7 @@ export const setIdBank = ( dProduct: TBank ): string =>
 function setIdOrderanString(
   dataBaru: {
     semuaProduct: TProduct[]
-  } & TOrder ) {
+  } & TOrder | TOrderServer ) {
   function getNumbers( hpPenerima: string, hpPengirim: string, penerima: string ) {
     return hpPenerima + hpPengirim + penerima.length;
   }
@@ -38,7 +38,6 @@ function setIdOrderanString(
     + "_" +
     dataBaru.alamatPenerima.toString().slice( 0, 4 )
     + "_" +
-
     dataBaru.pesan.toString().slice( 2, 4 ) +
     dataBaru.pesan.toString().slice( 5, 7 ) +
     dataBaru.pesan.toString().slice( 8, 10 )
@@ -52,10 +51,10 @@ function setIdOrderanString(
     ).toString().slice( 0, 5 );
 }
 
-export const setIdOrderan = ( dataBaru: TOrder ): string =>
+export const setIdOrderan = ( dataBaru: TOrder | TOrderServer ): string =>
   setIdOrderanString( dataBaru ).replaceAll( " ", "_" )
 
-export async function setIdModel( to: ToModel, data: any ) {
+export function setIdModel( to: ToModel, data: any ) {
   if( to === "bank" ) {
     return setIdBank( data );
   }

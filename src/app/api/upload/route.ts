@@ -20,10 +20,10 @@ export async function POST( req: Request ) {
       dataArray.push( formDataEntryValues[ 0 ] )
       const buffer = Buffer.from( await file.arrayBuffer() );
       if( fs.existsSync( folderName + file.name ) ) {
-        console.log( 'file exists' );
+        console.info( 'file exists' );
       }
       else {
-        console.log( 'file not found!' );
+        console.error( 'file not found!' );
         fs.writeFileSync( folderName + file.name, buffer );
 
       }

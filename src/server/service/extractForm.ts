@@ -1,9 +1,10 @@
+import { NextRequest } from 'next/server';
 
 export async function extractData(
-  req: Request,
+  req: NextRequest,
 ) {
   const formData = await req.formData();
-
+  // console.log( formData )
   let dataArray: any        = []
   const formDataEntryValues = Array.from( formData.values() );
   for( const formDataEntryValue of formDataEntryValues ) {

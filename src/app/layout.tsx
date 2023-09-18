@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import './globals.css'
 import './flag.css';
+
 import Navbar from '@/app/components/layouts/Navbar';
 import { Slidebar } from '@/app/components/layouts/Slidebar';
 import { ToastContainer } from 'react-toastify';

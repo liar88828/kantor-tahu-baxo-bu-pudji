@@ -7,7 +7,7 @@ export function globalQueryClient() {
   ): Promise<QueryResult> {
     if( !fetchMap.has( name ) ) fetchMap.set( name, query() )
     if( !fetchMap.get( name ) ) throw new Error()
-    // console.log( fetchMap.get( name ) )
+    // console.error( fetchMap.get( name ) )
     return fetchMap.get( name )!
   }
 

@@ -1,6 +1,6 @@
-import { DeleteCard } from '@/app/elements/button/DeleteCard';
-import { EditCard } from '@/app/elements/button/EditCard';
-import { ButtonAction } from '@/app/elements/button/ActionButton';
+import { DeleteCard } from '@/app/elements/button/card/Delete';
+import { EditCard } from '@/app/elements/button/card/Edit';
+import { ButtonAction } from '@/app/elements/button/card/ActionButton';
 
 export const to = "bank"
 
@@ -32,6 +32,7 @@ export function CardBank( { data }: {
 
             <div className="flex flex-row md:flex-col justify-between ">
               <div className="">
+                <img src={ d.img } alt={ d.nama }/>
                 <TextValue t={ "Lokasi : " } v={ d.lokasi }/>
                 <TextValue t={ "Jenis : " } v={ d.jenis }/>
                 <TextValue t={ "Hp : " } v={ d.hp }/>

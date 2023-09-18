@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 const valid = new Validation()
 
-const exampleProduk: z.infer<typeof valid.ServiceProduk> = {
+const exampleProduk: z.infer<typeof valid.ProductSchema> = {
   id        : "58c2e9e2-9e0e-40ef-9a72-88658ce00fb2",
   harga     : 20000,
   img       : "tidak ada ",
@@ -14,7 +14,7 @@ const exampleProduk: z.infer<typeof valid.ServiceProduk> = {
   nama      : "tahu baxo"
 }
 
-const data = valid.ServiceProduk.parse( exampleProduk )
+const data = valid.ProductSchema.parse( exampleProduk )
 
 const inputData = {
   name: "John Doe",

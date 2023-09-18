@@ -1,4 +1,5 @@
 import { TKPerson } from '@/entity/client/person';
+import { img } from '@/app/components/form/FormBank';
 
 export const formProduct: TKPerson = {
   id    : "1231",
@@ -13,12 +14,12 @@ export const formProduct: TKPerson = {
 
 export const defaultFormProduct: TProduct = {
   id        : "",
-  nama      : "Tahu Baxo Bu Pudji",
+  nama: "Tahu Baxo",
   harga     : 20000,
   lokasi    : "Ungaran",
   jumlah    : 0,
   jenis     : "Orderan",
-  img       : "img",
+  img : img,
   keterangan: "Pedas"
 }
 

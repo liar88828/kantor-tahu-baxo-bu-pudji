@@ -6,14 +6,11 @@ import {
   getSortedRowModel, SortingState, useReactTable
 } from '@tanstack/react-table';
 
-import type { TOrderServer } from '@/entity/server/orderan';
 import { useRouter } from 'next/navigation';
 import { IndeterminateCheckbox } from '@/app/components/table/utils/IndeterminateCheckbox';
 import { Filter } from '@/app/components/table/utils/FirstValue';
 import { exportToExcel } from '@/lib/export/excel';
-import { TProOrderan } from '@/entity/server/produkOrderan';
-import { TOrderanData } from '@/entity/Orderan';
-import { formatPhoneNumber } from '@/lib/utils/formatNumber';
+import { formatPhone } from '@/lib/utils/formatPhone';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { StatusButton } from '@/app/elements/button/StatusButton';
 import { DeleteTable } from '@/app/elements/button/DeleteTable';
@@ -43,7 +40,6 @@ export function TableOrder( { dataOrderan }: {
   //check box
   const [ rowSelection, setRowSelection ] = useState( {} )
   const [ open, setOpen ]                 = useState( true )
-
 
 //---------table value---------------
   const columns = useMemo<ColumnDef<TOrderServer>[]>( () => [
@@ -139,7 +135,7 @@ export function TableOrder( { dataOrderan }: {
           {
             accessorKey: 'hpPengirim',
             header: 'Telepon Pengirim',
-            cell  : info => formatPhoneNumber( info.getValue() as string ),
+            cell  : info => formatPhone( info.getValue() as string ),
             footer: 'telepon Pengirim',
           },
           {
@@ -162,7 +158,7 @@ export function TableOrder( { dataOrderan }: {
       {
         accessorKey: 'hpPenerima',
         header     : 'Telephone Penerima',
-        cell  : info => formatPhoneNumber( info.getValue() as string ),
+        cell  : info => formatPhone( info.getValue() as string ),
         footer: 'Telephone Penerima',
       },
 
@@ -191,9 +187,9 @@ export function TableOrder( { dataOrderan }: {
               return props.table.getRowModel().rows
                           .map( m => m.original )
                           .map( m => m.semuaProduct
-                                      .filter( f => f.jenis === 'Item' )
-                                      .map( m => m.jumlah )
-                                      .reduce( ( a, d ) => a + d, 0 )
+                                      .filter( ( f: TProOrderan ) => f.jenis === 'Item' )
+                                      .map( ( m: TProOrderan ) => m.jumlah )
+                                      .reduce( ( a: number, d: number ) => a + d, 0 )
                           ).reduce( ( a, d ) => a + d, 0 )
             },
           },
@@ -207,9 +203,9 @@ export function TableOrder( { dataOrderan }: {
               const rowFooter: number = props.table.getRowModel().rows
                                              .map( m => m.original )
                                              .map( m => m.semuaProduct
-                                                         .filter( f => f.jenis === 'Item' )
-                                                         .map( m => m.harga )
-                                                         .reduce( ( a, d ) => a + d, 0 )
+                                                         .filter( ( f: TProOrderan ) => f.jenis === 'Item' )
+                                                         .map( ( m: TProOrderan ) => m.harga )
+                                                         .reduce( ( a: number, d: number ) => a + d, 0 )
                                              ).reduce( ( a, d ) => a + d, 0 )
 
               return Rupiah( rowFooter )
@@ -276,7 +272,13 @@ export function TableOrder( { dataOrderan }: {
             accessorKey: 'typePembayaran',
             header     : 'Pembayaran',
             cell       : info => info.getValue(),
-            footer     : props => props.column.id,
+            footer: "Pembayaran",
+          },
+          {
+            accessorKey: 'guna',
+            header     : 'Keterangan',
+            cell       : info => <span className={ "whitespace-nowrap" }> { info.getValue() }</span>,
+            footer     : "Keterangan",
           },
         ],
       },
@@ -560,7 +562,7 @@ export function TableOrder( { dataOrderan }: {
         //   } )
         // )
       } } className=" btn btn-sm sm:btn-md text-white bg-green-400 ">
-        Export to Excel
+        Excel
       </button> }
 
       { table.getSelectedRowModel().flatRows.length > 0
@@ -587,10 +589,10 @@ export function TableOrder( { dataOrderan }: {
           sessionStorage.setItem( "table", JSON.stringify(
             table.getSelectedRowModel().flatRows.map( d => d.original )
           ) )
-          router.replace( "/print/excel" )
+          router.replace( "/print/termal" )
 
         } } className=" btn btn-sm sm:btn-md text-white bg-yellow-400  ">
-          Excel
+          Termal
         </button> }
 
       { table.getSelectedRowModel().flatRows.length === 1
@@ -623,7 +625,7 @@ export function TableOrder( { dataOrderan }: {
           { table.getAllLeafColumns().map( ( column, i ) => ( <div
               key={ column.id + `${ i }` }
               className="p-1  border border-black text-black z-50">
-              <label className={ `flex gap-1 ${ setColomn( column ) }` }>
+              <label className={ `flex gap-1 ${ setColumn( column ) }` }>
 
                 <input
                   { ...{
@@ -655,7 +657,7 @@ export function TableOrder( { dataOrderan }: {
   </div>
 }
 
-export const setColomn = ( c: Column<TOrderServer, unknown> ) => {
+export const setColumn = ( c: Column<TOrderServer, unknown> ) => {
 
   if( c.id.toLowerCase().includes( "kirim" ) || c.id.toLowerCase().includes( "item" ) ) {
     return " bg-red-200 "

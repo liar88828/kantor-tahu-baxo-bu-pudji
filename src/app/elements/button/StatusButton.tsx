@@ -12,8 +12,7 @@ export const StatusButton = ( { status, id }: { status: string, id: string } ) =
       id    : id,
       status: status
     }
-    await sendData( "dashboard", "PUT", id, json );
-
+    await sendData( "orderan", "PATCH", id, "", json );
   }
   return ( <>
     <label
@@ -22,7 +21,10 @@ export const StatusButton = ( { status, id }: { status: string, id: string } ) =
       { status }
     </label>
 
-    <input type="checkbox" id="my_modal_status" className="modal-toggle"/>
+    <input type="checkbox"
+           id="my_modal_status"
+           className="modal-toggle"/>
+
     <div className="modal ">
       <div className="modal-box p-3">
         <h1 className={ "font-bold uppercase" }>UBAH STATUS</h1>
@@ -38,6 +40,7 @@ export const StatusButton = ( { status, id }: { status: string, id: string } ) =
               } }>{ s.s }</button>
           ) ) }
         </div>
+
       </div>
       <label className="modal-backdrop" htmlFor="my_modal_status">Close</label>
     </div>

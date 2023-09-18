@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
-import { AiFillPieChart, AiFillSetting, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineTable, } from "react-icons/ai";
-import { MdAnalytics, MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
+import { AiFillPieChart, AiOutlineArrowLeft, AiOutlineInbox, AiOutlineTable, } from "react-icons/ai";
+import { MdOutlineProductionQuantityLimits, MdOutlineSportsMotorsports } from "react-icons/md";
 import Link from 'next/link';
 import { HiOutlineBanknotes } from 'react-icons/hi2';
 import { usePathname } from 'next/navigation';
@@ -13,8 +13,8 @@ const menuList = [
   { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product/list" },
   { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel/list" },
   { title: "Bank", icon: HiOutlineBanknotes, link: "/bank/list" },
-  { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
-  { title: "Setting", icon: AiFillSetting, link: "/form" },
+  // { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
+  // { title: "Setting", icon: AiFillSetting, link: "/form" },
 ];
 
 export const Slidebar = () => {
@@ -26,11 +26,10 @@ export const Slidebar = () => {
   let bgColorSlideBar   = "#d6ffe0"
 
   return (
-    <div className={ `flex ${ path.toLowerCase() === "print" ? "hidden" : "block" }` }>
+    <div className={ `flex ${ path.toLowerCase() === "print" ? "hidden" : "block" } ` }>
       {/* body slide bar*/ }
       <div
-        className={ ` ${ open ? "w-72 p-4 sm:p-1"
-                              : "w-12 sm:w-20" }   relative transition-all duration-150 ` }
+        className={ ` ${ open ? "w-72 p-4 sm:p-1" : "w-12 sm:w-20" }   relative transition-all duration-150 ` }
         style={ { background: bgColorSlideBar } }>
 
         {/*----------------button arrow---------------*/ }

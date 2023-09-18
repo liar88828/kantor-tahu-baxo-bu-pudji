@@ -1,8 +1,9 @@
 "use client"
 import { addDays, currentMonth, currentYear, setHours, setTanggal, today } from '@/lib/utils/formatDate';
-import { formatPhoneNumber } from '@/lib/utils/formatNumber';
+import { formatPhone } from '@/lib/utils/formatPhone';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { StatusButton } from '@/app/elements/button/StatusButton';
+import { OrderanButton } from '@/app/elements/button/OrderanButton';
 
 export function CardList( { notifyMonth }: {
   notifyMonth: TListCard[]
@@ -20,13 +21,18 @@ export function CardList( { notifyMonth }: {
   }
 
   function statusKirim( d: TListCard ) {
-    if( getKirim( d ) - today > 0 ) {
-      return getKirim( d ) - addDays( -3 ).getDate() >= 0 ? " bg-yellow-400 " :
-             " bg-red-400";
+    const data    = getKirim( d )
+    const tanggal = data - addDays( 0 ).getDate()
+
+    console.info( tanggal )
+    if( tanggal >= 4 && tanggal <= 6 ) {
+      return " bg-green-300 ";
     }
-    else {
-      return getKirim( d ) - addDays( -3 ).getDate() >= 0 ? " bg-yellow-400 " :
-             " bg-green-300 ";
+    if( tanggal >= 0 && tanggal <= 3 ) {
+      return " bg-yellow-300 ";
+    }
+    if( tanggal < 0 ) {
+      return " bg-red-300 ";
     }
   }
 
@@ -47,38 +53,11 @@ export function CardList( { notifyMonth }: {
           <div className="flex flex-row sm:flex-col lg:flex-row items-start justify-between gap-1 md:gap-2">
             <h1 className="card-title text-lg sm:text-2xl capitalize mr-10 sm:mr-0">{ d.penerima }</h1>
             <div className="flex flex-wrap gap-1 sm:gap-2  ">
-
               <StatusButton status={ d.status } id={ d.id }/>
-              <label htmlFor="my_modal_7" className="btn btn-sm sm:btn-md bg-purple-600 text-white">CEK</label>
-
-              <input type="checkbox" id="my_modal_7" className="modal-toggle"/>
-              <div className="modal ">
-                <div className="modal-box p-3">
-                  <h1 className={ "font-bold uppercase" }>SEMUA ORDERAN</h1>
-
-                  <div className="flex flex-wrap gap-3 p-1 ">
-                    { d.semuaProduct.map( ( item: TProduct, i: number ) => {
-                      return (
-                        <div key={ item.id } className={ "" }>
-                          <div
-                            className="w-[9rem]  bg-white border border-slate-100 rounded-lg shadow shadow-black  p-2">
-                            <div className="card-body rounded p-2 ">
-                              <p className="mb-2 font-bold">{ i + 1 }. { item.nama }</p>
-                              <p className={ "text-sm" }> { Rupiah( item.harga ) }</p>
-                              <p className={ "text-sm" }>Jenis : { item.jenis }</p>
-                              <p className={ "text-sm" }> Jumlah : { item.jumlah }</p>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    } ) }
-                  </div>
-                </div>
-                <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
-              </div>
+              <OrderanButton semuaProduct={ d.semuaProduct }/>
               <p
-                className={ `btn-sm sm:btn-md btn font-bold text-white  ${
-                  ( statusKirim( d ) ) }` }>
+                className={ `btn-sm sm:btn-md btn font-bold text-white 
+                 ${ ( statusKirim( d ) ) }` }>
                 {/*//kirim*/ }
                 { setTanggal( d.kirim, "hari" ) }
               </p>
@@ -87,7 +66,7 @@ export function CardList( { notifyMonth }: {
           <div className="  flex flex-row sm:flex-col md:flex-col lg:flex-row  gap-1 justify-between">
             <div className="">
               <p>{ d.alamatPenerima }</p>
-              <p>{ formatPhoneNumber( d.hpPenerima ) } </p>
+              <p>{ formatPhone( d.hpPenerima ) } </p>
             </div>
             <div className="">
 

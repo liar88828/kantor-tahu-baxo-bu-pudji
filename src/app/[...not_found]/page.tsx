@@ -8,7 +8,7 @@ export default function Custom404() {
 
   const path = not_found.split( "/" )[ 1 ]
   return (
-    <div className={ "  mt-10 ml-10    py-[10%]    items-center card card-compact w-[80%] bg-base-100 shadow-xl" }>
+    <div className={ "  mt-10 ml-10  py-[10%]    items-center card card-compact w-[80%] bg-base-100 shadow-xl" }>
       <div className="card-body">
         <h2 className={ "card-title uppercase" }>The id
           <span className="btn bg-red-200">{ path } </span>

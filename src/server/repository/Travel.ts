@@ -1,62 +1,29 @@
-import { prisma } from '@/server/models/prisma/config';
-import type { TYPE } from '@/server/models/dataAccess/Travel';
-import { InterfaceRepoTravel } from '@/interface/repository/Travel';
+import { prisma, TPTravel } from '@/server/models/prisma/config';
+import { IRepoTravel } from '@/interface/repository/Travel';
+import { ARepository } from '@/server/repository/ARepository';
+
+type TYPE = TPTravel;
 
 // getAll data from database
-export default class RepoTravel implements InterfaceRepoTravel {
+export default class RepoTravel extends ARepository<"travel"> implements IRepoTravel<TYPE> {
+  findDashboard( a: string ): Promise<any> {
+    throw new Error( 'Method not implemented.' );
+  }
   setOne( d: TYPE ): TYPE {
     return {
-      id            : d.id,
-      jenis         : d.jenis,
-      harga         : d.harga,
-      lokasi        : d.lokasi,
-      keterangan    : d.keterangan,
-      namaPengiriman: d.namaPengiriman,
-      noHpPerusahaan: d.noHpPerusahaan,
-      img           : d.img || "noting",
+      id        : d.id,
+      jenis     : d.jenis,
+      harga     : d.harga,
+      lokasi    : d.lokasi,
+      keterangan: d.keterangan,
+      nama      : d.nama,
+      hp        : d.hp,
+      img       : d.img || "https://dummyimage.com/200x200/000/fff.jpg&text=not+found",
     }
   }
 
   setMany( data: TYPE[] ) {
     return data.map( ( d ) => ( this.setOne( d ) ) )
-  }
-
-  async findAll() {
-    return prisma.travel.findMany()
-
-  }
-
-//get only one  data from database
-  async findById( id: string ) {
-    return prisma.travel.findUnique( { where: { id } } )
-  }
-
-//get only one  data from database
-  async findOne( id: string ) {
-    return prisma.travel.findFirst( { where: { id } } )
-  }
-
-//get per page data from database
-  async paginate( data: { row: number, skip: number } ) {
-    const { row, skip } = data
-    return prisma.travel.findMany( { take: row, skip } )
-  }
-
-//create data from database
-  async createOne( data: TYPE ) {
-    return prisma.travel.create( { data: this.setOne( data ) } )
-  }
-
-//edit data from database
-  async updateOne( data: TYPE, id: string ) {
-    return prisma.travel.update( {
-      where: { id: id }, data: this.setOne( data )
-    } )
-  }
-
-//delete data from database
-  async destroy( id: string ) {
-    return prisma.travel.deleteMany( { where: { id } } )
   }
 
   async createMany( data: TYPE[] ) {
@@ -65,21 +32,16 @@ export default class RepoTravel implements InterfaceRepoTravel {
     } );
   }
 
-  async destroyMany( id: string ) {
-    return prisma.travel.deleteMany( { where: { id } } )
-
-  }
-
-  async destroyOne( id: string ) {
-    return prisma.travel.delete( { where: { id } } )
-
-  }
-
   async updateMany( data: TYPE[], id: string ) {
     return prisma.travel.updateMany( {
       where: { id: id },
       data : this.setMany( data )
     } )
+  }
+
+  async destroyMany( id: string ) {
+    return prisma.travel.deleteMany( { where: { id } } )
+
   }
 
 }

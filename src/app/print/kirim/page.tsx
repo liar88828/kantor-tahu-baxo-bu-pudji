@@ -1,8 +1,6 @@
 "use client"
-import React, { useEffect, useState } from 'react';
-import { TOrderServer } from '@/entity/server/orderan';
+import { useEffect, useState } from 'react';
 import { setHours, setTanggal } from '@/lib/utils/formatDate';
-import { TProOrderan } from '@/entity/server/produkOrderan';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { statusWarna } from '@/app/style/status';
 
@@ -17,17 +15,24 @@ const MyComponent = () => {
   }, [] )
 
   function getPrint( data: TProOrderan[], option: string ) {
-    if( option === "total" ) {
-      return data.reduce( ( acc: number, item: TProOrderan ): number => acc +
-        item.harga * item.jumlah, 0 );
+    if( data ) {
+      if( option === "total" ) {
+        return data.reduce( ( acc: number, item: TProOrderan ): number => acc +
+          item.harga * item.jumlah, 0 );
+      }
+      if( option === "subTotal" ) {
+        return data.reduce( ( acc: number, item: TProOrderan ): number => acc +
+          item.harga * item.jumlah, 0 )
+      }
+      if( option === "paket" ) {
+        const paket = data.reduce( ( a, c ) => a + c.jumlah * 0.28, 0 ) / 2
+        return paket.toFixed( 1 )
+      }
+      if( option === "berat" ) {
+        return data.reduce( ( a, b ) => a + ( b.jumlah * 0.26 ), 0 )
+      }
     }
-    if( option === "subTotal" ) {
-      return data.reduce( ( acc: number, item: TProOrderan ): number => acc +
-        item.harga * item.jumlah, 0 )
-    }
-    if( option === "paket" ) {
-      return data.reduce( ( a, c ) => a + c.jumlah, 0 )
-    }
+    return "kosong"
   }
 
   return (
@@ -44,13 +49,13 @@ const MyComponent = () => {
             <div className=" flex flex-row justify-between ">
               <ul className=" w-[70%] flex flex-col gap-2">
                 <li className={ "flex gap-1" }>
-                  <h1 className={ "uppercase" }>Pemesan</h1>
+                  <h1 className={ "uppercase font-bold" }>Pemesan</h1>
                   <p>:</p>
                   <span>{ d.penerima }</span>
 
                 </li>
                 <li className={ "flex gap-1" }>
-                  <h1 className={ "uppercase" }>Pengirim</h1>
+                  <h1 className={ "uppercase font-bold" }>Pengirim</h1>
                   <p>:</p>
 
                   <span>{ d.pengirim }</span>
@@ -58,7 +63,7 @@ const MyComponent = () => {
                 </li>
                 <li className={ "flex gap-1" }>
                   <h1
-                    className={ "uppercase whitespace-nowrap" }>Penerima </h1>
+                    className={ "uppercase whitespace-nowrap font-bold" }>Penerima </h1>
                   <p>:</p>
                   <br/>
                   <p>
@@ -72,7 +77,7 @@ const MyComponent = () => {
               </ul>
 
               <div className=" w-[30%] text-center text-xs">
-                <div className={ "border border-black break-alls " +
+                <div className={ "border border-black break-alls py-1 " +
                   statusWarna( d.status ) }>
                   <h1
                     className={ "uppercase text-xs font-bold" }>{ d.status }</h1>
@@ -82,13 +87,19 @@ const MyComponent = () => {
                   <p className={ "font-bold" }>{ setHours( d.kirim ) }</p>
                 </div>
                 <div className="border border-black text-xs">
-                  <h1>Outlet</h1>
-                  <p className={ " " }>Jl. parmulasih No. 15 Semarang</p>
+                  <h1 className={ "font-bold text-sm py-1" }>
+                    { d.namaPengiriman }
+
+                  </h1>
+                  {/*<p className={ " " }>*/ }
+                  {/*Jl. parmulasih No. 15 Semarang*/ }
+                  {/*</p>*/ }
                 </div>
                 <div className=" ">
                   <h1
-                    className={ "italic underline font-bold text-[8pt] whitespace-nowrap " }>BUKAN
-                    BUKTI BAYAR</h1>
+                    className={ " my-2 italic underline font-bold text-[8pt] whitespace-nowrap " }>
+                    BUKAN BUKTI BAYAR
+                  </h1>
                 </div>
               </div>
             </div>
@@ -123,11 +134,11 @@ const MyComponent = () => {
               } ) }
 
 
-              <tr>
+              <tr className={ " " }>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td className={ "font-bold" }> SubTotal</td>
+                <td className={ "font-bold py-1" }> SubTotal</td>
                 <td>{ Rupiah( getPrint( d.semuaProduct, "subTotal" ) ) }</td>
               </tr>
 
@@ -144,13 +155,13 @@ const MyComponent = () => {
                   <p> Keterangan Untuk Ngaji</p>
                 </div>
                 <div className="flex flex-row justify-around ">
-                  <div className={ " text-center" }>
-                    <p>Customer</p>
+                  <div className={ " text-center  " }>
+                    <p className={ "font-bold" }>Customer</p>
                     <br/>
                     <p>( Tanda Tangan )</p>
                   </div>
-                  <div className={ " text-center" }>
-                    <p>Penerima Pemesanan</p>
+                  <div className={ " text-center  " }>
+                    <p className={ "font-bold" }>Penerima Pemesanan</p>
                     <br/>
                     <p>( TSO )</p>
                   </div>
@@ -158,9 +169,9 @@ const MyComponent = () => {
               </div>
 
 
-              <div className="text-xs w-[40%] text-end  ">
-                <table className={ "w-full" }>
-                  <tbody className={ "border border-black " }>
+              <div className="text-xs w-[40%] text-end ">
+                <table className={ "w-full " }>
+                  <tbody className={ "border border-black" }>
                   <tr>
                     <td className={ "text-[7pt]" }>Total</td>
                     <td className={ "text-[7pt]" }>:</td>
@@ -182,7 +193,8 @@ const MyComponent = () => {
                   <tr>
                     <td className={ "text-[7pt]" }>Total Berat</td>
                     <td className={ "text-[7pt]" }>:</td>
-                    <td className={ "text-[7pt]" }>50 kg</td>
+                    <td className={ "text-[7pt]" }>{ getPrint( d.semuaProduct, "berat" ) } kg
+                    </td>
                   </tr>
                   <tr>
                     <td className={ "text-[7pt]" }>Jumlah Paket</td>

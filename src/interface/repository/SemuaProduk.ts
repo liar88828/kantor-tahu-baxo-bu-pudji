@@ -1,21 +1,21 @@
 import { InterfaceAbstractRepository } from '@/interface/repository/Abstract';
-import { TYPE } from '@/server/models/dataAccess/semuaProduk';
+import { TPSemuaProduct } from '@/server/models/prisma/config';
 
 export type TStatusParams = {
   id: string;
   status: string;
 }
 
-export interface IRepoSemuaProduk<T extends TYPE> extends InterfaceAbstractRepository<"semuaProduct"> {
-  //find
+// tambahan
+export interface IRepoSemuaProduk<T extends TPSemuaProduct> extends InterfaceAbstractRepository<"semuaProduct"> {
+  //get
   findDashboard(): Promise<any>;
+  paginate( data: { row: number, skip: number } ): Promise<any>;
 
   //set data
   setOne( d: T, id?: string ): T;
-  setMany( data: T[], id?: string
-  ): any[];
-  //find
-  paginate( data: { row: number, skip: number } ): Promise<any>;
+  setMany( data: T[], id?: string ): any[];
+
   //create
   // createOne<U>( data: U, id: string ): Promise<any>;
   // createMany( data: T[], id: string ): Promise<any>;

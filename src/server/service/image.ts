@@ -16,7 +16,7 @@ export async function saveFile(
   const folderName = "public/" + image
 
   if( !checkFolder( folderName ) ) {
-    console.log( 'folder create' );
+    console.info( 'folder create' );
     makeFolder( folderName )
   }
 
@@ -32,7 +32,7 @@ export async function saveFile(
       const extensionData = getExtensionData( file.name )
 
       if( validateExtension( extensionData ) ) {
-        console.log( "format data is true" )
+        console.info( "format data is true" )
 
         const name     = addDot( extensionData, dataku.nama )
         const filePath = folderName + Date.now() + "_" + name
@@ -41,8 +41,8 @@ export async function saveFile(
 
         const oData     = JSON.parse( dataArray )
         const dataImage = image + Date.now() + "_" + name
-        // console.log( filePath )// with public
-        // console.log( dataImage )//normal
+        // console.debug( filePath )// with public
+        // console.debug( dataImage )//normal
         oData.img = oData.img ? oData.img : dataImage
         // console.log( oData.img )//old
         const buffer = Buffer.from( await file.arrayBuffer() );
@@ -57,7 +57,7 @@ export async function saveFile(
         return valid
       }
       else {
-        console.log( "format data is false" )
+        console.error( "format data is false" )
         throw new newError( "format data is false" )
       }
     }

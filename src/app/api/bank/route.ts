@@ -1,43 +1,57 @@
-import BankController from '@/server/controller/Bank';
+import { Input, Output } from '@/server/service/GateWay';
 
-import Validation from '@/lib/validation/schema';
-import { NextRequest } from 'next/server';
-import { prisma } from '@/server/models/prisma/config';
-import { getReq, getRes } from '@/server/service/GetRes';
-import Service from '@/lib/validation/validation';
-import { IControlBank } from '@/interface/controller/Bank';
-import { BankRepository } from '@/server/repository/Bank';
+import { prisma, TPBank } from '@/server/models/prisma/config';
 
-const c: IControlBank = new BankController(
-  new BankRepository( prisma.bank ),
-  new Validation(),
-  Service )
+import { NextRequest, NextResponse } from 'next/server';
+import BankController2 from '@/server/controller/Bank';
+import RepoBank from '@/server/repository/Bank';
+import ValidationService from '@/lib/validation/zod/validationService';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
+import { IControlBank2 } from '@/interface/controller/Bank';
+
+const c: IControlBank2 = new BankController2(
+  new RepoBank( prisma.bank ),
+  new ValidationService<TPBank>( new ValidationSchema().BankSchema ),
+)
 
 export async function GET( request: NextRequest ) {
-  const { id } = await getReq( request );
+  const { id, method } = await Input( request );
   if( id.includes( "all" ) ) {
-    return await getRes( "GET", () => c.find() )
+    return await Output( "GET", () => c.find() )
   }
-  if( id ) {
-    return await getRes( "GET", () => c.findById( id ), )
+  if( id.length > 10 ) {
+    return await Output( "GET", () => c.findById( id ), )
   }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
 export async function POST( request: NextRequest ) {
-  const { json } = await getReq( request );
-  const res      = () => c.create( json )
-  return await getRes( "POST", res, )
+  const { json } = await Input( request );
+  // console.table(json)
+  return await Output( "POST", () => c.create( json ) )
 }
 
 export async function DELETE( request: NextRequest ) {
-  // console.log("test")
-  const { id } = await getReq( request );
-  const res    = () => c.destroy( id )
-  return await getRes( "DELETE", res )
+  const { id, method } = await Input( request );
+  // console.debug(id, method)
+  if( id.length > 10 ) {
+    return await Output( "DELETE", () => c.destroy( id ) )
+  }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
 export async function PUT( request: NextRequest ) {
-  const { json, id } = await getReq( request );
-  const res          = () => c.edit( json, id )
-  return await getRes( "PUT", res )
+  const { json, id, method } = await Input( request );
+  if( json === undefined ) {
+    return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot data ID" } )
+  }
+
+  if( id.length > 10 ) {
+    return await Output( "PUT", () => c.edit( json, id ) )
+  }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
+

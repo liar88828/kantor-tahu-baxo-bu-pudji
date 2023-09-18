@@ -1,5 +1,4 @@
 import * as XLSX from 'xlsx-js-style';
-import { TOrderServer } from '@/entity/server/orderan';
 import { Row } from '@tanstack/table-core';
 
 const saveAsExcelFile = ( buffer: any, fileName: string ) => {
@@ -15,7 +14,7 @@ const saveAsExcelFile = ( buffer: any, fileName: string ) => {
 
 export const exportToExcel = ( data: Row<TOrderServer>[]
 ) => {
-  // console.log( data )
+  // console.debug( data )
   const worksheet = XLSX.utils.table_to_sheet(
     document.querySelector( 'table' ) as HTMLTableElement
   );
@@ -65,6 +64,7 @@ export const exportToExcel = ( data: Row<TOrderServer>[]
     { width: 20 },//Total
     { width: 20 },//Total bayar
     { width: 20 },//pembayaran
+    { width: 30 },//keterangan
   ];
 
   let wsRow: { hpt: number }[] = []
@@ -75,7 +75,7 @@ export const exportToExcel = ( data: Row<TOrderServer>[]
       wsRow.push( sendArray )
     }
   }
-  // console.log(wsRow)
+  // console.debug(wsRow)
 
   worksheet[ '!cols' ] = wscols
   worksheet[ '!rows' ] = wsRow
@@ -199,6 +199,8 @@ export const exportToExcel = ( data: Row<TOrderServer>[]
   setRow( "AM2", "#92d050" );//total
   setRow( "AN2", "#92d050" );//total bayar
   setRow( "AO2", "#ffff00" );//pembayaran
+  setRow( "AP2", "#ddebf7" );//Telephone Penerima
+
 
   if( data.length > 0 ) {
 
@@ -272,6 +274,7 @@ export const exportToExcel = ( data: Row<TOrderServer>[]
       setRow( `AM${ i + 3 }`, `${ i % 2 != 0 ? "#ffffff" : "#edffd9" }` );//total
       setRow( `AN${ i + 3 }`, `${ i % 2 != 0 ? "#ffffff" : "#edffd9" }` );//total bayar
       setRow( `AO${ i + 3 }`, `${ i % 2 != 0 ? "#ffffff" : "#edffd9" }` );//pembayaran
+      setRow( `AP${ i + 3 }`, `${ i % 2 != 0 ? "#ffffff" : "#edffd9" }` );//pembayaran
 
       // ------------Footer-----------------------
       setRow( `B${ data.length + 3 }`, "#ffffff" );//NO
@@ -341,6 +344,7 @@ export const exportToExcel = ( data: Row<TOrderServer>[]
       setRow( `AM${ data.length + 3 }`, "#92d050" );//total
       setRow( `AN${ data.length + 3 }`, "#92d050" );//total bayar
       setRow( `AO${ data.length + 3 }`, "#ffff00" );//pembayaran
+      setRow( `AP${ data.length + 3 }`, "#ddebf7" );//pembayaran
       //-------------------------------------
 
       setRow( `D${ data.length + 4 }`, "#ffffff" );//Tanggal
@@ -432,7 +436,7 @@ export const exportToExcel = ( data: Row<TOrderServer>[]
 // export const exportToExcel = ( table: any[] ) => {
 //   let xlDatas: any = []
 //   table.forEach( xlData => {
-//     console.log( xlData.original )
+//     console.debug( xlData.original )
 //     xlDatas.push( xlData.original )
 //   } )
 //   const wb = XLSX.utils.book_new()

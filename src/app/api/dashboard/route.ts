@@ -1,27 +1,27 @@
-import { NextRequest } from 'next/server'
-import { getReq, getRes } from '@/server/service/GetRes';
-import { prisma } from '@/server/models/prisma/config';
+import { Input, Output } from '@/server/service/GateWay';
 //
-import SemuaProdukController from '@/server/controller/SemuaProduk';
+import { prisma, TPSemuaProduct } from '@/server/models/prisma/config';
+//
+import { NextRequest, NextResponse } from 'next/server'
+import SemuaProductController2 from '@/server/controller/SemuaProduk';
 import RepoSemuaProduk from '@/server/repository/SemuaProduk';
-import Validation from '@/lib/validation/schema';
-import Service from '@/lib/validation/validation';
-import Control from '@/server/controller/Orderan';
+import { IControlSemuaProduk2 } from '@/interface/controller/SemuaProduk';
+import ValidationService from '@/lib/validation/zod/validationService';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
-const c = new SemuaProdukController(
+const c: IControlSemuaProduk2 = new SemuaProductController2(
   new RepoSemuaProduk( prisma.semuaProduct ),
-  new Validation(),
-  Service )
+  new ValidationService<TPSemuaProduct>( new ValidationSchema().semuaProdukSchema ),
+)
 
 export async function GET( request: NextRequest, ) {
-  const { id, pathname } = await getReq( request )
-  if( pathname === "/api/dashboard" && !id ) {
-
-    return getRes( "GET", () => c.dashboard(), )
+  const { id, pathname, method } = await Input( request )
+  if( id === "all" ) {
+    if( pathname === "/api/dashboard" ) {
+      return Output( "GET", () => c.dashboard(), )
+    }
   }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
-export async function PUT( request: NextRequest, ) {
-  const { json } = await getReq( request )
-  return getRes( "GET", Control.status, json )
-}

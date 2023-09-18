@@ -1,14 +1,17 @@
 import fs from 'fs';
 
 export const fileSystem = async ( filePath: string ) => {
-  return fs.unlink( "public/" + filePath, err => {
-    if( err ) {
-      console.log( "Delete error" )
-      throw err;
-    }
-    console.log( "Delete Success" )
-    return "Delete file Success "
-  } )
+  console.log( checkFile( "public/" + filePath ) )
+  if( checkFile( "public/" + filePath ) ) {
+    return fs.unlink( "public/" + filePath, err => {
+      if( err ) {
+        console.error( "Delete error" )
+        throw err;
+      }
+      console.info( "Delete Success" )
+      return "Delete file Success "
+    } )
+  }
 }
 
 //check folder exist

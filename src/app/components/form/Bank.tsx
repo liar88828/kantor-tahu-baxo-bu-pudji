@@ -1,10 +1,13 @@
 "use client"
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { InputForm } from '@/app/elements/input/InputNew';
 import { formBank } from '@/app/utils/format/bank';
+
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { InputForm } from '@/app/elements/input/InputNew';
 import { GateWay } from '@/app/utils/ress/GateWay';
 import { notifyData } from '@/app/utils/notif/toash';
 import { useRouter } from 'next/navigation';
+import { setIdBank } from '@/lib/utils/formatId';
 
 export function Form( { data, method }: {
   data: Awaited<TBank>,
@@ -17,15 +20,21 @@ export function Form( { data, method }: {
   } )
 
   const onSubmit: SubmitHandler<TBank> = async ( d ) => {
-    const res = await GateWay( method, "bank", d.id ? d.id : "", d, )
+    if( d.id.length < 10 ) {
+      d.id = setIdBank( d )
+    }
+    const res = await GateWay( method, "bank", d.id, d, )
+    console.log( res )
+    if( res.data.code ) {
+      notifyData( res.data.msg )
+    }
+
     if( res ) {
       notifyData<TBank>( res.msg )
       if( res.msg.toString().includes( "cess" ) ) {
         router.replace( "/bank/list" )
       }
     }
-    console.log( res )
-    console.error( "error" )
   }
   return (
     <div className="flex sm:flex-row flex-col">

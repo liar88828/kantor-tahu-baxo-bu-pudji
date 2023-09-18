@@ -1,8 +1,13 @@
-import type { TYPE } from '@/server/models/dataAccess/Bank';
-import { Repository } from '@/server/repository/Abstract';
+import { ARepository } from '@/server/repository/ARepository';
 import { IBankRepository } from '@/interface/repository/Bank';
+import { TPBank } from '@/server/models/prisma/config';
 
-export class BankRepository extends Repository<"bank"> implements IBankRepository<TYPE> {
+type TYPE = TPBank;
+
+export default class RepoBank extends ARepository<"bank"> implements IBankRepository<TYPE> {
+  findDashboard( a: string ): Promise<any> {
+    throw new Error( 'Method not implemented.' );
+  }
 
   setOne( d: TYPE ): TYPE {
     return {
@@ -13,25 +18,11 @@ export class BankRepository extends Repository<"bank"> implements IBankRepositor
       nama      : d.nama,
       no        : d.no,
       hp : d.hp,
-      img: d.img
+      img: d.img || "https://dummyimage.com/200x200/000/fff.jpg&text=not+found",
     }
   }
   setMany( data: TYPE[] ) {
     return data.map( ( d ) => ( this.setOne( d ) ) )
-  }
-
-//get per page data from database
-  async paginate( data: {
-    row: number,
-    skip: number
-  } ) {
-    const { row, skip } = data
-    return this.prisma.findMany( { take: row, skip } )
-  }
-
-//delete data from database
-  async destroy( id: string ) {
-    return this.prisma.deleteMany( { where: { id } } )
   }
 
   async createMany( data: TYPE[] ) {

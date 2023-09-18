@@ -1,11 +1,12 @@
-import { prisma } from '../models/prisma/config';
-import { Repository } from '@/server/repository/Abstract';
-import type { TYPE } from '@/server/models/dataAccess/semuaProduk';
+import { prisma, TPSemuaProduct } from '../models/prisma/config';
+import { ARepository } from '@/server/repository/ARepository';
 import type { IRepoSemuaProduk } from '@/interface/repository/SemuaProduk';
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
 import { TLines } from '@/entity/Dashboard';
 
-export default class RepoSemuaProduk extends Repository<"semuaProduct"> implements IRepoSemuaProduk<TYPE> {
+type TYPE = TPSemuaProduct
+
+export default class RepoSemuaProduk extends ARepository<"semuaProduct"> implements IRepoSemuaProduk<TYPE> {
   async findDashboard( a: string = "test" ) {
     if( a === "false" ) {
       const falseFeature = (): void => {
@@ -224,7 +225,8 @@ export default class RepoSemuaProduk extends Repository<"semuaProduct"> implemen
 
   }
 
-  setOne( d: TYPE, id?: string ) {
+  setOne( d: TYPE, id?: string ): TYPE {
+
     return {
       harga     : d.harga,
       id       : d.id || "null",

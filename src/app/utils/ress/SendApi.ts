@@ -1,6 +1,6 @@
-import { TOrderServer } from '@/entity/server/orderan';
 import { redirect } from 'next/navigation';
-import { nextPublicBaseUrl } from '../../../lib/config/nextPublicBaseUrl';
+import { TMethod, ToModel } from '@/entity/Utils';
+import { config } from '../../../../config.dev';
 
 export async function SendApi(
   to: string,
@@ -10,9 +10,9 @@ export async function SendApi(
 ) {
   // console.log( json )
 
-  const response = await fetch( nextPublicBaseUrl + `/api/${ to }/` + id, {
+  const response = await fetch( config.url + `/api/${ to }/` + id, {
     method: method,
-    // cache: 'no-store',
+    cache: 'no-store',
     // next   : { revalidate: 10,  },
     body   : JSON.stringify( json ),
     headers: { "Content-Type": "application/json" }
@@ -28,10 +28,11 @@ export async function SendApi(
 }
 
 export async function sendData<T>(
-  to: "bank" | "orderan" | "product" | "travel" | "dashboard",
-  method: string,
-  id: string,
-  json: any = {}
+  to: ToModel,
+  method: TMethod,
+  id: string | string[],
+  option: string = "",
+  json: any      = {}
 ) {
 
   let methods = {
@@ -39,34 +40,44 @@ export async function sendData<T>(
     headers: { "Content-Type": "application/json" }
   }
 
-  const option = {
+  const jsons = {
     body: JSON.stringify( json ),
   }
 
   if( method !== "GET" ) {
-    methods = Object.assign( option, methods )
+    methods = Object.assign( jsons, methods )
   }
 
   if( id.length > 10 ) {
-
-    methods = Object.assign( { cache: "no-cache" }, methods )
-
+    methods = Object.assign( {
+        cache: "no-cache"
+      },
+      methods )
   }
+  // console.log("---send api-------")
+  // console.log(json)
+  // console.log("---send api-------")
 
-  const res = await fetch( nextPublicBaseUrl + `/api/${ to }?id=` + id, methods )
+  const res = await fetch(
+    config.url
+    // "http://localhost:3000"
+    +
+    `/api/${ to }?id=` + id + "&option=" + option, methods )
   if( !res.ok ) {
-    console.log( res )
-    console.log( "error" )
+    console.error( res, "error" )
   }
 
   const data: { data: T, msg: string } = await res.json()
+  // console.log( data )
   return data
 }
 
 export async function sendImage( apiEndPoint: string, id: string, method: string, formData: FormData ) {
-  const response = await fetch( '/api/' + apiEndPoint + "?id=" + id, {
+  // console.log( id )
+  const response = await fetch( '/api/' + apiEndPoint + `?id=${ id }&option=file`, {
     method: method,
     body  : formData,
+    cache: "no-store"
   } )
   return await response.json()
 }

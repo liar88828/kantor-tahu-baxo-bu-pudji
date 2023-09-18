@@ -61,7 +61,7 @@ model Orderan {
   @@map("Orderans")
 }
 
-model Produk {
+model Product {
   id         String   @id @default(uuid())
   nama       String   @db.VarChar(100)
   lokasi     String   @db.VarChar(100)
@@ -74,27 +74,27 @@ model Produk {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  @@map("Produks")
+  @@map("Products")
 }
 
 model Travel {
-  id             String @id @default(uuid())
-  namaPengiriman String
-  noHpPerusahaan String
-  lokasi         String
-  jenis          String
-  harga          Int    @db.MediumInt
-  img            String
-  keterangan     String @db.Text
+  id         String @id @default(uuid())
+  nama       String
+  hp         String
+  lokasi     String
+  jenis      String
+  harga      Int    @db.MediumInt
+  img        String
+  keterangan String @db.Text
 
   @@map("Travels")
 }
 
 model Bank {
   id         String @id @default(uuid())
+  nama       String
   hp         String
   no         String
-  nama       String
   lokasi     String
   jenis      String
   img        String @db.Text

@@ -1,4 +1,3 @@
-import { getData } from '@/app/utils/ress/table';
 import React from 'react';
 import { HorizontalCard } from '@/app/components/dashboard/card';
 import { Lines } from '@/lib/chart/line';
@@ -6,9 +5,8 @@ import { Donat } from '@/lib/chart/donat';
 import { BarVertical } from '@/lib/chart/Bar';
 import { CardList, TListCard } from '@/app/components/card/dashboard/CardList';
 import { TAggregate, TDonat, TLines, TStatus } from '@/entity/Dashboard';
+import { GateWay } from '@/app/utils/ress/GateWay';
 
-// export const dynamic         = 'auto'
-// export const dynamicParams   = true
 export const revalidate = 0
 export const fetchCache = 'auto'
 export const runtime    = 'nodejs'
@@ -27,8 +25,7 @@ export async function ServerComponent() {
       notifyMonth: TListCard[]
       aggregate: TAggregate[]
     }
-  } = await getData()
-  console.log( r.data )
+  } = await GateWay( 'GET', 'dashboard', "all", )
   return ( <>
       <ClientComponent
         line={ r.data.semuaOrderTahun }
@@ -52,15 +49,11 @@ const ClientComponent = ( {
   notifyMonth: TListCard[]
   aggregate: TAggregate[]
 } ) => {
-  console.log( "-----------" )
-  console.log( line )
-  // console.log(aggregate)
-  console.log( "-----------" )
 
   return ( <>
       <div className={ " flex gap-2 flex-col p-2 sm:p-4" }>
         <div
-          className="flex flex-wrap my-5 p-2 md:p-5  gap-2 sm:gap-3 justify-between bg-slate-50  rounded-2xl shadow-xl
+          className="flex flex-wrap my-5 p-2 md:p-5 gap-2 sm:gap-3 justify-between bg-slate-50 rounded-2xl shadow-xl
 shadow-slate-200">
           <HorizontalCard data={ status }/>
         </div>

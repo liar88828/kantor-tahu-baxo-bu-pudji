@@ -1,56 +1,66 @@
+import { Input, Output } from '@/server/service/GateWay';
+
+import { prisma, TPProduct } from '@/server/models/prisma/config';
+
 import { NextRequest, NextResponse } from 'next/server'
-import Control from '@/server/controller/Produk';
-import { saveFile } from '@/server/service/image';
-import { formatData } from '@/lib/utils/formatData';
-import { getReq, getRes } from '@/server/service/GetRes';
+import ProductController2 from '@/server/controller/Produk';
+import RepoProduk from '@/server/repository/Product';
+import ValidationService from '@/lib/validation/zod/validationService';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
+
+import { IControlProduct2 } from '@/interface/controller/Product';
+
+const c: IControlProduct2 = new ProductController2(
+  new RepoProduk( prisma.product ),
+  new ValidationService<TPProduct>( new ValidationSchema().ProductSchema ),
+)
 
 export async function GET( request: NextRequest ) {
-  const { id, } = await getReq( request )
+  const { id, } = await Input( request )
 
-  if( id ) {
-    return await getRes( "GET", Control.findById, id )
+  if( id === "all" ) {
+    return await Output( "GET", () => c.find() )
   }
-  if( !id ) {
-    return await getRes( "GET", Control.find )
+
+  if( id.length > 10 ) {
+    return await Output( "GET", () => c.findById( id ), )
   }
+  return NextResponse.json( { msg: "Error EDIT", error: "cannot empty ID" } )
 }
 
 export async function POST( request: NextRequest, ) {
-  const json       = await saveFile( request, "/img/produk/", "create" )
-  const formatJson = formatData( json, "produk" )
-  return await getRes( "POST", Control.create, formatJson )
+  try {
+    const { json } = await Input( request );
+    console.info( "api POST product" )
+    return await Output( "POST", () => c.create( json ) )
+  }
+  catch ( e ) {
+    return NextResponse.json( { msg: `Error POST`, error: e } )
+  }
 }
 
 export async function DELETE( request: NextRequest ) {
-  const { id, } = await getReq( request )
+  const { id, method } = await Input( request )
 
-  if( id ) {
-    return await getRes( "DELETE", Control.destroy, id )
+  if( id.length > 10 ) {
+    return await Output( "DELETE", () => c.destroy( id ), )
   }
-  if( !id ) {
-    return NextResponse.json( {
-      msg    : `Bad A Value`,
-      success: false,
-      data: `Please Input an ID  `,
-    } );
-  }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "cannot empty ID" } )
 }
 
 export async function PUT( request: NextRequest, ) {
-  const { id, } = await getReq( request )
-
   try {
-    const json        = await saveFile( request, "/img/produk/", "edit" )
-    const formatJson  = formatData( json, "produk" )
-    const dataControl = await Control.edit( formatJson, id )
 
-    return NextResponse.json( {
-      msg : "Success EDIT",
-      data: dataControl
-    } )
+    const { json, id, method } = await Input( request, );
+    if( id.length > 3 ) {
+      return await Output( "PUT", () => c.edit( json, id ) )
+    }
+    return NextResponse.json( { msg: `Error ${ method }`, error: "cannot empty ID" } )
+
   }
   catch ( e ) {
-    return NextResponse.json( { msg: "Error EDIT", error: e } )
+    return NextResponse.json( { msg: "Error Create", error: e } )
   }
+
 }
 

@@ -21,6 +21,7 @@ const PopUpOrder = ( { valueForm, method }: { valueForm: TOrder, method: "PUT" |
               className={ Status( valueForm.status ) + "p-2" }>{ valueForm.status }</span>
             </div>
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+
             <div className=" flex gap-5 flex-col sm:flex-row">
               <div className="card-body gap-5 flex flex-col w-full sm:w-[50%] border border-white p-5">
                 <p>Kode : { valueForm.id }</p>

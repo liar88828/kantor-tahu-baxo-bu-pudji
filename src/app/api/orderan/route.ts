@@ -1,52 +1,89 @@
-import { NextRequest } from 'next/server'
-import Control from '@/server/controller/Orderan';
-import { getReq, getRes } from '@/server/service/GetRes';
+import { Input, Output } from '@/server/service/GateWay';
+import { isObjectEmpty } from '@/app/utils/ress/GateWay';
+import { prisma, TPOrderan } from '@/server/models/prisma/config';
+
+import { NextRequest, NextResponse } from 'next/server'
+import ValidationService from '@/lib/validation/zod/validationService';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
+import RepoOrderan from '@/server/repository/Orderan';
+import OrderanController2 from '@/server/controller/Orderan';
+
+import { IControlOrderan2 } from '@/interface/controller/Orderan';
+import { TMethod } from '@/entity/Utils';
+
+const c: IControlOrderan2 = new OrderanController2(
+  new RepoOrderan( prisma.orderan ),
+  new ValidationService<TPOrderan>( new ValidationSchema().OrderanSchema ),
+)
+
+type TInput = {
+  id: string;
+  option: string;
+  value: string;
+  pathname: string;
+  method: string;
+}
 
 export async function GET( request: NextRequest, ) {
-  const { id, option, value, pathname } = await getReq( request )
+  const { id, option, pathname, method }: TInput = await Input( request )
+
+  if( !pathname.includes( "table" ) && id === "all" ) {
+    return Output( "GET", () => c.find(), )
+  }
 
   if( option === "table" ) {
-    return getRes( "GET", Control.findByStatus, id )
-  }
-  if( id && !option && !value ) {
-    return getRes( "GET", Control.findOne, id )
+    return Output( "GET", () => c.findByStatus( id ) )
   }
 
-  if( pathname === "/api/orderan" && !id ) {
-    return getRes( "GET", Control.find, )
+  if( id.includes( "_" ) ) {
+    return Output( "GET", () => c.findById( id ) )
   }
+
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
 export async function POST( request: NextRequest, ) {
-  const json = await request.json()
-  // console.log( json )
-  return getRes( "CREATE", Control.create, json )
+  const { json } = await Input( request )
+  return Output( "POST", () => c.create( json ), )
 }
 
 export async function PATCH( request: NextRequest, ) {
-  const { id, option, value } = await getReq( request )
-
-  return getRes( "EDIT", Control.updateOneOnly, [ id, option, value ] )
+  const { id, method, json } = await Input( request )
+  if( id.length > 10 ) {
+    return Output( "PATCH", () => c.status( json, id ), )
+  }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
 }
 
 export async function PUT( request: NextRequest, ) {
-  const { id, option, value } = await getReq( request )
+  const { id, json, method } = await Input( request )
+  if( json === undefined ) {
+    return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty data" } )
+  }
 
-  return getRes( "EDIT", Control.updateOneOnly, id, option, value )
+  if( id.length > 10 || !isObjectEmpty( json ) ) {
+    return Output( "PUT", () => c.edit( json, id ), )
+  }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
 export async function DELETE( request: NextRequest, ) {
-  const { json } = await getReq( request )
-  console.log( json )
-  if( Array.isArray( json ) ) {
-    if( json ) {
-      return getRes( "DELETE", Control.destroy, json[ 0 ] )
-    }
-    if( json ) {
-      // const formData            = await request.formData();
-      // const formDataEntryValues = Array.from( formData.values() );
-      // let array: string[]       = JSON.parse( <string>formDataEntryValues[ 0 ] )
-      return getRes( "DELETE", Control.deleteMany, json );
-    }
+  const { method, id, json: array }: { method: TMethod, id: string, json: string[] } = await Input( request )
+
+  if( id.length > 10 ) {
+    return Output( "DELETE", () => c.destroy( id ) )
   }
+
+  if( array.length === 1 ) {
+    return Output( "DELETE", () => c.destroy( array[ 0 ] ) )
+  }
+
+  if( array.length > 1 ) {
+    return Output( "DELETE", () => c.deleteMany( array ) )
+  }
+
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }

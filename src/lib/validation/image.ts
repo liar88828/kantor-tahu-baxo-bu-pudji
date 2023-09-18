@@ -1,21 +1,22 @@
-import {
-  checkFile, checkFolder, createFile, makeFolder
-}                   from '@/lib/utils/fileSystem';
+import { checkFile, checkFolder, createFile, makeFolder } from '@/lib/utils/fileSystem';
 import { newError } from '@/server/exeption/errorHandler';
-import fs           from 'fs';
+import fs from 'fs';
+import { debugs } from '../../../config.dev';
 
-const saveFile = (
+export type TPathImg = "travel" | "produk" | string;
+
+const saveFile   = (
   filePath: string,
   buffer: Buffer,
   data: any,
 ) => {
   if( checkFile( filePath ) ) {
-    console.log( 'file exists' );
+    console.info( 'file exists' );
   }
   else {
-    console.log( 'file not found!' );
+    console.error( 'file not found!' );
     createFile( filePath, buffer )
-    console.log( data )
+    console.error( data )
     return data
   }
 }
@@ -24,10 +25,10 @@ const deleteFile = async (
 ) => {
   return fs.unlink( "public/" + img, err => {
     if( err ) {
-      console.log( "Delete error" )
+      console.error( "Delete error" )
       return "Delete error"
     }
-    console.log( "Delete Success" )
+    console.info( "Delete Success" )
     return "Delete file Success"
   } )
 }
@@ -58,15 +59,20 @@ export const validateFileImage = async ( filePath: string, buffer: Buffer, data:
 
 export const validImage = async (
   buffer: Buffer,
-  path: string,
+  path: TPathImg,
   img: string,
-  option: string = "POST",
+  option: "POST" | "PUT" = "POST",
   data: any
 ) => {
-
+  if( debugs ) {
+    console.info( img )
+    console.info( option )
+    console.info( data )
+  }
   //check directory
+  //checkFolder travel/product
   if( !checkFolder( path ) ) {
-    console.log( 'folder create' );
+    console.info( 'folder create' );
     makeFolder( path )
   }
 
@@ -79,7 +85,7 @@ export const validImage = async (
 
   if( option === "POST" ) {
     //check file exist
-    // console.log( checkFile( "public/" + img ) )
+    console.info( checkFile( "public/" + img ) )
     if( checkFile( "public/" + img ) ) {
       throw new newError( "File is Exist" )
     }

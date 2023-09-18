@@ -5,7 +5,6 @@ export function ConsoleLog( props: { onClick: () => void, onClick1: () => void }
       className="border rounded p-2 mb-2"
       onClick={ props.onClick }
     >
-      Console.log()
       Log `rowSelection` state
     </button>
 

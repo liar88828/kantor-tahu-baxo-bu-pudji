@@ -1,10 +1,10 @@
 import { Rupiah } from '@/lib/utils/rupiah';
-import { DeleteCard } from '@/app/elements/button/DeleteCard';
-import { EditCard } from '@/app/elements/button/EditCard';
-import { ButtonAction } from '@/app/elements/button/ActionButton';
+import { DeleteCard } from '@/app/elements/button/card/Delete';
+import { EditCard } from '@/app/elements/button/card/Edit';
+import { ButtonAction } from '@/app/elements/button/card/ActionButton';
 import { CardBody, LiCard, UlCard } from '@/app/elements/card/Card';
 import { ImgCard } from '@/app/elements/img/ImgCard';
-import { TextBody, Texts, TextTitle } from '@/app/elements/Text/TextCard';
+import { TextBody, TextHidden, Texts, TextTitle } from '@/app/elements/Text/TextCard';
 
 export const to = "product"
 
@@ -24,16 +24,11 @@ export function ListProduct( { data }: {
               <TextBody>
                 <div>
                   <Texts>{ Rupiah( d.harga ) }</Texts>
-                  <Texts>
-                    <span className={ "hidden sm:block" }>Jenis : </span>{ d.jenis }
-                  </Texts>
+                  <TextHidden title={ "Jenis" } value={ d.jenis }/>
                   <Texts>{ d.lokasi }</Texts>
                 </div>
-
                 <div>
-                  <Texts>
-                    <span className={ "hidden sm:block" }>Keterangan : </span>{ d.keterangan }
-                  </Texts>
+                  <TextHidden title={ "Keterangan" } value={ d.keterangan }/>
                 </div>
               </TextBody>
             </div>

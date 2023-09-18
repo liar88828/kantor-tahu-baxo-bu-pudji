@@ -3,7 +3,7 @@ import React from 'react';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
-import { TDonat } from '@/app/dashboard/dashboard';
+import { TDonat } from '@/entity/Dashboard';
 
 ChartJS.register( ArcElement, Tooltip, Legend );
 
@@ -34,7 +34,7 @@ export function Donat( { dataKu }: {
     maintainAspectRatio: true,
     // dataset: {
     //   formatter: ( value, context ) => {
-    //     console.log(value, context)
+    //     console.info(value, context)
     //     return value
     //   }
     // },

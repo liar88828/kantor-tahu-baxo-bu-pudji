@@ -1,7 +1,7 @@
 "use client"
 import { AiOutlineBook, AiOutlineCheckCircle, AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiTruck } from 'react-icons/fi';
-import { Status } from '@/app/style/status';
+import { statusWarna } from '@/app/style/status';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { TStatus } from '@/entity/Dashboard';
@@ -15,8 +15,9 @@ function Cards( { title, icon, rout, totalStatus }: {
   totalStatus: number
 } ) {
   return <div
-    className={ " flex card-compact card w-[47%] sm:w-[31%] md:w-[22%] px-2 sm:px-2 md:px-4 h-[60%] my-[.2rem] " +
-      Status( title ) }>
+    className={ " flex text-white card-compact card w-[47%] sm:w-[31%] md:w-[22%] px-2 sm:px-2 md:px-4 h-[60%]" +
+      " my-[.2rem] " +
+      statusWarna( title ) }>
     <div className="card-body flex-row justify-between  flex flex-wrap">
 
       <div className={ " card-title " }>
@@ -39,7 +40,7 @@ function Cards( { title, icon, rout, totalStatus }: {
 export function HorizontalCard( { data }: {
   data: TStatus[]
 } ) {
-  const iconStyle = "w-6 sm:w-6 h-auto";
+  const iconStyle = " ";
 
   const objectArray = data.map( d => {
     const count = d._count.status

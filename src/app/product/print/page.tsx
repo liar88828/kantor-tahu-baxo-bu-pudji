@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { GateWay } from '@/app/utils/ress/GateWay';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { AiOutlineFacebook, AiOutlineGlobal, AiOutlineInstagram, AiOutlineYoutube } from 'react-icons/ai';
-// bg-gradient-to-r from-cyan-200 to-cyan-400
 
 export const revalidate = 0
 export const fetchCache = 'auto'
@@ -118,7 +117,7 @@ export default async function Page() {
                                className={ "rounded-3xl object-cover h-full w-20" }
                           />
                         </figure>
-                        { t.namaPengiriman }
+                        { t.nama }
                       </li>
                     )
                   } ) }

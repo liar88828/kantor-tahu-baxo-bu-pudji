@@ -2,8 +2,8 @@ type TTravel = {
   id: string,
   img?: string,
   lokasi: string,
-  namaPengiriman: string,
-  noHpPerusahaan: string
+  nama: string,
+  hp: string
   jenis: string,
   harga: number,
   keterangan: string,

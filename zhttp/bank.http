@@ -2,10 +2,15 @@
 GET http://localhost:3000/api/bank?id=all
 Content-Type: application/json
 
-
+//kosongkosongkosongkosongkosong1
+#Ma_09_Un_Kr_Bi_1693367481943
 ### get data Bank by id
-GET http://localhost:3000/api/bank?id=Ma_09_Un_Kr_Bi_1693367481943
+####GET http://localhost:3000/api/bank?id=kosongkosongkosongkosongkosong
+GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
 Content-Type: application/json
+
+{}
+
 
 
 ### create data Bank
@@ -19,6 +24,7 @@ Content-Type: application/json
   "nama": "mandiri",
   "lokasi": "Semrang",
   "keterangan": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
   "jenis": "Kredit"
 }
 
@@ -39,7 +45,7 @@ Content-Type: application/json
 }
 
 ### delete data Bank
-DELETE http://localhost:3000/api/bank?id=Ma_09_Un_Kr_Bi_1693367481941
+DELETE http://localhost:3000/api/bank?id=kosongkosongkosongkosongkosong
 Content-Type: application/json
 
 {}

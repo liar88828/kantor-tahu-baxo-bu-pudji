@@ -1,34 +1,39 @@
-import { TOrderServer } from '@/entity/server/orderan';
 import { TOrder } from '@/entity/client/orderan';
-import { config } from '../../../../dataEnv';
+import { config } from '../../../../config.dev';
 import { setDates, setHours } from '@/lib/utils/formatDate';
-import { redirect } from 'next/navigation';
-import { SendApi, sendData } from '@/app/utils/ress/SendApi';
-import { TProOrderan } from '@/entity/server/produkOrderan';
+import { sendData } from '@/app/utils/ress/SendApi';
+import { GateWay } from '@/app/utils/ress/GateWay';
 
 const test = "test"
 
 export async function onCreate(
-  sendData: TOrder,
+  data: TOrder,
   method: "POST" | "PUT",
   id: string
 ) {
-  sendData.hpPengirim                = "0" + sendData.hpPengirim.toString()
-  sendData.hpPenerima                = "0" + sendData.hpPenerima.toString()
-  const newSemuaProduct: TProOrderan[] = sendData.semuaProduct.map( ( d: TProOrderan ) => {
-    d.orderanId = sendData.id
+
+  data.hpPengirim = "0" + data.hpPengirim.toString()
+  data.hpPenerima = "0" + data.hpPenerima.toString()
+
+  const newSemuaProduct: TProOrderan[] = data
+  .semuaProduct.map( ( d: TProOrderan ) => {
+    d.orderanId = data.id
     return d
   } )
 
-  const { listItem, listOrderan, semuaProduct, ...puts } = sendData
+  const { listItem, listOrderan, semuaProduct, ...puts } = data
   const ress                                             = Object.assign( { semuaProduct: newSemuaProduct }, puts )
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
-      return await SendApi( "orderan", "POST", ress, "" );
+      return await GateWay( "POST", "orderan", "", ress )
+
+      // return await SendApi( "orderan", "POST", ress, "" );
     }
     if( method === "PUT" ) {
-      console.log( "true" )
-      return await SendApi( "orderan", "PUT", ress, id );
+      // console.info( "true" )
+      return await GateWay( "PUT", "orderan", id, ress )
+      // return await SendApi( "orderan", "PUT", ress, id );
+
     }
   }
   else {
@@ -64,23 +69,6 @@ function formatData( data: TFormatDataOrder ) {
   }
 }
 
-export async function defaultData( id: string ): Promise<TOrder> {
-  const response = await fetch(
-    config.url + "/api/orderan?id=" + id,
-    { method: "GET", } )
-
-  const data: {
-    data: TOrder,
-    msg: string
-  } = await response.json()
-
-  if( !response.ok ) {
-    return redirect( '/not-found/' + id )
-  }
-  // console.log( data )
-  return formatData( data );
-}
-
 export async function getDataByStatus( slug: string ): Promise<{
   msg: string,
   data: TOrderServer[]
@@ -98,14 +86,13 @@ export async function getDataByStatus( slug: string ): Promise<{
   return data
 }
 
-
-export async function deleteDataMany( send: string [] ) {
-
-  return await sendData<TProOrderan>( "orderan", "DELETE", "", send )
+export async function deleteDataOne( id: string ) {
+  return await sendData( "orderan", "DELETE", id )
 }
 
-export async function deleteDataOne( id: string[] ) {
-  return await sendData( "orderan", "DELETE", "", id )
+export async function deleteDataMany( ids: string[] ) {
+
+  return await sendData( "orderan", "DELETE", "", "", ids, )
 }
 
 if( test !== "test" ) {

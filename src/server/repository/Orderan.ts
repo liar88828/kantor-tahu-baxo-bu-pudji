@@ -1,12 +1,13 @@
-import { prisma, } from '@/server/models/prisma/config';
-import { TOrderServer } from '@/entity/server/orderan';
-import { TOptional } from '@/entity/server/types';
-import { InterfaceOrderan } from '@/interface/repository/Orderan';
-import { TProOrderan } from '@/entity/server/produkOrderan';
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
+import { prisma, TPOrderan, } from '@/server/models/prisma/config';
+import { TOptional } from '@/entity/server/types';
 import { TAggregate, TLine, TLines, TSendDashboard, TStatus } from '@/entity/Dashboard';
+import { IRepoOrderan } from '@/interface/repository/Orderan';
 
-export default class Orderan implements InterfaceOrderan {
+import { ARepository } from '@/server/repository/ARepository';
+
+type TYPE = TPOrderan
+export default class RepoOrderan extends ARepository<"orderan"> implements IRepoOrderan<TYPE> {
 
 // getAll data from database
   getSelect() {
@@ -43,8 +44,11 @@ export default class Orderan implements InterfaceOrderan {
     };
   }
 
-  setOne( d: Omit<TOrderServer, "semuaProduct"> ) {
-    // console.log(d)
+  setOne( d: Omit<TYPE, "semuaProduct"> ) {
+    d.waktuKirim = !d.waktuKirim ? new Date() : d.waktuKirim
+    d.pesan      = !d.pesan ? new Date() : d.pesan
+    d.kirim      = !d.kirim ? new Date() : d.kirim
+
     const time = ( d.waktuKirim.toString().length === 5 )
                  ? d.waktuKirim + ":00"
                  : d.waktuKirim
@@ -70,21 +74,40 @@ export default class Orderan implements InterfaceOrderan {
     }
   }
 
-  createMany( _: any[] ): Promise<any> {
+  setMany( data: TYPE, method: string | "POST" | "PUT" ) {
+    return data.semuaProduct.map( ( d: TProOrderan ) => (
+        Object.assign( {
+          harga     : d.harga,
+          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
+          jenis     : d.jenis.replaceAll( " ", "" ),
+          jumlah    : d.jumlah,
+          keterangan: d.keterangan,
+          lokasi    : d.lokasi.replaceAll( " ", "" ),
+          img       : d.img,
+          nama      : d.nama,
+          orderanId : data.id
+        } )
+      )
+    );
+  }
+
+  async createMany( _: any[] ): Promise<any> {
     throw new Error( 'Method not implemented.' );
   }
 
   // ---------CREATE
-  async createOne( data: TOrderServer ) {
-    // console.log( data )
-    const createOne = prisma.orderan.create( {
+  async createOne( data: TYPE, ) {
+
+    const one = prisma.orderan.create( {
       data: this.setOne( data )
     } )
 
-    const createMany = prisma.semuaProduct.createMany( {
-      data: this.setMany( data )
+    const many  = prisma.semuaProduct.createMany( {
+      data: this.setMany( data, "POST" )
     } )
-    return await prisma.$transaction( [ createOne, createMany ] )
+    const datas = await prisma.$transaction( [ one, many ] )
+    console.log( datas )
+    return datas
   }
 
   async findOne( id: string ) {
@@ -105,7 +128,7 @@ export default class Orderan implements InterfaceOrderan {
     } )
   }
 
-  async findDashboard( a: string = "test" ) {
+  async findDashboard( a: string ) {
     if( a === "false" ) {
       const falseFeature = (): void => {
 
@@ -297,7 +320,7 @@ export default class Orderan implements InterfaceOrderan {
     const notifyMonth            = transaction[ 2 ]
     const semuaProductLast       = transaction[ 3 ]
 
-    const send: TSendDashboard = {
+    const send = {
       semuaOrderTahun,//untuk line
       semuaProductNow,// untuk donat Now
       semuaProductLast,// untuk donat Last
@@ -309,7 +332,7 @@ export default class Orderan implements InterfaceOrderan {
 
   }
 
-  async findById( status: TOrderServer["status"] ) {
+  async findById( status: TYPE["status"] ) {
     let option = {
       include: { semuaProduct: true }
     }
@@ -321,14 +344,14 @@ export default class Orderan implements InterfaceOrderan {
     return prisma.orderan.findMany( option )
   }
 
-  async createNesting( data: TOrderServer ) {
+  async createNesting( data: TYPE ) {
     return prisma.orderan.create( {
       data:
         Object.assign( this.setOne( data ),
           {
             semuaProduct: {
               createMany: {
-                data: this.setMany( data )
+                data: this.setMany( data, "POST" )
               }
             },
           }, ),
@@ -340,7 +363,10 @@ export default class Orderan implements InterfaceOrderan {
 
   }
 
-  async paginate( data: { row: number, skip: number } ) {
+  async paginate( data: {
+    row: number,
+    skip: number
+  } ) {
     const { row, skip } = data
     return prisma.orderan.findMany( { take: row, skip } )
   }
@@ -368,7 +394,7 @@ export default class Orderan implements InterfaceOrderan {
     return prisma.$transaction( [ deleteMany, delete1 ] )
   }
 
-  async updateMany( data: TOrderServer, id: string, ) {
+  async updateMany( data: TYPE, id: string, ) {
 
     const updateData = prisma.orderan.update( {
       where: { id },
@@ -376,7 +402,7 @@ export default class Orderan implements InterfaceOrderan {
     } );
 
     const createMany = prisma.semuaProduct.createMany( {
-      data: this.setMany( data )
+      data: this.setMany( data, "POST" )
     } )
 
     const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
@@ -388,20 +414,23 @@ export default class Orderan implements InterfaceOrderan {
     )
   }
 
-  async updateOne( data: TOrderServer, id: string, ) {
+  async updateOne( data: TYPE, id: string, ) {
     // console.log(data)
     return prisma.orderan.update( {
         where: { id: id },
-        data : this.setOne( data )
+      data: this.setOne( data, )
       }
     )
 
   }
 
-  async UpdateOneEx( data: TOrderServer, id: string, ) {
-    const time = ( data.waktuKirim.toString().length === 5 )
-                 ? data.waktuKirim + ":00"
-                 : data.waktuKirim
+  async UpdateOneEx( data: TYPE, id: string, ) {
+    data.waktuKirim = !data.waktuKirim ? new Date() : data.waktuKirim
+    data.pesan      = !data.pesan ? new Date() : data.pesan
+    data.kirim      = !data.kirim ? new Date() : data.kirim
+    const time      = ( data.waktuKirim.toString().length === 5 )
+                      ? data.waktuKirim + ":00"
+                      : data.waktuKirim
 
     return await prisma.$transaction( [
       ...data.semuaProduct.map( d =>
@@ -443,22 +472,4 @@ export default class Orderan implements InterfaceOrderan {
     ] );
   }
 
-  setMany( data: TOrderServer, method: string = "POST" ) {
-    return data.semuaProduct.map( ( d: TProOrderan ) => (
-        Object.assign( {
-          harga     : d.harga,
-          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-          jenis     : d.jenis.replaceAll( " ", "" ),
-          jumlah    : d.jumlah,
-          keterangan: d.keterangan,
-          lokasi    : d.lokasi.replaceAll( " ", "" ),
-          img       : d.img,
-          nama      : d.nama,
-          orderanId : data.id
-        } )
-      )
-    );
-  }
-
 }
-

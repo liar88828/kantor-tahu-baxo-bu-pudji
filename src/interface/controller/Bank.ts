@@ -1,7 +1,11 @@
-import { InterController } from '@/interface/controller/Abstract';
-import { InterfaceAbstractRepository } from '@/interface/repository/Abstract';
+import { IAController } from '@/interface/controller/old/IAController';
+import IANewController from '@/interface/controller/IANewController';
+import { TPBank } from '@/server/models/prisma/config';
 
-export interface IControlBank extends InterController {
-  readonly r: InterfaceAbstractRepository<"bank">;
+export interface IControlBank extends IAController<"bank"> {
+
+}
+
+export interface IControlBank2 extends IANewController<"bank", TPBank> {
 
 }

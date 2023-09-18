@@ -58,7 +58,7 @@ const cart = new ShoppingCartImpl<Product>();
 cart.addItem( cartItem1 );
 cart.addItem( cartItem2 );
 
-console.log( "Shopping Cart Items:", cart.items );
-console.log( "Total:", cart.getTotal() );
+console.info( "Shopping Cart Items:", cart.items );
+console.info( "Total:", cart.getTotal() );
 
 

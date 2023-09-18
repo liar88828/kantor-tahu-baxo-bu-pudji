@@ -1,86 +1,67 @@
+import { Input, Output, TSend } from '@/server/service/GateWay';
+
+import { prisma, TPTravel } from '@/server/models/prisma/config';
+
 import { NextRequest, NextResponse } from 'next/server'
-import Control from '@/server/controller/Travel';
-import { extractData } from '@/server/service/extractForm';
-import { setData } from '@/lib/utils/formatData';
-import { newError } from '@/server/exeption/errorHandler';
-import { validImage } from '@/lib/validation/image';
-import type { TExtract } from '@/entity/server/image';
-import { getReq, getRes } from '@/server/service/GetRes';
+import TravelController2 from '@/server/controller/Travel';
+import RepoTravel from '@/server/repository/Travel';
+import ValidationService from '@/lib/validation/zod/validationService';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
+
+import IANewController from '@/interface/controller/IANewController';
+
+type TYPE = TPTravel
+
+const c: IANewController<"travel", TYPE> = new TravelController2(
+  new RepoTravel( prisma.travel ),
+  new ValidationService<TYPE>( new ValidationSchema().TravelSchema ),
+)
 
 export async function GET( request: NextRequest, ) {
-  const { id } = await getReq( request );
-  if( id ) {
-    return await getRes( "GET", Control.findById, id )
+  // console.log(headersList,"header")
+  const { id, method } = await Input( request );
+  if( id === "all" ) {
+    return await Output( "GET", () => c.find() )
   }
-  if( !id ) {
-    return await getRes( "GET", Control.find )
+  if( id.length > 10 ) {
+    return await Output( "GET", () => c.findById( id ), )
   }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
-export async function POST( request: Request ) {
+export async function POST( request: NextRequest ) {
   try {
-    const data: TExtract = await extractData( request )
-    if( !data ) {
-      return new newError( "Fail Create", )
-    }
-
-    const json: TTravel = setData( data.dataImage.file, data.json, "/img/travel/" )
-    const dataControl   = await Control.create( data.json )
-    if( !dataControl ) {
-      return new newError( "Fail Create DataBase", )
-    }
-    console.log( dataControl )
-    await validImage( data.dataImage.buffer, "public/img/travel",
-      json.img ??
-      "", "POST", data )
-
-    return NextResponse.json( { msg: "Success Create", data: dataControl } )
+    const { json } = await Input( request, );
+    console.log( "post api" )
+    console.log( json )
+    return await Output( "POST", () => c.create( json ) )
   }
   catch ( e ) {
-    return NextResponse.json( { msg: "Error Create", error: e } )
+    return NextResponse.json( { msg: `Error POST`, error: e } )
   }
 }
 
 export async function DELETE( request: NextRequest ) {
-  const { id } = await getReq( request );
-  if( id ) {
-    return await getRes( "DELETE", Control.destroy, id )
+  const { id, method }: TSend = await Input( request );
+  if( id.length > 10 ) {
+
+    return await Output( "DELETE", () => c.destroy( id ), )
   }
-  if( !id ) {
-    return NextResponse.json( {
-      msg    : `Bad A Value`,
-      success: false,
-      data   : `Please Input a ID  `,
-    } );
-  }
+  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+
 }
 
 export async function PUT( request: NextRequest ) {
-  const { id } = await getReq( request );
 
   try {
-    const data: TExtract = await extractData( request )
-    if( !data ) {
-      return new newError( "Fail Create", )
+    const { json, id, method } = await Input( request );
+    if( id.length > 10 ) {
+      return await Output( "PUT", () => c.edit( json, id ) )
     }
-    // console.log( data )
-    const json: TTravel = setData( data.dataImage.file, data.json, "/img/travel/" )
-
-    const dataControl = await Control.edit( data.json, id )
-    if( !dataControl ) {
-      return new newError( "Fail Create DataBase" )
-    }
-
-    await validImage(
-      data.dataImage.buffer,
-      "public/img/travel",
-      json.img ?? "", "PUT", data )
-    return NextResponse.json( {
-      msg : "Success EDIT",
-      data: dataControl
-    } )
+    return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
   }
   catch ( e ) {
-    return NextResponse.json( { msg: "Error EDIT", error: e } )
+    return NextResponse.json( { msg: "Error PUT", error: e } )
   }
 }

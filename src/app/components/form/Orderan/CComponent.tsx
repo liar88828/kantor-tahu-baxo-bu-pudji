@@ -1,7 +1,7 @@
 "use client"
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { TOrder } from '@/entity/client/orderan';
-import React, { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { defaultValues } from '@/app/utils/format/orderan';
 import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/elements/input/InputNew';
@@ -31,7 +31,7 @@ export function CComponent( {
   product: TProduct[]
   bank: TBank[]
 } ) {
-
+  // console.log(defaultDataOrder)
   const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
     {
       defaultValues: defaultDataOrder,
@@ -57,7 +57,7 @@ export function CComponent( {
     rules: { required: "Please append at last 1 ", }
   } );
 
-  const [ clickPopUp, setClickPopUp ] = useState( false );
+  // const [ clickPopUp, setClickPopUp ] = useState( false );
   const [ valueForm, setValueForm ]   = useState<TOrder>( defaultValues )
 
   // -----------------------Calculator Product
@@ -70,12 +70,18 @@ export function CComponent( {
   valueForm.totalPenjualan = semuaHargaOrderan
 
   const onSubmit: SubmitHandler<TOrder> = ( data ) => {
-    function setList( option: 'Item' | "Orderan", f: TProduct[] ) {
+    function setList(
+      option: 'Item' | "Orderan",
+      json: TProduct[]
+    ) {
+      console.info( data )
       data.semuaProduct
           .filter( ( d: TProduct ) => d.jenis.replaceAll( " ", "" ) === option )
-          .forEach( ( d: TProduct ) => f.push( d ) )
+          .forEach( ( d: TProduct ) => json.push( d ) )
     }
 
+    data.listItem    = []
+    data.listOrderan = []
     setList( "Item", data.listItem );
     setList( "Orderan", data.listOrderan );
     // console.log( data )
@@ -87,7 +93,7 @@ export function CComponent( {
   const [ filteredItems, setFilteredItems ] = useState<TOrder["semuaProduct"]>( fields );
   const [ cariProduct, setCariProduct ]     = useState<boolean>( false )
 
-  const handleSearchChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleSearchChange = ( event: ChangeEvent<HTMLInputElement> ) => {
     setSearchQuery( event.target.value );
 
     const filtered = product.filter(
@@ -100,27 +106,28 @@ export function CComponent( {
     setFilteredItems( filtered );
   };
 
-  const isItemAdded = ( item: TProduct ) => cart.some( ( cartItem ) => cartItem.nama ===
+  const isItemAdded = ( item: TProduct ) => cart.some( ( cartItem: TProduct ) => cartItem.nama ===
     item.nama )
 
   const addToCart = ( item: TProduct ) => {
     const isItemInCart = fields.some( ( cartItem ) => cartItem.nama ===
-      item.nama );
+      item.nama )
     if( isItemInCart ) {
       alert( `Item "${ item.nama }" is already in the cart.` );
-      setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.nama !==
+      setFilteredItems( ( prevItems: TProduct[] ) => prevItems.filter( ( listItem ) => listItem.nama !==
         item.nama ) );
       remove( fields.length )
       return;
     }
-    setCart( ( prevCart ) => [ ...prevCart, item ] );
-    setFilteredItems( ( prevItems ) => prevItems.filter( ( listItem ) => listItem.nama !==
+    setCart( ( prevCart: TProduct[] ) => [ ...prevCart, item ] );
+    setFilteredItems( ( prevItems: TProduct[] ) => prevItems
+    .filter( ( listItem ) => listItem.nama !==
       item.nama ) );
   };
 
   const removeFromCart = ( item: TProduct ) => {
-    setCart( ( prevCart ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
-    setFilteredItems( ( prevItems ) => [ ...prevItems, item ] );
+    setCart( ( prevCart: TProduct[] ) => prevCart.filter( ( cartItem ) => cartItem.nama !== item.nama ) );
+    setFilteredItems( ( prevItems: TProduct[] ) => [ ...prevItems, item ] );
   };
 
   const fomIsi = "bg-white flex-col flex sm:w-[48%]  md:w-[49%] ml-2 gap-3 rounded p-2 sm:p-5";
@@ -129,11 +136,11 @@ export function CComponent( {
       <form className="bg-green-100 sm:bg-green-50  w-[98%] lg  "
             onSubmit={ handleSubmit( onSubmit ) }>
         <div className="flex flex-col sm:flex-row  sm:gap-3 mt-5">
-          <div className="flex flex-wrap"></div>
+          {/*<div className="flex flex-wrap"></div>*/ }
           <div className={ fomIsi }>
             <div className={ "flex-col flex gap-3 " }>
-              <h2 className={ styleLabelForm }>Nama</h2>
-              <hr/>
+              {/*<h2 className={ styleLabelForm }>Nama</h2>*/ }
+              {/*<hr/>*/ }
               <InputForm title={ "Pengirim" } type="text"
                          reg={ register( "pengirim", {
                            required: true,
@@ -164,8 +171,8 @@ export function CComponent( {
                          } ) }/>
             </div>
             <div className={ " flex-col flex gap-3 " }>
-              <h2>Tanggal</h2>
-              <hr/>
+              {/*<h2>Tanggal</h2>*/ }
+              {/*<hr/>*/ }
               <InputForm tag={ "input" } title={ "Pesan" } type={ "date" }
                          min={ `${ currentYear }-${ currentMonth }-01` }
                          max={ `${ currentYear }-${ currentMonth + 1 }-31` }
@@ -204,13 +211,12 @@ export function CComponent( {
                           ? <AiOutlineCloseCircle className={ " w-[1.5rem]   h-auto " }/>
                           : <AiOutlineSearch className={ " w-[1.5rem]  h-auto " }/> }</span>
 
-                <span className=" hidden sm:block sm:mx-2 ">
+                <span className=" sm:hidden md:block sm:mx-2 ">
                   { !cariProduct
                     ? "Tutup"
                     : "Cari" }</span>
               </span>
                 </button>
-
                 <input className={ StyleInputForm( false ) +
                   " rounded leading-tight w-3/4 p-2" }
                        type="text"
@@ -235,30 +241,20 @@ export function CComponent( {
                       } }
                       key={ item.id }>
                       {/*--------search--------*/ }
-
-                      <figure className={ " h-32 object-cover rounded " }>
-                        <Image src={ item.img }
-                               alt={ item.nama }
-                               width={ 100 }
-                               height={ 100 }
-                               className=" rounded object-cover h-full w-32"
-                        />
-                      </figure>
-
+                      <ImageCard img={ item.img } nama={ item.nama }/>
                       <div className="ml-[2%] w-[60%]">
-                        <span className={ "text-sm sm:text-base font-bold " + styleLabelForm }>{ item.nama }</span>
-
+                        <HeaderCard nama={ item.nama }/>
                         <div className=" flex flex-row gap-2 justify-between ">
 
                           <div className={ "flex flex-col" }>
-                            <span className={ "text-sm sm:text-base" + styleLabelForm }>{ Rupiah( item.harga ) }</span>
-                            <span className={ "text-sm sm:text-base" + styleLabelForm }>{ item.jenis }</span>
-                            <span className={ "text-sm sm:text-base" + styleLabelForm }>{ item.lokasi }</span>
+                            <TextCard text={ Rupiah( item.harga ) }/>
+                            <TextCard text={ Rupiah( item.jenis ) }/>
+                            <TextCard text={ Rupiah( item.lokasi ) }/>
                           </div>
 
                           <div className="">
                             <button
-                              className={ " text-white btn btn-info " }
+                              className={ " text-white btn-sm md:btn-md btn btn-info " }
                               type={ "button" }
                               onClick={ () => {
                                 append(
@@ -277,7 +273,7 @@ export function CComponent( {
                               } }
                             >
                               <BiAddToQueue/>
-                              <span className={ "ml-1 block sm:hidden md:hidden  lg:block" }>Add</span>
+                              <span className={ "ml-1 hidden md:hidden lg:block" }>Add</span>
                             </button>
 
                           </div>
@@ -317,41 +313,34 @@ export function CComponent( {
                       </>
 
                       {/* card */ }
-                      <figure className={ " h-32 object-cover rounded " }>
-                        <Image src={ item.img }
-                               alt={ item.nama }
-                               width={ 100 }
-                               height={ 100 }
-                               className=" rounded object-cover h-full w-32"
-                        />
-                      </figure>
-
+                      <ImageCard img={ item.img } nama={ item.nama }/>
                       <div className="ml-[2%] w-[60%]">
-                        <span className={ " text-sm sm:text-base font-bold " + styleLabelForm }>{ item.nama }</span>
-
+                        <HeaderCard nama={ item.nama }/>
                         <div className=" flex flex-row gap-2 justify-between ">
 
                           <div className={ "flex flex-col" }>
-                            <span className={ "text-sm sm:text-base " + styleLabelForm }>{ Rupiah( item.harga ) }</span>
-                            <span className={ "text-sm sm:text-base " + styleLabelForm }>{ item.jenis }</span>
-                            <span className={ "text-sm sm:text-base " + styleLabelForm }>{ item.lokasi }</span>
+                            <TextCard text={ Rupiah( item.harga ) }/>
+                            <TextCard text={ Rupiah( item.jenis ) }/>
+                            <TextCard text={ Rupiah( item.lokasi ) }/>
                           </div>
 
                           <div className=" flex flex-col items-end">
-                            <input type={ "number" } min={ 1 } defaultValue={ 1 }
+                            <input type={ "number" }
+                                   min={ 1 }
+                                   defaultValue={ 1 }
                                    className={ " border-gray-200 border   w-[70%] " }
-                                   { ...register( `semuaProduct.${ index }.jumlah`, { valueAsNumber: true } ) }
+                                   { ...register( `semuaProduct.${ index }.jumlah`,
+                                     { valueAsNumber: true } ) }
                             />
 
-                            <button className={ "text-white btn btn-error  " }
+                            <button className={ "text-white btn-sm md:btn-md btn btn-error  " }
                                     type={ "button" }
                                     onClick={ () => {
                                       removeFromCart( item );
                                       remove( index )
                                     } }>
-                              <BiAddToQueue/>
-                              <span
-                                className="ml-1   block sm:hidden md:hidden  lg:block">Hapus</span>
+                              <AiOutlineCloseCircle/>
+                              <span className="ml-1 hidden md:hidden lg:block">Hapus</span>
                             </button>
 
                           </div>
@@ -372,9 +361,11 @@ export function CComponent( {
               <label htmlFor="" className={ styleLabelForm }>Ekspedisi</label>
               <select id="ekspedisi"
                       className='bg-gray-50  border border-gray-300 p-2 rounded-md'{ ...register( "namaPengiriman" ) }>
-                { travel.map( t => {
+                { travel.map( ( t ) => {
+                  console.log( "orderan" )
+                  console.log( t )
                   return (
-                    <option key={ t.namaPengiriman } value={ t.namaPengiriman }>{ t.namaPengiriman }
+                    <option key={ t.nama } value={ t.nama }>{ t.nama }
                       {/*<img src={"http://localhost:3000/"+  t.img } alt={ t.namaPengiriman } height={100} width={100}/>*/ }
                     </option>
                   )
@@ -418,8 +409,6 @@ export function CComponent( {
 
             { valueForm.semuaProduct.length !== 0
               && ( <PopUp
-                clickPopUp={ clickPopUp }
-                setClickPopUp={ setClickPopUp }
                 data={ valueForm }
                 id={ id }
                 method={ method }
@@ -438,4 +427,24 @@ export function CComponent( {
       {/*<DevTool control={ control }/>*/ }
     </>
   )
+}
+
+export const TextCard   = ( { text }: { text: string | number } ) => {
+  return <span className={ "text-xs sm:text-base" + styleLabelForm }>{ text }</span>
+
+}
+export const HeaderCard = ( { nama }: { nama: string | number } ) => {
+  return <span className={ "text-sm sm:text-base font-bold " + styleLabelForm }>{ nama }</span>
+
+}
+export const ImageCard  = ( { img, nama }: { img: string, nama: string } ) => {
+  return <figure className={ " h-32 object-cover rounded " }>
+    <Image src={ img }
+           alt={ nama }
+           width={ 100 }
+           height={ 100 }
+           className=" rounded object-cover h-full w-32"
+    />
+  </figure>
+
 }

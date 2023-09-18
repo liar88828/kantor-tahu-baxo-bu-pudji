@@ -1,0 +1,1 @@
+export const Cshadow = " shadow-lg shadow-gray-300 "

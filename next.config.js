@@ -8,7 +8,7 @@ const nextConfig = {
   // profiler: true,
   // reactStrictMode: true,
   images: {
-    domains: [ "localhost", ]
+    domains: [ "localhost", "dummyimage.com" ]
   },
 }
 

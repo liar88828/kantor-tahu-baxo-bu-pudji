@@ -1,9 +1,12 @@
-export const Rupiah = ( n: number | undefined ): string => {
-  if( n ) {
-    return new Intl.NumberFormat( "id-ID", {
-      style   : "currency",
-      currency: "IDR"
-    } ).format( n );
+export const Rupiah = ( n: number | string | undefined ): string => {
+  if( typeof n !== "string" ) {
+
+    if( n ) {
+      return new Intl.NumberFormat( "id-ID", {
+        style   : "currency",
+        currency: "IDR"
+      } ).format( n );
+    }
   }
   return "kosong";
 }

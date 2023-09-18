@@ -1,15 +1,17 @@
-"use client"
-import { Form } from '@/app/components/form/Bank';
-import { LinkNavbar } from '@/app/elements/link/LinksNavbar';
 import { defaultFormBank } from '@/app/utils/format/bank';
+import { Suspense } from 'react';
+import { FormBank } from '@/app/components/form/FormBank';
 
-export default function Home() {
+export default function Page() {
 
   return (
-    <LinkNavbar>
-      <Form method={ "POST" } data={ defaultFormBank }/>
-    </LinkNavbar>
-
+    <Suspense fallback={ <div>Loading...</div> }>
+      <FormBank
+        method={ 'POST' }
+        defaultData={ defaultFormBank }
+        id={ "" }
+        to={ 'bank' }/>
+    </Suspense>
   )
 }
 

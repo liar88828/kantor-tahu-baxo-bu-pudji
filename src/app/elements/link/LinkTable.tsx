@@ -4,8 +4,9 @@ import Link from 'next/link';
 export function LinkTable( { slug }: { slug: TStatusProduk } ) {
   function getStatus( s: TStatusProduk ) {return s === slug ? " btn-disabled text-black" : ` ${ Status( s ) } `;}
 
+  // console.log(slug)
   return (
-    <div className={ "flex flex-row gap-5 pl-5" }>
+    <div className={ "flex flex-row gap-5 pl-5 overflow-x-auto pb-2" }>
 
       <Link href={ "/orderan" }
             replace={ true }
@@ -15,7 +16,7 @@ export function LinkTable( { slug }: { slug: TStatusProduk } ) {
         Create
       </Link>
 
-      <div className={ `btn   ${ slug.length === 1
+      <div className={ `btn   ${ slug.length > 10
                                  ? "info btn-disabled "
                                  : "" } text-white shadow-md shadow-slate-400 bg-cyan-300` }>
         Edit

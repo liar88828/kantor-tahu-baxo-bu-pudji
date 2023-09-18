@@ -1,46 +1,15 @@
-import RepoTravel from '../repository/Travel';
-import Validation from '@/lib/validation/schema';
-import type { TYPE } from '@/server/models/dataAccess/Travel';
-import Service from '@/lib/validation/validation';
+import { TPTravel } from '@/server/models/prisma/config';
+import Controller from '@/server/controller/AController';
+import { fileSystem } from '@/lib/utils/fileSystem';
 
-const Repo  = new RepoTravel()
-const valid = new Validation()
-const s     = Service
-const find = async () => {
-  const repo = await Repo.findAll()
-  // console.log( "test Travel find" )
-  return repo
-}
+type TYPE = TPTravel;
+export default class TravelController2 extends Controller <"travel", TYPE> {
 
-const findById = async ( id: string ) => {
-  const service = s.findById( valid.ZFindById( id ), id )
-  const repo    = await Repo.findById( service )
-  return repo
-}
-
-const create = async ( body: TYPE ) => {
-
-  const validData = s.create( await valid.Input( body, valid.TravelSchema ), body )
-  if( typeof validData === 'object' ) {
-    return Repo.createOne( body )
+  async destroy( id: string ) {
+    const res = await this.Repo(
+      () => this.r.destroyOne( id ),
+      this.v.zodId( id ) )
+    await fileSystem( res.img )
+    return res
   }
-  return validData
 }
-
-const edit = async ( body: TYPE, id: string ) => {
-  id              = s.findById( valid.ZFindById( id ), id )
-  const validData = s.create( await valid.Input( body, valid.TravelSchema ), body )
-  if( typeof validData === 'object' ) {
-    return Repo.updateOne( body, id )
-  }
-  return validData
-}
-
-const destroy = async ( id: string ) => {
-  id = s.findById( valid.ZFindById( id ), id )
-  const repo = await Repo.destroyOne( id )
-  return repo
-}
-
-const Control = { find, create, edit, destroy, findById }
-export default Control

@@ -1,5 +1,3 @@
-import { TOrderServer } from '@/entity/server/orderan';
-
 type TOrderProductOnly = Omit<TOrderServer, "semuaProduct">
 
 export type TypeProperty<T, K extends keyof T> = T[K];

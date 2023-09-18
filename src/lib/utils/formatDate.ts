@@ -1,4 +1,4 @@
-const currentDate         = new Date();
+export const currentDate = new Date();
 export const currentYear  = currentDate.getFullYear();
 export const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
 

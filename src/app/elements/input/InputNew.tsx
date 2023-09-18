@@ -18,8 +18,8 @@ export function InputForm(
   if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
 
   return (
-    <div className="flex flex-col">
-      <label className={ styleLabelForm }
+    <div className="flex flex-col ">
+      <label className={ styleLabelForm + " mt-2 " }
              htmlFor="grid-password"> { title } </label>
       <Tag { ...ress }{ ...reg } />
     </div>
