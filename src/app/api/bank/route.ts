@@ -3,13 +3,14 @@ import { Input, Output } from '@/server/service/GateWay';
 import { prisma, TPBank } from '@/server/models/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server';
-import BankController2 from '@/server/controller/Bank';
+import BankController from '@/server/controller/Bank';
 import RepoBank from '@/server/repository/Bank';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 import { IControlBank2 } from '@/interface/controller/Bank';
 
-const c: IControlBank2 = new BankController2(
+const c: IControlBank2 = new BankController
+(
   new RepoBank( prisma.bank ),
   new ValidationService<TPBank>( new ValidationSchema().BankSchema ),
 )

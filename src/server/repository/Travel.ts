@@ -6,9 +6,6 @@ type TYPE = TPTravel;
 
 // getAll data from database
 export default class RepoTravel extends ARepository<"travel"> implements IRepoTravel<TYPE> {
-  findDashboard( a: string ): Promise<any> {
-    throw new Error( 'Method not implemented.' );
-  }
   setOne( d: TYPE ): TYPE {
     return {
       id        : d.id,

@@ -1,9 +1,10 @@
-import { InterfaceAbstractRepository } from '@/interface/repository/Abstract';
+import { GetModel, InterfaceAbstractRepository } from '@/interface/repository/AbstractRepository';
 import { TPBank } from '@/server/models/prisma/config';
 
-export interface IBankRepository<T extends TPBank> extends InterfaceAbstractRepository<"bank"> {
+export interface IRepoBank<T extends TPBank> extends InterfaceAbstractRepository<"bank"> {
+  prisma: GetModel<"bank">;
   // get
-  findDashboard( a: string ): Promise<any>;
+  // findDashboard( a: string ): Promise<any>;
 
   //set data
   setOne( d: T ): T;

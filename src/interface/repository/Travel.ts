@@ -1,5 +1,5 @@
 import { TPTravel } from '@/server/models/prisma/config';
-import { InterfaceAbstractRepository } from '@/interface/repository/Abstract';
+import { InterfaceAbstractRepository } from '@/interface/repository/AbstractRepository';
 
 export interface IRepoTravel<T extends TPTravel> extends InterfaceAbstractRepository<"travel"> {
   //get

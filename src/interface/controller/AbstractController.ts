@@ -1,13 +1,12 @@
-import { InterfaceAbstractRepository, TEntity } from '@/interface/repository/Abstract';
+import { TEntity } from '@/interface/repository/AbstractRepository';
 import { TPrisma } from '@/server/models/prisma/config';
-import { IValidationService } from '@/lib/validation/zod/validationService';
 
-export default interface IANewController<
+export default interface InterfaceAbstractController<
   E extends TEntity,
   T extends TPrisma<E>
 > {
-  readonly r: InterfaceAbstractRepository<E>;
-  readonly v: IValidationService<T>;
+  // readonly r: InterfaceAbstractRepository<E>;
+  // readonly v: IValidationService<T>;
 
   // readonly s: IService;
   //get

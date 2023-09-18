@@ -1,21 +1,13 @@
-import { IAController } from '@/interface/controller/old/IAController';
 import { TStatusParams } from '@/interface/repository/SemuaProduk';
-import IANewController from '@/interface/controller/IANewController';
+import InterfaceAbstractController from '@/interface/controller/AbstractController';
 import { TPOrderan } from '@/server/models/prisma/config';
+import { IRepoOrderan } from '@/interface/repository/Orderan';
+import { IValidationService } from '@/lib/validation/zod/validationService';
 
-export interface IControlOrderan extends IAController<"orderan"> {
-  // readonly r: InterfaceAbstractRepository<"orderan">;
-  //get
-  findDashboard( a: string ): Promise<any>;
+export interface IControlOrderan2 extends InterfaceAbstractController<"orderan", TPOrderan> {
+  readonly r: IRepoOrderan<TPOrderan>
+  readonly v: IValidationService<TPOrderan>;
 
-  findByStatus( id: string ): Promise<any>;
-  status( data: TStatusParams, id: string ): Promise<any>;
-  //delete
-  deleteMany( id: string[] ): Promise<any>;
-}
-
-export interface IControlOrderan2 extends IANewController<"orderan", TPOrderan> {
-  // readonly r: InterfaceAbstractRepository<"orderan">;
   //get
   findDashboard( a: string ): Promise<any>;
 

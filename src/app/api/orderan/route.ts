@@ -6,12 +6,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 import RepoOrderan from '@/server/repository/Orderan';
-import OrderanController2 from '@/server/controller/Orderan';
+import OrderanController from '@/server/controller/Orderan';
 
 import { IControlOrderan2 } from '@/interface/controller/Orderan';
 import { TMethod } from '@/entity/Utils';
 
-const c: IControlOrderan2 = new OrderanController2(
+const c: IControlOrderan2 = new OrderanController(
   new RepoOrderan( prisma.orderan ),
   new ValidationService<TPOrderan>( new ValidationSchema().OrderanSchema ),
 )
@@ -36,6 +36,11 @@ export async function GET( request: NextRequest, ) {
   }
 
   if( id.includes( "_" ) ) {
+
+    console.log( "--test-----" )
+    console.log( id )
+    console.log( "-------" )
+
     return Output( "GET", () => c.findById( id ) )
   }
 

@@ -1,4 +1,4 @@
-import { InterfaceAbstractRepository } from '@/interface/repository/Abstract';
+import { InterfaceAbstractRepository } from '@/interface/repository/AbstractRepository';
 import { TPSemuaProduct } from '@/server/models/prisma/config';
 
 export type TStatusParams = {

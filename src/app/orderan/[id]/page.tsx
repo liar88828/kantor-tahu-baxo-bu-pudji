@@ -2,18 +2,21 @@ import { LinkTable } from '@/app/elements/link/LinkTable';
 import { SComponent } from '@/app/components/form/Orderan/SComponent';
 import { GateWay } from '@/app/utils/ress/GateWay';
 import { TOrder } from '@/entity/client/orderan';
+import { Suspense } from 'react';
 
-export const revalidate = 10
+export const dynamic    = 'auto'
+export const revalidate = 0
+export const fetchCache = 'auto'
 export const runtime    = 'nodejs'
 export default async function Page( { params: { id } }: { params: { id: string } } ) {
   const data: { msg: string, data: TOrder, } = await GateWay( 'GET', "orderan", id, )
+  console.log( data )
   return (
     <main className="flex p-3 sm:p-6 z-50 bg-green-50 gap-3 flex-col">
-      <div className=" overflow-x-auto pb-2">
-        <LinkTable slug={ id }/>
-      </div>
-      <SComponent id={ id } method={ "PUT" } defaultDataOrder={ data.data }/>
-
+      <LinkTable slug={ id }/>
+      <Suspense fallback={ <div>Loading...</div> }>
+        <SComponent id={ id } method={ "PUT" } defaultDataOrder={ data.data }/>
+      </Suspense>
     </main>
   )
 }

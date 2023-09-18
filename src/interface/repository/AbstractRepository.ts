@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, } from '../../../prisma/data';
 import { IRepoOrderan } from '@/interface/repository/Orderan';
 import { TPBank, TPOrderan, TPProduct, TPSemuaProduct, TPTravel } from '@/server/models/prisma/config';
-import { IBankRepository } from '@/interface/repository/Bank';
+import { IRepoBank } from '@/interface/repository/Bank';
 import { IRepoSemuaProduk } from '@/interface/repository/SemuaProduk';
 import { IRepoTravel } from '@/interface/repository/Travel';
 import { IRepoProduct } from '@/interface/repository/Product';
@@ -25,25 +25,25 @@ export interface InterfaceAbstractRepository<T extends TEntity, > {
   paginate( data: { row: number, skip: number } ): Promise<any>;
 
   //
-  findByStatus( id: string ): Promise<any>;
   findAll(): Promise<any>;
-  findDashboard( a: string ): Promise<any>;
   findOne( id: string ): Promise<any>;
   findById( id: string ): Promise<any>;
+  // findByStatus( id: string ): Promise<any>;
+  // findDashboard( a: string ): Promise<any>;
   //
   createOne( data: any, id?: string ): Promise<any>;
   //
   updateOne( data: any, id: string ): Promise<any>;
-  updateMany( data: any, id: string ): Promise<any>;
+  // updateMany( data: any, id: string ): Promise<any>;
   //
   destroyOne( id: string ): Promise<any>;
-  destroyMany( id: string[] | string ): Promise<any>;
+  // destroyMany( id: string[] | string ): Promise<any>;
 
 }
 
 export type RepositoryAll<T extends TEntity> =
   T extends "semuaProduct" ? IRepoSemuaProduk<TPSemuaProduct> :
-  T extends "bank" ? IBankRepository<TPBank> :
+  T extends "bank" ? IRepoBank<TPBank> :
   T extends "travel" ? IRepoTravel<TPTravel> :
   T extends "orderan" ? IRepoOrderan<TPOrderan> :
   T extends "product" ? IRepoProduct<TPProduct> :

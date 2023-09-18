@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '../../../../prisma/data';
-import { TEntity } from '@/interface/repository/Abstract';
+import { TEntity } from '@/interface/repository/AbstractRepository';
 
 export const prisma = new PrismaClient()
 

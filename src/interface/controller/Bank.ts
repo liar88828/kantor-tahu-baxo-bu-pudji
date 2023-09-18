@@ -1,11 +1,10 @@
-import { IAController } from '@/interface/controller/old/IAController';
-import IANewController from '@/interface/controller/IANewController';
+import InterfaceAbstractController from '@/interface/controller/AbstractController';
 import { TPBank } from '@/server/models/prisma/config';
+import { IValidationService } from '@/lib/validation/zod/validationService';
+import { IRepoBank } from '@/interface/repository/Bank';
 
-export interface IControlBank extends IAController<"bank"> {
-
-}
-
-export interface IControlBank2 extends IANewController<"bank", TPBank> {
+export interface IControlBank2 extends InterfaceAbstractController<"bank", TPBank> {
+  readonly r: IRepoBank<TPBank>
+  readonly v: IValidationService<TPBank>;
 
 }

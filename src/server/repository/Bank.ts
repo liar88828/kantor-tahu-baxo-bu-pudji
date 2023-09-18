@@ -1,13 +1,10 @@
 import { ARepository } from '@/server/repository/ARepository';
-import { IBankRepository } from '@/interface/repository/Bank';
+import { IRepoBank } from '@/interface/repository/Bank';
 import { TPBank } from '@/server/models/prisma/config';
 
 type TYPE = TPBank;
 
-export default class RepoBank extends ARepository<"bank"> implements IBankRepository<TYPE> {
-  findDashboard( a: string ): Promise<any> {
-    throw new Error( 'Method not implemented.' );
-  }
+export default class RepoBank extends ARepository<"bank"> implements IRepoBank<TYPE> {
 
   setOne( d: TYPE ): TYPE {
     return {

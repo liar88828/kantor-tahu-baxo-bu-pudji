@@ -3,16 +3,15 @@ import { Input, Output, TSend } from '@/server/service/GateWay';
 import { prisma, TPTravel } from '@/server/models/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import TravelController2 from '@/server/controller/Travel';
+import TravelController from '@/server/controller/Travel';
 import RepoTravel from '@/server/repository/Travel';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
-
-import IANewController from '@/interface/controller/IANewController';
+import { IControlTravel } from '@/interface/controller/Travel';
 
 type TYPE = TPTravel
 
-const c: IANewController<"travel", TYPE> = new TravelController2(
+const c: IControlTravel = new TravelController(
   new RepoTravel( prisma.travel ),
   new ValidationService<TYPE>( new ValidationSchema().TravelSchema ),
 )

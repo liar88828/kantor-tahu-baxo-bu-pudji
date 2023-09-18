@@ -2,7 +2,7 @@ import { Cshadow } from '@/app/style/shadow';
 
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { ReactNode } from 'react';
-import { TEntity } from '@/interface/repository/Abstract';
+import { TEntity } from '@/interface/repository/AbstractRepository';
 
 export type TFrom<T extends TEntity> =
 // T extends "semuaProduct" ? TPSemuaProduct :

@@ -4,12 +4,6 @@ import { ARepository } from '@/server/repository/ARepository';
 
 type TYPE = TPProduct;
 export default class RepoProduk extends ARepository<"product"> implements IRepoProduct<TYPE> {
-  findDashboard(): Promise<any> {
-    throw new Error( 'Method not implemented.' );
-  }
-  destroyMany(): Promise<any> {
-    throw new Error( 'Method not implemented.' );
-  }
   setOne( d: TYPE ): TYPE {
     return {
       id        : d.id,

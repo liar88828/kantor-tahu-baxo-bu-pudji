@@ -1,13 +1,16 @@
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
 import { prisma, TPOrderan, } from '@/server/models/prisma/config';
 import { TOptional } from '@/entity/server/types';
-import { TAggregate, TLine, TLines, TSendDashboard, TStatus } from '@/entity/Dashboard';
+import { TAggregate, TLine, TLines, TStatus } from '@/entity/Dashboard';
 import { IRepoOrderan } from '@/interface/repository/Orderan';
 
 import { ARepository } from '@/server/repository/ARepository';
 
 type TYPE = TPOrderan
 export default class RepoOrderan extends ARepository<"orderan"> implements IRepoOrderan<TYPE> {
+  findByStatus( id: string ): Promise<any> {
+    throw new Error( 'Method not implemented.' );
+  }
 
 // getAll data from database
   getSelect() {
@@ -74,7 +77,7 @@ export default class RepoOrderan extends ARepository<"orderan"> implements IRepo
     }
   }
 
-  setMany( data: TYPE, method: string | "POST" | "PUT" ) {
+  setMany( data: TYPE, method: "POST" | "PUT" ) {
     return data.semuaProduct.map( ( d: TProOrderan ) => (
         Object.assign( {
           harga     : d.harga,
@@ -89,10 +92,6 @@ export default class RepoOrderan extends ARepository<"orderan"> implements IRepo
         } )
       )
     );
-  }
-
-  async createMany( _: any[] ): Promise<any> {
-    throw new Error( 'Method not implemented.' );
   }
 
   // ---------CREATE

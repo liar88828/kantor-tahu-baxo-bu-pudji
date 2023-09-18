@@ -1,5 +1,5 @@
 import { TMethod } from '@/entity/Utils';
-import { TEntity } from '@/interface/repository/Abstract';
+import { TEntity } from '@/interface/repository/AbstractRepository';
 import { TFrom } from '@/app/components/form/Form';
 
 import { GateWay } from '@/app/utils/ress/GateWay';

@@ -1,17 +1,21 @@
 import { SafeParseReturnType } from 'zod';
-import { InterfaceAbstractRepository, TEntity } from '@/interface/repository/Abstract';
+import { InterfaceAbstractRepository, TEntity } from '@/interface/repository/AbstractRepository';
 import { TPrisma } from '@/server/models/prisma/config';
+import InterfaceAbstractController from '@/interface/controller/AbstractController';
 import { IValidationService } from '@/lib/validation/zod/validationService';
-import IANewController from '@/interface/controller/IANewController';
 
-export default class Controller<
+export default abstract class Controller<
   E extends TEntity,
   T extends TPrisma<E>
-> implements IANewController<E, T> {//murni
-  constructor(
-    readonly r: InterfaceAbstractRepository<E>,
-    readonly v: IValidationService<T>,
-  ) {}
+> implements InterfaceAbstractController<E, T> {//murni
+
+  // constructor(
+  //   // readonly r: InterfaceAbstractRepository<E>,
+  // readonly v: IValidationService<T>
+  // ) {}
+  abstract r: InterfaceAbstractRepository<E>
+
+  abstract v: IValidationService<T>
 
   public async Repo<T>(
     repo: () => Promise<any> | any,

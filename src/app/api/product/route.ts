@@ -3,14 +3,14 @@ import { Input, Output } from '@/server/service/GateWay';
 import { prisma, TPProduct } from '@/server/models/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import ProductController2 from '@/server/controller/Produk';
+import ProductController from '@/server/controller/Produk';
 import RepoProduk from '@/server/repository/Product';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
 import { IControlProduct2 } from '@/interface/controller/Product';
 
-const c: IControlProduct2 = new ProductController2(
+const c: IControlProduct2 = new ProductController(
   new RepoProduk( prisma.product ),
   new ValidationService<TPProduct>( new ValidationSchema().ProductSchema ),
 )

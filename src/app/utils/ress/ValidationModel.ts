@@ -1,29 +1,29 @@
 import { setIdModel } from '@/lib/utils/formatId';
 
-import Service from '@/lib/validation/validation';
-import Validation from '@/lib/validation/schema';
+import Schema from '@/lib/validation/schema';
 
 import { TMethod, ToModel } from '@/entity/Utils';
+import Validation from '@/lib/validation/validation';
 
-// const v = new Validation()
+// const s = new Validation()
+const s = new Schema()
 const v = new Validation()
-const s = new Service()
 
 export function ValidationModel( to: ToModel, data: any ) {
   if( to === "orderan" ) {
-    return s.validModel( v.zodModel( data, v.OrderanSchema ), data )
+    return v.validModel( s.zodModel( data, s.OrderanSchema ), data )
   }
   if( to === "bank" ) {
-    return s.validModel( v.zodModel( data, v.BankSchema ), data )
+    return v.validModel( s.zodModel( data, s.BankSchema ), data )
   }
   if( to === "product" ) {
-    return s.validModel( v.zodModel( data, v.ProductSchema ), data )
+    return v.validModel( s.zodModel( data, s.ProductSchema ), data )
   }
   if( to === "travel" ) {
-    return s.validModel( v.zodModel( data, v.TravelSchema ), data )
+    return v.validModel( s.zodModel( data, s.TravelSchema ), data )
   }
   if( to === "semuaProduk" ) {
-    return s.validModel( v.zodModel( data, v.semuaProdukSchema ), data )
+    return v.validModel( s.zodModel( data, s.semuaProdukSchema ), data )
   }
   return "required"
 }
@@ -32,7 +32,7 @@ export const validationData = ( method: TMethod, to: ToModel, data: any ) => {
   if( method === "POST" || method === "PUT" ) {
 
     if( typeof data === "object" ) {
-      console.info( "object v" )
+      console.info( "object s" )
       data = ValidationModel( to, data );
 
       const dataString = JSON.stringify( data )
@@ -46,7 +46,7 @@ export const validationData = ( method: TMethod, to: ToModel, data: any ) => {
       }
 
       data = data.id.length > 20 ? data : setIdModel( to, data )
-      console.info( "success v client" )
+      console.info( "success s client" )
       return data
     }
   }

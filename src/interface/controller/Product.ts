@@ -1,9 +1,11 @@
-import { IAController } from '@/interface/controller/old/IAController';
-import IANewController from '@/interface/controller/IANewController';
+import InterfaceAbstractController from '@/interface/controller/AbstractController';
 import { TPProduct } from '@/server/models/prisma/config';
+import { IValidationService } from '@/lib/validation/zod/validationService';
+import { IRepoProduct } from '@/interface/repository/Product';
 
-export interface IControlProduct extends IAController<"product"> {
-}
+export interface IControlProduct2 extends InterfaceAbstractController<"product", TPProduct> {
+  readonly r: IRepoProduct<TPProduct>
+  readonly v: IValidationService<TPProduct>;
+  // findDashboard( a: string ): Promise<any>;
 
-export interface IControlProduct2 extends IANewController<"product", TPProduct> {
 }

@@ -1,4 +1,4 @@
-import { GetModel, InterfaceAbstractRepository, TEntity } from '@/interface/repository/Abstract';
+import { GetModel, InterfaceAbstractRepository, TEntity } from '@/interface/repository/AbstractRepository';
 
 const test: string = "false"
 
@@ -75,10 +75,10 @@ export abstract class ARepository<T extends TEntity> implements InterfaceAbstrac
     // @ts-ignore
     return this.prisma.findMany( { take: row, skip } )
   }
-  abstract findByStatus( id: string ): Promise<any>
-  abstract findDashboard( a: string ): Promise<any>;
-  abstract destroyMany( a: string[] | string ): Promise<any>;
-  abstract updateMany( data: any, id: string ): Promise<any>
+  // abstract findByStatus( id: string ): Promise<any>
+  // abstract findDashboard( a: string ): Promise<any>;
+  // abstract destroyMany( a: string[] | string ): Promise<any>;
+  // abstract updateMany( data: any, id: string ): Promise<any>
 
 }
 

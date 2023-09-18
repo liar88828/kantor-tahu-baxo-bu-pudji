@@ -1,8 +1,17 @@
 import { prisma, TPOrderan } from '@/server/models/prisma/config';
 import { TStatusParams } from '@/interface/repository/SemuaProduk';
 import Controller from '@/server/controller/AController';
+import { IControlOrderan2 } from '@/interface/controller/Orderan';
+import { IRepoOrderan } from '@/interface/repository/Orderan';
+import { IValidationService } from '@/lib/validation/zod/validationService';
 
-export default class OrderanController2 extends Controller <"orderan", TPOrderan> {
+export default class OrderanController2 extends Controller <"orderan", TPOrderan> implements IControlOrderan2 {
+  constructor(
+    readonly r: IRepoOrderan<TPOrderan>,
+    readonly v: IValidationService<TPOrderan>
+  ) {
+    super();
+  }
 
   async findDashboard( a: string ) {
     return this.r.findDashboard( a )

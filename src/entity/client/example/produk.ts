@@ -1,7 +1,7 @@
-import Validation from '@/lib/validation/schema';
+import Schema from '@/lib/validation/schema';
 import { z } from 'zod';
 
-const valid = new Validation()
+const valid = new Schema()
 
 const exampleProduk: z.infer<typeof valid.ProductSchema> = {
   id        : "58c2e9e2-9e0e-40ef-9a72-88658ce00fb2",
@@ -21,7 +21,6 @@ const inputData = {
   age : 30,
 };
 
-// const isValidZod = valid.userSchema.safeParse( inputData ).success;
 
 export const sProduct: TProduct[] = [
   {

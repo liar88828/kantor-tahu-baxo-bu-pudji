@@ -1,19 +1,16 @@
-import { IAController } from '@/interface/controller/old/IAController';
-import IANewController from '@/interface/controller/IANewController';
+import InterfaceAbstractController from '@/interface/controller/AbstractController';
 import { TPSemuaProduct } from '@/server/models/prisma/config';
+import { IValidationService } from '@/lib/validation/zod/validationService';
+import { IRepoSemuaProduk } from '@/interface/repository/SemuaProduk';
 
-export interface IControlSemuaProduk extends IAController<"semuaProduct"> {
+export interface IControlSemuaProduk2 extends InterfaceAbstractController<"semuaProduct", TPSemuaProduct> {
+  readonly r: IRepoSemuaProduk<TPSemuaProduct>
+  readonly v: IValidationService<TPSemuaProduct>;
+  // readonly v: IValidationService<TPProduct>;
   create( json: any, id: string ): Promise<any>;
   //find
   dashboard(): Promise<any>;
-  // status( json:{id:string,status:string}): Promise<any>;
-
-}
-
-export interface IControlSemuaProduk2 extends IANewController<"semuaProduct", TPSemuaProduct> {
-  create( json: any, id: string ): Promise<any>;
-  //find
-  dashboard(): Promise<any>;
+  // findDashboard( a: string ): Promise<any>;
   // status( json:{id:string,status:string}): Promise<any>;
 
 }

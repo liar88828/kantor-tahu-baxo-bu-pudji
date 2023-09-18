@@ -6,7 +6,7 @@ export function LinkTable( { slug }: { slug: TStatusProduk } ) {
 
   // console.log(slug)
   return (
-    <div className={ "flex flex-row gap-5 pl-5 overflow-x-auto pb-2" }>
+    <div className={ "flex flex-row gap-5 pl-5 overflow-x-auto pb-2 " }>
 
       <Link href={ "/orderan" }
             replace={ true }
