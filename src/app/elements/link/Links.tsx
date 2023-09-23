@@ -25,11 +25,11 @@ export function LinkNavigation() {
                                                         : " btn-primary" } text-white  ` }>
           Edit
         </p>
-        <Link href={ `/${ path[ 1 ] }/print` } replace={ false }
-              className={ `btn  ${ path.includes( "print" ) ? "  btn-disabled text-black "
-                                                            : " btn-secondary" } text-white  ` }>
-          Print
-        </Link>
+        {/*<Link href={ `/${ path[ 1 ] }/print` } replace={ false }*/ }
+        {/*      className={ `btn  ${ path.includes( "print" ) ? "  btn-disabled text-black "*/ }
+        {/*                                                    : " btn-secondary" } text-white  ` }>*/ }
+        {/*  Print*/ }
+        {/*</Link>*/ }
       </div>
     </section>
   )

@@ -3,9 +3,10 @@ import { GateWay } from '@/app/utils/ress/GateWay';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { AiOutlineFacebook, AiOutlineGlobal, AiOutlineInstagram, AiOutlineYoutube } from 'react-icons/ai';
 
+export const dynamic    = 'force-dynamic'
 export const revalidate = 0
-export const fetchCache = 'auto'
-export const runtime    = 'nodejs'
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
 
 export default async function Page() {
 

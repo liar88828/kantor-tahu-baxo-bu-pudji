@@ -2,9 +2,10 @@ import { ListProduct } from '@/app/components/card/product/CComponent';
 import { FormBody } from '@/app/elements/link/LinksNavbar';
 import { GateWay } from '@/app/utils/ress/GateWay';
 
+export const dynamic    = 'force-dynamic'
 export const revalidate = 0
-export const runtime    = 'nodejs'
-
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
 export default async function Home() {
   const { data }: { data: Required<TProduct[ ]> } = await GateWay( "GET", 'product', 'all', )
 

@@ -1,6 +1,6 @@
 import { addDot, getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-import { newError } from '@/server/exeption/errorHandler';
 import { setIdProduct, setIdTravel } from '@/lib/utils/formatId';
+import { newError } from '@/server/exeption/errorHandler';
 
 export const formatData = ( d: any, option: TraPro | string ) => {
   console.debug( option )
@@ -33,13 +33,17 @@ export const setData    = (
   folderPath: string,
   paths: string | TraPro
 ) => {
-  const extension = getExtensionData( file.name )
+  const extension = getExtensionData( file.name ) as string
+  console.log( "test backend extension", extension )
+  const nama = addDot( paths.includes( "travel" ) ? json.nama : json.nama, extension, )
+  console.log( "test backend nama", nama )
+  console.log( "test backend validateExtension", !validateExtension( extension ) )
 
-  const nama = addDot( extension, paths.includes( "travel" ) ? json.namaPengiriman : json.nama )
-  // console.log( nama )
   if( !validateExtension( extension ) ) {
     throw new newError( "Extension is not allow", )
   }
+
+  console.log( "success validate data" )
   const data = formatData( json, paths )
   console.log( "set data" )
   console.log( data )

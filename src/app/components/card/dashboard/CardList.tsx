@@ -1,17 +1,15 @@
-"use client"
 import { addDays, currentMonth, currentYear, setHours, setTanggal, today } from '@/lib/utils/formatDate';
 import { formatPhone } from '@/lib/utils/formatPhone';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { StatusButton } from '@/app/elements/button/StatusButton';
 import { OrderanButton } from '@/app/elements/button/OrderanButton';
-
 export function CardList( { notifyMonth }: {
   notifyMonth: TListCard[]
 } ) {
 
   const test = "test"
   if( test !== "test" ) {
-    console.log( "test" )
+    // console.log( "test" )
   }
 
   const getKirim = ( d: TListCard ) => {
@@ -24,7 +22,7 @@ export function CardList( { notifyMonth }: {
     const data    = getKirim( d )
     const tanggal = data - addDays( 0 ).getDate()
 
-    console.info( tanggal )
+    // console.info( tanggal )
     if( tanggal >= 4 && tanggal <= 6 ) {
       return " bg-green-300 ";
     }
@@ -53,8 +51,9 @@ export function CardList( { notifyMonth }: {
           <div className="flex flex-row sm:flex-col lg:flex-row items-start justify-between gap-1 md:gap-2">
             <h1 className="card-title text-lg sm:text-2xl capitalize mr-10 sm:mr-0">{ d.penerima }</h1>
             <div className="flex flex-wrap gap-1 sm:gap-2  ">
+
               <StatusButton status={ d.status } id={ d.id }/>
-              <OrderanButton semuaProduct={ d.semuaProduct }/>
+              <OrderanButton semuaProduct={ d.semuaProduct } id={ d.id }/>
               <p
                 className={ `btn-sm sm:btn-md btn font-bold text-white 
                  ${ ( statusKirim( d ) ) }` }>

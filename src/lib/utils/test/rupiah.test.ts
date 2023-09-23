@@ -9,8 +9,16 @@ describe( "test Rupiah", () => {
     expect( test ).toBe( "Rp 2.000,00" )
 
   } )
+
   test( "should be error rupiah", () => {
     const test = Rupiah( "asdas" )
+    // Rp 2.000,00
+    expect( test ).toBe( "kosong" )
+
+  } )
+
+  test( "should be error rupiah because unidentified", () => {
+    const test = Rupiah( undefined )
     // Rp 2.000,00
     expect( test ).toBe( "kosong" )
 

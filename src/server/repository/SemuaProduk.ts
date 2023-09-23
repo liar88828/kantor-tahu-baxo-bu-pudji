@@ -151,7 +151,7 @@ export default class RepoSemuaProduk extends ARepository<"semuaProduct"> impleme
         by    : [ "status" ],
         _count: { status: true, },
         where : {
-          created_at: {
+          kirim: {
             gte: addDays( -30 ),
             // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
           }
@@ -170,6 +170,7 @@ export default class RepoSemuaProduk extends ARepository<"semuaProduct"> impleme
       jumlah_pesanan: bigint
     }[];
 
+    // untuk bar data
     const monthlyUserCounts: TLine = await prisma.$queryRaw`
         SELECT YEAR(pesan)                AS year,
                MONTHNAME(pesan)           AS month,

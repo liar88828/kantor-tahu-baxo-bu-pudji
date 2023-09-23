@@ -1,6 +1,6 @@
 import { Cshadow } from '@/app/style/shadow';
 
-import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { ReactNode } from 'react';
 import { TEntity } from '@/interface/repository/AbstractRepository';
 
@@ -22,12 +22,8 @@ export function FormList<T extends TEntity>( { children, handleSubmit, button, s
     formUse: UseFormReturn<TFrom<T>, any, undefined>
   } ) {
 
-  const onSubmit: SubmitHandler<TFrom<T>> = async ( data ) => {
-    return await handleSubmit( data )
-  }
-
   return ( <>
-      <form onSubmit={ formUse.handleSubmit( onSubmit ) }
+      <form onSubmit={ formUse.handleSubmit( handleSubmit ) }
             className="w-[97%] flex sm:flex-row flex-col gap-5  ">
 
         <section className={ " bg-white rounded-xl p-5 md:w-1/2 " + Cshadow }>

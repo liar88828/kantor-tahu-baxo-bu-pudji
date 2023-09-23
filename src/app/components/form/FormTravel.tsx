@@ -38,27 +38,37 @@ export function FormTravel(
   };
 
   const sendData = async ( data: TTravel ) => {
-    if( !open ) {
-      const id                 = method === "POST" ? "" : data.id
-      data.id                  = method === "POST" ? setIdTravel( data ) : data.id
-      data.img                 = method === "POST" ? img : data.img
-      const res: TRes<TTravel> = await GateWay<TTravel>( method, to, id, data, "text" )
-      notifyData( res.msg )
-      if( res.msg.includes( "cess" ) && !Array.isArray( res.data ) ) {
-        router.prefetch( "/" + to + "/list" )
-        router.replace( "/" + to + "/list" )
-      }
-    }
+    const text = method === "POST" ? "SIMPAN" : "EDIT"
+    if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
 
-    await handleUpload(
-      selectedFile,
-      setMessage,
-      method,
-      to,
-      data,
-      id,
-      router
-    )
+      if( !open ) {
+        const id                 = method === "POST" ? "" : data.id
+        data.id                  = method === "POST" ? setIdTravel( data ) : data.id
+        data.img                 = method === "POST" ? img : data.img
+        const res: TRes<TTravel> = await GateWay<TTravel>( method, to, id, data, "text" )
+        notifyData( res.msg )
+        if( res.msg.includes( "cess" ) && !Array.isArray( res.data ) ) {
+          // router.prefetch( "/" + to + "/list" )
+          router.replace( "/" + to + "/list" )
+        }
+      }
+
+      else if( open ) {
+        await handleUpload(
+          selectedFile,
+          setMessage,
+          method,
+          to,
+          data,
+          id,
+          router
+        )
+      }
+
+    }
+    else {
+      notifyData( `Batal ${ text }` )
+    }
   }
 
   const formUse = useForm<TTravel>( {

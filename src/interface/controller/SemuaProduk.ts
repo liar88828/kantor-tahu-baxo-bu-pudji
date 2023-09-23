@@ -3,7 +3,7 @@ import { TPSemuaProduct } from '@/server/models/prisma/config';
 import { IValidationService } from '@/lib/validation/zod/validationService';
 import { IRepoSemuaProduk } from '@/interface/repository/SemuaProduk';
 
-export interface IControlSemuaProduk2 extends InterfaceAbstractController<"semuaProduct", TPSemuaProduct> {
+export interface IControlSemuaProduk extends InterfaceAbstractController<"semuaProduct", TPSemuaProduct> {
   readonly r: IRepoSemuaProduk<TPSemuaProduct>
   readonly v: IValidationService<TPSemuaProduct>;
   // readonly v: IValidationService<TPProduct>;

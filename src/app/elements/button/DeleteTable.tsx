@@ -8,17 +8,23 @@ export const DeleteTable = ( { ids }: { ids: string[], } ) => {
   const router = useRouter()
 
   async function deleteTable( id: string[] ) {
-    if( ids.length === 1 ) {
-      const res = await sendData( "orderan", "DELETE", id[ 0 ] )
-      notifyData( res.msg )
+    if( confirm( `Apakah anda yakin untuk Menghapus data ini ?` ) ) {
 
-    }
-    if( id.length > 1 ) {
-      const res = await sendData( "orderan", "DELETE", "", "", id, )
-      notifyData( res.msg )
-    }
-    router.refresh()
+      if( ids.length === 1 ) {
+        console.log( "one" )
+        console.log( ids )
+        const res = await sendData( "table", "DELETE", id[ 0 ] )
+        notifyData( res.msg )
 
+      }
+      if( id.length > 1 ) {
+        console.log( "many" )
+        console.log( ids )
+        const res = await sendData( "table", "DELETE", "", "", id, )
+        notifyData( res.msg )
+      }
+      router.refresh()
+    }
   }
 
   return ( <button

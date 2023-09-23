@@ -58,7 +58,7 @@ export function CComponent( {
   } );
 
   // const [ clickPopUp, setClickPopUp ] = useState( false );
-  const [ valueForm, setValueForm ]   = useState<TOrder>( defaultValues )
+  const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
 
   // -----------------------Calculator Product
 
@@ -74,7 +74,7 @@ export function CComponent( {
       option: 'Item' | "Orderan",
       json: TProduct[]
     ) {
-      console.info( data )
+      // console.info( data )
       data.semuaProduct
           .filter( ( d: TProduct ) => d.jenis.replaceAll( " ", "" ) === option )
           .forEach( ( d: TProduct ) => json.push( d ) )
@@ -190,6 +190,8 @@ export function CComponent( {
                 // defaultValue={ getTime() }
               />
               <InputForm tag={ "textarea" } title={ "Keterangan" } type={ "textarea" }
+                         max={ "100" }
+                         min={ "20" }
                          reg={ register( "guna", {
                            required: true,
                            pattern : regExp
@@ -362,8 +364,8 @@ export function CComponent( {
               <select id="ekspedisi"
                       className='bg-gray-50  border border-gray-300 p-2 rounded-md'{ ...register( "namaPengiriman" ) }>
                 { travel.map( ( t ) => {
-                  console.log( "orderan" )
-                  console.log( t )
+                  // console.log( "orderan" )
+                  // console.log( t )
                   return (
                     <option key={ t.nama } value={ t.nama }>{ t.nama }
                       {/*<img src={"http://localhost:3000/"+  t.img } alt={ t.namaPengiriman } height={100} width={100}/>*/ }
@@ -402,17 +404,24 @@ export function CComponent( {
               </select>
             </div>
 
-            <button type="submit"
-                    className="btn btn-success text-white"
-            >Add Product
+            <button type="submit" className={ "w-full" }>
+              <label
+                htmlFor="my_modal_Check"
+                className="btn btn-success text-white w-full">
+                Add Product
+              </label>
             </button>
 
-            { valueForm.semuaProduct.length !== 0
-              && ( <PopUp
+            {/*<button type="submit" className={"btn btn-success text-white w-full"}>*/ }
+            {/*  Add Product*/ }
+            {/*</button>*/ }
+
+            <PopUp
                 data={ valueForm }
                 id={ id }
                 method={ method }
-              /> ) }
+            />
+
 
             <button className={ "btn btn-error text-white" }
                     onClick={ () => reset( defaultValues ) }

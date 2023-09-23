@@ -3,8 +3,10 @@ import { FormProduct } from '@/app/components/form/FormProduct';
 import { Suspense } from 'react';
 import { TRes } from '@/entity/Utils';
 
+export const dynamic    = 'force-dynamic'
 export const revalidate = 0
-export const runtime    = 'nodejs'
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
 
 export default async function Page(
   { params: { id } }:

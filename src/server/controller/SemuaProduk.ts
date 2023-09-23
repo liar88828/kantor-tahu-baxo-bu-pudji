@@ -1,5 +1,5 @@
-import type { TPSemuaProduct } from '@/server/models/prisma/config';
 import Controller from '@/server/controller/AController';
+import type { TPSemuaProduct } from '@/server/models/prisma/config';
 import { IRepoSemuaProduk } from '@/interface/repository/SemuaProduk';
 import { IValidationService } from '@/lib/validation/zod/validationService';
 

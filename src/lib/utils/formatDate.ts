@@ -3,7 +3,6 @@ export const currentYear  = currentDate.getFullYear();
 export const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
 
 const formattingOptions = {
-
   hari   : { weekday: "long" },
   angka  : { dateStyle: "long" },
   tanggal: { dateStyle: "medium" },

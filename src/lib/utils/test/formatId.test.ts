@@ -40,6 +40,11 @@ describe( 'test id', () => {
     it( 'should be exampleProduct ID format', () => {
       const test = setIdModel( 'product', exampleProduct )
       expect( test ).toContain( "ko_0_ko_ko_ko_" )
+
+    } );
+    it( 'should be exampleSemuaProduk ID format', () => {
+      const test = setIdModel( 'semuaProduk', exampleProduct )
+      expect( test ).toContain( "ko_0_ko_ko_ko_" )
     } );
 
   } )

@@ -7,6 +7,11 @@ const nextConfig = {
   // // Enable the React DevTools profiler
   // profiler: true,
   // reactStrictMode: true,
+  modularizeImports: {
+    'react-icons': {
+      transform: 'react-icons/{{member}}',
+    },
+  },
   images: {
     domains: [ "localhost", "dummyimage.com" ]
   },

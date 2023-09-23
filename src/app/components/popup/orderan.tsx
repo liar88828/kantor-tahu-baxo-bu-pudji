@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 import { TOrder } from '@/entity/client/orderan';
-import { onCreate } from '@/app/utils/ress/orderan';
-import { notifyData } from '@/app/utils/notif/toash';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { TextPopUp, Texts } from '@/app/elements/Text/TextCard';
 import { calculateTotal } from '@/app/components/table/utils/orderan';
 import { Status } from '@/app/style/status';
 import { ImageCard } from '@/app/components/form/Orderan/CComponent';
+import { GateWay } from '@/app/utils/ress/GateWay';
+import { notifyData } from '@/app/utils/notif/toash';
+import { TResponse } from '@/entity/service/TResponse';
 
 export function PopUp( { data, method, id }: {
   data: TOrder
@@ -14,77 +15,133 @@ export function PopUp( { data, method, id }: {
   id: string
 } ) {
   async function handleSave() {
+    data.hpPengirim                      = "0" + data.hpPengirim.toString()
+    data.hpPenerima                      = "0" + data.hpPenerima.toString()
+    const newSemuaProduct: TProOrderan[] = data
+    .semuaProduct.map( ( d: TProOrderan ) => {
+      d.orderanId = data.id
+      return d
+    } )
 
-    const getData = await onCreate( data, method, id )
-    console.error( getData )
-    notifyData( getData.msg, )
+    const { listItem, listOrderan, semuaProduct, ...puts } = data
+    const ress                                             = Object.assign( { semuaProduct: newSemuaProduct }, puts )
+
+    // const getData = await onCreate( data, method, id )
+
+    if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
+      data.id                            = method === "POST" ? "" : id
+      const res: TResponse<TOrderServer> = await GateWay( method, "orderan", id, ress )
+      console.log( res )
+      if( res.success ) {
+        notifyData( res.msg )
+        // notifyData( "", res )
+      }
+      else if( !res.success ) {
+        notifyData( "", res )
+      }
+
+    }
+
   }
 
   return ( <>
-      <label htmlFor="my_modal_Check"
-             className="btn btn-info text-white">CEK</label>
 
-      <input type="checkbox"
-             id="my_modal_Check"
-             className="modal-toggle"/>
+      {/*<button type="submit"*/ }
+      {/*        className=""*/ }
+      {/*>*/ }
+      {/*  <label*/ }
+      {/*    htmlFor="my_modal_Check"*/ }
+      {/*    className="btn btn-success text-white ">*/ }
 
-      <div className="modal  ">
-        <div className="modal-box  ">
-          <div className="card ">
-            <h1 className={ "font-bold uppercase " }>
-              Detail Pesanan <span className={ Status( data.status ) + "p-2" }>{
-              data.status }</span>
-            </h1>
+      {/*  Add Product*/ }
+      {/*  </label>*/ }
 
-            <div className="mt-2">
+      {/*</button>*/ }
 
-              <div className=" flex gap-1 flex-col sm:flex-row">
-                <div className=" border border-gray-200 rounded p-2 gap-4 flex flex-col w-full sm:w-[50%] ">
-                  <TextPopUp title={ "Kode" } value={ data.id }/>
-                  <TextPopUp title={ "Nama Penerima" } value={ data.penerima }/>
-                  <TextPopUp title={ "Hp Penerima" } value={ data.hpPenerima }/>
-                  <TextPopUp title={ "Alamat Penerima" } value={ data.alamatPenerima }/>
-                  <TextPopUp title={ "Tanggal Pesan" } value={ data.pesan.toString() }/>
-                  <TextPopUp title={ "Tanggal Kirim" } value={ data.kirim.toString() }/>
-                  <TextPopUp title={ "waktu Kirim" } value={ data.waktuKirim.toString() }/>
-                  <TextPopUp title={ "Lokasi" } value={ data.lokasi }/>
-                </div>
-                <div className=" border border-gray-200 rounded p-2 gap-4 flex flex-col w-full sm:w-[50%]">
-                  <TextPopUp title={ "Travel Pengirim" } value={ data.pengirim }/>
-                  <TextPopUp title={ "Ekspedisi" } value={ data.namaPengiriman }/>
-                  <TextPopUp title={ "Biaya Kirim/Ongkir" } value={ Rupiah( data.ongkir ) }/>
-                  <TextPopUp title={ "Semua Harga Orderan" } value={ Rupiah( calculateTotal( data.listOrderan ) ) }/>
-                  <TextPopUp title={ "Semua Harga Item" } value={ Rupiah( calculateTotal( data.listItem ) ) }/>
-                  <TextPopUp title={ "Total Beli" } value={ Rupiah( calculateTotal( data.semuaProduct ) ) }/>
-                  <TextPopUp title={ "Total Beli + Biaya Kirim" }
-                             value={ Rupiah( calculateTotal( data.listOrderan ) + calculateTotal(
-                                 data.listItem ) +
-                               data.ongkir ) }/>
+      {/*<input type="checkbox"*/ }
+      {/*       id="my_modal_Check"*/ }
+      {/*       className="modal-toggle"*/ }
+      {/*/>*/ }
+      { data.semuaProduct.length !== 0
+        && (
+          <>
+
+
+            {/*<label*/ }
+            {/*  htmlFor="my_modal_Check"*/ }
+            {/*  className="btn btn-info text-white">*/ }
+            {/*  Check*/ }
+            {/*</label>*/ }
+
+            <input type="checkbox"
+                   id="my_modal_Check"
+                   className="modal-toggle"
+            />
+
+            <div className="modal ">
+              <div className="modal-box md:w-4/5 lg:w-11/12 max-w-5xl  ">
+                <div className="card ">
+                  <h1 className={ "font-bold uppercase " }>
+                    Detail Pesanan
+                    <span className={ Status( data.status ) + "p-2" }>{ data.status }</span>
+
+                    <TextPopUp title={ "Kode" } value={ data.id } style2={ "font-normal italic" }/>
+
+                  </h1>
+
+                  <div className="mt-2">
+
+                    <div className=" flex gap-1 flex-col sm:flex-row">
+                      <div className=" border border-gray-200 rounded p-2 gap-4 flex flex-col w-full sm:w-[50%] ">
+                        <TextPopUp titik={ true } title={ "Nama Penerima" } value={ data.penerima }/>
+                        <TextPopUp titik={ true } title={ "Hp Penerima" } value={ data.hpPenerima }/>
+                        <TextPopUp titik={ true } title={ "Alamat Penerima" } value={ data.alamatPenerima }/>
+                        <TextPopUp titik={ true } title={ "Tanggal Pesan" } value={ data.pesan.toString() }/>
+                        <TextPopUp titik={ true } title={ "Tanggal Kirim" } value={ data.kirim.toString() }/>
+                        <TextPopUp titik={ true } title={ "waktu Kirim" } value={ data.waktuKirim.toString() }/>
+                        <TextPopUp titik={ true } title={ "Lokasi" } value={ data.lokasi }/>
+
+                      </div>
+                      <div className=" border border-gray-200 rounded p-2 gap-4 flex flex-col w-full sm:w-[50%]">
+                        <TextPopUp titik={ true } title={ "Travel Pengirim" } value={ data.pengirim }/>
+                        <TextPopUp titik={ true } title={ "Ekspedisi" } value={ data.namaPengiriman }/>
+                        <TextPopUp titik={ true } title={ "Biaya Kirim/Ongkir" } value={ Rupiah( data.ongkir ) }/>
+                        <TextPopUp titik={ true } title={ "Semua Harga Orderan" }
+                                   value={ Rupiah( calculateTotal( data.listOrderan ) ) }/>
+                        <TextPopUp titik={ true } title={ "Semua Harga Item" }
+                                   value={ Rupiah( calculateTotal( data.listItem ) ) }/>
+                        <TextPopUp titik={ true } title={ "Total Beli" }
+                                   value={ Rupiah( calculateTotal( data.semuaProduct ) ) }/>
+                        <TextPopUp titik={ true } title={ "Total Beli + Biaya Kirim" }
+                                   value={ Rupiah( calculateTotal( data.listOrderan ) + calculateTotal(
+                                       data.listItem ) +
+                                     data.ongkir ) }/>
+                      </div>
+                    </div>
+
+                    <CardPopUp semuaProduct={ data.semuaProduct }/>
+                    <FooterPopUp text={ data.guna }/>
+                  </div>
+
+                  <div className="flex items-center space-x-2 mt-2">
+                    <button
+                      onClick={ async () => {
+                        await handleSave();
+                      } }
+                      type="button"
+                      className="text-white btn btn-xs sm:btn-md btn-success">
+                      { method !== "PUT" ? "Simpan" : "Update" }
+                    </button>
+                    {/*<button className={ "text-white btn btn-xs sm:btn-md btn-error" }>*/ }
+                    <label className="text-white btn btn-xs sm:btn-md btn-error" htmlFor="my_modal_Check"> TUTUP</label>
+                    {/*</button>*/ }
+                  </div>
                 </div>
               </div>
-
-              <CardPopUp semuaProduct={ data.semuaProduct }/>
-              <FooterPopUp text={ data.guna }/>
+              <label className="modal-backdrop text-black" htmlFor="my_modal_Check"> x</label>
             </div>
-
-            <div className="flex items-center space-x-2 mt-2">
-              <button
-                onClick={ async () => {
-                  await handleSave();
-                } }
-                type="button"
-                className="text-white btn btn-xs sm:btn-md btn-success">
-                { method !== "PUT" ? "Simpan" : "Update" }
-              </button>
-              {/*<button className={ "text-white btn btn-xs sm:btn-md btn-error" }>*/ }
-              <label className="text-white btn btn-xs sm:btn-md btn-error" htmlFor="my_modal_Check"> TUTUP</label>
-              {/*</button>*/ }
-            </div>
-          </div>
-        </div>
-        <label className="modal-backdrop text-black" htmlFor="my_modal_Check"> x</label>
-      </div>
-
+          </>
+        ) }
     </>
 
   )

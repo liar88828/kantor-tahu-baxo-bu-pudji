@@ -5,12 +5,10 @@ import { TAggregate, TLine, TLines, TStatus } from '@/entity/Dashboard';
 import { IRepoOrderan } from '@/interface/repository/Orderan';
 
 import { ARepository } from '@/server/repository/ARepository';
+import { TStatusParams } from '@/interface/repository/SemuaProduk';
 
 type TYPE = TPOrderan
 export default class RepoOrderan extends ARepository<"orderan"> implements IRepoOrderan<TYPE> {
-  findByStatus( id: string ): Promise<any> {
-    throw new Error( 'Method not implemented.' );
-  }
 
 // getAll data from database
   getSelect() {
@@ -104,13 +102,10 @@ export default class RepoOrderan extends ARepository<"orderan"> implements IRepo
     const many  = prisma.semuaProduct.createMany( {
       data: this.setMany( data, "POST" )
     } )
-    const datas = await prisma.$transaction( [ one, many ] )
-    console.log( datas )
-    return datas
+    return await prisma.$transaction( [ one, many ] )
   }
 
-  async findOne( id: string ) {
-    // console.log( id )
+  async findById( id: string ) {
     return prisma.orderan.findUnique( {
       where  : { id },
       include: { semuaProduct: true }
@@ -331,7 +326,7 @@ export default class RepoOrderan extends ARepository<"orderan"> implements IRepo
 
   }
 
-  async findById( status: TYPE["status"] ) {
+  async findByStatus( status: TYPE["status"] ) {
     let option = {
       include: { semuaProduct: true }
     }
@@ -469,6 +464,14 @@ export default class RepoOrderan extends ARepository<"orderan"> implements IRepo
         },
       } ),
     ] );
+  }
+
+  async updateStatus( data: TStatusParams, id: string, ) {
+    // console.log(data)
+    return prisma.orderan.update( {
+      where: { id: id },
+      data : { status: data.status }
+    } )
   }
 
 }

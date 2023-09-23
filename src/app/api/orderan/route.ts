@@ -8,10 +8,11 @@ import ValidationSchema from '@/lib/validation/zod/validationSchema';
 import RepoOrderan from '@/server/repository/Orderan';
 import OrderanController from '@/server/controller/Orderan';
 
-import { IControlOrderan2 } from '@/interface/controller/Orderan';
+import { IControlOrderan } from '@/interface/controller/Orderan';
 import { TMethod } from '@/entity/Utils';
+import { errorEmptyID } from '@/lib/utils/errorResponse';
 
-const c: IControlOrderan2 = new OrderanController(
+const c: IControlOrderan = new OrderanController(
   new RepoOrderan( prisma.orderan ),
   new ValidationService<TPOrderan>( new ValidationSchema().OrderanSchema ),
 )
@@ -21,11 +22,14 @@ type TInput = {
   option: string;
   value: string;
   pathname: string;
-  method: string;
+  method: TMethod;
 }
+
+const to = "orderan"
 
 export async function GET( request: NextRequest, ) {
   const { id, option, pathname, method }: TInput = await Input( request )
+  console.log( `route api ${ method } orderan` )
 
   if( !pathname.includes( "table" ) && id === "all" ) {
     return Output( "GET", () => c.find(), )
@@ -36,33 +40,34 @@ export async function GET( request: NextRequest, ) {
   }
 
   if( id.includes( "_" ) ) {
-
-    console.log( "--test-----" )
-    console.log( id )
-    console.log( "-------" )
-
     return Output( "GET", () => c.findById( id ) )
   }
 
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 
 }
 
 export async function POST( request: NextRequest, ) {
-  const { json } = await Input( request )
+  const { json, method } = await Input( request )
+  console.log( `route api ${ method } orderan` )
+
   return Output( "POST", () => c.create( json ), )
 }
 
 export async function PATCH( request: NextRequest, ) {
   const { id, method, json } = await Input( request )
+  console.log( `route api ${ method } orderan` )
+
   if( id.length > 10 ) {
-    return Output( "PATCH", () => c.status( json, id ), )
+    return Output( "PATCH", () => c.updateStatus( json, id ), )
   }
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 }
 
 export async function PUT( request: NextRequest, ) {
   const { id, json, method } = await Input( request )
+  console.log( `route api ${ method } orderan` )
+
   if( json === undefined ) {
     return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty data" } )
   }
@@ -70,25 +75,43 @@ export async function PUT( request: NextRequest, ) {
   if( id.length > 10 || !isObjectEmpty( json ) ) {
     return Output( "PUT", () => c.edit( json, id ), )
   }
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 
 }
 
 export async function DELETE( request: NextRequest, ) {
-  const { method, id, json: array }: { method: TMethod, id: string, json: string[] } = await Input( request )
 
-  if( id.length > 10 ) {
-    return Output( "DELETE", () => c.destroy( id ) )
+  try {
+    const { method, id, json: array }: { method: TMethod, id: string, json: string[] } = await Input( request )
+    console.log( `route api ${ method } orderan` )
+
+    if( typeof id === "string" ) {
+      if( id.length > 10 && id.includes( "_" ) ) {
+        console.log( "is just string" )
+        return Output( "DELETE", () => c.destroy( id ) )
+      }
+    }
+
+    if( typeof array === "object" ) {
+      if( Array.isArray( array ) ) {
+        console.log( "is array" )
+        if( array.length === 1 ) {
+          console.log( "one" )
+          console.log( array )
+          return Output( "DELETE", () => c.destroyOne( array[ 0 ] ) )
+        }
+        if( array.length > 1 ) {
+          console.log( "many" )
+          console.log( array )
+          return Output( "DELETE", () => c.deleteMany( array ) )
+        }
+      }
+    }
+
+    return NextResponse.json( errorEmptyID( method ) )
+
   }
-
-  if( array.length === 1 ) {
-    return Output( "DELETE", () => c.destroy( array[ 0 ] ) )
+  catch ( e ) {
+    NextResponse.json( { error: e } )
   }
-
-  if( array.length > 1 ) {
-    return Output( "DELETE", () => c.deleteMany( array ) )
-  }
-
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
-
 }

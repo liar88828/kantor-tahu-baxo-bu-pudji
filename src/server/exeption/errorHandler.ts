@@ -1,8 +1,8 @@
-export class newError extends Error {
-  constructor( message: string = "error Bos ku", m: string = "error" ) {
-    super( message );
-    this.name    = "Something Message"
-    this.message = m
+import { TResponse } from '@/entity/service/TResponse';
 
+export class newError extends Error {
+  constructor( m: TResponse<string> | string = "from new Error  " ) {
+    super( "error Bos ku" );
+    this.message = JSON.stringify( m )
   }
 }

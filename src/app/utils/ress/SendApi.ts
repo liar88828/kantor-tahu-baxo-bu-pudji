@@ -1,83 +1,107 @@
-import { redirect } from 'next/navigation';
 import { TMethod, ToModel } from '@/entity/Utils';
-import { config } from '../../../../config.dev';
-
-export async function SendApi(
-  to: string,
-  method: string,
-  json: TOrderServer,
-  id: string
-) {
-  // console.log( json )
-
-  const response = await fetch( config.url + `/api/${ to }/` + id, {
-    method: method,
-    cache: 'no-store',
-    // next   : { revalidate: 10,  },
-    body   : JSON.stringify( json ),
-    headers: { "Content-Type": "application/json" }
-  } )
-
-  if( !response.ok ) {
-    redirect( '/not-found' )
-  }
-
-  const data = await response.json()
-  console.log( data )
-  return data
-}
+import { _test_, config } from '../../../../config.dev';
+import { revalidateTag } from 'next/cache';
+import { TResponse } from '@/entity/service/TResponse';
 
 export async function sendData<T>(
   to: ToModel,
   method: TMethod,
   id: string | string[],
-  option: string = "",
-  json: any      = {}
+  option: string                   = "",
+  json: any                        = {},
+  stores: "noCache" | "revalidate" = "revalidate",
 ) {
 
-  let methods = {
-    method : method,
+  const noCache       = {
+    cache: "no-store"
+  }
+  let revalidatingTag = {
+    next: { tags: [ to ] },
+  }
+
+  const header = {
     headers: { "Content-Type": "application/json" }
+  }
+
+  let methods = {
+    method: method,
   }
 
   const jsons = {
     body: JSON.stringify( json ),
   }
 
+  if( stores === "noCache" ) {
+    methods = Object.assign( noCache, methods )
+  }
+
+  if( stores === "revalidate" && to !== "table" ) {
+    methods = Object.assign( revalidatingTag, methods )
+  }
+
   if( method !== "GET" ) {
-    methods = Object.assign( jsons, methods )
-  }
+    if( option !== "file" ) {
+      methods = Object.assign( jsons, methods )
+      methods = Object.assign( header, methods )
+    }
+    else {
+      methods = Object.assign( { body: json }, methods )
+    }
 
-  if( id.length > 10 ) {
-    methods = Object.assign( {
-        cache: "no-cache"
-      },
-      methods )
   }
-  // console.log("---send api-------")
-  // console.log(json)
-  // console.log("---send api-------")
-
+  console.log( "send Data to Api " )
+  console.log( revalidatingTag )
   const res = await fetch(
-    config.url
     // "http://localhost:3000"
-    +
-    `/api/${ to }?id=` + id + "&option=" + option, methods )
+    config.url + `/api/${ to }?id=${ id }&option=${ option }`,
+    methods )
   if( !res.ok ) {
     console.error( res, "error" )
   }
+  const data: TResponse<T> = await res.json()
 
-  const data: { data: T, msg: string } = await res.json()
-  // console.log( data )
+  if( data.success && !_test_ && method !== "GET" ) {
+    console.log( `revalidate ${ data.success && _test_ }` )
+    console.log( to )
+    if( to !== "table" ) {
+      revalidateTag( to )
+    }
+  }
   return data
 }
 
-export async function sendImage( apiEndPoint: string, id: string, method: string, formData: FormData ) {
-  // console.log( id )
-  const response = await fetch( '/api/' + apiEndPoint + `?id=${ id }&option=file`, {
-    method: method,
-    body  : formData,
-    cache: "no-store"
-  } )
-  return await response.json()
-}
+// export async function sendImage( to: string, id: string, method: string, formData: FormData ) {
+//   const response = await fetch(
+//     config.url + `/api/${ to }?id=${ id }&option=file`,
+//     {
+//       method: method,
+//       body  : formData,
+//       cache : "no-store"
+//     } )
+//   return await response.json()
+// }
+//
+// export async function SendApi(
+//   to: string,
+//   method: string,
+//   json: TOrderServer,
+//   id: string
+// ) {
+//   // console.log( json )
+//
+//   const response = await fetch( config.url + `/api/${ to }/` + id, {
+//     method: method,
+//     cache : 'no-store',
+//     // next   : { revalidate: 10,  },
+//     body   : JSON.stringify( json ),
+//     headers: { "Content-Type": "application/json" }
+//   } )
+//
+//   if( !response.ok ) {
+//     redirect( '/not-found' )
+//   }
+//
+//   const data = await response.json()
+//   console.log( data )
+//   return data
+// }

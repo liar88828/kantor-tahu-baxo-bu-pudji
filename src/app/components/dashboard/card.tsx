@@ -1,4 +1,3 @@
-"use client"
 import { AiOutlineBook, AiOutlineCheckCircle, AiOutlineShoppingCart } from 'react-icons/ai';
 import { FiTruck } from 'react-icons/fi';
 import { statusWarna } from '@/app/style/status';

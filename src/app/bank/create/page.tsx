@@ -2,6 +2,8 @@ import { defaultFormBank } from '@/app/utils/format/bank';
 import { Suspense } from 'react';
 import { FormBank } from '@/app/components/form/FormBank';
 
+export const dynamic = 'force-dynamic'
+
 export default function Page() {
 
   return (

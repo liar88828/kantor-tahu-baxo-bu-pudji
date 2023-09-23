@@ -29,7 +29,9 @@ const MyComponent = () => {
         return paket.toFixed( 1 )
       }
       if( option === "berat" ) {
-        return data.reduce( ( a, b ) => a + ( b.jumlah * 0.26 ), 0 )
+        const berat = data.reduce( ( a, b ) => a + ( b.jumlah * 0.26 ), 0 )
+        return berat.toFixed( 1 )
+
       }
     }
     return "kosong"
@@ -42,8 +44,8 @@ const MyComponent = () => {
       .sort( ( a: TOrderServer, b: TOrderServer ) => a.semuaProduct.length - b.semuaProduct.length )
       .map( ( d: TOrderServer ) => {
         return (
-
-          <div className={ "border border-black p-2 m-2 w-[calc(297mm/2-.5cm)] text-xs " }
+          // 0.5cm
+          <div className={ "border border-black p-1 m-1 w-[calc(297mm/2-0.5cm)] text-xs " }
                key={ d.id }>
             {/*----------------------Head*/ }
             <div className=" flex flex-row justify-between ">
@@ -58,7 +60,7 @@ const MyComponent = () => {
                   <h1 className={ "uppercase font-bold" }>Pengirim</h1>
                   <p>:</p>
 
-                  <span>{ d.pengirim }</span>
+                  <span>{ d.pengirim }  </span>
 
                 </li>
                 <li className={ "flex gap-1" }>
@@ -71,7 +73,7 @@ const MyComponent = () => {
                     <br/>
                     <a> { d.alamatPenerima } </a>
                     <br/>
-                    <a>Kota Semarang 50279</a>
+                    {/*<a> 9</a>*/ }
                   </p>
                 </li>
               </ul>

@@ -3,6 +3,12 @@ import { GateWay } from '@/app/utils/ress/GateWay';
 import { Suspense } from 'react';
 import { TRes } from '@/entity/Utils';
 
+export const dynamic = 'force-dynamic'
+// export const revalidate = 0
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
+
+
 export default async function Page(
   { params: { id } }:
     {
