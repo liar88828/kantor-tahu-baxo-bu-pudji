@@ -24,7 +24,7 @@ export function Form( { data, method }: {
       d.id = setIdBank( d )
     }
     const res = await GateWay( method, "bank", d.id, d, )
-    console.log( res )
+    // console.log( res )
     if( res.data.code ) {
       notifyData( res.data.msg )
     }

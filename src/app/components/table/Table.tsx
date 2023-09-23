@@ -14,6 +14,7 @@ import { formatPhone } from '@/lib/utils/formatPhone';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { StatusButton } from '@/app/elements/button/StatusButton';
 import { DeleteTable } from '@/app/elements/button/DeleteTable';
+import { setTanggal } from '@/lib/utils/formatDate';
 
 //-------------------------Main Table
 export function TableOrder( { dataOrderan }: {
@@ -41,7 +42,19 @@ export function TableOrder( { dataOrderan }: {
   const [ rowSelection, setRowSelection ] = useState( {} )
   const [ open, setOpen ]                 = useState( true )
 
-//---------table value---------------
+  const ToggleOn = Object.keys( columnVisibility ).length === 0
+                   ? true
+                   : Object.values( columnVisibility )
+                           .every( ( value ) => value );
+
+  console.log( ToggleOn )
+  console.log( columnVisibility )
+  console.log( "length", Object.keys( columnVisibility ).length === 0 )
+  console.log( "length", Object.values( columnVisibility ) )
+  console.log( "value", Object.values( columnVisibility )
+                              .every( ( value ) => value ) )
+
+  //---------table value---------------
   const columns = useMemo<ColumnDef<TOrderServer>[]>( () => [
       {
         id    : 'select',
@@ -94,20 +107,13 @@ export function TableOrder( { dataOrderan }: {
             accessorKey: 'pesan',
             header     : 'Pesan',
             footer     : "Pesan",
-            cell       : info => {
-              const d = new Date( info.getValue() )
-              return `${ d.getFullYear() }-${ d.getMonth() }-${ d.getDate() }`
-
-            },
+            cell: info => setTanggal( info.getValue(), "tanggal" )
           },
           {
             accessorKey: 'kirim',
             header     : 'Kirim',
             footer     : "Kirim",
-            cell       : info => {
-              const d = new Date( info.getValue() )
-              return `${ d.getFullYear() }-${ d.getMonth() }-${ d.getDate() }`
-            },
+            cell: info => setTanggal( info.getValue(), "tanggal" )
           }, {
             accessorKey: 'waktuKirim',
             header     : 'Waktu Kirim',
@@ -327,6 +333,20 @@ export function TableOrder( { dataOrderan }: {
     return ( <h1>Data Kosong</h1> )
   }
 
+  function ToggleName( column: Column<TOrderServer, unknown> ): any {
+    // console.log( column.columnDef )
+    if( column.columnDef.header !== undefined && typeof column.columnDef.header !== "function" ) {
+      return column.parent === undefined
+             ? column.columnDef.header
+             : column.parent.id + " " + column.columnDef.header;
+    }
+    else {
+      return column.parent === undefined
+             ? column.columnDef.id
+             : column.parent.id + " " + column.columnDef.header;
+    }
+  }
+
   return <div className="p-2 ">
     {/*------------Table------------*/ }
     <div className="overflow-x-auto border rounded border-black  ">
@@ -515,17 +535,9 @@ export function TableOrder( { dataOrderan }: {
       </div>
     </div>
 
-    {/*------------Console ------------------*/ }
     <div className="flex gap-2 overflow-x-auto w-auto flex-wrap">
 
       {/*------------Check Visible----------------*/ }
-
-
-      {/*<ConsoleLog onClick={ () => console.info( 'rowSelection', rowSelection ) }*/ }
-      {/*            onClick1={ () => console.info( 'table.getSelectedRowModel().flatRows', table.getSelectedRowModel().flatRows ) }*/ }
-      {/*/>*/ }
-
-      {/*<p>   { table.getSelectedRowModel().flatRows.length }</p>*/ }
 
 
       { table.getSelectedRowModel().flatRows.length > 0 ?
@@ -546,24 +558,24 @@ export function TableOrder( { dataOrderan }: {
           EDIT
         </button> ) : ""
       }
+      { ToggleOn && table.getSelectedRowModel().flatRows.length > 0 &&
+        <button onClick={ () => {
+          // console.log( table.getSelectedRowModel().flatRows )
 
-      { table.getSelectedRowModel().flatRows.length > 0 && <button onClick={ () => {
-        // console.log( table.getSelectedRowModel().flatRows )
-
-        exportToExcel( table.getRowModel().flatRows )
-        // exportToExcel( table.getRowModel()
-        //                       .rows.map( row => {
-        //     return row.cells.map( cell => ( {
-        //       value: cell.value,
-        //       style: {
-        //         background: getBackgroundColorForRow( cell.row.original.color )
-        //       }
-        //     } ) )
-        //   } )
-        // )
-      } } className=" btn btn-sm sm:btn-md text-white bg-green-400 ">
-        Excel
-      </button> }
+          exportToExcel( table.getRowModel().flatRows )
+          // exportToExcel( table.getRowModel()
+          //                       .rows.map( row => {
+          //     return row.cells.map( cell => ( {
+          //       value: cell.value,
+          //       style: {
+          //         background: getBackgroundColorForRow( cell.row.original.color )
+          //       }
+          //     } ) )
+          //   } )
+          // )
+        } } className=" btn btn-sm sm:btn-md text-white bg-green-400 ">
+          Excel
+        </button> }
 
       { table.getSelectedRowModel().flatRows.length > 0
         && <button onClick={ () => {
@@ -604,40 +616,41 @@ export function TableOrder( { dataOrderan }: {
       <div>
         <button
           onClick={ () => setOpen( !open ) }
-          className={ " btn btn-sm sm:btn-md text-white bg-purple-600" }>
+          className={ " btn btn-sm sm:btn-md text-white bg-purple-600 mb-2" }>
           { open ? "Open" : "Close" }
         </button>
 
-        <div className="   ">
-          <label className={ "" }>
-            <input
-              { ...{
-                type    : 'checkbox',
-                checked : table.getIsAllColumnsVisible(),
-                onChange: table.getToggleAllColumnsVisibilityHandler(),
-              } }
-            />
-            Toggle All
-          </label>
-        </div>
 
-        <div className={ ` block text-white  ${ open ? "hidden" : "" }` }>
+        <div className={ `cursor-pointer gap-2 text-white rounded flex flex-wrap ${ open ? "hidden" : "" }` }>
+
+          <div className="p-1 border border-black text-black z-50 rounded bg-white w-fit ">
+            <label>
+              <input className={ "mr-1" }
+                     { ...{
+                       type    : 'checkbox',
+                       checked : table.getIsAllColumnsVisible(),
+                       onChange: table.getToggleAllColumnsVisibilityHandler(),
+                     } }
+              />
+              Toggle All
+            </label>
+          </div>
+
           { table.getAllLeafColumns().map( ( column, i ) => ( <div
               key={ column.id + `${ i }` }
-              className="p-1  border border-black text-black z-50">
-              <label className={ `flex gap-1 ${ setColumn( column ) }` }>
+              className={ `p-1 border border-black text-black z-50 rounded ${
+                setColumn( column ) }` }>
+              <label>
 
-                <input
-                  { ...{
-                    type    : 'checkbox',
-                    checked : column.getIsVisible(),
-                    onChange: column.getToggleVisibilityHandler(),
-                  } }
+                <input className={ "mr-1" }
+                       { ...{
+                         type    : 'checkbox',
+                         checked : column.getIsVisible(),
+                         onChange: column.getToggleVisibilityHandler(),
+                       } }
                 />
-                { i + 1 }. { column.parent === undefined
-                             ? column.id
-                             : column.parent.id + " " + column.columnDef.header
-              }
+                {/*{ i + 1 }.*/ }
+                { ToggleName( column ) }
               </label>
             </div>
           ) ) }

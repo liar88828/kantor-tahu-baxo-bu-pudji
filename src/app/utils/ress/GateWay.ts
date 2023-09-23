@@ -1,11 +1,14 @@
 "use server"
 
 import { sendData } from './SendApi';
-import { getId } from './setBank';
 import { ErrorData } from './ErrorData';
-import { validationData } from '@/app/utils/ress/ValidationModel';
+import { ValidationModel } from '@/app/utils/ress/ValidationModel';
 import { TMethod, ToModel } from '@/entity/Utils';
-import { debugs } from '../../../../config.dev';
+import { _test_ } from '../../../../config.dev';
+
+import { errorData, errorEmptyData, errorEmptyID } from '@/lib/utils/errorResponse';
+import { setIdModel } from '@/lib/utils/formatId';
+import { getId } from '@/app/utils/ress/setBank';
 
 export const isObjectEmpty = ( objectName: TMethod ) => {
   return Object.keys( objectName ).length === 0
@@ -14,125 +17,134 @@ export const isObjectEmpty = ( objectName: TMethod ) => {
 export async function GateWay<T>(
   method: TMethod,
   to: ToModel,
-  id: string | "all" = "",
-  data: any          = {},
-  option: string = "",
+  id: string | "all"               = "",
+  data: any                        = {},
+  option: string                   = "",
+  stores: "noCache" | "revalidate" = "revalidate",
 ): Promise<{
   data: any,
   msg: string
 } | any> {
+  try {
 
-  if( method === "PATCH"
-    || method === "PUT"
-    || method === "GET"
-    || method === "DELETE" ) {
-    if( id !== "all" ) {
-
-      if( id.length < 3 ) {
-        console.error( "wrong Id" )
-        return { msg: `Error ${ method }`, error: 'Cannot empty ID' }
+    if(
+      [ "PATCH", "PUT", "GET", "DELETE" ].includes( method ) &&
+      ( id !== "all" && id.length < 3 )
+    ) {
+      console.error( `${ method } Wrong Id GateWay` );
+      return errorEmptyID( method );
+    }
+    //
+    if( option === "file" ) {
+      console.log( `${ method } file GateWay` )
+      if( method === "POST" || method === "PUT" ) {
+        return await sendData<T>( to, method, id, option, data )
       }
     }
-  }
 
-  if( method === "POST" || method === "PUT" ) {
-    console.info( "-------" )
-    console.info( "gateway" )
-
-    // console.log(data)
-
-    if( isObjectEmpty( data ) ) {
-      console.error( "is empty" )
-      return { msg: `Error ${ method }`, error: 'Cannot empty data' }
+    if( ( method === "POST" || method === "PUT" ) && isObjectEmpty( data ) ) {
+      console.error( `${ method } is empty GateWay` );
+      return errorEmptyData( method );
     }
 
-    const json = validationData( method, to, data )
-    // console.debug("-------")
-    // console.debug(data)
-    console.debug( "--json----" )
-    console.debug( json )
-    console.debug( "---json----" )
+    if( method === "POST" || method === "PUT" ) {
+      if( typeof data === "object" ) {
+        if( method === "POST" ) {
+          if( typeof data.id === "string" ) {
+            if( data.id.length < 20 ) {
+              data.id = setIdModel( to, data )
+            }
+          }
+        }
 
-    if( debugs ) {
-      console.debug( json )
-      console.debug( JSON.stringify( json ).includes( "equired" )
-        || !JSON.stringify( json ).includes( "ode" ) )
-    }
-    //
-    // --------------------
-    //
-    if( method === "POST" ) {
+        const validData = ValidationModel( to, data );
+        if( Array.isArray( validData ) ) {
+          console.error( "is error zod validation gateway by array" )
+          if( _test_ ) {
+            return errorData( method, validData )
+          }
+          throw errorData( method, validData )
+        }
 
-      if( !JSON.stringify( json ).includes( "equired" )
-        || !JSON.stringify( json ).includes( "ode" )
-        || !JSON.stringify( json ).includes( "essage" )
-      ) {
-        // console.info( "---POST-----" )
-        // console.log(json)
-        return await sendData<T>( to, "POST", "", option, json );
+        else {
+          const dataString = JSON.stringify( validData )
+          if( dataString.includes( "equired" ) &&
+            dataString.includes( "essage" ) &&
+            dataString.includes( "code" )
+          ) {
+            console.error( "is error zod validation gateway by string" )
+            return errorData( method, validData )
+          }
+        }
+
+        console.info( "success client GateWay" )
+        return await sendData<T>( to, method, id, option, validData );
+
       }
-
-      return json
     }
-    //
-    // --------------------
-    //
-    if( method === "PUT" ) {
-
-      if( !JSON.stringify( json ).includes( "equired" )
-        || !JSON.stringify( json ).includes( "ode" )
-        || !JSON.stringify( json ).includes( "essage" )
-
-      ) {
-        console.error( "error" )
-        console.log( data )
-        return await sendData<T>( to, "PUT", id, option, json );
+    if( method === "GET" ) {
+      if( id.length > 10 && data === "only" ) {
+        console.info( "only" )
+        return await getId( to, id );
       }
-      console.info( "success" )
-      // console.log(data)
-
-      return json
+      if( id.length > 3 || id === "all" || id === "" ) {
+        console.info( "all" )
+        return await sendData<T>( to, "GET", id, option, {}, stores
+          //"noCache"
+        );
+      }
     }
-
-  }
-
-  if( debugs ) {
-    console.log( method, )
-    console.log( to, )
-    console.log( id, )
-    console.log( data, )
-    console.log( option, )
-
-  }
-
-  //
-  // --------------------
-  //
-  if( method === "GET" ) {
-
-    if( id.length > 10 && data === "only" ) {
-      return await getId( to, id );
+    if( method === "DELETE" ) {
+      console.log( id, data )
+      return await sendData<T>( to, "DELETE", id, "", data );
     }
-
-    if( id.length > 3 ) {
-      return await sendData<T>( to, "GET", id, option )
-    }
-
-    if( id === "all" || id === "" ) {
-      return await sendData<T>( to, "GET", id, option )
-    }
+    //
+    // //
+    // // --------------------
+    // //
+    // if( method === "POST" ) {
+    //   if( !JSON.stringify( data ).includes( "equired" )
+    //     && !JSON.stringify( data ).includes( "ode" )
+    //     && !JSON.stringify( data ).includes( "essage" )
+    //   ) {
+    //     console.info( "---POST-----" )
+    //     console.info( data )
+    //     return await sendData<T>( to, "POST", "", option, data );
+    //   }
+    //   console.error( "--ress--POST--" )
+    //   console.error( data )
+    //   if( Array.isArray( data ) ) {
+    //     return errorData( method, data )
+    //   }
+    //   return data
+    // }
+    // //
+    // // --------------------
+    // //
+    // if( method === "PUT" ) {
+    //
+    //   if( !JSON.stringify( data ).includes( "equired" )
+    //     && !JSON.stringify( data ).includes( "ode" )
+    //     && !JSON.stringify( data ).includes( "essage" )
+    //   ) {
+    //     console.info( "error" )
+    //     console.info( data )
+    //     return await sendData<T>( to, "PUT", id, option, data );
+    //   }
+    //   console.error( "--ress--PUT--" )
+    //   console.error( data )
+    //   return data
+    // }
+    return errorData( method, await ErrorData( to ), )
   }
+  catch ( e ) {
+    console.error( "error object client" )
+    if( typeof e === "object" ) {
+      return e
+    }
+    console.error( "error normal client" )
+    return errorData( method, await ErrorData( to ), )
 
-  //
-  // --------------------
-  //
-  if( method === "DELETE" ) {
-    return await sendData<T>( to, "DELETE", id );
-  }
-
-  return {
-    data: ErrorData( to ),
-    msg : "error"
   }
 }
 

@@ -12,7 +12,7 @@ export const StatusButton = ( { status, id }: { status: string, id: string } ) =
       id    : id,
       status: status
     }
-    await sendData( "orderan", "PATCH", id, "", json );
+    await sendData( "table", "PATCH", id, status, json );
   }
   return ( <>
     <label
@@ -37,7 +37,9 @@ export const StatusButton = ( { status, id }: { status: string, id: string } ) =
               onClick={ async () => {
                 await handleUpdate( s.s, id )
                 route.refresh()
-              } }>{ s.s }</button>
+              } }>
+              { s.s }
+            </button>
           ) ) }
         </div>
 

@@ -18,12 +18,13 @@ export const setIdProduct = ( dProduct: TProduct ): string =>
   dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
 // product
-export const setIdBank = ( dProduct: TBank ): string =>
-  dProduct.nama.slice( 0, 2 ) + "_" +
-  dProduct.no.toString().slice( 0, 2 ) + "_" +
-  dProduct.lokasi.slice( 0, 2 ) + "_" +
-  dProduct.jenis.slice( 0, 2 ) + "_" +
-  dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
+export const setIdBank = ( dBank: TBank ): string =>
+  dBank.nama.slice( 0, 2 ) + "_" +
+  dBank.no.toString().slice( 0, 2 ) + "_" +
+  dBank.hp.toString().slice( 0, 2 ) + "_" +
+  dBank.lokasi.slice( 0, 2 ) + "_" +
+  dBank.jenis.slice( 0, 2 ) + "_" +
+  dBank.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
 // Orderan
 function setIdOrderanString(
@@ -55,6 +56,7 @@ export const setIdOrderan = ( dataBaru: TOrder | TOrderServer ): string =>
   setIdOrderanString( dataBaru ).replaceAll( " ", "_" )
 
 export function setIdModel( to: ToModel, data: any ) {
+  console.log( "gateway/setIdModel" )
   if( to === "bank" ) {
     return setIdBank( data );
   }
@@ -65,7 +67,12 @@ export function setIdModel( to: ToModel, data: any ) {
     return setIdTravel( data );
   }
   if( to === "orderan" ) {
+    console.log( data )
     return setIdOrderan( data );
+  }
+  if( to === "semuaProduk" ) {
+    console.log( data )
+    return setIdProduct( data );
   }
 }
 

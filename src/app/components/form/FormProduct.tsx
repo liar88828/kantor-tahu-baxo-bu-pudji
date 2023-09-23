@@ -40,31 +40,43 @@ export function FormProduct(
   };
 
   const sendDataImage = async ( data: TYPE ) => {
-    if( !open ) {
-      const id              = method === "POST" ? "" : data.id
-      data.id               = method === "POST" ? setIdProduct( data ) : data.id
-      data.img              = method === "POST" ? img : data.img
-      const res: TRes<TYPE> = await GateWay( method, to, id, data, "text" )
-      console.log( res )
-      if( res.msg.includes( "cess" ) && !Array.isArray( res.data ) ) {
-        notifyData( res.msg )
-        router.prefetch( "/" + to + "/list" )
-        router.replace( "/" + to + "/list" )
+    const text = method === "POST" ? "SIMPAN" : "EDIT"
+    if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
+
+      if( !open ) {
+        const id              = method === "POST" ? "" : data.id
+        data.id               = method === "POST" ? setIdProduct( data ) : data.id
+        data.img              = method === "POST" ? img : data.img
+        const res: TRes<TYPE> = await GateWay( method, to, id, data, "text" )
+
+        if( res.msg.includes( "cess" ) && !Array.isArray( res.data ) ) {
+          notifyData( res.msg )
+          router.prefetch( "/" + to + "/list" )
+          router.replace( "/" + to + "/list" )
+        }
+
+        if( Array.isArray( res.data ) ) {
+          const zod = res.data[ 0 ]
+          notifyData( `error ${ zod.code } because ${ zod.message } in ${ zod.path[ 0 ] }` )
+        }
       }
-      if( Array.isArray( res.data ) ) {
-        const zod = res.data[ 0 ]
-        notifyData( `error ${ zod.code } because ${ zod.message } in ${ zod.path[ 0 ] }` )
+
+      else if( open ) {
+        await handleUpload(
+          selectedFile,
+          setMessage,
+          method,
+          to,
+          data,
+          id,
+          router
+        )
       }
+
     }
-    await handleUpload(
-      selectedFile,
-      setMessage,
-      method,
-      to,
-      data,
-      id,
-      router
-    )
+    else {
+      notifyData( `Batal ${ text }` )
+    }
   }
 
   const formUse = useForm<TYPE>( {
@@ -121,7 +133,7 @@ export function FormProduct(
             && ( <UploadDescription previewURL={ previewURL }
                                     onChange={ handleFileChange }
                                     message={ message }
-                                    title={ "Travel" }
+                                    title={ to }
               />
 
             )

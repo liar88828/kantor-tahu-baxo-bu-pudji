@@ -5,7 +5,7 @@ import { debugs } from '../../../config.dev';
 
 export type TPathImg = "travel" | "produk" | string;
 
-const saveFile   = (
+const saveFile = (
   filePath: string,
   buffer: Buffer,
   data: any,
@@ -61,7 +61,7 @@ export const validImage = async (
   buffer: Buffer,
   path: TPathImg,
   img: string,
-  option: "POST" | "PUT" = "POST",
+  option: "POST" | "PUT",
   data: any
 ) => {
   if( debugs ) {

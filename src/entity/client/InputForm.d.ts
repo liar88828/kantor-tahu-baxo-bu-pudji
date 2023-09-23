@@ -6,8 +6,8 @@ export interface InputFormProps {
   type: "textarea" | "text" | "time" | "number" | "date" | "tel";
   reg: any;
   value?: string
-  min?: string
-  max?: string
+  min?: string | number
+  max?: string | number
   defaultValue?: string | number,
 
 }

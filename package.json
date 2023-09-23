@@ -15,8 +15,6 @@
   ],
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@heroicons/react": "^2.0.18",
-    "@material-tailwind/react": "^2.0.6",
     "@prisma/client": "^5.0.0",
     "@tanstack/match-sorter-utils": "^8.8.4",
     "@tanstack/react-table": "8.9.3",
@@ -29,7 +27,7 @@
     "chart.js": "^4.3.0",
     "classnames": "^2.3.2",
     "eslint": "8.44.0",
-    "eslint-config-next": "13.4.9",
+    "eslint-config-next": "13.4.19",
     "form-data": "^4.0.0",
     "formidable": "v3",
     "next": "13.4.10",

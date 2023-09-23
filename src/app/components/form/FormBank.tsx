@@ -3,13 +3,14 @@ import { formBank } from '@/app/utils/format/bank';
 import { Cshadow } from '@/app/style/shadow';
 import { styleLabelForm } from '@/app/style/form';
 
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import { FormBody } from '@/app/elements/link/LinksNavbar';
 import { FormList } from '@/app/components/form/Form';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/elements/input/InputNew';
-import { setIdBank } from '@/lib/utils/formatId';
-import { EFButton } from '@/app/elements/button/form/Save';
+import { GateWay } from '@/app/utils/ress/GateWay';
+import { notifyData } from '@/app/utils/notif/toash';
+import { useRouter } from 'next/navigation';
 
 type TYPE = TBank;
 export const img = 'https://dummyimage.com/200x200/000/fff.jpg&text=not+found'
@@ -22,22 +23,43 @@ export function FormBank(
       id: string
       to: "travel" | "product" | "bank"
     }, ) {
-  const [ data, setData ]         = useState<TBank>( defaultData );
-  const [ imageUrl, setImageUrl ] = useState( "" );
-
-  const handleSubmit = async ( d: TYPE ) => {
-    console.log( "summit" )
-    setData( d )
-    setImageUrl( d.img );
-    if( d.id.length < 10 ) {
-      d.id = setIdBank( d )
-    }
-  }
-
-  const formUse = useForm<TYPE>( {
+  const router                    = useRouter()
+  const [ imageUrl, setImageUrl ] = useState<string>( defaultData.img );
+  const [ open, setOpen ]         = useState<boolean>( false );
+  const formUse                   = useForm<TYPE>( {
     defaultValues: defaultData,
     mode         : "onChange",
   } );
+  const handleSubmit              = async ( d: TYPE ) => {
+    console.log( "summit" )
+    setImageUrl( d.img );
+    setOpen( !open )
+
+  }
+  const handleSave                = async () => {
+    const text = method === "POST" ? "SIMPAN" : "EDIT"
+    if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
+      const res = await GateWay( method, to, id, formUse.getValues(), )
+      console.log( res )
+      if( Array.isArray( res.data ) ) {
+        notifyData( "", res.data )
+      }
+      else {
+        notifyData( res.msg )
+        if( res.msg.toString().includes( "cess" ) ) {
+          router.prefetch( `/${ to }/list` )
+          router.replace( `/${ to }/list` )
+        }
+      }
+    }
+    else {
+      notifyData( `Batal ${ text }` )
+    }
+  }
+
+  console.log( "get data" )
+  console.log( formUse.getValues() )
+  console.log( "get data" )
 
   return ( <>
       <FormBody>
@@ -56,25 +78,33 @@ export function FormBank(
           </> }
 
           button={
-            <button type="submit" className="bg-blue-500 p-2 rounded-md text-white">CEK</button>
+            <button type="submit"
+
+                    className="bg-blue-500 p-2 rounded-md text-white">CEK</button>
           }
 
           submit={
-            <EFButton<"bank"> data={ data } method={ method } id={ id } to={ to }/>
+            <button type="submit"
+                    onClick={ handleSave }
+                    className={ `bg-${ !open ? "success" : "warning" } p-2 rounded-md text-white` }>
+              { method === "POST" ? "SIMPAN" : "EDIT" }
+            </button>
+
           }
         >
-          <div className={ " bg-white rounded-lg p-5 flex flex-col gap-5 " + Cshadow }>
-            <div className={ 'flex flex-col gap-5 ' }>
-              <label className={ styleLabelForm + "capitalize" }>Masukan Gambar { to }</label>
-              { !imageUrl && <h1>Upload Image</h1> }
-              { imageUrl &&
-                // eslint-disable-next-line @next/next/no-img-element
-                <img alt="Preview"
-                     src={ defaultData.img === "" ? img : imageUrl }
-                     className={ 'w-[100%] h-auto border-2 border-gray-300 rounded-3xl' }/>
-              }
-            </div>
-          </div>
+          { open &&
+            <div className={ " bg-white rounded-lg p-5 flex flex-col gap-5 " + Cshadow }>
+              <div className={ 'flex flex-col gap-5 ' }>
+                <label className={ styleLabelForm + "capitalize" }>Masukan Gambar { to }</label>
+                { !imageUrl && <h1>Upload Image</h1> }
+                { imageUrl &&
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img alt="Preview"
+                       src={ defaultData.img === "" ? img : imageUrl }
+                       className={ 'w-[100%] h-auto border-2 border-gray-300 rounded-3xl' }/>
+                }
+              </div>
+            </div> }
         </FormList>
       </FormBody>
     </>

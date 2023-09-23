@@ -7,20 +7,20 @@ import { HiOutlineBanknotes } from 'react-icons/hi2';
 import { usePathname } from 'next/navigation';
 
 const menuList = [
-  { title: "Dashboard", icon: AiFillPieChart, link: "/" },
-  { title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "/orderan" },
-  { title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
-  { title: "Product", icon: AiOutlineInbox, gap: true, link: "/product/list" },
-  { title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel/list" },
-  { title: "Bank", icon: HiOutlineBanknotes, link: "/bank/list" },
+  { s: "bg-green-400", title: "Dashboard", icon: AiFillPieChart, link: "/" },
+  { s: "bg-green-400", title: "Orderan", icon: MdOutlineProductionQuantityLimits, link: "/orderan" },
+  { s: "bg-green-400", title: "Files", icon: AiOutlineTable, link: "/table/Semua" },
+  { s: "bg-green-400", title: "Product", icon: AiOutlineInbox, gap: true, link: "/product/list" },
+  { s: "bg-green-400", title: "Pengiriman", icon: MdOutlineSportsMotorsports, link: "/travel/list" },
+  { s: "bg-green-400", title: "Bank", icon: HiOutlineBanknotes, link: "/bank/list" },
   // { title: "Analytic", icon: MdAnalytics, gap: true, link: "/form" },
   // { title: "Setting", icon: AiFillSetting, link: "/form" },
 ];
 
 export const Slidebar = () => {
   const [ open, setOpen ] = useState( false );
-  const path              = usePathname().split( "/" )[ 1 ].toUpperCase()
-
+  const pathname = usePathname()
+  const path     = pathname.split( "/" )[ 1 ].toUpperCase()
   let colorTextSlideBar = "black"
   let titleSlideBar     = "black"
   let bgColorSlideBar   = "#d6ffe0"
@@ -73,8 +73,12 @@ export const Slidebar = () => {
                     WebkitTransition: "all .5s ease",
                     MozTransition: "all .5s ease",
                   } }
-                  className={ `flex gap-4 p-2  hover:bg-gradient-to-t hover:from-green-200 hover:via-green-400 hover:to-green-500
-                   bg-gradient-to-b from-green-400 to-green-500
+                  className={ `flex gap-4 p-2
+                   ${ pathname === item.link ?
+                      " hover:bg-gradient-to-t hover:from-green-500 hover:via-green-700 hover:to-green-700" +
+                        " bg-gradient-to-b from-green-500 to-green-700"
+                                             :
+                      " hover:bg-gradient-to-t hover:from-green-200 hover:via-green-400 hover:to-green-500 bg-gradient-to-b from-green-400 to-green-500" }
                    ${ item.gap ? 'mt-9' : 'mt-2' } 
                   ${ !open && 'justify-center' } `
                   }

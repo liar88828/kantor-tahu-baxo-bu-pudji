@@ -3,7 +3,7 @@ import { TPProduct } from '@/server/models/prisma/config';
 import { IValidationService } from '@/lib/validation/zod/validationService';
 import { IRepoProduct } from '@/interface/repository/Product';
 
-export interface IControlProduct2 extends InterfaceAbstractController<"product", TPProduct> {
+export interface IControlProduct extends InterfaceAbstractController<"product", TPProduct> {
   readonly r: IRepoProduct<TPProduct>
   readonly v: IValidationService<TPProduct>;
   // findDashboard( a: string ): Promise<any>;

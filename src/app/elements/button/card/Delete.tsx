@@ -11,10 +11,16 @@ export function DeleteCard( { id, to, css = "btn-xs" }: { to: ToModel, id: strin
     <button className={ ` btn sm:btn-sm btn-error text-white ${ css } ` }
             type={ "button" }
             onClick={ async () => {
-              const res: TRes<TBank> = await GateWay<TBank>( 'DELETE', to, id, {}, )
-              notifyData( res.msg )
-              if( res.msg.includes( "cess" ) ) {
-                router.refresh()
+              if( confirm( "Apakah anda yakin untuk menghapus data ini ?" ) ) {
+                const res: TRes<TBank> = await GateWay<TBank>( 'DELETE', to, id, {}, )
+                notifyData( res.msg )
+                if( res.msg.includes( "cess" ) ) {
+                  router.refresh()
+                }
+              }
+              else {
+                notifyData( "batal di ubah " )
+
               }
             } }
     >Delete

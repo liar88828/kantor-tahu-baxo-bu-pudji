@@ -6,14 +6,9 @@ import { newError } from '@/server/exeption/errorHandler';
 import { debugs } from '../../../config.dev';
 import { TMethod } from '@/entity/Utils';
 import { fileSystem } from '@/lib/utils/fileSystem';
+import { TSend } from '@/entity/service/TSend';
 
-export type TSend = {
-  method: TMethod;
-  id: string;
-  value: string;
-  option: string;
-  pathname: string
-};
+import { TResponse } from '@/entity/service/TResponse';
 
 export async function Input( request: NextRequest ): Promise<TSend | any> {
   const url          = new URL( request.url );
@@ -23,22 +18,25 @@ export async function Input( request: NextRequest ): Promise<TSend | any> {
   const id           = searchParams.get( "id" ) as string
   const option       = searchParams.get( "option" ) as string
   const value        = searchParams.get( "value" ) as string
+  if( option ) {
 
+    console.log( "-------option------" )
+    console.log( option )
+    // console.log( json )
+
+  }
   const send: TSend = { id, option, value, pathname, method }
   const withFile    = async (
     request: NextRequest,
     method: "POST" | "PUT",
     paths: string | TraPro
   ) => {
-
+    console.log( "with file" )
     const data: TExtract = await extractData( request )
-
     if( data ) {
-
       if( method === "PUT" ) {
         await fileSystem( data.json.img )
       }
-
       const jsonImage: any = setData(
         data.dataImage.file,
         data.json,
@@ -62,22 +60,24 @@ export async function Input( request: NextRequest ): Promise<TSend | any> {
     if( option.includes( "text" ) ) {
       return { ...send, json: await request.json() };
     }
+
     if( option.includes( "file" ) ) {
       const json = await withFile( request, "POST", pathname )
       return { ...send, json };
 
     }
   }
-
+  // console.log( method )
   // travel and product
   if( method === "PUT" && ( pathname.includes( "travel" ) || pathname.includes( "product" ) ) ) {
     console.info( "test PUT input" )
     if( option.includes( "text" ) ) {
+      console.info( `option : ${ option }` )
       return { ...send, json: await request.json() };
     }
 
     if( option.includes( "file" ) ) {
-      console.debug( "test" )
+      console.info( `option : ${ option }` )
       const json = await withFile( request, "PUT", pathname )
       return { ...send, json };
     }
@@ -88,8 +88,12 @@ export async function Input( request: NextRequest ): Promise<TSend | any> {
     const json: string[] = await request.json()
     console.log( json )
     if( Array.isArray( json ) ) {
+
+      console.log( "is array" )
       return { ...send, json };
     }
+    console.log( " array" )
+
     return { ...send };
 
   }
@@ -114,6 +118,7 @@ export async function Output( method: TMethod, control: any, ...data: any ) {
       console.error( "Error must be function" )
       return new newError( "Error must be function " )
     }
+
     setTimeout( () => 2000 )
 
     const controls: any = await control( ...data )
@@ -129,22 +134,30 @@ export async function Output( method: TMethod, control: any, ...data: any ) {
 
     }
 
-    return NextResponse.json( {
+    const response: TResponse<any> = {
       msg    : msg,
       success: !success,
       data   : controls,
-      code   : code
-    } );
+      code: code,
+    }
+    return NextResponse.json( response );
   }
 
   catch ( err: unknown ) {
     const data = err instanceof Error ? err.name : err;
 
-    return NextResponse.json( {
-      msg    : `Error ${ method }`,
-      error  : data,
-      success: false,
-      // code   : code,
-    } );
+    if( typeof err === 'object' ) {
+      console.log( "error object" )
+      return NextResponse.json( err )
+    }
+    else {
+      console.log( "error normal" )
+      return NextResponse.json( {
+        msg    : `Error on ${ method }`,
+        error  : data,
+        success: false,
+
+      } );
+    }
   }
 }

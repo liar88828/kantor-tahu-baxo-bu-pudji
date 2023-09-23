@@ -5,7 +5,7 @@ import { IRepoBank } from '@/interface/repository/Bank';
 
 type TYPE = TPBank;
 
-export default class BankController2 extends Controller <"bank", TYPE> {
+export default class BankController extends Controller <"bank", TYPE> {
   constructor(
     readonly r: IRepoBank<TPBank>,
     readonly v: IValidationService<TPBank>

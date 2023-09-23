@@ -3,7 +3,7 @@ import { TPBank } from '@/server/models/prisma/config';
 import { IValidationService } from '@/lib/validation/zod/validationService';
 import { IRepoBank } from '@/interface/repository/Bank';
 
-export interface IControlBank2 extends InterfaceAbstractController<"bank", TPBank> {
+export interface IControlBank extends InterfaceAbstractController<"bank", TPBank> {
   readonly r: IRepoBank<TPBank>
   readonly v: IValidationService<TPBank>;
 

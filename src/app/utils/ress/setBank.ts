@@ -6,6 +6,7 @@ export async function getId( to: ToModel, id: string ) {
     const { data }: { data: TBank } = await sendData( to, "GET", id );
     return setBank( data )
   }
+  return "require"
 }
 
 export function setBank( d: TBank ) {

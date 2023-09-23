@@ -59,6 +59,7 @@ const getData        = ( aggregate: TAggregate[] ) => {
 }
 
 export function BarVertical( { aggregate }: { aggregate: TAggregate[] } ) {
+  // console.log(aggregate)
   const { o, d } = getData( aggregate )
   return <Bar options={ o } data={ d }/>;
 }

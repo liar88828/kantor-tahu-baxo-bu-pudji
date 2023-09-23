@@ -1,8 +1,8 @@
 import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-import { sendImage } from '@/app/utils/ress/SendApi';
 import { notifyData } from '@/app/utils/notif/toash';
 import { Dispatch, SetStateAction } from 'react';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { GateWay } from '@/app/utils/ress/GateWay';
 
 export async function handleUpload<T>(
   selectedFile: File | null | undefined,
@@ -27,12 +27,15 @@ export async function handleUpload<T>(
     return;
   }
 
-  const extensionData = getExtensionData( selectedFile.name )
+  const extensionData = getExtensionData( selectedFile.name ) as string
+  console.log( "client extensionData ", extensionData )
+  console.log( "client validateExtension ", !validateExtension( extensionData ) )
   if( !validateExtension( extensionData ) ) {
     setMessage( 'Please an insert a file with format' +
       ' ( jpg bmp png gif webp jpeg )' );
     return;
   }
+  console.log( "test2" )
 
   const dataku   = JSON.stringify( json )
   const formData = new FormData();
@@ -44,11 +47,15 @@ export async function handleUpload<T>(
 
   //----------------------send to
   try {
-    const data: { msg: string } = await sendImage( to, id, method, formData );
-    notifyData( "", data )
+    //   const data: { msg: string } = await sendImage( to, id, method, formData );
+    console.log( "send data" )
+    const data: { msg: string } = await GateWay( method, to, id, formData, "file" );
+    console.log( "res data" )
+    console.log( data )
+    notifyData( data.msg )
     if( data.msg.includes( "ccess" ) ) {
       setMessage( 'File uploaded successfully' );
-      router.prefetch( `/${ to }/list` )
+      // router.prefetch( `/${ to }/list` )
       router.replace( `/${ to }/list` )
     }
     else {

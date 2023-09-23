@@ -1,4 +1,3 @@
-import React from 'react';
 import { HorizontalCard } from '@/app/components/dashboard/card';
 import { Lines } from '@/lib/chart/line';
 import { Donat } from '@/lib/chart/donat';
@@ -7,16 +6,16 @@ import { CardList, TListCard } from '@/app/components/card/dashboard/CardList';
 import { TAggregate, TDonat, TLines, TStatus } from '@/entity/Dashboard';
 import { GateWay } from '@/app/utils/ress/GateWay';
 
+export const dynamic    = 'force-dynamic'
 export const revalidate = 0
-export const fetchCache = 'auto'
-export const runtime    = 'nodejs'
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
 
 // export const preferredRegion = 'auto'
 
 export async function ServerComponent() {
   const r: {
     msg: string,
-    success: boolean,
     data: {
       semuaOrderTahun: TLines[],
       semuaStatus: TStatus[]
@@ -25,7 +24,7 @@ export async function ServerComponent() {
       notifyMonth: TListCard[]
       aggregate: TAggregate[]
     }
-  } = await GateWay( 'GET', 'dashboard', "all", )
+  } = await GateWay( 'GET', 'dashboard', "all", "", "", "noCache" )
   return ( <>
       <ClientComponent
         line={ r.data.semuaOrderTahun }

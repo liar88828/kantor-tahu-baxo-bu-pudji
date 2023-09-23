@@ -3,10 +3,11 @@ import { Suspense } from 'react';
 import { GateWay } from '@/app/utils/ress/GateWay';
 import { TableOrder } from '@/app/components/table/Table';
 
-export const dynamic = 'auto'
+export const dynamic    = 'force-dynamic'
 export const revalidate = 0
-export const fetchCache = 'auto'
-export const runtime    = 'nodejs'
+
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
 
 type TDataRes<T> = {
   msg: string,
@@ -15,9 +16,9 @@ type TDataRes<T> = {
 export default async function Page( { params: { slug } }: { params: { slug: string } } ) {
   const id = slug.replaceAll( "%20", " " )
 
-  const data: TDataRes<TOrderServer[]> = await GateWay( 'GET', "orderan", id, "", "table" )
+  const data: TDataRes<TOrderServer[]> = await GateWay( 'GET', "table", id, "", "table" )
   return (
-    <main className="flex p-3 sm:p-6  z-50 bg-green-50 gap-3 flex-col">
+    <main className="flex p-3 sm:p-6 z-50 bg-green-50 gap-3 flex-col">
       <div className=" overflow-x-auto pb-2">
         <LinkTable slug={ slug.replace( "%20", " " ) }/>
       </div>

@@ -6,19 +6,20 @@ export abstract class ARepository<T extends TEntity> implements InterfaceAbstrac
   constructor( public prisma: GetModel<T> ) {}
 
   abstract setOne( d: any, ): any;
+
   abstract setMany( data: any[] | any, method?: string ): any[];
 
   async findAll() {
     if( test === "true" ) {
-      console.info( "prisma" )
+      console.info( "prisma find all" )
     }
     // @ts-ignore
     return this.prisma.findMany();
   }
   async findOne( id: string ) {
     if( test === "true" ) {
-      console.info( "prisma" )
-      console.info( id )
+      console.info( "prisma find one" )
+      // console.info( id )
     }
     // @ts-ignore
     return this.prisma.findFirst( { where: { id } } );
@@ -26,8 +27,8 @@ export abstract class ARepository<T extends TEntity> implements InterfaceAbstrac
 
   async findById( id: string ) {
     if( test === "true" ) {
-      console.info( "prisma" )
-      console.info( id )
+      console.info( "prisma find by id" )
+      // console.info( id )
     }
     // @ts-ignore
     return this.prisma.findUnique( { where: { id } } );
@@ -35,9 +36,10 @@ export abstract class ARepository<T extends TEntity> implements InterfaceAbstrac
 
   async destroyOne( id: string ) {
     if( test === "true" ) {
-      console.info( "prisma" )
-      console.info( id )
+      console.info( "prisma destroy one" )
+      // console.info( id )
     }
+
     // @ts-ignore
     return this.prisma.delete( { where: { id } } )
 
@@ -45,8 +47,8 @@ export abstract class ARepository<T extends TEntity> implements InterfaceAbstrac
 //create data from database
   async createOne( data: any, id?: string ) {
     if( test === "true" ) {
-      console.info( "prisma" )
-      console.info( data )
+      console.info( "prisma create one" )
+      // console.info( data )
     }
     // @ts-ignore
     return this.prisma.create( { data: this.setOne( data ) } )
@@ -54,7 +56,7 @@ export abstract class ARepository<T extends TEntity> implements InterfaceAbstrac
 //edit data from database
   async updateOne( data: any, id: string ) {
     if( test === "true" ) {
-      console.info( "prisma" )
+      console.info( "prisma update one" )
       console.info( data )
     }
     // @ts-ignore

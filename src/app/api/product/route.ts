@@ -8,15 +8,18 @@ import RepoProduk from '@/server/repository/Product';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
-import { IControlProduct2 } from '@/interface/controller/Product';
+import { IControlProduct } from '@/interface/controller/Product';
+import { errorEmptyID } from '@/lib/utils/errorResponse';
 
-const c: IControlProduct2 = new ProductController(
+const c: IControlProduct = new ProductController(
   new RepoProduk( prisma.product ),
   new ValidationService<TPProduct>( new ValidationSchema().ProductSchema ),
 )
+const to                 = "product"
 
 export async function GET( request: NextRequest ) {
-  const { id, } = await Input( request )
+  const { id, method } = await Input( request )
+  console.log( `route api ${ method } product` )
 
   if( id === "all" ) {
     return await Output( "GET", () => c.find() )
@@ -25,41 +28,45 @@ export async function GET( request: NextRequest ) {
   if( id.length > 10 ) {
     return await Output( "GET", () => c.findById( id ), )
   }
-  return NextResponse.json( { msg: "Error EDIT", error: "cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 }
 
 export async function POST( request: NextRequest, ) {
   try {
-    const { json } = await Input( request );
+    const { json, method } = await Input( request );
+    console.log( `route api ${ method } product` )
+
     console.info( "api POST product" )
     return await Output( "POST", () => c.create( json ) )
   }
   catch ( e ) {
-    return NextResponse.json( { msg: `Error POST`, error: e } )
+    return NextResponse.json( { msg: `Error POST`, success: false, error: e } )
   }
 }
 
 export async function DELETE( request: NextRequest ) {
   const { id, method } = await Input( request )
+  console.log( `route api ${ method } product` )
 
   if( id.length > 10 ) {
     return await Output( "DELETE", () => c.destroy( id ), )
   }
-  return NextResponse.json( { msg: `Error ${ method }`, error: "cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 }
 
 export async function PUT( request: NextRequest, ) {
   try {
-
     const { json, id, method } = await Input( request, );
+    console.log( `route api ${ method } product` )
+
     if( id.length > 3 ) {
       return await Output( "PUT", () => c.edit( json, id ) )
     }
-    return NextResponse.json( { msg: `Error ${ method }`, error: "cannot empty ID" } )
+    return NextResponse.json( errorEmptyID( method ) )
 
   }
   catch ( e ) {
-    return NextResponse.json( { msg: "Error Create", error: e } )
+    return NextResponse.json( { msg: "Error Create", success: false, error: e } )
   }
 
 }

@@ -1,7 +1,6 @@
 import { ToModel } from '@/entity/Utils';
 
 export const exampleBank = {
-  nama      : "kosong",
   jenis     : "kosong",
   lokasi    : "kosong",
   keterangan: "kosong",
@@ -9,6 +8,7 @@ export const exampleBank = {
   no        : "kosong",
   hp        : "kosong",
   img       : "kosong",
+  nama: "kosong",
 } as TBank
 
 export const exampleOrderan = {

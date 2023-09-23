@@ -1,6 +1,7 @@
 import { FormProduct } from '@/app/components/form/FormProduct';
 import { Suspense } from 'react';
 import { defaultFormProduct } from '@/app/utils/format/product';
+// export const dynamic    = 'force-dynamic'
 
 export default function Page() {
 

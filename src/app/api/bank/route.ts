@@ -6,53 +6,58 @@ import { NextRequest, NextResponse } from 'next/server';
 import BankController from '@/server/controller/Bank';
 import RepoBank from '@/server/repository/Bank';
 import ValidationService from '@/lib/validation/zod/validationService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import { IControlBank2 } from '@/interface/controller/Bank';
+import { vSchema } from '@/lib/validation/zod/validationSchema';
+import { IControlBank } from '@/interface/controller/Bank';
+import { errorData, errorEmptyID } from '@/lib/utils/errorResponse';
 
-const c: IControlBank2 = new BankController
+const c: IControlBank = new BankController
 (
   new RepoBank( prisma.bank ),
-  new ValidationService<TPBank>( new ValidationSchema().BankSchema ),
+  new ValidationService<TPBank>( vSchema.BankSchema ),
 )
+const to              = "bank"
 
 export async function GET( request: NextRequest ) {
-  const { id, method } = await Input( request );
+
+  const { id, method, } = await Input( request );
+  console.log( `route api ${ method } bank` )
   if( id.includes( "all" ) ) {
     return await Output( "GET", () => c.find() )
   }
   if( id.length > 10 ) {
     return await Output( "GET", () => c.findById( id ), )
   }
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 
 }
 
 export async function POST( request: NextRequest ) {
-  const { json } = await Input( request );
-  // console.table(json)
+  const { json, method } = await Input( request );
+  console.log( `route api ${ method } bank` )
   return await Output( "POST", () => c.create( json ) )
 }
 
 export async function DELETE( request: NextRequest ) {
   const { id, method } = await Input( request );
-  // console.debug(id, method)
+  console.log( `route api ${ method } bank` )
   if( id.length > 10 ) {
     return await Output( "DELETE", () => c.destroy( id ) )
   }
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 
 }
 
 export async function PUT( request: NextRequest ) {
   const { json, id, method } = await Input( request );
+  console.log( `route api ${ method } bank` )
   if( json === undefined ) {
-    return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot data ID" } )
+    return NextResponse.json( errorData( method, json ) )
   }
 
   if( id.length > 10 ) {
     return await Output( "PUT", () => c.edit( json, id ) )
   }
-  return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty ID" } )
+  return NextResponse.json( errorEmptyID( method ) )
 
 }
 

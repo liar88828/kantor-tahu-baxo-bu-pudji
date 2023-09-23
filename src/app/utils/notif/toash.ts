@@ -1,71 +1,69 @@
 import { toast } from 'react-toastify';
 
+type ErrorZod = {
+  code: string
+  exact: boolean
+  inclusive: boolean
+  maximum: number
+  message: string
+  path: string[]
+  type: string
+}
+
+function errorToast( text: string ) {
+  toast.error( text, {
+    position       : "top-right",
+    autoClose      : 3000,
+    hideProgressBar: false,
+    closeOnClick   : true,
+    pauseOnHover   : true,
+    theme          : "dark",
+  } );
+}
+
+function successToast( text: string ) {
+  toast.success( text, {
+    position       : "top-right",
+    autoClose      : 3000,
+    hideProgressBar: false,
+    closeOnClick   : true,
+    pauseOnHover   : true,
+    theme          : "light",
+  } )
+}
+
 export const notifyData = <T>( msg?: string, data: any | undefined | T = {}, ) => {
-  console.info( msg )
+  console.log( "toash" )
+  if( msg === "" ) {
+    if( Array.isArray( data ) ) {
+      errorToast( `The ${ data[ 0 ].path[ 0 ] } is ${ data[ 0 ].code } must be ${ data[ 0 ].minimum }` );
+    }
+  }
+
   if( typeof msg === "string" ) {
     if( msg.toLowerCase().includes( "succ" ) ) {
-      toast.success( msg, {
-        position       : "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick   : true,
-        pauseOnHover   : true,
-        theme          : "light",
-      } )
+      successToast( msg )
     }
-
-    if( msg.toLowerCase().includes( "fail" ) || msg.toLowerCase().includes( "error" ) ) {
-      // const msgS = ` ${ data[ 0 ].path[ 0 ] } is ${ data[ 0 ].message } `
-      // console.error(msgS)
-      toast.error( msg, {
-        position       : "top-right",
-        autoClose      : 3000,
-        hideProgressBar: false,
-        closeOnClick   : true,
-        pauseOnHover   : true,
-        theme          : "dark",
-      } );
+    if( msg.toLowerCase().includes( "fail" ) || msg.toLowerCase().includes( "error" ) || msg.includes( "atal" ) ) {
+      errorToast( msg )
     }
   }
-
-  if( data.msg ) {
-    if( data.msg.toLowerCase().includes( "succ" ) ) {
-      console.info( "object success" )
-      toast.success( data.msg, {
-        position: "top-right",
-        autoClose      : 5000,
-        hideProgressBar: false,
-        closeOnClick   : true,
-        pauseOnHover   : true,
-        theme   : "light",
+  if( typeof data === "object" ) {
+    if( typeof data.msg === "string" ) {
+      const text = JSON.stringify( data.msg )
+      console.log( text )
+      if( text.includes( "ccess" ) ) {
+        return successToast( data.msg )
+      }
+      // if( text.includes( "ror" ) ) {
+      //   return errorToast( data.msg )
+      // }
+    }
+    if( Array.isArray( data.data ) ) {
+      data.data.map( ( d: ErrorZod ) => {
+        errorToast( `The ${ d.path[ 0 ] } is error because ${ d.message }` )
       } )
     }
-    if( data.msg.toLowerCase().includes( "err" ) || data.msg.toLowerCase().includes( "fail" ) ) {
-      console.error( "object error" )
-      if( data.error.meta ) {
-        console.error( "object error detail" )
-        console.error( data.error )
-        toast.error( data.error.meta.cause + " " + data.error.name, {
-          position       : "top-right",
-          autoClose      : 3000,
-          hideProgressBar: false,
-          closeOnClick   : true,
-          pauseOnHover   : true,
-          theme          : "light",
-        } )
-      }
-      if( !data.error.meta ) {
-        toast.error( data.msg, {
-          position       : "top-right",
-          autoClose      : 3000,
-          hideProgressBar: false,
-          closeOnClick   : true,
-          pauseOnHover   : true,
-          theme          : "light",
-        } )
-      }
-    }
   }
-
 }
 

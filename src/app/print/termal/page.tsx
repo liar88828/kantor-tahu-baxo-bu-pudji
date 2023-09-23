@@ -73,7 +73,8 @@ const MyComponent = () => {
               <div className=" w-[38%] text-xs border-l-2 border-dotted border-black">
                 <div className={ "break-alls text-center" }>
                   <p className={ " text-xs " }>Dari :</p>
-                  <p className={ "uppercase text-[8pt] font-bold" }> { d.pengirim }</p>
+                  <p className={ "uppercase text-[8pt] font-bold" }> { d.pengirim } - { d.namaPengiriman }
+                  </p>
                   <p className={ "uppercase text-[8pt] font-bold" }> { formatPhone( d.hpPengirim ?? 12 ) }</p>
                 </div>
                 <div className="border border-t-black border-white">
