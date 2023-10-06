@@ -1,7 +1,7 @@
 Kerja Praktek 
 
 <div>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Unwahas.png alt="logo unwahas"/>  
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Unwahas.png" alt="logo unwahas"/>  
 </div>
 
 Kantor Tahu Baxo Bu Pudji
