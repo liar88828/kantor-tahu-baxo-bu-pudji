@@ -3,25 +3,22 @@ import { CComponent } from '@/app/components/form/Orderan/CComponent';
 import { GateWay } from '@/app/utils/ress/GateWay';
 import { exampleBank, exampleProduct, exampleTravel } from '@/app/utils/ress/ErrorData';
 import { TRes } from '@/entity/Utils';
-import { Suspense } from 'react';
 
 export async function SComponent( { id, method, defaultDataOrder, }:
   { id: string, method: "POST" | "PUT", defaultDataOrder: Awaited<TOrder>, } ) {
 
-  const travelData: Promise<TRes<TTravel[]>>   = GateWay( "GET", "travel", 'all' )
-  const productData: Promise<TRes<TProduct[]>> = GateWay( "GET", "product", 'all' )
-  const bankData: Promise<TRes<TBank[]>>       = GateWay( 'GET', "bank", "all", )
+  const travelData: Promise<TRes<TTravel[]>>   = GateWay( "GET", "travel", 'all', "", "", 'noCache' )
+  const productData: Promise<TRes<TProduct[]>> = GateWay( "GET", "product", 'all', "", "", 'noCache' )
+  const bankData: Promise<TRes<TBank[]>>       = GateWay( 'GET', "bank", "all", "", "", 'noCache' )
 
   const [ { data: travel }, { data: product }, { data: bank } ] = await Promise.all( [ travelData, productData, bankData ] )
 
-  return ( <Suspense fallback={ <div>Loading...</div> }>
-      <CComponent id={ id } method={ method }
-                  defaultDataOrder={ defaultDataOrder }
-                  travel={ NotNull<TTravel>( travel, exampleTravel ) }
-                  product={ NotNull<TProduct>( product, exampleProduct ) }
-                  bank={ NotNull<TBank>( bank, exampleBank ) }
-      />
-    </Suspense>
+  return ( <CComponent id={ id } method={ method }
+                       defaultDataOrder={ defaultDataOrder }
+                       travel={ NotNull<TTravel>( travel, exampleTravel ) }
+                       product={ NotNull<TProduct>( product, exampleProduct ) }
+                       bank={ NotNull<TBank>( bank, exampleBank ) }
+    />
   )
 }
 

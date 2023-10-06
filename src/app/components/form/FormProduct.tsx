@@ -4,7 +4,7 @@ import { defaultFormProduct, formProduct } from '@/app/utils/format/product';
 import { img } from '@/app/components/form/FormBank';
 import { SendData } from '@/app/elements/upload/SendData';
 import { handleUpload } from '@/app/elements/upload/HandleUpload';
-import { FormBody } from '@/app/elements/link/LinksNavbar';
+import { Layout } from '@/app/elements/layout/Layout';
 import { FormList } from '@/app/components/form/Form';
 import { UploadDescription } from '@/app/elements/upload/Upload';
 import { useRouter } from 'next/navigation';
@@ -85,7 +85,7 @@ export function FormProduct(
   } );
 
   return ( <>
-      <FormBody>
+      <Layout>
         <FormList<"product">
           formUse={ formUse }
           // data={ defaultData }
@@ -139,7 +139,7 @@ export function FormProduct(
             )
           }
         </FormList>
-      </FormBody>
+      </Layout>
     </>
   )
 }

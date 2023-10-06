@@ -4,7 +4,8 @@ import { EditCard } from '@/app/elements/button/card/Edit';
 import { ButtonAction } from '@/app/elements/button/card/ActionButton';
 import { CardBody, LiCard, UlCard } from '@/app/elements/card/Card';
 import { ImgCard } from '@/app/elements/img/ImgCard';
-import { TextBody, TextHidden, Texts, TextTitle } from '@/app/elements/Text/TextCard';
+import { TextBody, Texts, TextTitle } from '@/app/elements/Text/TextCard';
+import { TextHidden } from '@/app/elements/Text/TextHidden';
 
 export const to = "product"
 

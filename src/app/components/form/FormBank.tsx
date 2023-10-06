@@ -4,7 +4,7 @@ import { Cshadow } from '@/app/style/shadow';
 import { styleLabelForm } from '@/app/style/form';
 
 import React, { useState } from 'react';
-import { FormBody } from '@/app/elements/link/LinksNavbar';
+import { Layout } from '@/app/elements/layout/Layout';
 import { FormList } from '@/app/components/form/Form';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/elements/input/InputNew';
@@ -62,7 +62,7 @@ export function FormBank(
   console.log( "get data" )
 
   return ( <>
-      <FormBody>
+      <Layout>
         <FormList<"bank">
           formUse={ formUse }
           handleSubmit={ handleSubmit }
@@ -106,7 +106,7 @@ export function FormBank(
               </div>
             </div> }
         </FormList>
-      </FormBody>
+      </Layout>
     </>
   )
 }

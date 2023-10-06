@@ -50,23 +50,26 @@ export async function sendData<T>(
 
   }
   console.log( "send Data to Api " )
-  console.log( revalidatingTag )
+
   const res = await fetch(
     // "http://localhost:3000"
-    config.url + `/api/${ to }?id=${ id }&option=${ option }`,
+    config.url +
+    `/api/${ to }?id=${ id }&option=${ option }`,
     methods )
+  // console.log(res)
   if( !res.ok ) {
     console.error( res, "error" )
   }
   const data: TResponse<T> = await res.json()
 
   if( data.success && !_test_ && method !== "GET" ) {
-    console.log( `revalidate ${ data.success && _test_ }` )
-    console.log( to )
+    // console.log( `revalidate ${ data.success && _test_ }` )
+    // console.log( to )
     if( to !== "table" ) {
       revalidateTag( to )
     }
   }
+  // console.log(data)
   return data
 }
 

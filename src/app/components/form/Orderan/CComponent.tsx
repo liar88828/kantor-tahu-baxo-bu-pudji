@@ -9,12 +9,12 @@ import { Status } from '@/app/style/status';
 import { AiOutlineCloseCircle, AiOutlineSearch } from 'react-icons/ai';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { BiAddToQueue } from 'react-icons/bi';
-import { PopUp } from '@/app/components/popup/orderan';
 import { setIdOrderan } from '@/lib/utils/formatId';
 import { notifyData } from '@/app/utils/notif/toash';
 import { calculateTotal, regExp } from '@/app/components/table/utils/orderan';
 import Image from 'next/image';
 import { currentMonth, currentYear } from '@/lib/utils/formatDate';
+import { PopUp } from '@/app/components/popup/orderan';
 
 export function CComponent( {
   id = "",
@@ -31,8 +31,12 @@ export function CComponent( {
   product: TProduct[]
   bank: TBank[]
 } ) {
-  // console.log(defaultDataOrder)
-  const { control, register, handleSubmit, formState: { errors }, reset } = useForm<TOrder>(
+  const {
+          control, register, handleSubmit, formState: {
+
+      errors, isValid
+    }, reset
+        } = useForm<TOrder>(
     {
       defaultValues: defaultDataOrder,
       mode         : "onChange",
@@ -51,21 +55,21 @@ export function CComponent( {
     )
   }
 
+  const [ saved, setSaved ] = useState( false );
+
   const { fields, append, remove, } = useFieldArray( {
     control,
     name : "semuaProduct",
     rules: { required: "Please append at last 1 ", }
   } );
 
-  // const [ clickPopUp, setClickPopUp ] = useState( false );
   const [ valueForm, setValueForm ] = useState<TOrder>( defaultValues )
-
   // -----------------------Calculator Product
 
   const semuaHargaOrderan  = calculateTotal( valueForm.listOrderan )
   const semuaHargaItem     = calculateTotal( valueForm.listItem )
   const totalHarga         = semuaHargaOrderan + semuaHargaItem + valueForm.ongkir
-  valueForm.id             = id || setIdOrderan( valueForm )
+  valueForm.id             = method === "POST" ? setIdOrderan( valueForm ) : id
   valueForm.totalBayar     = totalHarga
   valueForm.totalPenjualan = semuaHargaOrderan
 
@@ -74,7 +78,7 @@ export function CComponent( {
       option: 'Item' | "Orderan",
       json: TProduct[]
     ) {
-      // console.info( data )
+
       data.semuaProduct
           .filter( ( d: TProduct ) => d.jenis.replaceAll( " ", "" ) === option )
           .forEach( ( d: TProduct ) => json.push( d ) )
@@ -86,6 +90,8 @@ export function CComponent( {
     setList( "Orderan", data.listOrderan );
     // console.log( data )
     setValueForm( data )
+    setSaved( true )
+
   };
 
   const [ searchQuery, setSearchQuery ]     = useState( '' );
@@ -404,36 +410,43 @@ export function CComponent( {
               </select>
             </div>
 
-            <button type="submit" className={ "w-full" }>
-              <label
-                htmlFor="my_modal_Check"
-                className="btn btn-success text-white w-full">
-                Add Product
-              </label>
-            </button>
-
-            {/*<button type="submit" className={"btn btn-success text-white w-full"}>*/ }
-            {/*  Add Product*/ }
+            {/*<button type="submit" className={ "w-full" }>*/ }
+            {/*  <label*/ }
+            {/*    htmlFor="my_modal_Check"*/ }
+            {/*    className="btn btn-success text-white w-full">*/ }
+            {/*    Add Product*/ }
+            {/*  </label>*/ }
             {/*</button>*/ }
+            { isValid && (
+              <button type="submit" className={ "btn btn-success text-white w-full" }>
+                Add Product
+              </button> ) }
 
-            <PopUp
+
+            { saved && isValid && (
+
+              <PopUp
                 data={ valueForm }
                 id={ id }
                 method={ method }
-            />
+              />
+            ) // :(<div></div> )
+            }
 
-
-            <button className={ "btn btn-error text-white" }
-                    onClick={ () => reset( defaultValues ) }
-                    type="button"
-            >Reset
-            </button>
+            { isValid && (
+              <button className={ "btn btn-error text-white" }
+                      onClick={ () => reset( defaultValues ) }
+                      type="button"
+              >Reset
+              </button> ) }
 
           </div>
         </div>
       </form>
-      {/*<OrderanTable data={ valueForm }/>*/ }
-      {/*<DevTool control={ control }/>*/ }
+      {/*<OrderanTable data={ valueForm }/>*/
+      }
+      {/*<DevTool control={ control }/>*/
+      }
     </>
   )
 }

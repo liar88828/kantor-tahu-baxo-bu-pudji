@@ -2,7 +2,7 @@
 import { ChangeEvent, useState } from 'react';
 import { SendData } from '@/app/elements/upload/SendData';
 import { handleUpload } from '@/app/elements/upload/HandleUpload';
-import { FormBody } from '@/app/elements/link/LinksNavbar';
+import { Layout } from '@/app/elements/layout/Layout';
 import { FormList } from '@/app/components/form/Form';
 import { UploadDescription } from '@/app/elements/upload/Upload';
 import { useRouter } from 'next/navigation';
@@ -77,7 +77,7 @@ export function FormTravel(
   } );
 
   return ( <>
-      <FormBody>
+      <Layout>
         <FormList<"travel">
           formUse={ formUse }
           // data={ defaultData }
@@ -119,7 +119,7 @@ export function FormTravel(
             )
           }
         </FormList>
-      </FormBody>
+      </Layout>
     </>
   )
 }

@@ -82,7 +82,6 @@ export function CardList( { notifyMonth }: {
             {/*w-[45%]*/ }
             <div className="card-actions content-end  flex flex-col">
 
-
             </div>
 
           </div>

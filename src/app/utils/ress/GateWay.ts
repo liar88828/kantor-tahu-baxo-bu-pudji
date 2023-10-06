@@ -138,11 +138,12 @@ export async function GateWay<T>(
     return errorData( method, await ErrorData( to ), )
   }
   catch ( e ) {
-    console.error( "error object client" )
+    console.error( "error object client gateway" )
     if( typeof e === "object" ) {
+      console.log(e)
       return e
     }
-    console.error( "error normal client" )
+    console.error( "error normal client gateway" )
     return errorData( method, await ErrorData( to ), )
 
   }

@@ -1,4 +1,4 @@
-import { ServerComponent } from '@/app/dashboard/dashboard';
+import { ServerComponent } from '@/app/(pages)/dashboard/dashboard';
 
 export default function Home() {
 

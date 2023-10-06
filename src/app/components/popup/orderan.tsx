@@ -1,13 +1,15 @@
 import { ReactNode } from 'react';
 import { TOrder } from '@/entity/client/orderan';
 import { Rupiah } from '@/lib/utils/rupiah';
-import { TextPopUp, Texts } from '@/app/elements/Text/TextCard';
+import { Texts } from '@/app/elements/Text/TextCard';
 import { calculateTotal } from '@/app/components/table/utils/orderan';
 import { Status } from '@/app/style/status';
 import { ImageCard } from '@/app/components/form/Orderan/CComponent';
 import { GateWay } from '@/app/utils/ress/GateWay';
 import { notifyData } from '@/app/utils/notif/toash';
 import { TResponse } from '@/entity/service/TResponse';
+import { TextPopUp } from '@/app/elements/Text/TextPopUp';
+import { setIdOrderan } from '@/lib/utils/formatId';
 
 export function PopUp( { data, method, id }: {
   data: TOrder
@@ -15,6 +17,9 @@ export function PopUp( { data, method, id }: {
   id: string
 } ) {
   async function handleSave() {
+    console.log( method )
+
+    data.id                              = method === "POST" ? setIdOrderan( data ) : id
     data.hpPengirim                      = "0" + data.hpPengirim.toString()
     data.hpPenerima                      = "0" + data.hpPenerima.toString()
     const newSemuaProduct: TProOrderan[] = data
@@ -29,12 +34,11 @@ export function PopUp( { data, method, id }: {
     // const getData = await onCreate( data, method, id )
 
     if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
-      data.id                            = method === "POST" ? "" : id
-      const res: TResponse<TOrderServer> = await GateWay( method, "orderan", id, ress )
+      // console.log( ress )
+      const res: TResponse<TOrderServer> = await GateWay( method, "orderan", id, ress ,)
       console.log( res )
       if( res.success ) {
         notifyData( res.msg )
-        // notifyData( "", res )
       }
       else if( !res.success ) {
         notifyData( "", res )
@@ -46,33 +50,28 @@ export function PopUp( { data, method, id }: {
 
   return ( <>
 
-      {/*<button type="submit"*/ }
-      {/*        className=""*/ }
-      {/*>*/ }
+      {/*<button type="submit" className="w-full">*/ }
       {/*  <label*/ }
       {/*    htmlFor="my_modal_Check"*/ }
-      {/*    className="btn btn-success text-white ">*/ }
-
-      {/*  Add Product*/ }
+      {/*    className="btn btn-success text-white w-full ">*/ }
+      {/*    Add Product*/ }
       {/*  </label>*/ }
 
       {/*</button>*/ }
 
+      <label
+        htmlFor="my_modal_Check"
+        className={ "btn btn-sm sm:btn-md text-white whitespace-nowrap " + Status( status ) }>
+        Check
+      </label>
+
       {/*<input type="checkbox"*/ }
       {/*       id="my_modal_Check"*/ }
-      {/*       className="modal-toggle"*/ }
-      {/*/>*/ }
+      {/*       className="modal-toggle"/>*/ }
+
       { data.semuaProduct.length !== 0
         && (
           <>
-
-
-            {/*<label*/ }
-            {/*  htmlFor="my_modal_Check"*/ }
-            {/*  className="btn btn-info text-white">*/ }
-            {/*  Check*/ }
-            {/*</label>*/ }
-
             <input type="checkbox"
                    id="my_modal_Check"
                    className="modal-toggle"

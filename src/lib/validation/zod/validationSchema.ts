@@ -80,7 +80,7 @@ export default class ValidationSchema {
     semuaProduct  : z.array( this.semuaProdukSchema )
   } )
 
-  ZIdMany: z.ZodType<string[]> = z.array( z.string( { required_error: "Is Not Array of string" } ).min( 30 ).max( 45 ) )
+  ZIdMany: z.ZodType<string[]> = z.array( z.string( { required_error: "Is Not Array of string" } ).min( 10 ).max( 45 ) )
 
 }
 export const vSchema = new ValidationSchema()

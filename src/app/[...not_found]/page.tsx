@@ -2,7 +2,8 @@
 import Link from 'next/link'
 import { useParams } from 'next/navigation';
 
-export default function Custom404() {
+export default function Custom404(errors:any) {
+  console.log(errors)
   // @ts-ignore
   const { not_found }: { not_found: string } = useParams()
 
@@ -18,6 +19,8 @@ export default function Custom404() {
         <div className="card-actions">
           <Link href="/" className={ "flex text-xl btn btn-error  text-white  " }>Return Home</Link>
         </div>
+        {/*<button onClick={ () => reset() }>Try again</button>*/}
+
       </div>
     </div>
   )

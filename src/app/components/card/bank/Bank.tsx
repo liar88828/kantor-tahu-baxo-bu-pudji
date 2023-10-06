@@ -5,6 +5,7 @@ import { CardBody, LiCard, UlCard } from '@/app/elements/card/Card';
 import { ImgCard } from '@/app/elements/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/elements/Text/TextCard';
 import { formatPhone } from '@/lib/utils/formatPhone';
+import { TextHidden } from '@/app/elements/Text/TextHidden';
 
 export const to = "bank"
 
@@ -22,17 +23,13 @@ export function ListBank( { data }: {
               <TextTitle text={ d.nama }/>
               <TextBody>
                 <div>
-                  <Texts>{ formatPhone( d.hp ) }</Texts>
-                  <Texts>
-                    <span className={ "hidden sm:block" }>Jenis : </span>{ d.jenis }
-                  </Texts>
+                  <Texts className={" "}>{ formatPhone( d.hp ) }</Texts>
+                  <TextHidden title={"Jenis : "} value={d.jenis } className2={"badge badge-info"}/>
                   <Texts>{ d.lokasi }</Texts>
                 </div>
 
                 <div>
-                  <Texts>
-                    <span className={ "hidden sm:block" }>Keterangan : </span>{ d.keterangan }
-                  </Texts>
+                  <TextHidden title={"Keterangan : "} value={d.keterangan }/>
                 </div>
               </TextBody>
             </div>

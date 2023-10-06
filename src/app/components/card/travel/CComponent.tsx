@@ -5,6 +5,7 @@ import { ButtonAction } from '@/app/elements/button/card/ActionButton';
 import { imageValid, ImgCard } from '@/app/elements/img/ImgCard';
 import { CardBody, LiCard, UlCard } from '@/app/elements/card/Card';
 import { TextBody, Texts, TextTitle } from '@/app/elements/Text/TextCard';
+import { TextHidden } from '@/app/elements/Text/TextHidden';
 
 export const to = "travel"
 
@@ -26,17 +27,12 @@ export function CardTravel( { data }: {
                   <div>
                     <Texts>{ d.hp }</Texts>
                     <Texts>{ d.lokasi }</Texts>
-                    <Texts>Kisaran Biaya { Rupiah( d.harga ) }</Texts>
-                    <Texts>
-                      <span className={ "hidden sm:block" }>Jenis : </span>
-                      { d.jenis }
-                    </Texts>
-                  </div>
+                    <Texts>Biaya { Rupiah( d.harga ) }</Texts>
+                    <TextHidden title={"Jenis : "} value={ d.jenis}/>
 
+                  </div>
                   <div>
-                    <Texts>
-                      <span className={ "hidden sm:block" }>Keterangan : </span> { d.keterangan }
-                    </Texts>
+                    <TextHidden title={"Keterangan : "} value={ d.keterangan}/>
                   </div>
                 </TextBody>
               </div>
