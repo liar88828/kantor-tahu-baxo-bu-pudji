@@ -1,7 +1,13 @@
+Kerja Praktek 
+
+<div>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Unwahas.png" alt="logo unwahas"/>  
+</div>
+
 Kantor Tahu Baxo Bu Pudji
 
 <div>
-<img src="public/logo.png" alt="logo">
+<img src="public/logo.png" alt="logo tahubaxo">
 </div>
 
 
