@@ -1,8 +1,8 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { OStatus, Status } from '@/app/style/status';
-import { TStatusParams } from '@/interface/repository/SemuaProduk';
-import { sendData } from '@/app/utils/ress/SendApi';
+import { sendData } from '@/lib/utils/ress/SendApi';
+import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
 
 export const StatusButton = ( { status, id }: { status: string, id: string } ) => {
   const route = useRouter()

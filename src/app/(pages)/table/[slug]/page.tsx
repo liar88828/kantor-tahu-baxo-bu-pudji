@@ -1,9 +1,7 @@
-import { LinkComplex } from '@/app/elements/link/LinkComplex';
-import { Suspense } from 'react';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '@/lib/utils/ress/GateWay';
 import { TableOrder } from '@/app/components/table/Table';
 
-export const dynamic    = 'force-dynamic'
+// export const dynamic    = 'force-dynamic'
 export const revalidate = 0
 
 // export const fetchCache = 'auto'
@@ -14,17 +12,11 @@ type TDataRes<T> = {
   data: T
 };
 export default async function Page( { params: { slug } }: { params: { slug: string } } ) {
+  // console.log(slug)
   const id = slug.replaceAll( "%20", " " )
+  // console.table( { slug,id  })
 
-  const data: TDataRes<TOrderServer[]> = await GateWay( 'GET', "table", id, "", "table" )
-  return (
-    <main className="flex p-3 sm:p-6 z-50 bg-green-50 gap-3 flex-col">
-      <div className=" overflow-x-auto pb-2">
-        <LinkComplex slug={ slug.replace( "%20", " " ) }/>
-      </div>
-      <Suspense fallback={ <div>Loading...</div> }>
-        <TableOrder dataOrderan={ data }/>
-      </Suspense>
-    </main>
+  const data: TDataRes<TOrderServer[]> = await GateWay( 'GET', "table", id, "", "table", "cache" )
+  return ( <TableOrder dataOrderan={ data }/>
   )
 }

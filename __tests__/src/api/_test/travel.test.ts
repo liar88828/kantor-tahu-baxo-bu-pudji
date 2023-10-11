@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { exampleTravel } from '@/app/utils/ress/ErrorData';
+import { GateWay } from '../../../../src/lib/utils/ress/GateWay';
+import { exampleTravel } from '../../../../src/lib/utils/ress/ErrorData';
 
-import { statusTest } from '@/app/utils/test/statusTest';
-import { successResponse } from '@/lib/utils/successResponse';
-import { errorData, errorEmptyData, errorEmptyID } from '@/lib/utils/errorResponse';
+import { statusTest } from '../../utils/statusTest';
+import { successResponse } from '../../../../src/lib/exeption/successResponse';
+import { errorData, errorEmptyData, errorEmptyID } from '../../../../src/lib/exeption/errorResponse';
 
 const json = structuredClone( exampleTravel )
 json.id    = "kosong".repeat( 5 );
@@ -24,36 +24,44 @@ describe( "Test Travel", () => {
       const data                                     = GateWay( "POST", "travel", "", ress, "text" )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "kosong" )
       await expect( data ).resolves.not.toContain( statusTest( "POST" ) )
-      await expect( data ).resolves.toMatchObject( errorData( "POST", [
+      await expect( data ).resolves.toMatchObject( [
         {
-          code    : 'invalid_type',
-          expected: 'string',
-          received: 'undefined',
-          path    : [ 'nama' ],
-          message : 'Nama is required'
+          "code"    : "invalid_type",
+          "expected": "string",
+          "message" : "Nama is required",
+          "path"    : [
+            "nama",
+          ],
+          "received": "undefined",
         },
         {
-          code    : 'invalid_type',
-          expected: 'string',
-          received: 'undefined',
-          path    : [ 'hp' ],
-          message : 'Hp is required'
+          "code"    : "invalid_type",
+          "expected": "string",
+          "message" : "Hp is required",
+          "path"    : [
+            "hp",
+          ],
+          "received": "undefined",
         },
         {
-          code    : 'invalid_type',
-          expected: 'string',
-          received: 'undefined',
-          path    : [ 'keterangan' ],
-          message : 'Keterangan is required'
+          "code"    : "invalid_type",
+          "expected": "string",
+          "message" : "Keterangan is required",
+          "path"    : [
+            "keterangan",
+          ],
+          "received": "undefined",
         },
         {
-          code    : 'invalid_type',
-          expected: 'number',
-          received: 'undefined',
-          path    : [ 'harga' ],
-          message : 'Harga is required'
-        }
-      ] ) )
+          "code"    : "invalid_type",
+          "expected": "number",
+          "message" : "Harga is required",
+          "path"    : [
+            "harga",
+          ],
+          "received": "undefined",
+        },
+      ] )
     } )
 
     it( "Travel Cannot create empty value ", async () => {
@@ -117,7 +125,7 @@ describe( "Test Travel", () => {
       const { nama, hp, keterangan, harga, ...ress } = json
       const data                                     = GateWay( "PUT", "travel", json.id, ress, "text" )
       await expect( data ).resolves.not.toContain( statusTest( "PUT" ) )
-      await expect( data ).resolves.toMatchObject( errorData( "PUT", [
+      await expect( data ).resolves.toMatchObject( [
         {
           code    : 'invalid_type',
           expected: 'string',
@@ -146,7 +154,7 @@ describe( "Test Travel", () => {
           path    : [ 'harga' ],
           message : 'Harga is required'
         }
-      ] ) )
+      ] )
     } )
 
     it( "Travel Cannot edit by empty ID", async () => {

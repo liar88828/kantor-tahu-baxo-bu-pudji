@@ -1,16 +1,16 @@
-import { Input, Output } from '@/server/service/GateWay';
-import { isObjectEmpty } from '@/app/utils/ress/GateWay';
-import { prisma, TPOrderan } from '@/server/models/prisma/config';
+import { Input, Output } from '@/servers/presentation/Web';
+import { isObjectEmpty } from '@/lib/utils/ress/GateWay';
+import { prisma, TPOrderan } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import RepoOrderan from '@/server/repository/Orderan';
-import OrderanController from '@/server/controller/Orderan';
+import OrderanController from '@/servers/use-cases/controller/Orderan';
 
-import { IControlOrderan } from '@/interface/controller/Orderan';
+import { IControlOrderan } from '@/servers/interface/controller/Orderan';
 import { TMethod } from '@/entity/Utils';
-import { errorEmptyID } from '@/lib/utils/errorResponse';
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import RepoOrderan from '@/servers/data-source/prisma/Orderan';
 
 const c: IControlOrderan = new OrderanController(
   new RepoOrderan( prisma.orderan ),
@@ -36,11 +36,11 @@ export async function GET( request: NextRequest, ) {
   }
 
   if( option === "table" ) {
-    return Output( "GET", () => c.findByStatus( id ) )
+    return Output( "GET", () => c.findByStatus( id ), )
   }
 
   if( id.includes( "_" ) ) {
-    return Output( "GET", () => c.findById( id ) )
+    return Output( "GET", () => c.findById( id ), )
   }
 
   return NextResponse.json( errorEmptyID( method ) )
@@ -48,14 +48,14 @@ export async function GET( request: NextRequest, ) {
 }
 
 export async function POST( request: NextRequest, ) {
-  const { json, method } = await Input( request )
+  const { json, method, } = await Input( request )
   console.log( `route api ${ method } orderan` )
 
   return Output( "POST", () => c.create( json ), )
 }
 
 export async function PATCH( request: NextRequest, ) {
-  const { id, method, json } = await Input( request )
+  const { id, method, json, } = await Input( request )
   console.log( `route api ${ method } orderan` )
 
   if( id.length > 10 ) {
@@ -65,7 +65,7 @@ export async function PATCH( request: NextRequest, ) {
 }
 
 export async function PUT( request: NextRequest, ) {
-  const { id, json, method } = await Input( request )
+  const { id, json, method, } = await Input( request )
   console.log( `route api ${ method } orderan` )
 
   if( json === undefined ) {
@@ -82,13 +82,18 @@ export async function PUT( request: NextRequest, ) {
 export async function DELETE( request: NextRequest, ) {
 
   try {
-    const { method, id, json: array }: { method: TMethod, id: string, json: string[] } = await Input( request )
+    const { method, id, json: array, }: {
+      method: TMethod,
+      id: string,
+      json: string[],
+      pathname: string
+    } = await Input( request )
     console.log( `route api ${ method } orderan` )
 
     if( typeof id === "string" ) {
       if( id.length > 10 && id.includes( "_" ) ) {
         console.log( "is just string" )
-        return Output( "DELETE", () => c.destroy( id ) )
+        return Output( "DELETE", () => c.destroy( id ), )
       }
     }
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { addDot, getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-import { errorDataZod } from '@/lib/utils/errorResponse';
+import { addDot, getExtensionData, validateExtension } from '../../../../src/lib/FileSystem/fileExtension';
+import { errorDataZod } from '../../../../src/lib/exeption/errorResponse';
 
 describe( "test file extension", () => {
 

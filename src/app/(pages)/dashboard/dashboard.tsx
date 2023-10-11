@@ -2,12 +2,12 @@ import { HorizontalCard } from '@/app/components/dashboard/card';
 import { Lines } from '@/lib/chart/line';
 import { Donat } from '@/lib/chart/donat';
 import { BarVertical } from '@/lib/chart/Bar';
-import { CardList, TListCard } from '@/app/components/card/dashboard/CardList';
+import { CardDashboard, TListCard } from '@/app/components/card/caradDashboard';
 import { TAggregate, TDonat, TLines, TStatus } from '@/entity/Dashboard';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '@/lib/utils/ress/GateWay';
 
-export const dynamic    = 'force-dynamic'
-export const revalidate = 0
+// export const dynamic    = 'force-dynamic'
+export const revalidate = 10
 // export const fetchCache = 'auto'
 // export const runtime    = 'nodejs'
 
@@ -50,14 +50,9 @@ const ClientComponent = ( {
 } ) => {
 
   return ( <>
-      <div className={ " flex gap-2 flex-col p-2 sm:p-4" }>
-        <div
-          className="flex flex-wrap my-5 p-2 md:p-5 gap-2 sm:gap-3 justify-between bg-slate-50 rounded-2xl shadow-xl
-shadow-slate-200">
+      <div className={ " flex gap-2 flex-col p-2 sm:p-4 " }>
           <HorizontalCard data={ status }/>
-        </div>
         <div className="flex gap-2  sm:flex-row  flex-col w-[100%]">
-
           <div className=" sm:w-[70%] gap-2 flex flex-col">
             <div className="border border-black bg-white rounded-3xl h-[20rem] sm:h-[100%] ">
               <Lines dataKu={ line }/>
@@ -70,7 +65,7 @@ shadow-slate-200">
           <div className="flex flex-col sm:w-[30%] gap-2">
             <div
               className="h-[60vw] sm:h-[30vw] overflow-y-auto border border-black bg-white rounded-3xl p-2">
-              <CardList notifyMonth={ notifyMonth }/>
+              <CardDashboard notifyMonth={ notifyMonth }/>
             </div>
             <div className="  sm:h-[30vw]   border border-black bg-white rounded-3xl p-2">
               <Donat

@@ -47,12 +47,6 @@ export function TableOrder( { dataOrderan }: {
                    : Object.values( columnVisibility )
                            .every( ( value ) => value );
 
-  console.log( ToggleOn )
-  console.log( columnVisibility )
-  console.log( "length", Object.keys( columnVisibility ).length === 0 )
-  console.log( "length", Object.values( columnVisibility ) )
-  console.log( "value", Object.values( columnVisibility )
-                              .every( ( value ) => value ) )
 
   //---------table value---------------
   const columns = useMemo<ColumnDef<TOrderServer>[]>( () => [
@@ -333,7 +327,7 @@ export function TableOrder( { dataOrderan }: {
     return ( <h1>Data Kosong</h1> )
   }
 
-  function ToggleName( column: Column<TOrderServer, unknown> ): any {
+  function ToggleName( column: Column<TOrderServer> ): any {
     // console.log( column.columnDef )
     if( column.columnDef.header !== undefined && typeof column.columnDef.header !== "function" ) {
       return column.parent === undefined
@@ -349,8 +343,9 @@ export function TableOrder( { dataOrderan }: {
 
   return <div className="p-2 ">
     {/*------------Table------------*/ }
-    <div className="overflow-x-auto border rounded border-black  ">
-      <table className="table table-xs      ">
+    <div className="overflow-x-scroll  border rounded border-black  w-[100%] ">
+
+      <table className="table table-xs      static ">
         {/*--------------------------------tHead---------------------------*/ }
         <thead className={ "    " }>
         { table.getHeaderGroups().map( headerGroup => (
@@ -453,10 +448,11 @@ export function TableOrder( { dataOrderan }: {
         </tfoot>
 
       </table>
+
     </div>
 
     {/*------------Move Page -----------*/ }
-    <div className="flex overflow-x-auto  items-center bg-white p-2 border ">
+    <div className="flex overflow-x-auto items-center bg-white p-2 border ">
       <div className="px-2 flex flex-row items-center gap-2 rounded ">
 
         <button
@@ -497,9 +493,9 @@ export function TableOrder( { dataOrderan }: {
             </strong>
          </span>
 
-        <span className="flex items-center gap-1  p-2">| Go to page:
-
+        <label htmlFor={ "Go Page" } className="flex items-center gap-1  p-2">| Go to page:
           <input
+            name={ "Go Page" }
             type="number"
             className="border p-1 rounded  w-12"
             onChange={ e => {
@@ -509,13 +505,17 @@ export function TableOrder( { dataOrderan }: {
             defaultValue={ table.getState().pagination.pageIndex + 1 }
           />
 
-           </span>
+        </label>
 
         {/*--------------Show ---------------*/ }
 
-        <span className="flex items-center gap-1  p-2">
+        <label
+          htmlFor={ "Max Row" }
+          className="flex items-center gap-1  p-2">
               Max Row
-          <input type={ 'number' }
+          <input
+            name={ "Max Row" }
+            type={ 'number' }
                  onChange={ ( e: React.ChangeEvent<HTMLInputElement> ) => setRowShow( Number( e.target.value ) ) }
 
                  className={ "border border-black w-10" }
@@ -531,7 +531,7 @@ export function TableOrder( { dataOrderan }: {
               </option>
             ) ) }
           </select>
-          </span>
+        </label>
       </div>
     </div>
 
@@ -624,8 +624,10 @@ export function TableOrder( { dataOrderan }: {
         <div className={ `cursor-pointer gap-2 text-white rounded flex flex-wrap ${ open ? "hidden" : "" }` }>
 
           <div className="p-1 border border-black text-black z-50 rounded bg-white w-fit ">
-            <label>
-              <input className={ "mr-1" }
+            <label htmlFor={ "checkbox1" }>
+              <input
+                name={ "checkbox1" }
+                className={ "mr-1" }
                      { ...{
                        type    : 'checkbox',
                        checked : table.getIsAllColumnsVisible(),
@@ -640,9 +642,11 @@ export function TableOrder( { dataOrderan }: {
               key={ column.id + `${ i }` }
               className={ `p-1 border border-black text-black z-50 rounded ${
                 setColumn( column ) }` }>
-              <label>
+              <label htmlFor={ "checkbox2" }>
+                <input
+                  name={ "checkbox2" }
+                  className={ "mr-1" }
 
-                <input className={ "mr-1" }
                        { ...{
                          type    : 'checkbox',
                          checked : column.getIsVisible(),
@@ -670,7 +674,7 @@ export function TableOrder( { dataOrderan }: {
   </div>
 }
 
-export const setColumn = ( c: Column<TOrderServer, unknown> ) => {
+export const setColumn = ( c: Column<TOrderServer> ) => {
 
   if( c.id.toLowerCase().includes( "kirim" ) || c.id.toLowerCase().includes( "item" ) ) {
     return " bg-red-200 "

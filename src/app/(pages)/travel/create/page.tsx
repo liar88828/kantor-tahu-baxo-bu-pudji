@@ -1,19 +1,16 @@
-import { FormTravel } from '@/app/components/form/FormTravel';
-import { defaultFormTravel } from '@/app/utils/format/travel';
-import { Suspense } from 'react';
+import { Travel } from '@/app/components/form/Travel';
+import { defaultFormTravel } from '@/lib/utils/example/travel';
 
-export const dynamic    = 'force-dynamic'
-export const revalidate = 0
+// export const dynamic    = 'force-dynamic'
+// export const revalidate = 0
 
 export default function Home() {
   return (
-    <Suspense fallback={ <div>Loading...</div> }>
-      <FormTravel
+    <Travel
         method={ 'POST' }
         defaultData={ defaultFormTravel }
         id={ "" }
         to={ 'travel' }/>
-    </Suspense>
 
   )
 }

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '../../../../src/lib/utils/ress/GateWay';
 
-import { statusTest } from '@/app/utils/test/statusTest';
-import { successResponse } from '@/lib/utils/successResponse';
-import { errorData, errorEmptyData, errorEmptyID } from '@/lib/utils/errorResponse';
+import { statusTest } from '../../utils/statusTest';
+import { successResponse } from '../../../../src/lib/exeption/successResponse';
+import { errorEmptyData, errorEmptyID } from '../../../../src/lib/exeption/errorResponse';
 
 const exampleSemuaProduct = {
   id        : "Ta_50_Un_Or_Pe_1692805286012_169286063212",
@@ -34,7 +34,7 @@ describe( "Test SemuaProduct", () => {
       const data                           = GateWay( "POST", "semuaProduk", "", ress )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "kosong" )
       await expect( data ).resolves.not.toContain( statusTest( "POST" ) )
-      await expect( data ).resolves.toMatchObject( errorData( "POST", [
+      await expect( data ).resolves.toMatchObject( [
         {
           "code"    : "invalid_type",
           "expected": "string",
@@ -62,7 +62,7 @@ describe( "Test SemuaProduct", () => {
           ],
           "received": "undefined",
         },
-      ] ) )
+      ] )
     } )
 
     it( "SemuaProduct Cannot create a empty value ", async () => {
@@ -140,8 +140,9 @@ describe( "Test SemuaProduct", () => {
       json.nama                            = "update"
       const { harga, img, jenis, ...ress } = json
       const data                           = GateWay( "PUT", "semuaProduk", json.id, ress )
+      // await expect( data ).resolves.not.toHaveProperty( "data.nama", "update" )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "update" )
-      await expect( data ).resolves.toMatchObject( errorData( "PUT", [
+      await expect( data ).resolves.toMatchObject( [
         {
           "code"    : "invalid_type",
           "expected": "string",
@@ -169,7 +170,7 @@ describe( "Test SemuaProduct", () => {
           ],
           "received": "undefined",
         },
-      ] ) )
+      ] )
     } )
 
     it( "SemuaProduct Cannot edit by empty value", async () => {

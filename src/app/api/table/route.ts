@@ -1,20 +1,20 @@
-import { Input, Output } from '@/server/service/GateWay';
-import { isObjectEmpty } from '@/app/utils/ress/GateWay';
-import { prisma, TPOrderan } from '@/server/models/prisma/config';
+import { Input, Output } from '@/servers/presentation/Web';
+import { isObjectEmpty } from '@/lib/utils/ress/GateWay';
+import { prisma, TPOrderan } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
 import ValidationService from '@/lib/validation/zod/validationService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import RepoOrderan from '@/server/repository/Orderan';
-import OrderanController from '@/server/controller/Orderan';
+import { vSchema } from '@/lib/validation/zod/validationSchema';
+import OrderanController from '@/servers/use-cases/controller/Orderan';
 
-import { IControlOrderan } from '@/interface/controller/Orderan';
+import { IControlOrderan } from '@/servers/interface/controller/Orderan';
 import { TMethod } from '@/entity/Utils';
-import { errorEmptyID } from '@/lib/utils/errorResponse';
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import RepoOrderan from '@/servers/data-source/prisma/Orderan';
 
 const c: IControlOrderan = new OrderanController(
   new RepoOrderan( prisma.orderan ),
-  new ValidationService<TPOrderan>( new ValidationSchema().OrderanSchema ),
+  new ValidationService<TPOrderan>( vSchema.OrderanSchema ),
 )
 
 type TInput = {

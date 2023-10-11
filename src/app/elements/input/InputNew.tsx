@@ -8,7 +8,9 @@ export function InputForm(
 
   let ress = {
     placeholder: ` Masukan ${ title }....`,
-    className  : `${ StyleInputForm( false ) }`
+    className: `${ StyleInputForm( false ) }`,
+    // id         : title,
+    // name       : title
   }
 
   if( type ) ress = Object.assign( ress, { type } );
@@ -20,8 +22,9 @@ export function InputForm(
   return (
     <div className="flex flex-col ">
       <label className={ styleLabelForm + " mt-2 " }
-             htmlFor="grid-password"> { title } </label>
-      <Tag { ...ress }{ ...reg } />
+        // htmlFor={ title }
+      > { title } </label>
+      <Tag { ...ress }{ ...reg }   />
     </div>
   )
 }

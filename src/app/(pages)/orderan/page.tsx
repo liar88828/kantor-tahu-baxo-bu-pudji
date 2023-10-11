@@ -1,20 +1,24 @@
-import { defaultValues } from '@/app/utils/format/orderan';
-import { SComponent } from '@/app/components/form/Orderan/SComponent';
-import { Layout } from '@/app/elements/layout/Layout';
+import { defaultValues } from '@/lib/utils/example/orderan';
+import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
+import { Suspense } from 'react';
+import { getDataForOrderan } from '@/servers/data-source/interface/prisma/Client';
+import { Orderan } from '@/app/components/form/Orderan';
 
-export const dynamic    = 'force-dynamic'
-export const revalidate = 0
-// export const fetchCache = 'auto'
-// export const runtime    = 'nodejs'
+// export const dynamic    = 'force-dynamic'
+export const revalidate = 10
 
-// default component
-export default function Page() {
+export default async function Page() {
+  const data = await getDataForOrderan()
+  console.log( data[ 1 ] )
   return (
-    <Layout navs={ "complex" }>
-      <SComponent id={ "" }
+    <Suspense fallback={ <SkeletonCard/> }>
+      <Orderan id={ "" } method={ "POST" }
                   defaultDataOrder={ defaultValues }
-                  method={ "POST" }/>
-    </Layout>
+               travel={ data[ 0 ] }
+               product={ data[ 1 ] }
+               bank={ data[ 2 ] }
+      />
+    </Suspense>
   )
 }
 

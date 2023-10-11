@@ -1,7 +1,8 @@
 import { SafeParseError, SafeParseSuccess, z } from 'zod';
 import { SafeParseReturnType } from 'zod/lib/types';
-import { errorDataZod, errorEmptyIDZod } from '@/lib/utils/errorResponse';
-import { ZodSchema } from '@/interface/Service/IService';
+import { errorDataZod, errorEmptyIDZod } from '@/lib/exeption/errorResponse';
+import { ZodSchema } from '@/servers/interface/Service/IService';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
 export interface IValidationService<T> {
   readonly Schema: ZodSchema<T>
@@ -16,10 +17,12 @@ export interface IValidationService<T> {
 }
 
 type TZodFun<Z> = ( data: Z ) => { msg: string, data: any, success: boolean };
-export default class ValidationService<T> implements IValidationService<T> {
+
+export default class ValidationService<T> extends ValidationSchema implements IValidationService<T> {
   constructor(
     readonly Schema: ZodSchema<T>
   ) {
+    super()
   }
 
   private valid<U, F extends TZodFun<U>>( valid: SafeParseSuccess<U> | SafeParseError<U>, fun: F ) {
@@ -40,7 +43,7 @@ export default class ValidationService<T> implements IValidationService<T> {
   }
 
   zodModelNew( data: T, ): T {
-    console.log( "zod api validation object" )
+    console.log( "zod api validation object new" )
     const valid = this.Schema.safeParse( data )
     return this.valid<T, TZodFun<T>>( valid, errorDataZod );
   }
@@ -75,7 +78,8 @@ export default class ValidationService<T> implements IValidationService<T> {
   }
 
   zodModel( data: T, ) {
-    console.log( "zod api validation object" )
+    console.log( "zod api validation object old" )
     return this.Schema.safeParse( data )
   }
 }
+

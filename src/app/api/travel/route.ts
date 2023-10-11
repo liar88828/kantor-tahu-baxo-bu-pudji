@@ -1,15 +1,15 @@
-import { Input, Output } from '@/server/service/GateWay';
+import { Input, Output } from '@/servers/presentation/Web';
 
-import { prisma, TPTravel } from '@/server/models/prisma/config';
+import { prisma, TPTravel } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import TravelController from '@/server/controller/Travel';
-import RepoTravel from '@/server/repository/Travel';
+import TravelController from '@/servers/use-cases/controller/Travel';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import { IControlTravel } from '@/interface/controller/Travel';
-import { errorEmptyID } from '@/lib/utils/errorResponse';
-import { TSend } from '@/entity/service/TSend';
+import { IControlTravel } from '@/servers/interface/controller/Travel';
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import { TSend } from '@/entity/servers/service/TSend';
+import RepoTravel from '@/servers/data-source/prisma/Travel';
 
 type TYPE = TPTravel
 

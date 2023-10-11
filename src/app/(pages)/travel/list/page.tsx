@@ -1,21 +1,23 @@
-import { CardTravel } from '@/app/components/card/travel/CComponent';
-import { Layout } from '@/app/elements/layout/Layout';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { ListTravel } from '@/app/components/card/travel';
+import { GateWay } from '@/lib/utils/ress/GateWay';
+import { UlCard } from '@/app/elements/card/Card';
+import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
+import { Suspense } from 'react';
+import { TRes } from '@/entity/Utils';
 
-export const dynamic = 'force-dynamic'
-// export const revalidate = 0
+// export const dynamic = 'force-dynamic'
+export const revalidate = 10
 // export const fetchCache = 'auto'
 // export const runtime    = 'nodejs'
 
 export default async function Home() {
-  const { data }: { data: Required<TTravel[ ]>, msg: string } = await GateWay( "GET", "travel", 'all' )
+  const { data }: TRes<TTravel[]> = await GateWay( "GET", "travel", 'all', "", "", "cache" )
 
-  if( !data ) {
-    return ( <h1>Data Kosong</h1> )
-  }
   return (
-    <Layout>
-      <CardTravel data={ data }/>
-    </Layout>
+    <UlCard>
+      <Suspense fallback={ <SkeletonCard/> }>
+        { data.map( ( d ) => ( <ListTravel d={ d } key={ d.id }/> ) ) }
+      </Suspense>
+    </UlCard>
   )
 }

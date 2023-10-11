@@ -1,19 +1,19 @@
-import { defaultFormBank } from '@/app/utils/format/bank';
-import { Suspense } from 'react';
-import { FormBank } from '@/app/components/form/FormBank';
+import dynamic from 'next/dynamic'
+import { defaultFormBank } from '@/lib/utils/example/bank';
 
-export const dynamic = 'force-dynamic'
+const Form = dynamic( () => import('../../../components/form/Bank')
+  , { loading: () => <p>Loading...</p>, }
+)
 
 export default function Page() {
+  // console.log(OtherComponent)
 
   return (
-    <Suspense fallback={ <div>Loading...</div> }>
-      <FormBank
+    <Form
         method={ 'POST' }
         defaultData={ defaultFormBank }
         id={ "" }
         to={ 'bank' }/>
-    </Suspense>
   )
 }
 

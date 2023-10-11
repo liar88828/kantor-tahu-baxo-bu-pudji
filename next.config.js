@@ -3,9 +3,9 @@ const nextConfig = {
 
   experimental: {
     serverActions: true,
+    // optimizePackageImports: ['react-icons'],
   },
-  // reactStrictMode: true,
-  // // Enable the React DevTools profiler
+
   // profiler: true,
   // reactStrictMode: true,
   modularizeImports: {
@@ -15,6 +15,11 @@ const nextConfig = {
   },
   images: {
     domains: [ "localhost", "dummyimage.com" ]
+  },
+
+  // output: 'standalone',
+  outputFileTracingExcludes: {
+    '/_test__': [ './**/*' ],
   },
 }
 

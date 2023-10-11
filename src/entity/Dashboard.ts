@@ -1,4 +1,4 @@
-import { TListCard } from '@/app/components/card/dashboard/CardList';
+import { TListCard } from '@/app/components/card/caradDashboard';
 
 export type TSendDashboard = {
   semuaOrderTahun: TLines[],

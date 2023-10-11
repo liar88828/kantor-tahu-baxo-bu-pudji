@@ -1,15 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { exampleBank } from '@/app/utils/ress/ErrorData';
-import { statusTest } from '@/app/utils/test/statusTest';
+import { GateWay } from '../../../../src/lib/utils/ress/GateWay';
+import { exampleBank } from '../../../../src/lib/utils/ress/ErrorData';
+import { statusTest } from '../../utils/statusTest';
 
-import { errorData, errorEmptyData, errorEmptyID, errorEmptyIDZod } from '@/lib/utils/errorResponse';
-import { successResponse } from '@/lib/utils/successResponse';
+import { errorData, errorEmptyData, errorEmptyID } from '../../../../src/lib/exeption/errorResponse';
+import { successResponse } from '../../../../src/lib/exeption/successResponse';
 
 const json = structuredClone( exampleBank )
-json.id    = "kosong".repeat( 4 ) + "par";
+json.id    = "kosong".repeat( 4 ) + "test";
 
 describe( "Test Bank api", () => {
+
   describe( "POST Bank", () => {
     it( "Bank Can create a post success ", async () => {
       const data = GateWay( "POST", "bank", "", json )
@@ -23,7 +24,7 @@ describe( "Test Bank api", () => {
       const data                                    = GateWay( "POST", "bank", "", ress )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "kosong" )
       await expect( data ).resolves.not.toContain( statusTest( "POST" ) )
-      await expect( data ).resolves.toMatchObject( errorData( "POST", [
+      await expect( data ).resolves.toMatchObject( [
         {
           code    : 'invalid_type',
           expected: 'string',
@@ -45,7 +46,7 @@ describe( "Test Bank api", () => {
           path    : [ "keterangan", ],
           received: "undefined",
         },
-      ] ) )
+      ] )
     } )
 
     it( "Bank Cannot create empty post error ", async () => {
@@ -126,34 +127,35 @@ describe( "Test Bank api", () => {
       const { keterangan, lokasi, hp, ...ress } = json
       const data                                = GateWay( "PUT", "bank", json.id, ress )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "update" )
-      await expect( data ).resolves.toMatchObject( {
-        data     : [
-          {
-            code    : 'invalid_type',
-            expected: 'string',
-            received: 'undefined',
-            path    : [ 'hp' ],
-            message : 'Hp is required'
-          },
-          {
-            code    : "invalid_type",
-            expected: "string",
-            message : "Lokasi is required",
-            path    : [ "lokasi", ],
-            received: "undefined",
-          },
-          {
-            code    : "invalid_type",
-            expected: "string",
-            message : "Keterangan is required",
-            path    : [ "keterangan", ],
-            received: "undefined",
-          },
-        ],
-        "error"  : "Cannot empty Data",
-        "msg"    : "Error PUT",
-        "success": false,
-      } )
+      await expect( data ).resolves.toMatchObject( [
+        {
+          "code"    : "invalid_type",
+          "expected": "string",
+          "message" : "Hp is required",
+          "path"    : [
+            "hp",
+          ],
+          "received": "undefined",
+        },
+        {
+          "code"    : "invalid_type",
+          "expected": "string",
+          "message" : "Lokasi is required",
+          "path"    : [
+            "lokasi",
+          ],
+          "received": "undefined",
+        },
+        {
+          "code"    : "invalid_type",
+          "expected": "string",
+          "message" : "Keterangan is required",
+          "path"    : [
+            "keterangan",
+          ],
+          "received": "undefined",
+        },
+      ] )
     } )
 
     it( "Bank Cannot edit empty value by ID ", async () => {

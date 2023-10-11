@@ -1,14 +1,14 @@
-import { Input, Output } from '@/server/service/GateWay';
-import { prisma, TPSemuaProduct } from '@/server/models/prisma/config';
+import { Input, Output } from '@/servers/presentation/Web';
+import { prisma, TPSemuaProduct } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import RepoSemuaProduk from '@/server/repository/SemuaProduk';
-import SemuaProductController from '@/server/controller/SemuaProduk';
+import SemuaProductController from '@/servers/use-cases/controller/SemuaProduk';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
-import { IControlSemuaProduk } from '@/interface/controller/SemuaProduk';
-import { errorEmptyID } from '@/lib/utils/errorResponse';
+import { IControlSemuaProduk } from '@/servers/interface/controller/SemuaProduk';
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import RepoSemuaProduk from '@/servers/data-source/prisma/SemuaProduk';
 
 const c: IControlSemuaProduk = new SemuaProductController(
   new RepoSemuaProduk( prisma.semuaProduct ),

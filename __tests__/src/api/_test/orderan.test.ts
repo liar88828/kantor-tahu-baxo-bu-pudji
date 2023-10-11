@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '../../../../src/lib/utils/ress/GateWay';
 
-import { statusTest } from '@/app/utils/test/statusTest';
-import { TPOrderan } from '@/server/models/prisma/config';
-import { successResponse } from '@/lib/utils/successResponse';
-import { errorData, errorEmptyData, errorEmptyID } from '@/lib/utils/errorResponse';
-import { sendData } from '@/app/utils/ress/SendApi';
+import { statusTest } from '../../utils/statusTest';
+import { TPOrderan } from '../../../../src/server/data-source/prisma/config';
+import { successResponse } from '../../../../src/lib/exeption/successResponse';
+import { errorData, errorEmptyData, errorEmptyID } from '../../../../src/lib/exeption/errorResponse';
+import { sendData } from '../../../../src/lib/utils/ress/SendApi';
 
 const default2: TPOrderan =
         {
@@ -71,8 +71,7 @@ describe( "Test Orderan", () => {
       const data                                = GateWay( "POST", "orderan", "", ress, "" )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "kosong" )
       await expect( data ).resolves.not.toContain( statusTest( "POST" ) )
-      await expect( data ).resolves.toMatchObject(
-        errorData( "POST", [
+      await expect( data ).resolves.toMatchObject( [
           {
             code    : 'invalid_type',
             expected: 'string',
@@ -87,7 +86,7 @@ describe( "Test Orderan", () => {
             path    : [ 'semuaProduct' ],
             message : 'Required'
           }
-        ] ) )
+      ] )
     } )
 
     it( "Orderan cannot create empty value ", async () => {
@@ -169,7 +168,7 @@ describe( "Test Orderan", () => {
       const { namaPengiriman, ...ress } = json
       const data                        = GateWay( "PUT", "orderan", json.id, ress, "" )
       await expect( data ).resolves.not.toHaveProperty( "data.namaPengiriman", "update" )
-      await expect( data ).resolves.toMatchObject( errorData( "PUT", [
+      await expect( data ).resolves.toMatchObject( [
         {
           "code"    : "invalid_type",
           "expected": "string",
@@ -178,7 +177,7 @@ describe( "Test Orderan", () => {
             "namaPengiriman",
           ],
           "received": "undefined",
-        }, ] ) )
+        }, ] )
     } )
     it( "Orderan Cannot edit by empty value ", async () => {
       json.namaPengiriman = "update"

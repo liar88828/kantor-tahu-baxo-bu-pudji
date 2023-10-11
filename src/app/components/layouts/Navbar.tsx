@@ -1,13 +1,12 @@
 "use client"
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { styleLabelForm } from '@/app/style/form';
-import { nextPublicBaseUrl } from '@/lib/config/nextPublicBaseUrl';
+import Image from 'next/image';
+import profilePic from "../../../../public/logo.png"
 
-// Initialization for ES Users
-
-function Navbar() {
+const Navbar = memo( function Navbar() {
   const [ open, setOpen ] = useState<boolean>( true );
   const path = usePathname().split( "/" )[ 1 ].toUpperCase()
 
@@ -16,19 +15,20 @@ function Navbar() {
     <div className={ `${ path.toLowerCase() === "print" ? "hidden" : "block" } w-[100%]` }>
       <nav className="bg-green-400 border-gray-200 ">
 
-        <div
-          className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a className="flex items-center">
-            <img
-              src={ nextPublicBaseUrl + "/logo.png" }
-              className=" mr-3  h-8"
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <Link className="flex items-center" href={ "/dashboard" }>
+            <Image
+              src={ profilePic }
+              priority
+              className={ "w-24 h-auto" }
               alt="/logo.png"/>
+
             <span
               className={ "self-center text-2xl font-semibold whitespace-nowrap  " +
                 styleLabelForm }>
               { path || "DASHBOARD" }
             </span>
-          </a>
+          </Link>
 
           <button
             onClick={ () => setOpen( !open ) }
@@ -36,6 +36,7 @@ function Navbar() {
             className="inline-flex items-center p-2 w-10  justify-center text-sm text-black rounded-lg md:hidden bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  "
             aria-controls="navbar-default" aria-expanded="false">
             <span className="sr-only">Open main menu</span>
+
             <svg className="w-5 h-5" aria-hidden="true"
                  xmlns="http://www.w3.org/2000/svg" fill="none"
                  viewBox="0 0 17 14">
@@ -43,6 +44,7 @@ function Navbar() {
                     strokeLinejoin="round" strokeWidth="2"
                     d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
+
           </button>
 
           <div
@@ -80,7 +82,7 @@ function Navbar() {
         </div>
       </nav>
     </div>
-  );
-}
+  )
+} )
 
-export default Navbar;
+export default Navbar

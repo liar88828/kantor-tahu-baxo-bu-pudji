@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '../../../../src/lib/utils/ress/GateWay';
 
-import { statusTest } from '@/app/utils/test/statusTest';
+import { statusTest } from '../../utils/statusTest';
 
 describe( "GET Dashboard", () => {
   it( "Dashboard Can find by all ", async () => {

@@ -1,21 +1,18 @@
-import { Layout } from '@/app/elements/layout/Layout';
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { ListBank } from '@/app/components/card/bank/Bank';
+import { GateWay } from '@/lib/utils/ress/GateWay';
+import { ListBank } from '@/app/components/card/Bank';
 import { TRes } from '@/entity/Utils';
+import { UlCard } from '@/app/elements/card/Card';
+import { Suspense } from 'react';
+import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
 
-export const dynamic    = 'force-dynamic'
-export const revalidate = 0
-// export const fetchCache = 'auto'
-// export const runtime    = 'nodejs'
+export const revalidate = 10
+
 export default async function Page() {
-  const data: TRes<TBank[]> = await GateWay( "GET", "bank", "all", {} )
-  if( !data ) {
-    return ( <h1>Data Kosong</h1> )
-  }
+  const { data }: TRes<TBank[]> = await GateWay( "GET", "bank", "all", {}, "", "cache" )
 
-  return (
-    <Layout>
-      <ListBank data={ data.data }/>
-    </Layout>
-  )
+  return <UlCard>
+    <Suspense fallback={ <SkeletonCard/> }>
+      { data.map( ( d: TBank ) => ( <ListBank d={ d } key={ d.id }/> ) ) }
+    </Suspense>
+  </UlCard>
 }

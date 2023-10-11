@@ -5,7 +5,7 @@ export function NavBody( { children }:{
 }) {
   return (
     <section className="overflow-x-auto  ">
-      <div className={ "flex flex-row gap-5 z-50 m-4" }>
+      <div className={ "flex flex-row gap-5 z-50 my-4" }>
         {children}
       </div>
     </section>

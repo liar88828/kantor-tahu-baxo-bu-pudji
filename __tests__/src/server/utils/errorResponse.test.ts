@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { exampleTravel } from '@/app/utils/ress/ErrorData';
-import { errorDataZod, errorEmptyIDZod } from '@/lib/utils/errorResponse';
+import { exampleTravel } from '../../../../src/lib/utils/ress/ErrorData';
+import { errorDataZod, errorEmptyIDZod } from '../../../../src/lib/exeption/errorResponse';
 
 describe( 'test id errorDataZod add', () => {
   it( 'should be Travel ID format errorDataZod', () => {

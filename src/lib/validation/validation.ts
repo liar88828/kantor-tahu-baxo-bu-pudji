@@ -1,38 +1,36 @@
-import { IService, ZodSchema } from '@/interface/Service/IService';
-import Schema from '@/lib/validation/schema';
+import { IService, ZodSchema } from '@/servers/interface/Service/IService';
+import { z } from 'zod';
+import ValidationSchema from '@/lib/validation/zod/validationSchema';
+import { _test_ } from '../../../config.dev';
 
-export default class Validation extends Schema implements IService {
-  // validId<S>( valid: SafeParseReturnType<S, S>, id: S ): S {
-  //
-  //   if( !valid.success ) {
-  //     return JSON.parse( valid.error.message )
-  //   }
-  //   else {
-  //     return id
-  //   }
-  // }
-  // validModel<T>( valid: z.SafeParseReturnType<T, T>, data: T ): T {
-  //   if( !valid.success ) {
-  //     return JSON.parse( valid.error.message )
-  //   }
-  //   else {
-  //     return data
-  //   }
-  // }
-  //
-  validIdNew( id: string ): string {
-    const valid = this.zodId( id )
+class Validation extends ValidationSchema implements IService {
+
+  validIdNew( id: string ): any {
+    const valid = z.string( { required_error: 'ID is required', } ).min( 5 ).safeParse( id )
+
     if( !valid.success ) {
-      return JSON.parse( valid.error.message )
+
+      if( _test_ ) {
+        return JSON.parse( valid.error.message )
+      }
+      throw JSON.parse( valid.error.message )
     }
     else {
       return id
     }
   }
-  validModelNew<T>( data: T, Schema: ZodSchema<T> ): T {
-    const valid = this.zodModel( data, Schema )
+
+  validModelNew<T>( data: T, Schema: ZodSchema<T> ) {
+
+    const valid = Schema.safeParse( data )
+
     if( !valid.success ) {
-      return JSON.parse( valid.error.message )
+
+      if( _test_ ) {
+        // console.table(JSON.parse( valid.error.message ))
+        return JSON.parse( valid.error.message )
+      }
+      throw JSON.parse( valid.error.message )
     }
     else {
       return data
@@ -41,3 +39,4 @@ export default class Validation extends Schema implements IService {
 
 }
 
+export const validation = new Validation()

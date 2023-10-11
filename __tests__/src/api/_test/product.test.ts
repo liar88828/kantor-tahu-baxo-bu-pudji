@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { exampleProduct } from '@/app/utils/ress/ErrorData';
+import { GateWay } from '../../../../src/lib/utils/ress/GateWay';
+import { exampleProduct } from '../../../../src/lib/utils/ress/ErrorData';
 
-import { statusTest } from '@/app/utils/test/statusTest';
-import { successResponse } from '@/lib/utils/successResponse';
-import { errorData, errorEmptyData, errorEmptyID } from '@/lib/utils/errorResponse';
+import { statusTest } from '../../utils/statusTest';
+import { successResponse } from '../../../../src/lib/exeption/successResponse';
+import { errorEmptyData, errorEmptyID } from '../../../../src/lib/exeption/errorResponse';
 
 const json = structuredClone( exampleProduct )
 json.id    = "kosong".repeat( 5 );
@@ -21,10 +21,10 @@ describe( "Test Product", () => {
 
     test( "Product cannot create partial value ", async () => {
       const { nama, jumlah, img, ...ress } = json
-      const data                                  = GateWay( "POST", "product", "", ress, "text" )
+      const data                           = GateWay( "POST", "product", "", ress, "text" )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "kosong" )
       await expect( data ).resolves.not.toContain( statusTest( "POST" ) )
-      await expect( data ).resolves.toMatchObject( errorData( "POST", [
+      await expect( data ).resolves.toMatchObject( [
         {
           code    : 'invalid_type',
           expected: 'string',
@@ -46,7 +46,7 @@ describe( "Test Product", () => {
           path    : [ 'jumlah' ],
           message : 'Jumlah is required'
         }
-      ] ) )
+      ] )
     } )
 
     test( "Product cannot create empty value ", async () => {
@@ -115,11 +115,11 @@ describe( "Test Product", () => {
     } )
 
     test( "Product Cannot edit by partial value", async () => {
-      json.nama                                   = "update"
-      const { nama, jumlah, img, ...ress }        = json
-      const data                                  = GateWay( "PUT", "product", json.id, ress, "text" )
+      json.nama                            = "update"
+      const { nama, jumlah, img, ...ress } = json
+      const data                           = GateWay( "PUT", "product", json.id, ress, "text" )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "update" )
-      await expect( data ).resolves.toMatchObject( errorData( "PUT", [
+      await expect( data ).resolves.toMatchObject( [
         {
           code    : 'invalid_type',
           expected: 'string',
@@ -141,7 +141,7 @@ describe( "Test Product", () => {
           path    : [ 'jumlah' ],
           message : 'Jumlah is required'
         }
-      ] ) )
+      ] )
     } )
 
     test( "Product Cannot edit by empty value ", async () => {

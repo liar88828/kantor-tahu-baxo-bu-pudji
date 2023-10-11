@@ -1,59 +1,120 @@
 "use client"
-import { formBank } from '@/app/utils/format/bank';
+import { Cshadow } from '@/app/style/shadow';
+import { styleLabelForm } from '@/app/style/form';
 
-import { SubmitHandler, useForm } from 'react-hook-form';
-
+import React, { useState } from 'react';
+import { FormLayout } from '@/app/components/layouts/Form';
+import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/elements/input/InputNew';
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { notifyData } from '@/app/utils/notif/toash';
+import { GateWay } from '@/lib/utils/ress/GateWay';
+import { notifyData } from '@/lib/utils/notif/toash';
 import { useRouter } from 'next/navigation';
-import { setIdBank } from '@/lib/utils/formatId';
+import { formBank } from '@/lib/utils/example/bank';
 
-export function Form( { data, method }: {
-  data: Awaited<TBank>,
-  method: "PUT" | "POST"
-} ) {
-  const router                      = useRouter()
-  const { register, handleSubmit, } = useForm<TBank>( {
-    defaultValues: data,
+type TYPE = TBank;
+export const img = 'https://dummyimage.com/200x200/000/fff.jpg&text=not+found'
+
+export default function Bank(
+  { defaultData, method, id, to }:
+    {
+      defaultData: TYPE,
+      method: "POST" | "PUT",
+      id: string
+      to: "travel" | "product" | "bank"
+    }, ) {
+  const router                    = useRouter()
+  const [ imageUrl, setImageUrl ] = useState<string>( defaultData.img );
+  const [ open, setOpen ]         = useState<boolean>( false );
+  const formUse                   = useForm<TYPE>( {
+    defaultValues: defaultData,
     mode         : "onChange",
-  } )
+  } );
+  const handleSubmit              = async ( d: TYPE ) => {
+    console.log( d )
+    console.log( "summit" )
+    setImageUrl( d.img );
+    setOpen( !open )
 
-  const onSubmit: SubmitHandler<TBank> = async ( d ) => {
-    if( d.id.length < 10 ) {
-      d.id = setIdBank( d )
-    }
-    const res = await GateWay( method, "bank", d.id, d, )
-    // console.log( res )
-    if( res.data.code ) {
-      notifyData( res.data.msg )
-    }
+  }
+  const handleSave                = async () => {
+    const text = method === "POST" ? "SIMPAN" : "EDIT"
+    if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
+      try {
+        console.log( formUse.getValues() )
+        const res = await GateWay( method, to, id, formUse.getValues(), "", "noCache" )
 
-    if( res ) {
-      notifyData<TBank>( res.msg )
-      if( res.msg.toString().includes( "cess" ) ) {
-        router.replace( "/bank/list" )
+        console.log( res )
+        console.log( "get gateway" )
+        if( Array.isArray( res.data ) ) {
+          notifyData( "", res.data )
+        }
+        else {
+          notifyData( res.msg )
+          if( res.msg.toString().includes( "cess" ) ) {
+            router.prefetch( `/${ to }/list` )
+            router.replace( `/${ to }/list` )
+          }
+        }
       }
+      catch ( e ) {
+        console.log( e )
+      }
+
+    }
+    else {
+      notifyData( `Batal ${ text }` )
     }
   }
+
+  // console.log( "get data" )
+  // console.log( formUse.getValues() )
+  // console.log( "get data" )
+
   return (
-    <div className="flex sm:flex-row flex-col">
-      <form onSubmit={ handleSubmit( onSubmit ) }
-            className="w-full flex  flex-row gap-5 ">
-        <div className=" sm:m-4 bg-white rounded p-5 w-full sm:w-2/3">
-          <InputForm title={ formBank.nama } type="text" reg={ register( "nama" ) }/>
-          <InputForm title={ formBank.lokasi } type="text" reg={ register( "lokasi" ) }/>
-          <InputForm title={ formBank.jenis } type="text" reg={ register( "jenis" ) }/>
-          <InputForm title={ formBank.hp } type="tel" reg={ register( "hp" ) }/>
-          <InputForm title={ formBank.no } type="tel" reg={ register( "no" ) }/>
-          <InputForm title={ formBank.img } type="tel" reg={ register( "img" ) }/>
-          <InputForm title={ formBank.keterangan } type="textarea" reg={ register( "keterangan" ) }/>
+    <FormLayout<"bank">
+      formUse={ formUse }
+      handleSubmit={ handleSubmit }
+
+      FormInput={ <>
+        <InputForm title={ formBank.nama } type="text" reg={ formUse.register( "nama" ) }/>
+        <InputForm title={ formBank.lokasi } type="text" reg={ formUse.register( "lokasi" ) }/>
+        <InputForm title={ formBank.jenis } type="text" reg={ formUse.register( "jenis" ) }/>
+        <InputForm title={ formBank.hp } type="number" reg={ formUse.register( "hp" ) }/>
+        <InputForm title={ formBank.no } type="number" reg={ formUse.register( "no" ) }/>
+        <InputForm tag={ "textarea" } title={ formBank.keterangan } type="textarea"
+                   reg={ formUse.register( "keterangan" ) }/>
+        <InputForm title={ formBank.img } type="text" reg={ formUse.register( "img" ) }/>
+      </> }
+
+      button={
+        <button type="submit"
+
+                className="bg-blue-500 p-2 rounded-md text-white">CEK</button>
+      }
+
+      submit={
           <button type="submit"
-                  className="bg-blue-500 p-2 rounded-md text-white">
-            { method === "POST" ? " SIMPAN" : "EDIT" }
+                  onClick={ handleSave }
+                  className={ `bg-${ !open ? "success" : "warning" } p-2 rounded-md text-white` }>
+            { method === "POST" ? "SIMPAN" : "EDIT" }
           </button>
-        </div>
-      </form>
-    </div>
+
+      }
+    >
+      { open &&
+        <div className={ " bg-white rounded-lg p-5 flex flex-col gap-5 " + Cshadow }>
+          <div className={ 'flex flex-col gap-5 ' }>
+            <label className={ styleLabelForm + "capitalize" }>Masukan Gambar { to }</label>
+            { !imageUrl && <h1>Upload Image</h1> }
+            { imageUrl &&
+              // eslint-disable-next-line @next/next/no-img-element
+              <img alt="Preview"
+                   src={ defaultData.img === "" ? img : imageUrl }
+                   className={ 'w-[100%] h-auto border-2 border-gray-300 rounded-3xl' }/>
+            }
+          </div>
+        </div> }
+    </FormLayout>
+
   )
 }

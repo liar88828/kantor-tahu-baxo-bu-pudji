@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { setIdBank, setIdModel, setIdOrderan, setIdProduct, setIdTravel } from '@/lib/utils/formatId';
-import { exampleBank, exampleOrderan, exampleProduct, exampleTravel } from '@/app/utils/ress/ErrorData';
+import { exampleBank, exampleOrderan, exampleProduct, exampleTravel } from '../../../../src/lib/utils/ress/ErrorData';
 
 describe( 'test id', () => {
   it( 'should be Travel ID format ', () => {

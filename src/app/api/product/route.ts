@@ -1,15 +1,15 @@
-import { Input, Output } from '@/server/service/GateWay';
+import { Input, Output } from '@/servers/presentation/Web';
 
-import { prisma, TPProduct } from '@/server/models/prisma/config';
+import { prisma, TPProduct } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import ProductController from '@/server/controller/Produk';
-import RepoProduk from '@/server/repository/Product';
+import ProductController from '@/servers/use-cases/controller/Produk';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
-import { IControlProduct } from '@/interface/controller/Product';
-import { errorEmptyID } from '@/lib/utils/errorResponse';
+import { IControlProduct } from '@/servers/interface/controller/Product';
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import RepoProduk from '@/servers/data-source/prisma/Product';
 
 const c: IControlProduct = new ProductController(
   new RepoProduk( prisma.product ),
@@ -49,7 +49,7 @@ export async function DELETE( request: NextRequest ) {
   console.log( `route api ${ method } product` )
 
   if( id.length > 10 ) {
-    return await Output( "DELETE", () => c.destroy( id ), )
+    return await Output( "DELETE", () => c.destroy( id ) )
   }
   return NextResponse.json( errorEmptyID( method ) )
 }

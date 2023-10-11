@@ -1,8 +1,8 @@
 "use client"
 
-import { notifyData } from '@/app/utils/notif/toash';
+import { notifyData } from '@/lib/utils/notif/toash';
 import { useRouter } from 'next/navigation';
-import { sendData } from '@/app/utils/ress/SendApi';
+import { sendData } from '@/lib/utils/ress/SendApi';
 
 export const DeleteTable = ( { ids }: { ids: string[], } ) => {
   const router = useRouter()
@@ -11,15 +11,15 @@ export const DeleteTable = ( { ids }: { ids: string[], } ) => {
     if( confirm( `Apakah anda yakin untuk Menghapus data ini ?` ) ) {
 
       if( ids.length === 1 ) {
-        console.log( "one" )
-        console.log( ids )
+        // console.log( "one" )
+        // console.log( ids )
         const res = await sendData( "table", "DELETE", id[ 0 ] )
         notifyData( res.msg )
 
       }
       if( id.length > 1 ) {
-        console.log( "many" )
-        console.log( ids )
+        // console.log( "many" )
+        // console.log( ids )
         const res = await sendData( "table", "DELETE", "", "", id, )
         notifyData( res.msg )
       }

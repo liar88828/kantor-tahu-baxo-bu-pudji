@@ -1,73 +1,65 @@
-import { ReactNode } from 'react';
 import { TOrder } from '@/entity/client/orderan';
 import { Rupiah } from '@/lib/utils/rupiah';
-import { Texts } from '@/app/elements/Text/TextCard';
 import { calculateTotal } from '@/app/components/table/utils/orderan';
 import { Status } from '@/app/style/status';
-import { ImageCard } from '@/app/components/form/Orderan/CComponent';
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { notifyData } from '@/app/utils/notif/toash';
-import { TResponse } from '@/entity/service/TResponse';
 import { TextPopUp } from '@/app/elements/Text/TextPopUp';
 import { setIdOrderan } from '@/lib/utils/formatId';
+import { TResponse } from '@/entity/servers/service/TResponse';
+import { GateWay } from '@/lib/utils/ress/GateWay';
+import { notifyData } from '@/lib/utils/notif/toash';
+import { CardPopUp, FooterPopUp } from '@/app/components/popup/PopUpComponent';
 
-export function PopUp( { data, method, id }: {
+export default function PopUp( { data, method, id }: {
   data: TOrder
   method: "POST" | "PUT"
   id: string
 } ) {
+
   async function handleSave() {
-    console.log( method )
-
-    data.id                              = method === "POST" ? setIdOrderan( data ) : id
-    data.hpPengirim                      = "0" + data.hpPengirim.toString()
-    data.hpPenerima                      = "0" + data.hpPenerima.toString()
-    const newSemuaProduct: TProOrderan[] = data
-    .semuaProduct.map( ( d: TProOrderan ) => {
-      d.orderanId = data.id
-      return d
-    } )
-
-    const { listItem, listOrderan, semuaProduct, ...puts } = data
-    const ress                                             = Object.assign( { semuaProduct: newSemuaProduct }, puts )
-
-    // const getData = await onCreate( data, method, id )
+    const semuaHargaOrderan = calculateTotal( data.listOrderan )
+    const semuaHargaItem    = calculateTotal( data.listItem )
+    const totalHarga        = semuaHargaOrderan + semuaHargaItem + data.ongkir
+    data.totalBayar         = totalHarga
+    data.totalPenjualan     = semuaHargaOrderan
+    data.id                 = method === "POST" ? setIdOrderan( data ) : id
+    data.hpPengirim         = "0" + data.hpPengirim.toString()
+    data.hpPenerima         = "0" + data.hpPenerima.toString()
 
     if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
-      // console.log( ress )
-      const res: TResponse<TOrderServer> = await GateWay( method, "orderan", id, ress ,)
-      console.log( res )
+      console.log( data )
+      const res: TResponse<TOrderServer> = await GateWay( method, "orderan", id, data, )
+      // console.log( res )
       if( res.success ) {
         notifyData( res.msg )
       }
-      else if( !res.success ) {
-        notifyData( "", res )
-      }
-
+      else if( !res.success ) notifyData( "", res )
     }
-
   }
+
+  function setList(
+    option: 'Item' | "Orderan",
+    json: TProduct[]
+  ) {
+
+    data.semuaProduct
+        .filter( ( d: TProduct ) => d.jenis.replaceAll( " ", "" ) === option )
+        .forEach( ( d: TProduct ) => json.push( d ) )
+  }
+
+  data.listItem    = []
+  data.listOrderan = []
+  setList( "Item", data.listItem );
+  setList( "Orderan", data.listOrderan );
 
   return ( <>
 
-      {/*<button type="submit" className="w-full">*/ }
-      {/*  <label*/ }
-      {/*    htmlFor="my_modal_Check"*/ }
-      {/*    className="btn btn-success text-white w-full ">*/ }
-      {/*    Add Product*/ }
-      {/*  </label>*/ }
-
-      {/*</button>*/ }
 
       <label
         htmlFor="my_modal_Check"
-        className={ "btn btn-sm sm:btn-md text-white whitespace-nowrap " + Status( status ) }>
+        className={ "btn btn-sm sm:btn-md text-white whitespace-nowrap " + Status( data.status ) }>
         Check
       </label>
 
-      {/*<input type="checkbox"*/ }
-      {/*       id="my_modal_Check"*/ }
-      {/*       className="modal-toggle"/>*/ }
 
       { data.semuaProduct.length !== 0
         && (
@@ -131,9 +123,7 @@ export function PopUp( { data, method, id }: {
                       className="text-white btn btn-xs sm:btn-md btn-success">
                       { method !== "PUT" ? "Simpan" : "Update" }
                     </button>
-                    {/*<button className={ "text-white btn btn-xs sm:btn-md btn-error" }>*/ }
                     <label className="text-white btn btn-xs sm:btn-md btn-error" htmlFor="my_modal_Check"> TUTUP</label>
-                    {/*</button>*/ }
                   </div>
                 </div>
               </div>
@@ -144,58 +134,4 @@ export function PopUp( { data, method, id }: {
     </>
 
   )
-}
-
-export const FooterPopUp = ( { text }: { text: ReactNode } ) => {
-  return <>
-    <div className="shadow shadow-slate-300 p-2 rounded ">
-      <Texts>Keterangan</Texts>
-      <br/>
-      <Texts>{ text }</Texts>
-    </div>
-  </>
-}
-export const CardBody    = ( { title, text }: { title: ReactNode, text: ReactNode } ) => {
-  return <>
-    <div className="card-body rounded p-1 sm:p-2 ">
-      { title }
-      { text }
-    </div>
-  </>
-}
-
-export const CardMaster = ( { children }: { children: ReactNode, } ) => {
-  return <ul className="  relative overflow-x-auto rounded-lg bg-white p-2 mt-1 gap-2 flex shadow shadow-slate-300">
-    { children }
-  </ul>
-}
-
-export const Card = ( { children }: { children: ReactNode, } ) => {
-  return <div className={ "card flex-nowrap flex" }>
-    <div className="w-[10rem] rounded shadow shadow-gray-500 p-1 sm:p-2">
-      { children }
-    </div>
-  </div>
-}
-
-export const CardPopUp = ( { semuaProduct }: { semuaProduct: TProduct[] } ) => {
-  return <CardMaster>
-    { semuaProduct.map( ( item: TProduct, ) => {
-      return (
-        <Card key={ item.id }>
-          <ImageCard img={ item.img } nama={ item.nama }/>
-          <CardBody
-            title={
-              <h1 className=" text-xs sm:text-lg font-bold mb-2">{ item.nama }</h1>
-            }
-            text={ <>
-              <TextPopUp title={ "Harga" } value={ Rupiah( item.harga ) }/>
-              <TextPopUp title={ "Jumlah" } value={ item.jumlah }/>
-              <TextPopUp title={ "Jenis" } value={ item.jenis }/>
-            </> }
-          />
-        </Card>
-      )
-    } ) }
-  </CardMaster>
 }

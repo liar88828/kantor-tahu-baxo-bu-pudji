@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NavBody } from '@/app/elements/link/NavBody';
 
-export function LinkBasic() {
+export default function LinkBasic() {
   const pathname = usePathname()
   const path     = pathname.split( "/" )
   return (
 
     <NavBody>
       <Link href={ `/${ path[ 1 ] }/list` }
-            className={ `btn  ${ path.includes( "list" ) ? "info btn-disabled "
+            className={ `btn  ${ path.includes( "list" ) ? "info btn-disabled text-black"
                                                          : " btn-success text-white" }    ` }>
         List
       </Link>

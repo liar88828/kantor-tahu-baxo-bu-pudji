@@ -1,10 +1,8 @@
 import { describe, expect, test } from 'vitest';
-import Validation from '@/lib/validation/validation';
-import Schema from '@/lib/validation/schema';
-import { exampleBank } from '@/app/utils/ress/ErrorData';
+import { validation } from '@/lib/validation/validation';
+import { exampleBank } from '../../../../src/lib/utils/ress/ErrorData';
 
-const v    = new Validation()
-const c    = new Schema()
+const v = validation
 const id   = "12345".repeat( 5 )
 const bank = structuredClone( exampleBank )
 bank.id    = id
@@ -42,14 +40,80 @@ describe( "test id zod", () => {
 
     test( "should be error because empty schema data", () => {
       // @ts-ignore
-      const test = v.validModelNew( {}, c.BankSchema )
-      expect( test ).toHaveLength( 7 )
+      const test = v.validModelNew( {}, v.BankSchema )
+      // expect( test ).toHaveLength( 7 )
+      expect( test ).toMatchObject(
+        [
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "Hp is required",
+            "path"    : [
+              "hp",
+            ],
+            "received": "undefined",
+          },
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "Hp is required",
+            "path"    : [
+              "img",
+            ],
+            "received": "undefined",
+          },
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "No is required",
+            "path"    : [
+              "no",
+            ],
+            "received": "undefined",
+          },
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "nama is required",
+            "path"    : [
+              "nama",
+            ],
+            "received": "undefined",
+          },
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "Lokasi is required",
+            "path"    : [
+              "lokasi",
+            ],
+            "received": "undefined",
+          },
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "Jenis is required",
+            "path"    : [
+              "jenis",
+            ],
+            "received": "undefined",
+          },
+          {
+            "code"    : "invalid_type",
+            "expected": "string",
+            "message" : "Keterangan is required",
+            "path"    : [
+              "keterangan",
+            ],
+            "received": "undefined",
+          },
+        ] )
     } )
 
     test( "should be error because wrong schema", () => {
       // @ts-ignore
-      const test = v.validModelNew( bank, c.semuaProdukSchema )
-      expect( test ).toHaveLength( 3 )
+      const test = v.validModelNew( bank, v.semuaProdukSchema )
+      // expect( test ).toHaveLength( 3 )
       expect( test ).toMatchObject( [
         {
           "code"    : "invalid_type",

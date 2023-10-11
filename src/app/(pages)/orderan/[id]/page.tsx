@@ -1,22 +1,29 @@
-import { LinkComplex } from '@/app/elements/link/LinkComplex';
-import { SComponent } from '@/app/components/form/Orderan/SComponent';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '@/lib/utils/ress/GateWay';
 import { TOrder } from '@/entity/client/orderan';
+import { Orderan } from '@/app/components/form/Orderan';
+import { getDataForOrderan } from '@/servers/data-source/interface/prisma/Client';
+import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
 import { Suspense } from 'react';
 
-export const dynamic    = 'force-dynamic'
+// export const dynamic    = 'force-dynamic'
 export const revalidate = 0
 // export const fetchCache = 'auto'
 // export const runtime    = 'nodejs'
 export default async function Page( { params: { id } }: { params: { id: string } } ) {
-  const data: { msg: string, data: TOrder, } = await GateWay( 'GET', "orderan", id, )
-  // console.log( data )
-  return (
-    <main className="flex p-3 sm:p-6 z-50 bg-green-50 gap-3 flex-col">
-      <LinkComplex slug={ id }/>
-        <SComponent id={ id } method={ "PUT" } defaultDataOrder={ data.data }/>
+  const orderan: { msg: string, data: TOrder, } = await GateWay( 'GET', "orderan", id, )
+  const data                                    = await getDataForOrderan()
 
-    </main>
+  return (
+    <Suspense fallback={ <SkeletonCard/> }>
+
+      <Orderan id={ id } method={ "PUT" }
+               defaultDataOrder={ orderan.data }
+               travel={ data[ 0 ] }
+               product={ data[ 1 ] }
+               bank={ data[ 2 ] }
+      />
+    </Suspense>
+
   )
 }
 

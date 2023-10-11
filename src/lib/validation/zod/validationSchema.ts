@@ -1,8 +1,16 @@
 import { z } from 'zod';
-import { TPBank, TPProduct, TPSemuaProduct, TPTravel } from '@/server/models/prisma/config';
+import { TPBank, TPProduct, TPSemuaProduct, TPTravel } from '@/servers/data-source/prisma/config';
 
+export interface IValidationSchema {
+  BankSchema: z.ZodType<TPBank>;
+  ProductSchema: z.ZodType<TPProduct>;
+  TravelSchema: z.ZodType<TPTravel>;
+  semuaProdukSchema: z.ZodType<TPSemuaProduct>;
+  OrderanSchema: z.ZodType<TOrderServer>;
+  ZIdMany: z.ZodType<string[]>;
+}
 
-export default class ValidationSchema {
+export default class ValidationSchema implements IValidationSchema {
 
   // master
   BankSchema: z.ZodType<TPBank> = z.object( {

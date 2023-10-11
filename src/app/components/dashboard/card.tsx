@@ -13,27 +13,29 @@ function Cards( { title, icon, rout, totalStatus }: {
   rout: string,
   totalStatus: number
 } ) {
-  return <div
-    className={ " flex text-white card-compact card w-[47%] sm:w-[31%] md:w-[22%] px-2 sm:px-2 md:px-4 h-[60%]" +
-      " my-[.2rem] " +
-      statusWarna( title ) }>
-    <div className="card-body flex-row justify-between  flex flex-wrap">
+  return <label htmlFor="my-drawer"
+                className={ " static card card-compact flex text-white  w-[47%] sm:w-[31%]" +
+                  " md:w-[22%] px-2" +
+                  " sm:px-2" +
+                  " md:px-4 h-[60%]" +
+                  " my-[.2rem] " + statusWarna( title ) }>
+    <div className="card-body flex-row justify-between flex flex-wrap">
 
       <div className={ " card-title " }>
         <i>{ icon }</i>
-        <div className=" card-title  "> { totalStatus }</div>
+        <div>{ totalStatus }</div>
       </div>
 
       <div className={ " card-actions " }>
         <Link href={ rout }>
-          <button className={ "btn btn-sm flex flex-row items-center whitespace-nowrap" }>
+          <button className={ " btn btn-sm flex flex-row items-center whitespace-nowrap" }>
             { title.replaceAll( "Di ", "" ) }
           </button>
         </Link>
       </div>
     </div>
 
-  </div>;
+  </label>;
 }
 
 export function HorizontalCard( { data }: {
@@ -53,8 +55,8 @@ export function HorizontalCard( { data }: {
 
   getDiTerimaObject( "Di Kirim" );
   return (
-    <>
-
+    <div
+      className=" flex flex-wrap my-4 p-2 md:p-5 gap-2  justify-between bg-slate-50 rounded-2xl shadow-xl shadow-slate-200">
       <Cards totalStatus={ getDiTerimaObject( "Di terima" )?.count ?? 0 }
              title={ "Di Terima" }
              rout={ "table/Di Terima" }
@@ -75,7 +77,7 @@ export function HorizontalCard( { data }: {
              rout={ "table/Selesai" }
              icon={ <AiOutlineCheckCircle className={ iconStyle }/> }
       />
-    </ >
+    </div>
   );
 }
 

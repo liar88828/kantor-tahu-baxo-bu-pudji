@@ -1,5 +1,5 @@
-import { GateWay } from '@/app/utils/ress/GateWay';
-import { FormProduct } from '@/app/components/form/FormProduct';
+import { GateWay } from '@/lib/utils/ress/GateWay';
+import { Product } from '@/app/components/form/Product';
 import { Suspense } from 'react';
 import { TRes } from '@/entity/Utils';
 
@@ -17,12 +17,10 @@ export default async function Page(
   const defaultData: TRes<TProduct> = await GateWay( 'GET', 'product', id, )
 
   return (
-    <Suspense fallback={ <div>Loading...</div> }>
-      <FormProduct method={ 'PUT' }
-                   defaultData={ defaultData.data }
-                   id={ id }
-                   to={ 'product' }/>
-    </Suspense>
+    <Product method={ 'PUT' }
+             defaultData={ defaultData.data }
+             id={ id }
+             to={ 'product' }/>
 
   )
 }

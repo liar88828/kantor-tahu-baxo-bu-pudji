@@ -1,8 +1,8 @@
-import { getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
-import { notifyData } from '@/app/utils/notif/toash';
+import { getExtensionData, validateExtension } from '@/lib/FileSystem/fileExtension';
+import { notifyData } from '@/lib/utils/notif/toash';
 import { Dispatch, SetStateAction } from 'react';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { GateWay } from '@/lib/utils/ress/GateWay';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export async function handleUpload<T>(
   selectedFile: File | null | undefined,
