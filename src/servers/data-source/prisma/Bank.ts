@@ -1,10 +1,10 @@
 import { TPBank } from '@/servers/data-source/prisma/config';
-import { IRepoBank } from '@/servers/data-source/interface/prisma/Bank';
+import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
 import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
 
 type TYPE = TPBank;
 
-export default class RepoBank extends AbstractPrisma<"bank"> implements IRepoBank<TYPE> {
+export default class BankData extends AbstractPrisma<"bank"> implements IBankData<TYPE> {
 
   setOne( d: TYPE ): TYPE {
     return {

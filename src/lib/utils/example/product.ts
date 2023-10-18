@@ -1,4 +1,4 @@
-import { img } from '@/app/components/form/Bank';
+import { img } from '@/app/components/organisme/form/Bank';
 
 export const formProduct: Record<keyof TProduct, any> = {
   id    : "1231",
@@ -13,12 +13,12 @@ export const formProduct: Record<keyof TProduct, any> = {
 
 export const defaultFormProduct: TProduct = {
   id        : "",
-  nama: "Tahu Baxo",
-  harga     : 20000,
+  nama      : "Tahu Baxo",
+  harga     : 0,
   lokasi    : "Ungaran",
   jumlah    : 0,
-  jenis     : "Orderan",
-  img : img,
-  keterangan: "Pedas"
+  jenis     : "Item",
+  img       : img,
+  keterangan: ""
 }
 

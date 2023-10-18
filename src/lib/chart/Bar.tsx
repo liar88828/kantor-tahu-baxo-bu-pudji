@@ -58,7 +58,7 @@ const getData        = ( aggregate: TAggregate[] ) => {
   return { o: options( "Data Penjualan Produk Per Bulan" ), d: setData( aggregate ) }
 }
 
-export function BarVertical( { aggregate }: { aggregate: TAggregate[] } ) {
+export default function BarVertical( { aggregate }: { aggregate: TAggregate[] } ) {
   // console.log(aggregate)
   const { o, d } = getData( aggregate )
   return <Bar options={ o } data={ d }/>;

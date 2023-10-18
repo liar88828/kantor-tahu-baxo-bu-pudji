@@ -1,6 +1,6 @@
 import { TRes } from '@/entity/Utils';
 import { GateWay } from '@/lib/utils/ress/GateWay';
-import Bank from '@/app/components/form/Bank';
+import Bank from '@/app/components/organisme/form/Bank';
 
 // export const dynamic = 'force-dynamic'
 export const revalidate = 2

@@ -4,7 +4,7 @@ import { _test_ } from '../../../config.dev';
 export function getExtensionData( name?: string ) {
   console.log( "get extension data" )
   if( typeof name === "string" ) {
-    console.log( name )
+    console.log( name, "get entension name" )
     if( name.length >= 4 ) {
       return "." + name.split( "." ).pop()
       // return name.slice( -4 );

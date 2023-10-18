@@ -32,7 +32,7 @@ interface IMonthOrder {
 
 type TYear = { label: string, data: number[], borderColor: string, backgroundColor: string }[];
 
-export function Lines( { dataKu }: {
+export default function Lines( { dataKu }: {
   dataKu: TLines[]
 } ) {
 

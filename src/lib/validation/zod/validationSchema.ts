@@ -24,11 +24,11 @@ export default class ValidationSchema implements IValidationSchema {
     keterangan: z.string( { required_error: 'Keterangan is required', } ).min( 2 ).max( 300 ),
   } )
 
-  ProductSchema: z.ZodType<TPProduct> = z.object( {
-    id: z.string( { required_error: 'ID is required', } ).min( 1 ).max( 100 ),
+  ProductSchema = z.object( {
+    id   : z.string( { required_error: 'ID is required', } ).min( 1 ).max( 100 ),
     lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 1 ).max( 100 ),
     nama      : z.string( { required_error: 'Nama is required', } ).min( 1 ).max( 100 ),
-    harga     : z.number( { required_error: 'Harga is required', } ).int().nonnegative(),
+    harga: z.number( { required_error: 'Harga is required', } ).nonnegative(),
     img       : z.string( { required_error: 'Img is required', } ).min( 1 ).max( 100 ),
     jenis     : z.string( { required_error: 'Jenis is required', } ).min( 1 ).max( 100 ),
     jumlah    : z.number( { required_error: 'Jumlah is required', } ).int().nonnegative(),
@@ -36,7 +36,7 @@ export default class ValidationSchema implements IValidationSchema {
   } )
 
   TravelSchema: z.ZodType<TPTravel> = z.object( {
-    id : z.string( { required_error: 'Id is required', } ).min( 1 ).max( 100 ),
+    id : z.string( { required_error: 'Id is required', } ).optional(),
     nama      : z.string( { required_error: 'Nama is required', } ).min( 1 ).max( 100 ),
     hp        : z.string( { required_error: 'Hp is required', } ).min( 1 ).max( 100 ),
     lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 1 ).max( 100 ),
@@ -46,27 +46,16 @@ export default class ValidationSchema implements IValidationSchema {
     harga     : z.number( { required_error: 'Harga is required', } ).int().nonnegative(),
   } )
 
-  ProductOnly = z.object( {
-    id        : z.string( { required_error: 'ID is required', } ).min( 1 ).max( 100 ).optional(),
-    nama      : z.string( { required_error: 'Nama is required', } ).min( 1 ).max( 100 ),
-    lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 1 ).max( 100 ),
-    keterangan: z.string( { required_error: 'Keterangan is required', } ).min( 1 ).max( 300 ),
-    jenis     : z.string( { required_error: 'Jenis is required', } ).min( 1 ).max( 100 ),
-    harga     : z.number( { required_error: 'Harga is required', } ).int().nonnegative(),
-    jumlah    : z.number( { required_error: 'Jumlah is required', } ).int().nonnegative(),
-  } )
+  // @ts-ignore
+  semuaProdukSchema: z.ZodType<TPSemuaProduct> = this.ProductSchema.merge(
+    z.object( {
+      orderanId: z.string().min( 1 ).optional(),
 
-  // ProdukModel = this.ProductOnly.merge( z.object( {
-  //   img: z.string().min( 1 ).max( 100 )
-  // } ) )
-
-  semuaProdukSchema: z.ZodType<TPSemuaProduct> = this.ProductOnly.merge( z.object( {
-    orderanId: z.string().min( 1 ).max( 100 ),
-    img      : z.string().min( 1 ).max( 100 )
-
-  } ) )
+    } ) )
 
   OrderanSchema: z.ZodType<TOrderServer> = z.object( {
+    id            : z.string( { required_error: 'ID is required', } ).optional(),
+    namaPengiriman: z.string( { required_error: 'namaPengiriman is required', } ).min( 1 ).max( 100 ),
     pesan         : z.string( { required_error: 'Pesan is required', } ).min( 1 ).max( 100 ),
     kirim         : z.string( { required_error: 'kirim is required', } ).min( 1 ).max( 100 ),
     waktuKirim    : z.string( { required_error: 'waktuKirim is required', } ).min( 1 ).max( 100 ),
@@ -75,10 +64,8 @@ export default class ValidationSchema implements IValidationSchema {
     penerima      : z.string( { required_error: 'penerima is required', } ).min( 1 ).max( 100 ),
     alamatPenerima: z.string( { required_error: 'alamatPenerima is required', } ).min( 1 ).max( 100 ),
     hpPenerima    : z.string( { required_error: 'hpPenerima is required', } ).min( 1 ).max( 100 ),
-    guna: z.string( { required_error: 'guna is required', } ).min( 1 ).max( 300 ),
+    guna          : z.string( { required_error: 'guna is required', } ).min( 1 ).max( 400 ),
     lokasi        : z.string( { required_error: 'lokasi is required', } ).min( 1 ).max( 100 ),
-    namaPengiriman: z.string( { required_error: 'namaPengiriman is required', } ).min( 1 ).max( 100 ),
-    id  : z.string( { required_error: 'ID is required', } ).min( 1 ).max( 100 ).max( 100 ),
     typePembayaran: z.string( { required_error: 'typePembayaran is required', } ).min( 1 ).max( 100 ),
     status        : z.string( { required_error: 'status is required', } ).min( 1 ).max( 100 ),
     //

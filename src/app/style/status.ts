@@ -1,4 +1,4 @@
-const btnS = " btn text-white hover:shadow-none shadow-md shadow-slate-400 "
+const btnS = " btn text-white shadow-md shadow-slate-400 "
 const SDiTerima = " bg-error  " + btnS
 const SProcess  = " bg-info  " + btnS
 const SKirim    = " bg-warning  " + btnS

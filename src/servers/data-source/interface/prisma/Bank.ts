@@ -1,7 +1,7 @@
 import { TPBank } from '@/servers/data-source/prisma/config';
 import { GetModel, IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
 
-export interface IRepoBank<T extends TPBank> extends IAbstractPrisma<"bank"> {
+export interface IBankData<T extends TPBank> extends IAbstractPrisma<"bank"> {
   prisma: GetModel<"bank">;
   // get
   // findDashboard( a: string ): Promise<any>;

@@ -2,7 +2,7 @@ import { TPOrderan, } from '@/servers/data-source/prisma/config';
 import { IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
 import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
 
-export interface IRepoOrderan<T extends TPOrderan> extends IAbstractPrisma<"orderan"> {
+export interface IOrderanData<T extends TPOrderan> extends IAbstractPrisma<"orderan"> {
   //set
   setMany( data: T, method: string ): any[];
   //post

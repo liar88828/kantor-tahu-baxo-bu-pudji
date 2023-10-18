@@ -1,8 +1,8 @@
-import { Input, Output } from '@/servers/presentation/Web';
+import { Input, Output } from '@/servers/presentation/web/Apis';
 import { prisma, TPSemuaProduct } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import SemuaProductController from '@/servers/use-cases/controller/SemuaProduk';
+import SemuaProductController from '@/servers/presentation/controller/SemuaProduk';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 

@@ -7,6 +7,7 @@ import { IRepoSemuaProduk } from '@/servers/data-source/interface/prisma/SemuaPr
 type TYPE = TPSemuaProduct
 
 export default class RepoSemuaProduk extends AbstractPrisma<"semuaProduct"> implements IRepoSemuaProduk<TYPE> {
+
   async findDashboard( a: string = "test" ) {
     if( a === "false" ) {
       const falseFeature = (): void => {

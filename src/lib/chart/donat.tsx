@@ -7,7 +7,7 @@ import { TDonat } from '@/entity/Dashboard';
 
 ChartJS.register( ArcElement, Tooltip, Legend );
 
-export function Donat( { dataKu }: {
+export default function Donat( { dataKu }: {
   dataKu: TDonat[]
 } ) {
 

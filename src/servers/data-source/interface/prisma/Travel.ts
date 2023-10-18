@@ -1,7 +1,7 @@
 import { TPTravel } from '@/servers/data-source/prisma/config';
 import { IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
 
-export interface IRepoTravel<T extends TPTravel> extends IAbstractPrisma<"travel"> {
+export interface ITravelData<T extends TPTravel> extends IAbstractPrisma<"travel"> {
   //get
   paginate( data: { row: number, skip: number } ): Promise<any>;
   //put

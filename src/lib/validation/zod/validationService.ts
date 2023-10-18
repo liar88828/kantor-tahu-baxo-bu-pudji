@@ -1,19 +1,13 @@
 import { SafeParseError, SafeParseSuccess, z } from 'zod';
-import { SafeParseReturnType } from 'zod/lib/types';
 import { errorDataZod, errorEmptyIDZod } from '@/lib/exeption/errorResponse';
 import { ZodSchema } from '@/servers/interface/Service/IService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
 export interface IValidationService<T> {
   readonly Schema: ZodSchema<T>
-
   zodIdNew( id: string ): string
   zodModelNew( data: T ): T
   zodIdManyNew( id: string[] ): string[]
-
-  zodId( id: string ): SafeParseSuccess<string> | SafeParseError<string>;
-  zodIdMany( id: string[] ): z.SafeParseReturnType<string[], string[]>
-  zodModel( data: T, ): SafeParseReturnType<T, T>
 }
 
 type TZodFun<Z> = ( data: Z ) => { msg: string, data: any, success: boolean };
@@ -59,27 +53,5 @@ export default class ValidationService<T> extends ValidationSchema implements IV
 
   }
 
-  zodId( id: string ) {
-    console.log( "zod api validation id" )
-    return z.string(
-      { required_error: 'ID is required', }
-    )
-            .min( 5 )
-            .safeParse( id )
-  }
-
-  zodIdMany( id: string[] ) {
-    console.log( "zod api validation array" )
-    return z.array(
-      z.string( { required_error: "Is Not Array of string" } ).min( 20 ).max( 45 )
-    )
-            .min( 2 )
-            .safeParse( id )
-  }
-
-  zodModel( data: T, ) {
-    console.log( "zod api validation object old" )
-    return this.Schema.safeParse( data )
-  }
 }
 

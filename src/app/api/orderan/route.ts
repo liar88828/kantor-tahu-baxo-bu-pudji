@@ -1,19 +1,19 @@
-import { Input, Output } from '@/servers/presentation/Web';
+import { Input, Output } from '@/servers/presentation/web/Apis';
 import { isObjectEmpty } from '@/lib/utils/ress/GateWay';
 import { prisma, TPOrderan } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import OrderanController from '@/servers/use-cases/controller/Orderan';
+import OrderanController from '@/servers/presentation/controller/Orderan';
 
 import { IControlOrderan } from '@/servers/interface/controller/Orderan';
 import { TMethod } from '@/entity/Utils';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import RepoOrderan from '@/servers/data-source/prisma/Orderan';
+import OrderanData from '@/servers/data-source/prisma/Orderan';
 
 const c: IControlOrderan = new OrderanController(
-  new RepoOrderan( prisma.orderan ),
+  new OrderanData( prisma.orderan ),
   new ValidationService<TPOrderan>( new ValidationSchema().OrderanSchema ),
 )
 
@@ -49,6 +49,7 @@ export async function GET( request: NextRequest, ) {
 
 export async function POST( request: NextRequest, ) {
   const { json, method, } = await Input( request )
+  console.log( json )
   console.log( `route api ${ method } orderan` )
 
   return Output( "POST", () => c.create( json ), )
@@ -102,12 +103,12 @@ export async function DELETE( request: NextRequest, ) {
         console.log( "is array" )
         if( array.length === 1 ) {
           console.log( "one" )
-          console.log( array )
+          // console.log( array )
           return Output( "DELETE", () => c.destroyOne( array[ 0 ] ) )
         }
         if( array.length > 1 ) {
           console.log( "many" )
-          console.log( array )
+          // console.log( array )
           return Output( "DELETE", () => c.deleteMany( array ) )
         }
       }

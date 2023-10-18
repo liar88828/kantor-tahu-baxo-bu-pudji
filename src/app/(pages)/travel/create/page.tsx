@@ -1,8 +1,8 @@
-import { Travel } from '@/app/components/form/Travel';
+import { Travel } from '@/app/components/organisme/form/Travel';
 import { defaultFormTravel } from '@/lib/utils/example/travel';
 
 // export const dynamic    = 'force-dynamic'
-// export const revalidate = 0
+export const revalidate = 0
 
 export default function Home() {
   return (

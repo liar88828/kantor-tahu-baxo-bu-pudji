@@ -1,9 +1,9 @@
 import { prisma, TPProduct } from '@/servers/data-source/prisma/config';
 import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
-import { IRepoProduct } from '@/servers/data-source/interface/prisma/Product';
+import { IProductData } from '@/servers/data-source/interface/prisma/Product';
 
 type TYPE = TPProduct;
-export default class RepoProduk extends AbstractPrisma<"product"> implements IRepoProduct<TYPE> {
+export default class ProductData extends AbstractPrisma<"product"> implements IProductData<TYPE> {
   setOne( d: TYPE ): TYPE {
     return {
       id        : d.id,

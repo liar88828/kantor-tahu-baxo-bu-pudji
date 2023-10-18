@@ -10,13 +10,13 @@ export const formTravel: Record<keyof TTravel, any> = {
 }
 
 export const defaultFormTravel: TTravel = {
-  id            : " ",
-  nama: "Tahu Baxo Bu Pudji",
-  hp  : "08123456789",
-  lokasi        : "Ungaran",
-  harga         : 200_000,
-  jenis         : "Box",
-  img           : "img",
-  keterangan    : "biasa perjalanan jauh"
+  id        : "",
+  nama      : "Tahu Baxo Bu Pudji",
+  hp        : "",
+  lokasi    : "Ungaran",
+  harga     : 0,
+  jenis     : "Item",
+  img       : "",
+  keterangan: ""
 }
 

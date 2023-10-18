@@ -1,4 +1,4 @@
-import { Product } from '@/app/components/form/Product';
+import { Product } from '@/app/components/organisme/form/Product';
 import { defaultFormProduct } from '@/lib/utils/example/product';
 // export const dynamic    = 'force-dynamic'
 

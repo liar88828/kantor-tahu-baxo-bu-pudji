@@ -1,12 +1,12 @@
 import { prisma, TPTravel } from '@/servers/data-source/prisma/config';
 import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
-import { IRepoTravel } from '@/servers/data-source/interface/prisma/Travel';
+import { ITravelData } from '@/servers/data-source/interface/prisma/Travel';
 
 
 type TYPE = TPTravel;
 
 // getAll data from database
-export default class RepoTravel extends AbstractPrisma<"travel"> implements IRepoTravel<TYPE> {
+export default class RepoTravel extends AbstractPrisma<"travel"> implements ITravelData<TYPE> {
   setOne( d: TYPE ): TYPE {
     return {
       id        : d.id,

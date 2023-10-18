@@ -14,7 +14,15 @@ const nextConfig = {
     },
   },
   images: {
-    domains: [ "localhost", "dummyimage.com" ]
+    domains: [ "localhost", "dummyimage.com", "picsum.photos" ],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/img/**',
+      },
+    ],
   },
 
   // output: 'standalone',

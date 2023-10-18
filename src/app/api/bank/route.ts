@@ -1,18 +1,19 @@
-import { Input, Output } from '@/servers/presentation/Web';
+import { Input, Output } from '@/servers/presentation/web/Apis';
 
 import { prisma, TPBank } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server';
-import BankController from '@/servers/use-cases/controller/Bank';
+import BankController from '@/servers/presentation/controller/Bank';
 import ValidationService from '@/lib/validation/zod/validationService';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { IControlBank } from '@/servers/interface/controller/Bank';
 import { errorData, errorEmptyID } from '@/lib/exeption/errorResponse';
-import RepoBank from '@/servers/data-source/prisma/Bank';
+import BankData from '@/servers/data-source/prisma/Bank';
+import { BankRepo } from '@/servers/repository/BankRepo';
 
 const c: IControlBank = new BankController
 (
-  new RepoBank( prisma.bank ),
+  new BankRepo( new BankData( prisma.bank ) ),
   new ValidationService<TPBank>( vSchema.BankSchema ),
 )
 
@@ -39,6 +40,7 @@ export async function POST( request: NextRequest ) {
 export async function DELETE( request: NextRequest ) {
   const { id, method, pathname } = await Input( request );
   console.log( `route api ${ method } bank` )
+  console.log( id, "testtttttt" )
   if( id.length > 10 ) {
     return await Output( "DELETE", () => c.destroy( id ), )
   }

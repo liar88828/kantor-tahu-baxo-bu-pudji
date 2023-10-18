@@ -6,7 +6,7 @@ import { TResponse } from '@/entity/servers/service/TResponse';
 
 export type Stores = "noCache" | "revalidate" | "cache" | "";
 
-export async function sendData<T>(
+export async function Fetch<T>(
   to: ToModel,
   method: TMethod,
   id: string | string[],
@@ -14,63 +14,41 @@ export async function sendData<T>(
   json: any      = {},
   stores: Stores = ""
 ) {
-  console.log( json )
-  const noCache = {
-    cache: "no-store"
-  }
 
-  let revalidatingTag = {
-    next: { tags: [ to ] },
-  }
+  let options           = { method: method }
+  const noCache         = { cache: "no-store" }
+  const caching         = { cache: 'force-cache' }
+  const revalidatingTag = { next: { tags: [ to ] }, }
+  const header          = { headers: { "Content-Type": "application/json" } }
+  const jsons           = { body: JSON.stringify( json ), }
 
-  const header = {
-    headers: { "Content-Type": "application/json" }
-  }
+  if( stores === "noCache" ) options = Object.assign( noCache, options )
+  if( stores === "cache" ) options = Object.assign( caching, options )
 
-  let methods = {
-    method: method,
-  }
-
-  const jsons = {
-    body: JSON.stringify( json ),
-  }
-
-  if( stores === "noCache" ) {
-    methods = Object.assign( noCache, methods )
-  }
-
-  if( stores === "cache" ) {
-    methods = Object.assign( {
-      cache:
-      // 'default'
-        'force-cache'
-    }, methods )
-  }
-  if( _test_ ) {
+  if( !_test_ ) {
     if( method === "GET" ) {
-      methods = Object.assign( revalidatingTag, methods )
+      options = Object.assign( revalidatingTag, options )
     }
   }
 
   if( method !== "GET" ) {
     if( option !== "file" ) {
-      methods = Object.assign( jsons, methods )
-      methods = Object.assign( header, methods )
+      options = Object.assign( jsons, options )
+      options = Object.assign( header, options )
     }
     else {
-      methods = Object.assign( { body: json }, methods )
+      options = Object.assign( { body: json }, options )
     }
-
   }
+  console.log( method )
+
   console.log( "send Data to Api " )
-  console.log( methods )
-  // console.log( methods )
+  // console.log( options )
   const res = await fetch(
     // "http://localhost:3000"
     config.url +
     `/api/${ to }?id=${ id }&option=${ option }`,
-    methods
-    // { }
+    options
   )
   if( !res.ok ) {
     console.error( res, "error" )

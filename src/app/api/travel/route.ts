@@ -1,22 +1,24 @@
-import { Input, Output } from '@/servers/presentation/Web';
+import { Input, Output } from '@/servers/presentation/web/Apis';
 
 import { prisma, TPTravel } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import TravelController from '@/servers/use-cases/controller/Travel';
+import TravelController from '@/servers/presentation/controller/Travel';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 import { IControlTravel } from '@/servers/interface/controller/Travel';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
 import { TSend } from '@/entity/servers/service/TSend';
-import RepoTravel from '@/servers/data-source/prisma/Travel';
+import TravelData from '@/servers/data-source/prisma/Travel';
+import { DeliveryRepo } from '@/servers/repository/DeliveryRepo';
 
 type TYPE = TPTravel
 
 const c: IControlTravel = new TravelController(
-  new RepoTravel( prisma.travel ),
+  new DeliveryRepo( new TravelData( prisma.travel ) ),
   new ValidationService<TYPE>( new ValidationSchema().TravelSchema ),
 )
+
 export async function GET( request: NextRequest, ) {
   const { id, method } = await Input( request );
   console.log( `route api ${ method } travel` )

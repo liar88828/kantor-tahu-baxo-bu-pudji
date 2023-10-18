@@ -1,5 +1,5 @@
 type TOrderanData = {
-  id: string
+  id?: string
   // data orang
   pengirim: string
   hpPengirim: string

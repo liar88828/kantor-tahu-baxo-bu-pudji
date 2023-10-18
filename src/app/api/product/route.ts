@@ -1,18 +1,19 @@
-import { Input, Output } from '@/servers/presentation/Web';
+import { Input, Output } from '@/servers/presentation/web/Apis';
 
 import { prisma, TPProduct } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import ProductController from '@/servers/use-cases/controller/Produk';
+import ProductController from '@/servers/presentation/controller/Produk';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
 import { IControlProduct } from '@/servers/interface/controller/Product';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import RepoProduk from '@/servers/data-source/prisma/Product';
+import { ProductRepo } from '@/servers/repository/ProductRepo';
+import ProductData from '@/servers/data-source/prisma/Product';
 
 const c: IControlProduct = new ProductController(
-  new RepoProduk( prisma.product ),
+  new ProductRepo( new ProductData( prisma.product ) ),
   new ValidationService<TPProduct>( new ValidationSchema().ProductSchema ),
 )
 const to                 = "product"
@@ -35,7 +36,7 @@ export async function POST( request: NextRequest, ) {
   try {
     const { json, method } = await Input( request );
     console.log( `route api ${ method } product` )
-
+    console.table( json )
     console.info( "api POST product" )
     return await Output( "POST", () => c.create( json ) )
   }
@@ -58,7 +59,7 @@ export async function PUT( request: NextRequest, ) {
   try {
     const { json, id, method } = await Input( request, );
     console.log( `route api ${ method } product` )
-
+    console.table( json )
     if( id.length > 3 ) {
       return await Output( "PUT", () => c.edit( json, id ) )
     }

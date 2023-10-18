@@ -1,9 +1,9 @@
-import { ListTravel } from '@/app/components/card/travel';
+import { ListTravel } from '@/app/components/organisme/card/travel';
 import { GateWay } from '@/lib/utils/ress/GateWay';
-import { UlCard } from '@/app/elements/card/Card';
-import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
+import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { Suspense } from 'react';
 import { TRes } from '@/entity/Utils';
+import { UlCard } from '@/app/components/moleculs/card/Card';
 
 // export const dynamic = 'force-dynamic'
 export const revalidate = 10

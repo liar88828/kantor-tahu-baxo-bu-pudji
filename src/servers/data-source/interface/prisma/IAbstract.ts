@@ -2,10 +2,14 @@ import { Prisma, PrismaClient, } from '../../../../../prisma/data';
 import { TPBank, TPOrderan, TPProduct, TPSemuaProduct, TPTravel } from '@/servers/data-source/prisma/config';
 import TypeMap = Prisma.TypeMap;
 import { IRepoSemuaProduk } from '@/servers/data-source/interface/prisma/SemuaProduk';
-import { IRepoBank } from '@/servers/data-source/interface/prisma/Bank';
-import { IRepoTravel } from '@/servers/data-source/interface/prisma/Travel';
-import { IRepoOrderan } from '@/servers/data-source/interface/prisma/Orderan';
-import { IRepoProduct } from '@/servers/data-source/interface/prisma/Product';
+import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
+import { ITravelData } from '@/servers/data-source/interface/prisma/Travel';
+import { IOrderanData } from '@/servers/data-source/interface/prisma/Orderan';
+import { IProductData } from '@/servers/data-source/interface/prisma/Product';
+import { IBankRepo } from '@/servers/interface/repository/IBankRepo';
+import { IDeliveryRepo } from '@/servers/interface/repository/IDeliveryRepo';
+import { IProductRepo } from '@/servers/interface/repository/IProductRepo';
+import { IOrderanRepo } from '@/servers/interface/repository/IOrderanRepo';
 
 export type TEntity = TypeMap["meta"]["modelProps"]
 
@@ -41,14 +45,30 @@ export interface IAbstractPrisma<T extends TEntity, > {
 
 }
 
-export type RepositoryAll<T extends TEntity> =
+export type IDataAll<T extends TEntity> =
   T extends "semuaProduct" ? IRepoSemuaProduk<TPSemuaProduct> :
-  T extends "bank" ? IRepoBank<TPBank> :
-  T extends "travel" ? IRepoTravel<TPTravel> :
-  T extends "orderan" ? IRepoOrderan<TPOrderan> :
-  T extends "product" ? IRepoProduct<TPProduct> :
+  T extends "bank" ? IBankData<TPBank> :
+  T extends "travel" ? ITravelData<TPTravel> :
+  T extends "orderan" ? IOrderanData<TPOrderan> :
+  T extends "product" ? IProductData<TPProduct> :
   never;
 
+export type IRepositoryAll<T extends TEntity> =
+// T extends "semuaProduct" ? IProductRepo :
+  T extends "bank" ? IBankRepo :
+  T extends "travel" ? IDeliveryRepo :
+  T extends "orderan" ? IOrderanRepo :
+  T extends "product" ? IProductRepo :
+  never;
 
-
-
+//
+//
+// export type RepositoryAll<T extends TEntity> =
+//   T extends "semuaProduct" ? IRepoSemuaProduk<TPSemuaProduct> :
+//   T extends "bank" ? IBankData<TPBank> :
+//   T extends "travel" ? ITravelData<TPTravel> :
+//   T extends "orderan" ? IOrderanData<TPOrderan> :
+//   T extends "product" ? IProductData<TPProduct> :
+//   never;
+//
+//

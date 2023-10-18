@@ -1,9 +1,10 @@
 import IAbstractController from '@/servers/interface/controller/AbstractController';
 import { TPTravel } from '@/servers/data-source/prisma/config';
 import { IValidationService } from '@/lib/validation/zod/validationService';
-import { IRepoTravel } from '@/servers/data-source/interface/prisma/Travel';
+import { ITravelData } from '@/servers/data-source/interface/prisma/Travel';
+import { IDeliveryRepo } from '@/servers/interface/repository/IDeliveryRepo';
 
 export interface IControlTravel extends IAbstractController<"travel", TPTravel> {
-  readonly r: IRepoTravel<TPTravel>
+  readonly r: IDeliveryRepo
   readonly v: IValidationService<TPTravel>;
 }

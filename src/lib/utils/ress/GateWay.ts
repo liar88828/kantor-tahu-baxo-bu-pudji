@@ -1,6 +1,6 @@
 // "use server"
 
-import { sendData, Stores } from './SendApi';
+import { Fetch, Stores } from './SendApi';
 import { ValidationModel } from '@/lib/utils/ress/ValidationModel';
 import { TMethod, ToModel } from '@/entity/Utils';
 
@@ -25,7 +25,6 @@ export async function GateWay<T>(
   msg: string
 } | any> {
   try {
-
     if(
       [ "PATCH", "PUT", "GET", "DELETE" ].includes( method ) &&
       ( id !== "all" && id.length < 3 )
@@ -38,7 +37,7 @@ export async function GateWay<T>(
     if( option === "file" ) {
       console.log( `${ method } file GateWay` )
       if( method === "POST" || method === "PUT" ) {
-        return await sendData<T>( to, method, id, option, data )
+        return await Fetch<T>( to, method, id, option, data )
       }
     }
 
@@ -67,7 +66,7 @@ export async function GateWay<T>(
             return validData
           }
         }
-        return await sendData<T>( to, method, id, option, validData );
+        return await Fetch<T>( to, method, id, option, validData );
 
       }
     }
@@ -78,14 +77,14 @@ export async function GateWay<T>(
       }
       if( id.length > 3 || id === "all" || id === "" ) {
         console.info( "all" )
-        return await sendData<T>( to, "GET", id, option, {}, stores
+        return await Fetch<T>( to, "GET", id, option, {}, stores
           //"noCache"
         );
       }
     }
     if( method === "DELETE" ) {
       console.log( "test delete" )
-      return await sendData<T>( to, "DELETE", id, "", data );
+      return await Fetch<T>( to, "DELETE", id, "", data );
     }
 
     return errorData( method, data, )

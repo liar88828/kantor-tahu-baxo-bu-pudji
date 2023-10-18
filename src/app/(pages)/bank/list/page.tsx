@@ -1,14 +1,14 @@
 import { GateWay } from '@/lib/utils/ress/GateWay';
-import { ListBank } from '@/app/components/card/Bank';
+import { ListBank } from '@/app/components/organisme/card/Bank';
 import { TRes } from '@/entity/Utils';
-import { UlCard } from '@/app/elements/card/Card';
 import { Suspense } from 'react';
-import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
+import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
+import { UlCard } from '@/app/components/moleculs/card/Card';
 
-export const revalidate = 10
+export const revalidate = 0
 
 export default async function Page() {
-  const { data }: TRes<TBank[]> = await GateWay( "GET", "bank", "all", {}, "", "cache" )
+  const { data }: TRes<TBank[]> = await GateWay( "GET", "bank", "all", {}, "", "noCache" )
 
   return <UlCard>
     <Suspense fallback={ <SkeletonCard/> }>

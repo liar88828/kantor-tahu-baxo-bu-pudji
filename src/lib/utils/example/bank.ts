@@ -14,8 +14,8 @@ export const defaultFormBank: TBank = {
   nama      : "",
   no        : "",
   id        : "",
-  lokasi    : "",
-  jenis     : "",
+  lokasi: "Ungaran",
+  jenis : "Item",
   keterangan: "",
   img: "https://dummyimage.com/200x200/000/fff.jpg&text=not+found"
 }

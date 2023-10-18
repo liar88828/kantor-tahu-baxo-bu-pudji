@@ -62,9 +62,6 @@ export const notifyData = <T>(
       if( text.includes( "ccess" ) ) {
         return successToast( data.msg )
       }
-      // if( text.includes( "ror" ) ) {
-      //   return errorToast( data.msg )
-      // }
     }
     if( Array.isArray( data.data ) ) {
       data.data.map( ( d: ErrorZod ) => {

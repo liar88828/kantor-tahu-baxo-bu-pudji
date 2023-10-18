@@ -1,10 +1,9 @@
-import { Travel } from '@/app/components/form/Travel';
+import { Travel } from '@/app/components/organisme/form/Travel';
 import { GateWay } from '@/lib/utils/ress/GateWay';
-import { Suspense } from 'react';
 import { TRes } from '@/entity/Utils';
 
 // export const dynamic = 'force-dynamic'
-// export const revalidate = 0
+export const revalidate = 0
 // export const fetchCache = 'auto'
 // export const runtime    = 'nodejs'
 

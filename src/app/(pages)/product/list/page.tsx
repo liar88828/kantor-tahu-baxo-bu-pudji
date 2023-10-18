@@ -1,28 +1,23 @@
 import { GateWay } from '@/lib/utils/ress/GateWay';
-import { UlCard } from '@/app/elements/card/Card';
-import { lazy, Suspense } from "react"
-import { SkeletonCard } from '@/app/components/handling/SkeletonCard';
+import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
+import dynamic from 'next/dynamic';
+import { UlCard } from '@/app/components/moleculs/card/Card';
 // export const dynamic    = 'force-dynamic'
-export const revalidate = 10
+export const revalidate = 0
 
 // export const fetchCache = 'auto'
 // export const runtime    = 'nodejs'
 
-const ListProduct = lazy( () => import("@/app/components/card/product" ) );
-
+const ListProduct = dynamic( () => import("@/app/components/organisme/card/product" ), {
+  loading: () => <SkeletonCard/>
+} );
 
 export default async function Home() {
-  const { data }: { data: Required<TProduct[ ]> } = await GateWay( "GET", 'product', 'all', )
-
-  if( !data ) {
-    return ( <h1>Data Kosong</h1> )
-  }
+  const { data }: { data: Required<TProduct[ ]> } = await GateWay( "GET", 'product', 'all', "", "", 'noCache' )
 
   return (
     <UlCard>
-      <Suspense fallback={ <SkeletonCard/> }>
-        { data.map( ( d: TProduct ) => ( <ListProduct d={ d } key={ d.id }/> ) ) }
-      </Suspense>
+      { data.map( ( d: TProduct ) => ( <ListProduct d={ d } key={ d.id }/> ) ) }
     </UlCard>
   )
 }

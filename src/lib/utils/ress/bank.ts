@@ -1,6 +1,6 @@
 "use server"
 
-import { sendData } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/utils/ress/SendApi';
 
 function setBank( d: TBank ) {
   return {
@@ -17,7 +17,7 @@ function setBank( d: TBank ) {
 
 export async function getDataById( id: string ): Promise<TBank> {
   const to                            = "bank"
-  const { data: d }: { data: TBank, } = await sendData( to, "GET", id );
+  const { data: d }: { data: TBank, } = await Fetch( to, "GET", id );
 
   return setBank( d )
 }

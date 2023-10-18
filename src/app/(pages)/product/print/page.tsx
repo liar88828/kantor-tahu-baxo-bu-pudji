@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { GateWay } from '@/lib/utils/ress/GateWay';
 import { Rupiah } from '@/lib/utils/rupiah';
-import { AiOutlineFacebook, AiOutlineGlobal, AiOutlineInstagram, AiOutlineYoutube } from 'react-icons/ai';
+// import { AiOutlineFacebook, AiOutlineGlobal, AiOutlineInstagram, AiOutlineYoutube } from 'react-icons/ai';
 
 // export const dynamic    = 'force-dynamic'
 // export const revalidate = 0
@@ -188,31 +188,31 @@ export default async function Page() {
                   </h1>
                   <ul className={ "flex flex-nowrap md:flex-wrap justify-center" }>
                     <li>
-                      <a href={ "https://www.facebook.com/tahubaxoibupudji" }
-                         className={ "flex flex-row items-center" }>
-                        <AiOutlineFacebook size={ "5rem" }/><h1 className={ "text-lg text-center" }>Tahubaxo
-                        Ibupudji</h1>
-                      </a>
-                    </li>
-                    <li>
-                      <a href={ "https://www.instagram.com/tahubaxo_ibupudji/" }
-                         className={ "flex flex-row items-center" }>
-                        <AiOutlineInstagram size={ "5rem" }/><h1
-                        className={ "text-lg text-center" }>tahubaxo_ibupudji</h1>
-                      </a>
-                    </li>
-                    <li>
-                      <a href={ "https://www.youtube.com/channel/UCS_CUFQKq-cpbwB94Z6NOFA" }
-                         className={ "flex flex-row items-center" }>
-                        <AiOutlineYoutube size={ "5rem" }/><h1 className={ "text-lg text-center" }>Tahubaxo Ibu
-                        Pudji</h1>
-                      </a>
-                    </li>
-                    <li>
-                      <a href={ "https://tahubaxo-ibupudji.com/" } className={ "flex flex-row items-center" }>
-                        <AiOutlineGlobal size={ "5rem" }/><h1 className={ "text-lg text-center" }>Tahubaxo Ibu Pudji
-                        -</h1>
-                      </a>
+                      {/*  <a href={ "https://www.facebook.com/tahubaxoibupudji" }*/ }
+                      {/*     className={ "flex flex-row items-center" }>*/ }
+                      {/*    <AiOutlineFacebook size={ "5rem" }/><h1 className={ "text-lg text-center" }>Tahubaxo*/ }
+                      {/*    Ibupudji</h1>*/ }
+                      {/*  </a>*/ }
+                      {/*</li>*/ }
+                      {/*<li>*/ }
+                      {/*  <a href={ "https://www.instagram.com/tahubaxo_ibupudji/" }*/ }
+                      {/*     className={ "flex flex-row items-center" }>*/ }
+                      {/*    <AiOutlineInstagram size={ "5rem" }/><h1*/ }
+                      {/*    className={ "text-lg text-center" }>tahubaxo_ibupudji</h1>*/ }
+                      {/*  </a>*/ }
+                      {/*</li>*/ }
+                      {/*<li>*/ }
+                      {/*  <a href={ "https://www.youtube.com/channel/UCS_CUFQKq-cpbwB94Z6NOFA" }*/ }
+                      {/*     className={ "flex flex-row items-center" }>*/ }
+                      {/*    <AiOutlineYoutube size={ "5rem" }/><h1 className={ "text-lg text-center" }>Tahubaxo Ibu*/ }
+                      {/*    Pudji</h1>*/ }
+                      {/*  </a>*/ }
+                      {/*</li>*/ }
+                      {/*<li>*/ }
+                      {/*  <a href={ "https://tahubaxo-ibupudji.com/" } className={ "flex flex-row items-center" }>*/ }
+                      {/*    <AiOutlineGlobal size={ "5rem" }/><h1 className={ "text-lg text-center" }>Tahubaxo Ibu Pudji*/ }
+                      {/*    -</h1>*/ }
+                      {/*  </a>*/ }
                     </li>
                   </ul>
                 </div>

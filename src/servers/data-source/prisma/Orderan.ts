@@ -3,11 +3,11 @@ import { prisma, TPOrderan, } from '@/servers/data-source/prisma/config';
 import { TOptional } from '@/entity/servers/types';
 import { TAggregate, TLine, TLines, TStatus } from '@/entity/Dashboard';
 import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
-import { IRepoOrderan } from '@/servers/data-source/interface/prisma/Orderan';
+import { IOrderanData } from '@/servers/data-source/interface/prisma/Orderan';
 import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
 
 type TYPE = TPOrderan
-export default class RepoOrderan extends AbstractPrisma<"orderan"> implements IRepoOrderan<TYPE> {
+export default class OrderanData extends AbstractPrisma<"orderan"> implements IOrderanData<TYPE> {
 
 // getAll data from database
   getSelect() {

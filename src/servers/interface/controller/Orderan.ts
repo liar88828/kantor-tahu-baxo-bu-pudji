@@ -1,11 +1,11 @@
 import IAbstractController from '@/servers/interface/controller/AbstractController';
 import { TPOrderan } from '@/servers/data-source/prisma/config';
 import { IValidationService } from '@/lib/validation/zod/validationService';
-import { IRepoOrderan } from '@/servers/data-source/interface/prisma/Orderan';
+import { IOrderanData } from '@/servers/data-source/interface/prisma/Orderan';
 import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
 
 export interface IControlOrderan extends IAbstractController<"orderan", TPOrderan> {
-  readonly r: IRepoOrderan<TPOrderan>
+  readonly r: IOrderanData<TPOrderan>
   readonly v: IValidationService<TPOrderan>;
 
   //get
