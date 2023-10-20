@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { HeaderCard, ImageCards, TextCard } from '@/app/components/moleculs/popup/PopUpComponent';
+import { HeaderCard, ImageCards, TextCard } from '@/app/components/molecules/popup/PopUpComponent';
 import { Rupiah } from '@/lib/utils/rupiah';
 
 function CardTrolley( { values, actions, item }: {

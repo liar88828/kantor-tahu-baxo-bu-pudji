@@ -41,11 +41,12 @@ Content-Type: application/json
   "nama": "mandiri",
   "lokasi": "Semrang",
   "keterangan": "orak jelas",
-  "jenis": "Kredit"
+  "jenis": "Kredit",
+  "img": "test"
 }
 
 ### delete data Bank
-DELETE http://localhost:3000/api/bank?id=kosongkosongkosongkosongkosong
+DELETE http://localhost:3000/api/bank?id=Ma_09_Un_Kr_Bi_1693367481941
 Content-Type: application/json
 
 {}

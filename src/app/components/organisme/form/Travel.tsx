@@ -1,12 +1,11 @@
 "use client"
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { SendData } from '@/app/components/organisme/upload/SendData';
 import { FormBody, FormButton, FormLayout, FormPrev } from '@/app/components/template/layout/Form';
 import { UploadDescription } from '@/app/components/organisme/upload/Upload';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/components/Atom/input/InputNew';
-import { formTravel } from '@/lib/utils/example/travel';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { setIdTravel } from '@/lib/utils/formatId';
@@ -15,8 +14,10 @@ import { TRes } from '@/entity/Utils';
 import { Fetch } from '@/lib/utils/ress/SendApi';
 import { handleUpload } from '@/app/components/organisme/upload/HandleUpload';
 import { notifyData } from '@/lib/utils/notif/toash';
+import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
+import { formTravel } from '../../../../../asset/constants/model/travel';
 
-export function Travel(
+export default function Travel(
   { defaultData, method, id, to }:
     {
       defaultData: TTravel,
@@ -43,14 +44,14 @@ export function Travel(
       setSelectedFile,
       setPreviewURL );
   };
-  // console.log( getValues())
+  console.log( errors )
   const handleSave       = async ( data: TTravel ) => {
+    console.log( "click" )
     const text = method === "POST" ? "SIMPAN" : "EDIT"
     if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
       if( !open ) {
-        const id                 = method === "POST" ? "" : data.id
-        data.id                  = method === "POST" ? setIdTravel( data ) : data.id
         data.img                 = method === "POST" ? img : data.img
+        data.id                  = method === "POST" ? setIdTravel( data ) : data.id
         const res: TRes<TTravel> = await Fetch<TTravel>( to, method, id, "text", data, )
         notifyData( res.msg )
         if( res.msg.includes( "cess" ) && !Array.isArray( res.data ) ) {
@@ -108,17 +109,8 @@ export function Travel(
         <InputForm errors={ errors } title={ formTravel.keterangan } type="textarea"
                    reg={ register( "keterangan" ) }/>
         <FormButton>
-          <button type="submit"
-                  onClick={ () => setOpen( !open ) }
-                  className={ `btn ${ !open ? "btn-info" : "btn-error" } text-white` }>
-            { !open ? "Tambah" : "Tutup" }
-          </button>
-
-          <button
-            type="submit"
-            className="bg-blue-500 p-2 rounded-md text-white">
-            { method === "POST" ? "Simpan" : "Edit" }
-          </button>
+          <OpenButton method={ method } fun={ () => setOpen( !open ) } states={ open }/>
+          <SubmitButton method={ method }/>
         </FormButton>
       </FormBody>
 

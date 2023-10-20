@@ -4,9 +4,11 @@ import { IValidationService } from '@/lib/validation/zod/validationService';
 import { IOrderanData } from '@/servers/data-source/interface/prisma/Orderan';
 import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
 
-export interface IControlOrderan extends IAbstractController<"orderan", TPOrderan> {
-  readonly r: IOrderanData<TPOrderan>
-  readonly v: IValidationService<TPOrderan>;
+type TYPE = TPOrderan;
+
+export interface IControlOrderan extends IAbstractController<"orderan", TYPE> {
+  readonly r: IOrderanData<TYPE>
+  readonly v: IValidationService<TYPE>;
 
   //get
   findDashboard( a: string ): Promise<any>;

@@ -164,7 +164,7 @@ export default class RepoSemuaProduk extends AbstractPrisma<"semuaProduct"> impl
     const transaction = await prisma.$transaction( [ semuaProductCountNow, semuaStatusOrder, semuaNotifyMonth, semuaProductCountLast, //aggregatedData
     ] )
 
-    //untuk notif
+    //untuk notify
     type TLine = {
       year: number,
       month: string,
@@ -192,13 +192,12 @@ export default class RepoSemuaProduk extends AbstractPrisma<"semuaProduct"> impl
 
     const aggregateProductPerMonth: TAggregate[] = await prisma.$queryRaw`
         SELECT nama,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, jumlah,
-                      0))                                                                        AS total_jumlah_last_two,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN harga ELSE 0 END)      AS total_harga_current,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN harga ELSE 0 END)  AS total_harga_last,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, harga, 0))                    AS total_harga_last_two
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE), jumlah, 0))     AS total_jumlah_current,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 1, jumlah, 0)) AS total_jumlah_last,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, jumlah, 0)) AS total_jumlah_last_two,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE), harga, 0))      AS total_harga_current,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 1, harga, 0))  AS total_harga_last,
+               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, harga, 0))  AS total_harga_last_two
         FROM tahu_baxo_bupudji.semuaproducts
         WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 2 AND MONTH(CURRENT_DATE)
         GROUP BY nama;
@@ -231,7 +230,7 @@ export default class RepoSemuaProduk extends AbstractPrisma<"semuaProduct"> impl
 
     return {
       harga     : d.harga,
-      id       : d.id || "null",
+      id       : d.id ?? "null",
       img      : d.img || "no image",
       jenis     : d.jenis.replaceAll( " ", "" ),
       keterangan: d.keterangan.replaceAll( " ", "" ),

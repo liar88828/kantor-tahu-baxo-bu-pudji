@@ -5,14 +5,14 @@ import { ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { formatPhone } from '@/lib/utils/formatPhone';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
-import { CardBody, CardButton, LiCard } from '@/app/components/moleculs/card/Card';
+import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
 
 export const to = "bank"
 
 export function ListBank( { d }: {
   d: TBank
 } ) {
-  return ( <LiCard>
+  return ( <LiCard name={ d.nama }>
       <ImgCard img={ d.img }/>
       <CardBody>
         <div>
@@ -31,8 +31,8 @@ export function ListBank( { d }: {
         </div>
 
         <CardButton>
-          <EditCard to={ to } id={ d.id }/>
-          <DeleteCard to={ to } id={ d.id }/>
+          <EditCard to={ to } id={ d.id } name={ d.nama }/>
+          <DeleteCard to={ to } id={ d.id } name={ d.nama }/>
         </CardButton>
 
       </CardBody>

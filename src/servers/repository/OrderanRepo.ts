@@ -1,10 +1,13 @@
 import { IOrderanData } from '@/servers/data-source/interface/prisma/Orderan';
-import { TPOrderan as TYPE } from '@/servers/data-source/prisma/config';
+import { TPOrderan } from '@/servers/data-source/prisma/config';
 import { IOrderanRepo } from '@/servers/interface/repository/IOrderanRepo';
+import AbstractRepo from '@/servers/repository/AbstractRepo';
 
-export class OrderanRepo implements IOrderanRepo {
+type TYPE = TPOrderan
 
-  constructor( public data: IOrderanData<TYPE> ) {}
+export class OrderanRepo extends AbstractRepo<"orderan"> implements IOrderanRepo {
+
+  constructor( public data: IOrderanData<TYPE> ) {super()}
 
   async createOne( data: TYPE ): Promise<TYPE> {
     const res = await this.data.createOne( data )

@@ -1,5 +1,5 @@
 import { Product } from '@/app/components/organisme/form/Product';
-import { defaultFormProduct } from '@/lib/utils/example/product';
+import { defaultFormProduct } from '../../../../../asset/constants/model/product';
 // export const dynamic    = 'force-dynamic'
 
 export default function Page() {

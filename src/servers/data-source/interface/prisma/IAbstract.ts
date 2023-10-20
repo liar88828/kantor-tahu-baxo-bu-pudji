@@ -1,6 +1,5 @@
 import { Prisma, PrismaClient, } from '../../../../../prisma/data';
 import { TPBank, TPOrderan, TPProduct, TPSemuaProduct, TPTravel } from '@/servers/data-source/prisma/config';
-import TypeMap = Prisma.TypeMap;
 import { IRepoSemuaProduk } from '@/servers/data-source/interface/prisma/SemuaProduk';
 import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
 import { ITravelData } from '@/servers/data-source/interface/prisma/Travel';
@@ -10,6 +9,7 @@ import { IBankRepo } from '@/servers/interface/repository/IBankRepo';
 import { IDeliveryRepo } from '@/servers/interface/repository/IDeliveryRepo';
 import { IProductRepo } from '@/servers/interface/repository/IProductRepo';
 import { IOrderanRepo } from '@/servers/interface/repository/IOrderanRepo';
+import TypeMap = Prisma.TypeMap;
 
 export type TEntity = TypeMap["meta"]["modelProps"]
 
@@ -27,7 +27,6 @@ export interface IAbstractPrisma<T extends TEntity, > {
   setOne( d: any, id?: string ): any;
   setMany( data: any[] | any, method?: string ): any[];
   paginate( data: { row: number, skip: number } ): Promise<any>;
-
   //
   findAll(): Promise<any>;
   findOne( id: string ): Promise<any>;
@@ -61,8 +60,17 @@ export type IRepositoryAll<T extends TEntity> =
   T extends "product" ? IProductRepo :
   never;
 
+// export type IEntityAll<T extends TEntity> =
+// // T extends "semuaProduct" ? IProductRepo :
+//   T extends "bank" ? IBankRepo :
+//   T extends "travel" ? IDeliveryRepo :
+//   T extends "orderan" ? IOrderanRepo :
+//   T extends "product" ? IProductRepo :
+//   never;
 //
 //
+//
+
 // export type RepositoryAll<T extends TEntity> =
 //   T extends "semuaProduct" ? IRepoSemuaProduk<TPSemuaProduct> :
 //   T extends "bank" ? IBankData<TPBank> :
@@ -71,4 +79,14 @@ export type IRepositoryAll<T extends TEntity> =
 //   T extends "product" ? IProductData<TPProduct> :
 //   never;
 //
+//
+
+export type IModelAll<T extends TEntity> =
+// T extends "semuaProduct" ? IRepoSemuaProduk<TPSemuaProduct> :
+  T extends "bank" ? TPBank :
+  T extends "travel" ? TPTravel :
+  T extends "orderan" ? TPOrderan :
+  T extends "product" ? TPProduct :
+  never;
+
 //

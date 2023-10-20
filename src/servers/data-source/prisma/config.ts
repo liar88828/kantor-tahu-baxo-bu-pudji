@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '../../../../prisma/data';
+import { Prisma, PrismaClient, } from '../../../../prisma/data';
 import { TEntity } from '@/servers/data-source/interface/prisma/IAbstract';
 
 export const prisma = new PrismaClient()
@@ -10,7 +10,7 @@ export type TPrisma<T extends TEntity> =
   T extends "product" ? TPProduct :
   T extends "orderan" ? TPOrderan : never
 
-export type TPSemuaProduct = Prisma.SemuaProductCreateInput
+export type TPSemuaProduct = Prisma.SemuaProductUncheckedCreateInput
 export type TPBank = Prisma.BankCreateInput
 export type TPTravel = Prisma.TravelCreateInput
 export type TPProduct = Prisma.ProductCreateInput

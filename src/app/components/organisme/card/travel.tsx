@@ -5,7 +5,7 @@ import { EditCard } from '@/app/components/Atom/Button/card/Edit';
 import { imageValid, ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
-import { CardBody, CardButton, LiCard } from '@/app/components/moleculs/card/Card';
+import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
 
 export const to = "travel"
 
@@ -13,7 +13,7 @@ export function ListTravel(
   { d }:
     { d: TTravel }
 ) {
-  return ( <LiCard>
+  return ( <LiCard name={ d.nama }>
       <ImgCard img={ imageValid( d.img ) }/>
       <CardBody>
         <div>
@@ -33,8 +33,8 @@ export function ListTravel(
         </div>
 
         <CardButton>
-          <EditCard to={ to } id={ d.id }/>
-          <DeleteCard id={ d.id } to={ to }/>
+          <EditCard to={ to } id={ d.id } name={ d.nama }/>
+          <DeleteCard id={ d.id } to={ to } name={ d.nama }/>
         </CardButton>
 
       </CardBody>

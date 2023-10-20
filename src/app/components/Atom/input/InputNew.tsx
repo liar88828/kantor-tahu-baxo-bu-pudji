@@ -28,15 +28,16 @@ export function InputForm(
   if( max ) ress = Object.assign( ress, { max } );
   if( defaultValue ) ress = Object.assign( ress, { defaultValue } );
   // console.log( type )
+  // console.log( title )
   return (
     <div className={ "form-control " }>
       <label className={ "label" } htmlFor={ title }>
         <span className={ "label-text" }>{ title }</span>
       </label>
-
       { type === "textarea"
         ?
         <textarea
+          data-test={ title }
           maxLength={ max ?? 10 }
           minLength={ min ?? 10 }
           id={ title }
@@ -46,6 +47,7 @@ export function InputForm(
         />
         :
         <input
+          data-test={ title }
           className={ "input input-bordered " }
           placeholder={ ` Masukan ${ title }....` }
           id={ title }

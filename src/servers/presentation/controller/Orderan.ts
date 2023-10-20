@@ -5,10 +5,12 @@ import { IValidationService } from '@/lib/validation/zod/validationService';
 import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
 import { IOrderanData } from '@/servers/data-source/interface/prisma/Orderan';
 
-export default class OrderanController extends Controller <"orderan", TPOrderan> implements IControlOrderan {
+type TYPE = TPOrderan;
+
+export default class OrderanController extends Controller <"orderan", TYPE> implements IControlOrderan {
   constructor(
-    readonly r: IOrderanData<TPOrderan>,
-    readonly v: IValidationService<TPOrderan>
+    readonly r: IOrderanData<TYPE>,
+    readonly v: IValidationService<TYPE>
   ) {
     super();
   }
@@ -37,7 +39,7 @@ export default class OrderanController extends Controller <"orderan", TPOrderan>
     return this.r.destroyOne( this.v.zodIdNew( id ) )
   }
 
-  async edit( data: TPOrderan, id: string ) {
+  async edit( data: TYPE, id: string ) {
     return this.r.updateMany(
       this.v.zodModelNew( data ),
       this.v.zodIdNew( id ) )

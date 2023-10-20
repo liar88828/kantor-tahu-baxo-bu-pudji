@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { FormBody, FormButton, FormLayout, FormPrev } from '@/app/components/template/layout/Form';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/components/Atom/input/InputNew';
-import { formBank } from '@/lib/utils/example/bank';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from 'next/navigation';
@@ -12,6 +11,9 @@ import { ImagePrev } from '@/app/components/Atom/img/ImagePrev';
 import { LayoutImagePrev } from '@/app/components/Atom/img/LayoutImagePrev';
 import { notifyData } from '@/lib/utils/notif/toash';
 import { Fetch } from '@/lib/utils/ress/SendApi';
+import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
+import { setIdBank } from '@/lib/utils/formatId';
+import { formBank } from '../../../../../asset/constants/model/bank';
 
 type TYPE = TBank;
 export const img = 'https://dummyimage.com/200x200/000/fff.jpg&text=not+found'
@@ -29,19 +31,23 @@ export default function Bank(
   const [ imageUrl, setImageUrl ]                                    = useState<string>( defaultData.img );
   const [ open, setOpen ]                                            = useState<boolean>( false );
   const { getValues, register, handleSubmit, formState: { errors } } = useForm<TYPE>( {
-    resolver: zodResolver( vSchema.BankSchema )
+    defaultValues: defaultData,
+    mode         : "onChange",
+    resolver     : zodResolver( vSchema.BankSchema )
   } );
-  const handleImage                                                  = () => {
+  console.log( errors )
+  const handleImage = () => {
     setImageUrl( getValues().img );
     setOpen( prev => !prev )
   }
-  const handleSave                                                   = async ( data: TYPE ) => {
+  const handleSave  = async ( data: TYPE ) => {
     setImageUrl( data.img )
     const text = method === "POST" ? "SIMPAN" : "EDIT"
     // console.log( errors)
     if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
       try {
         console.log( "send data" )
+        data.id = setIdBank( data )
         const res = await Fetch( to, method, id, "", data, "noCache" )
         console.log( "get gateway" )
         if( Array.isArray( res.data ) ) {
@@ -104,18 +110,8 @@ export default function Bank(
                      type="text"
                      reg={ register( "img" ) }/>
           <FormButton>
-            <button type="button"
-                    onClick={ () => handleImage() }
-                    className={ `btn ${ !open ? "btn-info" : "btn-error" } text-white` }>
-              CEK
-            </button>
-            <button
-              type="submit"
-              // onClick={ handleSave }
-              className={ `bg-${ !open ? "success" : "warning" } p-2 rounded-md text-white` }>
-              { method === "POST" ? "SIMPAN" : "EDIT" }
-            </button>
-
+            <OpenButton method={ method } fun={ () => handleImage() } states={ open }/>
+            <SubmitButton method={ method }/>
           </FormButton>
         </FormBody>
 

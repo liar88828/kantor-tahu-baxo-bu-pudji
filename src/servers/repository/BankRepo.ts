@@ -1,29 +1,32 @@
-import { TPBank as TYPE } from '@/servers/data-source/prisma/config';
+import { TPBank } from '@/servers/data-source/prisma/config';
 import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
 import { IBankRepo } from '@/servers/interface/repository/IBankRepo';
+import AbstractRepo from '@/servers/repository/AbstractRepo';
 
-export class BankRepo implements IBankRepo {
+type TYPE = TPBank
 
-  constructor( public data: IBankData<TYPE> ) {}
+export class BankRepo extends AbstractRepo<"bank"> implements IBankRepo {
 
-  async createOne( data: TYPE ): Promise<TYPE> {
-    return this.data.createOne( data )
-  }
+  constructor( public data: IBankData<TYPE> ) {super()}
 
-  async findAll(): Promise<TYPE[]> {
-    return this.data.findAll()
-  }
-
-  async findOne( id: string ): Promise<TYPE> {
-    return this.data.findById( id )
-  }
-
-  async deleteOne( id: string ): Promise<TYPE> {
-    return this.data.destroyOne( id )
-  }
-
-  async updateOne( id: string, data: TYPE ): Promise<TYPE> {
-    return this.data.updateOne( data, id )
-  }
+  // async createOne( data: TYPE ): Promise<TYPE> {
+  //   return this.data.createOne( data )
+  // }
+  //
+  // async findAll(): Promise<TYPE[]> {
+  //   return this.data.findAll()
+  // }
+  //
+  // async findOne( id: string ): Promise<TYPE> {
+  //   return this.data.findById( id )
+  // }
+  //
+  // async deleteOne( id: string ): Promise<TYPE> {
+  //   return this.data.destroyOne( id )
+  // }
+  //
+  // async updateOne( id: string, data: TYPE ): Promise<TYPE> {
+  //   return this.data.updateOne( data, id )
+  // }
 
 }

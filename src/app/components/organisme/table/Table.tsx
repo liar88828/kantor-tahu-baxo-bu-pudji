@@ -11,13 +11,13 @@ import { Filter } from '@/app/components/Atom/input/Filter';
 import { exportToExcel } from '@/lib/export/excel';
 import { formatPhone } from '@/lib/utils/formatPhone';
 import { Rupiah } from '@/lib/utils/rupiah';
-import { StatusButton } from '@/app/components/Atom/Button/button/StatusButton';
-import { DeleteTable } from '@/app/components/Atom/Button/button/DeleteTable';
+import { StatusButton } from '@/app/components/Atom/Button/handle/StatusButton';
+import { DeleteTable } from '@/app/components/Atom/Button/handle/DeleteTable';
 import { setTanggal } from '@/lib/utils/formatDate';
 import { setColumn } from '@/app/components/organisme/table/utils/SetColumn';
 import { getOrderan } from '@/app/components/organisme/table/utils/GetOrderan';
-import EditTable from '@/app/components/Atom/Button/button/EditTable';
-import PrintButton from '@/app/components/Atom/Button/button/PrintButton';
+import EditTable from '@/app/components/Atom/Button/move/EditTable';
+import PrintButton from '@/app/components/Atom/Button/handle/PrintButton';
 
 //-------------------------Main Table
 export function TableOrder( { dataOrderan }: {

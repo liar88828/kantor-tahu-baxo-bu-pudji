@@ -11,10 +11,11 @@ import { InputForm } from '@/app/components/Atom/input/InputNew';
 import { notifyData } from '@/lib/utils/notif/toash';
 import { setIdProduct } from '@/lib/utils/formatId';
 import { TRes } from '@/entity/Utils';
-import { formProduct } from '@/lib/utils/example/product';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { Fetch } from '@/lib/utils/ress/SendApi';
+import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
+import { formProduct } from '../../../../../asset/constants/model/product';
 
 type TYPE = TProduct;
 
@@ -46,11 +47,11 @@ export function Product(
       setPreviewURL );
   };
 
-  const handleSave = async ( data: TYPE ) => {
+  async function handleSave( data: TYPE ) {
+    console.log( "run" )
     const text = method === "POST" ? "SIMPAN" : "EDIT"
     if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
       if( !open ) {
-        const id              = method === "POST" ? "" : data.id
         data.img              = method === "POST" ? img : data.img
         data.id               = method === "POST" ? setIdProduct( data ) : data.id
         const res: TRes<TYPE> = await Fetch( to, method, id, "text", data )
@@ -78,7 +79,8 @@ export function Product(
     }
   }
 
-  return ( <form onSubmit={ handleSubmit( handleSave ) }>
+  return (
+    <form onSubmit={ handleSubmit( handleSave ) }>
       <FormLayout>
         <FormBody>
           <InputForm errors={ errors }
@@ -112,17 +114,8 @@ export function Product(
           />
 
           <FormButton>
-            <button type="button"
-                    onClick={ () => setOpen( !open ) }
-                    className={ `bg-${ !open ? "info" : "error" } p-2 rounded-md text-white` }>
-              { !open ? "Tambah" : "Tutup" }
-            </button>
-
-
-            <button type="submit"
-                    className="bg-blue-500 p-2 rounded-md text-white ">
-              { method === "POST" ? "Simpan" : "Edit" }
-            </button>
+            <OpenButton method={ method } fun={ () => setOpen( !open ) } states={ open }/>
+            <SubmitButton method={ method }/>
           </FormButton>
         </FormBody>
         {/*<div className={ `${ open ? "block" : "hidden fixed" }` }>*/ }

@@ -1,7 +1,6 @@
 import IAbstractController from '@/servers/interface/controller/AbstractController';
 import { TPTravel } from '@/servers/data-source/prisma/config';
 import { IValidationService } from '@/lib/validation/zod/validationService';
-import { ITravelData } from '@/servers/data-source/interface/prisma/Travel';
 import { IDeliveryRepo } from '@/servers/interface/repository/IDeliveryRepo';
 
 export interface IControlTravel extends IAbstractController<"travel", TPTravel> {

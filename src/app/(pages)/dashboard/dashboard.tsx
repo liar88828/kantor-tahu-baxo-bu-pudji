@@ -1,7 +1,7 @@
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import dynamic from 'next/dynamic';
 import { getPrisma, statusNotif } from '@/servers/action/dashboard';
-import { ListDashboard } from '@/app/components/moleculs/list/ListDashboard';
+import { ListDashboard } from '@/app/components/molecules/list/ListDashboard';
 import { TListCard } from '@/app/components/organisme/card/Dashboard';
 
 // const HorizontalCard = dynamic( () => import('@/app/components/card/HorizontalCard'), {

@@ -1,29 +1,32 @@
-import { TPTravel as TYPE } from '@/servers/data-source/prisma/config';
+import { TPTravel } from '@/servers/data-source/prisma/config';
 import { ITravelData } from '@/servers/data-source/interface/prisma/Travel';
 import { IDeliveryRepo } from '@/servers/interface/repository/IDeliveryRepo';
+import AbstractRepo from '@/servers/repository/AbstractRepo';
 
-export class DeliveryRepo implements IDeliveryRepo {
+type TYPE = TPTravel
 
-  constructor( public data: ITravelData<TYPE> ) {}
+export class DeliveryRepo extends AbstractRepo<"travel"> implements IDeliveryRepo {
 
-  async createOne( data: TYPE ): Promise<TYPE> {
-    return this.data.createOne( data )
-  }
-
-  async findAll(): Promise<TYPE[]> {
-    return this.data.findAll()
-  }
-
-  async findOne( id: string ): Promise<TYPE> {
-    return this.data.findById( id )
-  }
-
-  async deleteOne( id: string ): Promise<TYPE> {
-    return this.data.destroyOne( id )
-  }
-
-  async updateOne( id: string, data: TYPE ): Promise<TYPE> {
-    return this.data.updateOne( data, id )
-  }
+  constructor( public data: ITravelData<TYPE> ) {super()}
+  //
+  // async createOne( data: TYPE ): Promise<TYPE> {
+  //   return this.data.createOne( data )
+  // }
+  //
+  // async findAll(): Promise<TYPE[]> {
+  //   return this.data.findAll()
+  // }
+  //
+  // async findOne( id: string ): Promise<TYPE> {
+  //   return this.data.findById( id )
+  // }
+  //
+  // async deleteOne( id: string ): Promise<TYPE> {
+  //   return this.data.destroyOne( id )
+  // }
+  //
+  // async updateOne( id: string, data: TYPE ): Promise<TYPE> {
+  //   return this.data.updateOne( data, id )
+  // }
 
 }

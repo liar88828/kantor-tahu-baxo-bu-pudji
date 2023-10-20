@@ -6,17 +6,17 @@ import { StyleInputForm, styleLabelForm } from '@/app/style/form';
 import { InputForm } from '@/app/components/Atom/input/InputNew';
 import { Status } from '@/app/style/status';
 import { currentMonth, currentYear } from '@/lib/utils/formatDate';
-import { defaultValues } from '@/lib/utils/example/orderan';
 import CardTrolley from '@/app/components/organisme/orderan/cardTrolley';
 import CardLists from '@/app/components/organisme/orderan/cardList';
 import dynamic from 'next/dynamic';
 import { enableCache, Icon } from '@iconify/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
+import { defaultValues } from '../../../../../asset/constants/model/orderan';
 
 enableCache( 'session' );
 
-const PopUp         = dynamic( () => import('@/app/components/moleculs/popup/orderan') )
+const PopUp = dynamic( () => import('@/app/components/molecules/popup/orderan') )
 export const fomIsi = "bg-white flex-col flex sm:w-[48%]  md:w-[49%] ml-2 gap-3 rounded p-2 sm:p-5";
 
 export default function Orderan( {
@@ -285,7 +285,7 @@ export default function Orderan( {
                             />
                           </label>
 
-                          <button className={ "text-white btn-sm md:btn-sm lg:btn-md btn btn-error  w-full" }
+                          <button className={ "text-white btn-sm md:btn-sm lg:btn-md btn btn-error w-full" }
                                   type={ "button" }
                                   onClick={ () => {
                                     removeFromCart( item );

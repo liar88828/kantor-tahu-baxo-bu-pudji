@@ -1,3 +1,5 @@
+import { jpgTextNotFound } from '../../../../../asset/constants/data/images';
+
 export function ImgCard( { img }: { img: string } ) {
   return <figure className={ 'w-[50%] sm:w-[35%] md:w-[50%]   lg:w-[40%] h-auto ' }>
     <img src={ img }
@@ -17,7 +19,6 @@ export function ImgCard( { img }: { img: string } ) {
 }
 
 export const imageValid = ( img: string | undefined ): string => {
-  const jpgTextNotFound = 'https://dummyimage.com/200x200/000/fff.jpg&text=not+found';
   if( !img ) {
     return jpgTextNotFound
   }

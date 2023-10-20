@@ -14,9 +14,9 @@ export default class ValidationSchema implements IValidationSchema {
 
   // master
   BankSchema: z.ZodType<TPBank> = z.object( {
-    id        : z.string( { required_error: 'ID is required', } ).min( 1 ).max( 100 ).optional(),
+    id : z.string( { required_error: 'ID is required', } ).optional(),
     hp        : z.string( { required_error: 'Hp is required', } ).min( 2 ).max( 30 ),
-    img       : z.string( { required_error: 'Hp is required', } ).min( 2 ).max( 200 ),
+    img: z.string( { required_error: 'Img is required', } ).min( 2 ).max( 200 ),
     no        : z.string( { required_error: 'No is required', } ).min( 2 ).max( 30 ),
     nama      : z.string( { required_error: 'nama is required', } ).min( 2 ).max( 30 ),
     lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 2 ).max( 30 ),
@@ -25,7 +25,7 @@ export default class ValidationSchema implements IValidationSchema {
   } )
 
   ProductSchema = z.object( {
-    id   : z.string( { required_error: 'ID is required', } ).min( 1 ).max( 100 ),
+    id   : z.string( { required_error: 'ID is required', } ).optional(),
     lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 1 ).max( 100 ),
     nama      : z.string( { required_error: 'Nama is required', } ).min( 1 ).max( 100 ),
     harga: z.number( { required_error: 'Harga is required', } ).nonnegative(),
