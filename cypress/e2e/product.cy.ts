@@ -1,4 +1,4 @@
-import { formProduct } from '../../asset/constant/product';
+import { formProduct } from '../../asset/constants/model/product';
 
 describe( 'template spec', () => {
   beforeEach( () => {

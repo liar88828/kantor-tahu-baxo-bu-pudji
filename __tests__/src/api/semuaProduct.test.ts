@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '../../../src/lib/utils/ress/GateWay';
+import { GateWay } from '../../../src/lib/ress/GateWay';
 
 import { statusTest } from '../utils/statusTest';
 import { successResponse } from '../../../src/lib/exeption/successResponse';

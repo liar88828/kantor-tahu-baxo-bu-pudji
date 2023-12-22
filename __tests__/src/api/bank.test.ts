@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '../../../src/lib/utils/ress/GateWay';
-import { exampleBank } from '../../../src/lib/utils/ress/ErrorData';
+import { GateWay } from '../../../src/lib/ress/GateWay';
+import { exampleBank } from '../../../src/lib/ress/ErrorData';
 import { statusTest } from '../utils/statusTest';
 
-import { errorData, errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
+import { errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
 import { successResponse } from '../../../src/lib/exeption/successResponse';
 
 const json = structuredClone( exampleBank )

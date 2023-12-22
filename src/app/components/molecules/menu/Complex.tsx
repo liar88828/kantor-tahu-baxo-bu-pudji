@@ -6,7 +6,6 @@ export default function Complex(
   { slug }:
     { slug: string }
 ) {
-  console.log()
   return (
     <BodyMenu>
       { listComplex.map( d => {

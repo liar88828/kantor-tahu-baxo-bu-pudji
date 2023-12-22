@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { OStatus, Status } from '@/app/style/status';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/ress/SendApi';
 
 export const StatusButton = ( { status, id }: {
   status: string,

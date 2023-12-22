@@ -1,15 +1,15 @@
-import { Input, Output } from '@/servers/presentation/web/Apis';
-
 import { prisma, TPBank } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server';
-import BankController from '@/servers/presentation/controller/Bank';
 import ValidationService from '@/lib/validation/zod/validationService';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
-import { IControlBank } from '@/servers/interface/controller/Bank';
 import { errorData, errorEmptyID } from '@/lib/exeption/errorResponse';
 import BankData from '@/servers/data-source/prisma/Bank';
-import { BankRepo } from '@/servers/repository/BankRepo';
+import { BankRepo } from '@/servers/data-source/repository/BankRepo';
+import { Input } from '@/servers/presentation/web/Input';
+import { Output } from '@/servers/presentation/web/Output';
+import BankController from '@/servers/domain/controllers/Bank';
+import { IControlBank } from '@/servers/domain/interface/controllers/Bank';
 
 const c: IControlBank = new BankController
 (
@@ -19,7 +19,7 @@ const c: IControlBank = new BankController
 
 export async function GET( request: NextRequest ) {
 
-  const { id, method, pathname } = await Input( request );
+  const { id, method, } = await Input( request );
   console.log( `route api ${ method } bank` )
   if( id.includes( "all" ) ) {
     return await Output( "GET", () => c.find(), )
@@ -32,15 +32,14 @@ export async function GET( request: NextRequest ) {
 }
 
 export async function POST( request: NextRequest ) {
-  const { json, method, pathname } = await Input( request );
+  const { json, method, } = await Input( request );
   console.log( `route api ${ method } bank` )
   return await Output( "POST", () => c.create( json ), )
 }
 
 export async function DELETE( request: NextRequest ) {
-  const { id, method, pathname } = await Input( request );
+  const { id, method, } = await Input( request );
   console.log( `route api ${ method } bank` )
-  console.log( id, "testtttttt" )
   if( id.length > 10 ) {
     return await Output( "DELETE", () => c.destroy( id ), )
   }
@@ -49,7 +48,7 @@ export async function DELETE( request: NextRequest ) {
 }
 
 export async function PUT( request: NextRequest ) {
-  const { json, id, method, pathname } = await Input( request );
+  const { json, id, method, } = await Input( request );
   console.log( `route api ${ method } bank` )
   if( json === undefined ) {
     return NextResponse.json( errorData( method, json ), )

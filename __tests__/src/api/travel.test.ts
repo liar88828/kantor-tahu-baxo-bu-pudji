@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '../../../src/lib/utils/ress/GateWay';
-import { exampleTravel } from '../../../src/lib/utils/ress/ErrorData';
+import { GateWay } from '../../../src/lib/ress/GateWay';
+import { exampleTravel } from '../../../src/lib/ress/ErrorData';
 
 import { statusTest } from '../utils/statusTest';
 import { successResponse } from '../../../src/lib/exeption/successResponse';
-import { errorData, errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
+import { errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
 
 const json = structuredClone( exampleTravel )
 json.id    = "kosong".repeat( 5 );

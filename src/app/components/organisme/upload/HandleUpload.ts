@@ -1,7 +1,7 @@
 import { getExtensionData, validateExtension } from '@/lib/FileSystem/fileExtension';
-import { notifyData } from '@/lib/utils/notif/toash';
+import { notifyData } from '@/lib/notif/toash';
 import { Dispatch, SetStateAction } from 'react';
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { GateWay } from '@/lib/ress/GateWay';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export async function handleUpload<T>(

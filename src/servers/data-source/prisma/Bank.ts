@@ -18,6 +18,7 @@ export default class BankData extends AbstractPrisma<"bank"> implements IBankDat
       img: d.img || "https://dummyimage.com/200x200/000/fff.jpg&text=not+found",
     }
   }
+
   setMany( data: TYPE[] ) {
     return data.map( ( d ) => ( this.setOne( d ) ) )
   }

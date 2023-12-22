@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import { BodyMenu } from '@/app/components/molecules/menu/BodyMenu';
 
 export default function Basic() {
-  const pathname = usePathname()
-  const path     = pathname.split( "/" )
+  const pathname       = usePathname()
+  const path: string[] = pathname.split( "/" )
   return (
     <BodyMenu>
       <Link

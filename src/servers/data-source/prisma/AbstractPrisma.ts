@@ -1,9 +1,10 @@
-import { GetModel, IAbstractPrisma, TEntity } from '@/servers/data-source/interface/prisma/IAbstract';
+import { IAbstractPrisma, } from '@/servers/data-source/interface/prisma/IAbstract';
+import { GetModelPrisma, TEntity } from '@/servers/data-source/prisma/config';
 
 const test: string = "false"
 
 export abstract class AbstractPrisma<T extends TEntity> implements IAbstractPrisma<T> {
-  constructor( public prisma: GetModel<T> ) {}
+  constructor( public prisma: GetModelPrisma<T> ) {}
 
   abstract setOne( d: any, ): any;
 
@@ -16,6 +17,7 @@ export abstract class AbstractPrisma<T extends TEntity> implements IAbstractPris
     // @ts-ignore
     return this.prisma.findMany();
   }
+
   async findOne( id: string ) {
     if( test === "true" ) {
       console.info( "prisma find one" )

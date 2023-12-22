@@ -4,9 +4,9 @@ import { calculateTotal } from '@/app/components/organisme/table/utils/orderan';
 import { Status } from '@/app/style/status';
 import { TextPopUp } from '@/app/components/Atom/Text/TextPopUp';
 import { setIdOrderan } from '@/lib/utils/formatId';
-import { TResponse } from '@/entity/servers/service/TResponse';
-import { notifyData } from '@/lib/utils/notif/toash';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { TResponse } from '@/entity/client/ress/TResponse';
+import { notifyData } from '@/lib/notif/toash';
+import { Fetch } from '@/lib/ress/SendApi';
 import { CardPopUp, FooterPopUp, PopUpCard } from '@/app/components/molecules/popup/PopUpComponent';
 
 export default function PopUp( { data, method, id }: {

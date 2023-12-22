@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { GateWay } from '../../../src/lib/utils/ress/GateWay';
-import { exampleProduct } from '../../../src/lib/utils/ress/ErrorData';
+import { GateWay } from '../../../src/lib/ress/GateWay';
+import { exampleProduct } from '../../../src/lib/ress/ErrorData';
 
 import { statusTest } from '../utils/statusTest';
 import { successResponse } from '../../../src/lib/exeption/successResponse';

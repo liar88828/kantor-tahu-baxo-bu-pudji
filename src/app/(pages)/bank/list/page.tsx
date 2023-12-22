@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { UlCard } from '@/app/components/molecules/card/Card';
 import Paginate from '@/app/components/molecules/list/Paginate';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/ress/SendApi';
 
 export const revalidate = 0
 

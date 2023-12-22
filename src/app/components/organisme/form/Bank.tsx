@@ -9,8 +9,8 @@ import { useRouter } from 'next/navigation';
 
 import { ImagePrev } from '@/app/components/Atom/img/ImagePrev';
 import { LayoutImagePrev } from '@/app/components/Atom/img/LayoutImagePrev';
-import { notifyData } from '@/lib/utils/notif/toash';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { notifyData } from '@/lib/notif/toash';
+import { Fetch } from '@/lib/ress/SendApi';
 import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { setIdBank } from '@/lib/utils/formatId';
 import { formBank } from '../../../../../asset/constants/model/bank';
@@ -103,11 +103,15 @@ export default function Bank(
           <InputForm errors={ errors }
                      tag={ "textarea" } title={ formBank.keterangan }
                      type="textarea"
+                     max={ 100 }
+                     min={ 5 }
                      reg={ register( "keterangan" ) }/>
 
           <InputForm errors={ errors }
                      title={ formBank.img }
                      type="text"
+                     min={ 20 }
+                     max={ 200 }
                      reg={ register( "img" ) }/>
           <FormButton>
             <OpenButton method={ method } fun={ () => handleImage() } states={ open }/>

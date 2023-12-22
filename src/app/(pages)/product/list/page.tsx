@@ -1,4 +1,4 @@
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { GateWay } from '@/lib/ress/GateWay';
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import dynamic from 'next/dynamic';
 import { UlCard } from '@/app/components/molecules/card/Card';

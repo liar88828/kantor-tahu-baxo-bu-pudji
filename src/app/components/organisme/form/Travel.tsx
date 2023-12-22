@@ -11,9 +11,9 @@ import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { setIdTravel } from '@/lib/utils/formatId';
 import { img } from '@/app/components/organisme/form/Bank';
 import { TRes } from '@/entity/Utils';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/ress/SendApi';
 import { handleUpload } from '@/app/components/organisme/upload/HandleUpload';
-import { notifyData } from '@/lib/utils/notif/toash';
+import { notifyData } from '@/lib/notif/toash';
 import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { formTravel } from '../../../../../asset/constants/model/travel';
 
@@ -106,7 +106,11 @@ export default function Travel(
                    reg={ register( "harga",
                      { valueAsNumber: true } ) }/>
 
-        <InputForm errors={ errors } title={ formTravel.keterangan } type="textarea"
+        <InputForm errors={ errors }
+                   min={ 5 }
+                   max={ 100 }
+                   title={ formTravel.keterangan }
+                   type="textarea"
                    reg={ register( "keterangan" ) }/>
         <FormButton>
           <OpenButton method={ method } fun={ () => setOpen( !open ) } states={ open }/>

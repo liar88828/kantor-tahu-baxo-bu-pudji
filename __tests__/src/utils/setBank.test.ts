@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { getId, setBank } from '../../../src/lib/utils/ress/setBank';
-import { exampleBank } from '../../../src/lib/utils/ress/ErrorData';
-import { GateWay } from '../../../src/lib/utils/ress/GateWay';
+import { getId, setBank } from '../../../src/lib/ress/setBank';
+import { exampleBank } from '../../../src/lib/ress/ErrorData';
+import { GateWay } from '../../../src/lib/ress/GateWay';
 import { statusTest } from './statusTest';
 
 const json = structuredClone( exampleBank )

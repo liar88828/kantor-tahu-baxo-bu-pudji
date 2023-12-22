@@ -1,8 +1,8 @@
 "use server"
 
 import { describe, expect, test } from "vitest"
-import { getId } from '../../../src/lib/utils/ress/setBank';
-import { getDataById } from '../../../src/lib/utils/ress/bank';
+import { getId } from '../../../src/lib/ress/setBank';
+import { getDataById } from '../../../src/lib/ress/bank';
 
 describe( "test get api from bank", () => {
 

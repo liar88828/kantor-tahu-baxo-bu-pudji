@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '../../../src/lib/utils/ress/GateWay';
+import { GateWay } from '../../../src/lib/ress/GateWay';
 
 import { statusTest } from '../utils/statusTest';
 import { TPOrderan } from '../../../../src/server/data-source/prisma/config';
 import { successResponse } from '../../../src/lib/exeption/successResponse';
-import { errorData, errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
-import { Fetch } from '../../../src/lib/utils/ress/SendApi';
+import { errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
+import { Fetch } from '../../../src/lib/ress/SendApi';
 
 const default2: TPOrderan =
         {

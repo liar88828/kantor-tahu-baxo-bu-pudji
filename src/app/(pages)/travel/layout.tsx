@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title      : 'Travel',
+  title: 'Deliver',
   description: 'This page represent provider a send to client',
 }
 

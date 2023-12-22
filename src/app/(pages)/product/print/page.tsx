@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { GateWay } from '@/lib/ress/GateWay';
 import { Rupiah } from '@/lib/utils/rupiah';
 // import { AiOutlineFacebook, AiOutlineGlobal, AiOutlineInstagram, AiOutlineYoutube } from 'react-icons/ai';
 

@@ -1,5 +1,5 @@
 import { TableOrder } from '@/app/components/organisme/table/Table';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/ress/SendApi';
 
 // export const dynamic    = 'force-dynamic'
 export const revalidate = 0

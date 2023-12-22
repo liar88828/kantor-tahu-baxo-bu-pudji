@@ -1,4 +1,4 @@
-import { addDot, getExtensionData, validateExtension } from '@/lib/FileSystem/fileExtension';
+import { addDot, getExtensionData, validateExtension } from './fileExtension';
 import { setIdProduct, setIdTravel } from '@/lib/utils/formatId';
 import { newError } from '@/lib/exeption/errorHandler';
 

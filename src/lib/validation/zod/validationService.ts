@@ -1,7 +1,7 @@
 import { SafeParseError, SafeParseSuccess, z } from 'zod';
 import { errorDataZod, errorEmptyIDZod } from '@/lib/exeption/errorResponse';
-import { ZodSchema } from '@/servers/interface/Service/IService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
+import { ZodSchema } from '@/_interface/IService';
+import ValidationSchema from './validationSchema';
 
 export interface IValidationService<T> {
   readonly Schema: ZodSchema<T>

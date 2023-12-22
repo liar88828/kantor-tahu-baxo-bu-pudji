@@ -2,7 +2,10 @@ import { Cshadow } from '@/app/style/shadow';
 import { PropsWithChildren, } from 'react';
 
 export const FormLayout = ( { children }: PropsWithChildren ) => {
-  return <div className=" flex sm:flex-row flex-col gap-5 justify-center">{ children }</div>
+  return <div
+    data-test={ "iki div test" }
+    id={ "iki div id" }
+    className="iki div class   flex sm:flex-row flex-col gap-5 justify-center ">{ children }</div>
 }
 
 export const FormBody   = ( { children }: PropsWithChildren ) => {

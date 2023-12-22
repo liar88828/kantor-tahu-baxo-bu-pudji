@@ -1,5 +1,5 @@
 import { TRes } from '@/entity/Utils';
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { GateWay } from '@/lib/ress/GateWay';
 import Bank from '@/app/components/organisme/form/Bank';
 
 // export const dynamic = 'force-dynamic'

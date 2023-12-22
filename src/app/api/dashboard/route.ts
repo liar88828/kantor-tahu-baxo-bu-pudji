@@ -1,27 +1,36 @@
-import { Input, Output } from '@/servers/presentation/web/Apis';
-import { prisma, TPSemuaProduct } from '@/servers/data-source/prisma/config';
 import { NextRequest, NextResponse } from 'next/server'
-import SemuaProductController from '@/servers/presentation/controller/SemuaProduk';
-import { IControlSemuaProduk } from '@/servers/interface/controller/SemuaProduk';
-import ValidationService from '@/lib/validation/zod/validationService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import RepoSemuaProduk from '@/servers/data-source/prisma/SemuaProduk';
-
-const c: IControlSemuaProduk = new SemuaProductController(
-  new RepoSemuaProduk( prisma.semuaProduct ),
-  new ValidationService<TPSemuaProduct>( new ValidationSchema().semuaProdukSchema ),
-)
-const to                     = "dashboard"
+import { Input } from '@/servers/presentation/web/Input';
+import { Output } from '@/servers/presentation/web/Output';
+import { dashboard } from '@/servers/data-source/prisma/Dashboard';
 
 export async function GET( request: NextRequest ) {
-  const { id, pathname, method } = await Input( request )
-  console.log( `route api ${ method } dashboard` )
-  if( id === "all" ) {
-    if( pathname === "/api/dashboard" ) {
-      return Output( "GET", () => c.dashboard() )
-    }
+  const { method, option, value } = await Input( request )
+
+  if( option === "notify" ) {
+    return Output( "GET", () => dashboard.statusNotify() )
   }
+
+  if( option === "pesanan" ) {
+    return Output( "GET", () => dashboard.statusPesanan( value ) )
+  }
+
+  if( option === "orderTahun" ) {
+    return Output( "GET", () => dashboard.semuaOrderTahun() )
+  }
+
+  if( option === "productLast" ) {
+    return Output( "GET", () => dashboard.semuaProductLast() )
+  }
+
+  if( option === "productNow" ) {
+    return Output( "GET", () => dashboard.semuaProductNow() )
+  }
+
+  if( option === "productPerMonth" ) {
+    return Output( "GET", () => dashboard.aggregateProductPerMonth() )
+  }
+
   return NextResponse.json( errorEmptyID( method ) )
 
 }

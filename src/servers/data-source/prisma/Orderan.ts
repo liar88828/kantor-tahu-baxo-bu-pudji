@@ -368,7 +368,10 @@ export default class OrderanData extends AbstractPrisma<"orderan"> implements IO
   async destroyMany( array: string [] ) {
     const id            = array.map( d => d )
     const deleteOrder   = prisma.orderan.deleteMany( { where: { id: { in: id } } } )
+    
+    
     const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: { in: id } } } )
+
     return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
   }
 

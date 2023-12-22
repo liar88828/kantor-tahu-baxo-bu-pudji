@@ -1,16 +1,16 @@
-import { Input, Output } from '@/servers/presentation/web/Apis';
-
 import { prisma, TPProduct } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import ProductController from '@/servers/presentation/controller/Produk';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
-import { IControlProduct } from '@/servers/interface/controller/Product';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import { ProductRepo } from '@/servers/repository/ProductRepo';
+import { ProductRepo } from '@/servers/data-source/repository/ProductRepo';
 import ProductData from '@/servers/data-source/prisma/Product';
+import { Input } from '@/servers/presentation/web/Input';
+import { Output } from '@/servers/presentation/web/Output';
+import { IControlProduct } from '@/servers/domain/interface/controllers/Product';
+import ProductController from '@/servers/domain/controllers/Produk';
 
 const c: IControlProduct = new ProductController(
   new ProductRepo( new ProductData( prisma.product ) ),

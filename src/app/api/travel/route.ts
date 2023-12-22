@@ -1,16 +1,16 @@
-import { Input, Output } from '@/servers/presentation/web/Apis';
-
 import { prisma, TPTravel } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import TravelController from '@/servers/presentation/controller/Travel';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import { IControlTravel } from '@/servers/interface/controller/Travel';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import { TSend } from '@/entity/servers/service/TSend';
+import { TSend } from '@/entity/servers/webs/TSend';
 import TravelData from '@/servers/data-source/prisma/Travel';
-import { DeliveryRepo } from '@/servers/repository/DeliveryRepo';
+import { DeliveryRepo } from '@/servers/data-source/repository/DeliveryRepo';
+import { Input } from '@/servers/presentation/web/Input';
+import { Output } from '@/servers/presentation/web/Output';
+import { IControlTravel } from '@/servers/domain/interface/controllers/Travel';
+import TravelController from '@/servers/domain/controllers/Travel';
 
 type TYPE = TPTravel
 

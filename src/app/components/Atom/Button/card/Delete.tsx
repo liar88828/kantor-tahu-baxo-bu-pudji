@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import { notifyData } from '@/lib/utils/notif/toash';
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { notifyData } from '@/lib/notif/toash';
+import { GateWay } from '@/lib/ress/GateWay';
 import { ToModel, TRes } from '@/entity/Utils';
 
 export function DeleteCard( {

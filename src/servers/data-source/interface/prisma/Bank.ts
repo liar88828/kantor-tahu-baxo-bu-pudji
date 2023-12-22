@@ -1,8 +1,8 @@
-import { TPBank } from '@/servers/data-source/prisma/config';
-import { GetModel, IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
+import { GetModelPrisma, TPBank } from '@/servers/data-source/prisma/config';
+import { IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
 
 export interface IBankData<T extends TPBank> extends IAbstractPrisma<"bank"> {
-  prisma: GetModel<"bank">;
+  prisma: GetModelPrisma<"bank">;
   // get
   // findDashboard( a: string ): Promise<any>;
 

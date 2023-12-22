@@ -1,14 +1,15 @@
-import { Input, Output } from '@/servers/presentation/web/Apis';
 import { prisma, TPSemuaProduct } from '@/servers/data-source/prisma/config';
 
 import { NextRequest, NextResponse } from 'next/server'
-import SemuaProductController from '@/servers/presentation/controller/SemuaProduk';
 import ValidationService from '@/lib/validation/zod/validationService';
 import ValidationSchema from '@/lib/validation/zod/validationSchema';
 
-import { IControlSemuaProduk } from '@/servers/interface/controller/SemuaProduk';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
 import RepoSemuaProduk from '@/servers/data-source/prisma/SemuaProduk';
+import { Input } from '@/servers/presentation/web/Input';
+import { Output } from '@/servers/presentation/web/Output';
+import SemuaProductController from '@/servers/domain/controllers/SemuaProduk';
+import { IControlSemuaProduk } from '@/servers/domain/interface/controllers/SemuaProduk';
 
 const c: IControlSemuaProduk = new SemuaProductController(
   new RepoSemuaProduk( prisma.semuaProduct ),

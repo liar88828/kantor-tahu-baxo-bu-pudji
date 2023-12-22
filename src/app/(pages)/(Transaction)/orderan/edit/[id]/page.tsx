@@ -1,4 +1,4 @@
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { GateWay } from '@/lib/ress/GateWay';
 import { TOrder } from '@/entity/client/orderan';
 import Orderan from '@/app/components/organisme/form/Orderan';
 import { getDataForOrderan } from '@/servers/data-source/interface/prisma/Client';

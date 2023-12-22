@@ -1,6 +1,4 @@
-import {
-  ErrorData, exampleBank, exampleOrderan, exampleProduct, exampleTravel
-} from '../../../src/lib/utils/ress/ErrorData';
+import { ErrorData, exampleBank, exampleOrderan, exampleProduct, exampleTravel } from '../../../src/lib/ress/ErrorData';
 import { describe, expect, it } from 'vitest';
 
 describe( 'test Error Format', () => {

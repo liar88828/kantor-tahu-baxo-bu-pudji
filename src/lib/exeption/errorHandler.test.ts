@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { newError } from '@/lib/exeption/errorHandler';
+import { newError } from './errorHandler';
 
 describe( "exception error handler", () => {
 

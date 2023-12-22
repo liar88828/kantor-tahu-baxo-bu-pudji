@@ -8,12 +8,12 @@ import { UploadDescription } from '@/app/components/organisme/upload/Upload';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/components/Atom/input/InputNew';
-import { notifyData } from '@/lib/utils/notif/toash';
+import { notifyData } from '@/lib/notif/toash';
 import { setIdProduct } from '@/lib/utils/formatId';
 import { TRes } from '@/entity/Utils';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { vSchema } from '@/lib/validation/zod/validationSchema';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/ress/SendApi';
 import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { formProduct } from '../../../../../asset/constants/model/product';
 

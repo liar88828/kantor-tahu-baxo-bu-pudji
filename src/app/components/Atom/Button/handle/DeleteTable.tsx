@@ -1,8 +1,8 @@
 "use client"
 
-import { notifyData } from '@/lib/utils/notif/toash';
+import { notifyData } from '@/lib/notif/toash';
 import { useRouter } from 'next/navigation';
-import { Fetch } from '@/lib/utils/ress/SendApi';
+import { Fetch } from '@/lib/ress/SendApi';
 
 export const DeleteTable = ( { ids }: { ids: string[], } ) => {
   const router = useRouter()

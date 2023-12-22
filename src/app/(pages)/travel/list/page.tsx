@@ -1,5 +1,5 @@
 import { ListTravel } from '@/app/components/organisme/card/travel';
-import { GateWay } from '@/lib/utils/ress/GateWay';
+import { GateWay } from '@/lib/ress/GateWay';
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { Suspense } from 'react';
 import { TRes } from '@/entity/Utils';

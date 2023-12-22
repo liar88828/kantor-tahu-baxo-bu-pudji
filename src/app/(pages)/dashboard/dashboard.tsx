@@ -1,15 +1,21 @@
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import dynamic from 'next/dynamic';
-import { getPrisma, statusNotif } from '@/servers/action/dashboard';
+import { getPrisma, statusNotify } from '@/servers/domain/action/dashboard';
 import { ListDashboard } from '@/app/components/molecules/list/ListDashboard';
 import { TListCard } from '@/app/components/organisme/card/Dashboard';
 
 // const HorizontalCard = dynamic( () => import('@/app/components/card/HorizontalCard'), {
 //   loading: () => <SkeletonLine/>
 // } )
-const Lines         = dynamic( () => import('@/lib/chart/line'), { loading: () => <SkeletonCard/>, ssr: false } )
-const Donat         = dynamic( () => import('@/lib/chart/donat'), { loading: () => <SkeletonCard/>, ssr: false } )
-const BarVertical   = dynamic( () => import('@/lib/chart/Bar'), { loading: () => <SkeletonCard/>, ssr: false } )
+const Lines = dynamic( () => import('@/app/components/organisme/chart/line'), {
+  loading: () => <SkeletonCard/>, ssr: false
+} )
+const Donat = dynamic( () => import('@/app/components/organisme/chart/donat'), {
+  loading: () => <SkeletonCard/>, ssr: false
+} )
+const BarVertical = dynamic( () => import('@/app/components/organisme/chart/Bar'), {
+  loading: () => <SkeletonCard/>, ssr: false
+} )
 const CardDashboard = dynamic( () => import('@/app/components/organisme/card/Dashboard'), {
   loading: () => <SkeletonCard/>,
   ssr    : true
@@ -23,7 +29,7 @@ export const revalidate = 10
 export async function ServerComponent( { dataPesanan }: { dataPesanan: TListCard[] } ) {
   const data = await getPrisma()
 
-  const dataStatus = await statusNotif()
+  const dataStatus = await statusNotify()
 
   return ( <div className={ " flex gap-2 flex-col p-2 sm:p-4 " }>
       <ListDashboard data={ dataStatus }/>
