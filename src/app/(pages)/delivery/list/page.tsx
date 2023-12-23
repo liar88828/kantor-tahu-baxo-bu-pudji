@@ -4,7 +4,7 @@ import { TRes } from '@/entity/Utils';
 import { UlCard } from '@/app/components/molecules/card/Card';
 import { Fetch } from '@/lib/ress/SendApi';
 import { SearchParams } from '@/_interface/searchParams';
-import NotFound from '@/app/components/template/handling/NotFound';
+import DataEmpty from '@/app/components/template/handling/DataEmpty';
 import Paginate from '@/app/components/molecules/list/Paginate';
 import { ListTravel } from '@/app/(pages)/delivery/Card';
 
@@ -24,7 +24,7 @@ export default async function Home( { searchParams }: SearchParams ) {
   return ( <>
       <UlCard name={ "delivery" }>
         { data.length === 0 ? (
-          <NotFound/>
+          <DataEmpty/>
         ) : <>
             <Suspense fallback={ <SkeletonCard/> }>
               { data.map( ( d ) => ( <ListTravel d={ d } key={ d.id } to={ 'delivery' }/> ) ) }

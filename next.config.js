@@ -5,7 +5,7 @@ const nextConfig = {
   },
   experimental: {
     // typedRoutes: true,// for type path of route
-    serverActions: true,// for add server action
+    // serverActions: true,// for add server action
     // optimizePackageImports: ['react-icons'],
   },
 

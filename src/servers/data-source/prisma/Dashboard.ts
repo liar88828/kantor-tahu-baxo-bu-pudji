@@ -9,7 +9,7 @@ class DashboardData {
       by    : [ "status" ],
       _count: { status: true, },
       where : {
-        kirim: {
+        waktuKirim: {
           gte: addDays( -30 ),
         }
       }
@@ -22,7 +22,7 @@ class DashboardData {
         status: {
           contains: status
         },
-        kirim : {
+        waktuKirim: {
           gte: addDays( -30 ),
         },
       },
@@ -33,7 +33,6 @@ class DashboardData {
         alamatPenerima: true,
         pengirim      : true,
         namaPengiriman: true,
-        kirim         : true,
         pesan         : true,
         status        : true,
         typePembayaran: true,
@@ -48,13 +47,13 @@ class DashboardData {
 
   async semuaOrderTahun() {
     const monthlyUserCounts: TLine[] = await prisma.$queryRaw`
-        SELECT YEAR(pesan)                AS year,
-               MONTHNAME(pesan)           AS month,
-               CAST(COUNT(*) AS UNSIGNED) AS jumlah_pesanan
-        FROM tahu_baxo_bupudji.orderans
-        WHERE YEAR(pesan) BETWEEN YEAR(CURRENT_DATE) - 3 AND YEAR(CURRENT_DATE)
-        GROUP BY YEAR(pesan), MONTH(pesan)
-        ORDER BY YEAR(pesan), MONTH(pesan);
+        SELECT EXTRACT(YEAR FROM pesan)  AS year,
+               EXTRACT(MONTH FROM pesan) AS month,
+               COUNT(*)                  AS jumlah_pesanan
+        FROM "Orderans"
+        WHERE EXTRACT(YEAR FROM pesan) BETWEEN EXTRACT(YEAR FROM CURRENT_DATE) - 3 AND EXTRACT(YEAR FROM CURRENT_DATE)
+        GROUP BY EXTRACT(YEAR FROM pesan), EXTRACT(MONTH FROM pesan)
+        ORDER BY EXTRACT(YEAR FROM pesan), EXTRACT(MONTH FROM pesan);
     `
 
     const semuaOrderTahun: TLines[] = monthlyUserCounts.map( ( item ) => ( {
@@ -94,14 +93,26 @@ class DashboardData {
   async aggregateProductPerMonth() {
     const aggregateProductPerMonth: TAggregate[] = await prisma.$queryRaw`
         SELECT nama,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE), jumlah, 0))     AS total_jumlah_current,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 1, jumlah, 0)) AS total_jumlah_last,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, jumlah, 0)) AS total_jumlah_last_two,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE), harga, 0))      AS total_harga_current,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 1, harga, 0))  AS total_harga_last,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, harga, 0))  AS total_harga_last_two
-        FROM tahu_baxo_bupudji.semuaproducts
-        WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 2 AND MONTH(CURRENT_DATE)
+               SUM(CASE
+                       WHEN EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) THEN jumlah
+                       ELSE 0 END)                                                                                    AS total_jumlah_current,
+               SUM(CASE
+                       WHEN EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) - 1 THEN jumlah
+                       ELSE 0 END)                                                                                    AS total_jumlah_last,
+               SUM(CASE
+                       WHEN EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) - 2 THEN jumlah
+                       ELSE 0 END)                                                                                    AS total_jumlah_last_two,
+               SUM(CASE
+                       WHEN EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) THEN harga
+                       ELSE 0 END)                                                                                    AS total_harga_current,
+               SUM(CASE
+                       WHEN EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) - 1 THEN harga
+                       ELSE 0 END)                                                                                    AS total_harga_last,
+               SUM(CASE
+                       WHEN EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) - 2 THEN harga
+                       ELSE 0 END)                                                                                    AS total_harga_last_two
+        FROM "SemuaProducts"
+        WHERE EXTRACT(MONTH FROM created_at) BETWEEN EXTRACT(MONTH FROM CURRENT_DATE) - 2 AND EXTRACT(MONTH FROM CURRENT_DATE)
         GROUP BY nama;
 
     `

@@ -64,7 +64,7 @@ model Orderan {
   @@map("Orderans")
 }
 
-model Form {
+model Product {
   id         String   @id @default(uuid())
   nama       String   @db.VarChar(100)
   lokasi     String   @db.VarChar(100)
@@ -80,7 +80,7 @@ model Form {
   @@map("Products")
 }
 
-model Form {
+model Delivery {
   id         String @id @default(uuid())
   nama       String
   hp         String
@@ -90,7 +90,7 @@ model Form {
   img        String
   keterangan String @db.Text
 
-  @@map("Travels")
+  @@map("Deliverys")
 }
 
 model Bank {

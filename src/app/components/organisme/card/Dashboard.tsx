@@ -3,22 +3,18 @@ import { formatPhone } from '@/lib/utils/formatPhone';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { StatusButton } from '@/app/components/Atom/Button/handle/StatusButton';
 import { OrderanButton } from '@/app/components/Atom/Button/button/OrderanButton';
+import React from 'react';
 
-export default function Dashboard(
-  { notifyMonth }:
-    { notifyMonth: Required<TListCard[]> }
-) {
+export default async function CardDashboard( { notifyMonth }: { notifyMonth: TListCard[] } ) {
 
-  const getKirim = ( d: TListCard ) => {
-    let kirim      = d.kirim.toString()
-    let waktuKirim = d.waktuKirim.toString()
-    return new Date(
-      kirim.split( "T" )[ 0 ] + "T" + waktuKirim.split( "T" )[ 1 ] ).getDate()
+  // const notifyMonth = await dashboard.statusPesanan( 'Kirim' )
+
+  const getKirim = ( waktuKirim: string | Date ) => {
+    return new Date( waktuKirim )
   }
 
   function statusKirim( d: TListCard ) {
-    const data    = getKirim( d )
-    const tanggal = data - addDays( 0 ).getDate()
+    const tanggal = addDays( 0 ).getDate()
 
     // console.info( tanggal )
     if( tanggal >= 4 && tanggal <= 6 ) {
@@ -32,14 +28,14 @@ export default function Dashboard(
     }
   }
 
-  if( notifyMonth.length === 0 ) {
-    notifyMonth.push( exampleTLIst )
-  }
+  // if( notifyMonth.length === 0 ) {
+  //   notifyMonth.push( exampleTLIst )
+  // }
   return (
     <ul>
       { notifyMonth
       .sort( ( a, b ) => {
-        return getKirim( a ) - getKirim( b );
+        return getKirim( a.waktuKirim ).getTime() - getKirim( b.waktuKirim ).getTime();
       } )
       .map( ( d, i ) => ( <li
         key={ d.id }
@@ -52,7 +48,7 @@ export default function Dashboard(
               <StatusButton status={ d.status } id={ d.id }/>
               <OrderanButton semuaProduct={ d.semuaProduct } id={ d.id }/>
               <p className={ `btn-sm sm:btn-md btn font-bold text-white ${ ( statusKirim( d ) ) }` }>
-                { setTanggal( d.kirim as Date, "hari" ) }
+                { setTanggal( d.waktuKirim as Date, "hari" ) }
               </p>
             </div>
           </div>
@@ -63,7 +59,8 @@ export default function Dashboard(
               <p>{ formatPhone( d.hpPenerima ) } </p>
             </div>
             <div className="">
-              <p className={ " text-right sm:text-left lg:text-right " }>{ setTanggal( d.kirim as Date, "angka" ) }</p>
+              <p
+                className={ " text-right sm:text-left lg:text-right " }>{ setTanggal( d.waktuKirim as Date, "angka" ) }</p>
               <p className={ " text-right sm:text-left lg:text-right " }>{ setHours( d.waktuKirim as Date ) }</p>
             </div>
           </div>
@@ -92,7 +89,6 @@ export type   TListCard = {
   alamatPenerima: string;
   //
   pesan: Date | string;
-  kirim: Date | string;
   waktuKirim: Date | string;
   pengirim: string;
   totalBayar: number;
@@ -108,7 +104,7 @@ export const exampleTLIst: TListCard = {
   penerima      : "Kosong",
   alamatPenerima: "Kosong",
   pesan         : `${ currentYear }-${ currentMonth }-${ today }`,
-  kirim         : `${ currentYear }-${ currentMonth }-${ today }`,
+  // kirim         : `${ currentYear }-${ currentMonth }-${ today }`,
   waktuKirim    : `${ currentYear }-${ currentMonth }-${ today } 00:00:00.000`,
   pengirim      : "Kosong",
   totalBayar    : 0,

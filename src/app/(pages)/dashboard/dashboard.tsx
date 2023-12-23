@@ -1,55 +1,30 @@
-import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
-import dynamic from 'next/dynamic';
-import { getPrisma, statusNotify } from '@/servers/domain/action/dashboard';
-import { TListCard } from '@/app/components/organisme/card/Dashboard';
-import { ListDashboard } from '@/app/components/template/slidebar/ListDashboard';
+import BarVerticalServer from '@/app/components/organisme/chart/barVertical/BarVerticalServer';
+import LineServer from '@/app/components/organisme/chart/line/LineServer';
+import DonatServer from '@/app/components/organisme/chart/donat/DonatServer';
+import ServerCard from '@/app/components/organisme/card/ServerCard';
+import ServerList from '@/app/(pages)/dashboard/ServerList';
 
-// const HorizontalCard = dynamic( () => import('@/app/components/card/HorizontalCard'), {
-//   loading: () => <SkeletonLine/>
-// } )
-const Lines = dynamic( () => import('@/app/components/organisme/chart/line'), {
-  loading: () => <SkeletonCard/>, ssr: false
-} )
-const Donat = dynamic( () => import('@/app/components/organisme/chart/donat'), {
-  loading: () => <SkeletonCard/>, ssr: false
-} )
-const BarVertical = dynamic( () => import('@/app/components/organisme/chart/Bar'), {
-  loading: () => <SkeletonCard/>, ssr: false
-} )
-const CardDashboard = dynamic( () => import('@/app/components/organisme/card/Dashboard'), {
-  loading: () => <SkeletonCard/>,
-  ssr    : true
-} )
-
-// export const dynamic    = 'force-dynamic'
-export const revalidate = 10
-// export const fetchCache = 'auto'
-// export const runtime    = 'nodejs'
-
-export async function ServerComponent( { dataPesanan }: { dataPesanan: TListCard[] } ) {
-  const data = await getPrisma()
-
-  const dataStatus = await statusNotify()
+export async function ServerComponent() {
 
   return ( <div className={ " flex gap-2 flex-col p-2 sm:p-4 " }>
-      <ListDashboard data={ dataStatus }/>
+      <ServerList/>
       <div className="flex gap-2 sm:flex-row flex-col w-[100%]">
         <div className=" sm:w-[70%] gap-2 flex flex-col">
           <div className="border border-black bg-white rounded-3xl h-[20rem] sm:h-[100%] ">
-            <Lines dataKu={ data.semuaOrderTahun }/>
+            <LineServer/>
           </div>
           <div className="border border-black bg-white rounded-3xl h-[20rem] sm:h-[100%] ">
-            <BarVertical aggregate={ data.aggregate }/>
+            <BarVerticalServer/>
           </div>
         </div>
 
         <div className="flex flex-col sm:w-[30%] gap-2">
           <div
             className="h-[60vw] sm:h-[30vw] overflow-y-auto border border-black bg-white rounded-3xl p-2">
-            <CardDashboard notifyMonth={ dataPesanan }/>
+            <ServerCard/>
           </div>
           <div className="  sm:h-[30vw]   border border-black bg-white rounded-3xl p-2">
-            <Donat dataKu={ data.semuaProductNow }/>
+            <DonatServer/>
           </div>
         </div>
       </div>

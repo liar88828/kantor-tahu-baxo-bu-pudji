@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-function NotFound() {
+function DataEmpty() {
   return (
     <div className={ 'card card-body static border-radius bg-base-200' }>
       <h1 className={ 'card-title' }>Data is empty</h1>
@@ -16,4 +16,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default DataEmpty;

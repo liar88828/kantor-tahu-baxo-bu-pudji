@@ -5,7 +5,7 @@ import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { ListBank } from '@/app/(pages)/bank/Card';
 import Paginate from '@/app/components/molecules/list/Paginate';
 import { SearchParams } from '@/_interface/searchParams';
-import NotFound from '@/app/components/template/handling/NotFound';
+import DataEmpty from '@/app/components/template/handling/DataEmpty';
 
 export default async function Page( { searchParams }: SearchParams ) {
   const page = Number( searchParams.page )
@@ -43,7 +43,7 @@ export default async function Page( { searchParams }: SearchParams ) {
   return <>
     <UlCard name={ "bank" }>
       { data.length === 0 ? (
-        <NotFound/>
+        <DataEmpty/>
       ) : <>
           <Suspense fallback={ <SkeletonCard/> }>
             { data.map( ( d: TBank ) => ( <ListBank d={ d } key={ d.id }/> ) ) }

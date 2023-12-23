@@ -1,0 +1,17 @@
+### ListDashboard
+GET http://localhost:3000/api/dashboard?option=notify
+
+###
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
+
+### LineChart
+GET http://localhost:3000/api/dashboard?option=orderTahun
+
+### DonatChart
+GET http://localhost:3000/api/dashboard?option=productLast
+
+###
+GET http://localhost:3000/api/dashboard?option=productNow
+
+### BarVerticalChart
+GET http://localhost:3000/api/dashboard?option=productPerMonth

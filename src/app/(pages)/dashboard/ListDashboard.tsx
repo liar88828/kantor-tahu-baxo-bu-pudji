@@ -1,8 +1,8 @@
 "use client"
 import { TStatus } from '@/entity/Dashboard';
 import { enableCache, Icon } from '@iconify/react';
-import { listsMenu } from '../../../../../asset/constants/link/ListsMenu';
 import { LinkNavbar } from '@/app/components/template/slidebar/LinkNavbar';
+import { listsMenu } from '../../../../asset/constants/link/ListsMenu';
 
 enableCache( 'session' );
 
@@ -11,6 +11,7 @@ export type TTextStatus = "Di terima" | "Di Kirim" | "Di Proses" | "Selesai"
 export const ListDashboard = ( { data }: {
   data: TStatus[]
 } ) => {
+  console.log( data )
 
   const objectArray = data.map( d => {
     const count = d._count.status

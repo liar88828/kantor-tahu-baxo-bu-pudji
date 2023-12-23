@@ -1,1336 +1,450 @@
-GET http://localhost:3000/api/bank?id=page=1&take=10
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T225122.200.json
+<> 2023-12-24T020054.200.json
 
 ###
 
-GET http://localhost:3000/api/delivery?page=1&take=10
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T224931.200.json
+<> 2023-12-24T015919.200.json
 
 ###
 
-GET http://localhost:3000/api/delivery?id=all
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T224911.200.json
+<> 2023-12-24T014829.200.json
 
 ###
 
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T224901.200.json
+<> 2023-12-24T014332.200.json
 
 ###
 
-GET http://localhost:3000/api/delivery?id=all
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T223906.200.json
+<> 2023-12-24T013303.200.json
 
 ###
 
-GET http://localhost:3000/api/delivery?id=all
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productNow
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T223808.200.json
+<> 2023-12-24T013301.200.json
 
 ###
 
-GET http://localhost:3000/api/delivery?id=all
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T223729.200.json
+<> 2023-12-24T013258.200.json
 
 ###
 
-GET http://localhost:3000/api/bank?id=It_90_45_Te_SC_Je_1703324566122
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=orderTahun
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T165002.200.json
+<> 2023-12-24T013256.200.json
 
 ###
 
-GET http://localhost:3000/api/bank?id=It_90_45_Te_SC_Je_1703324566122
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T164954.200.json
+<> 2023-12-24T013254.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 807
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "b98187b1-ee38-4ff5-b966-2bd0e5b74s67",
-  "dari": "sopie",
-  "pengirim": "kosong",
-  "hpPengirim": "123",
-  "penerima": "kosong",
-  "alamatPenerima": "kosong",
-  "hpPenerima": "12",
-  "pesan": "1970-01-01T00:00:00.000Z",
-  "waktuKirim": "1970-01-01T00:00:00.000Z",
-  "guna": "kosong",
-  "lokasi": "kosong",
-  "namaPengiriman": "kosong",
-  "ongkir": 0,
-  "typePembayaran": "kosong",
-  "totalBayar": 0,
-  "totalPenjualan": 0,
-  "status": "kosong",
-  "created_at": "2023-12-23T05:50:13.242Z",
-  "updated_at": "2023-12-23T05:48:12.093Z",
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ]
-}
-
-<> 2023-12-23T125217.200.json
+<> 2023-12-24T013252.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 807
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "b98187b1-ee38-4ff5-b966-2bd0e5b74467",
-  "dari": "sopie",
-  "pengirim": "kosong",
-  "hpPengirim": "123",
-  "penerima": "kosong",
-  "alamatPenerima": "kosong",
-  "hpPenerima": "12",
-  "pesan": "1970-01-01T00:00:00.000Z",
-  "waktuKirim": "1970-01-01T00:00:00.000Z",
-  "guna": "kosong",
-  "lokasi": "kosong",
-  "namaPengiriman": "kosong",
-  "ongkir": 0,
-  "typePembayaran": "kosong",
-  "totalBayar": 0,
-  "totalPenjualan": 0,
-  "status": "kosong",
-  "created_at": "2023-12-23T05:50:13.242Z",
-  "updated_at": "2023-12-23T05:48:12.093Z",
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ]
-}
-
-<> 2023-12-23T125213.200.json
+<> 2023-12-24T012725.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 807
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "b98187b1-ee38-4ff5-b966-2bd0e5b74467",
-  "dari": "sopie",
-  "pengirim": "kosong",
-  "hpPengirim": "123",
-  "penerima": "kosong",
-  "alamatPenerima": "kosong",
-  "hpPenerima": "12",
-  "pesan": "1970-01-01T00:00:00.000Z",
-  "waktuKirim": "1970-01-01T00:00:00.000Z",
-  "guna": "kosong",
-  "lokasi": "kosong",
-  "namaPengiriman": "kosong",
-  "ongkir": 0,
-  "typePembayaran": "kosong",
-  "totalBayar": 0,
-  "totalPenjualan": 0,
-  "status": "kosong",
-  "created_at": "2023-12-23T05:50:13.242Z",
-  "updated_at": "2023-12-23T05:48:12.093Z",
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ]
-}
-
-<> 2023-12-23T125207.200.json
+<> 2023-12-24T012703.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 807
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "b98187b1-ee38-4ff5-b966-2bd0e5b74467",
-  "dari": "sopie",
-  "pengirim": "kosong",
-  "hpPengirim": "123",
-  "penerima": "kosong",
-  "alamatPenerima": "kosong",
-  "hpPenerima": "12",
-  "pesan": "1970-01-01T00:00:00.000Z",
-  "waktuKirim": "1970-01-01T00:00:00.000Z",
-  "guna": "kosong",
-  "lokasi": "kosong",
-  "namaPengiriman": "kosong",
-  "ongkir": 0,
-  "typePembayaran": "kosong",
-  "totalBayar": 0,
-  "totalPenjualan": 0,
-  "status": "kosong",
-  "created_at": "2023-12-23T05:50:13.242Z",
-  "updated_at": "2023-12-23T05:48:12.093Z",
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ]
-}
-
-<> 2023-12-23T125045.200.json
+<> 2023-12-24T012610.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan?id=all&table=table
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T125017.200.json
+<> 2023-12-24T012607.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 936
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "{{$random.alphabetic()}}",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 868,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2024-02-29T00:00:00.000Z",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "1970-01-01T13:12:00.000Z"
-}
-
-<> 2023-12-23T124859.200.json
+<> 2023-12-24T012356.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 935
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "{{$random.alphabetic()}}",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 20,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2024-02-29T00:00:00.000Z",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "1970-01-01T13:12:00.000Z"
-}
-
-<> 2023-12-23T124037.200.json
+<> 2023-12-24T012336.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 922
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "{{$random.alphabetic()}}",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 558,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2024-02-29T00:00:00.000Z",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "1703310023"
-}
-
-<> 2023-12-23T124023.200.json
+<> 2023-12-24T012243.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 908
+GET http://localhost:3000/api/dashboard?option=pesanan&value=Kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "{{$random.alphabetic()}}",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 867,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan":"1703309985",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "1703309985"
-}
-
-<> 2023-12-23T123946.200.json
+<> 2023-12-24T012159.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 906
+GET http://localhost:3000/api/dashboard?option=pesanan&value=kirim
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": {{$random.alphabetic()}},
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 872,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan":"1703309980",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "1703309980"
-}
+<> 2023-12-24T012154.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 908
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "{{$random.alphabetic()}}",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 271,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan":"1703309963",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "1703309963"
-}
-
-<> 2023-12-23T123924.200.json
+<> 2023-12-24T011735.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 903
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": {{$random.alphabetic()}},
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 756,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan": 1703309927,
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": 1703309927
-}
+<> 2023-12-24T011338.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 903
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": {{$random.alphabetic()}},
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 413,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan": 1703309859,
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": 1703309859
-}
+<> 2023-12-24T011107.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 903
+GET http://localhost:3000/api/dashboard?option=orderTahun
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": {{$random.alphabetic()}},
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 722,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan": 1703309805,
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": 1703309805
-}
+<> 2023-12-24T011105.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 902
+GET http://localhost:3000/api/dashboard?option=orderTahun
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": {{$random.alphabetic()}},
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 34,
-  "penerima": "string",
-  "pengirim": "string",
-   "pesan": 1703309802,
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": 1703309802
-}
+<> 2023-12-24T010944.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 919
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-12-23T123201.200.json
+<> 2023-12-24T010855.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 919
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-12-23T123131.200.json
+<> 2023-12-24T010825.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 919
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "dari": "sopie",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-12-23T123042.200.json
+<> 2023-12-24T010612.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 900
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
-  "semuaProduct": [
-    {
-      "orderanId": "baru1",
-      "harga": 3681802,
-      "id": "asdasda",
-      "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
-      "lokasi": "string",
-      "nama": "string",
-      "img": "dasda"
-    }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
-}
-
-<> 2023-12-23T123027.400.json
+<> 2023-12-24T010528.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan?id=all&table=table
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T122846.200.json
+<> 2023-12-24T010524.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productNow
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T122751.200.json
+<> 2023-12-24T010522.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productNow
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T122721.200.json
+<> 2023-12-24T010513.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=productNow
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T122613.500.html
+<> 2023-12-24T005235.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T122426.500.html
+<> 2023-12-24T005232.200.json
 
 ###
 
-DELETE http://localhost:3000/api/delivery?id=test_1
-Content-Type: application/json
-Content-Length: 3
+GET http://localhost:3000/api/dashboard?option=pesanan&value=asdasda
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-}
-
-<> 2023-12-23T115621.200.json
+<> 2023-12-24T005226.200.json
 
 ###
 
-DELETE http://localhost:3000/api/travel?id=test_1
-Content-Type: application/json
-Content-Length: 3
+GET http://localhost:3000/api/dashboard?option=orderTahun
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-}
-
-<> 2023-12-23T115616.404.html
+<> 2023-12-24T005223.200.json
 
 ###
 
-POST http://localhost:3000/api/delivery
-Content-Type: application/json
-Content-Length: 160
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "test_1",
-  "nama": "kosong",
-  "hp": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "img": "kosong",
-  "keterangan": "kosong"
-}
-
-<> 2023-12-23T115608.200.json
+<> 2023-12-24T005221.200.json
 
 ###
 
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 160
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "test_1",
-  "nama": "kosong",
-  "hp": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "img": "kosong",
-  "keterangan": "kosong"
-}
-
-<> 2023-12-23T115604.404.html
+<> 2023-12-24T004913.200.json
 
 ###
 
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 160
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "test_1",
-  "nama": "kosong",
-  "hp": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "img": "kosong",
-  "keterangan": "kosong"
-}
-
-<> 2023-12-23T115536.404.html
+<> 2023-12-24T004548.200.json
 
 ###
 
-POST http://localhost:3000/api/bank
-Content-Type: application/json
-Content-Length: 242
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
-  "jenis": "Kredit"
-}
-
-<> 2023-12-23T114227.400.json
+<> 2023-12-24T004145.200.json
 
 ###
 
-DELETE http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 2
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{}
-
-<> 2023-12-23T113925.200.json
+<> 2023-12-24T004054.200.json
 
 ###
 
-DELETE http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 2
+GET http://localhost:3000/api/dashboard?option=productNow
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{}
-
-<> 2023-12-23T113738.200.json
+<> 2023-12-24T003958.200.json
 
 ###
 
-PUT http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 79
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas"
-}
-
-<> 2023-12-23T113452.400.json
+<> 2023-12-24T003952.200.json
 
 ###
 
-PUT http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 79
+GET http://localhost:3000/api/dashboard?option=orderTahun
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas"
-}
-
-<> 2023-12-23T113246.400.json
+<> 2023-12-24T003930.200.json
 
 ###
 
-PUT http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 79
+GET http://localhost:3000/api/dashboard?option=pesanan
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas"
-}
-
-<> 2023-12-23T113240.400.json
+<> 2023-12-24T003905.200.json
 
 ###
 
-PUT http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 79
+GET http://localhost:3000/api/dashboard?option=notify
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas"
-}
-
-<> 2023-12-23T113205.200.json
+<> 2023-12-24T003900.200.json
 
 ###
 
-PUT http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 191
+GET http://localhost:3000/api/dashboard?option=productPerMonth
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "jenis": "Kredit",
-  "img": "test"
-}
-
-<> 2023-12-23T113141.200.json
+<> 2023-12-24T003813.200.json
 
 ###
 
-PUT http://localhost:3000/api/bank?id=test_1
-Content-Type: application/json
-Content-Length: 191
+GET http://localhost:3000/api/dashboard?option=productNow
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "jenis": "Kredit",
-  "img": "test"
-}
-
-<> 2023-12-23T113043.200.json
+<> 2023-12-24T003811.200.json
 
 ###
 
-DELETE http://localhost:3000/api/product?id=
+GET http://localhost:3000/api/dashboard?option=productLast
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T011614.400.json
+<> 2023-12-24T003808.200.json
 
 ###
 
-DELETE http://localhost:3000/api/product?id=
+GET http://localhost:3000/api/dashboard?option=orderTahun
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T011345.400.json
+<> 2023-12-24T003805.200.json
 
 ###
 
-DELETE http://localhost:3000/api/product?id=
+GET http://localhost:3000/api/dashboard?option=pesanan
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-12-23T011329.400.json
+<> 2023-12-24T003803.200.json
 
 ###
 

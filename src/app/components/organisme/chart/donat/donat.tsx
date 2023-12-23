@@ -70,7 +70,7 @@ export default function Donat( { dataKu }: {
   const namaProduk = dataKu.map( d => d.nama )
 
   const data = {
-    labels : namaProduk,
+    labels: namaProduk,
     // spacing: 1,
     // borderAlign: "inner",
     // clip: "objectMode",
@@ -100,7 +100,5 @@ export default function Donat( { dataKu }: {
     ],
   };
 
-  return <Pie data={ data }
-              options={ options }
-  />
+  return <Pie data={ data } options={ options }/>
 }

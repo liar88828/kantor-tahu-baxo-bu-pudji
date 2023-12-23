@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="25acef11-11c8-40e0-9f0a-63e191b17b1c">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="postgres@db.nkhaifzwvstooeluomlz.supabase.co" uuid="7e1b1e70-6143-4ab2-bdaf-ad498cf0ba9c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
