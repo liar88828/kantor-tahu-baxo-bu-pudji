@@ -80,7 +80,7 @@ model Product {
   @@map("Products")
 }
 
-model Delivery {
+model Form {
   id         String @id @default(uuid())
   nama       String
   hp         String

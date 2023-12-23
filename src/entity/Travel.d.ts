@@ -1,6 +1,6 @@
-type TTravel = {
+type TDelivery = {
   id: string,
-  img?: string,
+  img: string,
   lokasi: string,
   nama: string,
   hp: string

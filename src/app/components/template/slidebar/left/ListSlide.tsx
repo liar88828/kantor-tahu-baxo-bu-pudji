@@ -1,5 +1,5 @@
-import { ListAccordion } from '@/app/components/molecules/list/ListAccordion';
-import { routesNav } from '../../../../../asset/constants/link/RoutesNav';
+import { ListAccordion } from '@/app/components/template/slidebar/right/ListAccordion';
+import { routesNav } from '../../../../../../asset/constants/link/RoutesNav';
 
 export default function ListSlide() {
 

@@ -1,11 +1,10 @@
-import { DeleteCard } from '@/app/components/Atom/Button/card/Delete';
-import { EditCard } from '@/app/components/Atom/Button/card/Edit';
-
 import { ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { formatPhone } from '@/lib/utils/formatPhone';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
 import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
+import { EditCard } from '@/app/components/element/Edit';
+import { DeleteCard } from '@/app/components/element/Delete';
 
 export const to = "bank"
 

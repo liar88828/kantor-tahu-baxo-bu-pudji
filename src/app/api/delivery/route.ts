@@ -1,5 +1,3 @@
-import { TPTravel } from '@/servers/data-source/prisma/config';
-
 import { NextRequest, NextResponse } from 'next/server'
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
 import { DeliveryRepo } from '@/servers/data-source/repository/DeliveryRepo';
@@ -8,15 +6,18 @@ import { tryCatch } from '@/lib/exeption/tryCatch';
 import { CreateZod } from '@/lib/validation/zod/createZod';
 import { UpdateZod } from '@/lib/validation/zod/updateZod';
 
-type TYPE = TPTravel
-
 const c = new DeliveryRepo()
 
 export async function GET( request: NextRequest, ) {
-  const { id, method } = await getResponse( request )
-  console.log( `route api ${ method } travel` )
+  const { id, method, take, page } = await getResponse( request )
+  console.log( `route api ${ method } delivery ${ id }` )
   return tryCatch( method, async () => {
+    if( page !== 0 && take !== 0 ) {
+      // console.log( 'pagenate' )
+      // console.log( page, take )
 
+      return DeliveryRepo.findPaginate( page, take )
+    }
     if( id === '' ) {
       throw { message: 'Bad Request', status: 400 }
     }
@@ -34,7 +35,7 @@ export async function GET( request: NextRequest, ) {
 export async function POST( request: NextRequest ) {
   const { method, json } = await getResponse( request )
   console.log( `route api ${ method } travel` )
-
+  // console.log(json)
   return tryCatch( method, async () => {
     if( json === undefined ) {
       throw { message: 'Bad Request', status: 400 }

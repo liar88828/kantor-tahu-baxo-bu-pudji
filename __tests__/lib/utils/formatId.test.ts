@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { setIdBank, setIdModel, setIdOrderan, setIdProduct, setIdTravel } from '../../../src/lib/utils/formatId';
+import { setIdBank, setIdDelivery, setIdModel, setIdOrderan, setIdProduct } from '../../../src/lib/utils/formatId';
 import { exampleBank, exampleOrderan, exampleProduct, exampleTravel } from '../../../src/lib/ress/ErrorData';
 
 describe( 'test id', () => {
   it( 'should be Travel ID format ', () => {
-    const test = setIdTravel( exampleTravel )
+    const test = setIdDelivery( exampleTravel )
     expect( test ).toContain( "ko_0_ko_ko_ko_" )
   } );
 

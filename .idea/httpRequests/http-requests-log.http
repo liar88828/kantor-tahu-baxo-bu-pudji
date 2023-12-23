@@ -1,3 +1,93 @@
+GET http://localhost:3000/api/bank?id=page=1&take=10
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T225122.200.json
+
+###
+
+GET http://localhost:3000/api/delivery?page=1&take=10
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T224931.200.json
+
+###
+
+GET http://localhost:3000/api/delivery?id=all
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T224911.200.json
+
+###
+
+GET http://localhost:3000/api/bank?id=all
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T224901.200.json
+
+###
+
+GET http://localhost:3000/api/delivery?id=all
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T223906.200.json
+
+###
+
+GET http://localhost:3000/api/delivery?id=all
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T223808.200.json
+
+###
+
+GET http://localhost:3000/api/delivery?id=all
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T223729.200.json
+
+###
+
+GET http://localhost:3000/api/bank?id=It_90_45_Te_SC_Je_1703324566122
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T165002.200.json
+
+###
+
+GET http://localhost:3000/api/bank?id=It_90_45_Te_SC_Je_1703324566122
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-23T164954.200.json
+
+###
+
 POST http://localhost:3000/api/orderan
 Content-Type: application/json
 Content-Length: 807
@@ -1241,99 +1331,6 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 <> 2023-12-23T011329.400.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T011011.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010928.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010817.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010755.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010753.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010729.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010722.200.json
-
-###
-
-PUT http://localhost:3000/api/product?id=1231231
-Content-Type: application/json
-Content-Length: 167
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "nama": "tahu baxo update lagi 1x",
-  "harga": 20000,
-  "img": "tidak ada ",
-  "jenis": "orderan",
-  "jumlah": 1,
-  "keterangan": "Pedas",
-  "lokasi": "Semarang"
-}
-
-<> 2023-12-23T010719.200.json
-
-###
-
-DELETE http://localhost:3000/api/product?id=
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-12-23T010646.200.json
 
 ###
 

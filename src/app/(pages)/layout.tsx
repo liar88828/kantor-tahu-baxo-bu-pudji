@@ -1,11 +1,9 @@
 "use client"
 import { ReactNode } from 'react';
-import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import Complex from '@/app/components/template/slidebar/top/menu/Complex';
+import Basic from '@/app/components/template/slidebar/top/menu/Basic';
 
-const Basic   = dynamic( () => import('@/app/components/molecules/menu/Basic') )
-const Complex = dynamic( () => import('@/app/components/molecules/menu/Complex'),
-  { ssr: true } )
 // molecule
 export default function LayoutNavbar( {
   children,

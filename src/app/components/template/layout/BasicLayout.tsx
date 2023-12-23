@@ -1,8 +1,8 @@
 "use client"
 
 import React, { ReactNode } from 'react';
-import Navbar from '@/app/components/template/layout/Navbar';
 import { ToastContainer } from 'react-toastify';
+import Navbar from '@/app/components/template/slidebar/Navbar';
 
 export default function HomeLayout( { children }: { children: ReactNode } ) {
   return ( <>

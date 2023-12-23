@@ -54,7 +54,7 @@ export const exampleTravel = {
   harga     : 0,
   img       : "kosong",
   keterangan: "kosong"
-} as TTravel
+} as TDelivery
 
 export const exampleProduct = {
   id        : "kosong",

@@ -1,8 +1,6 @@
-import Title from '@/app/components/organisme/navBar/Title';
-import dynamic from 'next/dynamic';
-import Profile from '@/app/components/organisme/navBar/Profile';
-
-const Slidebar = dynamic( () => import ('@/app/components/organisme/navBar/Slidebar'), )
+import Slidebar from '@/app/components/template/slidebar/Slidebar';
+import Title from '@/app/components/template/slidebar/top/Title';
+import Profile from '@/app/components/template/slidebar/top/Profile';
 
 function Navbar() {
   return (

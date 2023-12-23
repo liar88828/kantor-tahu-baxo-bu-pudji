@@ -15,7 +15,8 @@ export function EditCard(
       type={ "button" }
       onClick={ () => {
         // router.prefetch(`/${ to }/edit/` + id)
-        router.replace( `/${ to }/edit/` + id )
+        // @ts-ignore
+        router.push( `/${ to }/edit?id=${ id }` )
         // router.push( `/${ to }/edit/` + id )
       } }
     >Edit

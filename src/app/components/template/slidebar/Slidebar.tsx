@@ -1,7 +1,7 @@
-import ListSlide from '@/app/components/molecules/list/ListSlide';
 import Image from 'next/image';
 import profilePic from '../../../../../public/logo.png';
 import React from 'react';
+import ListSlide from '@/app/components/template/slidebar/right/ListSlide';
 
 const Slidebar = () => {
   return (

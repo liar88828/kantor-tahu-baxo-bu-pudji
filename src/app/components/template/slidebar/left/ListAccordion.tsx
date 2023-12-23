@@ -1,7 +1,7 @@
 "use client"
 import { LinkSlidebar } from '@/app/components/Atom/link/LinkSlidebar';
 import { enableCache, Icon } from '@iconify/react';
-import { TRoutesNav } from '../../../../../asset/constants/link/RoutesNav';
+import { TRoutesNav } from '../../../../../../asset/constants/link/RoutesNav';
 
 enableCache( 'session' );
 

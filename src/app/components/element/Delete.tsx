@@ -1,8 +1,8 @@
-"use client"
+'use client'
 import { useRouter } from 'next/navigation';
 import { notifyData } from '@/lib/notif/toash';
-import { GateWay } from '@/lib/ress/GateWay';
 import { ToModel, TRes } from '@/entity/Utils';
+import { Fetch } from '@/lib/ress/SendApi';
 
 export function DeleteCard( {
   id,
@@ -19,8 +19,12 @@ export function DeleteCard( {
       type={ "button" }
       onClick={ async () => {
         if( confirm( "Apakah anda yakin untuk menghapus data ini ?" ) ) {
-          console.log( id )
-          const res: TRes<TBank> = await GateWay<TBank>( 'DELETE', to, id, {}, )
+          // console.log( id )
+          const res: TRes<TBank> = await Fetch( {
+            method: 'DELETE',
+            to    : to,
+            id,
+          } )
           // console.log( res )
           notifyData( res.msg )
           if( res.msg.includes( "cess" ) ) {

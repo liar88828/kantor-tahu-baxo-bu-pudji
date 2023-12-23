@@ -1,8 +1,8 @@
 "use client"
 import { TStatus } from '@/entity/Dashboard';
 import { enableCache, Icon } from '@iconify/react';
-import { LinkNavbar } from '@/app/components/Atom/link/LinkNavbar';
 import { listsMenu } from '../../../../../asset/constants/link/ListsMenu';
+import { LinkNavbar } from '@/app/components/template/slidebar/LinkNavbar';
 
 enableCache( 'session' );
 

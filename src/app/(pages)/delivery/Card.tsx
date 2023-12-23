@@ -1,17 +1,16 @@
 import { Rupiah } from '@/lib/utils/rupiah';
-import { DeleteCard } from '@/app/components/Atom/Button/card/Delete';
-import { EditCard } from '@/app/components/Atom/Button/card/Edit';
 
 import { imageValid, ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
 import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
-
-export const to = "travel"
+import { EditCard } from '@/app/components/element/Edit';
+import { DeleteCard } from '@/app/components/element/Delete';
+import { ToModel } from '@/entity/Utils';
 
 export function ListTravel(
-  { d }:
-    { d: TTravel }
+  { d, to }:
+    { d: TDelivery, to: ToModel }
 ) {
   return ( <LiCard name={ d.nama }>
       <ImgCard img={ imageValid( d.img ) }/>

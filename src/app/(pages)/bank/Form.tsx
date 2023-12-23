@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { FormBody, FormButton, FormLayout, FormPrev } from '@/app/components/template/layout/Form';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '@/app/components/Atom/input/InputNew';
-import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from 'next/navigation';
 
@@ -13,12 +12,13 @@ import { notifyData } from '@/lib/notif/toash';
 import { Fetch } from '@/lib/ress/SendApi';
 import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { setIdBank } from '@/lib/utils/formatId';
-import { formBank } from '../../../../../asset/constants/model/bank';
+import { CreateZod } from '@/lib/validation/zod/createZod';
+import { formBank } from '../../../../asset/constants/model/bank';
 
 type TYPE = TBank;
 export const img = 'https://dummyimage.com/200x200/000/fff.jpg&text=not+found'
 
-export default function Bank(
+export default function FormBank(
   { defaultData, method, id, to }:
     {
       defaultData: TYPE,
@@ -33,32 +33,36 @@ export default function Bank(
   const { getValues, register, handleSubmit, formState: { errors } } = useForm<TYPE>( {
     defaultValues: defaultData,
     mode         : "onChange",
-    resolver     : zodResolver( vSchema.BankSchema )
+    resolver: zodResolver( CreateZod.BankSchema )
   } );
-  console.log( errors )
+
+  // console.log( errors )
   const handleImage = () => {
     setImageUrl( getValues().img );
     setOpen( prev => !prev )
   }
-  const handleSave  = async ( data: TYPE ) => {
+
+  const handleSave = async ( data: TYPE ) => {
     setImageUrl( data.img )
     const text = method === "POST" ? "SIMPAN" : "EDIT"
-    // console.log( errors)
     if( confirm( `Apakah anda yakin untuk ${ text } data ini ?` ) ) {
       try {
-        console.log( "send data" )
-        data.id = setIdBank( data )
-        const res = await Fetch( to, method, id, "", data, "noCache" )
-        console.log( "get gateway" )
-        if( Array.isArray( res.data ) ) {
-          notifyData( "", res.data )
+        // console.log( "send data" )
+        data.id   = setIdBank( data )
+        const res = await Fetch( {
+          to    : "bank",
+          json  : data,
+          method: method,
+          id    : id
+
+        } )
+        // console.log( "get gateway" )
+        if( res.success ) {
+          notifyData( 'success create data' )
+          router.replace( `/${ to }/list?page=1&take=10` )
         }
-        else {
-          notifyData( res.msg )
-          if( res.msg.toString().includes( "cess" ) ) {
-            // router.prefetch( `/${ to }/list` )
-            router.replace( `/${ to }/list` )
-          }
+        else if( !res.success ) {
+          router.replace( `/${ to }/list?page=1&take=10` )
         }
       }
       catch ( e ) {
@@ -92,7 +96,7 @@ export default function Bank(
 
           <InputForm errors={ errors }
                      title={ formBank.hp }
-                     type="number"
+                     type="tel"
                      reg={ register( "hp" ) }/>
 
           <InputForm errors={ errors }

@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BodyMenu } from '@/app/components/molecules/menu/BodyMenu';
+import { BodyMenu } from '@/app/components/template/slidebar/top/menu/BodyMenu';
 
 export default function Basic() {
   const pathname       = usePathname()
@@ -10,7 +10,7 @@ export default function Basic() {
     <BodyMenu>
       <Link
         data-test={ "link-list" }
-        href={ `/${ path[ 1 ] }/list` }
+        href={ `/${ path[ 1 ] }/list?page=1&take=10` }
         className={ `btn  ${ path.includes( "list" ) ? "info btn-disabled text-black"
                                                      : " btn-success text-white" }    ` }>
         List

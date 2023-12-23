@@ -1,5 +1,5 @@
 ### get data Bank
-GET http://localhost:3000/api/bank?id=all
+GET http://localhost:3000/api/bank?id=page=1&take=10
 Content-Type: application/json
 
 //kosongkosongkosongkosongkosong1

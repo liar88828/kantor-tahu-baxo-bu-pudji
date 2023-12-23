@@ -1,17 +1,17 @@
-### get data Travel
-GET http://localhost:3000/api/travel?id=all
+### get data Form
+GET http://localhost:3000/api/delivery?page=1&take=10
 Content-Type: application/json
 
 
-### get data Travel by id
+### get data Form by id
 GET http://localhost:3000/api/travel?id=test_rest_1234567890_test_rest_123456789
 Content-Type: application/json
 
 {
 }
 
-### create data Travel
-POST http://localhost:3000/api/delivery
+### create data Form
+POST delivery
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 
-### create data Travel Text Only
+### create data Form Text Only
 POST http://localhost:3000/api/travel?option=file
 Content-Type: application/json
 
@@ -42,7 +42,7 @@ Content-Type: application/json
 }
 
 
-### Edit data Travel Text Only
+### Edit data Form Text Only
 PUT http://localhost:3000/api/travel/text?id=test_rest_1234567890_test_rest_123456789
 Content-Type: application/json
 
@@ -57,7 +57,7 @@ Content-Type: application/json
   "keterangan": "test"
 }
 
-### update data Travel
+### update data Form
 PUT http://localhost:3000/api/travel/asdasssd
 Content-Type: application/json
 
@@ -72,7 +72,7 @@ Content-Type: application/json
   "keterangan": "masih diragukan"
 }
 
-### delete data Travel
+### delete data Form
 DELETE http://localhost:3000/api/delivery?id=test_1
 Content-Type: application/json
 

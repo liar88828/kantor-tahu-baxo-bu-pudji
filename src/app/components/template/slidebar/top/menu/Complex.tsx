@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { BodyMenu } from '@/app/components/molecules/menu/BodyMenu';
-import { listComplex } from '../../../../../asset/constants/link/ListComplex';
+import { BodyMenu } from '@/app/components/template/slidebar/top/menu/BodyMenu';
+import { listComplex } from '../../../../../../../asset/constants/link/ListComplex';
 
 export default function Complex(
   { slug }:

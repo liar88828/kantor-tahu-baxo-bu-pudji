@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    typedRoutes: true,// for type path of route
+    // typedRoutes: true,// for type path of route
     serverActions: true,// for add server action
     // optimizePackageImports: ['react-icons'],
   },

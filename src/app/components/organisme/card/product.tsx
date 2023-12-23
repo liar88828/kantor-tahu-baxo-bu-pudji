@@ -1,10 +1,10 @@
 import { Rupiah } from '@/lib/utils/rupiah';
-import { DeleteCard } from '@/app/components/Atom/Button/card/Delete';
-import { EditCard } from '@/app/components/Atom/Button/card/Edit';
 import { ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
 import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
+import { DeleteCard } from '@/app/components/element/Delete';
+import { EditCard } from '@/app/components/element/Edit';
 
 export const to = "product"
 

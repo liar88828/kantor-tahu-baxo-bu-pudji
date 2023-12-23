@@ -54,11 +54,11 @@ export const routesNav: TRoutesNav[] = [
     links      : [
       {
         name: "List",
-        path: "/travel/list",
+        path: "/delivery/list?page=1&take=10",
       },
       {
         name: "Create",
-        path: "/travel/create",
+        path: "/delivery/create",
       },
     ],
   },
@@ -69,7 +69,7 @@ export const routesNav: TRoutesNav[] = [
     links      : [
       {
         name: "List",
-        path: "/bank/list",
+        path: "/bank/list?page=1&take=10",
       },
       {
         name: "Create",

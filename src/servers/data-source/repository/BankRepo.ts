@@ -6,26 +6,26 @@ type TYPE = TPBank
 
 export class BankRepo {
 
-  public data = prisma.bank
-
+  static async findPaginate( page: number, take: number ) {
+    return prisma.bank.findMany( { take: take, skip: ( page - 1 ) * take } )
+  }
+  static async findCount() {return prisma.bank.count()}
+  static async deleteOne( id: string ) {
+    return prisma.bank.delete( { where: { id } } )
+  }
   async createOne( data: TCREATEBANK ): Promise<TYPE> {
-    return this.data.create( { data: { ...data } } )
+    return prisma.bank.create( { data: { ...data } } )
   }
-
   async findAll(): Promise<TYPE[]> {
-    return this.data.findMany()
+    return prisma.bank.findMany()
   }
-
   async findOne( id: string ) {
-    return this.data.findUnique( { where: { id } } )
+    return prisma.bank.findUnique( { where: { id } } )
   }
-
-  async deleteOne( id: string ): Promise<TYPE> {
-    return this.data.delete( { where: { id } } )
-  }
+  async deleteOne( id: string ): Promise<TYPE> {return BankRepo.deleteOne( id )}
 
   async updateOne( data: TUPDATEBANK, id: string, ): Promise<TYPE> {
-    return this.data.update( { data: { ...data }, where: { id: id } } )
+    return prisma.bank.update( { data: { ...data }, where: { id: id } } )
   }
 
 }

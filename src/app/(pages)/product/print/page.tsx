@@ -11,7 +11,7 @@ import { Rupiah } from '@/lib/utils/rupiah';
 export default async function Page() {
 
   const { data }             = await GateWay<TProduct[]>( "GET", 'product', '', {} )
-  const { data: dataTravel } = await GateWay<TTravel[]>( "GET", 'travel', '', {} )
+  const { data: dataTravel } = await GateWay<TDelivery[]>( "GET", 'travel', '', {} )
   const { data: dataBank }   = await GateWay<TBank[]>( "GET", 'bank', 'all', {} )
 
   return ( <div className={ " relative " }>
@@ -107,7 +107,7 @@ export default async function Page() {
                 <h1 className="capitalize text-center text-xl font-bold text-green-700 drop-shadow-lg mb-8">
                   Jasa Pengiriman</h1>
                 <ul className={ "flex flex-wrap gap-2 sm:gap-4 md:gap-8 justify-center p-2" }>
-                  { dataTravel.map( ( t: TTravel, i: number ) => {
+                  { dataTravel.map( ( t: TDelivery, i: number ) => {
                     return (
                       <li className="" key={ t.id }>
                         <figure className={ " h-20 object-cover rounded " }>

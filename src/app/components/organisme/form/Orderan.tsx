@@ -30,7 +30,7 @@ export default function Orderan( {
   id: string,
   method: "POST" | "PUT",
   defaultDataOrder: TOrder,
-  travel: Pick<TTravel, "nama">[],
+  travel: Pick<TDelivery, "nama">[],
   product: TProduct[]
   bank: Pick<TBank, "nama">[]
 } ) {

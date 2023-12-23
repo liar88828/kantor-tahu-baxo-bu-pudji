@@ -1,6 +1,6 @@
 import { jpgTextNotFound } from '../data/images';
 
-export const formTravel: Record<keyof TTravel, any> = {
+export const formTravel: Record<keyof TDelivery, any> = {
   id  : "",
   nama: "Nama Travel",
   hp  : "No Hp perusahaan",
@@ -11,7 +11,7 @@ export const formTravel: Record<keyof TTravel, any> = {
   keterangan: "Keterangan "
 }
 
-export const defaultFormTravel: TTravel = {
+export const defaultFormTravel: TDelivery = {
   id        : "",
   nama  : "",
   hp        : "",

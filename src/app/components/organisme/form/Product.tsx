@@ -1,6 +1,5 @@
 "use client"
 import React, { ChangeEvent, useState } from 'react';
-import { img } from '@/app/components/organisme/form/Bank';
 import { SendData } from '@/app/components/organisme/upload/SendData';
 import { handleUpload } from '@/app/components/organisme/upload/HandleUpload';
 import { FormBody, FormButton, FormLayout, FormPrev } from '@/app/components/template/layout/Form';
@@ -12,10 +11,11 @@ import { notifyData } from '@/lib/notif/toash';
 import { setIdProduct } from '@/lib/utils/formatId';
 import { TRes } from '@/entity/Utils';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
-import { vSchema } from '@/lib/validation/zod/validationSchema';
 import { Fetch } from '@/lib/ress/SendApi';
 import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { formProduct } from '../../../../../asset/constants/model/product';
+import { CreateZod } from '@/lib/validation/zod/createZod';
+import { img } from '@/app/(pages)/bank/Form';
 
 type TYPE = TProduct;
 
@@ -37,7 +37,7 @@ export function Product(
   const { register, handleSubmit, formState: { errors } } = useForm<TYPE>( {
     defaultValues: defaultData,
     mode         : "onChange",
-    resolver     : zodResolver( vSchema.ProductSchema )
+    resolver: zodResolver( CreateZod.ProductSchema )
   } );
 
   const handleFileChange = ( event: ChangeEvent<HTMLInputElement> ) => {
@@ -54,7 +54,7 @@ export function Product(
       if( !open ) {
         data.img              = method === "POST" ? img : data.img
         data.id               = method === "POST" ? setIdProduct( data ) : data.id
-        const res: TRes<TYPE> = await Fetch( to, method, id, "text", data )
+        const res: TRes<TYPE> = await Fetch( { to, method, id, json: data } )
 
         if( res.msg.includes( "cess" ) ) {
           notifyData( res.msg )

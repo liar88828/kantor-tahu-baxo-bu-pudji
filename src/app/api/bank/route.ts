@@ -9,16 +9,25 @@ import { UpdateZod } from '@/lib/validation/zod/updateZod';
 const c = new BankRepo()
 
 export async function GET( request: NextRequest ) {
-  const { id, method } = await getResponse( request )
-  console.log( `route api ${ method } bank` )
+  const { id, method, page, take } = await getResponse( request )
+  // console.log( `route api ${ method } bank` )
 
-  return tryCatch( method, async () => {
+  // console.table( { page, take } )
+  return await tryCatch( method, async () => {
 
+    if( page !== 0 && take !== 0 ) {
+      // console.log( 'pagenate' )
+      // console.log( page, take )
+
+      return BankRepo.findPaginate( page, take )
+    }
     if( id.includes( "all" ) ) {
+      console.log( 'find all' )
       return c.findAll()
     }
-    if( id.length > 10 ) {
-      return c.deleteOne( id )
+    if( id.length > 5 ) {
+      console.log( `one ${ id }` )
+      return c.findOne( id )
     }
     if( id === '' ) {
       throw { message: 'Bad Request', status: 400 }
@@ -55,7 +64,7 @@ export async function DELETE( request: NextRequest ) {
     if( id === '' ) {
       throw { message: 'Bad Request', status: 400 }
     }
-    if( id.length > 5 ) {
+    if( id.length > 2 ) {
       return c.deleteOne( id )
     }
 

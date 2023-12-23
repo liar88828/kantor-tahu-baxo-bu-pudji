@@ -1,5 +1,5 @@
 import { addDot, getExtensionData, validateExtension } from './fileExtension';
-import { setIdProduct, setIdTravel } from '@/lib/utils/formatId';
+import { setIdDelivery, setIdProduct } from '@/lib/utils/formatId';
 import { newError } from '@/lib/exeption/errorHandler';
 
 export const formatData = ( d: any, option: TraPro | string ) => {
@@ -20,9 +20,9 @@ export const formatData = ( d: any, option: TraPro | string ) => {
 
   if( option.includes( "travel" ) ) {
 
-    const dTravel = d as TTravel | any
+    const dTravel = d as TDelivery | any
 
-    dTravel.id    = setIdTravel( dTravel )
+    dTravel.id = setIdDelivery( dTravel )
     dTravel.harga = Number( dTravel.harga )
     return dTravel
   }
