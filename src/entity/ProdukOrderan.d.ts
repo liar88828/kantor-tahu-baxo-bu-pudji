@@ -1,5 +1,6 @@
 type TProOrderan = {
   id?: string
+
   nama: string,
   harga: number,
   lokasi: string,

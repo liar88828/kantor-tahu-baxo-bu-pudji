@@ -1,123 +1,129 @@
 import { isObjectEmpty } from '@/lib/ress/GateWay';
-import { prisma, TPOrderan } from '@/servers/data-source/prisma/config';
-
 import { NextRequest, NextResponse } from 'next/server'
-import ValidationService from '@/lib/validation/zod/validationService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import { TMethod } from '@/entity/Utils';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import OrderanData from '@/servers/data-source/prisma/Orderan';
-import { Input } from '@/servers/presentation/web/Input';
-import { Output } from '@/servers/presentation/web/Output';
-import OrderanController from '@/servers/domain/controllers/Orderan';
-import { IControlOrderan } from '@/servers/domain/interface/controllers/Orderan';
+import { OrderanRepo } from '@/servers/data-source/repository/OrderanRepo';
+import { getResponse } from '@/servers/presentation/web/getResponse';
+import { tryCatch } from '@/lib/exeption/tryCatch';
+import { CreateZod } from '@/lib/validation/zod/createZod';
+import { UpdateZod } from '@/lib/validation/zod/updateZod';
 
-const c: IControlOrderan = new OrderanController(
-  new OrderanData( prisma.orderan ),
-  new ValidationService<TPOrderan>( new ValidationSchema().OrderanSchema ),
-)
-
-type TInput = {
-  id: string;
-  option: string;
-  value: string;
-  pathname: string;
-  method: TMethod;
-}
-
-const to = "orderan"
+const c = new OrderanRepo()
 
 export async function GET( request: NextRequest, ) {
-  const { id, option, pathname, method }: TInput = await Input( request )
+  const { method, id, pathname, option } = await getResponse( request )
   console.log( `route api ${ method } orderan` )
 
-  if( !pathname.includes( "table" ) && id === "all" ) {
-    return Output( "GET", () => c.find(), )
-  }
+  return tryCatch( method, async () => {
 
-  if( option === "table" ) {
-    return Output( "GET", () => c.findByStatus( id ), )
-  }
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( !pathname.includes( "table" ) && id === "all" ) {
+      return c.findAll()
+    }
+    if( id.includes( "_" ) ) {
+      return c.findOne( id )
+    }
+    if( option === "table" ) {
+      return c.findByStatus( id )
+    }
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
 
-  if( id.includes( "_" ) ) {
-    return Output( "GET", () => c.findById( id ), )
-  }
-
-  return NextResponse.json( errorEmptyID( method ) )
-
+  } )
 }
 
 export async function POST( request: NextRequest, ) {
-  const { json, method, } = await Input( request )
+  const { method, json } = await getResponse( request )
+  // console.log( `route api ${ method } orderan` )
   console.log( json )
-  console.log( `route api ${ method } orderan` )
 
-  return Output( "POST", () => c.create( json ), )
+  return tryCatch( method, async () => {
+    if( json === undefined ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( json !== null && typeof json === 'object' ) {
+      const data = CreateZod.OrderanSchema.parse( json )
+      return c.createOne( data )
+    }
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }
 
 export async function PATCH( request: NextRequest, ) {
-  const { id, method, json, } = await Input( request )
+  const { method, json, id } = await getResponse( request )
   console.log( `route api ${ method } orderan` )
 
-  if( id.length > 10 ) {
-    return Output( "PATCH", () => c.updateStatus( json, id ), )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+  return tryCatch( method, async () => {
+
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( json === undefined ) {
+      return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty data" } )
+    }
+    if( id.length > 5 ) {
+      return c.updateStatus( json, id )
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }
 
 export async function PUT( request: NextRequest, ) {
-  const { id, json, method, } = await Input( request )
+  const { method, json, id } = await getResponse( request )
   console.log( `route api ${ method } orderan` )
 
-  if( json === undefined ) {
-    return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty data" } )
-  }
+  return tryCatch( method, async () => {
 
-  if( id.length > 10 || !isObjectEmpty( json ) ) {
-    return Output( "PUT", () => c.edit( json, id ), )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
 
+    if( json === undefined ) {
+      return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty data" } )
+    }
+
+    if( id.length > 5 || !isObjectEmpty( json ) ) {
+      const data = UpdateZod.OrderanSchema.parse( json )
+      return c.updateOne( data, id )
+    }
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }
 
 export async function DELETE( request: NextRequest, ) {
+  const { id, method, json: array } = await getResponse( request )
+  console.log( `route api ${ method } product ${ id }` )
 
-  try {
-    const { method, id, json: array, }: {
-      method: TMethod,
-      id: string,
-      json: string[],
-      pathname: string
-    } = await Input( request )
-    console.log( `route api ${ method } orderan` )
-
+  return tryCatch( method, async () => {
     if( typeof id === "string" ) {
-      if( id.length > 10 && id.includes( "_" ) ) {
+      if( id.length > 5 && id.includes( "_" ) ) {
         console.log( "is just string" )
-        return Output( "DELETE", () => c.destroy( id ), )
+        return c.deleteOne( id )
       }
     }
 
     if( typeof array === "object" ) {
       if( Array.isArray( array ) ) {
-        console.log( "is array" )
         if( array.length === 1 ) {
           console.log( "one" )
-          // console.log( array )
-          return Output( "DELETE", () => c.destroyOne( array[ 0 ] ) )
+          return c.deleteOne( array[ 0 ] )
         }
         if( array.length > 1 ) {
           console.log( "many" )
-          // console.log( array )
-          return Output( "DELETE", () => c.deleteMany( array ) )
+          return c.destroyMany( array )
         }
       }
     }
 
-    return NextResponse.json( errorEmptyID( method ) )
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
 
-  }
-  catch ( e ) {
-    NextResponse.json( { error: e } )
-  }
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }

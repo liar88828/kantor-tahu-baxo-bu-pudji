@@ -36,5 +36,5 @@
 //   }
 // }
 
-Cypress.Commands.add( 'find', ( dataTestSelector ) => cy.get( `[data-test="${ dataTestSelector }"]` )
-)
+// Cypress.Commands.add( 'find', ( dataTestSelector ) => cy.get( `[data-test="${ dataTestSelector }"]` )
+// )

@@ -1,33 +1,31 @@
-import { TPBank } from '@/servers/data-source/prisma/config';
-import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
-import { IBankRepo } from '@/servers/data-source/interface/repository/IBankRepo';
-import AbstractRepo from '@/servers/data-source/repository/AbstractRepo';
-// import { overrides } from 'chart.js/dist/core/core.defaults';
+import { prisma, TPBank } from '@/servers/data-source/prisma/config';
+import { TUPDATEBANK } from '@/lib/validation/zod/updateZod';
+import { TCREATEBANK } from '@/lib/validation/zod/createZod';
 
 type TYPE = TPBank
 
-export class BankRepo extends AbstractRepo<"bank"> implements IBankRepo {
+export class BankRepo {
 
-  constructor( public data: IBankData<TYPE> ) {super()}
+  public data = prisma.bank
 
-  async createOne( data: TYPE ): Promise<TYPE> {
-    return this.data.createOne( data )
+  async createOne( data: TCREATEBANK ): Promise<TYPE> {
+    return this.data.create( { data: { ...data } } )
   }
 
   async findAll(): Promise<TYPE[]> {
-    return this.data.findAll()
+    return this.data.findMany()
   }
 
-  async findOne( id: string ): Promise<TYPE> {
-    return this.data.findById( id )
+  async findOne( id: string ) {
+    return this.data.findUnique( { where: { id } } )
   }
 
   async deleteOne( id: string ): Promise<TYPE> {
-    return this.data.destroyOne( id )
+    return this.data.delete( { where: { id } } )
   }
 
-  async updateOne( id: string, data: TYPE ): Promise<TYPE> {
-    return this.data.updateOne( data, id )
+  async updateOne( data: TUPDATEBANK, id: string, ): Promise<TYPE> {
+    return this.data.update( { data: { ...data }, where: { id: id } } )
   }
 
 }

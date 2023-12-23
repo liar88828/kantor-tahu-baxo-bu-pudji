@@ -11,13 +11,13 @@ Content-Type: application/json
 }
 
 ### create data Travel
-POST http://localhost:3000/api/travel
+POST http://localhost:3000/api/delivery
 Content-Type: application/json
 
 {
-  "id": "kosong_kosong_kosong_kosong_travel",
-  "namaPengiriman": "kosong",
-  "noHpPerusahaan": "kosong",
+  "id": "test_1",
+  "nama": "kosong",
+  "hp": "kosong",
   "lokasi": "kosong",
   "jenis": "kosong",
   "harga": 0,
@@ -73,7 +73,7 @@ Content-Type: application/json
 }
 
 ### delete data Travel
-DELETE http://localhost:3000/api/travel?id=test_rest_1234567890_test_rest_123456789
+DELETE http://localhost:3000/api/delivery?id=test_1
 Content-Type: application/json
 
 {

@@ -49,17 +49,17 @@ export type TEntity = TypeMap["meta"]["modelProps"]
 export type GetModelPrisma<T extends TEntity> =
   T extends "semuaProduct" ? PrismaClient["semuaProduct"] :
   T extends "bank" ? PrismaClient["bank"] :
-  T extends "travel" ? PrismaClient["travel"] :
+  T extends "travel" ? PrismaClient["delivery"] :
   T extends "orderan" ? PrismaClient["orderan"] :
   T extends "product" ? PrismaClient["product"] :
   never;
 
 export type TPSemuaProduct = Prisma.SemuaProductUncheckedCreateInput
 export type TPBank = Prisma.BankCreateInput
-export type TPTravel = Prisma.TravelCreateInput
+export type TPTravel = Prisma.DeliveryCreateInput
 export type TPProduct = Prisma.ProductCreateInput
 export type TPOrderan =
-  Omit<Required<Prisma.OrderanCreateInput>, "semuaProduct" | "updated_at" | "created_at">
+  Omit<Prisma.OrderanCreateInput, "semuaProduct" | "updated_at" | "created_at">
   & Pick<TOrderServer, "semuaProduct">
 
 // export type IEntityAll<T extends TEntity> =

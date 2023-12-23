@@ -1,74 +1,88 @@
-import { prisma, TPProduct } from '@/servers/data-source/prisma/config';
-
 import { NextRequest, NextResponse } from 'next/server'
-import ValidationService from '@/lib/validation/zod/validationService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
-
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
 import { ProductRepo } from '@/servers/data-source/repository/ProductRepo';
-import ProductData from '@/servers/data-source/prisma/Product';
-import { Input } from '@/servers/presentation/web/Input';
-import { Output } from '@/servers/presentation/web/Output';
-import { IControlProduct } from '@/servers/domain/interface/controllers/Product';
-import ProductController from '@/servers/domain/controllers/Produk';
+import { tryCatch } from '@/lib/exeption/tryCatch';
+import { CreateZod } from '@/lib/validation/zod/createZod';
+import { UpdateZod } from '@/lib/validation/zod/updateZod';
+import { getResponse } from '@/servers/presentation/web/getResponse';
 
-const c: IControlProduct = new ProductController(
-  new ProductRepo( new ProductData( prisma.product ) ),
-  new ValidationService<TPProduct>( new ValidationSchema().ProductSchema ),
-)
-const to                 = "product"
+const c = new ProductRepo()
 
 export async function GET( request: NextRequest ) {
-  const { id, method } = await Input( request )
+  const { id, method } = await getResponse( request )
   console.log( `route api ${ method } product` )
+  return tryCatch( method, async () => {
 
-  if( id === "all" ) {
-    return await Output( "GET", () => c.find() )
-  }
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( id === "all" ) {
+      return c.findAll()
+    }
+    if( id.length >= 5 ) {
+      return c.findOne( id )
+    }
 
-  if( id.length > 10 ) {
-    return await Output( "GET", () => c.findById( id ), )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
+
 }
 
 export async function POST( request: NextRequest, ) {
-  try {
-    const { json, method } = await Input( request );
-    console.log( `route api ${ method } product` )
-    console.table( json )
-    console.info( "api POST product" )
-    return await Output( "POST", () => c.create( json ) )
-  }
-  catch ( e ) {
-    return NextResponse.json( { msg: `Error POST`, success: false, error: e } )
-  }
+  const { method, json } = await getResponse( request )
+  console.log( `route api ${ method } product` )
+
+  return tryCatch( method, async () => {
+
+    if( json === undefined ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( json !== null && typeof json === 'object' ) {
+      const data = CreateZod.ProductSchema.parse( json )
+      return c.createOne( data )
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }
 
 export async function DELETE( request: NextRequest ) {
-  const { id, method } = await Input( request )
-  console.log( `route api ${ method } product` )
+  const { id, method } = await getResponse( request )
+  console.log( `route api ${ method } product ${ id }` )
 
-  if( id.length > 10 ) {
-    return await Output( "DELETE", () => c.destroy( id ) )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+  return tryCatch( method, async () => {
+
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( id.length > 5 ) {
+      return c.deleteOne( id )
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+  } )
 }
 
 export async function PUT( request: NextRequest, ) {
-  try {
-    const { json, id, method } = await Input( request, );
-    console.log( `route api ${ method } product` )
-    console.table( json )
-    if( id.length > 3 ) {
-      return await Output( "PUT", () => c.edit( json, id ) )
+  const { method, json, id } = await getResponse( request )
+  console.log( `route api ${ method } product` )
+
+  return tryCatch( method, async () => {
+
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
     }
+    if( id.length > 5 ) {
+      const data = UpdateZod.ProductSchema.parse( json )
+      return c.updateOne( data, id )
+    }
+
     return NextResponse.json( errorEmptyID( method ) )
-
-  }
-  catch ( e ) {
-    return NextResponse.json( { msg: "Error Create", success: false, error: e } )
-  }
-
+  } )
 }
+
+
+
 

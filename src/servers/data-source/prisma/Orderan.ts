@@ -402,7 +402,7 @@ export default class OrderanData extends AbstractPrisma<"orderan"> implements IO
     } )
 
     const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
-    return await prisma.$transaction( [ deleteProduct, createMany, updateData ] )
+    return prisma.$transaction( [ deleteProduct, createMany, updateData ] )
   }
 
   async updateOneOnly( data: Partial<TOptional>, id: string, ) {

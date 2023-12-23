@@ -1,5 +1,5 @@
 ### get all
-GET http://localhost:3000/api/orderan
+GET http://localhost:3000/api/orderan?id=all&table=table
 Content-Type: application/json
 
 ### get by id
@@ -12,24 +12,25 @@ POST http://localhost:3000/api/orderan
 Content-Type: application/json
 
 {
-  "alamatPenerima": "string",
-  "ekspedisi": "string",
-  "guna": "string",
-  "hpPenerima": "string",
-  "hpPengirim": "string",
-  "id": "baru1",
-  "kirim": "2023-07-04",
-  "lokasi": "string",
-  "namaPengiriman": "string",
-  "no": "string",
-  "ongkir": 3681802,
-  "penerima": "string",
-  "pengirim": "string",
-  "pesan": "2023-07-04",
-  "keterangan": "dadsadsa",
-  "semuaHargaItem": 3681802,
-  "semuaHargaOrderan": 3681802,
-  "semuaHargaProduct": 3681802,
+  "id": "b98187b1-ee38-4ff5-b966-2bd0e5b74s67",
+  "dari": "sopie",
+  "pengirim": "kosong",
+  "hpPengirim": "123",
+  "penerima": "kosong",
+  "alamatPenerima": "kosong",
+  "hpPenerima": "12",
+  "pesan": "1970-01-01T00:00:00.000Z",
+  "waktuKirim": "1970-01-01T00:00:00.000Z",
+  "guna": "kosong",
+  "lokasi": "kosong",
+  "namaPengiriman": "kosong",
+  "ongkir": 0,
+  "typePembayaran": "kosong",
+  "totalBayar": 0,
+  "totalPenjualan": 0,
+  "status": "kosong",
+  "created_at": "2023-12-23T05:50:13.242Z",
+  "updated_at": "2023-12-23T05:48:12.093Z",
   "semuaProduct": [
     {
       "orderanId": "baru1",
@@ -42,14 +43,7 @@ Content-Type: application/json
       "nama": "string",
       "img": "dasda"
     }
-  ],
-  "status": "string",
-  "total": 3681802,
-  "totalBayar": 3681802,
-  "totalHarga": 3681802,
-  "totalPenjualan": 3681802,
-  "typePembayaran": "string",
-  "waktuKirim": "2023-07-04"
+  ]
 }
 
 ### Update
@@ -58,7 +52,7 @@ Content-Type: application/json
 
 {
   "alamatPenerima": "Ot",
-  "guna": "Iwirufet tugonu siromhec ravsicdud jamowo pag fud tuhriro wom nure jerit kiftibu wised. So cudemgi ezawem jefvubsog pav devzamjo hu nabuveka uzuavaonu bujud iro",
+  "guna": "orangeri",
   "hpPenerima": "327",
   "hpPengirim": "327",
   "id": "Lam b_327_Ot_240229_1312_Sem_32746412",

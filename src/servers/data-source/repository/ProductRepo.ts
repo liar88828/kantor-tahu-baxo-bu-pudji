@@ -1,30 +1,41 @@
-import { TPProduct as TYPE } from '@/servers/data-source/prisma/config';
-import { IProductData } from '@/servers/data-source/interface/prisma/Product';
-import { IProductRepo } from '@/servers/data-source/interface/repository/IProductRepo';
-import AbstractRepo from '@/servers/data-source/repository/AbstractRepo';
+import { prisma, TPProduct as TYPE } from '@/servers/data-source/prisma/config';
+import { TCREATEPRODUCT } from '@/lib/validation/zod/createZod';
+import { TUPDATEPRODUCT } from '@/lib/validation/zod/updateZod';
 
-export class ProductRepo extends AbstractRepo<"product"> implements IProductRepo {
+export class ProductRepo {
 
-  constructor( public data: IProductData<TYPE> ) {super()}
+  public data = prisma.product
 
-  // async createOne( data: TYPE ): Promise<TYPE> {
-  //   return this.data.createOne( data )
-  // }
-  //
-  // async findAll(): Promise<TYPE[]> {
-  //   return this.data.findAll()
-  // }
-  //
-  // async findOne( id: string ): Promise<TYPE> {
-  //   return this.data.findById( id )
-  // }
-  //
-  // async deleteOne( id: string ): Promise<TYPE> {
-  //   return this.data.destroyOne( id )
-  // }
-  //
-  // async updateOne( id: string, data: TYPE ): Promise<TYPE> {
-  //   return this.data.updateOne( data, id )
-  // }
+  async createOne( data: TCREATEPRODUCT ): Promise<TYPE> {
+    return this.data.create( {
+      data: {
 
+        id        : data.id,
+        harga     : data.harga,
+        img       : data.img,
+        jenis     : data.jenis,
+        jumlah    : data.jumlah,
+        keterangan: data.keterangan,
+        lokasi    : data.lokasi,
+        nama      : data.nama,
+
+      }
+    } )
+  }
+
+  async findAll(): Promise<TYPE[]> {
+    return this.data.findMany()
+  }
+
+  async findOne( id: string ) {
+    return this.data.findUnique( { where: { id } } )
+  }
+
+  async deleteOne( id: string ): Promise<TYPE> {
+    return this.data.delete( { where: { id } } )
+  }
+
+  async updateOne( data: TUPDATEPRODUCT, id: string, ): Promise<TYPE> {
+    return this.data.update( { data: { ...data }, where: { id: id } } )
+  }
 }

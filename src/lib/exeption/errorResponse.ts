@@ -16,7 +16,7 @@ export const errorEmptyData = ( method: TMethod ) => {
   }
 }
 
-export const errorData      = ( method: TMethod, data: any ) => {
+export const errorData = ( method: TMethod, data: any ) => {
   return {
     data   : data,
     msg    : `Error ${ method }`,
