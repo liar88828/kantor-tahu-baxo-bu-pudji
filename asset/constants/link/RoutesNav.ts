@@ -40,7 +40,7 @@ export const routesNav: TRoutesNav[] = [
     links      : [
       {
         name: "List",
-        path: "/product/list",
+        path: "/product/list?page=1&take=10",
       },
       {
         name: "Create",

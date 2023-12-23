@@ -13,9 +13,6 @@ export async function GET( request: NextRequest, ) {
   console.log( `route api ${ method } delivery ${ id }` )
   return tryCatch( method, async () => {
     if( page !== 0 && take !== 0 ) {
-      // console.log( 'pagenate' )
-      // console.log( page, take )
-
       return DeliveryRepo.findPaginate( page, take )
     }
     if( id === '' ) {
@@ -35,7 +32,8 @@ export async function GET( request: NextRequest, ) {
 export async function POST( request: NextRequest ) {
   const { method, json } = await getResponse( request )
   console.log( `route api ${ method } travel` )
-  // console.log(json)
+  console.log( json )
+
   return tryCatch( method, async () => {
     if( json === undefined ) {
       throw { message: 'Bad Request', status: 400 }

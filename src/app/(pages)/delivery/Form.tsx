@@ -15,6 +15,7 @@ import { LayoutImagePrev } from '@/app/components/Atom/img/LayoutImagePrev';
 import { ImagePrev } from '@/app/components/Atom/img/ImagePrev';
 import { img } from '@/app/(pages)/bank/Form';
 import { ToModel } from '@/entity/Utils';
+import { formBank } from '../../../../asset/constants/model/bank';
 
 export default function FormDeliver(
   { defaultData, method, id, to }:
@@ -108,6 +109,13 @@ export default function FormDeliver(
                    title={ formTravel.keterangan }
                    type="textarea"
                    reg={ register( "keterangan" ) }/>
+
+        <InputForm errors={ errors }
+                   title={ formBank.img }
+                   type="text"
+                   min={ 20 }
+                   max={ 200 }
+                   reg={ register( "img" ) }/>
         <FormButton>
           <OpenButton method={ method } fun={ () => handleImage() } states={ open }/>
           <SubmitButton method={ method }/>

@@ -1,23 +1,30 @@
-import { GateWay } from '@/lib/ress/GateWay';
-import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
-import dynamic from 'next/dynamic';
 import { UlCard } from '@/app/components/molecules/card/Card';
-// export const dynamic    = 'force-dynamic'
-export const revalidate = 0
+import Paginate from '@/app/components/molecules/list/Paginate';
+import { TRes } from '@/entity/Utils';
+import { Fetch } from '@/lib/ress/SendApi';
+import { SearchParams } from '@/_interface/searchParams';
+import ListProduct from '@/app/(pages)/product/Card';
 
-// export const fetchCache = 'auto'
-// export const runtime    = 'nodejs'
-
-const ListProduct = dynamic( () => import("@/app/components/organisme/card/product" ), {
-  loading: () => <SkeletonCard/>
-} );
-
-export default async function Home() {
-  const { data }: { data: Required<TProduct[ ]> } = await GateWay( "GET", 'product', 'all', "", "", 'noCache' )
-
-  return (
-    <UlCard name={ "product" }>
-      { data.map( ( d: TProduct ) => ( <ListProduct d={ d } key={ d.id }/> ) ) }
-    </UlCard>
+export default async function Home( { searchParams }: SearchParams ) {
+  const page                       = Number( searchParams.page )
+  const take                       = Number( searchParams.take )
+  // console.log(page,take)
+  const { data }: TRes<TProduct[]> = await Fetch(
+    {
+      method: "GET",
+      to    : "product",
+      page  : page,
+      take  : take
+    } )
+  return ( <>
+      <UlCard name={ "product" }>
+        { data.map( ( d: TProduct ) => ( <ListProduct d={ d } key={ d.id } to={ 'product' }/> ) ) }
+      </UlCard>
+      <Paginate
+        take={ take }
+        page={ page }
+        length={ 100 }
+      />
+    </>
   )
 }

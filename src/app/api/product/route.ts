@@ -9,10 +9,12 @@ import { getResponse } from '@/servers/presentation/web/getResponse';
 const c = new ProductRepo()
 
 export async function GET( request: NextRequest ) {
-  const { id, method } = await getResponse( request )
+  const { id, method, page, take } = await getResponse( request )
   console.log( `route api ${ method } product` )
   return tryCatch( method, async () => {
-
+    if( page !== 0 && take !== 0 ) {
+      return ProductRepo.findPaginate( page, take )
+    }
     if( id === '' ) {
       throw { message: 'Bad Request', status: 400 }
     }

@@ -4,10 +4,11 @@ import { TUPDATEPRODUCT } from '@/lib/validation/zod/updateZod';
 
 export class ProductRepo {
 
-  public data = prisma.product
-
+  static async findPaginate( page: number, take: number ) {
+    return prisma.product.findMany( { take: take, skip: ( page - 1 ) * take } )
+  }
   async createOne( data: TCREATEPRODUCT ): Promise<TYPE> {
-    return this.data.create( {
+    return prisma.product.create( {
       data: {
 
         id        : data.id,
@@ -22,20 +23,19 @@ export class ProductRepo {
       }
     } )
   }
-
   async findAll(): Promise<TYPE[]> {
-    return this.data.findMany()
+    return prisma.product.findMany()
   }
 
   async findOne( id: string ) {
-    return this.data.findUnique( { where: { id } } )
+    return prisma.product.findUnique( { where: { id } } )
   }
 
   async deleteOne( id: string ): Promise<TYPE> {
-    return this.data.delete( { where: { id } } )
+    return prisma.product.delete( { where: { id } } )
   }
 
   async updateOne( data: TUPDATEPRODUCT, id: string, ): Promise<TYPE> {
-    return this.data.update( { data: { ...data }, where: { id: id } } )
+    return prisma.product.update( { data: { ...data }, where: { id: id } } )
   }
 }

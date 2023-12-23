@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import profilePic from '../../../../../public/logo.png';
 import React from 'react';
-import ListSlide from '@/app/components/template/slidebar/right/ListSlide';
+import ListSlide from '@/app/components/template/slidebar/left/ListSlide';
 
 const Slidebar = () => {
   return (

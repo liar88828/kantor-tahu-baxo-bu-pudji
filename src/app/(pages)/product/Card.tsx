@@ -5,12 +5,13 @@ import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
 import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
 import { DeleteCard } from '@/app/components/element/Delete';
 import { EditCard } from '@/app/components/element/Edit';
+import { ToModel } from '@/entity/Utils';
 
 export const to = "product"
 
 export default function ListProduct(
-  { d, }:
-    { d: TProduct } ) {
+  { d, to }:
+    { d: TProduct, to: ToModel } ) {
   return (
     <LiCard name={ d.nama }>
       <ImgCard img={ d.img }/>
