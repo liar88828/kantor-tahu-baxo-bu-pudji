@@ -1,6 +1,7 @@
-import { prisma, TPTravel } from '@/servers/data-source/prisma/config';
+import prisma from '@/servers/data-source/prisma/config';
 import { TCREATEDELIVER } from '@/lib/validation/zod/createZod';
 import { TUPDATEDELIVER } from '@/lib/validation/zod/updateZod';
+import { TPTravel } from '@/interface/prisma';
 
 type TYPE = TPTravel
 

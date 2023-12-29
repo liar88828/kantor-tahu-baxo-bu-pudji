@@ -1,4 +1,4 @@
-import { GetModelPrisma, TEntity } from '@/servers/data-source/prisma/config';
+import { GetModelPrisma, TEntity } from '@/interface/prisma';
 
 export interface IAbstractPrisma<T extends TEntity, > {
   prisma: GetModelPrisma<T>;

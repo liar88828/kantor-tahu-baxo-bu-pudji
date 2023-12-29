@@ -10,26 +10,24 @@ export default function Complex(
     <BodyMenu>
       { listComplex.map( d => {
         const h = d.href.split( "/" ).pop()
-        console.log( d.title )
+        // console.log(d.title)
         return (
           <Link
-            data-test={ d.title }
+            data-test={ 'link-' + d.title }
             key={ d.title }
             href={ d.href }
-            className={ ` btn text-white shadow-md shadow-slate-400
-            ${ d.className } 
-            ${ h === slug ? " btn-disabled " : "" }`
-
-            }>
+            // replace={true}
+            className={ ` btn  ${ d.className } ${ h === slug ? " btn-disabled " : "" }` }
+          >
             { d.title }
           </Link>
         )
       } ) }
 
-      <div className={ `btn   ${ slug.length > 10 ? "  btn-disabled "
-                                                  : "" } text-white shadow-md shadow-slate-400 bg-secondary` }>
-        Edit
-      </div>
+      {/*<div className={ `btn   ${ slug.length > 10 ? "  btn-disabled "*/ }
+      {/*                                            : "" } text-white shadow-md shadow-slate-400 bg-secondary` }>*/ }
+      {/*  Edit*/ }
+      {/*</div>*/ }
 
 
     </BodyMenu>

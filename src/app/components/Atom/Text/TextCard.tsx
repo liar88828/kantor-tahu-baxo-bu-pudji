@@ -8,7 +8,7 @@ export const TextBody = ( { children }: { children: ReactNode } ) => {
 }
 
 export function TextTitle( props: { text: string } ) {
-  return <h2 className="card-title text-xs sm:text-sm  md:text-md font-bold"> { props.text }</h2>;
+  return <h2 className="card-title text-sm sm:text-lg  md:text-lg font-bold"> { props.text }</h2>;
 }
 
 export const Texts = (

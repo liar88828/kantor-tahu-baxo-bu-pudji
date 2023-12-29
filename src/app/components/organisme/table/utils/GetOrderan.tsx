@@ -1,6 +1,7 @@
 import { CellContext, HeaderContext } from '@tanstack/table-core';
 import { Rupiah } from '@/lib/utils/rupiah';
 import React from 'react';
+import { TOrderanData, TOrderServer } from '@/interface/orderan';
 
 export function getOrderan(
   header: string,
@@ -12,7 +13,7 @@ export function getOrderan(
     info: CellContext<{
       semuaProduct: TProOrderan[];
       pesan: Date | string;
-      kirim: Date | string;
+      // kirim: Date | string;
       waktuKirim: Date | string
     } & TOrderanData, any>,
     lok: string
@@ -36,7 +37,7 @@ export function getOrderan(
       m: {
         semuaProduct: TProOrderan[];
         pesan: Date | string;
-        kirim: Date | string;
+        // kirim: Date | string;
         waktuKirim: Date | string
       } & TOrderanData,
       option: "harga" | "jumlah"

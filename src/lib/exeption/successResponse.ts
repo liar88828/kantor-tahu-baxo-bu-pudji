@@ -1,4 +1,4 @@
-import { TMethod } from '@/entity/Utils';
+import { TMethod } from '@/interface/Utils';
 
 export function successResponse( data: any, method: TMethod ) {
   return {

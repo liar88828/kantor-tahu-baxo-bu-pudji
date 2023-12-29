@@ -2,10 +2,10 @@ import { Rupiah } from '@/lib/utils/rupiah';
 import { ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
-import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
-import { DeleteCard } from '@/app/components/element/Delete';
-import { EditCard } from '@/app/components/element/Edit';
-import { ToModel } from '@/entity/Utils';
+import { EditCard } from '@/app/element/Edit';
+import { DeleteCard } from '@/app/element/Delete';
+import { ToModel } from '@/interface/Utils';
+import { CardBody, CardButton, LiCard } from '@/app/components/Card';
 
 export const to = "product"
 
@@ -20,7 +20,7 @@ export default function ListProduct(
           <TextTitle text={ d.nama }/>
           <TextBody>
             <div>
-              <Texts>{ Rupiah( d.harga ) }</Texts>
+              <Texts><span className={ 'badge badge-primary' }>{ Rupiah( d.harga ) }</span></Texts>
               <TextHidden title={ "Jenis : " } value={ d.jenis }/>
               <Texts>{ d.lokasi }</Texts>
             </div>

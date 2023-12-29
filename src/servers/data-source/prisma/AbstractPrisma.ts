@@ -1,5 +1,5 @@
 import { IAbstractPrisma, } from '@/servers/data-source/interface/prisma/IAbstract';
-import { GetModelPrisma, TEntity } from '@/servers/data-source/prisma/config';
+import { GetModelPrisma, TEntity } from '@/interface/prisma';
 
 const test: string = "false"
 

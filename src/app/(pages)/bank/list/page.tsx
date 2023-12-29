@@ -1,27 +1,29 @@
-import { Fetch } from '@/lib/ress/SendApi';
-import { UlCard } from '@/app/components/molecules/card/Card';
 import { Suspense } from 'react';
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { ListBank } from '@/app/(pages)/bank/Card';
-import Paginate from '@/app/components/molecules/list/Paginate';
-import { SearchParams } from '@/_interface/searchParams';
 import DataEmpty from '@/app/components/template/handling/DataEmpty';
+import prisma from '@/servers/data-source/prisma/config';
+import { SearchParams } from '@/interface/searchParams';
+import { UlCard } from '@/app/components/Card';
+import Paginate from '@/app/element/Paginate';
 
 export default async function Page( { searchParams }: SearchParams ) {
   const page = Number( searchParams.page )
   const take = Number( searchParams.take )
   // console.log(searchParams)
   // console.log(page,take)
-  const { data } = await Fetch(
-    {
-      to    : "bank",
-      method: "GET",
-      // id    : "all",
-      // stores: "noCache",
-      page: page,
-      take: take
-    } )
-  console.log( data )
+  // const { data } = await Fetch(
+  //   {
+  //     to    : "bank",
+  //     method: "GET",
+  //     // id    : "all",
+  //     // stores: "noCache",
+  //     page: page,
+  //     take: take
+  //   } )
+  // const length =await prisma.bank.count({take:100})
+
+  // console.log( data )
   // const response = await fetch( `http://localhost:3000/api/bank?page=${ page }&take=${ take }` )
   // if(!response.ok){
   //   return <div className={ 'card card-body static border-radius bg-base-200' }>
@@ -40,6 +42,10 @@ export default async function Page( { searchParams }: SearchParams ) {
   // const totalPostsCount = await BankRepo.findCount()
   // const data            = await BankRepo.findPaginate( page, take )
 
+  const [ data, length ] = await Promise.all( [
+    prisma.bank.findMany( { skip: ( page - 1 ) * take, take: take } ),
+    prisma.bank.count( { take: 100 } )
+  ] )
   return <>
     <UlCard name={ "bank" }>
       { data.length === 0 ? (
@@ -54,7 +60,7 @@ export default async function Page( { searchParams }: SearchParams ) {
     <Paginate
       take={ take }
       page={ page }
-      length={ 100 }
+      length={ length }
     />
   </>
 }

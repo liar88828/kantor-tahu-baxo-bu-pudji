@@ -1,5 +1,5 @@
 // import { SafeParseError, SafeParseSuccess, z } from 'zod';
-// import { errorDataZod, errorEmptyIDZod } from '@/lib/exeption/errorResponse';
+// import { errorDataZod, errorEmptyIDZod } from '@/lib/exception/errorResponse';
 // import { ZodSchema } from '@/_interface/IService';
 // import ValidationSchema from './validationSchema';
 //

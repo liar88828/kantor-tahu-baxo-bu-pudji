@@ -5,27 +5,27 @@ export const listComplex = [
   {
     title    : "Create",
     href     : "/orderan/create",
-    className: " bg-primary "
+    className: " bg-primary text-white shadow "
   },
   {
     title    : "Semua",
     href     : "/table/Semua",
-    className: "  bg-accent "
+    className: " bg-secondary text-white shadow "
   },
   {
-    title    : "Di Terima",
-    href     : "/table/Di Terima",
-    className: Status( "Di Terima" )
+    title    : "Terima",
+    href     : "/table/Terima",
+    className: Status( "Terima" )
   },
   {
-    title    : "Di Proses",
-    href     : "/table/Di Proses",
-    className: Status( "Di Proses" )
+    title    : "Proses",
+    href     : "/table/Proses",
+    className: Status( "Proses" )
   },
   {
-    title    : "Di Kirim",
-    href     : "/table/Di Kirim",
-    className: Status( "Di Kirim" )
+    title    : "Kirim",
+    href     : "/table/Kirim",
+    className: Status( "Kirim" )
   },
   {
     title    : "Selesai",

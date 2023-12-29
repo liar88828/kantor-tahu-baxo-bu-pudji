@@ -1,33 +1,57 @@
-import { prisma, TPOrderan } from '@/servers/data-source/prisma/config';
 import { TUPDATEORDERAN } from '@/lib/validation/zod/updateZod';
 import { TCREATEORDERAN } from '@/lib/validation/zod/createZod';
 import { Prisma } from '../../../../prisma/data';
-import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
+import { dashboard } from '@/servers/data-source/prisma/Dashboard';
+import { SemuaProductCreateInput, TPOrderan } from '@/interface/prisma';
+import prisma from '@/servers/data-source/prisma/config';
 import OrderanCreateInput = Prisma.OrderanCreateInput;
 
 type TYPE = TPOrderan
 
 export class OrderanRepo {
-  public data = prisma.orderan
 
   async createOne( data: TCREATEORDERAN ) {
-    const one = prisma.orderan.create( {
-      data: this.setOne( data )
-    } )
 
-    const many = prisma.semuaProduct.createMany( {
-      data: this.setMany( data, "POST" )
+    return prisma.$transaction( async ( tx ) => {
+      const one = await tx.orderan.create( {
+        data: this.setOne( data )
+      } )
+
+      const many = await tx.semuaProduct.createMany( {
+        data: this.setMany( {
+          data  : data.semuaProduct,
+          method: "POST",
+          id    : one.id
+        } )
+      } )
+      return { product: many, orderan: one }
     } )
-    return prisma.$transaction( [ one, many ] )
 
   }
+
   async findAll() {
-    return this.data.findMany( {
-      orderBy: { created_at: "desc" }, take: 100
+    return prisma.orderan.findMany( {
+      orderBy: { created_at: "desc" }, take: 100, include: { semuaProduct: true }
     } )
   }
   async findOne( id: string ) {
-    return this.data.findUnique( { where: { id } } )
+    return prisma.orderan.findUnique( {
+      where: { id }, include: {
+        semuaProduct: {
+          select: {
+            id       : true,
+            nama     : true,
+            lokasi   : true,
+            jenis    : true,
+            harga    : true,
+            jumlah   : true,
+            img      : true,
+            orderanId: true,
+
+          }
+        }
+      }
+    } )
   }
   async findByStatus( status: TYPE["status"] ) {
     let option = {
@@ -43,32 +67,68 @@ export class OrderanRepo {
     }
 
     return prisma.orderan.findMany( option )
+
+  }
+
+  async getDataForOrderan() {
+    const travel                             = prisma.delivery.findMany( { select: { nama: true } } )
+    const bank                               = prisma.bank.findMany( { select: { nama: true } } )
+    const product                            = prisma.product.findMany( {
+      select: {
+        id    : true,
+        nama  : true,
+        img   : true,
+        jumlah: true,
+        jenis : true,
+        harga : true,
+        lokasi: true,
+        // keterangan: true
+      }
+    } )
+    const [ travelRes, bankRes, productRes ] = await prisma.$transaction( [ travel, bank, product ] )
+    // console.log(travelRes, )
+    return {
+      travel : travelRes,
+      bank   : bankRes,
+      product: productRes,
+    }
+  }
+  async updateStatus( option: string, id: string ) {
+    return dashboard.updateStatus( option, id )
   }
   async updateOne( data: TUPDATEORDERAN, id: string, ) {
-    const updateData = prisma.orderan.update( {
-      where: { id },
-      data : this.setOne( data )
-    } );
 
-    const createMany = prisma.semuaProduct.createMany( {
-      data: this.setMany( data, "POST" )
+    return prisma.$transaction( async ( tx ) => {
+      await tx.semuaProduct.deleteMany( { where: { orderanId: id } } )
+
+      const updateData = await tx.orderan.update( {
+        where: { id },
+        data : this.setOne( data )
+      } );
+
+      const product = await tx.semuaProduct.createMany( {
+        data: this.setMany( {
+          data  : data.semuaProduct,
+          method: "POST",
+          id    : updateData.id
+        } )
+      } )
+      return { orderan: updateData, product }
+    }, {
+      maxWait       : 5000, // default: 2000
+      timeout       : 10000, // default: 5000
+      isolationLevel: Prisma.TransactionIsolationLevel.Serializable, // optional, default defined by database
+                                                                     // configuration
+
     } )
 
-    const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
-    return prisma.$transaction( [ deleteProduct, createMany, updateData ] )
+  }
 
-  }
-  async updateStatus( data: TStatusParams, id: string, ) {
-    // console.log(data)
-    return prisma.orderan.update( {
-      where: { id: id },
-      data : { status: data.status }
-    } )
-  }
   async deleteOne( id: string ) {
-    return this.data.delete( { where: { id } } )
+    return prisma.orderan.delete( { where: { id } } )
   }
   async destroyMany( array: string [] ) {
+    console.log( array )
     const id          = array.map( d => d )
     const deleteOrder = prisma.orderan.deleteMany( { where: { id: { in: id } } } )
 
@@ -85,13 +145,13 @@ export class OrderanRepo {
                  ? d.waktuKirim + ":00"
                  : d.waktuKirim
     // console.log(new Date( d.pesan ),)
-    return {
+
+    let data = {
       alamatPenerima: d.alamatPenerima,
       guna          : d.guna,
       dari          : d.dari,
       hpPenerima    : d.hpPenerima,
       hpPengirim    : d.hpPengirim,
-      id            : d.id ?? '',
       lokasi        : d.lokasi.replaceAll( " ", "" ),
       namaPengiriman: d.namaPengiriman,
       ongkir        : d.ongkir,
@@ -105,21 +165,35 @@ export class OrderanRepo {
       totalPenjualan: d.totalPenjualan,
       typePembayaran: d.typePembayaran,
     }
+
+    if( typeof d.id === "string" ) {
+      Object.assign( data, { id: d.id } )
+    }
+
+    return { ...data }
   }
-  private setMany( data: TYPE, method: "POST" | "PUT" ) {
-    return data.semuaProduct.map( ( d: TProOrderan ) => (
+  private setMany(
+    { data, method, id }:
+      {
+        data: SemuaProductCreateInput[],
+        method: "POST" | 'PUT',
+        id: string
+      } ) {
+    return data.map( ( d: SemuaProductCreateInput ) => (
         Object.assign( {
-          harga     : d.harga,
-          id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-          jenis     : d.jenis.replaceAll( " ", "" ),
-          jumlah    : d.jumlah,
-          keterangan: d.keterangan,
-          lokasi    : d.lokasi.replaceAll( " ", "" ),
-          img       : d.img,
-          nama      : d.nama,
-          orderanId : data.id
+          // id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
+          // keterangan: d.keterangan,
+          jenis    : d.jenis.replaceAll( " ", "" ),
+          lokasi   : d.lokasi.replaceAll( " ", "" ),
+          nama     : d.nama,
+          img      : d.img,
+          jumlah   : d.jumlah,
+          harga    : d.harga,
+          orderanId: id,
         } )
       )
     );
   }
 }
+
+export const orderan = new OrderanRepo()

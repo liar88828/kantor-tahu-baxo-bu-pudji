@@ -10,10 +10,10 @@ import { ImagePrev } from '@/app/components/Atom/img/ImagePrev';
 import { LayoutImagePrev } from '@/app/components/Atom/img/LayoutImagePrev';
 import { notifyData } from '@/lib/notif/toash';
 import { Fetch } from '@/lib/ress/SendApi';
-import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { setIdBank } from '@/lib/utils/formatId';
 import { CreateZod } from '@/lib/validation/zod/createZod';
 import { formBank } from '../../../../asset/constants/model/bank';
+import { OpenButton, SubmitButton } from '@/app/element/SubmitButton';
 
 type TYPE = TBank;
 export const img = 'https://dummyimage.com/200x200/000/fff.jpg&text=not+found'
@@ -62,7 +62,9 @@ export default function FormBank(
           router.replace( `/${ to }/list?page=1&take=10` )
         }
         else if( !res.success ) {
-          router.replace( `/${ to }/list?page=1&take=10` )
+          notifyData( res.msg )
+
+          // router.replace( `/${ to }/list?page=1&take=10` )
         }
       }
       catch ( e ) {
@@ -107,15 +109,15 @@ export default function FormBank(
           <InputForm errors={ errors }
                      tag={ "textarea" } title={ formBank.keterangan }
                      type="textarea"
+                     min={ 0 }
                      max={ 100 }
-                     min={ 5 }
                      reg={ register( "keterangan" ) }/>
 
           <InputForm errors={ errors }
                      title={ formBank.img }
                      type="text"
-                     min={ 20 }
-                     max={ 200 }
+                     min={ 0 }
+                     max={ 300 }
                      reg={ register( "img" ) }/>
           <FormButton>
             <OpenButton method={ method } fun={ () => handleImage() } states={ open }/>

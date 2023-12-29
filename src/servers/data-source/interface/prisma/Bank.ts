@@ -1,5 +1,5 @@
-import { GetModelPrisma, TPBank } from '@/servers/data-source/prisma/config';
 import { IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
+import { GetModelPrisma, TPBank } from '@/interface/prisma';
 
 export interface IBankData<T extends TPBank> extends IAbstractPrisma<"bank"> {
   prisma: GetModelPrisma<"bank">;

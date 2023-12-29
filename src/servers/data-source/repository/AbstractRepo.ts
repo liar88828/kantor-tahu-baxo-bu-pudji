@@ -1,5 +1,5 @@
 import { IAbstractRepo } from '@/servers/data-source/interface/repository/IAbstractRepo';
-import { IDataAll, IModelAll, TEntity } from '@/servers/data-source/prisma/config';
+import { IDataAll, IModelAll, TEntity } from '@/interface/prisma';
 
 export default abstract class AbstractRepo<T extends TEntity> implements IAbstractRepo<T> {
   abstract data: IDataAll<T>;

@@ -6,7 +6,7 @@ export class CreateZod {
   static BankSchema = z.object( {
     id        : z.string( { required_error: 'ID is required', } ).optional(),
     hp        : z.string( { required_error: 'Hp is required', } ).min( 2 ).max( 30 ),
-    img       : z.string( { required_error: 'Img is required', } ).min( 2 ).max( 200 ),
+    img: z.string( { required_error: 'Img is required', } ).min( 2 ).max( 300 ),
     no        : z.string( { required_error: 'No is required', } ).min( 2 ).max( 30 ),
     nama      : z.string( { required_error: 'nama is required', } ).min( 2 ).max( 30 ),
     lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 2 ).max( 30 ),
@@ -19,7 +19,7 @@ export class CreateZod {
     lokasi    : z.string( { required_error: 'Lokasi is required', } ).min( 1 ).max( 100 ),
     nama      : z.string( { required_error: 'Nama is required', } ).min( 1 ).max( 100 ),
     harga     : z.number( { required_error: 'Harga is required', } ).nonnegative(),
-    img       : z.string( { required_error: 'Img is required', } ).min( 1 ).max( 100 ),
+    img: z.string( { required_error: 'Img is required', } ).min( 1 ).max( 300 ),
     jenis     : z.string( { required_error: 'Jenis is required', } ).min( 1 ).max( 100 ),
     jumlah    : z.number( { required_error: 'Jumlah is required', } ).int().nonnegative(),
     keterangan: z.string( { required_error: 'Keterangan is required', } ).min( 1 ).max( 200 ),
@@ -36,10 +36,16 @@ export class CreateZod {
     harga     : z.number( { required_error: 'Harga is required', } ).int().nonnegative(),
   } )satisfies z.Schema<Prisma.DeliveryCreateArgs['data']>
 
-  static semuaProdukSchema = CreateZod.ProductSchema.merge(
-    z.object( {
-      orderanId: z.string().min( 1 ).optional(),
-    } ) )satisfies z.Schema<Prisma.SemuaProductCreateInput>
+  static semuaProdukSchema = z.object( {
+    // orderanId: z.string().min( 1 ).optional(),
+    // id       : z.string( { required_error: 'ID is required', } ).optional(),
+    lokasi: z.string( { required_error: 'Lokasi is required', } ),
+    nama  : z.string( { required_error: 'Nama is required', } ),
+    jenis : z.string( { required_error: 'Jenis is required', } ),
+    img   : z.string( { required_error: 'Img is required', } ).min( 0 ).max( 300 ),
+    harga : z.number( { required_error: 'Harga is required', } ).nonnegative(),
+    jumlah: z.number( { required_error: 'Jumlah is required', } ).nonnegative(),
+  } ) satisfies z.Schema<Prisma.SemuaProductCreateInput>
 
   static OrderanSchema = z.object( {
     id            : z.string( { required_error: 'ID is required', } ).optional(),

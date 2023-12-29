@@ -1,4 +1,4 @@
-import { TMethod } from '@/entity/Utils';
+import { TMethod } from '@/interface/Utils';
 
 export const errorEmptyID = ( method: TMethod ) => {
   return {

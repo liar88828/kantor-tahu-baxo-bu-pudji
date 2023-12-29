@@ -1,5 +1,5 @@
-import { TOrder, } from '@/entity/client/orderan';
-import { ToModel } from '@/entity/Utils';
+import { TOrder, TOrderServer } from '@/interface/orderan';
+import { ToModel } from '@/interface/Utils';
 
 // Travel
 export const setIdDelivery = ( dTravel: TDelivery ): string =>

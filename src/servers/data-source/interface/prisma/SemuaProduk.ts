@@ -1,9 +1,10 @@
-import { TPSemuaProduct } from '@/servers/data-source/prisma/config';
 import { IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
+import { TStatusProduk } from '@/app/style/status';
+import { TPSemuaProduct } from '@/interface/prisma';
 
 export type TStatusParams = {
   id: string;
-  status: string;
+  status: TStatusProduk;
 }
 
 // tambahan

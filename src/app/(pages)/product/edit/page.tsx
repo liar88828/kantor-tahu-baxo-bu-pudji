@@ -1,9 +1,9 @@
-import { TRes } from '@/entity/Utils';
-import { SearchParams } from '@/_interface/searchParams';
 import { Fetch } from '@/lib/ress/SendApi';
 import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { Suspense } from 'react';
 import FormProduct from '@/app/(pages)/product/Form';
+import { SearchParams } from '@/interface/searchParams';
+import { TRes } from '@/interface/Utils';
 
 export default async function Page(
   { searchParams }: SearchParams ) {

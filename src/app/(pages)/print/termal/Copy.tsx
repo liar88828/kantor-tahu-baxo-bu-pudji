@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { config } from '../../../../../config.dev';
 import { setTanggal } from '@/lib/utils/formatDate';
 import Image from 'next/image';
+import { TOrderServer } from '@/interface/orderan';
 
 function getId( d: Required<TOrderServer> | any, idOrderan: string[], lokasi: string ) {
   const ids = d.id.split( lokasi )
@@ -55,7 +56,7 @@ const MyComponent = () => {
               <div className="text-end">
                 <p>{ idOrderan[ 0 ] }</p>
                 <p>{ idOrderan[ 1 ] }</p>
-                <p>{ setTanggal( d.kirim, "full" ) }</p>
+                <p>{ setTanggal( d.waktuKirim, "full" ) }</p>
               </div>
             </div>
 

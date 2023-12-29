@@ -1,9 +1,9 @@
 import React from 'react';
 import { Rupiah } from '@/lib/utils/rupiah';
 import { Status } from '@/app/style/status';
-import { TOrder } from '@/entity/client/orderan';
 import { getListData } from '@/app/components/Atom/table/format';
 import { calculateTotal, getSemuaHargaProduct } from '@/app/components/organisme/table/utils/orderan';
+import { TOrder } from '@/interface/orderan';
 
 export function OrderanTable( { data, }: { data: TOrder, } ) {
 
@@ -67,10 +67,10 @@ export function OrderanTable( { data, }: { data: TOrder, } ) {
               <time>{ data?.pesan.toString() }</time>
             </td>
 
-            <td scope="row"
-                className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap ">
-              <time>{ data?.kirim.toString() }</time>
-            </td>
+            {/*<td scope="row"*/ }
+            {/*    className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap ">*/ }
+            {/*  <time>{ data?.kirim.toString() }</time>*/ }
+            {/*</td>*/ }
 
             <td scope="row"
                 className="border border-slate-300 px-4 py-4 bg-gray-50  whitespace-nowrap ">

@@ -1,9 +1,14 @@
+### get all data Orderan
+GET http://localhost:3000/api/orderan?option=orderan
+Content-Type: application/json
+
+
 ### get all
 GET http://localhost:3000/api/orderan?id=all&table=table
 Content-Type: application/json
 
 ### get by id
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
+GET http://localhost:3000/api/orderan?id=1_231
 
 
 
@@ -12,15 +17,14 @@ POST http://localhost:3000/api/orderan
 Content-Type: application/json
 
 {
-  "id": "b98187b1-ee38-4ff5-b966-2bd0e5b74s67",
-  "dari": "sopie",
+  "dari": "tokopedia ku lagi 23",
   "pengirim": "kosong",
   "hpPengirim": "123",
   "penerima": "kosong",
   "alamatPenerima": "kosong",
   "hpPenerima": "12",
-  "pesan": "1970-01-01T00:00:00.000Z",
-  "waktuKirim": "1970-01-01T00:00:00.000Z",
+  "pesan": "2023-12-12T00:00:00.000Z",
+  "waktuKirim": "2023-12-12T00:00:00.000Z",
   "guna": "kosong",
   "lokasi": "kosong",
   "namaPengiriman": "kosong",
@@ -28,17 +32,12 @@ Content-Type: application/json
   "typePembayaran": "kosong",
   "totalBayar": 0,
   "totalPenjualan": 0,
-  "status": "kosong",
-  "created_at": "2023-12-23T05:50:13.242Z",
-  "updated_at": "2023-12-23T05:48:12.093Z",
+  "status": "Kirim",
   "semuaProduct": [
     {
-      "orderanId": "baru1",
       "harga": 3681802,
-      "id": "asdasda",
       "jenis": "string",
-      "jumlah": 3681802,
-      "keterangan": "string",
+      "jumlah": 10,
       "lokasi": "string",
       "nama": "string",
       "img": "dasda"
@@ -47,43 +46,34 @@ Content-Type: application/json
 }
 
 ### Update
-PUT http://localhost:3000/api/orderan/Lam b_327_Ot_240229_1312_Sem_32746412
+PUT http://localhost:3000/api/orderan?id=Piuvr_L_231221_Sem_02817
 Content-Type: application/json
 
 {
-  "alamatPenerima": "Ot",
-  "guna": "orangeri",
-  "hpPenerima": "327",
-  "hpPengirim": "327",
-  "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
-  "kirim": "1961-08-27T00:00:00.000Z",
-  "lokasi": "Semarang",
-  "namaPengiriman": "Form Omega",
-  "ongkir": 232,
-  "penerima": "update 2x",
-  "status": "Status",
-  "pengirim": "Kantor Tahu Baxo",
-  "pesan": "2024-02-29T00:00:00.000Z",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Cash",
-  "waktuKirim": "1970-01-01T13:12:00.000Z",
+  "dari": "tokopedia update",
+  "pengirim": "kosong",
+  "hpPengirim": "123",
+  "penerima": "kosong",
+  "alamatPenerima": "kosong",
+  "hpPenerima": "12",
+  "pesan": "2023-12-12T00:00:00.000Z",
+  "waktuKirim": "2023-12-12T00:00:00.000Z",
+  "guna": "kosong",
+  "lokasi": "kosong",
+  "namaPengiriman": "kosong",
+  "ongkir": 0,
+  "typePembayaran": "kosong",
+  "totalBayar": 0,
+  "totalPenjualan": 0,
+  "status": "Kirim",
   "semuaProduct": [
     {
-      "created_at": "2023-08-16T10:07:03.713Z",
-      "harga": 42000,
-      "id": "Un/It/TBR/421692180423705",
-      "jenis": "Item",
-      "jumlah": 1,
-      "keterangan": "Ada Sedikit Berair",
-      "lokasi": "Ungaran",
-      "nama": "Tahu Bakso Rebus",
-      "orderanId": "Lam b_327_Ot_240229_1312_Sem_32746412",
-      "updated_at": "2023-08-16T10:07:03.713Z"
+      "harga": 3681802,
+      "jenis": "string",
+      "jumlah": 10,
+      "lokasi": "string",
+      "nama": "string",
+      "img": "dasda"
     }
   ]
 }
@@ -99,7 +89,6 @@ Content-Type: application/json
   "hpPenerima": "Hp Penerima update",
   "hpPengirim": "Hp Pengirim update",
   "id": "Lam b_327_Ot_240229_1312_Sem_32746412",
-  "kirim": "2023-07-04",
   "lokasi": "Lokasi update",
   "namaPengiriman": "Nama Form update",
   "ongkir": 23,
@@ -114,6 +103,7 @@ Content-Type: application/json
   "totalHarga": 1231,
   "totalPenjualan": 232,
   "typePembayaran": "Pemsbayaran",
+  "kirim": "2023-07-04",
   "waktuKirim": "2023-07-20T00:00:00.000Z",
   "semuaProduct": [
     {
@@ -141,7 +131,7 @@ Content-Type: application/json
 
 
 ### delete
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
+DELETE http://localhost:3000/api/orderan?id=1_231
 Content-Type: application/json
 
 {}

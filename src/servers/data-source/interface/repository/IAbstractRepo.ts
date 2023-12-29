@@ -1,4 +1,4 @@
-import { IModelAll, TEntity } from '@/servers/data-source/prisma/config';
+import { IModelAll, TEntity } from '@/interface/prisma';
 
 export interface IAbstractRepo<T extends TEntity> {
   // readonly data: IModelAll<T>;

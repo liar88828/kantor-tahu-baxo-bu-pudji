@@ -1,6 +1,7 @@
-import { prisma, TPBank } from '@/servers/data-source/prisma/config';
+import prisma from '@/servers/data-source/prisma/config';
 import { TUPDATEBANK } from '@/lib/validation/zod/updateZod';
 import { TCREATEBANK } from '@/lib/validation/zod/createZod';
+import { TPBank } from '@/interface/prisma';
 
 type TYPE = TPBank
 

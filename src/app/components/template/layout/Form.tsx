@@ -14,7 +14,6 @@ export const FormBody   = ( { children }: PropsWithChildren ) => {
 export const FormButton = ( { children }: PropsWithChildren ) => {
   return <div className="mt-2 flex flex-row gap-2">{ children }</div>
 }
-
 export const FormPrev = ( { children }: PropsWithChildren ) => {
   return <div className="md:w-1/2  ">{ children }</div>
 }

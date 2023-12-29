@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react';
-import { HeaderCard, ImageCards, TextCard } from '@/app/components/molecules/popup/PopUpComponent';
 import { Rupiah } from '@/lib/utils/rupiah';
+import { ProductOrderan } from '@/interface/orderan';
+import { HeaderCard, ImageCards, TextCard } from '@/app/(pages)/(Transaction)/orderan/PopUpComponent';
 
-function CardLists( { children, item, i, isItemAdded, }: {
+export default function CardLists( { children, item, i, isItemAdded, }: {
   children: ReactNode,
   i: number,
-  item: TProduct,
-  isItemAdded: ( item: TProduct ) => boolean,
+  item: ProductOrderan,
+  isItemAdded: ( item: ProductOrderan ) => boolean,
 } ) {
   return ( <li
       key={ `${ item.id + i }` }
@@ -36,4 +37,3 @@ function CardLists( { children, item, i, isItemAdded, }: {
   );
 }
 
-export default CardLists;

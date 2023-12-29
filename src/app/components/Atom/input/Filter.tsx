@@ -37,6 +37,7 @@ export function Filter( { column, table, }: { column: Column<any, any>; table: R
   ) : (
            <input
              type="text"
+             data-test={ 'test-search' }
              value={ ( columnFilterValue ?? '' ) as string }
              onChange={ e => column.setFilterValue( e.target.value ) }
              placeholder={ `Search...` }

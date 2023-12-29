@@ -24,8 +24,9 @@ export default function RootLayout( {
 } ) {
 
   return (
-    <html lang="en" className={ inter.className }>
-    <body className={ "bg-green-50" }>
+    <html lang="en" className={ inter.className }
+          data-theme={ 'mytheme' }>
+    <body className={ "bg-green-50  max-h-screen" }>
     <BasicLayout>
       { children }
     </BasicLayout>

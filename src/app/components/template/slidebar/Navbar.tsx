@@ -4,7 +4,7 @@ import Profile from '@/app/components/template/slidebar/top/Profile';
 
 function Navbar() {
   return (
-    <div className="navbar bg-base-100 fixed">
+    <div className="navbar bg-base-100 fixed shadow-lg shadow-gray-200 ">
       <div className="navbar-start">
         <Slidebar/>
       </div>

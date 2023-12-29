@@ -36,7 +36,7 @@ export const notifyData = <T>(
   msg?: string,
   data: any | undefined | T = {},
 ) => {
-  console.log( "toash" )
+  console.log( "toast" )
 
   if( msg === "" ) {
     if( Array.isArray( data ) ) {

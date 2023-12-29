@@ -8,14 +8,14 @@ import { notifyData } from '@/lib/notif/toash';
 import { setIdProduct } from '@/lib/utils/formatId';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { Fetch } from '@/lib/ress/SendApi';
-import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
 import { CreateZod } from '@/lib/validation/zod/createZod';
 import { LayoutImagePrev } from '@/app/components/Atom/img/LayoutImagePrev';
 import { ImagePrev } from '@/app/components/Atom/img/ImagePrev';
 import { img } from '@/app/(pages)/bank/Form';
 import { formProduct } from '../../../../asset/constants/model/product';
-import { ToModel } from '@/entity/Utils';
 import { formBank } from '../../../../asset/constants/model/bank';
+import { OpenButton, SubmitButton } from '@/app/element/SubmitButton';
+import { ToModel } from '@/interface/Utils';
 
 type TYPE = TProduct;
 
@@ -108,14 +108,16 @@ export default function FormProduct(
           <InputForm errors={ errors }
                      title={ formProduct.keterangan }
                      type="textarea"
+                     min={ 0 }
+                     max={ 100 }
                      reg={ register( "keterangan" ) }
           />
 
           <InputForm errors={ errors }
                      title={ formBank.img }
-                     type="text"
-                     min={ 20 }
-                     max={ 200 }
+                     type="textarea"
+                     min={ 0 }
+                     max={ 300 }
                      reg={ register( "img" ) }/>
           <FormButton>
             <OpenButton method={ method } fun={ () => handleImage() } states={ open }/>

@@ -6,7 +6,7 @@ import { TRoutesNav } from '../../../../../../asset/constants/link/RoutesNav';
 enableCache( 'session' );
 
 export function ListAccordion( { titleParent, links, icon }: TRoutesNav ) {
-  return <div className="collapse bg-base-200">
+  return <div className="collapse bg-neutral">
     <input type="radio" name="my-accordion-1"/>
 
     <div className="collapse-title text-xl font-medium flex items-center gap-5">

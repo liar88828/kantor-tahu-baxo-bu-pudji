@@ -22,7 +22,7 @@ export const imageValid = ( img: string | undefined ): string => {
   if( !img ) {
     return jpgTextNotFound
   }
-  else if( img.includes( "img" ) ) {
+  else if( img.includes( "http" ) ) {
     return img
   }
   else {

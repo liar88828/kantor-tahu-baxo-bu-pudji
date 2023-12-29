@@ -1,4 +1,5 @@
 import { Column } from '@tanstack/react-table';
+import { TOrderServer } from '@/interface/orderan';
 
 export const setColumn = ( c: Column<TOrderServer> ) => {
 

@@ -1,17 +1,12 @@
-"use client"
-import { TStatus } from '@/entity/Dashboard';
+'use client'
 import { enableCache, Icon } from '@iconify/react';
 import { LinkNavbar } from '@/app/components/template/slidebar/LinkNavbar';
 import { listsMenu } from '../../../../asset/constants/link/ListsMenu';
+import { TStatus } from '@/interface/Dashboard';
 
-enableCache( 'session' );
-
-export type TTextStatus = "Di terima" | "Di Kirim" | "Di Proses" | "Selesai"
-
-export const ListDashboard = ( { data }: {
-  data: TStatus[]
-} ) => {
-  console.log( data )
+export function ListDashboard(
+  { data }: { data: TStatus[] } ) {
+  // console.log( data )
 
   const objectArray = data.map( d => {
     const count = d._count.status
@@ -19,14 +14,17 @@ export const ListDashboard = ( { data }: {
     return { count, nama }
   } )
 
+  enableCache( 'session' );
+
+// if()
+  // console.log(objectArray)
   function getDiTerimaObject( status: string ) {
-    return objectArray.find( obj => obj.nama.toLowerCase().includes( status.toLowerCase() ) );
+    return objectArray.find( obj => obj.nama.includes( status ) );
   }
 
-  getDiTerimaObject( "Di Kirim" );
   return (
     <div
-      className=" flex flex-wrap my-4 p-2 md:p-5 gap-2 justify-between bg-slate-50 rounded-2xl shadow-xl shadow-slate-200">
+      className=" flex flex-wrap  p-2 md:p-5 gap-2 justify-between bg-slate-50 rounded-2xl shadows">
       { listsMenu.map( d => (
         <LinkNavbar key={ d.title }
                     totalStatus={ getDiTerimaObject( d.title )?.count ?? 0 } title={ d.title }

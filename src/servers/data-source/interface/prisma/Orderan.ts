@@ -1,6 +1,6 @@
-import { TPOrderan, } from '@/servers/data-source/prisma/config';
 import { IAbstractPrisma } from '@/servers/data-source/interface/prisma/IAbstract';
 import { TStatusParams } from '@/servers/data-source/interface/prisma/SemuaProduk';
+import { TPOrderan } from '@/interface/prisma';
 
 type TYPE = TPOrderan;
 

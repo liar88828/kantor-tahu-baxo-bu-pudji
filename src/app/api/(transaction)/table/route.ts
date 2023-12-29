@@ -1,21 +1,10 @@
-import { isObjectEmpty } from '@/lib/ress/GateWay';
-import { prisma, TPOrderan } from '@/servers/data-source/prisma/config';
-
 import { NextRequest, NextResponse } from 'next/server'
-import ValidationService from '@/lib/validation/zod/validationService';
-import { vSchema } from '@/lib/validation/zod/validationSchema';
-import { TMethod } from '@/entity/Utils';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
-import OrderanData from '@/servers/data-source/prisma/Orderan';
-import { Input } from '@/servers/presentation/web/Input';
-import { Output } from '@/servers/presentation/web/Output';
-import OrderanController from '@/servers/domain/controllers/Orderan';
-import { IControlOrderan } from '@/servers/domain/interface/controllers/Orderan';
-
-const c: IControlOrderan = new OrderanController(
-  new OrderanData( prisma.orderan ),
-  new ValidationService<TPOrderan>( vSchema.OrderanSchema ),
-)
+import { getResponse } from '@/lib/ress/getResponse';
+import { tryCatch } from '@/lib/exeption/tryCatch';
+import { TMethod } from '@/interface/Utils';
+import { isObjectEmpty } from '@/lib/utils/IsObjectEmpty';
+import { orderan } from '@/servers/data-source/repository/OrderanRepo';
 
 type TInput = {
   id: string;
@@ -25,86 +14,105 @@ type TInput = {
   method: TMethod;
 }
 
-const to = "orderan"
-
 export async function GET( request: NextRequest, ) {
-  const { id, option, pathname, method }: TInput = await Input( request )
-  console.log( `route api ${ method } orderan` )
+  const { id, option, method } = await getResponse( request )
+  // console.log( `route api ${ method } orderan` )
 
-  if( !pathname.includes( "table" ) && id === "all" ) {
-    return Output( "GET", () => c.find(), )
-  }
+  return tryCatch( method, async () => {
+    // return orderan.findAll()
+    if( id !== undefined ) {
 
-  if( option === "table" ) {
-    return Output( "GET", () => c.findByStatus( id ) )
-  }
+      if( id === "all" ) {
+        return orderan.findAll()
+      }
 
-  if( id.includes( "_" ) ) {
-    return Output( "GET", () => c.findById( id ) )
-  }
+      if( option === "table" ) {
+        return orderan.findByStatus( id )
+      }
 
-  return NextResponse.json( errorEmptyID( method ) )
+      if( id.includes( "_" ) ) {
+        return orderan.findOne( id )
+      }
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+  } )
 
 }
 
 export async function PATCH( request: NextRequest, ) {
-  const { id, method, json } = await Input( request )
+  const { id, method, json } = await getResponse( request )
   console.log( `route api ${ method } orderan` )
+  if( id !== undefined ) {
 
-  if( id.length > 10 ) {
-    return Output( "PATCH", () => c.updateStatus( json, id ), )
+    if( id.length > 10 ) {
+      return orderan.updateStatus( json, id, )
+    }
   }
-  return NextResponse.json( errorEmptyID( method ) )
+  return NextResponse.json( errorEmptyID( method ), { status: 404 } )
 }
 
 export async function PUT( request: NextRequest, ) {
-  const { id, json, method } = await Input( request )
+  const { id, json, method } = await getResponse( request )
   console.log( `route api ${ method } orderan` )
 
   if( json === undefined ) {
     return NextResponse.json( { msg: `Error ${ method }`, error: "Cannot empty data" } )
   }
+  if( id !== undefined ) {
 
-  if( id.length > 10 || !isObjectEmpty( json ) ) {
-    return Output( "PUT", () => c.edit( json, id ), )
+    if( id.length > 10 || !isObjectEmpty( json ) ) {
+      return orderan.updateOne( json, id )
+    }
   }
-  return NextResponse.json( errorEmptyID( method ) )
+  return NextResponse.json( errorEmptyID( method ), { status: 404 } )
 
 }
 
 export async function DELETE( request: NextRequest, ) {
 
-  try {
-    const { method, id, json: array }: { method: TMethod, id: string, json: string[] } = await Input( request )
-    console.log( `route api ${ method } orderan` )
+  // try {
+  const { method, json: array }: {
+    json?: string[],
+    method: TMethod,
+    // id?: string | string[],
+  } = await getResponse( request )
 
-    if( typeof id === "string" ) {
-      if( id.length > 10 && id.includes( "_" ) ) {
-        console.log( "is just string" )
-        return Output( "DELETE", () => c.destroy( id ) )
-      }
-    }
+  console.log( array )
+  return tryCatch( method, async () => {
+
+    // console.log( `route api ${ method } orderan` )
+    // if( id !== undefined ) {
+    //   if( id.length > 10 && id.includes( "_" ) ) {
+    //     console.log( "is just string" )
+    //     return orderan.deleteOne( id )
+    //   }
+    // }
 
     if( typeof array === "object" ) {
+      // if( Array.isArray( array ) ) {
+      //   console.log( "is array" )
+      //   if( array.length === 1 ) {
+      //     console.log( "one" )
+      //     console.info( array )
+      //     return orderan.deleteOne( array[ 0 ] )
+      //   }
+      console.log( Array.isArray( array ) )
       if( Array.isArray( array ) ) {
-        console.log( "is array" )
-        if( array.length === 1 ) {
-          console.log( "one" )
-          console.info( array )
-          return Output( "DELETE", () => c.destroyOne( array[ 0 ] ) )
-        }
-        if( array.length > 1 ) {
-          console.log( "many" )
-          console.info( array )
-          return Output( "DELETE", () => c.deleteMany( array ) )
-        }
+        // console.log( "many" )
+        // console.info( array )
+        const data = await orderan.destroyMany( array )
+        // console.log( data )
+        return data
+        // }
       }
     }
 
     return NextResponse.json( errorEmptyID( method ) )
 
-  }
-  catch ( e ) {
-    NextResponse.json( { error: e } )
-  }
+  } )
+  // }
+  // catch ( e ) {
+  //   NextResponse.json( { error: e } )
+  // }
 }

@@ -1,6 +1,6 @@
-import { TOrder } from '@/entity/client/orderan';
 import { Rupiah } from '@/lib/utils/rupiah';
 import React from 'react';
+import { TOrder } from '@/interface/orderan';
 
 export const getListData = (
   d: TOrder,

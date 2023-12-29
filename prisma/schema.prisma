@@ -18,8 +18,8 @@ model SemuaProduct {
   jenis      String   @db.VarChar(100)
   harga      Int      @db.Integer
   jumlah     Int      @db.Integer
-  img        String
-  keterangan String   @db.Text
+  img        String   @db.Text
+  // keterangan String   @db.Text
   // at update / create
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -69,7 +69,7 @@ model Product {
   nama       String   @db.VarChar(100)
   lokasi     String   @db.VarChar(100)
   jenis      String   @db.VarChar(100)
-  img        String   @db.VarChar(100)
+  img        String   @db.Text
   harga      Int      @db.Integer
   jumlah     Int      @db.Integer
   keterangan String   @db.Text
@@ -87,7 +87,7 @@ model Delivery {
   lokasi     String
   jenis      String
   harga      Int    @db.Integer
-  img        String
+  img        String @db.Text
   keterangan String @db.Text
 
   @@map("Deliverys")

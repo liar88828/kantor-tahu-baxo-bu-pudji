@@ -1,21 +1,20 @@
 export const listsMenu = [
   {
-    title   : "Di Terima",
-    href    : "?id=Di Terima",
+    title: "Terima",
+    href : "?id=Terima",
     icon    : "ic:outline-book",
     nameIcon: "Book",
   },
   {
-    status  : "Di Proses",
-    title   : "Di Proses",
-    href    : "?id=Di Proses",
+    title: "Proses",
+    href : "?id=Proses",
     icon    : "mdi:trolley",
     nameIcon: "Transaction",
   }
   ,
   {
-    title   : "Di Kirim",
-    href    : "?id=Di Kirim",
+    title: "Kirim",
+    href : "?id=Kirim",
     icon    : "carbon:delivery",
     nameIcon: "Delivery",
   },

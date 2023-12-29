@@ -3,12 +3,9 @@ import { ReactNode } from 'react';
 export function BodyMenu( { children }: {
   children: ReactNode
 } ) {
-  return (
-    <section className="overflow-x-auto mb-2  ">
-      <div className={ "flex flex-row gap-5 z-50 p-4" }>
+  return ( <div className={ "flex flex-row gap-5 z-50 p-2 justify-between overflow-x-auto " }>
         { children }
       </div>
-    </section>
   )
 }
 

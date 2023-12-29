@@ -1,6 +1,7 @@
-import { prisma, TPProduct } from '@/servers/data-source/prisma/config';
 import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
 import { IProductData } from '@/servers/data-source/interface/prisma/Product';
+import { TPProduct } from '@/interface/prisma';
+import prisma from '@/servers/data-source/prisma/config';
 
 type TYPE = TPProduct;
 export default class ProductData extends AbstractPrisma<"product"> implements IProductData<TYPE> {

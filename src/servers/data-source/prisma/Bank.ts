@@ -1,6 +1,6 @@
-import { TPBank } from '@/servers/data-source/prisma/config';
 import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
 import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
+import { TPBank } from '@/interface/prisma';
 
 type TYPE = TPBank;
 

@@ -2,15 +2,13 @@ import { ImgCard } from '@/app/components/Atom/img/ImgCard';
 import { TextBody, Texts, TextTitle } from '@/app/components/Atom/Text/TextCard';
 import { formatPhone } from '@/lib/utils/formatPhone';
 import { TextHidden } from '@/app/components/Atom/Text/TextHidden';
-import { CardBody, CardButton, LiCard } from '@/app/components/molecules/card/Card';
-import { EditCard } from '@/app/components/element/Edit';
-import { DeleteCard } from '@/app/components/element/Delete';
+import { EditCard } from '@/app/element/Edit';
+import { DeleteCard } from '@/app/element/Delete';
+import { CardBody, CardButton, LiCard } from '@/app/components/Card';
 
 export const to = "bank"
 
-export function ListBank( { d }: {
-  d: TBank
-} ) {
+export function ListBank( { d }: { d: TBank } ) {
   return ( <LiCard name={ d.nama }>
       <ImgCard img={ d.img }/>
       <CardBody>

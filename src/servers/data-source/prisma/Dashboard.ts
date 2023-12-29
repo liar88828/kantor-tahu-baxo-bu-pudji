@@ -1,7 +1,7 @@
-import { prisma } from '@/servers/data-source/prisma/config';
+import prisma from '@/servers/data-source/prisma/config';
 import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
 import { TStatusProduk } from '@/app/style/status';
-import { TAggregate, TLine, TLines } from '@/entity/Dashboard';
+import { TAggregate, TLine, TLines } from '@/interface/Dashboard';
 
 class DashboardData {
   async statusNotify() {
@@ -13,6 +13,13 @@ class DashboardData {
           gte: addDays( -30 ),
         }
       }
+    } )
+  }
+
+  async updateStatus( option: string, id: string, ) {
+    return prisma.orderan.update( {
+      where: { id: id },
+      data : { status: option }
     } )
   }
 

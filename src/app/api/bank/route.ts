@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { errorEmptyID } from '@/lib/exeption/errorResponse';
 import { BankRepo } from '@/servers/data-source/repository/BankRepo';
-import { getResponse } from '@/servers/presentation/web/getResponse';
 import { tryCatch } from '@/lib/exeption/tryCatch';
 import { CreateZod } from '@/lib/validation/zod/createZod';
 import { UpdateZod } from '@/lib/validation/zod/updateZod';
+import { getResponse } from '@/lib/ress/getResponse';
 
 const c = new BankRepo()
 

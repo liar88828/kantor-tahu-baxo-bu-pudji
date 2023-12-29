@@ -1,13 +1,14 @@
-import { prisma, TPProduct as TYPE } from '@/servers/data-source/prisma/config';
+import prisma from '@/servers/data-source/prisma/config';
 import { TCREATEPRODUCT } from '@/lib/validation/zod/createZod';
 import { TUPDATEPRODUCT } from '@/lib/validation/zod/updateZod';
+import { TPProduct } from '@/interface/prisma';
 
 export class ProductRepo {
 
   static async findPaginate( page: number, take: number ) {
     return prisma.product.findMany( { take: take, skip: ( page - 1 ) * take } )
   }
-  async createOne( data: TCREATEPRODUCT ): Promise<TYPE> {
+  async createOne( data: TCREATEPRODUCT ): Promise<TPProduct> {
     return prisma.product.create( {
       data: {
 
@@ -23,7 +24,7 @@ export class ProductRepo {
       }
     } )
   }
-  async findAll(): Promise<TYPE[]> {
+  async findAll(): Promise<TPProduct[]> {
     return prisma.product.findMany()
   }
 
@@ -31,11 +32,11 @@ export class ProductRepo {
     return prisma.product.findUnique( { where: { id } } )
   }
 
-  async deleteOne( id: string ): Promise<TYPE> {
+  async deleteOne( id: string ): Promise<TPProduct> {
     return prisma.product.delete( { where: { id } } )
   }
 
-  async updateOne( data: TUPDATEPRODUCT, id: string, ): Promise<TYPE> {
+  async updateOne( data: TUPDATEPRODUCT, id: string, ): Promise<TPProduct> {
     return prisma.product.update( { data: { ...data }, where: { id: id } } )
   }
 }

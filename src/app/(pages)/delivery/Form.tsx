@@ -8,14 +8,14 @@ import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { setIdDelivery } from '@/lib/utils/formatId';
 import { Fetch } from '@/lib/ress/SendApi';
 import { notifyData } from '@/lib/notif/toash';
-import { OpenButton, SubmitButton } from '@/app/components/Atom/Button/form/SubmitButton';
-import { CreateZod } from '@/lib/validation/zod/createZod';
 import { formTravel } from '../../../../asset/constants/model/travel';
 import { LayoutImagePrev } from '@/app/components/Atom/img/LayoutImagePrev';
 import { ImagePrev } from '@/app/components/Atom/img/ImagePrev';
 import { img } from '@/app/(pages)/bank/Form';
-import { ToModel } from '@/entity/Utils';
 import { formBank } from '../../../../asset/constants/model/bank';
+import { getSchema } from '@/lib/validation/zod/updateZod';
+import { OpenButton, SubmitButton } from '@/app/element/SubmitButton';
+import { ToModel } from '@/interface/Utils';
 
 export default function FormDeliver(
   { defaultData, method, id, to }:
@@ -32,7 +32,7 @@ export default function FormDeliver(
   const { getValues, register, handleSubmit, formState: { errors } } = useForm<TDelivery>( {
     defaultValues: defaultData,
     mode         : "onChange",
-    resolver     : zodResolver( CreateZod.DeliverySchema )
+    resolver: zodResolver( getSchema( method, 'DELIVERY' ) )
   } );
 
   // console.log( errors )
@@ -104,7 +104,7 @@ export default function FormDeliver(
                      { valueAsNumber: true } ) }/>
 
         <InputForm errors={ errors }
-                   min={ 5 }
+                   min={ 0 }
                    max={ 100 }
                    title={ formTravel.keterangan }
                    type="textarea"
@@ -113,8 +113,8 @@ export default function FormDeliver(
         <InputForm errors={ errors }
                    title={ formBank.img }
                    type="text"
-                   min={ 20 }
-                   max={ 200 }
+                   min={ 0 }
+                   max={ 300 }
                    reg={ register( "img" ) }/>
         <FormButton>
           <OpenButton method={ method } fun={ () => handleImage() } states={ open }/>

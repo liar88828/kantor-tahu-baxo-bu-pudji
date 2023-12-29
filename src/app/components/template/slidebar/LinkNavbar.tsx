@@ -8,12 +8,13 @@ export function LinkNavbar( { title, children, href, totalStatus }: {
   href: string,
   totalStatus: number
 } ) {
-  return <label htmlFor="my-drawer"
-                className={ "static card card-compact flex text-white  w-[47%] sm:w-[31%]" +
-                  " md:w-[22%] px-2" +
-                  " sm:px-2" +
-                  " md:px-4 h-[60%]" +
-                  " my-[.2rem] " + statusWarna( title ) }>
+  // console.log(statusWarna( title ),title  )
+  return <div
+    className={ "static card card-compact flex text-white w-[47%] sm:w-[31%] shadows " +
+      " md:w-[22%] px-2" +
+      " sm:px-2" +
+      " md:px-4 h-[60%]" +
+      " my-[.2rem] " + statusWarna( title ) }>
     <div className="card-body flex-row justify-between flex flex-wrap">
 
       <div className={ " card-title " }>
@@ -21,14 +22,10 @@ export function LinkNavbar( { title, children, href, totalStatus }: {
         <div>{ totalStatus }</div>
       </div>
 
-      <div className={ " card-actions " }>
-        <Link href={ href }>
-          <button className={ " btn btn-sm flex flex-row items-center whitespace-nowrap" }>
-            { title.replaceAll( "Di ", "" ) }
-          </button>
-        </Link>
-      </div>
+      <Link href={ href } className={ " btn btn-sm btn-neutral" }>
+        { title }
+      </Link>
     </div>
 
-  </label>;
+  </div>;
 }

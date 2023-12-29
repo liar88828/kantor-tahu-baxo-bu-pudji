@@ -1,17 +1,18 @@
-import type { TOrder } from '@/entity/client/orderan';
 import { defaultDate, getTime } from '@/lib/utils/formatDate';
+import { TOrder } from '@/interface/orderan';
 
 export const defaultValues: TOrder = {
   //data orang
   pengirim  : 'Kantor Tahu Baxo',
   hpPengirim: '',
   penerima  : '',
+  dari      : '',
   alamatPenerima: '',
   hpPenerima: '',
   // waktu
-  pesan     : defaultDate(),
-  kirim     : defaultDate(),
-  waktuKirim: getTime(),
+  pesan: defaultDate(),
+  // kirim     : defaultDate(),
+  waktuKirim: defaultDate(),
   // product
   listOrderan: [],
   listItem   : [],
@@ -29,5 +30,4 @@ export const defaultValues: TOrder = {
   totalPenjualan: 0,
   status        : 'Di terima',
   guna          : ""
-
 }
