@@ -1,4 +1,4 @@
-import { TMethod } from '@/interface/Utils';
+import { TMethod } from "@/interface/Utils";
 
 export type TSend = {
   method: TMethod;

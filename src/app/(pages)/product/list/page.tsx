@@ -1,36 +1,23 @@
-import ListProduct from '@/app/(pages)/product/Card';
-import prisma from '@/servers/data-source/prisma/config';
-import { SearchParams } from '@/interface/searchParams';
-import Paginate from '@/app/element/Paginate';
-import { UlCard } from '@/app/components/Card';
+import { ListProduct } from '@/app/components/card/product/CComponent';
+import { Layout } from '@/app/elements/layout/Layout';
+import { GateWay } from '@/app/utils/ress/GateWay';
 
-export default async function Home( { searchParams }: SearchParams ) {
-  const page = Number( searchParams.page )
-  const take = Number( searchParams.take )
-  // console.log(page,take)
-  // const { data }: TRes<TProduct[]> = await Fetch(
-  //   {
-  //     method: "GET",
-  //     to    : "product",
-  //     page  : page,
-  //     take  : take
-  //   } )
-  // const length =await prisma.product.count({take:100})
+export const dynamic    = 'force-dynamic'
+export const revalidate = 0
+// export const fetchCache = 'auto'
+// export const runtime    = 'nodejs'
+export default async function Home() {
+  const { data }: { data: Required<TProduct[ ]> } = await GateWay( "GET", 'product', 'all', )
 
-  const [ data, length ] = await Promise.all( [
-    prisma.product.findMany( { skip: ( page - 1 ) * take, take: take } ),
-    prisma.product.count( { take: 100 } )
-  ] )
+  if( !data ) {
+    return ( <h1>Data Kosong</h1> )
+  }
 
   return ( <>
-      <UlCard name={ "product" }>
-        { data.map( ( d: TProduct ) => ( <ListProduct d={ d } key={ d.id } to={ 'product' }/> ) ) }
-      </UlCard>
-      <Paginate
-        take={ take }
-        page={ page }
-        length={ length }
-      />
+      <Layout >
+        <ListProduct data={ data }/>
+      </Layout>
     </>
+
   )
 }

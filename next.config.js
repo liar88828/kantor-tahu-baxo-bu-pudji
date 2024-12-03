@@ -1,37 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
-  experimental: {
-    // typedRoutes: true,// for type path of route
-    // serverActions: true,// for add server action
-    // optimizePackageImports: ['react-icons'],
-  },
 
+  // experimental: {
+  //   serverActions: true,
+  // },
+  // reactStrictMode: true,
+  // // Enable the React DevTools profiler
   // profiler: true,
   // reactStrictMode: true,
-  // modularizeImports: {
-  //   'react-icons': {
-  //     transform: 'react-icons/{{member}}',
-  //   },
-  // },
-  images: {
-    domains: [ "localhost", "dummyimage.com", "picsum.photos" ],
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        pathname: '/img/**',
-      },
-    ],
+  modularizeImports: {
+    'react-icons': {
+      transform: 'react-icons/{{member}}',
+    },
   },
-
-  // output: 'standalone',
-  // outputFileTracingExcludes: {
-  //   '/_test__': [ './**/*' ],
-  // },
+  images: {
+    domains: [ "localhost", "dummyimage.com" ]
+  },
 }
 
 module.exports = nextConfig

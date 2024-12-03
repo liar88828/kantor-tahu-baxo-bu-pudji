@@ -1,10 +1,10 @@
 import { IBankData } from '@/servers/data-source/interface/prisma/Bank';
-import { AbstractPrisma } from '@/servers/data-source/prisma/AbstractPrisma';
 import { TPBank } from '@/interface/prisma';
+import { ARepository } from "@/servers/data-source/prisma/AbstractPrisma";
 
 type TYPE = TPBank;
 
-export default class BankData extends AbstractPrisma<"bank"> implements IBankData<TYPE> {
+export default class BankData extends ARepository<"bank"> implements IBankData<TYPE> {
 
   setOne( d: TYPE ): TYPE {
     return {
@@ -18,7 +18,7 @@ export default class BankData extends AbstractPrisma<"bank"> implements IBankDat
       img: d.img || "https://dummyimage.com/200x200/000/fff.jpg&text=not+found",
     }
   }
-
+  
   setMany( data: TYPE[] ) {
     return data.map( ( d ) => ( this.setOne( d ) ) )
   }

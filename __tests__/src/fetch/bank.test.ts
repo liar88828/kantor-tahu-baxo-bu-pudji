@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { GateWay } from '../../../src/lib/ress/GateWay';
-import { exampleBank } from '../../../src/lib/ress/ErrorData';
 import { statusTest } from '../utils/statusTest';
 
 import { errorEmptyData, errorEmptyID } from '../../../src/lib/exeption/errorResponse';
 import { successResponse } from '../../../src/lib/exeption/successResponse';
+import { exampleBank } from "../../../src/app/utils/ress/ErrorData";
+import { GateWay } from "../../../src/app/utils/ress/GateWay";
 
 const json = structuredClone( exampleBank )
-json.id    = "kosong".repeat( 4 ) + "test";
+json.id = "kosong".repeat(4) + "test";
 
 describe( "Test Bank api", () => {
 
@@ -24,7 +24,7 @@ describe( "Test Bank api", () => {
       const data                                    = GateWay( "POST", "bank", "", ress )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "kosong" )
       await expect( data ).resolves.not.toContain( statusTest( "POST" ) )
-      await expect( data ).resolves.toMatchObject( [
+      await expect(data).resolves.toMatchObject([
         {
           code    : 'invalid_type',
           expected: 'string',
@@ -46,7 +46,7 @@ describe( "Test Bank api", () => {
           path    : [ "keterangan", ],
           received: "undefined",
         },
-      ] )
+      ])
     } )
 
     it( "Bank Cannot create empty post error ", async () => {
@@ -127,35 +127,35 @@ describe( "Test Bank api", () => {
       const { keterangan, lokasi, hp, ...ress } = json
       const data                                = GateWay( "PUT", "bank", json.id, ress )
       await expect( data ).resolves.not.toHaveProperty( "data.nama", "update" )
-      await expect( data ).resolves.toMatchObject( [
+      await expect(data).resolves.toMatchObject([
         {
-          "code"    : "invalid_type",
+          "code": "invalid_type",
           "expected": "string",
-          "message" : "Hp is required",
-          "path"    : [
+          "message": "Hp is required",
+          "path": [
             "hp",
           ],
           "received": "undefined",
         },
         {
-          "code"    : "invalid_type",
+          "code": "invalid_type",
           "expected": "string",
-          "message" : "Lokasi is required",
-          "path"    : [
+          "message": "Lokasi is required",
+          "path": [
             "lokasi",
           ],
           "received": "undefined",
         },
         {
-          "code"    : "invalid_type",
+          "code": "invalid_type",
           "expected": "string",
-          "message" : "Keterangan is required",
-          "path"    : [
+          "message": "Keterangan is required",
+          "path": [
             "keterangan",
           ],
           "received": "undefined",
         },
-      ] )
+      ])
     } )
 
     it( "Bank Cannot edit empty value by ID ", async () => {
