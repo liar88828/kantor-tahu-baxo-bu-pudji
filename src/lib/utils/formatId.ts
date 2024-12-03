@@ -1,8 +1,8 @@
-import { TOrder, } from '@/entity/client/orderan';
-import { ToModel } from '@/entity/Utils';
+import { TOrder, TOrderServer } from '@/interface/orderan';
+import { ToModel } from '@/interface/Utils';
 
 // Travel
-export const setIdTravel = ( dTravel: TTravel | TTravel ): string =>
+export const setIdDelivery = ( dTravel: TDelivery ): string =>
   dTravel.nama.slice( 0, 2 ) + "_" +
   dTravel.harga.toString().slice( 0, 2 ) + "_" +
   dTravel.lokasi.slice( 0, 2 ) + "_" +
@@ -63,8 +63,8 @@ export function setIdModel( to: ToModel, data: any ) {
   if( to === "product" ) {
     return setIdProduct( data );
   }
-  if( to === "travel" ) {
-    return setIdTravel( data );
+  if( to === "delivery" ) {
+    return setIdDelivery( data );
   }
   if( to === "orderan" ) {
     console.log( data )

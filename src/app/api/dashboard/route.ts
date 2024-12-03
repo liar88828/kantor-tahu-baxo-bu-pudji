@@ -1,28 +1,85 @@
-import { Input, Output } from '@/server/service/GateWay';
-import { prisma, TPSemuaProduct } from '@/server/models/prisma/config';
 import { NextRequest, NextResponse } from 'next/server'
-import SemuaProductController from '@/server/controller/SemuaProduk';
-import RepoSemuaProduk from '@/server/repository/SemuaProduk';
-import { IControlSemuaProduk } from '@/interface/controller/SemuaProduk';
-import ValidationService from '@/lib/validation/zod/validationService';
-import ValidationSchema from '@/lib/validation/zod/validationSchema';
-import { errorEmptyID } from '@/lib/utils/errorResponse';
-
-const c: IControlSemuaProduk = new SemuaProductController(
-  new RepoSemuaProduk( prisma.semuaProduct ),
-  new ValidationService<TPSemuaProduct>( new ValidationSchema().semuaProdukSchema ),
-)
-const to                     = "dashboard"
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import { dashboard } from '@/servers/data-source/prisma/Dashboard';
+import { tryCatch } from '@/lib/exeption/tryCatch';
+import { getResponse } from '@/lib/ress/getResponse';
 
 export async function GET( request: NextRequest ) {
-  const { id, pathname, method } = await Input( request )
-  console.log( `route api ${ method } dashboard` )
-  if( id === "all" ) {
-    if( pathname === "/api/dashboard" ) {
-      return Output( "GET", () => c.dashboard(), )
+  const { method, option, id } = await getResponse( request )
+  // console.log( option, method )
+
+  return tryCatch( method, async () => {
+    if( option ) {
+
+      // All
+      if( option === "all" ) {
+        return {
+          // ListDashboard   : await dashboard.statusNotify(),
+          LineChart       : await dashboard.semuaOrderTahun(),
+          DonatChart      : await dashboard.semuaProductLast(),
+          BarVerticalChart: await dashboard.aggregateProductPerMonth(),
+        }
+
+      }
+
+      // ListDashboard
+      if( option === "notify" ) {
+        return dashboard.statusNotify()
+      }
+
+      // Card Pembeli Status
+      if( option === "pesanan" ) {
+        // console.log( value )
+        console.log( option, id )
+
+        return dashboard.statusPesanan( id )
+      }
+
+      // LineChart
+      if( option === "orderTahun" ) {
+        return dashboard.semuaOrderTahun()
+      }
+      //DonatChart
+      if( option === "productLast" ) {
+        return dashboard.semuaProductLast()
+      }
+      if( option === "productNow" ) {
+        return dashboard.semuaProductNow()
+      }
+
+      // BarVerticalChart
+      if( option === "productPerMonth" ) {
+        // console.log( 'BarVerticalChart' )
+        return dashboard.aggregateProductPerMonth()
+      }
     }
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+
+    return NextResponse.json( errorEmptyID( method ), { status: 500 } )
+
+  } )
 
 }
 
+export async function PATCH( request: NextRequest, ) {
+  const { method, id, option } = await getResponse( request )
+  // console.log( `route api ${ method } dashboard` )
+  // console.log('')
+  return tryCatch( method, async () => {
+    if( typeof id !== 'string' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( typeof option === 'string' ) {
+
+      if( id.length > 3 ) {
+        console.log( 'change status' )
+        return dashboard.updateStatus( option, id )
+      }
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
+}

@@ -1,3 +1,5 @@
+import { TListCard } from '../../../asset/constants/model/TListCard';
+
 export const currentDate = new Date();
 export const currentYear  = currentDate.getFullYear();
 export const currentMonth = currentDate.getMonth() + 1; // Adding 1 to adjust for 0-based months
@@ -44,7 +46,25 @@ export const setTanggal = (
   const d = new Date( Date.parse( date.toString() ) );
 
   // @ts-ignore
-  return d.toLocaleDateString( "id-ID", formattingOptions[ option ] );
+
+  // console.log(dates)
+  return d.toLocaleDateString( "id-ID", formattingOptions[ option ] )
+
+};
+
+export const newSetTanggal = ( date: string | Date ) => {
+  const d = new Date( Date.parse( date.toString() ) );
+
+  // @ts-ignore
+  return d.toLocaleDateString( "id-ID", {
+    year  : 'numeric',
+    month : 'numeric',
+    day   : 'numeric',
+    hour  : 'numeric',
+    minute: 'numeric',
+    // second: 'numeric',
+    // timeZoneName: 'short'
+  } );
 };
 
 export const getDates = ( option: MyTypeObject, value: number ) => {
@@ -73,3 +93,21 @@ export const defaultDate = () => {
   return curr.toISOString().substring( 0, 10 );
 }
 
+export const getKirim = ( waktuKirim: string | Date ) => {
+  return new Date( waktuKirim )
+}
+
+export function statusKirim( d: TListCard ) {
+  const tanggal = addDays( 0 ).getDate()
+
+  // console.info( tanggal )
+  if( tanggal >= 4 && tanggal <= 6 ) {
+    return " btn-primary ";
+  }
+  if( tanggal >= 0 && tanggal <= 3 ) {
+    return " bg-warning ";
+  }
+  if( tanggal < 0 ) {
+    return " bg-error ";
+  }
+}

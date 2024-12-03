@@ -1,13 +1,11 @@
-import { defaultFormBank } from '@/app/utils/format/bank';
+import { defaultFormBank } from '../../../../../asset/constants/model/bank';
+import FormBank from '@/app/(pages)/bank/Form';
+import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { Suspense } from 'react';
-import { FormBank } from '@/app/components/form/FormBank';
-
-export const dynamic = 'force-dynamic'
 
 export default function Page() {
-
   return (
-    <Suspense fallback={ <div>Loading...</div> }>
+    <Suspense fallback={ <SkeletonCard/> }>
       <FormBank
         method={ 'POST' }
         defaultData={ defaultFormBank }

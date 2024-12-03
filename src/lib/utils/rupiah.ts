@@ -5,7 +5,7 @@ export const Rupiah = ( n: number | string | undefined ): string => {
       return new Intl.NumberFormat( "id-ID", {
         style   : "currency",
         currency: "IDR"
-      } ).format( n );
+      } ).format( n ).replace( ",00", "" );
     }
   }
   return "kosong";

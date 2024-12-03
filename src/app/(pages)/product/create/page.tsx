@@ -1,12 +1,11 @@
-import { FormProduct } from '@/app/components/form/FormProduct';
+import { defaultFormProduct } from '../../../../../asset/constants/model/product';
+import { SkeletonCard } from '@/app/components/template/handling/SkeletonCard';
 import { Suspense } from 'react';
-import { defaultFormProduct } from '@/app/utils/format/product';
-// export const dynamic    = 'force-dynamic'
+import FormProduct from '@/app/(pages)/product/Form';
 
 export default function Page() {
-
   return (
-    <Suspense fallback={ <div>Loading...</div> }>
+    <Suspense fallback={ <SkeletonCard/> }>
       <FormProduct
         method={ 'POST' }
         defaultData={ defaultFormProduct }

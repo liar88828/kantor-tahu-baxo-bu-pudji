@@ -1,0 +1,27 @@
+### ListDashboard
+GET http://localhost:3000/api/table?id=all
+
+
+### ListDashboard
+GET http://localhost:3000/api/table?option=table
+
+###
+GET http://localhost:3000/api/table?option=pesanan&id=Terima
+
+### change status
+PATCH  http://localhost:3000/api/table?option=Kirim&id=1231
+Content-Type: application/json
+
+{}
+
+### LineChart
+GET http://localhost:3000/api/table?option=orderTahun
+
+### DonatChart
+GET http://localhost:3000/api/table?option=productLast
+
+###
+GET http://localhost:3000/api/table?option=productNow
+
+### BarVerticalChart
+GET http://localhost:3000/api/table?option=productPerMonth

@@ -1,5 +1,5 @@
-import { ToModel } from '@/entity/Utils';
 import Validation from '@/lib/validation/validation';
+import { ToModel } from "@/interface/Utils";
 
 const v = new Validation()
 
@@ -14,7 +14,7 @@ export function ValidationModel( to: ToModel, data: any ) {
   if( to === "product" ) {
     return v.validModelNew( data, v.ProductSchema )
   }
-  if( to === "travel" ) {
+  if (to === "delivery") {
     return v.validModelNew( data, v.TravelSchema )
   }
   if( to === "semuaProduk" ) {

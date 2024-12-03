@@ -29,7 +29,7 @@ export async function POST( req: Request ) {
       }
     }
   }
-  console.log( dataArray )
+  // console.log( dataArray )
   return NextResponse.json( { success: true } );
 }
 

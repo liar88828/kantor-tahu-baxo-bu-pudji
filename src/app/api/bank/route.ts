@@ -1,63 +1,94 @@
-import { Input, Output } from '@/server/service/GateWay';
-
-import { prisma, TPBank } from '@/server/models/prisma/config';
-
 import { NextRequest, NextResponse } from 'next/server';
-import BankController from '@/server/controller/Bank';
-import RepoBank from '@/server/repository/Bank';
-import ValidationService from '@/lib/validation/zod/validationService';
-import { vSchema } from '@/lib/validation/zod/validationSchema';
-import { IControlBank } from '@/interface/controller/Bank';
-import { errorData, errorEmptyID } from '@/lib/utils/errorResponse';
+import { errorEmptyID } from '@/lib/exeption/errorResponse';
+import { BankRepo } from '@/servers/data-source/repository/BankRepo';
+import { tryCatch } from '@/lib/exeption/tryCatch';
+import { CreateZod } from '@/lib/validation/zod/createZod';
+import { UpdateZod } from '@/lib/validation/zod/updateZod';
+import { getResponse } from '@/lib/ress/getResponse';
 
-const c: IControlBank = new BankController
-(
-  new RepoBank( prisma.bank ),
-  new ValidationService<TPBank>( vSchema.BankSchema ),
-)
-const to              = "bank"
+const c = new BankRepo()
 
 export async function GET( request: NextRequest ) {
+  const { id, method, page, take } = await getResponse( request )
+  // console.log( `route api ${ method } bank` )
 
-  const { id, method, } = await Input( request );
-  console.log( `route api ${ method } bank` )
-  if( id.includes( "all" ) ) {
-    return await Output( "GET", () => c.find() )
-  }
-  if( id.length > 10 ) {
-    return await Output( "GET", () => c.findById( id ), )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+  // console.table( { page, take } )
+  return await tryCatch( method, async () => {
 
+    if( page !== 0 && take !== 0 ) {
+      // console.log( 'pagenate' )
+      // console.log( page, take )
+
+      return BankRepo.findPaginate( page, take )
+    }
+    if( id.includes( "all" ) ) {
+      console.log( 'find all' )
+      return c.findAll()
+    }
+    if( id.length > 5 ) {
+      console.log( `one ${ id }` )
+      return c.findOne( id )
+    }
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+  } )
 }
 
 export async function POST( request: NextRequest ) {
-  const { json, method } = await Input( request );
+  const { method, json } = await getResponse( request )
   console.log( `route api ${ method } bank` )
-  return await Output( "POST", () => c.create( json ) )
+
+  return tryCatch( method, async () => {
+    if( json === undefined ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( json !== null && typeof json === 'object' ) {
+
+      const data = CreateZod.BankSchema.parse( json )
+      return c.createOne( data )
+    }
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
+
 }
 
 export async function DELETE( request: NextRequest ) {
-  const { id, method } = await Input( request );
+  const { id, method } = await getResponse( request )
   console.log( `route api ${ method } bank` )
-  if( id.length > 10 ) {
-    return await Output( "DELETE", () => c.destroy( id ) )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
 
+  return tryCatch( method, async () => {
+    if( id === '' ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+    if( id.length > 2 ) {
+      return c.deleteOne( id )
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }
 
 export async function PUT( request: NextRequest ) {
-  const { json, id, method } = await Input( request );
+  const { id, method, json } = await getResponse( request )
   console.log( `route api ${ method } bank` )
-  if( json === undefined ) {
-    return NextResponse.json( errorData( method, json ) )
-  }
 
-  if( id.length > 10 ) {
-    return await Output( "PUT", () => c.edit( json, id ) )
-  }
-  return NextResponse.json( errorEmptyID( method ) )
+  return tryCatch( method, async () => {
 
+    if( id === '' || json === undefined ) {
+      throw { message: 'Bad Request', status: 400 }
+    }
+
+    if( id.length > 5 ) {
+      const data = UpdateZod.BankSchema.parse( json )
+      return c.updateOne( data, id )
+    }
+
+    return NextResponse.json( errorEmptyID( method ), { status: 400 } )
+
+  } )
 }
-

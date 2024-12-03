@@ -20,8 +20,7 @@ export function formatPhone( phoneNumber: string | number | undefined ): string 
     // }
 
     if( numericPhoneNumber.startsWith( '0' ) ) {
-      const formattedNumber = `+62 ${ numericPhoneNumber.slice( 1, 5 ) } ${ numericPhoneNumber.slice( 5, 9 ) } ${ numericPhoneNumber.slice( 9 ) }`;
-      return formattedNumber;
+      return `+62 ${ numericPhoneNumber.slice( 1, 5 ) } ${ numericPhoneNumber.slice( 5, 9 ) } ${ numericPhoneNumber.slice( 9 ) }`;
     }
 
     // If the phone number doesn't start with '0', assume it's already properly formatted

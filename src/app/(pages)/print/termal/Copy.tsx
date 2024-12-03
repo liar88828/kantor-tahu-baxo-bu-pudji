@@ -3,6 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { config } from '../../../../../config.dev';
 import { setTanggal } from '@/lib/utils/formatDate';
 import Image from 'next/image';
+import { TOrderServer } from '@/interface/orderan';
+
+function getId( d: Required<TOrderServer> | any, idOrderan: string[], lokasi: string ) {
+  const ids = d.id.split( lokasi )
+  idOrderan.push( ids[ 0 ] )
+  idOrderan.push( lokasi + ids[ 1 ] )
+}
 
 const MyComponent = () => {
   const [ table, setTable ] = useState( [] );
@@ -17,7 +24,7 @@ const MyComponent = () => {
 
     <div className={ "flex flex-wrap bg-white border border-black w-[297mm]" }>{
       table
-      .sort( ( a: TOrderServer, b: TOrderServer ) => a.semuaProduct.length - b.semuaProduct.length )
+      .sort( ( a: Required<TOrderServer>, b: TOrderServer ) => a.semuaProduct.length - b.semuaProduct.length )
       .map( ( d: TOrderServer ) => {
 
         const ganjil: TProOrderan[] = []
@@ -27,17 +34,14 @@ const MyComponent = () => {
                                                         : genap.push( c )
         )
 
-        function getId( d: TOrderServer, idOrderan: string[], lokasi: string ) {
-          const ids = d.id.split( lokasi )
-          idOrderan.push( ids[ 0 ] )
-          idOrderan.push( lokasi + ids[ 1 ] )
-        }
-
-        const id    = d.id.split( "_" )
-        const idLok = id.at( -2 )
-        if( idLok ) {
-          getId( d, idOrderan, idLok );
-
+        if( d ) {
+          if( d.id ) {
+            const id    = d.id.split( "_" )
+            const idLok = id.at( -2 )
+            if( idLok ) {
+              getId( d, idOrderan, idLok );
+            }
+          }
         }
 
         return (
@@ -52,7 +56,7 @@ const MyComponent = () => {
               <div className="text-end">
                 <p>{ idOrderan[ 0 ] }</p>
                 <p>{ idOrderan[ 1 ] }</p>
-                <p>{ setTanggal( d.kirim, "full" ) }</p>
+                <p>{ setTanggal( d.waktuKirim, "full" ) }</p>
               </div>
             </div>
 

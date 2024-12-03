@@ -1,87 +1,81 @@
-import { HorizontalCard } from '@/app/components/dashboard/card';
-import { Lines } from '@/lib/chart/line';
-import { Donat } from '@/lib/chart/donat';
-import { BarVertical } from '@/lib/chart/Bar';
-import { CardList, TListCard } from '@/app/components/card/dashboard/CardList';
-import { TAggregate, TDonat, TLines, TStatus } from '@/entity/Dashboard';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import React from 'react';
+import CardDashboard from '@/app/(pages)/dashboard/card/Dashboard';
+import { ListDashboard } from '@/app/(pages)/dashboard/ListDashboard';
+import { TAggregate, TLines } from '@/interface/Dashboard';
+import { DonatChart } from '@/interface/prisma';
+import Lines from '@/app/components/chart/line/line';
+import BarVerticalServer from '@/app/components/chart/barVertical/BarVerticalServer';
+import DonatServer from '@/app/components/chart/donat/DonatServer';
 
-export const dynamic    = 'force-dynamic'
-export const revalidate = 0
-// export const fetchCache = 'auto'
-// export const runtime    = 'nodejs'
-
-// export const preferredRegion = 'auto'
-
-export async function ServerComponent() {
-  const r: {
-    msg: string,
-    data: {
-      semuaOrderTahun: TLines[],
-      semuaStatus: TStatus[]
-      semuaProductNow: TDonat[]
-      semuaProductLast: TDonat[]
-      notifyMonth: TListCard[]
-      aggregate: TAggregate[]
-    }
-  } = await GateWay( 'GET', 'dashboard', "all", "", "", "noCache" )
-  return ( <>
-      <ClientComponent
-        line={ r.data.semuaOrderTahun }
-        donat={ r.data.semuaProductNow }
-        donatLast={ r.data.semuaProductLast }
-        status={ r.data.semuaStatus }
-        notifyMonth={ r.data.notifyMonth }
-        aggregate={ r.data.aggregate }
-      />
-    </>
-  )
+type TDashboard = {
+  // ListDashboard: TListDashboard[],
+  LineChart: TLines[],
+  DonatChart: DonatChart[],
+  BarVerticalChart: TAggregate[]
 }
 
-const ClientComponent = ( {
-  line, donat, status, notifyMonth, aggregate
-}: {
-  line: TLines[],
-  status: TStatus[]
-  donat: TDonat[],
-  donatLast: TDonat[],
-  notifyMonth: TListCard[]
-  aggregate: TAggregate[]
-} ) => {
+const chart = async () => await fetch( 'http://localhost:3000/api/dashboard?option=all', {
+    next: { revalidate: 10 }
+  }
+).then( data => data.json() )
 
-  return ( <>
-      <div className={ " flex gap-2 flex-col p-2 sm:p-4" }>
-        <div
-          className="flex flex-wrap my-5 p-2 md:p-5 gap-2 sm:gap-3 justify-between bg-slate-50 rounded-2xl shadow-xl
-shadow-slate-200">
-          <HorizontalCard data={ status }/>
-        </div>
-        <div className="flex gap-2  sm:flex-row  flex-col w-[100%]">
+const notify = async () => await fetch( 'http://localhost:3000/api/dashboard?option=notify',
+  { cache: 'no-store' } )
+.then( data => data.json() )
 
-          <div className=" sm:w-[70%] gap-2 flex flex-col">
-            <div className="border border-black bg-white rounded-3xl h-[20rem] sm:h-[100%] ">
-              <Lines dataKu={ line }/>
-            </div>
-            <div className="border border-black bg-white rounded-3xl h-[20rem] sm:h-[100%] ">
-              <BarVertical aggregate={ aggregate }/>
-            </div>
+const pesanan = async ( status: string ) => await fetch( `http://localhost:3000/api/dashboard?option=pesanan&id=${ status }`
+  , { cache: 'no-cache' } )
+.then( data => data.json() )
+
+// export const revalidate = 10
+export default async function ServerComponent( { id }: { id: string } ) {
+  // const { data: { BarVerticalChart, DonatChart, LineChart, } }:
+  //         { data: TDashboard } = await Fetch<'GET'>(
+  //   {
+  //     method: 'GET', option: 'all', to: 'dashboard',
+  //
+  //     revalidate: true, time: 10, tags: false
+  //   } )
+
+  // if( !res.ok ) {
+  //   // throw new Error( 'Failed to fetch data' )
+  //   return <DataEmpty/>
+  //
+  // }
+  //
+  // const { data } = await res.json()
+
+  const [ dataChart, dataNotify, dataPesanan ] = await Promise.all( [ chart(), notify(), pesanan( id ) ] )
+  // console.log(  dataNotify.data )
+  // console.log(  dataNotify.data)
+  return ( <div>
+      <ListDashboard data={ dataNotify.data }/>
+      <div className="flex gap-2 sm:flex-row flex-col w-[100%] mt-5">
+        <div className=" sm:w-[70%] gap-2 flex flex-col">
+          <div className="shadows bg-white rounded-3xl h-[20rem] sm:h-[100%] p-5 ">
+            <Lines dataKu={ dataChart.data.LineChart }/>
           </div>
+          <div className="shadows bg-white rounded-3xl h-[20rem] sm:h-[100%] p-5">
+            <BarVerticalServer data={ dataChart.data.BarVerticalChart }/>
+          </div>
+        </div>
 
-          <div className="flex flex-col sm:w-[30%] gap-2">
-            <div
-              className="h-[60vw] sm:h-[30vw] overflow-y-auto border border-black bg-white rounded-3xl p-2">
-              <CardList notifyMonth={ notifyMonth }/>
-            </div>
-            <div className="  sm:h-[30vw]   border border-black bg-white rounded-3xl p-2">
-              <Donat
-                dataKu={ donat }/>
-            </div>
+        <div className="flex flex-col sm:w-[30%] gap-2">
+          <div className="h-[60vw] sm:h-[30vw] overflow-y-auto shadows bg-white rounded-3xl p-5">
+            < CardDashboard
+              success={ dataPesanan.success }
+              data={ dataPesanan.data }/>
+          </div>
+          <div className="  sm:h-[30vw]  shadows bg-white rounded-3xl p-2">
+            <DonatServer data={ dataChart.data.DonatChart }/>
           </div>
         </div>
       </div>
-    </>
+    </div>
+
   )
 }
+
 // export const product  = [
 //   { nama: "Tahu Bakso Rebus", harga: 42.000 },
 //   { nama: "Tahu Bakso Vakum", harga: 46.000 },

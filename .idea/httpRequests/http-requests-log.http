@@ -1,746 +1,577 @@
-POST http://localhost:3000/api/travel
+GET http://localhost:3000/api/orderan?id=all&table=table
 Content-Type: application/json
-Content-Length: 210
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T204532.200.json
+
+###
+
+GET http://localhost:3000/api/orderan?option=orderan
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T204526.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200630.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200604.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200507.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200503.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200314.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200310.200.json
+
+###
+
+DELETE http://localhost:3000/api/orderan?id=1_231
+Content-Type: application/json
+Content-Length: 2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{}
+
+<> 2023-12-26T200202.200.json
+
+###
+
+GET http://localhost:3000/api/orderan?id=1_231
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T200148.200.json
+
+###
+
+GET http://localhost:3000/api/table?id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T200055.200.json
+
+###
+
+GET http://localhost:3000/api/orderan?option=orderan
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T162216.200.json
+
+###
+
+GET http://localhost:3000/api/orderan?option=orderan
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T161609.200.json
+
+###
+
+GET http://localhost:3000/api/orderan?option=orderan
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T161001.200.json
+
+###
+
+GET http://localhost:3000/api/orderan?option=orderan
+Content-Type: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-26T160953.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan?id=Piuvr_L_231221_Sem_02817
+Content-Type: application/json
+Content-Length: 595
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 {
-  "id": "kosong_kosong_kosong_kosong_travel",
-  "namaPengiriman": "kosong",
-  "noHpPerusahaan": "kosong",
+  "dari": "tokopedia update",
+  "pengirim": "kosong",
+  "hpPengirim": "123",
+  "penerima": "kosong",
+  "alamatPenerima": "kosong",
+  "hpPenerima": "12",
+  "pesan": "2023-12-12T00:00:00.000Z",
+  "waktuKirim": "2023-12-12T00:00:00.000Z",
+  "guna": "kosong",
   "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "img": "kosong",
-  "keterangan": "kosong"
-}
-
-<> 2023-09-17T131702.200.json
-
-###
-
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 210
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "kosong_kosong_kosong_kosong_travel",
   "namaPengiriman": "kosong",
-  "noHpPerusahaan": "kosong",
+  "ongkir": 0,
+  "typePembayaran": "kosong",
+  "totalBayar": 0,
+  "totalPenjualan": 0,
+  "status": "Kirim",
+  "semuaProduct": [
+    {
+      "harga": 3681802,
+      "jenis": "string",
+      "jumlah": 10,
+      "lokasi": "string",
+      "nama": "string",
+      "img": "dasda"
+    }
+  ]
+}
+
+<> 2023-12-25T161238.200.json
+
+###
+
+PUT http://localhost:3000/api/orderan?id=Lam b_327_Ot_240229_1312_Sem_32746412
+Content-Type: application/json
+Content-Length: 595
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "dari": "tokopedia update",
+  "pengirim": "kosong",
+  "hpPengirim": "123",
+  "penerima": "kosong",
+  "alamatPenerima": "kosong",
+  "hpPenerima": "12",
+  "pesan": "2023-12-12T00:00:00.000Z",
+  "waktuKirim": "2023-12-12T00:00:00.000Z",
+  "guna": "kosong",
   "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "img": "kosong",
-  "keterangan": "kosong"
+  "namaPengiriman": "kosong",
+  "ongkir": 0,
+  "typePembayaran": "kosong",
+  "totalBayar": 0,
+  "totalPenjualan": 0,
+  "status": "Kirim",
+  "semuaProduct": [
+    {
+      "harga": 3681802,
+      "jenis": "string",
+      "jumlah": 10,
+      "lokasi": "string",
+      "nama": "string",
+      "img": "dasda"
+    }
+  ]
 }
 
-<> 2023-09-17T131631.200.json
-
-###
-
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 205
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "asdasssd",
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-09-17T131523.200.json
-
-###
-
-POST http://localhost:3000/api/travel
-Content-Type: application/json
-Content-Length: 205
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "asdasssd",
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-09-17T131511.200.json
-
-###
-
-POST http://localhost:3000/api/travel?id=all
-Content-Type: application/json
-Content-Length: 205
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "asdasssd",
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-09-17T131503.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-13T190009.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-13T190004.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224835.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224320.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224302.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224230.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224216.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224201.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224148.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224145.200.json
-
-###
-
-POST http://localhost:3000/api/bank
-Content-Type: application/json
-Content-Length: 249
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "img"       : "https://logowik.com/content/uploads/images/cash2548.jpg",
-  "jenis": "Kredit"
-}
-
-<> 2023-09-12T224117.200.json
-
-###
-
-POST http://localhost:3000/api/bank
-Content-Type: application/json
-Content-Length: 249
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "img"       : "https://logowik.com/content/uploads/images/cash2548.jpg",
-  "jenis": "Kredit"
-}
-
-<> 2023-09-12T224111.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224036.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224022.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T223956.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T223946.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223932.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223731.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223701.500.html
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223616.500.html
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223609.500.html
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T192629.200.json
-
-###
-
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192622.200.json
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T192542.200.json
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192427.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192417.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192104.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192047.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T191959.200.html
-
-###
-
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T191935.200.json
-
-###
-
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T191929.200.json
+<> 2023-12-25T161209.404.json
 
 ###
 
 POST http://localhost:3000/api/orderan
 Content-Type: application/json
-Content-Length: 1275
+Content-Length: 599
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 {
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "Lam5b_327_Ot_240229_1312_Sem_327464sd",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "2000-07-01",
+  "dari": "tokopedia ku lagi 23",
+  "pengirim": "kosong",
+  "hpPengirim": "123",
+  "penerima": "kosong",
+  "alamatPenerima": "kosong",
+  "hpPenerima": "12",
+  "pesan": "2023-12-12T00:00:00.000Z",
+  "waktuKirim": "2023-12-12T00:00:00.000Z",
+  "guna": "kosong",
+  "lokasi": "kosong",
+  "namaPengiriman": "kosong",
+  "ongkir": 0,
+  "typePembayaran": "kosong",
+  "totalBayar": 0,
+  "totalPenjualan": 0,
+  "status": "Kirim",
   "semuaProduct": [
     {
-      "harga": 42000,
-      "id": "1",
+      "harga": 3681802,
+      "jenis": "string",
       "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "ungaran",
-      "img": "kosong",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Enak",
-      "lokasi": "ungaran",
-      "nama": "Tahu sBakso Rebus",
-      "img": "kosong",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
+      "lokasi": "string",
+      "nama": "string",
+      "img": "dasda"
     }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "03:00:00"
+  ]
 }
 
-<> 2023-09-10T205250.200.json
+<> 2023-12-25T161129.200.json
 
 ###
 
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1232
+GET http://localhost:3000/api/orderan?id=1_231
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "Lam5b_327_Ot_240229_1312_Sem_327464sd",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "2000-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "03:00:00"
-}
-
-<> 2023-09-10T205222.200.json
+<> 2023-12-25T154952.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
+GET http://localhost:3000/api/orderan?id=1234
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-09-10T203915.200.json
+<> 2023-12-25T153505.200.json
 
 ###
 
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
+GET http://localhost:3000/api/table?option=table
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-09-10T203903.200.json
+<> 2023-12-24T215206.200.json
 
 ###
 
-GET http://localhost:3000/api/semuaProduk?id=Nu_27_Un_Or_Pe_1692805428660_1693804003093
+GET http://localhost:3000/api/table?id=all
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-09-09T141151.200.json
+<> 2023-12-24T215157.200.json
 
 ###
 
-GET http://localhost:3000/api/semuaProduk?id=all
+GET http://localhost:3000/api/table
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-09-09T141135.200.json
+<> 2023-12-24T215105.200.json
 
 ###
 
-GET http://localhost:3000/api/semuaProduk?id=all
+GET http://localhost:3000/api/table
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2023-09-09T140904.200.json
+<> 2023-12-24T215055.200.json
 
 ###
 
-GET http://localhost:3000/api/semuaProduk?id=all
+GET http://localhost:3000/api/table
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
+<> 2023-12-24T215054.200.json
+
 ###
 
-POST http://localhost:3000/api/semuaProduk
-Content-Type: application/json
-Content-Length: 238
+GET http://localhost:3000/api/table
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ta_50_Un_Or_Pe_1692805286012_169286063212",
-  "nama": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "jumlah": 0,
-  "img": "kosong",
-  "keterangan": "kosong",
-  "orderanId": "petri_biki_230909_Sem_22222"
-}
-
-<> 2023-09-09T135719.200.json
+<> 2023-12-24T215040.200.json
 
 ###
 
-POST http://localhost:3000/api/semuaProduk
-Content-Type: application/json
-Content-Length: 267
+GET http://localhost:3000/api/tabel
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{
-  "id": "Ta_50_Un_Or_Pe_1692805286012_169286063212",
-  "nama": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "jumlah": 0,
-  "img": "kosong",
-  "keterangan": "kosong",
-  "orderanId": "ka_20_Un_la_Pe_1692538997993_1692807300551_1693804130830"
-}
+<> 2023-12-24T215017.404.html
 
-<> 2023-09-09T135639.200.json
+###
+
+GET http://localhost:3000/api/tabel
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214957.404.html
+
+###
+
+GET http://localhost:3000/api/tabel
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214926.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214849.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214819.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214804.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214750.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214749.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214710.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214639.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel&id=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214618.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214546.404.html
+
+###
+
+GET http://localhost:3000/api/tabel?option=tabel
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T214417.404.html
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productNow
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T200431.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productLast
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T200427.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productLast
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T200327.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productLast
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T200217.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=orderTahun
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T200216.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productLast
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T200157.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productNow
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T195749.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productPerMonth
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T195746.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=productLast
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T195745.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=orderTahun
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T195741.200.json
+
+###
+
+GET http://localhost:3000/api/dashboard?option=all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-24T195736.200.json
 
 ###
 
