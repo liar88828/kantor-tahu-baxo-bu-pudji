@@ -1,5 +1,5 @@
 import { TKPerson } from '@/entity/client/person';
-import { img } from '@/app/components/form/FormBank';
+import { TProductDB } from "@/entity/product.model";
 
 export const formProduct: TKPerson = {
   id    : "1231",
@@ -10,16 +10,5 @@ export const formProduct: TKPerson = {
   jenis : "Jenis Produk",
   img   : "Gambar Produk",
   keterangan: "Keterangan Produk"
-}
-
-export const defaultFormProduct: TProduct = {
-  id        : "",
-  nama: "Tahu Baxo",
-  harga     : 20000,
-  lokasi    : "Ungaran",
-  jumlah    : 0,
-  jenis     : "Orderan",
-  img : img,
-  keterangan: "Pedas"
 }
 

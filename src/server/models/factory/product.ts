@@ -1,6 +1,7 @@
 import { faker }    from '@faker-js/faker';
+import { TProductDB } from "@/entity/product.model";
 
-export const factoryProduct: TProduct = {
+export const factoryProduct: TProductDB = {
   id: faker.commerce.productDescription(),
   nama: faker.commerce.product(),
   harga: faker.datatype.number( 10 ),
@@ -9,4 +10,6 @@ export const factoryProduct: TProduct = {
   jumlah: faker.datatype.number( 10 ),
   img: faker.image.food( 100, 100 ),
   keterangan: faker.commerce.productDescription(),
+  created_at:new Date(),
+  updated_at:new Date(),
 }

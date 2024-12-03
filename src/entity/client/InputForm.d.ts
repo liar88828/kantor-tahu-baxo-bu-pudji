@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 export interface InputFormProps {
-  tag?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  tag?: keyof ReactElement | React.ComponentType<any>;
   title: string;
   type: "textarea" | "text" | "time" | "number" | "date" | "tel";
   reg: any;
@@ -9,5 +9,4 @@ export interface InputFormProps {
   min?: string | number
   max?: string | number
   defaultValue?: string | number,
-
 }

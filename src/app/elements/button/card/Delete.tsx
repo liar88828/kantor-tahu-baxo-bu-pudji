@@ -1,8 +1,8 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { notifyData } from '@/app/utils/notif/toash';
-import { GateWay } from '@/app/utils/ress/GateWay';
 import { ToModel, TRes } from '@/entity/Utils';
+import { TPaymentDB } from "@/entity/Bank.model";
 
 export function DeleteCard( { id, to, css = "btn-xs" }: { to: ToModel, id: string, css?: string } ) {
   const router = useRouter()
@@ -12,11 +12,11 @@ export function DeleteCard( { id, to, css = "btn-xs" }: { to: ToModel, id: strin
             type={ "button" }
             onClick={ async () => {
               if( confirm( "Apakah anda yakin untuk menghapus data ini ?" ) ) {
-                const res: TRes<TBank> = await GateWay<TBank>( 'DELETE', to, id, {}, )
-                notifyData( res.msg )
-                if( res.msg.includes( "cess" ) ) {
-                  router.refresh()
-                }
+                // const res: TRes<TPaymentDB> = await GateWay<TBank>( 'DELETE', to, id, {}, )
+                // notifyData( res.msg )
+                // if( res.msg.includes( "cess" ) ) {
+                //   router.refresh()
+                // }
               }
               else {
                 notifyData( "batal di ubah " )

@@ -1,8 +1,9 @@
 import { Rupiah } from '@/lib/utils/rupiah';
+import { TProductCreate, TProductDB } from "@/entity/product.model";
 
 export const OrderanButton = ( { semuaProduct, id }: {
   id: string
-  semuaProduct: TProduct[]
+  semuaProduct: TProductDB[]
 } ) => {
   return (
     <>
@@ -19,11 +20,11 @@ export const OrderanButton = ( { semuaProduct, id }: {
     </> )
 }
 
-export const OrderanCard = ( { semuaProduct }: { semuaProduct: TProduct[] } ) => {
+export const OrderanCard = ( { semuaProduct }: { semuaProduct: TProductDB[] } ) => {
   return (
     <>
       <div className="flex flex-wrap gap-3 p-1 ">
-        { semuaProduct.map( ( item: TProduct, i: number ) => {
+        { semuaProduct.map( ( item: TProductDB, i: number ) => {
           return (
             <div key={ item.id + item.nama }>
               <div className="w-[9rem]  bg-white border border-slate-100 rounded-lg shadow shadow-black p-2">

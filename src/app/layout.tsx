@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import './globals.css'
 import './flag.css';
 
-import Navbar from '@/app/components/layouts/Navbar';
-import { Slidebar } from '@/app/components/layouts/Slidebar';
+// import Navbar from '@/app/components/layouts/Navbar';
+// import { Slidebar } from '@/app/components/layouts/Slidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
@@ -26,9 +26,9 @@ export default function RootLayout( {
     <html lang="en">
     <body>
     <div className={ "  " }>
-      <Navbar/>
+      {/*<Navbar/>*/}
       <div className={ "flex " }>
-        <Slidebar/>
+        {/*<Slidebar/>*/}
         <div className=" w-[89%]">
           { children }
           <ToastContainer/>

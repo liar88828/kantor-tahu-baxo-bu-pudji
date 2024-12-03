@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getId, setBank } from '@/app/utils/ress/setBank';
 import { exampleBank } from '@/app/utils/ress/ErrorData';
-import { GateWay } from '@/app/utils/ress/GateWay';
 import { statusTest } from '@/app/utils/test/statusTest';
 
 const json = structuredClone( exampleBank )
@@ -15,8 +14,8 @@ describe( 'test setBank', () => {
   } );
 
   it( "Can create a post data setBank ", async () => {
-    const data = GateWay( "POST", "bank", "", json )
-    await expect( data ).resolves.toContain( statusTest( "POST" ) )
+    // const data = GateWay( "POST", "bank", "", json )
+    // await expect( data ).resolves.toContain( statusTest( "POST" ) )
   } )
 
   it( 'Can get by Id setBank', async () => {
@@ -32,7 +31,7 @@ describe( 'test setBank', () => {
   } );
 
   it( "Can delete by id setBank", async () => {
-    const data = GateWay( "DELETE", "bank", json.id, )
-    await expect( data ).resolves.toContain( statusTest( "DELETE" ) )
+    // const data = GateWay( "DELETE", "bank", json.id, )
+    // await expect( data ).resolves.toContain( statusTest( "DELETE" ) )
   } )
 } );

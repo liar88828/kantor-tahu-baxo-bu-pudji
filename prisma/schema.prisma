@@ -1,104 +1,98 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "data"
+  // output   = "data"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model SemuaProduct {
-  id         String   @id @default(uuid())
-  nama       String   @db.VarChar(100)
-  lokasi     String   @db.VarChar(100)
-  jenis      String   @db.VarChar(100)
-  harga      Int      @db.MediumInt
-  jumlah     Int      @db.MediumInt
-  img        String
-  keterangan String   @db.Text
-  // at update / create
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  // relational
-  // Orderan    Orderan? @relation(fields: [orderanId], references: [id])
-  // orderanId  String?  @unique
-  Orderan    Orderan  @relation(fields: [orderanId], references: [id])
-  orderanId  String   @db.VarChar(100)
-
-  @@map("SemuaProducts")
-}
-
-model Orderan {
-  id             String         @id @default(uuid()) @db.VarChar(100)
+model Orders {
+  id             String    @id @default(uuid())
   // orang
-  pengirim       String         @db.VarChar(100)
-  hpPengirim     String         @db.VarChar(20)
-  penerima       String         @db.VarChar(100)
-  alamatPenerima String         @db.VarChar(100)
-  hpPenerima     String         @db.VarChar(100)
+  pengirim       String
+  hpPengirim     String
+  penerima       String
+  alamatPenerima String
+  hpPenerima     String
   // tanggal
-  pesan          DateTime?      @db.Date
-  kirim          DateTime?      @db.Date
-  waktuKirim     DateTime?      @db.Time()
+  pesan          DateTime?
+  kirim          DateTime?
   // keterangan
-  guna           String         @db.Text
-  lokasi         String         @db.VarChar(100)
+  guna           String
+  lokasi         String
   // travel
-  namaPengiriman String         @db.VarChar(100)
-  ongkir         Int            @db.MediumInt
+  namaPengiriman String
+  ongkir         Int
   // total
-  typePembayaran String         @db.VarChar(100)
-  totalBayar     Int            @db.MediumInt
-  totalPenjualan Int            @db.MediumInt
-  status         String         @db.VarChar(20)
+  typePembayaran String
+  totalBayar     Int
+  totalPenjualan Int
+  status         String
   // semua
-  semuaProduct   SemuaProduct[]
-  // at update / create
-  created_at     DateTime       @default(now())
-  updated_at     DateTime       @updatedAt
 
-  @@map("Orderans")
+  // at update / create
+
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @updatedAt
+  Transaction Transactions[]
+  Deliverys   Deliverys?     @relation(fields: [id_delivery], references: [id])
+  id_delivery String?
+  Banks       Payments?      @relation(fields: [id_payment], references: [id])
+  id_payment  String?
 }
 
-model Product {
+model Transactions {
+  id         String    @id @default(uuid())
+  Order      Orders?   @relation(fields: [id_order], references: [id])
+  id_order   String?
+  Product    Products? @relation(fields: [id_product], references: [id])
+  id_product String?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Products {
+  id          String         @id @default(uuid())
+  nama        String
+  lokasi      String
+  jenis       String
+  img         String
+  harga       Int
+  jumlah      Int
+  keterangan  String
+  // at update / create
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @updatedAt
+  Transaction Transactions[]
+}
+
+model Deliverys {
   id         String   @id @default(uuid())
-  nama       String   @db.VarChar(100)
-  lokasi     String   @db.VarChar(100)
-  jenis      String   @db.VarChar(100)
-  img        String   @db.VarChar(100)
-  harga      Int      @db.MediumInt
-  jumlah     Int      @db.MediumInt
-  keterangan String   @db.Text
-  // at update / create
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  @@map("Products")
-}
-
-model Travel {
-  id         String @id @default(uuid())
   nama       String
   hp         String
   lokasi     String
   jenis      String
-  harga      Int    @db.MediumInt
+  harga      Int
   img        String
-  keterangan String @db.Text
-
-  @@map("Travels")
+  keterangan String
+  Orders     Orders[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
-model Bank {
-  id         String @id @default(uuid())
+model Payments {
+  id         String   @id @default(uuid())
   nama       String
   hp         String
   no         String
   lokasi     String
   jenis      String
-  img        String @db.Text
-  keterangan String @db.Text
+  img        String
+  keterangan String
+  Orders     Orders[]
 
-  @@map("Banks")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

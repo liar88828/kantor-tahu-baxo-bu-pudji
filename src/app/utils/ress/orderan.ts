@@ -1,6 +1,5 @@
 import { TOrder } from '@/entity/client/orderan';
-import { config } from '../../../../config.dev';
-import { GateWay } from '@/app/utils/ress/GateWay';
+import { config } from "../../../../config.dev";
 
 const test = "test"
 
@@ -23,11 +22,11 @@ export async function onCreate(
   const ress                                             = Object.assign( { semuaProduct: newSemuaProduct }, puts )
   if( confirm( "Apakah Data yang di isi sudah Benar ??" ) ) {
     if( method === "POST" ) {
-      return await GateWay( "POST", "orderan", "", ress )
+      // return await GateWay( "POST", "orderan", "", ress )
     }
     if( method === "PUT" ) {
       // console.info( "true" )
-      return await GateWay( "PUT", "orderan", id, ress )
+      // return await GateWay( "PUT", "orderan", id, ress )
 
     }
   }

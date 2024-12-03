@@ -1,15 +1,16 @@
-import { ToModel } from '@/entity/Utils';
+import { TPaymentCreate } from "@/entity/Bank.model";
+import { TProductDB } from "@/entity/product.model";
 
 export const exampleBank = {
   jenis     : "kosong",
   lokasi    : "kosong",
   keterangan: "kosong",
-  id        : "kosong",
+  // id        : "kosong",
   no        : "kosong",
   hp        : "kosong",
   img       : "kosong",
   nama: "kosong",
-} as TBank
+} as TPaymentCreate
 
 export const exampleOrderan = {
   pengirim      : "kosong",
@@ -65,19 +66,5 @@ export const exampleProduct = {
   keterangan: "kosong",
   lokasi    : "kosong",
   nama      : "kosong"
-} as TProduct
+} as TProductDB
 
-export async function ErrorData( to: ToModel ) {
-  if( to === "bank" )
-    return exampleBank
-
-  if( to === "orderan" )
-    return exampleOrderan
-
-  if( to === "product" )
-    return exampleProduct
-
-  if( to === "travel" )
-    return exampleTravel
-
-}

@@ -1,11 +1,10 @@
-import { TListCard } from '@/app/components/card/dashboard/CardList';
 
 export type TSendDashboard = {
   semuaOrderTahun: TLines[],
   semuaProductNow: TDonat[],
   semuaProductLast: TDonat[],
   semuaStatus: TStatus[],
-  notifyMonth: TListCard[] | any[],
+  // notifyMonth: TListCard[] | any[],
   aggregate: TAggregate[]
 }
 

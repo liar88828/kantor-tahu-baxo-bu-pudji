@@ -1,11 +1,12 @@
 import { addDot, getExtensionData, validateExtension } from '@/lib/utils/fileExtension';
 import { setIdProduct, setIdTravel } from '@/lib/utils/formatId';
 import { newError } from '@/server/exeption/errorHandler';
+import { TProductDB } from "@/entity/product.model";
 
 export const formatData = ( d: any, option: TraPro | string ) => {
   console.debug( option )
   if( option.includes( "product" ) ) {
-    const dProduct = d as TProduct | any
+    const dProduct = d as TProductDB | any
 
     const setId = setIdProduct( dProduct )
     console.debug( setId )

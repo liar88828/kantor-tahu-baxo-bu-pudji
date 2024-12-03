@@ -1,7 +1,7 @@
 
 
 // Interface for the product
-interface Product {
+interface ProductS {
   id: number;
   name: string;
   price: number;
@@ -9,12 +9,13 @@ interface Product {
 
 // Interface for the shopping cart item
 interface CartItem<T> {
+  
   product: T;
   quantity: number;
 }
 
 // Interface for the shopping cart
-interface ShoppingCart<T extends Product> {
+interface ShoppingCart<T extends ProductS> {
   items: CartItem<T>[];
   addItem( item: CartItem<T> ): void;
   removeItem( id: number ): void;
@@ -22,7 +23,7 @@ interface ShoppingCart<T extends Product> {
 }
 
 // Shopping cart implementation
-class ShoppingCartImpl<T extends Product> implements ShoppingCart<T> {
+class ShoppingCartImpl<T extends ProductS> implements ShoppingCart<T> {
   items: CartItem<T>[] = [];
 
   addItem( item: CartItem<T> ): void {
@@ -48,13 +49,13 @@ class ShoppingCartImpl<T extends Product> implements ShoppingCart<T> {
 }
 
 // Example usage
-const product1: Product = { id: 1, name: "Product 1", price: 10 };
-const product2: Product = { id: 2, name: "Product 2", price: 15 };
+const product1: ProductS = { id: 1, name: "Product 1", price: 10 };
+const product2: ProductS = { id: 2, name: "Product 2", price: 15 };
 
-const cartItem1: CartItem<Product> = { product: product1, quantity: 2 };
-const cartItem2: CartItem<Product> = { product: product2, quantity: 1 };
+const cartItem1: CartItem<ProductS> = { product: product1, quantity: 2 };
+const cartItem2: CartItem<ProductS> = { product: product2, quantity: 1 };
 
-const cart = new ShoppingCartImpl<Product>();
+const cart = new ShoppingCartImpl<ProductS>();
 cart.addItem( cartItem1 );
 cart.addItem( cartItem2 );
 

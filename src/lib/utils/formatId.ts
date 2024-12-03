@@ -1,8 +1,11 @@
 import { TOrder, } from '@/entity/client/orderan';
 import { ToModel } from '@/entity/Utils';
+import { TDeliveryDB } from "@/entity/travel.model";
+import { TProductDB } from "@/entity/product.model";
+import { TPaymentDB } from "@/entity/Bank.model";
 
 // Travel
-export const setIdTravel = ( dTravel: TTravel | TTravel ): string =>
+export const setIdTravel = (dTravel: TDeliveryDB): string =>
   dTravel.nama.slice( 0, 2 ) + "_" +
   dTravel.harga.toString().slice( 0, 2 ) + "_" +
   dTravel.lokasi.slice( 0, 2 ) + "_" +
@@ -10,7 +13,7 @@ export const setIdTravel = ( dTravel: TTravel | TTravel ): string =>
   dTravel.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
 // product
-export const setIdProduct = ( dProduct: TProduct ): string =>
+export const setIdProduct = (dProduct: TProductDB): string =>
   dProduct.nama.slice( 0, 2 ) + "_" +
   dProduct.harga.toString().slice( 0, 2 ) + "_" +
   dProduct.lokasi.slice( 0, 2 ) + "_" +
@@ -18,7 +21,7 @@ export const setIdProduct = ( dProduct: TProduct ): string =>
   dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
 
 // product
-export const setIdBank = ( dBank: TBank ): string =>
+export const setIdBank = (dBank: TPaymentDB): string =>
   dBank.nama.slice( 0, 2 ) + "_" +
   dBank.no.toString().slice( 0, 2 ) + "_" +
   dBank.hp.toString().slice( 0, 2 ) + "_" +
@@ -29,7 +32,7 @@ export const setIdBank = ( dBank: TBank ): string =>
 // Orderan
 function setIdOrderanString(
   dataBaru: {
-    semuaProduct: TProduct[]
+    semuaProduct: TProductDB[]
   } & TOrder | TOrderServer ) {
   function getNumbers( hpPenerima: string, hpPengirim: string, penerima: string ) {
     return hpPenerima + hpPengirim + penerima.length;
@@ -70,9 +73,9 @@ export function setIdModel( to: ToModel, data: any ) {
     console.log( data )
     return setIdOrderan( data );
   }
-  if( to === "semuaProduk" ) {
-    console.log( data )
-    return setIdProduct( data );
-  }
+  // if( to === "semuaProduk" ) {
+  //   console.log( data )
+  //   return setIdProduct( data );
+  // }
 }
 
