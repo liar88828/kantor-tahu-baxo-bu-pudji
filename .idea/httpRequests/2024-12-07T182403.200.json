@@ -1,0 +1,16 @@
+{
+  "msg": "POST product success",
+  "data": {
+    "id": "229b54ec-54ac-40bc-9571-90b9494bd672",
+    "name": "tahu baxo",
+    "location": "Semarang",
+    "type": "orderan",
+    "img": "tidak ada ",
+    "price": 20000,
+    "qty": 86,
+    "desc": "Pedas",
+    "created_at": "2024-12-07T11:24:03.644Z",
+    "updated_at": "2024-12-07T11:24:03.644Z"
+  },
+  "code": 200
+}

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { TDeliveryCreate, } from "@/entity/delivery.model";
+import {z} from "zod"
+import {TDeliveryCreate} from "@/entity/delivery.model"
 
 export const DeliveryCreate: z.ZodType<TDeliveryCreate> = z.object({
 	name: z.string().min(1).max(100),
@@ -21,3 +21,4 @@ export const DeliveryCreate: z.ZodType<TDeliveryCreate> = z.object({
 // 	keterangan: z.string({ required_error: 'Keterangan is required', }).min(1),
 // 	harga: z.number({ required_error: 'Harga is required', }).int().nonnegative(),
 // })
+

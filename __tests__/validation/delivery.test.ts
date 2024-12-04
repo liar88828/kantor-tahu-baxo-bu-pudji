@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
-import { DeliveryCreate } from "../../src/lib/validation/delivery.valid";
 import { exampleDeliveryCreate } from "../../src/assets/ExampleDelivery";
+import {DeliveryCreate} from "../../src/validation/delivery.valid";
 
 test("Delivery valid test", () => {
 	const test = DeliveryCreate.parse(exampleDeliveryCreate)

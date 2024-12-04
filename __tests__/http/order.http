@@ -15,23 +15,23 @@ Content-Type: application/json
 
 {
   "order": {
-    "nameCs": "John Doe",
-    "sendTime": {{$timestamp}},
-    "orderTime":  {{$timestamp}},
-    "desc": "Order of electronics including headphones and chargers.",
     "address": "123 Main St, Springfield, USA",
-    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "desc": "Order of electronics including headphones and chargers.",
+    "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
+    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "nameCs": "John Doe",
     "nameDelivery": "Express Logistics",
+    "orderTime":  {{$timestamp}},
     "phoneDelivery": "+1234567890",
     "priceDelivery": 4999,
-    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
-    "totalPayment": 10499,
+    "sendTime": {{$timestamp}},
+    "status": "Pending",
     "totalAll": 15498,
-    "status": "Pending"
+    "totalPayment": 10499
   },
   "orderProduct": [
-  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
-  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  	{ "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d" ,"qty": 1},
+  	{ "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672" ,"qty": 1}
   ],
   "orderReceiver": {
 	"name": "Alice Johnson",
@@ -41,28 +41,28 @@ Content-Type: application/json
 }
 
 ### Update
-PUT {{api}}/6f01f47e-acb5-41f8-85d2-f44de9fe99ea
+PUT {{api}}/baffe8aa-aa6a-400f-9a8a-d2aee689cd41
 Content-Type: application/json
 
 {
   "order": {
-    "nameCs": "John Doe update",
-    "sendTime": {{$timestamp}},
-    "orderTime":  {{$timestamp}},
+    "address": "123 Main St, Springfield, USA update haahahhaxxx",
     "desc": "Order of electronics including headphones and chargers.",
-    "address": "123 Main St, Springfield, USA",
-    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+       "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
+    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "nameCs": "John Doe update",
     "nameDelivery": "Express Logistics",
+    "orderTime":  {{$timestamp}},
     "phoneDelivery": "+1234567890",
     "priceDelivery": 4999,
-    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
-    "totalPayment": 10499,
+    "sendTime": {{$timestamp}},
+    "status": "Pending",
     "totalAll": 15498,
-    "status": "Pending"
+    "totalPayment": 10499
   },
   "orderProduct": [
-  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
-  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+    	{ "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d" ,"qty": 1},
+  	{ "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672" ,"qty": 1}
   ],
   "orderReceiver": {
 	"name": "Alice Johnson",

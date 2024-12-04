@@ -1,21 +1,15 @@
 'use client'
 import React from 'react'
-import {repeat} from '@/utils/repeat'
 import {Rupiah} from '@/utils/rupiah';
 import {ShoppingCart} from 'lucide-react';
 import {useRouter} from "next/navigation";
-import {useDispatch} from "react-redux";
-import {OrderProduct} from "@prisma/client";
-import {defaultFormProduct, exampleDataProduct, exampleProduct} from "@/assets/ExampleProduct";
+import {exampleDataProduct} from "@/assets/ExampleProduct";
 import {TProductDB} from "@/entity/product.model";
-import {useTrolley} from "@/store/trolley";
 
 export default function Page() {
 	const router = useRouter();
-	const count =useTrolley(state => state.trolleys)
-	const dispatch=useDispatch()
 
-	const addTrolley = (data:TProductDB) => {
+	const addTrolley = (data: TProductDB) => {
 		// dispatch(pushTrolley({
 		// 	id_product:data.id,
 		// 	id_user:"asdasda",
@@ -51,7 +45,7 @@ export default function Page() {
 									<p>Pedas</p>
 								</div>
 								<button
-									onClick={()=>addTrolley(d)}
+									onClick={() => addTrolley(d)}
 									className="btn btn-primary btn-sm btn-square ">
 									<ShoppingCart className=''/>
 								</button>

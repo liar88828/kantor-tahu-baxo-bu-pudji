@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
-import { OrderCreate } from "../../src/lib/validation/order.valid";
-import { OrderProductCreate } from "../../src/lib/validation/orderProduct.valid";
-import { ReceiverCreate } from "../../src/lib/validation/receiver.valid";
+import {OrderCreate} from "../../src/validation/order.valid";
+import {OrderProductTransaction} from "../../src/validation/orderProduct.valid";
+import {ReceiverCreate} from "../../src/validation/receiver.valid";
 
 describe('test Order all', () => {
 	
@@ -27,10 +27,11 @@ describe('test Order all', () => {
 	
 	test("OrderProduct test ", () => {
 		const orderProduct = [
-			{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
-			{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+			{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" ,"qty":0},
+			{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863",
+			"qty":0}
 		]
-		const test = OrderProductCreate.parse(orderProduct)
+		const test = OrderProductTransaction.parse(orderProduct)
 		expect(test).toEqual(orderProduct)
 	})
 	

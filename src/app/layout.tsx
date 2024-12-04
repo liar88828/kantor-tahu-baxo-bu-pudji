@@ -2,6 +2,7 @@ import {Metadata} from 'next'
 import './globals.css'
 import {Inter} from 'next/font/google'
 import {ReactNode} from 'react';
+import ReactQueryProvider from "@/app/provider/ReactQueryProvider";
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
@@ -20,8 +21,11 @@ export default function RootLayout({children}: {
 	return (
 		<html lang="en" className={inter.className} data-theme={'dark'}>
 		<body className={"min-h-screen "}>
-		{children}
+		<ReactQueryProvider>
+			{children}
+		</ReactQueryProvider>
 		</body>
+
 		</html>
 	)
 }

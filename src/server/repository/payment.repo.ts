@@ -1,5 +1,5 @@
-import { prisma } from '@/server/models/prisma/config';
 import { TPaymentCreate, TPaymentSearch, } from "@/entity/payment.model";
+import {prisma} from "@/lib/prisma";
 
 export class PaymentRepository implements InterfaceRepository<TPaymentCreate> {
 	paginate(data: { row: number; skip: number; }): Promise<any> {

@@ -1,7 +1,7 @@
-import {TMethod} from "@/interface/Utils";
+import { TMethod } from "@/interface/Utils"
 
 const isTest = true
-export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>;
+export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>
 export const useFetch = async <R>(
   method: TMethod,
   url: string,

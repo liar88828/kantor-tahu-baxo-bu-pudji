@@ -16,12 +16,12 @@ POST {{api}}
 Content-Type: application/json
 
 {
-  "phone": "test1",
   "accounting": "asdasdas",
-  "name": "mandiri",
   "address": "Semrang",
   "desc": "orak jelas",
   "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "name": "mandiri",
+  "phone": "test1",
   "type": "Kredit"
 }
 

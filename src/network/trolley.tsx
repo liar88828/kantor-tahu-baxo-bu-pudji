@@ -6,6 +6,7 @@ import {TOrderProductDB} from "@/entity/transaction.model";
 export const trolleyAll = ({idUser}: TrolleyParams) => {
 	return useFetch<TOrderProductDB[]>('GET', 'trolley',)
 }
+
 export const trolleyId = (id: TOrderProductDB['id']) => {
 	return useFetch('GET', `trolley/${id}`,)
 }

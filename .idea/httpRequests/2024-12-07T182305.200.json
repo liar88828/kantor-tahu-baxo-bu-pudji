@@ -1,0 +1,16 @@
+{
+  "msg": "POST product success",
+  "data": {
+    "id": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "name": "mandiri",
+    "phone": "test1",
+    "accounting": "asdasdas",
+    "address": "Semrang",
+    "type": "Kredit",
+    "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+    "desc": "orak jelas",
+    "created_at": "2024-12-07T11:23:05.671Z",
+    "updated_at": "2024-12-07T11:23:05.671Z"
+  },
+  "code": 200
+}

@@ -1,0 +1,26 @@
+{
+  "msg": "Error on POST",
+  "error": [
+    {
+      "code": "invalid_type",
+      "expected": "number",
+      "received": "undefined",
+      "path": [
+        0,
+        "qty"
+      ],
+      "message": "Required"
+    },
+    {
+      "code": "invalid_type",
+      "expected": "number",
+      "received": "undefined",
+      "path": [
+        1,
+        "qty"
+      ],
+      "message": "Required"
+    }
+  ],
+  "code": 400
+}

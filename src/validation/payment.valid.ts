@@ -1,15 +1,15 @@
-import { z } from "zod";
-import { TPaymentCreate } from "@/entity/payment.model";
+import { z } from "zod"
+import { TPaymentCreate } from "@/entity/payment.model"
 
 export const PaymentCreate: z.ZodType<TPaymentCreate> = z.object({
-	// id: z.string().uuid().optional(),
-	phone: z.string().min(2).max(30),
-	img: z.string().min(2).max(200),
-	accounting: z.string().min(2).max(30),
-	name: z.string().min(2).max(30),
-	address: z.string().min(2).max(30),
-	type: z.string().min(2).max(30),
-	desc: z.string().min(2).max(300),
+  // id: z.string().uuid().optional(),
+  phone: z.string().min(2).max(30),
+  img: z.string().min(2).max(200),
+  accounting: z.string().min(2).max(30),
+  name: z.string().min(2).max(30),
+  address: z.string().min(2).max(30),
+  type: z.string().min(2).max(30),
+  desc: z.string().min(2).max(300),
 })
 
 // export const BankUpdate: z.ZodType<TPaymentUpdate> = z.object({
@@ -22,5 +22,3 @@ export const PaymentCreate: z.ZodType<TPaymentCreate> = z.object({
 // 	jenis: z.string({ required_error: 'Jenis is required', }).min(2).max(30),
 // 	keterangan: z.string({ required_error: 'Keterangan is required', }).min(2).max(300),
 // })
-
-

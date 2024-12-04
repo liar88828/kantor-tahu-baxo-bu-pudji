@@ -4,64 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="merge backend-pc">
-      <change afterPath="$PROJECT_DIR$/__tests__/api/dashboard.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/api/delivery.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/api/orderan.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/api/product.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/http/coba.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/http/delivery.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/http/order.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/http/payment.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/http/product.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/src/server/utils/errorResponse.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/validation/delivery.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/validation/order.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/validation/payment.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/validation/product.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/elements/button/card/Delete.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/elements/table/format.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/utils/ress/bank.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/repository/delivery.repo.ts" afterDir="false" />
+    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="save">
+      <change afterPath="$PROJECT_DIR$/src/app/api/trolley/[id]/route.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/api/trolley/counter/[id]/route.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/api/trolley/route.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/controller/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/controller/trolley.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/repository/trolley.repo.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/api/payment.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/api/payment.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/api/semuaProduct.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/api/semuaProduct.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/http/rest.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/rest.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/http/semuaProduk.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/semuaProduk.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/src/server/utils/formatId.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/src/server/utils/formatId.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/http/coba.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/trolley.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/validation/order.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/validation/order.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/data/images.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/link/ListsMenu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/link/RoutesNav.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/model/bank.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/model/formOrderan.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/model/product.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/constants/model/travel.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/delivery/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/delivery/[id]/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/delivery/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/delivery/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/order/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/order/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/order/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/order/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/order/table/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/order/table/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/api/payment/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/payment/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/payment/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/payment/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/api/product/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/product/[id]/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/api/product/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/product/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/OrderanButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/elements/button/OrderanButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/ErrorData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/utils/ress/ErrorData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/setBank.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/utils/ress/setBank.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/test/statusTest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/utils/test/statusTest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/ExampleDelivery.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleDelivery.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/ExampleOrder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleOrder.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/ExampleProduct.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleProduct.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/transaction.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/transaction.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hook/useFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hook/useFetch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/order.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/validation/order.valid.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/product.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/validation/product.valid.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/controller/delivery.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/delivery.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interface/Utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interface/Utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/trolley.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/trolley.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/controller/order.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/order.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/controller/payment.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/payment.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/controller/product.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/product.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/controller/table.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/table.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/models/factory/product.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/models/factory/product.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/repository/orderan.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/orderan.repo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/repository/payment.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/payment.repo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/repository/product.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/product.repo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/formatId.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/formatId.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/delivery.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/delivery.valid.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/validation/orderProduct.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/orderProduct.valid.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/orderReceiver.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/orderReceiver.valid.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/payment.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/payment.valid.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/receiver.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/receiver.valid.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +48,9 @@
     <option name="groupingKeys">
       <option value="directory" />
     </option>
+  </component>
+  <component name="ComposerSettings">
+    <execution />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -89,6 +68,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="backend-pc" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -114,39 +98,90 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "HTTP Request.delivery | create data Travel.executor": "Run",
+    "HTTP Request.order | Update.executor": "Run",
+    "HTTP Request.order | get all.executor": "Run",
+    "HTTP Request.order | get by id.executor": "Run",
+    "HTTP Request.order | post.executor": "Run",
+    "HTTP Request.payment | create data Bank.executor": "Run",
+    "HTTP Request.product | create data Produk`.executor": "Run",
+    "HTTP Request.product | update data Produk`.executor": "Run",
+    "HTTP Request.trolley | create data trolley.executor": "Run",
+    "HTTP Request.trolley | decrement data trolley.executor": "Run",
+    "HTTP Request.trolley | get data Produk by id.executor": "Run",
+    "HTTP Request.trolley | get data Produk.executor": "Run",
+    "HTTP Request.trolley | get data trolley by id.executor": "Run",
+    "HTTP Request.trolley | get data trolley.executor": "Run",
+    "HTTP Request.trolley | increment data trolley.executor": "Run",
+    "HTTP Request.trolley | update data trolley.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Cherry-picking in fullstack-pc",
-    "last_opened_file_path": "E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/components",
+    "Vitest.Test Payment api.executor": "Run",
+    "Vitest.Test Product.executor": "Run",
+    "Vitest.Test Travel.executor": "Run",
+    "git-widget-placeholder": "fullstack-pc",
+    "last_opened_file_path": "E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/api/trolley/[id]",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "npm.build.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "E:\\CODE\\TA\\kantor-tahu-baxo-bu-pudji\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api\trolley\[id]" />
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api\trolley\counter" />
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\server\repository" />
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\server\controller" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\components" />
-      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\payment" />
-      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\product" />
-      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin" />
-      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\delivery" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api\trolley\counter\[id]" />
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\components" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\payment\update\[id]" />
     </key>
     <key name="es6.move.members.recent.items">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\server\controller\index.ts" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\(user)\(transaction)\trolley\errorLoad.tsx" />
     </key>
+  </component>
+  <component name="RunManager" selected="HTTP Request.trolley | update data trolley">
+    <configuration name="trolley | create data trolley" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" index="3" requestIdentifier="create data trolley" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="trolley | decrement data trolley" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" index="6" requestIdentifier="decrement data trolley" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="trolley | get data trolley" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" requestIdentifier="get data trolley" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="trolley | increment data trolley" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" index="5" requestIdentifier="increment data trolley" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="trolley | update data trolley" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" index="4" requestIdentifier="update data trolley" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.trolley | update data trolley" />
+        <item itemvalue="HTTP Request.trolley | create data trolley" />
+        <item itemvalue="HTTP Request.trolley | get data trolley" />
+        <item itemvalue="HTTP Request.trolley | decrement data trolley" />
+        <item itemvalue="HTTP Request.trolley | increment data trolley" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PS-242.23339.16" />
         <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23339.15" />
+        <option value="bundled-php-predefined-a98d8de5180a-90914f2295cb-com.jetbrains.php.sharedIndexes-PS-242.23339.16" />
       </set>
     </attachedChunks>
   </component>
@@ -164,6 +199,7 @@
       <workItem from="1733385898666" duration="11501000" />
       <workItem from="1733559166055" duration="5434000" />
       <workItem from="1733565951002" duration="317000" />
+      <workItem from="1733576367178" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="save admin and user">
       <option name="closed" value="true" />
@@ -189,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733397490130</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="save">
+      <option name="closed" value="true" />
+      <created>1733570728304</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733570728304</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,6 +254,8 @@
     <MESSAGE value="save admin and user" />
     <MESSAGE value="add redux but will replace use react-query" />
     <MESSAGE value="add redux but will replace use zustand" />
-    <option name="LAST_COMMIT_MESSAGE" value="add redux but will replace use zustand" />
+    <MESSAGE value="merge backend-pc" />
+    <MESSAGE value="save" />
+    <option name="LAST_COMMIT_MESSAGE" value="save" />
   </component>
 </project>

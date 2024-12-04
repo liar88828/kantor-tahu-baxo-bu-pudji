@@ -11,13 +11,13 @@ POST {{api}}
 Content-Type: application/json
 
 {
-  "price": 20000,
-  "img": "tidak ada ",
-  "type": "orderan",
-  "qty": 86,
   "desc": "Pedas",
+  "img": "tidak ada ",
   "location": "Semarang",
-  "name": "tahu baxo"
+  "name": "tahu baxo",
+  "price": 20000,
+  "qty": 86,
+  "type": "orderan"
 }
 
 

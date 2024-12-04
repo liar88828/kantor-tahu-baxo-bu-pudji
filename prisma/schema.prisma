@@ -37,6 +37,7 @@ model Orders {
   created_at   DateTime       @default(now())
   updated_at   DateTime       @updatedAt
 }
+
 model Receiver {
   id      String   @id @default(uuid())
   name    String
@@ -47,7 +48,7 @@ model Receiver {
 
 model OrderProduct {
   id         String   @id @default(uuid())
-  Order      Orders?  @relation(fields: [id_order], references: [id])
+  Order      Orders?   @relation(fields: [id_order], references: [id])
   id_order   String?
   Product    Products @relation(fields: [id_product], references: [id])
   id_product String

@@ -1,5 +1,5 @@
-import { prisma, } from '@/server/models/prisma/config';
 import { ProductSearch, TProductCreate } from "@/entity/product.model";
+import {prisma} from "@/lib/prisma";
 
 export default class ProductRepository implements InterfaceRepository<TProductCreate> {
   paginate(data: { row: number; skip: number; }): Promise<any> {

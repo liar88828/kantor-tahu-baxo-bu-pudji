@@ -1,0 +1,13 @@
+{
+  "msg": "Error on POST",
+  "error": {
+    "name": "PrismaClientKnownRequestError",
+    "code": "P2003",
+    "clientVersion": "5.22.0",
+    "meta": {
+      "modelName": "OrderProduct",
+      "field_name": "foreign key"
+    }
+  },
+  "code": 500
+}
