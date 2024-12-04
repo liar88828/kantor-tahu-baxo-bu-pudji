@@ -23,7 +23,7 @@ export const exampleDeliveryCreate: TDeliveryCreate = {
 	desc: "kosong",
 	
 }
-export const formTravel: Record<keyof TTravel, any> = {
+export const formTravel: Record<keyof TDelivery, any> = {
 	id: "1231",
 	nama: "Nama Travel",
 	hp: "No Hp perusahaan",
@@ -34,7 +34,7 @@ export const formTravel: Record<keyof TTravel, any> = {
 	keterangan: "Keterangan "
 }
 
-export const defaultFormTravel: TTravel = {
+export const defaultFormTravel: TDelivery = {
 	id: " ",
 	nama: "Tahu Baxo Bu Pudji",
 	hp: "08123456789",

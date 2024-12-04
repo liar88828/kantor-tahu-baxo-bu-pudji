@@ -14,7 +14,9 @@
     "starter"
   ],
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.4.1",
+    "@hookform/resolvers": "^2.9.11",
+    "@iconify/react": "^5.0.2",
     "@prisma/client": "^5.22.0",
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-table": "8.9.3",
@@ -27,7 +29,9 @@
     "chart.js": "^4.4.7",
     "classnames": "^2.5.1",
     "eslint": "8.44.0",
-    "eslint-config-next": "^15.0.3",
+    "eslint-config-next": "15.0.3",
+    "html-to-image": "^1.11.11",
+    "lucide-react": "^0.301.0",
     "form-data": "^4.0.1",
     "formidable": "^3.5.2",
     "next": "^15.0.3",
@@ -39,23 +43,24 @@
     "react-hook-form": "^7.53.2",
     "react-icons": "^4.12.0",
     "react-toastify": "^9.1.3",
-    "tailwindcss": "3.3.2",
+    "tailwindcss": "3.4.13",
     "typescript": "5.1.6",
     "xlsx": "^0.18.5",
     "xlsx-js-style": "^1.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@hookform/devtools": "^4.3.1",
     "@testing-library/jest-dom": "6.1.2",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
     "@vitejs/plugin-react": "4.0.4",
+    "@vitest/browser": "^0.34.6",
     "@vitest/coverage-istanbul": "^0.34.6",
-    "daisyui": "^3.9.4",
+    "daisyui": "4.12.14",
     "jsdom": "^22.1.0",
     "prisma": "^5.22.0",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "0.34.3"
+    "vitest": "0.34.3",
+    "webdriverio": "^8.40.6"
   }
 }

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+
+    //    "jsxImportSource": "react-icons/{{member}}",
     "target": "es2017",
     "lib": [
       "dom",
@@ -19,7 +21,10 @@
     "jsx": "preserve",
     "incremental": true,
     "types": [
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
+      "vitest/globals",
+      "cypress",
+      "node"
     ],
     "plugins": [
       {
@@ -41,6 +46,8 @@
   ],
   "exclude": [
     "node_modules",
-    "__tests__/"
+    "__tests__/",
+    "cypress.config.ts",
+    "cypress"
   ]
 }

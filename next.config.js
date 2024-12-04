@@ -1,3 +1,5 @@
+const { transpilePackages } = require('./next.config')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 
@@ -13,8 +15,9 @@ const nextConfig = {
       transform: 'react-icons/{{member}}',
     },
   },
+  transpilePackages: ['lucide-react'],// add this
   images: {
-    domains: [ "localhost", "dummyimage.com" ]
+    domains: ["localhost", "dummyimage.com"]
   },
 }
 

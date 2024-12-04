@@ -1,7 +1,7 @@
+import Home from "@/app/components/home";
 
-export default function Home() {
-
-  return <div>hello</div>
+export default async function Page() {
+  return <Home />
 }
 
 
