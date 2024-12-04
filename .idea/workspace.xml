@@ -4,22 +4,74 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="add redux but will replace use zustand">
-      <change afterPath="$PROJECT_DIR$/src/app/components/ErrorData.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/components/LoadingData.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/useTrolley.ts" afterDir="false" />
+    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="merge backend-pc">
+      <change afterPath="$PROJECT_DIR$/__tests__/api/dashboard.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/api/delivery.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/api/orderan.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/api/product.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/http/coba.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/http/delivery.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/http/order.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/http/payment.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/http/product.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/src/server/utils/errorResponse.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/validation/delivery.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/validation/order.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/validation/payment.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__tests__/validation/product.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/elements/button/card/Delete.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/elements/table/format.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/utils/ress/bank.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/repository/delivery.repo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/api/payment.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/api/payment.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/api/semuaProduct.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/api/semuaProduct.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/http/rest.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/rest.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/http/semuaProduk.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/semuaProduk.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/src/server/utils/formatId.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/src/server/utils/formatId.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/delivery/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/delivery/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/delivery/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/delivery/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/payment/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/payment/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/product/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/product/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/product/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/product/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/elements/button/OrderanButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/elements/button/OrderanButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/ErrorData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/utils/ress/ErrorData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/setBank.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/utils/ress/setBank.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/utils/test/statusTest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/utils/test/statusTest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/ExampleDelivery.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleDelivery.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/ExampleOrder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleOrder.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/ExampleProduct.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleProduct.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/transaction.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/transaction.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hook/useFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hook/useFetch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/trolley.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/trolley.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/validation/order.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/validation/order.valid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/validation/product.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/validation/product.valid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/controller/delivery.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/delivery.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/controller/order.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/order.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/controller/payment.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/payment.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/controller/product.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/product.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/controller/table.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/table.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/models/factory/product.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/models/factory/product.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/repository/orderan.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/orderan.repo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/repository/payment.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/payment.repo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/repository/product.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/product.repo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/formatId.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/formatId.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/delivery.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/delivery.valid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/orderProduct.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/orderProduct.valid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/orderReceiver.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/orderReceiver.valid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/payment.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/payment.valid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/receiver.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/receiver.valid.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -63,7 +115,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "frontend-pc",
+    "git-widget-placeholder": "Cherry-picking in fullstack-pc",
     "last_opened_file_path": "E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -111,6 +163,7 @@
       <workItem from="1733384696591" duration="1187000" />
       <workItem from="1733385898666" duration="11501000" />
       <workItem from="1733559166055" duration="5434000" />
+      <workItem from="1733565951002" duration="317000" />
     </task>
     <task id="LOCAL-00001" summary="save admin and user">
       <option name="closed" value="true" />
