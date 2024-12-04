@@ -1,7 +1,7 @@
 import { prisma, } from '@/server/models/prisma/config';
-import { TProductCreate, TProductUpdate } from "@/entity/product.model";
+import { ProductSearch, TProductCreate } from "@/entity/product.model";
 
-export default class ProductRepository implements InterfaceRepository {
+export default class ProductRepository implements InterfaceRepository<TProductCreate> {
   paginate(data: { row: number; skip: number; }): Promise<any> {
     throw new Error('Method not implemented.');
   }
@@ -10,20 +10,36 @@ export default class ProductRepository implements InterfaceRepository {
     throw new Error('Method not implemented.');
   }
   
-  async findAll(): Promise<any> {
-    return prisma.products.findMany();
+  async findAll(searchQuery: ProductSearch, page: number = 1, pageSize: number = 100): Promise<any> {
+    
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+    const products = await prisma.products.findMany({
+      where: {
+        AND: [
+          {
+            ...(searchQuery.location ? { location: { contains: searchQuery.location, } } : {}),
+            ...(searchQuery.name ? { name: { contains: searchQuery.name, } } : {}),
+            ...(searchQuery.type ? { type: { contains: searchQuery.type, } } : {}),
+          }
+        ],
+      },
+      skip,
+      take,
+    });
+    return { products, page, pageSize };
     
   }
   
   async findById(id: string): Promise<any> {
-    return prisma.products.findUnique({ where: { id: id } });
+    return prisma.products.findUnique({ where: { id } });
   }
   
   async createOne(data: TProductCreate): Promise<any> {
     return prisma.products.create({ data: { ...data } });
   }
   
-  async updateOne(data: TProductUpdate, id: string): Promise<any> {
+  async updateOne(data: TProductCreate, id: string): Promise<any> {
     return prisma.products.update({ data: { ...data }, where: { id } });
   }
   
@@ -31,24 +47,24 @@ export default class ProductRepository implements InterfaceRepository {
     return prisma.products.delete({ where: { id } });
   }
   
-  setOne(d: (TProductCreate | TProductUpdate) & { id?: string }) {
+  setOne(d: (TProductCreate) & { id?: string }) {
     return {
-      ...(d.id ? { id: d.id, } : {}),
-      nama      : d.nama,
-      jenis     : d.jenis.replaceAll( " ", "" ),
-      lokasi    : d.lokasi.replaceAll( " ", "" ),
-      harga     : d.harga || 0,
-      keterangan: d.keterangan,
-      jumlah    : d.jumlah || 0,
+      // ...(d.id ? { id: d.id, } : {}),
+      name: d.name,
+      type: d.type.replaceAll(" ", ""),
+      location: d.location.replaceAll(" ", ""),
+      price: d.price || 0,
+      desc: d.desc,
+      qty: d.qty || 0,
       img       : d.img || "https://dummyimage.com/200x200/000/fff.jpg&text=not+found",
     }
   }
   
-  setMany(data: (TProductCreate | TProductUpdate)[]): any[] {
+  setMany(data: TProductCreate[]): any[] {
     return data.map( ( d ) => ( this.setOne( d ) ) )
   }
   
-  async updateMany(data: (TProductUpdate)[], id: string) {
+  async updateMany(data: TProductCreate[], id: string) {
     return prisma.products.updateMany({
       where: { id: id },
       data : this.setMany( data )

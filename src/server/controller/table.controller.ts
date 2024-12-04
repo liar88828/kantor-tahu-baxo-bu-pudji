@@ -4,7 +4,6 @@ import { TContext } from '@/interface/server/param';
 import { NextRequest } from 'next/server';
 import OrderRepository from "@/server/repository/orderan.repo";
 import { getId, getJson } from "@/lib/requestHelper";
-import { ProductUpdate } from "@/lib/validation/product.valid";
 
 export default class TableController implements InterfaceController<TOrderDB> {
 	constructor(
@@ -23,9 +22,9 @@ export default class TableController implements InterfaceController<TOrderDB> {
 	}
 	
 	async updateOne(request: NextRequest, context: TContext): Promise<any> {
-		const json = await getJson(request)
-		const id = await getId(context)
-		return this.orderRepository.updateOne(ProductUpdate.parse(json), id)
+		// const json = await getJson(request)
+		// const id = await getId(context)
+		// return this.orderRepository.updateOne(ProductCreate.parse(json), id)
 	}
 	
 	async deleteOne(request: NextRequest, context: TContext): Promise<any> {
@@ -34,7 +33,7 @@ export default class TableController implements InterfaceController<TOrderDB> {
 	}
 	
 	async findDashboard(a: string) {
-		return this.orderRepository.findDashboard(a)
+		// return this.orderRepository.findDashboard(a)
 	}
 	
 	async updateStatus(

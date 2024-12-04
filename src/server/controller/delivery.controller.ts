@@ -1,10 +1,11 @@
-import { fileSystem } from '@/lib/utils/fileSystem';
 import { InterfaceController } from "@/interface/server/InterfaceController";
-import { TDeliveryDB } from "@/entity/travel.model";
-import { TravelCreate, TravelUpdate } from "@/lib/validation/travel.valid";
+import { TDeliveryDB } from "@/entity/delivery.model";
 import { NextRequest } from "next/server";
 import { TContext } from "@/interface/server/param";
 import DeliveryRepository from "@/server/repository/delivery.repo";
+import { getId, getJson, getParams } from "@/lib/requestHelper";
+import { UUIDSchema } from "@/lib/validation/id.valid";
+import { DeliveryCreate } from "@/lib/validation/delivery.valid";
 
 export default class DeliveryController implements InterfaceController<TDeliveryDB> {
 	constructor(
@@ -12,33 +13,40 @@ export default class DeliveryController implements InterfaceController<TDelivery
 	) {
 	}
 	
-	async findAll(_: NextRequest, __: TContext): Promise<any> {
-		return this.deliveryRepository.findAll();
+	async findAll(request: NextRequest, __: TContext): Promise<any> {
+		return this.deliveryRepository.findAll({
+			address: getParams(request, 'address'),
+			type: getParams(request, 'type'),
+			name: getParams(request, 'name'),
+		});
 	}
 	
-	async findById(_: NextRequest, { params }: TContext) {
-		const id = (await params).id;
-		return this.deliveryRepository.findById(id);
+	async findById(_: NextRequest, context: TContext) {
+		const id = await getId(context)
+		return this.deliveryRepository.findById(UUIDSchema.parse(id));
 	}
 	
 	async createOne(request: NextRequest, __: TContext) {
 		const json = await request.json()
-		return this.deliveryRepository.createOne(TravelCreate.parse(json))
+		return this.deliveryRepository.createOne(DeliveryCreate.parse(json))
 	}
 	
-	async updateOne(request: NextRequest, { params }: TContext) {
-		const json = await request.json()
-		const id = (await params).id
-		return this.deliveryRepository.updateOne(TravelUpdate.parse(json), id)
+	async updateOne(request: NextRequest, context: TContext) {
+		const json = await getJson(request)
+		const id = await getId(context)
+		return this.deliveryRepository.updateOne(
+			DeliveryCreate.parse(json),
+			UUIDSchema.parse(id),
+		)
 	}
 	
-	async deleteOne(_: NextRequest, { params }: TContext) {
-		const id = (await params).id
-		const res = await this.deliveryRepository.deleteOne(id)
-		if (res) {
-			await fileSystem(res.img)
-			return res
-		}
+	async deleteOne(_: NextRequest, context: TContext) {
+		const id = await getId(context)
+		const res = await this.deliveryRepository.deleteOne(UUIDSchema.parse(id));
+		// if (res) {
+		// 	await fileSystem(res.img)
+		// }
+		return res
 	}
 }
 export const deliveryController = new DeliveryController(

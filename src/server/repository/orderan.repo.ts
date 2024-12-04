@@ -1,53 +1,97 @@
-import { addDays, currentMonth, currentYear } from '@/lib/utils/formatDate';
 import { prisma, } from '@/server/models/prisma/config';
 import { TOptional } from '@/entity/server/types';
-import { TAggregate, TLine, TLines, TStatus } from '@/entity/Dashboard';
-import { TOrderCreate } from "@/entity/order.model";
-import { TTransactionCreate } from "@/entity/transaction.model";
+import { TStatus } from '@/entity/Dashboard';
+import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/entity/transaction.model";
 
-export default class OrderRepository implements InterfaceRepository {
-  search(search: string): Promise<any> {
-    throw new Error('Method not implemented.');
+export const exampleSearch = {
+  receiverName: "Alice",
+  status: "Pending",
+  dateRange: { start: new Date("2024-12-01"), end: new Date("2024-12-31") },
+  productId: "prod-001",
+}
+type SearchOrder = {
+  receiverName?: string;
+  status?: string;
+  dateRange?: { start: Date; end: Date };
+  productId?: string;
+};
+export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
+  
+  async search(criteria: SearchOrder) {
+    return prisma.$transaction(async (tx) => {
+      
+      return tx.orders.findMany({
+        where: {
+          AND: [
+            {
+              
+              ...(criteria.receiverName ?
+                { Receiver: { name: { contains: criteria.receiverName }, } } : {}),
+              
+              ...(criteria.status ?
+                { status: { equals: criteria.status } } : {}),
+              
+              ...(criteria.dateRange ?
+                {
+                  orderTime: {
+                    gte: criteria.dateRange.start,
+                    lte: criteria.dateRange.end
+                  }
+                } : {}),
+              
+              ...(criteria.productId ? {
+                OrderProduct: {
+                  some: {
+                    id_product: criteria.productId,
+                  }
+                }
+              } : {}),
+              
+            }
+          ]
+        },
+        include: {
+          Receiver: true,
+          OrderProduct: {
+            include: {
+              Product: true
+            }
+          }
+        },
+      });
+    });
   }
   
-  deleteOne(id: string): Promise<any> {
-    throw new Error('Method not implemented.');
+  async deleteOne(id_order: string) {
+    return prisma.$transaction(async (tx) => {
+      // Find the order to retrieve the associated receiver ID
+      const order = await tx.orders.findUniqueOrThrow({
+        where: { id: id_order },
+      });
+      
+      // Delete related order products
+      const orderProduct = await tx.orderProduct.deleteMany({
+        where: { id_order: id_order },
+      });
+      
+      // Delete the order itself
+      await tx.orders.delete({
+        where: { id: id_order },
+      });
+      
+      // Delete the associated receiver
+      const orderReceiver = await tx.receiver.delete({
+        where: { id: order.id_receiver },
+      });
+      
+      return {
+        order, orderProduct, orderReceiver
+        
+      };
+    });
   }
 
 // getAll data from database
-  getSelect() {
-    return {
-      id            : true,
-      pengirim      : true,
-      hpPengirim    : true,
-      penerima      : true,
-      alamatPenerima: true,
-      hpPenerima    : true,
-      pesan         : true,
-      kirim         : true,
-      waktuKirim    : true,
-      guna          : true,
-      lokasi        : true,
-      namaPengiriman: true,
-      ongkir        : true,
-      typePembayaran: true,
-      totalBayar    : true,
-      totalPenjualan: true,
-      status        : true,
-      semuaProduct  : {
-        select: {
-          id        : true,
-          nama      : true,
-          lokasi    : true,
-          jenis     : true,
-          harga     : true,
-          jumlah    : true,
-          keterangan: true,
-          orderanId : true,
-        }
-      }
-    };
-  }
   
   setOne() {
     // d.waktuKirim = !d.waktuKirim ? new Date() : d.waktuKirim
@@ -96,254 +140,323 @@ export default class OrderRepository implements InterfaceRepository {
     //   )
     // );
   }
-
-  // ---------CREATE
-  async createOne(data: { order: TOrderCreate, transaction: TTransactionCreate },
-  ) {
-    return prisma.$transaction(async (tx) => {
-      
-      const order = await tx.orders.create(
-        { data: data.order })
-      
-      if (order) {
-        await tx.transactions.create(
-          {
-            data: {
-              id_order: order.id,
-              id_product: data.transaction.id_product
-            }
-          }
-        )
-      }
-    })
-    
-  }
-
-  async findById( id: string ) {
-    return prisma.orders.findUnique({
-      where  : { id },
-      include: {
-        Banks: true,
-        
-      }
-    } )
-  }
-
+  
   async findAll() {
     return prisma.orders.findMany({
-      select: this.getSelect(),
-      take   : 100,
+      include: {
+        OrderProduct: {
+          include: {
+            Product: true
+          }
+        },
+        Receiver: true,
+        Deliverys: true,
+        Payments: true
+      },
+      take: 100,
       orderBy: {
         created_at: "desc"
       },
-    } )
+    })
   }
-
-  async findDashboard( a: string ) {
-    if( a === "false" ) {
-      const falseFeature = (): void => {
-        
-        const monthlyUserCounts = prisma.orders.groupBy({
-            by    : [ "pesan" ],
-            _count: { pesan: true, },
-            where : {
-              pesan: {
-                gte: new Date( `${ currentYear }-01-01` ),
-                lte: new Date( `${ currentYear }-12-30` ),
-              }
-            },
+  
+  async findById(id: string) {
+    return prisma.orders.findUnique({
+      where: { id },
+      include: {
+        OrderProduct: {
+          include: {
+            Product: true
           }
-        )
-        console.debug( monthlyUserCounts )
-        
-        // const aggregatedData = prisma.semuaProduct.groupBy( {
-        //   by     : [ 'nama' ],
-        //   where  : {
-        //     AND: [
-        //       {
-        //         created_at: {
-        //           gte: new Date( new Date().getFullYear(), new Date().getMonth() - 1, 1 ),
-        //           lt : new Date( new Date().getFullYear(), new Date().getMonth(), 1 ),
-        //         },
-        //       },
-        //     ],
-        //   },
-        //   _sum   : {
-        //     jumlah: true,
-        //     harga : true,
-        //   },
-        //   orderBy: {
-        //     _sum: {
-        //       harga: 'desc',
-        //     },
-        //   },
-        // } );
-        // console.debug( aggregatedData )
-
-        //--------------get jumlah lokasi
-        const monthlyUserCounts1 = prisma.orders.groupBy({
-            by    : [ "lokasi" ],
-            _count: {
-              lokasi: true,
-            },
-          }
-        )
-        console.debug( monthlyUserCounts1 )
-        
-        const tanggalSekarang = prisma.orders.findMany({
-            where: {
-              kirim: {
-                gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
-                lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
-              }
-            }
-          }
-        )
-        console.debug( tanggalSekarang )
-
-        //--------------get jumlah lokasi
-        const monthlyUserCounts2 = prisma.orders.count({
-          where: {
-            created_at: {
-              gte: new Date( `${ currentYear }-01-01` ),
-              lte: new Date( `${ currentYear }-12-30` ),
-            }
+        },
+        Receiver: true,
+        Deliverys: true,
+        Payments: true
+      },
+    })
+  }
+  
+  // ---------CREATE
+  async createOne(data: TOrderTransactionCreate) {
+    return prisma.$transaction(async (tx) => {
+      const orderReceiver = await tx.receiver.create(
+        { data: data.orderReceiver })
+      const order = await tx.orders.create(
+        {
+          data: {
+            id_receiver: orderReceiver.id,
+            ...data.order
           },
-        } )
-        console.debug( monthlyUserCounts2 )
+        })
+      if (order) {
+        const products = data.orderProduct.map((product) => ({
+          id_order: order.id,
+          id_product: product.id_product
+        }))
+        
+        const orderProduct = await tx.orderProduct.createMany(
+          { data: products })
+        
+        return {
+          order,
+          orderReceiver,
+          orderProduct
+        }
       }
-      console.debug( falseFeature )
-
-    }
-
-    // untuk list card
-    const semuaNotifyMonth = prisma.orders.findMany({
-      where : {
-        status: {
-          contains: "irim"
-        },
-        // status:"Di Kirim",  ,
-
-        kirim: {
-          gte: addDays( -30 ),
-          // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
-        },
-      },
-      select: {
-        id: true,
-        //penerima
-        penerima      : true,
-        hpPenerima    : true,
-        alamatPenerima: true,
-        //
-        pengirim      : true,
-        namaPengiriman: true,
-
-        //
-        kirim         : true,
-        pesan         : true,
-        status        : true,
-        typePembayaran: true,
-        totalBayar    : true,
-
-      },
-      take  : 100,
-    } );
-
-    // untuk donat Now Month
-    // const semuaProductCountNow = prisma.semuaProduct.groupBy( {
-    //   by    : [ "nama" ],
-    //   _count: { nama: true, },
-    //   where : {
-    //     created_at: {
-    //       gte: addDays( -30 ),
-    //       // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
-    //       }
-    //     },
-    //   }
-    // )
-
-    // untuk donat Now Month Last
-    // const semuaProductCountLast = prisma.semuaProduct.groupBy( {
-    //     by    : [ "nama" ],
-    //     _count: { nama: true, },
-    //   where: {
-    //     created_at: {
-    //       gte: new Date( `${ currentYear }-${ currentMonth === 0 ? 12 : currentMonth - 1 }-01` ),
-    //       lte: new Date( `${ currentYear }-${ currentMonth === 0 ? 12 : currentMonth - 1 }-30` ),
-    //     }
-    //   },
-    //   }
-    // )
-
-    //untuk notify block status
-    const semuaStatusOrder = prisma.orders.groupBy({
-        by    : [ "status" ],
-        _count: { status: true, },
-        where : {
-          created_at: {
-            gte: addDays( -30 ),
-            // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
-          }
-        },
-      }
-    )
-
-    // return { data: monthlyUserCounts}.
-    const transaction = await prisma.$transaction([
-      // semuaProductCountNow,
-      semuaStatusOrder, semuaNotifyMonth,
-      // semuaProductCountLast,
-      //aggregatedData
-    ] )
-
-    const monthlyUserCounts: TLine[] = await prisma.$queryRaw`
-        SELECT YEAR(pesan)                AS year,
-               MONTHNAME(pesan)           AS month,
-               CAST(COUNT(*) AS UNSIGNED) AS jumlah_pesanan
-        FROM tahu_baxo_bupudji.orderans
-        WHERE YEAR(pesan) BETWEEN YEAR(CURRENT_DATE) - 3 AND YEAR(CURRENT_DATE)
-        GROUP BY YEAR(pesan), MONTH(pesan)
-        ORDER BY YEAR(pesan), MONTH(pesan);
-    `
-
-    const aggregate: TAggregate[] = await prisma.$queryRaw`
-        SELECT nama,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, jumlah,
-                      0))                                                                        AS total_jumlah_last_two,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN harga ELSE 0 END)      AS total_harga_current,
-               SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN harga ELSE 0 END)  AS total_harga_last,
-               SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, harga, 0))                    AS total_harga_last_two
-        FROM tahu_baxo_bupudji.semuaproducts
-        WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 2 AND MONTH(CURRENT_DATE)
-        GROUP BY nama;
-
-    `
-
-//untuk line
-    const semuaOrderTahun: TLines[] = monthlyUserCounts.map( ( item ) => ( {
-      ...item,
-      jumlah_pesanan: Number( item.jumlah_pesanan )
-    } ) );
-    
-    // const semuaProductNow        = transaction[ 0 ]
-    // const semuaStatus: TStatus[] = transaction[ 1 ]
-    // const notifyMonth            = transaction[ 2 ]
-    // const semuaProductLast       = transaction[ 3 ]
-    
-    // const send = {
-    //   semuaOrderTahun,//untuk line
-    //   semuaProductNow,// untuk donat Now
-    //   semuaProductLast,// untuk donat Last
-    //   semuaStatus,// untuk notify block status
-    //   notifyMonth,// untuk list card
-    //   aggregate
-    // }
-    // return send
-
+    })
   }
+  
+  async updateOne(data: TOrderTransactionUpdate, orderId: string) {
+    return prisma.$transaction(async (tx) => {
+      const updatedOrder = data.order
+        ? await tx.orders.update({
+          where: { id: orderId },
+          data: data.order,
+        })
+        : null;
+      
+      let updatedReceiver = null;
+      if (data.orderReceiver) {
+        const order = await tx.orders.findUniqueOrThrow({
+          where: { id: orderId },
+        });
+        updatedReceiver = await tx.receiver.update({
+          where: { id: order.id_receiver },
+          data: data.orderReceiver,
+        });
+      }
+      
+      let updatedProducts = null;
+      if (data.orderProduct) {
+        // Delete existing products for the order
+        await tx.orderProduct.deleteMany({
+          where: { id_order: orderId },
+        });
+        
+        // Insert updated product list
+        const products = data.orderProduct.map((product) => ({
+          id_order: orderId,
+          id_product: product.id_product,
+        }));
+        
+        updatedProducts = await tx.orderProduct.createMany({
+          data: products,
+        });
+      }
+      
+      return {
+        updatedOrder,
+        updatedReceiver,
+        updatedProducts,
+      };
+    });
+  }
+
+//   async findDashboard( a: string ) {
+//     if( a === "false" ) {
+//       const falseFeature = (): void => {
+//
+//         const monthlyUserCounts = prisma.orders.groupBy({
+//             by    : [ "pesan" ],
+//             _count: { pesan: true, },
+//             where : {
+//               pesan: {
+//                 gte: new Date( `${ currentYear }-01-01` ),
+//                 lte: new Date( `${ currentYear }-12-30` ),
+//               }
+//             },
+//           }
+//         )
+//         console.debug( monthlyUserCounts )
+//
+//         // const aggregatedData = prisma.semuaProduct.groupBy( {
+//         //   by     : [ 'nama' ],
+//         //   where  : {
+//         //     AND: [
+//         //       {
+//         //         created_at: {
+//         //           gte: new Date( new Date().getFullYear(), new Date().getMonth() - 1, 1 ),
+//         //           lt : new Date( new Date().getFullYear(), new Date().getMonth(), 1 ),
+//         //         },
+//         //       },
+//         //     ],
+//         //   },
+//         //   _sum   : {
+//         //     jumlah: true,
+//         //     harga : true,
+//         //   },
+//         //   orderBy: {
+//         //     _sum: {
+//         //       harga: 'desc',
+//         //     },
+//         //   },
+//         // } );
+//         // console.debug( aggregatedData )
+//
+//         //--------------get jumlah lokasi
+//         const monthlyUserCounts1 = prisma.orders.groupBy({
+//             by    : [ "lokasi" ],
+//             _count: {
+//               lokasi: true,
+//             },
+//           }
+//         )
+//         console.debug( monthlyUserCounts1 )
+//
+//         const tanggalSekarang = prisma.orders.findMany({
+//             where: {
+//               kirim: {
+//                 gte: new Date( `${ currentYear }-${ currentMonth }-01` ),
+//                 lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+//               }
+//             }
+//           }
+//         )
+//         console.debug( tanggalSekarang )
+//
+//         //--------------get jumlah lokasi
+//         const monthlyUserCounts2 = prisma.orders.count({
+//           where: {
+//             created_at: {
+//               gte: new Date( `${ currentYear }-01-01` ),
+//               lte: new Date( `${ currentYear }-12-30` ),
+//             }
+//           },
+//         } )
+//         console.debug( monthlyUserCounts2 )
+//       }
+//       console.debug( falseFeature )
+//
+//     }
+//
+//     // untuk list card
+//     const semuaNotifyMonth = prisma.orders.findMany({
+//       where : {
+//         status: {
+//           contains: "irim"
+//         },
+//         // status:"Di Kirim",  ,
+//
+//         sendTime: {
+//           gte: addDays( -30 ),
+//           // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+//         },
+//       },
+//       select: {
+//         id: true,
+//         //penerima
+//         penerima      : true,
+//         hpPenerima    : true,
+//         alamatPenerima: true,
+//         //
+//         pengirim      : true,
+//         namaPengiriman: true,
+//
+//         //
+//         kirim         : true,
+//         pesan         : true,
+//         status        : true,
+//         typePembayaran: true,
+//         totalBayar    : true,
+//
+//       },
+//       take  : 100,
+//     } );
+//
+//     // untuk donat Now Month
+//     // const semuaProductCountNow = prisma.semuaProduct.groupBy( {
+//     //   by    : [ "nama" ],
+//     //   _count: { nama: true, },
+//     //   where : {
+//     //     created_at: {
+//     //       gte: addDays( -30 ),
+//     //       // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+//     //       }
+//     //     },
+//     //   }
+//     // )
+//
+//     // untuk donat Now Month Last
+//     // const semuaProductCountLast = prisma.semuaProduct.groupBy( {
+//     //     by    : [ "nama" ],
+//     //     _count: { nama: true, },
+//     //   where: {
+//     //     created_at: {
+//     //       gte: new Date( `${ currentYear }-${ currentMonth === 0 ? 12 : currentMonth - 1 }-01` ),
+//     //       lte: new Date( `${ currentYear }-${ currentMonth === 0 ? 12 : currentMonth - 1 }-30` ),
+//     //     }
+//     //   },
+//     //   }
+//     // )
+//
+//     //untuk notify block status
+//     const semuaStatusOrder = prisma.orders.groupBy({
+//         by    : [ "status" ],
+//         _count: { status: true, },
+//         where : {
+//           created_at: {
+//             gte: addDays( -30 ),
+//             // lte: new Date( `${ currentYear }-${ currentMonth }-30` ),
+//           }
+//         },
+//       }
+//     )
+//
+//     // return { data: monthlyUserCounts}.
+//     const transaction = await prisma.$transaction([
+//       // semuaProductCountNow,
+//       semuaStatusOrder, semuaNotifyMonth,
+//       // semuaProductCountLast,
+//       //aggregatedData
+//     ] )
+//
+//     const monthlyUserCounts: TLine[] = await prisma.$queryRaw`
+//         SELECT YEAR(pesan)                AS year,
+//                MONTHNAME(pesan)           AS month,
+//                CAST(COUNT(*) AS UNSIGNED) AS jumlah_pesanan
+//         FROM tahu_baxo_bupudji.orderans
+//         WHERE YEAR(pesan) BETWEEN YEAR(CURRENT_DATE) - 3 AND YEAR(CURRENT_DATE)
+//         GROUP BY YEAR(pesan), MONTH(pesan)
+//         ORDER BY YEAR(pesan), MONTH(pesan);
+//     `
+//
+//     const aggregate: TAggregate[] = await prisma.$queryRaw`
+//         SELECT nama,
+//                SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN jumlah ELSE 0 END)     AS total_jumlah_current,
+//                SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN jumlah ELSE 0 END) AS total_jumlah_last,
+//                SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, jumlah,
+//                       0))                                                                        AS total_jumlah_last_two,
+//                SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) THEN harga ELSE 0 END)      AS total_harga_current,
+//                SUM(CASE WHEN MONTH(created_at) = MONTH(CURRENT_DATE) - 1 THEN harga ELSE 0 END)  AS total_harga_last,
+//                SUM(IF(MONTH(created_at) = MONTH(CURRENT_DATE) - 2, harga, 0))                    AS total_harga_last_two
+//         FROM tahu_baxo_bupudji.semuaproducts
+//         WHERE MONTH(created_at) BETWEEN MONTH(CURRENT_DATE) - 2 AND MONTH(CURRENT_DATE)
+//         GROUP BY nama;
+//
+//     `
+//
+// //untuk line
+//     const semuaOrderTahun: TLines[] = monthlyUserCounts.map( ( item ) => ( {
+//       ...item,
+//       jumlah_pesanan: Number( item.jumlah_pesanan )
+//     } ) );
+//
+//     // const semuaProductNow        = transaction[ 0 ]
+//     // const semuaStatus: TStatus[] = transaction[ 1 ]
+//     // const notifyMonth            = transaction[ 2 ]
+//     // const semuaProductLast       = transaction[ 3 ]
+//
+//     // const send = {
+//     //   semuaOrderTahun,//untuk line
+//     //   semuaProductNow,// untuk donat Now
+//     //   semuaProductLast,// untuk donat Last
+//     //   semuaStatus,// untuk notify block status
+//     //   notifyMonth,// untuk list card
+//     //   aggregate
+//     // }
+//     // return send
+//
+//   }
 
   async findByStatus( status: TStatus ) {
     // let option = {
@@ -431,17 +544,7 @@ export default class OrderRepository implements InterfaceRepository {
     // return prisma.orderan.update( { where: { id: id }, data },
     // )
   }
-
-  async updateOne( data: any, id: string, ) {
-    // console.log(data)
-    // return prisma.orderan.update( {
-    //     where: { id: id },
-    //   data: this.setOne( data, )
-    //   }
-    // )
-
-  }
-
+  
   async UpdateOneEx( data: any, id: string, ) {
     // data.waktuKirim = !data.waktuKirim ? new Date() : data.waktuKirim
     // data.pesan      = !data.pesan ? new Date() : data.pesan

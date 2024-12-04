@@ -1,8 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { notifyData } from '@/app/utils/notif/toash';
-import { ToModel, TRes } from '@/entity/Utils';
-import { TPaymentDB } from "@/entity/Bank.model";
+import { ToModel } from '@/entity/Utils';
 
 export function DeleteCard( { id, to, css = "btn-xs" }: { to: ToModel, id: string, css?: string } ) {
   const router = useRouter()

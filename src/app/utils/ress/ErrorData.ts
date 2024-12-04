@@ -1,17 +1,3 @@
-import { TPaymentCreate } from "@/entity/Bank.model";
-import { TProductDB } from "@/entity/product.model";
-
-export const exampleBank = {
-  jenis     : "kosong",
-  lokasi    : "kosong",
-  keterangan: "kosong",
-  // id        : "kosong",
-  no        : "kosong",
-  hp        : "kosong",
-  img       : "kosong",
-  nama: "kosong",
-} as TPaymentCreate
-
 export const exampleOrderan = {
   pengirim      : "kosong",
   hpPengirim    : "kosong",
@@ -43,28 +29,6 @@ export const exampleOrderan = {
   totalBayar    : 0,
   totalPenjualan: 0,
   status        : "kosong",
-
-} as TOrderServer
-
-export const exampleTravel = {
-  id        : "kosong",
-  nama      : "kosong",
-  hp        : "kosong",
-  lokasi    : "kosong",
-  jenis     : "kosong",
-  harga     : 0,
-  img       : "kosong",
-  keterangan: "kosong"
-} as TTravel
-
-export const exampleProduct = {
-  id        : "kosong",
-  harga     : 0,
-  img       : "kosong",
-  jenis     : "kosong",
-  jumlah    : 0,
-  keterangan: "kosong",
-  lokasi    : "kosong",
-  nama      : "kosong"
-} as TProductDB
+	
+}
 

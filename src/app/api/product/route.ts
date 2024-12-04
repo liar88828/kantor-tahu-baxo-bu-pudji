@@ -8,7 +8,8 @@ export async function GET(request: NextRequest, context: TContext) {
   
   return await ResponseJson(
     async () => productController.findAll(request, context),
-    "GET",)
+    "GET",
+    'product')
   
 }
 
@@ -16,6 +17,7 @@ export async function POST(request: NextRequest, context: TContext) {
   
   return await ResponseJson(
     async () => productController.createOne(request, context),
-    "POST",)
+    "POST",
+    'product')
 }
 

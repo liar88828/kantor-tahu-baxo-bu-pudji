@@ -1,11 +1,13 @@
 import { TMethod } from "@/entity/Utils";
 
 const isTest = true
-export const useFetch = async <T>(
+export const useFetch = async <R, >(
 	method: TMethod,
 	url: string,
 	data?: any
-): Promise<T> => {
+): Promise<
+	{ msg: string, data: R, code: number }
+> => {
 	// Initialize headers
 	const headers: HeadersInit = {
 		"Content-Type": "application/json",

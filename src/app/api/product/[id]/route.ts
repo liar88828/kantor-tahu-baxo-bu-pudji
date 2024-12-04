@@ -7,21 +7,21 @@ export async function GET(request: NextRequest, context: TContext) {
 	
 	return await ResponseJson(
 		async () => productController.findById(request, context),
-		"GET",)
+		"GET", 'product', 201)
 	
 }
 
 export async function DELETE(request: NextRequest, context: TContext) {
 	return await ResponseJson(
 		async () => productController.deleteOne(request, context),
-		"DELETE",)
+		"DELETE", 'product')
 }
 
 export async function PUT(request: NextRequest, context: TContext) {
 	
 	return await ResponseJson(
 		async () => productController.updateOne(request, context),
-		"PUT",
+		"PUT", 'product'
 	)
 	
 }

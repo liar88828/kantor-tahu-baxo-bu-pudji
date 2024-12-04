@@ -14,7 +14,13 @@ export async function getJson(request: NextRequest) {
 	return request.json()
 }
 
-export function getParams(request: NextRequest, text: string) {
+export function getParams(request: NextRequest, text: string,) {
+	const url = new URL(request.url);
+	const searchParams = new URLSearchParams(url.search);
+	return searchParams.get(text) ?? undefined
+}
+
+export function getParamsThrow(request: NextRequest, text: string,) {
 	const url = new URL(request.url);
 	const searchParams = new URLSearchParams(url.search);
 	const value = searchParams.get(text);

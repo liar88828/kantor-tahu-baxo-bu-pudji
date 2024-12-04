@@ -1,8 +1,8 @@
 import { prisma, } from '@/server/models/prisma/config';
-import { TDeliveryCreate, TDeliveryUpdate } from "@/entity/travel.model";
+import { TDeliveryCreate, TDeliverySearch, } from "@/entity/delivery.model";
 
 // getAll data from database
-export default class DeliveryRepository implements InterfaceRepository {
+export default class DeliveryRepository implements InterfaceRepository<TDeliveryCreate> {
   paginate(data: { row: number; skip: number; }): Promise<any> {
     throw new Error('Method not implemented.');
   }
@@ -11,8 +11,25 @@ export default class DeliveryRepository implements InterfaceRepository {
     throw new Error('Method not implemented.');
   }
   
-  async findAll() {
-    return prisma.deliverys.findMany();
+  async findAll(search: TDeliverySearch, page: number = 1, pageSize: number = 100) {
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+    const delivery = await prisma.deliverys.findMany(
+      {
+        skip,
+        take,
+        where: {
+          AND: [
+            {
+              ...(search.address ? { address: { contains: search.address, } } : {}),
+              ...(search.name ? { name: { contains: search.name, } } : {}),
+              ...(search.type ? { type: { contains: search.type, } } : {}),
+            }
+          ],
+        }
+      }
+    );
+    return { delivery, page, pageSize };
   }
   
   async findById(id: string) {
@@ -21,7 +38,6 @@ export default class DeliveryRepository implements InterfaceRepository {
   
   async createOne(data: TDeliveryCreate) {
     return prisma.deliverys.create({ data: { ...data } });
-    
   }
   
   async updateOne(data: any, id: string) {
@@ -33,20 +49,20 @@ export default class DeliveryRepository implements InterfaceRepository {
     return prisma.deliverys.delete({ where: { id } });
   }
   
-  setOne(d: (TDeliveryCreate | TDeliveryUpdate) & { id?: string }) {
+  setOne(d: (TDeliveryCreate) & { id?: string }) {
     return {
-      ...(d.id ? { id: d.id } : {}),
-      jenis     : d.jenis,
-      harga     : d.harga,
-      lokasi    : d.lokasi,
-      keterangan: d.keterangan,
-      nama      : d.nama,
-      hp        : d.hp,
+      // ...(d.id ? { id: d.id } : {}),
+      type: d.type,
+      price: d.price,
+      address: d.address,
+      desc: d.desc,
+      name: d.name,
+      phone: d.phone,
       img       : d.img || "https://dummyimage.com/200x200/000/fff.jpg&text=not+found",
     }
   }
   
-  setMany(data: (TDeliveryCreate | TDeliveryUpdate)[]) {
+  setMany(data: TDeliveryCreate []) {
     return data.map( ( d ) => ( this.setOne( d ) ) )
   }
   
@@ -56,9 +72,9 @@ export default class DeliveryRepository implements InterfaceRepository {
     } );
   }
   
-  async updateMany(data: TDeliveryUpdate[], id: string) {
+  async updateMany(data: TDeliveryCreate[], id: string) {
     return prisma.deliverys.updateMany({
-      where: { id: id },
+      where: { id },
       data : this.setMany( data )
     } )
   }

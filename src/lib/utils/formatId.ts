@@ -1,33 +1,33 @@
 import { TOrder, } from '@/entity/client/orderan';
 import { ToModel } from '@/entity/Utils';
-import { TDeliveryDB } from "@/entity/travel.model";
 import { TProductDB } from "@/entity/product.model";
-import { TPaymentDB } from "@/entity/Bank.model";
+import { TDeliveryDB } from "@/entity/delivery.model";
+import { TPaymentDB } from "@/entity/payment.model";
 
 // Travel
 export const setIdTravel = (dTravel: TDeliveryDB): string =>
-  dTravel.nama.slice( 0, 2 ) + "_" +
-  dTravel.harga.toString().slice( 0, 2 ) + "_" +
-  dTravel.lokasi.slice( 0, 2 ) + "_" +
-  dTravel.jenis.slice( 0, 2 ) + "_" +
-  dTravel.keterangan.slice( 0, 2 ) + "_" + Date.now();
+  dTravel.name.slice(0, 2) + "_" +
+  dTravel.phone.toString().slice(0, 2) + "_" +
+  dTravel.address.slice(0, 2) + "_" +
+  dTravel.type.slice(0, 2) + "_" +
+  dTravel.desc.slice(0, 2) + "_" + Date.now();
 
 // product
 export const setIdProduct = (dProduct: TProductDB): string =>
-  dProduct.nama.slice( 0, 2 ) + "_" +
-  dProduct.harga.toString().slice( 0, 2 ) + "_" +
-  dProduct.lokasi.slice( 0, 2 ) + "_" +
-  dProduct.jenis.slice( 0, 2 ) + "_" +
-  dProduct.keterangan.slice( 0, 2 ) + "_" + Date.now();
+  dProduct.name.slice(0, 2) + "_" +
+  dProduct.price.toString().slice(0, 2) + "_" +
+  dProduct.location.slice(0, 2) + "_" +
+  dProduct.type.slice(0, 2) + "_" +
+  dProduct.desc.slice(0, 2) + "_" + Date.now();
 
 // product
 export const setIdBank = (dBank: TPaymentDB): string =>
-  dBank.nama.slice( 0, 2 ) + "_" +
-  dBank.no.toString().slice( 0, 2 ) + "_" +
-  dBank.hp.toString().slice( 0, 2 ) + "_" +
-  dBank.lokasi.slice( 0, 2 ) + "_" +
-  dBank.jenis.slice( 0, 2 ) + "_" +
-  dBank.keterangan.slice( 0, 2 ) + "_" + Date.now();
+  dBank.name.slice(0, 2) + "_" +
+  dBank.accounting.toString().slice(0, 2) + "_" +
+  dBank.phone.toString().slice(0, 2) + "_" +
+  dBank.address.slice(0, 2) + "_" +
+  dBank.type.slice(0, 2) + "_" +
+  dBank.desc.slice(0, 2) + "_" + Date.now();
 
 // Orderan
 function setIdOrderanString(
@@ -60,7 +60,7 @@ export const setIdOrderan = ( dataBaru: TOrder | TOrderServer ): string =>
 
 export function setIdModel( to: ToModel, data: any ) {
   console.log( "gateway/setIdModel" )
-  if( to === "bank" ) {
+  if (to === "payment") {
     return setIdBank( data );
   }
   if( to === "product" ) {

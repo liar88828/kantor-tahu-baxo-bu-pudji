@@ -1,9 +1,881 @@
-POST http://localhost:3000/api/travel
+GET http://localhost:3000/api/payment/?name=kosong
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T162509.200.json
+
+###
+
+GET http://localhost:3000/api/payment/?name=mandiri
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T162504.200.json
+
+###
+
+GET http://localhost:3000/api/payment/?address=kosong&type=batu&name=kosong
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T162450.200.json
+
+###
+
+GET http://localhost:3000/api/delivery/?address=kosong&name=kosong
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T162437.200.json
+
+###
+
+GET http://localhost:3000/api/delivery/?address=kosong&type=batu&name=kosong
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T162430.200.json
+
+###
+
+GET http://localhost:3000/api/product/?name=tahu baxo&location=Semarang
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T155741.200.json
+
+###
+
+GET http://localhost:3000/api/product/?name=tahu baxo
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T155725.200.json
+
+###
+
+GET http://localhost:3000/api/product/?name=tahu baxo&location=Ungaran
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T155713.200.json
+
+###
+
+GET http://localhost:3000/api/product/?name=tahu baxo&location=Semarang
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T155703.200.json
+
+###
+
+GET http://localhost:3000/api/product/?name=tahu baxo&location=Semarang
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T155648.200.json
+
+###
+
+DELETE http://localhost:3000/api/order/6f01f47e-acb5-41f8-85d2-f44de9fe99ea
+Content-Type: application/json
+Content-Length: 2
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{}
+
+<> 2024-12-04T151003.500.json
+
+###
+
+DELETE http://localhost:3000/api/order/6f01f47e-acb5-41f8-85d2-f44de9fe99ea
+Content-Type: application/json
+Content-Length: 2
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{}
+
+<> 2024-12-04T150957.200.json
+
+###
+
+PUT http://localhost:3000/api/order/6f01f47e-acb5-41f8-85d2-f44de9fe99ea
+Content-Type: application/json
+Content-Length: 796
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "order": {
+    "nameCs": "John Doe update",
+    "sendTime": 1733299604,
+    "orderTime":  1733299604,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T150648.200.json
+
+###
+
+GET http://localhost:3000/api/order/6279a6b3-8b69-480e-84fe-9d5271c54e96
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-12-04T145024.200.json
+
+###
+
+GET http://localhost:3000/api/order/6279a6b3-8b69-480e-84fe-9d5271c54e96
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-12-04T145021.200.json
+
+###
+
+GET http://localhost:3000/api/order/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T144959.200.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733298581,
+    "orderTime":  1733298581,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T144941.200.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733298549,
+    "orderTime":  1733298549,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T144910.200.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733298311,
+    "orderTime":  1733298311,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T144511.400.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733298286,
+    "orderTime":  1733298286,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T144446.400.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733298246,
+    "orderTime":  1733298246,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T144407.400.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733298148,
+    "orderTime":  1733298148,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T144231.400.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 789
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "nameCs": "John Doe",
+    "sendTime": 1733297892,
+    "orderTime":  1733297892,
+    "desc": "Order of electronics including headphones and chargers.",
+    "address": "123 Main St, Springfield, USA",
+    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
+    "nameDelivery": "Express Logistics",
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
+    "totalPayment": 10499,
+    "totalAll": 15498,
+    "status": "Pending"
+  },
+  "orderProduct": [
+  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
+  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-04T143813.400.json
+
+###
+
+GET http://localhost:3000/api/delivery/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T134135.200.json
+
+###
+
+POST http://localhost:3000/api/delivery/
+Content-Type: application/json
+Content-Length: 185
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "id": "kosong_kosong_kosong_kosong_travel",
+  "name": "kosong",
+  "phone": "kosong",
+  "address": "kosong",
+  "type": "kosong",
+  "price": 0,
+  "img": "kosong",
+  "desc": "kosong"
+}
+
+<> 2024-12-04T134127.200.json
+
+###
+
+GET http://localhost:3000/api/product/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T134123.200.json
+
+###
+
+POST http://localhost:3000/api/product/
+Content-Type: application/json
+Content-Length: 145
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "price": 20000,
+  "img": "tidak ada ",
+  "type": "orderan",
+  "qty": 86,
+  "desc": "Pedas",
+  "location": "Semarang",
+  "name": "tahu baxo"
+}
+
+<> 2024-12-04T134121.200.json
+
+###
+
+PUT http://localhost:3000/api/payment/9733a794-e6ab-41dc-ab3c-659c504719e1
+Content-Type: application/json
+Content-Length: 207
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "phone": "test1",
+  "accounting": "asdasdas",
+  "name": "mandiri",
+  "address": "Semrang",
+  "desc": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "type": "Kredit"
+}
+
+<> 2024-12-04T133551.200.json
+
+###
+
+GET http://localhost:3000/api/payment/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T133543.200.json
+
+###
+
+PUT http://localhost:3000/api/payment/beff7e8d-d5ca-4cc9-a84c-011f5e462961
+Content-Type: application/json
+Content-Length: 207
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "phone": "test1",
+  "accounting": "asdasdas",
+  "name": "mandiri",
+  "address": "Semrang",
+  "desc": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "type": "Kredit"
+}
+
+<> 2024-12-04T133540.500.json
+
+###
+
+POST http://localhost:3000/api/payment/
+Content-Type: application/json
+Content-Length: 207
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "phone": "test1",
+  "accounting": "asdasdas",
+  "name": "mandiri",
+  "address": "Semrang",
+  "desc": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "type": "Kredit"
+}
+
+<> 2024-12-04T133537.200.json
+
+###
+
+POST http://localhost:3000/api/payment/
+Content-Type: application/json
+Content-Length: 207
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "phone": "test1",
+  "accounting": "asdasdas",
+  "name": "mandiri",
+  "address": "Semrang",
+  "desc": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "type": "Kredit"
+}
+
+<> 2024-12-04T133428.400.json
+
+###
+
+POST http://localhost:3000/api/payment/
+Content-Type: application/json
+Content-Length: 207
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "phone": "test1",
+  "accounting": "asdasdas",
+  "name": "mandiri",
+  "address": "Semrang",
+  "desc": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "type": "Kredit"
+}
+
+<> 2024-12-04T133332.400.json
+
+###
+
+POST http://localhost:3000/api/payment/
+Content-Type: application/json
+Content-Length: 207
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "phone": "test1",
+  "accounting": "asdasdas",
+  "name": "mandiri",
+  "address": "Semrang",
+  "desc": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "type": "Kredit"
+}
+
+<> 2024-12-04T133305.500.json
+
+###
+
+POST http://localhost:3000/api/payment/
+Content-Type: application/json
+Content-Length: 202
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "hp": "test1",
+  "no": "asdasdas",
+  "nama": "mandiri",
+  "lokasi": "Semrang",
+  "keterangan": "orak jelas",
+  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
+  "jenis": "Kredit"
+}
+
+<> 2024-12-04T133235.500.json
+
+###
+
+GET http://localhost:3000/api/product/aac8cd37-6c9a-49a1-95b0-fe4a0ac6ae79
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-12-04T133036.201.json
+
+###
+
+POST http://localhost:3000/api/product/
+Content-Type: application/json
+Content-Length: 145
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "price": 20000,
+  "img": "tidak ada ",
+  "type": "orderan",
+  "qty": 86,
+  "desc": "Pedas",
+  "location": "Semarang",
+  "name": "tahu baxo"
+}
+
+<> 2024-12-04T133027.200.json
+
+###
+
+DELETE http://localhost:3000/api/delivery/d55ae41c-54fc-4335-b3fe-1756408ab20c
+Content-Type: application/json
+Content-Length: 3
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+}
+
+<> 2024-12-04T124706.500.json
+
+###
+
+DELETE http://localhost:3000/api/delivery/d55ae41c-54fc-4335-b3fe-1756408ab20c
+Content-Type: application/json
+Content-Length: 3
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+}
+
+<> 2024-12-04T124702.200.json
+
+###
+
+PUT http://localhost:3000/api/delivery/d55ae41c-54fc-4335-b3fe-1756408ab20c
+Content-Type: application/json
+Content-Length: 192
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "id": "test_rest_1234567890_test_rest_123456789",
+  "nama": "test",
+  "hp": "0123456789",
+  "lokasi": "test",
+  "jenis": "test",
+  "harga": 20000,
+  "img": "test",
+  "keterangan": "test"
+}
+
+<> 2024-12-04T124648.200.json
+
+###
+
+PUT http://localhost:3000/api/delivery/d55ae41c-54fc-4335-b3fe-1756408ab20c
+Content-Type: application/json
+Content-Length: 214
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "id": "test_rest_1234567890_test_rest_123456789",
+  "namaPengiriman": "test",
+  "noHpPerusahaan": "0123456789",
+  "lokasi": "test",
+  "jenis": "test",
+  "harga": 20000,
+  "img": "test",
+  "keterangan": "test"
+}
+
+<> 2024-12-04T124639.400.json
+
+###
+
+GET http://localhost:3000/api/delivery/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-04T124602.200.json
+
+###
+
+GET http://localhost:3000/api/delivery/d55ae41c-54fc-4335-b3fe-1756408ab20c
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 3
+
+{
+}
+
+<> 2024-12-04T124601.201.json
+
+###
+
+POST http://localhost:3000/api/delivery/
+Content-Type: application/json
+Content-Length: 188
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "id": "kosong_kosong_kosong_kosong_travel",
+  "nama": "kosong",
+  "hp": "kosong",
+  "lokasi": "kosong",
+  "jenis": "kosong",
+  "harga": 0,
+  "img": "kosong",
+  "keterangan": "kosong"
+}
+
+<> 2024-12-04T124551.200.json
+
+###
+
+POST http://localhost:3000/api/delivery/
 Content-Type: application/json
 Content-Length: 210
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
 
 {
   "id": "kosong_kosong_kosong_kosong_travel",
@@ -16,731 +888,83 @@ Accept-Encoding: br,deflate,gzip,x-gzip
   "keterangan": "kosong"
 }
 
-<> 2023-09-17T131702.200.json
+<> 2024-12-04T124534.400.json
 
 ###
 
-POST http://localhost:3000/api/travel
+GET http://localhost:3000/api/delivery/
 Content-Type: application/json
-Content-Length: 210
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
 
-{
-  "id": "kosong_kosong_kosong_kosong_travel",
-  "namaPengiriman": "kosong",
-  "noHpPerusahaan": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "img": "kosong",
-  "keterangan": "kosong"
-}
-
-<> 2023-09-17T131631.200.json
+<> 2024-12-04T124524.200.json
 
 ###
 
-POST http://localhost:3000/api/travel
+DELETE http://localhost:3000/api/product/aac8cd37-6c9a-49a1-95b0-fe4a0ac6ae79
 Content-Type: application/json
-Content-Length: 205
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-12-04T124450.200.json
+
+###
+
+PUT http://localhost:3000/api/product/aac8cd37-6c9a-49a1-95b0-fe4a0ac6ae79
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
 
 {
-  "id": "asdasssd",
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
+  "nama": "tahu baxo update lagi 1x",
   "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
+  "img": "tidak ada ",
+  "jenis": "orderan",
+  "jumlah": 1,
+  "keterangan": "Pedas",
+  "lokasi": "Semarang"
 }
 
-<> 2023-09-17T131523.200.json
+<> 2024-12-04T124440.200.json
 
 ###
 
-POST http://localhost:3000/api/travel
+POST http://localhost:3000/api/product/
 Content-Type: application/json
-Content-Length: 205
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 153
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
 
 {
-  "id": "asdasssd",
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
   "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
+  "img": "tidak ada ",
+  "jenis": "orderan",
+  "jumlah": 86,
+  "keterangan": "Pedas",
+  "lokasi": "Semarang",
+  "nama": "tahu baxo"
 }
 
-<> 2023-09-17T131511.200.json
+<> 2024-12-04T124424.200.json
 
 ###
 
-POST http://localhost:3000/api/travel?id=all
-Content-Type: application/json
-Content-Length: 205
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "asdasssd",
-  "namaPengiriman": "test1",
-  "noHpPerusahaan": "0123456789",
-  "lokasi": "semarang",
-  "jenis": "truck",
-  "harga": 20000,
-  "img": "orak jelas",
-  "keterangan": "masih diragukan"
-}
-
-<> 2023-09-17T131503.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-13T190009.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-13T190004.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224835.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224320.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224302.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224230.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224216.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224201.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224148.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224145.200.json
-
-###
-
-POST http://localhost:3000/api/bank
-Content-Type: application/json
-Content-Length: 249
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "img"       : "https://logowik.com/content/uploads/images/cash2548.jpg",
-  "jenis": "Kredit"
-}
-
-<> 2023-09-12T224117.200.json
-
-###
-
-POST http://localhost:3000/api/bank
-Content-Type: application/json
-Content-Length: 249
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "Ma_09_Un_Kr_Bi_1693367481941",
-  "hp": "test1",
-  "no": "asdasdas",
-  "nama": "mandiri",
-  "lokasi": "Semrang",
-  "keterangan": "orak jelas",
-  "img"       : "https://logowik.com/content/uploads/images/cash2548.jpg",
-  "jenis": "Kredit"
-}
-
-<> 2023-09-12T224111.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224036.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T224022.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T223956.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T223946.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=CA_09_Un_Kr_Bi_1693368262048
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223932.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223731.200.json
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223701.500.html
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223616.500.html
-
-###
-
-GET http://localhost:3000/api/bank?id=all
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T223609.500.html
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T192629.200.json
-
-###
-
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192622.200.json
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Content-Length: 2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{}
-
-<> 2023-09-12T192542.200.json
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-DELETE http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192427.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192417.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192104.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T192047.200.html
-
-###
-
-DELETE http://localhost:3000/api/orderanid=parent_kosong_kosong_kosong_kosong_kosong
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T191959.200.html
-
-###
-
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T191935.200.json
-
-###
-
-GET http://localhost:3000/api/orderan?id=parent_kosong_kosong_kosong_kosong_kosong
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-12T191929.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1275
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "Lam5b_327_Ot_240229_1312_Sem_327464sd",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "2000-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "ungaran",
-      "img": "kosong",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Enak",
-      "lokasi": "ungaran",
-      "nama": "Tahu sBakso Rebus",
-      "img": "kosong",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "03:00:00"
-}
-
-<> 2023-09-10T205250.200.json
-
-###
-
-POST http://localhost:3000/api/orderan
-Content-Type: application/json
-Content-Length: 1232
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "alamatPenerima": "Alamat Penerima",
-  "ongkir": 23,
-  "id": "Lam5b_327_Ot_240229_1312_Sem_327464sd",
-  "no": "1",
-  "semuaHargaItem": 12312,
-  "semuaHargaOrderan": 12312,
-  "semuaHargaProduct": 12312,
-  "lokasi": "Lokasi update",
-  "ekspedisi": "Ekspedisi update",
-  "guna": "Keterangan update",
-  "hpPenerima": "Hp Penerima update",
-  "hpPengirim": "Hp Pengirim update",
-  "namaPengiriman": "Nama Travel update",
-  "pengirim": "orang genah update",
-  "penerima": "Penerima update update",
-  "kirim": "1999-07-01",
-  "pesan": "2000-07-01",
-  "semuaProduct": [
-    {
-      "harga": 42000,
-      "id": "1",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    },
-    {
-      "harga": 42000,
-      "id": "2",
-      "jumlah": 10,
-      "jenis": "Itesm",
-      "keterangan": "Esnak",
-      "lokasi": "Ungsaran",
-      "nama": "Tahu sBakso Rebus",
-      "orderanId": "Lam5b_327_Ot_240229_1312_Sem_327464sd"
-    }
-  ],
-  "status": "Status",
-  "total": 123,
-  "totalBayar": 123,
-  "totalHarga": 1231,
-  "totalPenjualan": 232,
-  "typePembayaran": "Pemsbayaran",
-  "waktuKirim": "03:00:00"
-}
-
-<> 2023-09-10T205222.200.json
-
-###
-
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-10T203915.200.json
-
-###
-
-GET http://localhost:3000/api/orderan
-Content-Type: application/json
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-10T203903.200.json
-
-###
-
-GET http://localhost:3000/api/semuaProduk?id=Nu_27_Un_Or_Pe_1692805428660_1693804003093
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-09T141151.200.json
-
-###
-
-GET http://localhost:3000/api/semuaProduk?id=all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-09T141135.200.json
-
-###
-
-GET http://localhost:3000/api/semuaProduk?id=all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-09-09T140904.200.json
-
-###
-
-GET http://localhost:3000/api/semuaProduk?id=all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-POST http://localhost:3000/api/semuaProduk
-Content-Type: application/json
-Content-Length: 238
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "Ta_50_Un_Or_Pe_1692805286012_169286063212",
-  "nama": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "jumlah": 0,
-  "img": "kosong",
-  "keterangan": "kosong",
-  "orderanId": "petri_biki_230909_Sem_22222"
-}
-
-<> 2023-09-09T135719.200.json
-
-###
-
-POST http://localhost:3000/api/semuaProduk
-Content-Type: application/json
-Content-Length: 267
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": "Ta_50_Un_Or_Pe_1692805286012_169286063212",
-  "nama": "kosong",
-  "lokasi": "kosong",
-  "jenis": "kosong",
-  "harga": 0,
-  "jumlah": 0,
-  "img": "kosong",
-  "keterangan": "kosong",
-  "orderanId": "ka_20_Un_la_Pe_1692538997993_1692807300551_1693804130830"
-}
-
-<> 2023-09-09T135639.200.json
+GET http://localhost:3000/api/product/aac8cd37-6c9a-49a1-95b0-fe4a0ac6ae79
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-12-04T124422.201.json
 
 ###
 

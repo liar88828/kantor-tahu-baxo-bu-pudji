@@ -1,11 +1,11 @@
-import { fileSystem } from '@/lib/utils/fileSystem';
 import ProductRepository from "@/server/repository/product.repo";
 import { InterfaceController } from "@/interface/server/InterfaceController";
 import { TProductDB } from "@/entity/product.model";
 import { TContext } from '@/interface/server/param';
 import { NextRequest } from 'next/server';
-import { getId, getJson } from "@/lib/requestHelper";
-import { ProductCreate, ProductUpdate } from "@/lib/validation/product.valid";
+import { getId, getJson, getParams } from "@/lib/requestHelper";
+import { ProductCreate } from "@/lib/validation/product.valid";
+import { UUIDSchema } from "@/lib/validation/id.valid";
 
 export default class ProductController implements InterfaceController<TProductDB> {
   constructor(
@@ -13,13 +13,19 @@ export default class ProductController implements InterfaceController<TProductDB
   ) {
   }
   
-  async findAll(request: NextRequest, { params }: TContext): Promise<any> {
-    return this.productRepository.findAll();
+  async findAll(request: NextRequest, __: TContext): Promise<any> {
+    return this.productRepository.findAll(
+      {
+        location: getParams(request, 'location'),
+        type: getParams(request, 'type'),
+        name: getParams(request, 'name'),
+      }
+    );
   }
   
-  async findById(request: NextRequest, context: TContext): Promise<any> {
+  async findById(_: NextRequest, context: TContext): Promise<any> {
     const id = await getId(context)
-    return this.productRepository.findById(id)
+    return this.productRepository.findById(UUIDSchema.parse(id))
     
   }
   
@@ -32,13 +38,18 @@ export default class ProductController implements InterfaceController<TProductDB
   async updateOne(request: NextRequest, context: TContext): Promise<any> {
     const id = await getId(context)
     const json = await getJson(request)
-    return this.productRepository.updateOne(ProductUpdate.parse(json), id)
+    return this.productRepository.updateOne(
+      ProductCreate.parse(json),
+      UUIDSchema.parse(id))
   }
   
   async deleteOne(request: NextRequest, context: TContext) {
     const id = await getId(context)
-    const res = await this.productRepository.deleteOne(id)
-    await fileSystem( res.img )
+    const res = await this.productRepository.deleteOne(
+      UUIDSchema.parse(id))
+    // if (res) {
+    // await fileSystem( res.img )
+    // }
     return res
   }
 }

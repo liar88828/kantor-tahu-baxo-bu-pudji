@@ -3,8 +3,12 @@ import { TOrderDB } from "@/entity/order.model";
 import { TContext } from '@/interface/server/param';
 import { NextRequest } from 'next/server';
 import OrderRepository from "@/server/repository/orderan.repo";
-import { getId, getJson, getParams } from "@/lib/requestHelper";
-import { ProductUpdate } from "@/lib/validation/product.valid";
+import { getId, getJson, getParamsThrow } from "@/lib/requestHelper";
+import { OrderCreate } from "@/lib/validation/order.valid";
+import { UUIDSchema } from "@/lib/validation/id.valid";
+import { OrderProductCreate } from "@/lib/validation/orderProduct.valid";
+import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/entity/transaction.model";
+import { ReceiverCreate } from "@/lib/validation/receiver.valid";
 
 export default class OrderController implements InterfaceController<TOrderDB> {
 	constructor(
@@ -12,38 +16,63 @@ export default class OrderController implements InterfaceController<TOrderDB> {
 	) {
 	}
 	
-	async findAll(request: NextRequest, { params }: TContext): Promise<any> {
+	async findAll(__: NextRequest, _: TContext): Promise<any> {
 		return this.orderRepository.findAll()
 	}
 	
-	async createOne(request: NextRequest, { params }: TContext): Promise<any> {
+	async findSearch(__: NextRequest, _: TContext): Promise<any> {
+		return this.orderRepository.search({
+			receiverName: "Alice",
+			status: "Pending",
+			dateRange: {
+				start: new Date("2024-12-01"),
+				end: new Date("2024-12-31")
+			},
+		})
+	}
+	
+	async createOne(request: NextRequest, _: TContext): Promise<any> {
 		const json = await getJson(request)
-		return this.orderRepository.createOne(json)
+		// console.log('test --')
+		const data: TOrderTransactionCreate = {
+			order: OrderCreate.parse(json.order),
+			orderProduct: OrderProductCreate.parse(json.orderProduct),
+			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
+		}
+		// console.log('is valid')
+		return this.orderRepository.createOne(data)
 		
 	}
 	
 	async updateOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)
 		const id = await getId(context)
-		return this.orderRepository.updateOne(ProductUpdate.parse(json), id)
+		const data: TOrderTransactionUpdate = {
+			order: json.order ? OrderCreate.parse(json.order) : undefined,
+			orderProduct: json.orderProduct ? OrderProductCreate.parse(json.orderProduct) : undefined,
+			orderReceiver: json.orderReceiver ? ReceiverCreate.parse(json.orderReceiver) : undefined,
+		}
+		return this.orderRepository.updateOne(
+			data,
+			UUIDSchema.parse(id))
 	}
 	
 	async deleteOne(request: NextRequest, context: TContext): Promise<any> {
 		const id = await getId(context)
-		return this.orderRepository.deleteOne(id)
+		return this.orderRepository.deleteOne(UUIDSchema.parse(id))
 	}
 	
 	async findDashboard(a: string) {
-		return this.orderRepository.findDashboard(a)
+		// return this.orderRepository.findDashboard(a)
 	}
 	
 	async updateStatus(request: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const status = getParams(request, 'status')
+		const status = getParamsThrow(request, 'status')
 		return this.orderRepository.updateStatus(status, id)
 	}
 	
-	async findById(request: NextRequest, context: TContext) {
+	async findById(_: NextRequest, context: TContext) {
 		const id = await getId(context)
 		return this.orderRepository.findById(id)
 	}
@@ -61,11 +90,11 @@ export default class OrderController implements InterfaceController<TOrderDB> {
 		// return this.orderRepository.destroyMany(this.v.zodIdManyNew(id))
 		
 		// console.log( id )
-		// const respon = await this.Repo(
+		// const response = await this.Repo(
 		//   () => this.orderRepository.destroyMany( id ),
 		//   this.v.zodIdMany( id ) )
-		// console.log( respon )
-		// return respon
+		// console.log( response )
+		// return response
 	}
 	
 	async destroyOne(id: string) {

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { exampleTravel } from '@/app/utils/ress/ErrorData';
 import { errorDataZod, errorEmptyIDZod } from '@/lib/utils/errorResponse';
+import { exampleDelivery } from "../../../../src/assets/ExampleDelivery";
 
 describe( 'test id errorDataZod add', () => {
   it( 'should be Travel ID format errorDataZod', () => {
     const from = 'server'
-    const test = errorDataZod( exampleTravel, from )
+		const test = errorDataZod(exampleDelivery, from)
     expect( test ).toMatchObject( {
-      data   : exampleTravel,
+			data: exampleDelivery,
       msg    : `${ from } Data not Valid`,
       success: false,
     } )

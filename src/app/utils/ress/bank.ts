@@ -1,24 +1,23 @@
 "use server"
 
-import { sendData } from '@/app/utils/ress/SendApi';
-import { TPaymentDB } from "@/entity/Bank.model";
+import { TPaymentDB } from "@/entity/payment.model";
 
 function setBank(d: TPaymentDB) {
   return {
-    nama      : d.nama,
-    jenis     : d.jenis,
-    lokasi    : d.lokasi,
-    keterangan: d.keterangan,
-    id        : d.id,
+    name: d.name,
+    type: d.type,
+    address: d.address,
+    desc: d.desc,
+    id: d.id,
     img: d.img,
-    no        : d.no,
-    hp        : d.hp
+    accounting: d.accounting,
+    phone: d.phone
   };
 }
 
-export async function getDataById(id: string) {
-  const to                            = "bank"
-  const { data: d }: { data: TPaymentDB, } = await sendData(to, "GET", id);
-  return setBank( d )
-}
-
+// export async function getDataById(id: string) {
+//   const to  = "bank"
+//   const { data: d }: { data: TPaymentDB, } = await sendData(to, "GET", id);
+//   return setBank( d )
+// }
+//

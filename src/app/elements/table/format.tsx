@@ -12,12 +12,12 @@ export const getListData = (
 
   if( option === "nama" ) {
     return filterData.map( ( m: TProductDB, i: number ) => (
-      <p key={ m.nama } className={ "whitespace-nowrap" }>{ i + 1 }. { m.nama }, </p> ) )
+      <p key={ m.name } className={ "whitespace-nowrap" }>{ i + 1 }. { m.name }, </p>))
   }
   else if( option === "harga" ) {
-    return filterData.map( ( m: TProductDB ) => ( <p key={ m.harga }>{ Rupiah( m.harga ) }</p> ) )
+    return filterData.map((m: TProductDB) => (<p key={ m.price }>{ Rupiah(m.price) }</p>))
   }
   else if( option === "jumlah" ) {
-    return filterData.map( ( m: TProductDB ) => ( <p key={ m.jumlah }>{ m.jumlah }</p> ) )
+    return filterData.map((m: TProductDB) => (<p key={ m.qty }>{ m.qty }</p>))
   }
 }

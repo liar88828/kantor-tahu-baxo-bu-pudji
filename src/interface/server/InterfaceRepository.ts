@@ -1,21 +1,19 @@
-interface InterfaceRepository {
+interface InterfaceRepository<T> {
 	
-	setOne(d: any, id?: string): any;
+	setOne(d: T, id?: string): any;
 	
-	setMany(data: any[] | any, method?: string): any[];
+	setMany(data: T[] | any, method?: string): any[];
 	
-	paginate(data: { row: number, skip: number }): Promise<any>;
-	
-	search(search: string): Promise<any>;
-	
-	findAll(): Promise<any>;
-	
+	findAll(search?: any,
+					page?: number,
+					pageSize?: number
+	): Promise<any>;
 	
 	findById(id: string): Promise<any>;
 	
-	createOne(data: any,): Promise<any>;
+	createOne(data: T,): Promise<any>;
 	
-	updateOne(data: any, id: string): Promise<any>;
+	updateOne(data: T | any, id: string): Promise<any>;
 	
 	deleteOne(id: string): Promise<any>;
 	

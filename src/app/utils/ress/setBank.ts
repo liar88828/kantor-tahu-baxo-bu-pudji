@@ -1,23 +1,23 @@
 import { sendData } from '@/app/utils/ress/SendApi';
 import { ToModel } from '@/entity/Utils';
-import { TPaymentUpdate } from "@/entity/Bank.model";
+import { TPaymentCreate } from "@/entity/payment.model";
 
 export async function getId( to: ToModel, id: string ) {
-  if( to === "bank" ) {
-    const { data }: { data: TPaymentUpdate } = await sendData(to, "GET", id);
+  if (to === "payment") {
+    const { data }: { data: TPaymentCreate } = await sendData(to, "GET", id);
     return setBank( data )
   }
   return "require"
 }
 
-export function setBank(d: TPaymentUpdate) {
+export function setBank(d: TPaymentCreate) {
   return {
-    nama      : d.nama,
-    jenis     : d.jenis,
-    lokasi    : d.lokasi,
-    keterangan: d.keterangan,
-    id        : d.id,
-    no        : d.no,
-    hp        : d.hp
+    name: d.name,
+    type: d.type,
+    address: d.address,
+    desc: d.desc,
+    // id        : d.id,
+    accounting: d.accounting,
+    phone: d.phone
   };
 }

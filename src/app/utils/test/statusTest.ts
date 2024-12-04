@@ -1,8 +1,8 @@
 import { TMethod } from '@/entity/Utils';
 
-export const statusTest = ( method: TMethod ) => {
+export const statusTest = (method: TMethod, models: string) => {
   return {
-    msg    : `${ method } payment success`,
+    msg: `${ method } ${ models } success`,
     success: true,
     code   : 200,
   };
