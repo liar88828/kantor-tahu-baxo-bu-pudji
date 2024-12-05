@@ -52,6 +52,10 @@ model OrderProduct {
   id_order   String
   Product    Products @relation(fields: [id_product], references: [id])
   id_product String
+  qty        Int
+
+  Users   Users?  @relation(fields: [id_user], references: [id])
+  id_user String?
 }
 
 model Products {
@@ -95,4 +99,12 @@ model Payments {
   Orders     Orders[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model Users {
+  id           String         @id @default(uuid())
+  name         String
+  phone        String
+  address      String
+  OrderProduct OrderProduct[]
 }

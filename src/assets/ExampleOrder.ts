@@ -1,6 +1,6 @@
 import { TOrderCreate } from "@/entity/order.model";
 import { TOrderProductCreate } from "@/entity/transaction.model";
-import { Receiver } from "@prisma/client";
+import {OrderProduct, Receiver} from "@prisma/client";
 import type { TOrder } from "@/entity/client/orderan";
 import {defaultDate, getTime} from "@/utils/formatDate";
 
@@ -24,15 +24,28 @@ export const exampleOrderCreate: TOrderCreate = {
 	// id_receiver: "770e8400-e29b-41d4-a716-666655440222", // UUID format
 };
 
-export const exampleOrderProductCreate: TOrderProductCreate[] = [
+export const exampleOrderProductCreate: OrderProduct[] = [
 	{
 		id_product: "prod-001",
+		qty:1,
+		id_user:'asdas',
+		id_order:"34234",
+		id:"12341342"
+
 	},
 	{
 		id_product: "prod-002",
+		qty:1,
+		id_user:'2345234',
+		id_order:"32452345",
+		id:"2342342"
 	},
 	{
 		id_product: "prod-003",
+		qty:1,
+		id_user:'23452345',
+		id_order:"234523",
+		id:"dsa245623456sda"
 	},
 ];
 export const exampleReceiver: Receiver = {

@@ -4,172 +4,49 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/admin/delivery/DeliveryList.client.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/admin/payment/PaymentForm.client.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/admin/payment/PaymentList.client.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/admin/payment/create/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/admin/product/ProductList.client.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/network/payment.tsx" afterDir="false" />
+    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="save admin and user">
+      <change afterPath="$PROJECT_DIR$/src/app/provider/ReactQueryProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/trolley.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/constants/link/ListComplex.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/constants/model/TListCard.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.dev.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config.dev.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(admin)/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/FormOrderan.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/PopUp.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/PopUpComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/SearchProduct.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/cardTrolley.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/create/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/orderan/edit/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/table/CheckBox.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/table/DeleteTable.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/table/EditTable.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/table/PrintButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/table/Table.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/(Transaction)/table/[slug]/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/bank/Card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/bank/Form.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/bank/create/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/bank/edit/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/bank/list/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/dashboard/ListDashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/dashboard/ServerList.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/dashboard/card/Dashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/dashboard/card/OrderanButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/dashboard/card/StatusButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/dashboard/dashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/delivery/Card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/delivery/Form.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/delivery/create/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/delivery/edit/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/delivery/list/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/print/excel/excel.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/print/images/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/print/memo/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/print/printData.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/print/termal/Copy.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/print/termal/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/product/Card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/product/Form.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/product/create/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/product/edit/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(pages)/product/print/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/home/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/product/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/profile/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/trolley/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/Text/TextCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/Text/TextHidden.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/Text/TextPopUp.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/img/ImagePrev.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/img/ImgCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/img/LayoutImagePrev.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/input/Filter.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/input/InputNew.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/link/LinkSlidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Atom/table/format.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/Card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/chart/barVertical/BarVertical.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/chart/barVertical/BarVerticalServer.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/chart/donat/DonatServer.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/chart/donat/donat.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/chart/line/LineServer.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/chart/line/line.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/home.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/orderan/Orderan.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/orderan/cardList.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/table/Orderan.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/table/utils/GetOrderan.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/table/utils/SetColumn.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/table/utils/Skipper.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/table/utils/orderan.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/upload/HandleUpload.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/upload/SendData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/organisme/upload/Upload.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/bank/fun.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/handling/DataEmpty.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/handling/Loading.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/handling/SkeletonCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/handling/SkeletonLine.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/handling/not_found.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/layout/BasicLayout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/layout/Form.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/LinkNavbar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/Navbar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/Slidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/left/ListAccordion.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/left/ListSlide.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/top/Profile.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/top/Title.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/top/menu/Basic.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/top/menu/BodyMenu.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/template/slidebar/top/menu/Complex.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/zzz/Navbar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/zzz/Slidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/element/Delete.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/element/Edit.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/element/Horizon.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/element/Paginate.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/element/SubmitButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/DeleteTable.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/OrderanButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/StatusButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/card/ActionButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/card/Delete.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/card/Edit.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/button/form/Save.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/card/Card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/img/ImgCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/layout/Layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/link/LinkBasic.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/link/LinkComplex.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/link/NavBody.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/elements/upload/Upload.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/style/form.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/style/shadow.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/style/status.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/ErrorData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/SendApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/bank.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/orderan.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/utils/ress/setBank.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/assets/ExampleOrder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleOrder.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/servers/prisma.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/ExampleProduct.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/ExampleProduct.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/transaction.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/transaction.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hook/useFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hook/useFetch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface/IValidations.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface/TSend.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface/prisma.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface/server/param.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interface/server/param.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/exeption/tryCatch.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/ress/ErrorData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/ress/ErrorData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/delivery.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/id.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/image.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/order.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/orderProduct.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/orderReceiver.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/payment.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/product.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/receiver.valid.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/zod/createZod.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/zod/updateZod.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/validation/zod/validationService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/fileExtension.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/formatData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/formatDate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/formatDate.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="false" />
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/.pnpm/next@15.0.3_@babel+core@7.26.0_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/router-reducer/router-reducer-types.d.ts" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/node_modules/react-redux/dist/react-redux.d.ts" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -233,11 +110,24 @@
       <workItem from="1733306058037" duration="15000" />
       <workItem from="1733307195288" duration="1369000" />
       <workItem from="1733384696591" duration="1187000" />
-      <workItem from="1733385898666" duration="3921000" />
+      <workItem from="1733385898666" duration="8327000" />
     </task>
+    <task id="LOCAL-00001" summary="save admin and user">
+      <option name="closed" value="true" />
+      <created>1733390288064</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733390288064</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="save admin and user" />
+    <option name="LAST_COMMIT_MESSAGE" value="save admin and user" />
   </component>
 </project>

@@ -4,12 +4,22 @@ import {repeat} from '@/utils/repeat'
 import {Rupiah} from '@/utils/rupiah';
 import {ShoppingCart} from 'lucide-react';
 import {useRouter} from "next/navigation";
+import {useDispatch} from "react-redux";
+import {pushTrolley} from "@/store/trolley";
+import {OrderProduct} from "@prisma/client";
+import {defaultFormProduct, exampleDataProduct, exampleProduct} from "@/assets/ExampleProduct";
+import {TProductDB} from "@/entity/product.model";
 
 export default function Page() {
 	const router = useRouter();
-	const addTrolley = () => {
-		console.log('test add trolley')
+	const dispatch=useDispatch()
+	const addTrolley = (data:TProductDB) => {
+		dispatch(pushTrolley({
+			id_product:data.id,
+			id_user:"asdasda",
+		}))
 	}
+
 	return (
 		<div className="px-4 space-y-5">
 			<div className="flex items-center justify-between gap-5">
@@ -17,8 +27,8 @@ export default function Page() {
 				{/*<Sidebar />*/}
 			</div>
 			<div className='grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 grid xl:grid-cols-6 gap-2'>
-				{repeat(10).map(d => (<div
-						key={d}
+				{exampleDataProduct.map(d => (<div
+						key={d.id}
 						className=" bordered  rounded-xl bg-base-300 ">
 						<figure
 							className='p-1'
@@ -32,14 +42,14 @@ export default function Page() {
 							/>
 						</figure>
 						<div className="p-5">
-							<h2 className="card-title">Shoes!</h2>
+							<h2 className="card-title">{d.name}</h2>
 							<div className="flex justify-between items-end">
 								<div className="">
-									<p>{Rupiah(20000)}</p>
+									<p>{Rupiah(d.price)}</p>
 									<p>Pedas</p>
 								</div>
 								<button
-									onClick={addTrolley}
+									onClick={()=>addTrolley(d)}
 									className="btn btn-primary btn-sm btn-square ">
 									<ShoppingCart className=''/>
 								</button>
