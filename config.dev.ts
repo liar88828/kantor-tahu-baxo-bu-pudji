@@ -4,8 +4,7 @@ const mode: TMode = "development"
 
 export const config = {
   // @ts-ignore
-  url:
-    mode === "production"
+  url: mode === "production"
       ? process.env.NEXT_PUBLIC_BASE_URL
       : "http://localhost:3000",
 }

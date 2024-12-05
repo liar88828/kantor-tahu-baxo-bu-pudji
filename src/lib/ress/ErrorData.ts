@@ -68,7 +68,7 @@ export const exampleProduct = {
 } as TProduct
 
 export async function ErrorData(to: ToModel) {
-	if (to === "bank")
+	if (to === "payment")
 		return exampleBank
 	
 	if (to === "orderan")

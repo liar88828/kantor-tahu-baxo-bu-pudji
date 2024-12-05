@@ -2,7 +2,7 @@ import { TOrderCreate } from "@/entity/order.model";
 import { TOrderProductCreate } from "@/entity/transaction.model";
 import { Receiver } from "@prisma/client";
 import type { TOrder } from "@/entity/client/orderan";
-import { defaultDate, getTime } from "@/lib/utils/formatDate";
+import {defaultDate, getTime} from "@/utils/formatDate";
 
 export const exampleOrderCreate: TOrderCreate = {
 	nameCs: "John Doe",
