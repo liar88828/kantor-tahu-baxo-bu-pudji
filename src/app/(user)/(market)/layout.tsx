@@ -4,12 +4,14 @@ import {ChevronLeft, HomeIcon, LucidePackageSearch, UserIcon} from 'lucide-react
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {useSelector} from "react-redux";
-import {RootState} from "@/store/store";
+import {useTrolley} from "@/store/trolley";
+// import {RootState} from "@/store/store";
 
 export default function Layout({children}: { children: ReactNode, }) {
 	const path = usePathname()
 	const router=useRouter()
-	const count=useSelector((state:RootState) => state.trolley.trolleys.length)
+	// const count=useSelector((state:RootState) => state.trolley.trolleys.length)
+	const count =useTrolley(state => state.trolleys)
 	return (<>
 			<div className="navbar bg-base-300 fixed z-50">
 				<div className="flex-1">
