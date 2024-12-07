@@ -1,11 +1,12 @@
 import type { TMethod } from "../interface/Utils"
 
 const isTest = true
+export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>;
 export const useFetch = async <R>(
   method: TMethod,
   url: string,
   data?: any
-): Promise<{ msg: string; data: R; code: number }> => {
+): FetchResponse<R> => {
   // Initialize headers
   const headers: HeadersInit = {
     "Content-Type": "application/json",

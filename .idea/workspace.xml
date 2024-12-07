@@ -4,19 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="add redux but will replace use react-query">
-      <change afterPath="$PROJECT_DIR$/src/network/trolley.tsx" afterDir="false" />
+    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="add redux but will replace use zustand">
+      <change afterPath="$PROJECT_DIR$/src/app/components/ErrorData.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/components/LoadingData.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/useTrolley.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/home/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/provider/ReactQueryProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/provider/ReactQueryProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/trolley.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/trolley.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hook/useFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hook/useFetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/trolley.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/trolley.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -66,27 +64,31 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "frontend-pc",
-    "last_opened_file_path": "E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/admin/payment",
+    "last_opened_file_path": "E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "E:\\CODE\\TA\\kantor-tahu-baxo-bu-pudji\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\components" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\payment" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\product" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\delivery" />
-      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\payment\create" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\components" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\payment\update\[id]" />
+    </key>
+    <key name="es6.move.members.recent.items">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\(user)\(transaction)\trolley\errorLoad.tsx" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -107,7 +109,8 @@
       <workItem from="1733306058037" duration="15000" />
       <workItem from="1733307195288" duration="1369000" />
       <workItem from="1733384696591" duration="1187000" />
-      <workItem from="1733385898666" duration="11440000" />
+      <workItem from="1733385898666" duration="11501000" />
+      <workItem from="1733559166055" duration="5434000" />
     </task>
     <task id="LOCAL-00001" summary="save admin and user">
       <option name="closed" value="true" />
@@ -125,15 +128,35 @@
       <option name="project" value="LOCAL" />
       <updated>1733394528754</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add redux but will replace use zustand">
+      <option name="closed" value="true" />
+      <created>1733397490130</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733397490130</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="save admin and user" />
     <MESSAGE value="add redux but will replace use react-query" />
-    <option name="LAST_COMMIT_MESSAGE" value="add redux but will replace use react-query" />
+    <MESSAGE value="add redux but will replace use zustand" />
+    <option name="LAST_COMMIT_MESSAGE" value="add redux but will replace use zustand" />
   </component>
 </project>

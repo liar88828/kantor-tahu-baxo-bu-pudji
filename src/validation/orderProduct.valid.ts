@@ -5,7 +5,9 @@ export const OrderProductCreate: z.ZodType<TOrderProductCreate[]> =
 	z.array(
 		z.object({
 			// id_order: z.string().min(1).max(100).max(100),
-			id_product: z.string().min(1).max(100).max(100)
+			id_product: z.string().min(1).max(100).max(100),
+
+
 		})
 	)
 
