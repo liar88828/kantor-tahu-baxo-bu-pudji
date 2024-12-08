@@ -31,7 +31,7 @@ export default async function Page() {
 						</a>
 					</nav>
 
-					<Link href={'/admin/'} className='btn btn-outline btn-sm'>Login</Link>
+					<Link href={'/home'} className='btn btn-outline btn-sm'>Login</Link>
 				</div>
 			</div>
 		</header>

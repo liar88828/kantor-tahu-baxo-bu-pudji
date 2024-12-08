@@ -1,0 +1,8 @@
+{
+  "msg": "Error on GET",
+  "error": {
+    "name": "PrismaClientUnknownRequestError",
+    "clientVersion": "5.22.0"
+  },
+  "code": 400
+}

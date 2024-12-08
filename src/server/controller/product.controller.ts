@@ -1,11 +1,11 @@
 import ProductRepository from "@/server/repository/product.repo"
-import {InterfaceController} from "@/interface/server/InterfaceController"
-import {TProductDB} from "@/entity/product.model"
-import {TContext} from "@/interface/server/param"
-import {NextRequest} from "next/server"
-import {getId, getJson, getParams} from "@/lib/requestHelper"
-import {UUIDSchema} from "@/validation/id.valid"
-import {ProductCreate} from "@/validation/product.valid";
+import { InterfaceController } from "@/interface/server/InterfaceController"
+import { TProductDB } from "@/entity/product.model"
+import { TContext } from "@/interface/server/param"
+import { NextRequest } from "next/server"
+import { getId, getJson, getParams } from "@/lib/requestHelper"
+import { UUIDSchema } from "@/validation/id.valid"
+import { ProductCreate } from "@/validation/product.valid";
 
 export default class ProductController
   implements InterfaceController<TProductDB>
@@ -13,11 +13,14 @@ export default class ProductController
   constructor(private productRepository: ProductRepository) {}
 
   async findAll(request: NextRequest, __: TContext): Promise<any> {
+    const page = getParams(request, 'page') ?? 0
     return this.productRepository.findAll({
       location: getParams(request, "location"),
       type: getParams(request, "type"),
       name: getParams(request, "name"),
-    })
+      },
+      Number(page),
+    )
   }
 
   async findById(_: NextRequest, context: TContext): Promise<any> {

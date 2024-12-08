@@ -1,3 +1,33 @@
+GET http://localhost:3000/api/product/?page=1
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-08T191137.200.json
+
+###
+
+GET http://localhost:3000/api/product/?page=0
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-08T191130.400.json
+
+###
+
+GET http://localhost:3000/api/product/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-08T191115.400.json
+
+###
+
 GET http://localhost:3000/api/delivery/
 Content-Type: application/json
 User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
@@ -929,41 +959,6 @@ cookie:
 }
 
 <> 2024-12-07T182007.400.json
-
-###
-
-GET http://localhost:3000/api/order/6279a6b3-8b69-480e-84fe-9d5271c54e96
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-content-length: 0
-
-<> 2024-12-07T182006.200.json
-
-###
-
-GET http://localhost:3000/api/order/
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-07T182004.200.json
-
-###
-
-GET http://localhost:3000/api/payment/?name=kosong
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-04T162509.200.json
 
 ###
 

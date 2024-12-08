@@ -8,6 +8,7 @@ import {getDate} from "@/utils/formatDate";
 import {repeat} from "@/utils/repeat";
 
 export default async function ProductDetail(context: TContext) {
+	
 	const id = await getId(context)
 	const {data: product} = await productId(id)
 

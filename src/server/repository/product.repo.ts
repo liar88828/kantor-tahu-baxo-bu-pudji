@@ -12,7 +12,7 @@ export default class ProductRepository implements InterfaceRepository<TProductCr
 		throw new Error('Method not implemented.');
 	}
 
-	async findAll(searchQuery: ProductSearch, page: number = 1, pageSize: number = 100): Promise<ResponseAll<TProductDB>> {
+	async findAll(searchQuery: ProductSearch, page: number = 1, pageSize: number = 10): Promise<ResponseAll<TProductDB>> {
 
 		const skip = (page - 1) * pageSize;
 		const take = pageSize;

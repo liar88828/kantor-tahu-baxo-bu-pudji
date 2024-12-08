@@ -68,3 +68,4 @@ prisma/dev.db
 /.idea/httpRequests/2024-12-07T202604.400.json
 /.idea/httpRequests/2024-12-07T202615.200.json
 /.idea/httpRequests/2024-12-07T202726.200.json
+/identifier.sqlite

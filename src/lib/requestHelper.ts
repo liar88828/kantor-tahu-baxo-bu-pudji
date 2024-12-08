@@ -1,9 +1,9 @@
-import {TContext} from "@/interface/server/param"
+import { TContext } from "@/interface/server/param"
 //ResponseJson
-import {NextRequest, NextResponse} from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import Zod from "zod"
-import {Prisma} from ".prisma/client"
-import type {TMethod, ToModel} from "../interface/Utils"
+import { Prisma } from ".prisma/client"
+import type { TMethod, ToModel } from "../interface/Utils"
 
 export async function getId({params}: TContext) {
 	const param = await params

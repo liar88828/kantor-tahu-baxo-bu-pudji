@@ -1,5 +1,5 @@
 'use client'
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export function ErrorData({msg = 'Error Load', code = 404,}: { msg?: string, code?: number }) {
@@ -17,3 +17,11 @@ export function ErrorData({msg = 'Error Load', code = 404,}: { msg?: string, cod
 		</div>
 	);
 }
+
+export function EmptyData(
+	{ page }: { page: string }) {
+	return (
+		<ErrorData msg={ `${ page } Data Is Empty` } code={ 404 }/>
+	);
+}
+
