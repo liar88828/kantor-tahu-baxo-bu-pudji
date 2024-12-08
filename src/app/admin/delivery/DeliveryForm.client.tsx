@@ -2,20 +2,48 @@
 import {zodResolver} from '@hookform/resolvers/zod';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import type {TDeliveryCreate} from '@/entity/delivery.model';
+import type {TDeliveryCreate, TDeliveryDB} from '@/entity/delivery.model';
 import {DeliveryCreate} from '@/validation/delivery.valid';
 import {TReactFormHookComponent} from "@/interface/server/param";
+import {useRouter} from "next/navigation";
+import {deliveryCreate, deliveryUpdate} from "@/network/delivery";
+import toast from "react-hot-toast";
 
-export default function DeliveryForm({defaultValues, onSubmitAction}: TReactFormHookComponent<TDeliveryCreate>) {
+export default function DeliveryForm({defaultValues, method, id,}: TReactFormHookComponent<TDeliveryDB>) {
+	const router = useRouter()
+
 	const {handleSubmit, register, formState: {errors}} = useForm<TDeliveryCreate>(
 		{resolver: zodResolver(DeliveryCreate), defaultValues}
 	);
 
+	const onSubmitAction = async (data: TDeliveryCreate) => {
+		const idToast = toast.loading("Send Data to API");
+		try {
+			if (method === 'POST') {
+				await deliveryCreate(data)
+				toast.success('Success Create Data');
+			} else if (method === 'PUT') {
+				await deliveryUpdate(data, id)
+				toast.success('Success Create Data');
+			}
+			router.push('/admin/delivery')
+		} catch (e: unknown) {
+			if (e instanceof Error) {
+				console.error(e)
+				toast(e.message);
+			}
+			toast.error('something error');
+		} finally {
+			toast.dismiss(idToast);
+		}
+	}
 
 	return (
-		<div className='pt-6'>
+		<div>
 			<div className="card">
 				<form className='card-body' onSubmit={handleSubmit(onSubmitAction)}>
+					<h2 className={'card-title mb-5'}>Form {method === 'POST' ? "Create" : 'Update'} Delivery</h2>
+
 					{/* Name */}
 					<div className="">
 						<label htmlFor="name">Name</label>
@@ -73,6 +101,7 @@ export default function DeliveryForm({defaultValues, onSubmitAction}: TReactForm
 							className='input input-bordered w-full'
 							type="number"
 							{...register("price", {
+								valueAsNumber: true,
 								required: "Price is required",
 								min: {
 									value: 0,
@@ -104,7 +133,7 @@ export default function DeliveryForm({defaultValues, onSubmitAction}: TReactForm
 					<div className="">
 						<label htmlFor="desc">Description</label>
 						<textarea
-							className='input input-bordered w-full'
+							className='textarea textarea-bordered w-full'
 							{...register("desc", {required: "Description is required"})}
 						/>
 						{errors.desc && <p className="text-red-500">{errors.desc.message}</p>}

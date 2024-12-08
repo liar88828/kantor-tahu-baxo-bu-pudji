@@ -228,6 +228,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 			}
 
 			let updatedProducts = null;
+
 			if (data.orderProduct) {
 				// Delete existing products for the order
 				await tx.orderProduct.deleteMany({

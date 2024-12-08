@@ -1,6 +1,9 @@
 @api = http://localhost:3000/api/product/
 
 ### get data Produk
+GET {{api}}
+
+### get data Produk
 GET {{api}}?name=tahu baxo&location=Semarang
 
 ### get data Produk by id

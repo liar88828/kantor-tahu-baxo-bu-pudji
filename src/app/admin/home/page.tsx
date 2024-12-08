@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div>
+    <div className={'mt-5'}>
       home
     </div>
   )

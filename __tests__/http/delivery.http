@@ -1,6 +1,10 @@
 @api = http://localhost:3000/api/delivery/
 
 ### get data Travel
+GET {{api}}
+Content-Type: application/json
+
+### get data Travel
 GET {{api}}?address=kosong&type=batu&name=kosong
 Content-Type: application/json
 

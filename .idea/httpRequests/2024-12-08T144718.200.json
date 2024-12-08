@@ -1,0 +1,9 @@
+{
+  "msg": "GET delivery success",
+  "data": {
+    "data": [],
+    "page": 1,
+    "pageSize": 100
+  },
+  "code": 200
+}

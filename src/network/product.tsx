@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import type {TProductCreate} from "@/entity/product.model"
+import {TProductCreate, TProductDB} from "@/entity/product.model"
 import {useFetch} from "@/hook/useFetch"
+import {ResponseAll} from "@/interface/server/param";
 
-export const productAll = () => {
-	return useFetch('GET', 'product',)
+export const productAll = async () => {
+	return useFetch<ResponseAll<TProductDB>>('GET', 'product',)
 }
-export const productId = (id: string) => {
-	return useFetch('GET', `product/${id}`,)
+export const productId = async (id: string) => {
+	return useFetch<TProductDB>('GET', `product/${id}`,)
 }
-export const productCreate = (data: TProductCreate) => {
+export const productCreate = async (data: TProductCreate) => {
 	return useFetch('POST', `product`, data)
 }
-export const productUpdate = (data: TProductCreate, id: string) => {
+export const productUpdate = async (data: TProductCreate, id: string) => {
 	return useFetch('PUT', `product/${id}`, data)
 }
-export const productDelete = (id: string) => {
+export const productDelete = async (id: string) => {
 	return useFetch('DELETE', `product/${id}`)
 }

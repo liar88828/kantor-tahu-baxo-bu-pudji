@@ -27,24 +27,24 @@ export default function Layout({children,}: { children: ReactNode }) {
             </div>
             <div className="btm-nav z-50">
                 <Link href={'/admin/home'}
-                      className={path === '/admin/home' ? "active" : ""}>
+                      className={path.includes('/admin/home') ? "active" : ""}>
                     <HomeIcon/>
                     <span className="btm-nav-label">Home</span>
                 </Link>
 
                 <Link href={'/admin/product'}
-                      className={path === '/admin/product' ? "active" : ""}>
+                      className={path.includes('/admin/product') ? "active" : ""}>
                     <LucidePackageSearch/>
                     <span className="btm-nav-label">Product</span>
                 </Link>
 
                 <Link href={'/admin/delivery'}
-                      className={path === '/admin/delivery' ? "active" : ""}>
+                      className={path.includes('/admin/delivery')  ? "active" : ""}>
                     <Car/>
                     <span className="btm-nav-label">Delivery</span>
                 </Link>
                 <Link href={'/admin/payment'}
-                      className={path === '/admin/payment' ? "active" : ""}>
+                      className={path.includes('/admin/payment') ? "active" : ""}>
                     <CreditCard/>
                     <span className="btm-nav-label">Payment</span>
                 </Link>

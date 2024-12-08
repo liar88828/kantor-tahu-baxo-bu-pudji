@@ -29,7 +29,7 @@ export default class DeliveryRepository implements InterfaceRepository<TDelivery
         }
       }
     );
-    return { delivery, page, pageSize };
+    return { data:delivery, page, pageSize };
   }
   
   async findById(id: string) {

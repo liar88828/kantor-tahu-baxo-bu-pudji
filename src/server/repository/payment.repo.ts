@@ -28,7 +28,7 @@ export class PaymentRepository implements InterfaceRepository<TPaymentCreate> {
 				}
 			}
 		);
-		return { payments, page, pageSize };
+		return { data:payments, page, pageSize };
 		
 	}
 	

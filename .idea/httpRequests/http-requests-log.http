@@ -1,3 +1,49 @@
+GET http://localhost:3000/api/delivery/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-08T144718.200.json
+
+###
+
+GET http://localhost:3000/api/delivery/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-08T140947.200.json
+
+###
+
+GET http://localhost:3000/api/product/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-08T125744.200.json
+
+###
+
+GET http://localhost:3000/api/product/?name=tahu baxo&location=Semarang
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+content-length: 0
+
+<> 2024-12-08T125736.200.json
+
+###
+
 PUT http://localhost:3000/api/trolley/d77c6eee-c6dd-4bd0-9e14-38a6e89d41cd
 Content-Type: application/json
 Content-Length: 72
@@ -918,54 +964,6 @@ cookie:
 content-length: 0
 
 <> 2024-12-04T162509.200.json
-
-###
-
-GET http://localhost:3000/api/payment/?name=mandiri
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-04T162504.200.json
-
-###
-
-GET http://localhost:3000/api/payment/?address=kosong&type=batu&name=kosong
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-04T162450.200.json
-
-###
-
-GET http://localhost:3000/api/delivery/?address=kosong&name=kosong
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-04T162437.200.json
-
-###
-
-GET http://localhost:3000/api/delivery/?address=kosong&type=batu&name=kosong
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-04T162430.200.json
 
 ###
 

@@ -5,17 +5,47 @@ import {TPaymentCreate} from "@/entity/payment.model";
 import {TReactFormHookComponent} from "@/interface/server/param";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {PaymentCreate} from "@/validation/payment.valid";
+import {paymentCreate, paymentUpdate} from "@/network/payment";
+import toast from "react-hot-toast";
+import {useRouter} from "next/navigation";
 
 
-export default function PaymentForm({defaultValues, onSubmitAction}: TReactFormHookComponent<TPaymentCreate>) {
-	const {handleSubmit, register, formState: {errors}} = useForm<TPaymentCreate>(
-		{resolver: zodResolver(PaymentCreate), defaultValues});
+export default function PaymentForm({defaultValues, method, id,}: TReactFormHookComponent<TPaymentCreate>) {
+	const router = useRouter()
 
+	const {handleSubmit, register, formState: {errors}} = useForm<TPaymentCreate>({
+		resolver: zodResolver(PaymentCreate), defaultValues
+		});
+
+	const onSubmitAction = async (data: TPaymentCreate) => {
+		const idToast = toast.loading("Send Data to API");
+		try {
+			if (method === 'POST') {
+				await paymentCreate(data)
+				toast.success('Success Create Data');
+			} else if (method === 'PUT') {
+				await paymentUpdate(data, id)
+				toast.success('Success Update Data');
+			}
+			router.push('/admin/payment')
+		} catch (e: unknown) {
+			if (e instanceof Error) {
+				console.error(e)
+				toast(e.message);
+			}
+			toast.error('something error');
+		} finally {
+			toast.dismiss(idToast);
+		}
+	}
 
 	return (
-		<div className='pt-6'>
+		<div >
 			<div className="card">
+
 				<form className='card-body' onSubmit={handleSubmit(onSubmitAction)}>
+					<h2 className={'card-title mb-5'}>Form {method === 'POST' ? "Create" : 'Update'} Payment</h2>
+
 					{/* Name */}
 					<div className="">
 						<label htmlFor="name">Name</label>
@@ -72,7 +102,10 @@ export default function PaymentForm({defaultValues, onSubmitAction}: TReactFormH
 						<input
 							className='input input-bordered w-full'
 							type="text"
-							{...register("accounting", {required: "Accounting is required"})}
+							{...register("accounting", {
+								required: "Accounting is required",
+								valueAsNumber: true,
+							})}
 						/>
 						{errors.accounting && <p className="text-red-500">{errors.accounting.message}</p>}
 					</div>
@@ -98,7 +131,7 @@ export default function PaymentForm({defaultValues, onSubmitAction}: TReactFormH
 					<div className="">
 						<label htmlFor="desc">Description</label>
 						<textarea
-							className='input input-bordered w-full'
+							className='textarea textarea-bordered w-full'
 							{...register("desc", {required: "Description is required"})}
 						/>
 						{errors.desc && <p className="text-red-500">{errors.desc.message}</p>}

@@ -1,24 +1,13 @@
 import React from 'react'
-import {exampleDeliveryCreate} from '@/assets/ExampleDelivery'
-import {deliveryCreate} from '@/network/delivery'
-import type {TDeliveryCreate} from '@/entity/delivery.model'
+import {exampleDelivery} from '@/assets/ExampleDelivery'
 import DeliveryForm from '../DeliveryForm.client'
 
-
-export default async function page() {
-
-	const onSubmit = async (value: TDeliveryCreate) => {
-		'use server'
-		await deliveryCreate(value)
-	}
-
+export default function page() {
 	return (
 		<DeliveryForm
-			onSubmitAction={onSubmit}
-			defaultValues={
-				exampleDeliveryCreate
-				// await deliveryId(id)
-			}
+			defaultValues={exampleDelivery}
+			method={'POST'}
+			id={''}
 		/>
 	)
 }

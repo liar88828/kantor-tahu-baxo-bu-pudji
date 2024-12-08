@@ -25,45 +25,6 @@ export const getTime = (detik: boolean = false) => {
 	return today.getHours() + ":" + today.getMinutes() + detik && d;
 }
 
-export const setHours = (time: string | Date): string => {
-	const t = new Date(Date.parse(time.toString())).toLocaleTimeString(
-		"id-ID",
-		{
-			hour: '2-digit',
-			minute: '2-digit',
-		}
-	).split(".")
-
-	return t[0] + ":" + t[1]// + ":" + "00"
-}
-
-export const setTanggal = (
-	date: string | Date,
-	option: MyTypeObject = "hari"
-) => {
-	const d = new Date(Date.parse(date.toString()));
-
-	// @ts-ignore
-
-	// console.log(dates)
-	return d.toLocaleDateString("id-ID", formattingOptions[option])
-
-};
-
-export const newSetTanggal = (date: string | Date) => {
-	const d = new Date(Date.parse(date.toString()));
-
-	// @ts-ignore
-	return d.toLocaleDateString("id-ID", {
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric',
-		hour: 'numeric',
-		minute: 'numeric',
-		// second: 'numeric',
-		// timeZoneName: 'short'
-	});
-};
 
 export const getDates = (option: MyTypeObject, value: number) => {
 
@@ -71,6 +32,19 @@ export const getDates = (option: MyTypeObject, value: number) => {
 
 	// @ts-ignore
 	return d.toLocaleString('id-ID', formattingOptions[option]);
+}
+
+
+export const getDate = (value: number | string | Date) => {
+
+	// @ts-ignore
+	return new Date(Date.parse(value)).toLocaleString(
+		"id-ID",
+		{
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		})
 }
 
 export const setDates = (date: string,): Date | string => {
