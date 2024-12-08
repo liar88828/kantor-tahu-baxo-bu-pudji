@@ -6,7 +6,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {useTrolley} from "@/store/useTrolley";
 import {useQueryClient} from "@tanstack/react-query";
 
-export default function Layout({children}: { children: ReactNode, }) {
+export default function Layout({children}: { children: ReactNode}) {
 	const path = usePathname()
 	const router = useRouter()
 	const {count:countTrolley} = useTrolley(useQueryClient())
