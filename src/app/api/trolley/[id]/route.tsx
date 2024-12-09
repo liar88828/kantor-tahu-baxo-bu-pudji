@@ -11,9 +11,9 @@ export async function GET(request: NextRequest, context: TContext) {
 	)
 }
 
-export async function PUT(request: NextRequest, context: TContext) {
+export async function POST(request: NextRequest, context: TContext) {
 	return await ResponseJson(
-		async () => trolleyController.updateOne(request, context),
+		async () => trolleyController.createOne(request, context),
 		"POST",
 		"trolley"
 	)

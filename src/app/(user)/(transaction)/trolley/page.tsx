@@ -1,35 +1,77 @@
 'use client'
-import React from 'react'
-import {Minus, Plus, Trash} from 'lucide-react'
-import {Rupiah} from '@/utils/rupiah'
-import {useTrolley} from "@/store/useTrolley";
-import {ErrorData} from "@/app/components/ErrorData";
-import {LoadingData} from "@/app/components/LoadingData";
-import {useQueryClient} from "@tanstack/react-query";
-
+import React, { useState } from 'react'
+import { Minus, Plus, Trash } from 'lucide-react'
+import { Rupiah } from '@/utils/rupiah'
+import { TROLLEY_KEY, useTrolley } from "@/store/useTrolley";
+import { ErrorData } from "@/app/components/ErrorData";
+import { LoadingDataList } from "@/app/components/LoadingData";
+import { useQueryClient } from "@tanstack/react-query";
+import { userId } from "@/network/trolley";
 
 export default function Page() {
-	const {getAll, increment, decrement} = useTrolley(useQueryClient())
-	const {data: stateTrolley, error, isFetching} = getAll({idUser: 'asdasda'})
+	const queryClient = useQueryClient()
+	const { getAll, increment, decrement, remove } = useTrolley(queryClient)
+	const { data: stateTrolley, error, isFetching } = getAll({ idUser: userId })
+// State for managing selection
+	const [selectedTrolleys, setSelectedTrolleys] = useState<{ [key: string]: boolean }>({})
 
-	if (error || !stateTrolley) return <ErrorData/>
-	if (isFetching) return <LoadingData/>
-
-	function onIncrement(id: string) {
-		return increment({idTrolley: id,});
+	function onIncrement(idTrolley: string) {
+		increment.mutate({ idTrolley });
 	}
 
-	function onDecrement(id: string) {
-		return decrement({idTrolley: id});
+	function onDecrement(idTrolley: string) {
+		decrement.mutate({ idTrolley });
 	}
 
+	function onRemove(idTrolley: string) {
+		remove.mutate({ idTrolley });
+	}
+
+
+	function onSelect(idTrolley: string) {
+		setSelectedTrolleys((prev) => ({
+			...prev,
+			[idTrolley]: !prev[idTrolley],
+		}));
+		queryClient.setQueryData([TROLLEY_KEY, 'SELECT'], selectedTrolleys)
+
+		// console.log(idTrolley);
+		// queryClient.setQueriesData({
+		// 		queryKey: [TROLLEY_KEY, { idUser: userId }]
+		// 	},
+		// 	(oldData: any) => {
+		// 		if (!oldData) return oldData;
+		// 		console.log(oldData);
+		//
+		// 		return {
+		// 			...oldData,
+		// 			data: oldData.data.map((trolley: any) =>
+		// 				trolley.id === idTrolley
+		// 					? { ...trolley, isSelected: !trolley.isSelected }
+		// 					: trolley
+		// 			),
+		// 		};
+		// 	});
+	}
 	return (
 		<div className='p-3'>
 			<div className="space-y-2">
-				{stateTrolley.data.map(d => (
+				{ (isFetching)
+					? <LoadingDataList/>
+					: (!stateTrolley || (error))
+						? <ErrorData/>
+						: stateTrolley.data.map(trolley => (
 					<div
-						key={d.id}
-						className="card card-side card-compact bg-base-300 ">
+
+						key={ trolley.id }
+						onClick={ () => onSelect(trolley.id) }
+						className={ `card card-side card-compact bg-base-300 card-bordered ${
+							selectedTrolleys[trolley.id] ? 'border-success' : ''
+
+							// @ts-ignore
+							// trolley.isSelected ? 'border-success' : ''
+						}` }
+					>
 						<figure>
 							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img
@@ -41,23 +83,25 @@ export default function Page() {
 						<div className="card-body">
 							<div className="flex justify-between">
 								<h2 className='card-title'>Lorem, ipsum dolor.</h2>
-								<button className=' btn btn-square btn-error btn-sm '>
+								<button
+									onClick={ () => onRemove(trolley.id) }
+									className=' btn btn-square btn-error btn-sm '>
 									<Trash/>
 								</button>
 							</div>
 							<div className="flex justify-between items-end">
 								<div className="">
-									<p>{Rupiah(20000)}</p>
+									<p>{ Rupiah(trolley.Product.price) }</p>
 									<p>Pedas</p>
 								</div>
 								<div className="flex items-center gap-2">
 									<button
-										onClick={() => onIncrement(d.id)}
+										onClick={ () => onIncrement(trolley.id) }
 										className="btn btn-square btn-sm">
 										<Plus/>
 									</button>
-									<h2>{d.qty}</h2>
-									<button onClick={() => onDecrement(d.id)}
+									<h2>{ trolley.qty }</h2>
+									<button onClick={ () => onDecrement(trolley.id) }
 											className="btn btn-square  btn-sm">
 										<Minus/>
 									</button>
@@ -71,3 +115,4 @@ export default function Page() {
 		</div>
 	)
 }
+

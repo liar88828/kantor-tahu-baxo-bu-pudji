@@ -1,11 +1,14 @@
-import {OrderProduct} from "@prisma/client"
-import {TOrderCreate, TOrderDB} from "@/entity/order.model"
-import {TReceiverCreate, TReceiverDB} from "@/validation/receiver.valid"
+import { OrderProduct } from "@prisma/client"
+import { TOrderCreate, TOrderDB } from "@/entity/order.model"
+import { TReceiverCreate, TReceiverDB } from "@/validation/receiver.valid"
+import { TProductDB } from "@/entity/product.model";
 
 export type TOrderProductDB = OrderProduct
+export type TOrderProductList = (TOrderProductDB & { Product: TProductDB })
+
 export type TOrderProductCreateTransaction = Omit<
 	OrderProduct,
-	"id" | "id_order" | "id_user" | 'qty'
+	"id" | "id_order" | 'qty'
 >
 
 export type TOrderProductUpdate = Omit<

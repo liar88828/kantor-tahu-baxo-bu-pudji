@@ -7,11 +7,15 @@ import { TProductDB } from "@/entity/product.model";
 import { useProduct } from "@/store/useProduct";
 import { EmptyData } from "@/app/components/ErrorData";
 import { LoadingSpin } from "@/app/components/LoadingData";
+import { useTrolley } from "@/store/useTrolley";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Page() {
 	const router = useRouter();
 	const observerRef = useRef<HTMLDivElement | null>(null);
 	const { getProductUser } = useProduct();
+	const { push } = useTrolley(useQueryClient())
+
 	// State for search input
 	const [search, setSearch] = useState('');
 	const [debouncedSearch, setDebouncedSearch] = useState(search);
@@ -22,7 +26,6 @@ export default function Page() {
 		return () => clearTimeout(handler);
 	}, [search]);
 
-
 	const {
 		data,
 		status,
@@ -31,15 +34,10 @@ export default function Page() {
 		hasNextPage,
 		isFetching,
 		isFetchingNextPage,
-
 	} = getProductUser(search, debouncedSearch)
-	
-	
+
 	const addTrolley = (data: TProductDB) => {
-		// dispatch(pushTrolley({
-		// 	id_product:data.id,
-		// 	id_user:"asdasda",
-		// }))
+		push.mutate(data.id)
 	}
 
 	// Automatically trigger `fetchNextPage` when scrolling
@@ -87,36 +85,36 @@ export default function Page() {
 						page.data
 						// .filter(product=>product.name.toLowerCase().includes(search.toLowerCase()))
 						.map(d => (<div
-										key={ d.id } className=" bordered  rounded-xl bg-base-300 ">
-										<figure
-											className='p-1'
-											onClick={ () => router.push(`/product/${ d.id }`) }
-										>
-											{/* eslint-disable-next-line @next/next/no-img-element */ }
-											<img className='rounded-xl object-cover w-full h-44 '
-													 src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-													 alt="Shoes"
-											/>
-										</figure>
-										<div className="p-5">
-											<h2 className="card-title">{ d.name }</h2>
-											<div className="flex justify-between items-end">
-												<div className="">
-													<p>{ Rupiah(d.price) }</p>
-													<p>Pedas</p>
-												</div>
-												<button
-													onClick={ () => addTrolley(d) }
-													className="btn btn-primary btn-sm btn-square ">
-													<ShoppingCart className=''/>
-												</button>
+									key={ d.id } className=" bordered  rounded-xl bg-base-300 ">
+									<figure
+										className='p-1'
+										onClick={ () => router.push(`/product/${ d.id }`) }
+									>
+										{/* eslint-disable-next-line @next/next/no-img-element */ }
+										<img className='rounded-xl object-cover w-full h-44 '
+											 src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+											 alt="Shoes"
+										/>
+									</figure>
+									<div className="p-5">
+										<h2 className="card-title">{ d.name }</h2>
+										<div className="flex justify-between items-end">
+											<div className="">
+												<p>{ Rupiah(d.price) }</p>
+												<p>Pedas</p>
 											</div>
+											<button
+												onClick={ () => addTrolley(d) }
+												className="btn btn-primary btn-sm btn-square ">
+												<ShoppingCart className=''/>
+											</button>
 										</div>
 									</div>
-								)
+								</div>
 							)
 						)
 					)
+				)
 				}
 			</div>
 

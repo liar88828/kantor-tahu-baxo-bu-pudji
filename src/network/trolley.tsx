@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {useFetch} from "@/hook/useFetch"
-import {TrolleyParams} from "@/store/useTrolley";
-import {TOrderProductDB} from "@/entity/transaction.model";
+import { useFetch } from "@/hook/useFetch"
+import { Counter, IdTrolley, TrolleyParams } from "@/store/useTrolley";
+import { TOrderProductCreateTransaction, TOrderProductDB, TOrderProductList } from "@/entity/transaction.model";
+import { ResponseAll } from "@/interface/server/param";
+
+export const userId = '1da116c8-2d8a-4f9b-ae93-37cbad1bd832'
 
 export const trolleyAll = ({idUser}: TrolleyParams) => {
-	return useFetch<TOrderProductDB[]>('GET', 'trolley',)
+	return useFetch<ResponseAll<TOrderProductList>>('GET', 'trolley',)
 }
 
 export const trolleyId = (id: TOrderProductDB['id']) => {
@@ -12,18 +15,22 @@ export const trolleyId = (id: TOrderProductDB['id']) => {
 }
 
 export const pushTrolley = (id: TOrderProductDB['id']) => {
-	return useFetch('POST', `trolley/${id}`)
+	const data: TOrderProductCreateTransaction = {
+		id_user: userId,
+		id_product: id
+	}
+	return useFetch('POST', `trolley`,data)
 }
 
-export const removeTrolley = (id: TOrderProductDB['id']) => {
-	return useFetch('DELETE', `trolley/${id}`)
+export const removeTrolley = ({ idTrolley }: IdTrolley) => {
+	return useFetch('DELETE', `trolley/${idTrolley}`)
 }
 
-export const trolleyIncrement = (id: TOrderProductDB['id']) => {
-	return useFetch('POST', `trolley/counter/${id}`)
+export const trolleyIncrement = (data:Counter) => {
+	return useFetch('POST', `trolley/counter/${data.idTrolley}`)
 }
 
-export const trolleyDecrement = (id: TOrderProductDB['id']) => {
-	return useFetch('DELETE', `trolley/counter/${id}`)
+export const trolleyDecrement = (data:Counter) => {
+	return useFetch('DELETE', `trolley/counter/${data.idTrolley}`)
 }
 

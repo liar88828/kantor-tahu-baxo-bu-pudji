@@ -1,6 +1,6 @@
-import {prisma} from "@/lib/prisma"
-import {OrderProduct} from "@prisma/client"
-import {TOrderProductCount, TOrderProductCreateTransaction, TOrderProductUpdate} from "@/entity/transaction.model";
+import { prisma } from "@/lib/prisma"
+import { OrderProduct } from "@prisma/client"
+import { TOrderProductCreateTransaction, TOrderProductList, TOrderProductUpdate } from "@/entity/transaction.model";
 
 export default class TrolleyRepository
 	implements InterfaceRepository<OrderProduct> {
@@ -22,7 +22,11 @@ export default class TrolleyRepository
 	async findAll(
 		page: number = 1,
 		pageSize: number = 100
-	): Promise<any> {
+	): Promise<{
+		data: TOrderProductList[]
+		page: number;
+		pageSize: number;
+	}> {
 		const skip = (page - 1) * pageSize
 		const take = pageSize
 		const products = await prisma.orderProduct.findMany({
@@ -30,7 +34,7 @@ export default class TrolleyRepository
 			take,
 			include: {Product: true}
 		})
-		return {products, page, pageSize}
+		return { data: products, page, pageSize }
 	}
 
 	async findById(id: string): Promise<any> {
@@ -41,12 +45,14 @@ export default class TrolleyRepository
 		})
 	}
 
-	async createOne(data: TOrderProductCreateTransaction, id?: string): Promise<any> {
-		if (id) {
-			const idTrolley = await prisma.orderProduct.findUnique({where: {id}});
-			if (idTrolley) {
+	async createOne(data: TOrderProductCreateTransaction,): Promise<any> {
+		if (data.id_product) {
+			const TrolleyDB = await prisma.orderProduct.findFirst({
+				where: { id_product: data.id_product, id_user: data.id_user }
+			})
+			if (TrolleyDB) {
 				return prisma.orderProduct.update({
-					where: {id: idTrolley.id},
+					where: { id: TrolleyDB.id },
 					data: {
 						qty: {
 							increment: 1,
@@ -54,17 +60,18 @@ export default class TrolleyRepository
 					},
 				})
 			}
-			if (!idTrolley) {
+			if (!TrolleyDB) {
 				return prisma.orderProduct.create({
 					data: {
 						id_product: data.id_product,
+						id_user: data.id_user,
 						qty: 1
 					},
 				})
 			}
 
 		}
-		if (!id) {
+		if (!data.id_product) {
 			return prisma.orderProduct.create({
 				data: {
 					id_product: data.id_product,
@@ -90,8 +97,7 @@ export default class TrolleyRepository
 		return prisma.orderProduct.delete({where: {id}})
 	}
 
-	async increment(data: TOrderProductCount, id: string): Promise<any> {
-
+	async increment(id: string): Promise<any> {
 		return prisma.orderProduct.update({
 			where: {id},
 			data: {
@@ -102,8 +108,7 @@ export default class TrolleyRepository
 		})
 	}
 
-	async decrement(data: TOrderProductCount, id: string): Promise<any> {
-
+	async decrement(id: string): Promise<any> {
 		return prisma.orderProduct.update({
 			where: {id},
 			data: {

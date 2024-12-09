@@ -5,12 +5,18 @@ export const OrderProductTransaction: z.ZodType<TOrderProductCreateTransaction[]
 	z.object({
 		// id_order: z.string().min(1).max(100).max(100),
 		id_product: z.string().min(1).max(100),
+		id_user: z.string().min(1).max(100),
+
 	})
 )
 
 export const OrderProductUpdate: z.ZodType<TOrderProductUpdate> = z.object({
 	id_product: z.string().min(1).max(100),
 	qty: z.number().min(1).max(100),
+})
+export const OrderProductCreate: z.ZodType<TOrderProductCreateTransaction> = z.object({
+	id_product: z.string().min(1).max(100),
+	id_user: z.string().min(1).max(100),
 })
 
 export const OrderProductCount: z.ZodType<TOrderProductCount> = z.object({

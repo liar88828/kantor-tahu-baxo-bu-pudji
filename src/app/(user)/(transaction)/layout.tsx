@@ -17,7 +17,9 @@ export default function Layout({children}: { children: ReactNode, }) {
 
 				</div>
 				<div className="flex-none">
-					<div className="btn btn-square">
+					<div
+						onClick={()=>{}}
+						className="btn btn-square">
 						<TicketIcon/>
 					</div>
 				</div>

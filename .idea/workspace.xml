@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="save admin crud">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182004.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182006.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="save">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/http/product.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/product.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/product/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/product/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/ErrorData.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/ErrorData.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/requestHelper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/requestHelper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/controller/product.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/product.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/repository/product.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/product.repo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/useTrolley.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useTrolley.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +53,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\laragon\bin\php\php-8.1.10-Win32-vs16-x64\php.exe" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -76,51 +69,51 @@
     <option name="showLibraryContents" value="true" />
     <option name="showScratchesAndConsoles" value="false" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "HTTP Request.delivery | create data Travel.executor": "Run",
-    "HTTP Request.delivery | get data Travel#1.executor": "Run",
-    "HTTP Request.order | Update.executor": "Run",
-    "HTTP Request.order | get all.executor": "Run",
-    "HTTP Request.order | get by id.executor": "Run",
-    "HTTP Request.order | post.executor": "Run",
-    "HTTP Request.payment | create data Bank.executor": "Run",
-    "HTTP Request.product | create data Produk`.executor": "Run",
-    "HTTP Request.product | get data Produk#1 (1).executor": "Run",
-    "HTTP Request.product | get data Produk#1.executor": "Run",
-    "HTTP Request.product | get data Produk.executor": "Run",
-    "HTTP Request.product | update data Produk`.executor": "Run",
-    "HTTP Request.trolley | create data trolley.executor": "Run",
-    "HTTP Request.trolley | decrement data trolley.executor": "Run",
-    "HTTP Request.trolley | get data Produk by id.executor": "Run",
-    "HTTP Request.trolley | get data Produk.executor": "Run",
-    "HTTP Request.trolley | get data trolley by id.executor": "Run",
-    "HTTP Request.trolley | get data trolley.executor": "Run",
-    "HTTP Request.trolley | increment data trolley.executor": "Run",
-    "HTTP Request.trolley | update data trolley.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Vitest.Test Payment api.executor": "Run",
-    "Vitest.Test Product.executor": "Run",
-    "Vitest.Test Travel.executor": "Run",
-    "git-widget-placeholder": "fullstack-pc",
-    "last_opened_file_path": "E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/(user)/(market)/product",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.build.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "ts.external.directory.path": "E:\\CODE\\TA\\kantor-tahu-baxo-bu-pudji\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;HTTP Request.delivery | create data Travel.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.delivery | get data Travel#1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.order | Update.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.order | get all.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.order | get by id.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.order | post.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.payment | create data Bank.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.product | create data Produk`.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.product | get data Produk#1 (1).executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.product | get data Produk#1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.product | get data Produk.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.product | update data Produk`.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | create data trolley.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | decrement data trolley.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | get data Produk by id.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | get data Produk.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | get data trolley by id.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | get data trolley.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | increment data trolley.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.trolley | update data trolley.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Vitest.Test Payment api.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Test Product.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Test Travel.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fullstack-pc&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/CODE/TA/kantor-tahu-baxo-bu-pudji/src/app/(user)/(market)/product&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\CODE\\TA\\kantor-tahu-baxo-bu-pudji\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\(user)\(market)\product" />
@@ -194,6 +187,7 @@
       <workItem from="1733636044142" duration="10711000" />
       <workItem from="1733656597882" duration="120000" />
       <workItem from="1733657092864" duration="3515000" />
+      <workItem from="1733726643797" duration="7933000" />
     </task>
     <task id="LOCAL-00001" summary="save admin and user">
       <option name="closed" value="true" />
@@ -243,7 +237,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733646876855</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="client add infinity scroll on product -v2">
+      <option name="closed" value="true" />
+      <created>1733662885834</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733662885834</updated>
+    </task>
+    <task id="LOCAL-00008" summary="save">
+      <option name="closed" value="true" />
+      <created>1733733403068</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733733403068</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,8 +275,9 @@
     <MESSAGE value="add redux but will replace use react-query" />
     <MESSAGE value="add redux but will replace use zustand" />
     <MESSAGE value="merge backend-pc" />
-    <MESSAGE value="save" />
     <MESSAGE value="save admin crud" />
-    <option name="LAST_COMMIT_MESSAGE" value="save admin crud" />
+    <MESSAGE value="client add infinity scroll on product -v2" />
+    <MESSAGE value="save" />
+    <option name="LAST_COMMIT_MESSAGE" value="save" />
   </component>
 </project>
