@@ -1,4 +1,4 @@
-export const Rupiah = ( n: number | string | undefined ): string => {
+export const toRupiah = (n: number | string | undefined): string => {
   if( typeof n !== "string" ) {
 
     if( n ) {

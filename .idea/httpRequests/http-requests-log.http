@@ -4,6 +4,26 @@ Accept-Encoding: br, deflate, gzip, x-gzip
 Accept: */*
 cookie:
 
+<> 2024-12-10T183036.500.json
+
+###
+
+GET http://localhost:3000/api/product/?page=1
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-10T183027.500.json
+
+###
+
+GET http://localhost:3000/api/product/?page=1
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
 <> 2024-12-08T191137.200.json
 
 ###
@@ -881,84 +901,6 @@ cookie:
 }
 
 <> 2024-12-07T182214.500.json
-
-###
-
-POST http://localhost:3000/api/order/
-Content-Type: application/json
-Content-Length: 807
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "order": {
-    "nameCs": "John Doe",
-    "sendTime": 1733570484,
-    "orderTime":  1733570484,
-    "desc": "Order of electronics including headphones and chargers.",
-    "address": "123 Main St, Springfield, USA",
-    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
-    "nameDelivery": "Express Logistics",
-    "phoneDelivery": "+1234567890",
-    "priceDelivery": 4999,
-    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
-    "totalPayment": 10499,
-    "totalAll": 15498,
-    "status": "Pending"
-  },
-  "orderProduct": [
-  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" ,"qty": 1},
-  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" ,"qty": 1}
-  ],
-  "orderReceiver": {
-	"name": "Alice Johnson",
-	"address": "456 Elm Street, Springfield, USA",
-	"phone": "+19876543210"
-  }
-}
-
-<> 2024-12-07T182124.500.json
-
-###
-
-POST http://localhost:3000/api/order/
-Content-Type: application/json
-Content-Length: 789
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "order": {
-    "nameCs": "John Doe",
-    "sendTime": 1733570407,
-    "orderTime":  1733570407,
-    "desc": "Order of electronics including headphones and chargers.",
-    "address": "123 Main St, Springfield, USA",
-    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
-    "nameDelivery": "Express Logistics",
-    "phoneDelivery": "+1234567890",
-    "priceDelivery": 4999,
-    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
-    "totalPayment": 10499,
-    "totalAll": 15498,
-    "status": "Pending"
-  },
-  "orderProduct": [
-  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" },
-  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" }
-  ],
-  "orderReceiver": {
-	"name": "Alice Johnson",
-	"address": "456 Elm Street, Springfield, USA",
-	"phone": "+19876543210"
-  }
-}
-
-<> 2024-12-07T182007.400.json
 
 ###
 

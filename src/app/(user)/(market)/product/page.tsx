@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react';
-import { Rupiah } from '@/utils/rupiah';
+import { toRupiah } from '@/utils/toRupiah';
 import { ShoppingCart } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { TProductDB } from "@/entity/product.model";
@@ -9,6 +9,7 @@ import { EmptyData } from "@/app/components/ErrorData";
 import { LoadingSpin } from "@/app/components/LoadingData";
 import { useTrolley } from "@/store/useTrolley";
 import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export default function Page() {
 	const router = useRouter();
@@ -37,7 +38,14 @@ export default function Page() {
 	} = getProductUser(search, debouncedSearch)
 
 	const addTrolley = (data: TProductDB) => {
-		push.mutate(data.id)
+		const idToast = toast.loading('Loading...')
+		try {
+			push.mutate({ id: data.id, qty: 1 })
+		} catch (error) {
+			console.log(error);
+		} finally {
+			toast.dismiss(idToast)
+		}
 	}
 
 	// Automatically trigger `fetchNextPage` when scrolling
@@ -80,7 +88,9 @@ export default function Page() {
 
 			<div className='grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 grid xl:grid-cols-6 gap-2'>
 				{ status === 'pending' && <p><LoadingSpin/></p> }
-				{ (status === 'error' || error) && <p><EmptyData page={ 'Product User' }/></p> }
+				{ (status === 'error' || error) && <div className={ 'flex justify-center' }>
+									<EmptyData page={ 'Product User' }/>
+								</div> }
 				{ data?.pages.map((page, pageIndex) => (
 						page.data
 						// .filter(product=>product.name.toLowerCase().includes(search.toLowerCase()))
@@ -100,7 +110,7 @@ export default function Page() {
 										<h2 className="card-title">{ d.name }</h2>
 										<div className="flex justify-between items-end">
 											<div className="">
-												<p>{ Rupiah(d.price) }</p>
+												<p>{ toRupiah(d.price) }</p>
 												<p>Pedas</p>
 											</div>
 											<button

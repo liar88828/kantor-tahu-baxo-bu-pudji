@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { Minus, Plus, Trash } from 'lucide-react'
-import { Rupiah } from '@/utils/rupiah'
+import { toRupiah } from '@/utils/toRupiah'
 import { TROLLEY_KEY, useTrolley } from "@/store/useTrolley";
 import { ErrorData } from "@/app/components/ErrorData";
 import { LoadingDataList } from "@/app/components/LoadingData";
@@ -34,7 +34,9 @@ export default function Page() {
 			[idTrolley]: !prev[idTrolley],
 		}));
 		queryClient.setQueryData([TROLLEY_KEY, 'SELECT'], selectedTrolleys)
-
+		const data =
+			queryClient.getQueryData([ TROLLEY_KEY, 'SELECT' ])
+		// console.log(data)
 		// console.log(idTrolley);
 		// queryClient.setQueriesData({
 		// 		queryKey: [TROLLEY_KEY, { idUser: userId }]
@@ -91,7 +93,7 @@ export default function Page() {
 							</div>
 							<div className="flex justify-between items-end">
 								<div className="">
-									<p>{ Rupiah(trolley.Product.price) }</p>
+									<p>{ toRupiah(trolley.Product.price) }</p>
 									<p>Pedas</p>
 								</div>
 								<div className="flex items-center gap-2">

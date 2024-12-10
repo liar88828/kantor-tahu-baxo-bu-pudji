@@ -11,6 +11,12 @@ export type TOrderProductCreateTransaction = Omit<
 	"id" | "id_order" | 'qty'
 >
 
+export type TOrderProductCreate = Omit<
+	OrderProduct,
+	"id" | "id_order"
+>
+
+
 export type TOrderProductUpdate = Omit<
 	OrderProduct,
 	"id" | "id_order" | "id_user"

@@ -1,11 +1,11 @@
 import React from 'react'
-import {productId} from "@/network/product";
-import {ErrorData} from "@/app/components/ErrorData";
-import {TContext} from "@/interface/server/param";
-import {getId} from "@/lib/requestHelper";
-import {Rupiah} from "@/utils/rupiah";
-import {getDate} from "@/utils/formatDate";
-import {repeat} from "@/utils/repeat";
+import { productId } from "@/network/product";
+import { ErrorData } from "@/app/components/ErrorData";
+import { TContext } from "@/interface/server/param";
+import { getId } from "@/lib/requestHelper";
+import { toRupiah } from "@/utils/toRupiah";
+import { toDate } from "@/utils/formatDate";
+import { repeat } from "@/utils/repeat";
 
 export default async function ProductDetail(context: TContext) {
 	
@@ -61,13 +61,13 @@ export default async function ProductDetail(context: TContext) {
 
 								<div className="  ">
 									<p className="text-gray-200 font-bold text-lg mb-2">
-										{Rupiah(product.price)}
+										{ toRupiah(product.price) }
 									</p>
 									<p className="text-gray-600 text-sm">
 										<strong>Stock:</strong> {product.qty} units
 									</p>
 									<p className="text-gray-500 text-sm">
-										<strong>Last Updated:</strong> {getDate(product.updated_at)}
+										<strong>Last Updated:</strong> { toDate(product.updated_at) }
 									</p>
 								</div>
 							</div>

@@ -1,10 +1,10 @@
 'use client'
-import type {ReactNode} from "react";
-import {ChevronLeft, HomeIcon, LucidePackageSearch, UserIcon} from 'lucide-react';
+import type { ReactNode } from "react";
+import { ChevronLeft, HomeIcon, LucidePackageSearch, UserIcon } from 'lucide-react';
 import Link from "next/link";
-import {usePathname, useRouter} from "next/navigation";
-import {useTrolley} from "@/store/useTrolley";
-import {useQueryClient} from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
+import { useTrolley } from "@/store/useTrolley";
+import { useQueryClient } from "@tanstack/react-query";
 import { userId } from "@/network/trolley";
 
 export default function Layout({children}: { children: ReactNode}) {
@@ -76,7 +76,6 @@ export default function Layout({children}: { children: ReactNode}) {
 
 				<Link href={'/profile'}
 					  className={path === '/profile' ? "active" : ""}>
-
 					<UserIcon/>
 					<span className="btm-nav-label">Profile</span>
 				</Link>

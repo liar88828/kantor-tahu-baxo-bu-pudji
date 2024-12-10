@@ -1,11 +1,16 @@
 'use client'
-import type {ReactNode} from "react";
-import {ChevronLeft, TicketIcon} from 'lucide-react';
-import {useRouter} from "next/navigation";
-
+import type { ReactNode } from "react";
+import { ChevronLeft, DollarSign } from 'lucide-react';
+import { useRouter } from "next/navigation";
+import { TROLLEY_KEY } from "@/store/useTrolley";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Layout({children}: { children: ReactNode, }) {
+	const queryClient = useQueryClient()
 	const router = useRouter()
+	const trolleyId = queryClient.getQueryData([ TROLLEY_KEY, 'SELECT' ])
+
+
 	return (<>
 			<div className="navbar bg-base-300 fixed z-50">
 				<div className="flex-1 ">
@@ -18,9 +23,12 @@ export default function Layout({children}: { children: ReactNode, }) {
 				</div>
 				<div className="flex-none">
 					<div
-						onClick={()=>{}}
+						onClick={ () => {
+							console.log(trolleyId)
+
+						} }
 						className="btn btn-square">
-						<TicketIcon/>
+						<DollarSign/>
 					</div>
 				</div>
 			</div>

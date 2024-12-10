@@ -5,6 +5,7 @@ import { useFetch } from "../../src/hook/useFetch";
 import { TProductDB } from "../../src/entity/product.model";
 import { TDeliveryDB } from "../../src/entity/delivery.model";
 import { exampleDelivery } from "../../src/assets/ExampleDelivery";
+import { deliveryCreate } from "../../src/network/delivery";
 
 const json: TDeliveryDB = structuredClone(exampleDelivery)
 
@@ -227,7 +228,7 @@ describe("Test Travel", () => {
 	// --------
 	describe("POST Travel", () => {
 		it("Travel Can create a post success ", async () => {
-			const data = useFetch<TProductDB>("POST", "delivery", json,)
+			const data = deliveryCreate(json,)
 			contextId = await data.then(d => d.data.id)
 			await expect(data).resolves.toHaveProperty("data.name", "kosong")
 			await expect(data).resolves.toMatchObject(responseSuccess)

@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import {Pen, Plus, Trash} from 'lucide-react'
-import {Rupiah} from '@/utils/rupiah'
+import { Pen, Plus, Trash } from 'lucide-react'
+import { toRupiah } from '@/utils/toRupiah'
 import Link from 'next/link'
-import {TDeliveryDB} from "@/entity/delivery.model";
-import {useRouter} from "next/navigation";
+import { TDeliveryDB } from "@/entity/delivery.model";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import {deliveryDelete} from "@/network/delivery";
-import {ErrorData} from "@/app/components/ErrorData";
+import { deliveryDelete } from "@/network/delivery";
+import { ErrorData } from "@/app/components/ErrorData";
 
 interface DeliveryListProps {
 	deliverys: TDeliveryDB[]
@@ -62,7 +62,7 @@ export default function DeliveryList({deliverys}: DeliveryListProps) {
 									</div>
 									<div className="flex justify-between items-end">
 										<div className="">
-											<p>{Rupiah(delivery.price)}</p>
+											<p>{ toRupiah(delivery.price) }</p>
 											<p>{delivery.address}</p>
 										</div>
 										<div className="flex items-center gap-2">

@@ -1,5 +1,10 @@
-import {z} from "zod"
-import {TOrderProductCount, TOrderProductCreateTransaction, TOrderProductUpdate} from "@/entity/transaction.model"
+import { z } from "zod"
+import {
+	TOrderProductCount,
+	TOrderProductCreate,
+	TOrderProductCreateTransaction,
+	TOrderProductUpdate
+} from "@/entity/transaction.model"
 
 export const OrderProductTransaction: z.ZodType<TOrderProductCreateTransaction[]> = z.array(
 	z.object({
@@ -14,9 +19,11 @@ export const OrderProductUpdate: z.ZodType<TOrderProductUpdate> = z.object({
 	id_product: z.string().min(1).max(100),
 	qty: z.number().min(1).max(100),
 })
-export const OrderProductCreate: z.ZodType<TOrderProductCreateTransaction> = z.object({
+export const OrderProductCreate: z.ZodType<TOrderProductCreate> = z.object({
 	id_product: z.string().min(1).max(100),
 	id_user: z.string().min(1).max(100),
+	qty: z.number().positive(),
+
 })
 
 export const OrderProductCount: z.ZodType<TOrderProductCount> = z.object({

@@ -11,6 +11,7 @@ import {
 } from "@/network/trolley";
 import { TOrderProductDB, TOrderProductList } from "@/entity/transaction.model";
 import { ResponseAll } from "@/interface/server/param";
+import toast from "react-hot-toast";
 
 export const TROLLEY_KEY = 'trolley'
 export type TrolleyParams = { idUser: Users['id'] };
@@ -29,7 +30,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 		})
 	}
 
-	const getId = async ({idTrolley}: IdTrolley) => {
+	const getId = ({ idTrolley }: IdTrolley) => {
 		return useQuery({
 			queryKey: [TROLLEY_KEY],
 			queryFn: () => trolleyId(idTrolley)
@@ -38,44 +39,61 @@ export const useTrolley = (queryClient: QueryClient) => {
 
 	const push = useMutation({
 			mutationFn: pushTrolley,
-		onSuccess: () => {
-
-				queryClient.refetchQueries({queryKey: [TROLLEY_KEY]})
+		onError: (error, variables, context) => {
+			toast.error(error.message)
+		},
+		onSuccess: (data, variables, context) => {
+			// console.log(data.data)
+			toast.success('Success Push Data ', { position: 'top-right' })
+			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEY ] })
 			// queryClient.refetchQueries({queryKey: [TROLLEY_KEY,]})
-			}
+		}
 	})
 
 	const remove = useMutation({
 			mutationFn: removeTrolley,
-		onSuccess: () => {
+		onError: (error, variables, context) => {
+			console.log(error.message);
+			console.log(variables.idTrolley);
+			toast.error(`Error on : increment id ${ variables.idTrolley }`);
+		},
+		onSuccess: (data, variables,) => {
+			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
 			// console.log(data)
 			// console.log(variables)
 			// console.log(context)
-				queryClient.refetchQueries({queryKey: [TROLLEY_KEY]})
+			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEY ] })
 			// queryClient.refetchQueries({queryKey: [TROLLEY_KEY]})
 			}
 	})
 
 	const increment = useMutation({
 		mutationFn: trolleyIncrement,
-		onError: () => {},
-		onSuccess: () => {
-			queryClient.refetchQueries({ queryKey: [TROLLEY_KEY] });
+
+		onError: (error, variables, context) => {
+			console.log(error.message);
+			console.log(variables.idTrolley);
+			toast.error(`Error on : increment id ${ variables.idTrolley }`);
+		},
+		onSuccess: (data, variables, context) => {
+			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEY ] });
 			// queryClient.invalidateQueries({ queryKey: [TROLLEY_KEY, variables.idTrolley] });
 		},
 	})
 
 	const decrement = useMutation({
 		mutationFn: trolleyDecrement,
-		onError: () => {
+		onError: (error, variables, context) => {
+			console.log(error.message);
+			console.log(variables.idTrolley);
+			toast.error(`Error on : increment id ${ variables.idTrolley }`);
 		},
-
-		onSuccess: (data) => {
+		onSuccess: (data, variables) => {
+			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
 			console.info('Success:', data);
-			queryClient.refetchQueries({
+			queryClient.invalidateQueries({
 				queryKey: [TROLLEY_KEY],
-
-
 			});
 			// queryClient.invalidateQueries({
 			// 	queryKey: [TROLLEY_KEY, idTrolley]
@@ -93,9 +111,10 @@ export const useTrolley = (queryClient: QueryClient) => {
 				}
 			}
 		} else {
-			queryClient.invalidateQueries({ queryKey: [TROLLEY_KEY] })
+			queryClient.invalidateQueries({ queryKey: [ TROLLEY_KEY ] })
 		}
 		return 0
 	}
-	return {count: count(), increment, decrement, push, getAll, getId, remove}
+
+	return { count: count(), increment, decrement, push, getAll, getId, remove }
 }

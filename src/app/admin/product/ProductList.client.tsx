@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import {Pen, Plus, Trash} from 'lucide-react'
-import {Rupiah} from '@/utils/rupiah'
+import { Pen, Plus, Trash } from 'lucide-react'
+import { toRupiah } from '@/utils/toRupiah'
 import Link from 'next/link'
-import {TProductDB} from "@/entity/product.model";
-import {productDelete} from "@/network/product";
+import { TProductDB } from "@/entity/product.model";
+import { productDelete } from "@/network/product";
 import toast from "react-hot-toast";
-import {useRouter} from "next/navigation";
-import {ErrorData} from "@/app/components/ErrorData";
+import { useRouter } from "next/navigation";
+import { ErrorData } from "@/app/components/ErrorData";
 
 export default function ProductList({products}: { products: TProductDB[] }) {
 	const router = useRouter()
@@ -62,7 +62,7 @@ export default function ProductList({products}: { products: TProductDB[] }) {
 									</div>
 									<div className="flex justify-between items-end">
 										<div className="">
-											<p>{Rupiah(product.price)}</p>
+											<p>{ toRupiah(product.price) }</p>
 											<p>{product.type}</p>
 										</div>
 										<div className="flex items-center gap-2">
