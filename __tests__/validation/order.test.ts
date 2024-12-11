@@ -1,7 +1,13 @@
 import { describe, expect, test } from "vitest";
-import {OrderCreate} from "../../src/validation/order.valid";
-import {OrderProductTransaction} from "../../src/validation/orderProduct.valid";
-import {ReceiverCreate} from "../../src/validation/receiver.valid";
+import { OrderCreate } from "../../src/validation/order.valid";
+import { OrderProductTransaction } from "../../src/validation/orderProduct.valid";
+import { ReceiverCreate } from "../../src/validation/receiver.valid";
+
+export const orderReceiver = {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+}
 
 describe('test Order all', () => {
 	
@@ -36,11 +42,7 @@ describe('test Order all', () => {
 	})
 	
 	test("Receiver test ", () => {
-		const orderReceiver = {
-			"name": "Alice Johnson",
-			"address": "456 Elm Street, Springfield, USA",
-			"phone": "+19876543210"
-		}
+
 		const test = ReceiverCreate.parse(orderReceiver)
 		expect(test).toEqual(orderReceiver)
 	})

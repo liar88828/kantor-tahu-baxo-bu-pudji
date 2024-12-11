@@ -4,32 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="save state on trolley">
-      <change afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/[id]/AddTrolley.client.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182007.400.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182124.500.json" beforeDir="false" />
+    <list default="true" id="c2433003-e1b0-4802-ae19-ca3cddbad5fe" name="Changes" comment="save add toast">
+      <change afterPath="$PROJECT_DIR$/src/app/api/trolley/count/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/order.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/useCheckout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182214.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182233.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182305.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182316.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-12-07T182329.500.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/api/delivery.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/api/delivery.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/http/trolley.http" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/http/trolley.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/validation/order.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/validation/order.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/product/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/[id]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(market)/product/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/checkout/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/checkout/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(user)/(transaction)/trolley/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/delivery/DeliveryList.client.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/delivery/DeliveryList.client.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/delivery/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/delivery/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/payment/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/payment/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/product/ProductList.client.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/product/ProductList.client.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/admin/product/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/product/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/trolley/[id]/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/trolley/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/trolley/counter/[id]/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/trolley/counter/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/trolley/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/trolley/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/provider/ReactQueryProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/provider/ReactQueryProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/transaction.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/transaction.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/network/trolley.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/trolley.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/controller/trolley.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/controller/trolley.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/repository/trolley.repo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/repository/trolley.repo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/trolley.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/trolley.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/useTrolley.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useTrolley.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/formatDate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/formatDate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/rupiah.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/toRupiah.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/orderProduct.valid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/orderProduct.valid.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +113,8 @@
     "HTTP Request.trolley | get data Produk by id.executor": "Run",
     "HTTP Request.trolley | get data Produk.executor": "Run",
     "HTTP Request.trolley | get data trolley by id.executor": "Run",
+    "HTTP Request.trolley | get data trolley#1.executor": "Run",
+    "HTTP Request.trolley | get data trolley#2.executor": "Run",
     "HTTP Request.trolley | get data trolley.executor": "Run",
     "HTTP Request.trolley | increment data trolley.executor": "Run",
     "HTTP Request.trolley | update data trolley.executor": "Run",
@@ -124,7 +131,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.build.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.editor",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Shell Script",
     "ts.external.directory.path": "E:\\CODE\\TA\\kantor-tahu-baxo-bu-pudji\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
@@ -143,21 +150,20 @@
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api\trolley\[id]" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\store" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api\trolley\counter\[id]" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\api" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\components" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\admin\payment\update\[id]" />
     </key>
     <key name="es6.move.members.recent.items">
+      <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\(user)\(transaction)\checkout\useCheckout.tsx" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\server\controller\index.ts" />
       <recent name="E:\CODE\TA\kantor-tahu-baxo-bu-pudji\src\app\(user)\(transaction)\trolley\errorLoad.tsx" />
     </key>
   </component>
-  <component name="RunManager" selected="HTTP Request.product | get data Produk#1 (1)">
+  <component name="RunManager" selected="HTTP Request.trolley | get data trolley#1">
     <configuration name="delivery | get data Travel#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/delivery.http" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="product | get data Produk" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/product.http" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="product | get data Produk#1 (1)" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/product.http" executionIdentifier="get data Produk#1" runType="Run single request">
@@ -166,16 +172,19 @@
     <configuration name="product | get data Produk#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/product.http" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="trolley | update data trolley" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" index="4" runType="Run single request">
+    <configuration name="trolley | get data trolley#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" executionIdentifier="get data trolley#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="trolley | get data trolley#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/__tests__/http/trolley.http" executionIdentifier="get data trolley#2" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.trolley | get data trolley#1" />
+        <item itemvalue="HTTP Request.trolley | get data trolley#2" />
         <item itemvalue="HTTP Request.product | get data Produk#1 (1)" />
         <item itemvalue="HTTP Request.delivery | get data Travel#1" />
         <item itemvalue="HTTP Request.product | get data Produk#1" />
-        <item itemvalue="HTTP Request.product | get data Produk" />
-        <item itemvalue="HTTP Request.trolley | update data trolley" />
       </list>
     </recent_temporary>
   </component>
@@ -208,7 +217,8 @@
       <workItem from="1733656597882" duration="120000" />
       <workItem from="1733657092864" duration="3515000" />
       <workItem from="1733726643797" duration="7978000" />
-      <workItem from="1733828607858" duration="8578000" />
+      <workItem from="1733828607858" duration="8621000" />
+      <workItem from="1733898718143" duration="16302000" />
     </task>
     <task id="LOCAL-00001" summary="save admin and user">
       <option name="closed" value="true" />
@@ -282,7 +292,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733734638849</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="save add toast">
+      <option name="closed" value="true" />
+      <created>1733841144767</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733841144767</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,7 +327,8 @@
     <MESSAGE value="client add infinity scroll on product -v2" />
     <MESSAGE value="save" />
     <MESSAGE value="save state on trolley" />
-    <option name="LAST_COMMIT_MESSAGE" value="save state on trolley" />
+    <MESSAGE value="save add toast" />
+    <option name="LAST_COMMIT_MESSAGE" value="save add toast" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

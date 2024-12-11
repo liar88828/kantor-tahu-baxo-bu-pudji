@@ -35,3 +35,6 @@ export const trolleyDecrement = (data:Counter) => {
 	return useFetch('DELETE', `trolley/counter/${data.idTrolley}`)
 }
 
+export const trolleyCount = () => {
+	return useFetch<number>('GET', `trolley/count`,)
+}

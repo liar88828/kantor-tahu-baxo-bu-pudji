@@ -2,10 +2,11 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TProductDB } from "@/entity/product.model"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
-import { getId, getJson, getParams, getParamsThrow } from "@/lib/requestHelper"
+import { getId, getJson } from "@/lib/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import TrolleyRepository from "@/server/repository/trolley.repo";
-import { OrderProductCount, OrderProductCreate, OrderProductUpdate } from "@/validation/orderProduct.valid";
+import { OrderProductCreate, OrderProductUpdate } from "@/validation/orderProduct.valid";
+import { userId } from "@/network/trolley";
 
 export default class TrolleyController
 	implements InterfaceController<TProductDB> {
@@ -46,6 +47,10 @@ export default class TrolleyController
 	async decrement(request: NextRequest, context: TContext) {
 		const id = await getId(context)
 		return this.productRepository.decrement(  id)
+	}
+
+	async count(request: NextRequest, context: TContext) {
+		return this.productRepository.count(userId)
 	}
 
 }

@@ -1,3 +1,51 @@
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-11T160217.200.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-11T143719.200.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-11T135726.200.json
+
+###
+
+GET http://localhost:3000/api/trolley/count
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2024-12-11T135718.200.json
+
+###
+
+GET http://localhost:3000/api/trolley/count
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2024-12-11T135107.200.json
+
+###
+
 GET http://localhost:3000/api/product/?page=1
 User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -756,151 +804,6 @@ cookie:
 }
 
 <> 2024-12-07T182344.200.json
-
-###
-
-POST http://localhost:3000/api/product/
-Content-Type: application/json
-Content-Length: 145
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "desc": "Pedas",
-  "img": "tidak ada ",
-  "location": "Semarang",
-  "name": "tahu baxo"
-  "price": 20000,
-  "qty": 86,
-  "type": "orderan",
-}
-
-<> 2024-12-07T182329.500.json
-
-###
-
-POST http://localhost:3000/api/order/
-Content-Type: application/json
-Content-Length: 807
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "order": {
-    "address": "123 Main St, Springfield, USA",
-    "desc": "Order of electronics including headphones and chargers.",
-    "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
-    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
-    "nameCs": "John Doe",
-    "nameDelivery": "Express Logistics",
-    "orderTime":  1733570596,
-    "phoneDelivery": "+1234567890",
-    "priceDelivery": 4999,
-    "sendTime": 1733570596,
-    "status": "Pending",
-    "totalAll": 15498,
-    "totalPayment": 10499
-  },
-  "orderProduct": [
-  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" ,"qty": 1},
-  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" ,"qty": 1}
-  ],
-  "orderReceiver": {
-	"name": "Alice Johnson",
-	"address": "456 Elm Street, Springfield, USA",
-	"phone": "+19876543210"
-  }
-}
-
-<> 2024-12-07T182316.500.json
-
-###
-
-POST http://localhost:3000/api/payment/
-Content-Type: application/json
-Content-Length: 207
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "accounting": "asdasdas",
-  "address": "Semrang",
-  "desc": "orak jelas",
-  "img": "https://logowik.com/content/uploads/images/cash2548.jpg",
-  "name": "mandiri",
-  "phone": "test1",
-  "type": "Kredit"
-}
-
-<> 2024-12-07T182305.200.json
-
-###
-
-POST http://localhost:3000/api/delivery/
-Content-Type: application/json
-Content-Length: 185
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "id": "kosong_kosong_kosong_kosong_travel",
-  "name": "kosong",
-  "phone": "kosong",
-  "address": "kosong",
-  "type": "kosong",
-  "price": 0,
-  "img": "kosong",
-  "desc": "kosong"
-}
-
-<> 2024-12-07T182233.200.json
-
-###
-
-POST http://localhost:3000/api/order/
-Content-Type: application/json
-Content-Length: 807
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "order": {
-    "nameCs": "John Doe",
-    "sendTime": 1733570534,
-    "orderTime":  1733570534,
-    "desc": "Order of electronics including headphones and chargers.",
-    "address": "123 Main St, Springfield, USA",
-    "id_delivery": "a6ba1f1c-118b-433d-a7e6-5b4f2fccb70e",
-    "nameDelivery": "Express Logistics",
-    "phoneDelivery": "+1234567890",
-    "priceDelivery": 4999,
-    "id_payment": "bf4bd8ac-2676-40f2-a726-87ad5a92df9d",
-    "totalPayment": 10499,
-    "totalAll": 15498,
-    "status": "Pending"
-  },
-  "orderProduct": [
-  	{ "id_product": "039d03a1-87b7-465f-b569-d0c01edb1f44" ,"qty": 1},
-  	{ "id_product": "a817ba4c-0743-4f27-a1e1-a1d1b69b9863" ,"qty": 1}
-  ],
-  "orderReceiver": {
-	"name": "Alice Johnson",
-	"address": "456 Elm Street, Springfield, USA",
-	"phone": "+19876543210"
-  }
-}
-
-<> 2024-12-07T182214.500.json
 
 ###
 

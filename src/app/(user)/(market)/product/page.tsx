@@ -68,11 +68,6 @@ export default function Page() {
 		};
 	}, [hasNextPage, fetchNextPage]);
 
-	// if (status === 'pending') {
-	// 	return <p><LoadingSpin/></p>;
-	// } else if (status === 'error' || error) {
-	// 	return <p><EmptyData page={ 'Product User' }/></p>;
-	// }
 
 	return (
 		<div className="px-4 space-y-5">

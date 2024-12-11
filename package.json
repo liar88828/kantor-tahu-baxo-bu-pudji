@@ -19,6 +19,7 @@
     "@prisma/client": "^5.22.0",
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-query": "^5.62.3",
+    "@tanstack/react-query-devtools": "^5.62.7",
     "@tanstack/react-table": "8.9.3",
     "@tanstack/table-core": "^8.20.5",
     "@types/formidable": "^3.4.5",

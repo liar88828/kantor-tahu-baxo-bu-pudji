@@ -5,13 +5,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTrolley } from "@/store/useTrolley";
 import { useQueryClient } from "@tanstack/react-query";
-import { userId } from "@/network/trolley";
 
 export default function Layout({children}: { children: ReactNode}) {
+	const queryClient = useQueryClient();
 	const path = usePathname()
 	const router = useRouter()
-	const {count:countTrolley,getAll} = useTrolley(useQueryClient())
-	getAll({idUser:userId})
+	const { count: countTrolley } = useTrolley(queryClient)
+	// queryClient.getQueryDefaults([TROLLEY_KEY,'COUNT'])
+
 	return (<>
 			<div className="navbar bg-base-300 fixed z-50">
 				<div className="flex-1">

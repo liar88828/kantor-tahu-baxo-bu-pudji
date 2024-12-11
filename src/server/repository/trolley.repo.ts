@@ -119,5 +119,10 @@ export default class TrolleyRepository
 		})
 	}
 
+	async count(id_user: string): Promise<any> {
+		return prisma.orderProduct.count({
+			where: { id_user: id_user },
+		})
+	}
 
 }

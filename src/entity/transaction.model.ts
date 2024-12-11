@@ -8,7 +8,7 @@ export type TOrderProductList = (TOrderProductDB & { Product: TProductDB })
 
 export type TOrderProductCreateTransaction = Omit<
 	OrderProduct,
-	"id" | "id_order" | 'qty'
+	"id" | "id_order"
 >
 
 export type TOrderProductCreate = Omit<
@@ -16,6 +16,7 @@ export type TOrderProductCreate = Omit<
 	"id" | "id_order"
 >
 
+export type TrolleyId = Pick<OrderProduct, "id">
 
 export type TOrderProductUpdate = Omit<
 	OrderProduct,

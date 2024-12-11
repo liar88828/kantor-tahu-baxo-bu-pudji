@@ -3,6 +3,9 @@
 ### get data trolley
 GET {{api}}
 
+### get data trolley
+GET {{api}}/count
+
 ### get data trolley by id
 GET {{api}}/5087c549-9ee9-4d3c-ab65-480ed8645556
 
