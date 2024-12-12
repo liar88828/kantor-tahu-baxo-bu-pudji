@@ -7,14 +7,15 @@ import { ErrorData } from "@/app/components/ErrorData";
 import { LoadingDataList } from "@/app/components/LoadingData";
 import { useQueryClient } from "@tanstack/react-query";
 import { userId } from "@/network/trolley";
-import { TOrderProductList } from "@/entity/transaction.model";
 import useTrolleyStore from "@/store/trolley";
+import { TTrolleyProduct } from "@/entity/trolley.model";
 
 export default function Page() {
 	const queryClient = useQueryClient()
 	const { getAll, increment, decrement, remove, } = useTrolley(queryClient)
 	const { data: stateTrolley, error, isFetching } = getAll({ idUser: userId })
 	const { setSelected, onSelected } = useTrolleyStore()
+
 	function onIncrement(idTrolley: string) {
 		increment.mutate({ idTrolley });
 	}
@@ -31,12 +32,11 @@ export default function Page() {
 		return onSelected.some((trolley) => trolley.id === id);
 	};
 
-	function onSelect(dataProduct: TOrderProductList) {
+	function onSelect(dataProduct: TTrolleyProduct) {
 		setSelected(dataProduct)
 	}
 	return (
 		<div className='p-3'>
-
 			<div className="space-y-2">
 				{ (isFetching)
 					? <LoadingDataList/>
@@ -73,7 +73,7 @@ export default function Page() {
 										className="btn btn-square btn-sm">
 										<Plus/>
 									</button>
-									<h2>{ trolley.qty }</h2>
+									<h2>{ trolley.qty_at_buy }</h2>
 									<button onClick={ () => onDecrement(trolley.id) }
 											className="btn btn-square  btn-sm">
 										<Minus/>

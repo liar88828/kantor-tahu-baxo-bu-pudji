@@ -31,14 +31,14 @@ model Orders {
 
   // at update / create
   status       String
-  OrderProduct OrderProduct[]
-  Receiver     Receiver       @relation(fields: [id_receiver], references: [id])
+  Trolleys  Trolleys[]
+  Receivers Receivers  @relation(fields: [id_receiver], references: [id])
   id_receiver  String
   created_at   DateTime       @default(now())
   updated_at   DateTime       @updatedAt
 }
 
-model Receiver {
+model Receivers {
   id      String   @id @default(uuid())
   name    String
   address String
@@ -46,14 +46,14 @@ model Receiver {
   Orders  Orders[]
 }
 
-model OrderProduct {
+model Trolleys {
   id         String   @id @default(uuid())
   Order      Orders?   @relation(fields: [id_order], references: [id])
   id_order   String?
   Product    Products @relation(fields: [id_product], references: [id])
   id_product String
-  qty        Int
-
+  qty_at_buy   Int
+  price_at_buy Int
   Users   Users?  @relation(fields: [id_user], references: [id])
   id_user String?
 }
@@ -70,7 +70,7 @@ model Products {
   // at update / create
   created_at   DateTime       @default(now())
   updated_at   DateTime       @updatedAt
-  OrderProduct OrderProduct[]
+  Trolleys Trolleys[]
 }
 
 model Deliverys {
@@ -106,5 +106,5 @@ model Users {
   name         String
   phone        String
   address      String
-  OrderProduct OrderProduct[]
+  Trolleys Trolleys[]
 }

@@ -1,5 +1,4 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
-import { TDeliveryDB } from "@/entity/delivery.model"
 import { NextRequest } from "next/server"
 import { TContext } from "@/interface/server/param"
 import DeliveryRepository from "@/server/repository/delivery.repo"
@@ -8,9 +7,10 @@ import { UUIDSchema } from "@/validation/id.valid"
 import { DeliveryCreate } from "@/validation/delivery.valid"
 
 export default class DeliveryController
-  implements InterfaceController<TDeliveryDB>
-{
-  constructor(private deliveryRepository: DeliveryRepository) {}
+	implements InterfaceController {
+	constructor(private deliveryRepository: DeliveryRepository) {
+
+	}
 
   async findAll(request: NextRequest, __: TContext): Promise<any> {
     return this.deliveryRepository.findAll({

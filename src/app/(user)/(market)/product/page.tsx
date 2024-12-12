@@ -40,7 +40,7 @@ export default function Page() {
 	const addTrolley = (data: TProductDB) => {
 		const idToast = toast.loading('Loading...')
 		try {
-			push.mutate({ id: data.id, qty: 1 })
+			push.mutate({ id: data.id, qty: 1, price: data.price })
 		} catch (error) {
 			console.log(error);
 		} finally {

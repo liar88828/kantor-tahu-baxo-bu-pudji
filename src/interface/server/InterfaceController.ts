@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { TContext } from "@/interface/server/param";
 
-export interface InterfaceController<T> {
+export interface InterfaceController {
 	
 	findAll(request: NextRequest, context: TContext): Promise<any>;
 	

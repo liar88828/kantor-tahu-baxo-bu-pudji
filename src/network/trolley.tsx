@@ -1,24 +1,25 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useFetch } from "@/hook/useFetch"
 import { Counter, IdTrolley, TrolleyParams } from "@/store/useTrolley";
-import { TOrderProductCreate, TOrderProductDB, TOrderProductList } from "@/entity/transaction.model";
 import { ResponseAll } from "@/interface/server/param";
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProduct } from "@/entity/trolley.model";
 
 export const userId = '1da116c8-2d8a-4f9b-ae93-37cbad1bd832'
 
 export const trolleyAll = ({idUser}: TrolleyParams) => {
-	return useFetch<ResponseAll<TOrderProductList>>('GET', 'trolley',)
+	return useFetch<ResponseAll<TTrolleyProduct>>('GET', 'trolley',)
 }
 
-export const trolleyId = (id: TOrderProductDB['id']) => {
+export const trolleyId = (id: TTrolleyDB['id']) => {
 	return useFetch('GET', `trolley/${id}`,)
 }
 
-export const pushTrolley = ({ id, qty = 1 }: { id: TOrderProductDB['id'], qty: number }) => {
-	const data: TOrderProductCreate = {
+export const pushTrolley = ({ id, qty = 1, price }: { id: TTrolleyDB['id'], qty: number, price: number }) => {
+	const data: TTrolleyCreate = {
 		id_user: userId,
 		id_product: id,
-		qty
+		qty_at_buy: qty,
+		price_at_buy: price,
 	}
 	return useFetch('POST', `trolley`,data)
 }

@@ -40,7 +40,8 @@ export default function AddTrolleyClient({ product }: { product: TProductDB }) {
 		try {
 			push.mutate({
 					id: product.id,
-					qty: counter
+				qty: counter,
+				price: product.price,
 				}
 			)
 		} catch (e) {

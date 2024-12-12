@@ -1,3 +1,4 @@
+
 export function formatPhone( phoneNumber: string | number | undefined ): string {
 
   if( phoneNumber !== undefined ) {

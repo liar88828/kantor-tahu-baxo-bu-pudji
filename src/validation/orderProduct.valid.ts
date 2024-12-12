@@ -1,32 +1,31 @@
 import { z } from "zod"
-import {
-	TOrderProductCount,
-	TOrderProductCreate,
-	TOrderProductCreateTransaction,
-	TOrderProductUpdate
-} from "@/entity/transaction.model"
+import { TOrderTrolleyTransaction, TTrolleyCount, TTrolleyCreate, TTrolleyUpdate } from "@/entity/trolley.model";
 
-export const OrderProductTransaction: z.ZodType<TOrderProductCreateTransaction[]> = z.array(
+export const OrderProductTransaction: z.ZodType<TOrderTrolleyTransaction[]> = z.array(
 	z.object({
 		// id_order: z.string().min(1).max(100).max(100),
 		id_product: z.string().min(1).max(100),
 		id_user: z.string().min(1).max(100),
-
+		qty_at_buy: z.number(),
+		price_at_buy: z.number(),
 	})
 )
 
-export const OrderProductUpdate: z.ZodType<TOrderProductUpdate> = z.object({
+export const OrderProductUpdate: z.ZodType<TTrolleyUpdate> = z.object({
 	id_product: z.string().min(1).max(100),
-	qty: z.number().min(1).max(100),
+	qty_at_buy: z.number().positive(),
+	price_at_buy: z.number().positive(),
 })
-export const OrderProductCreate: z.ZodType<TOrderProductCreate> = z.object({
+export const OrderProductCreate: z.ZodType<TTrolleyCreate> = z.object({
 	id_product: z.string().min(1).max(100),
 	id_user: z.string().min(1).max(100),
-	qty: z.number().positive(),
+	qty_at_buy: z.number(),
+	price_at_buy: z.number(),
+
 
 })
 
-export const OrderProductCount: z.ZodType<TOrderProductCount> = z.object({
+export const OrderProductCount: z.ZodType<TTrolleyCount> = z.object({
 		id_product: z.string().min(1).max(100),
 	})
 

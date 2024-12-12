@@ -1,16 +1,14 @@
-import { TOrderProductList } from "@/entity/transaction.model";
 import { useState } from "react";
+import { TTrolleyProduct } from "@/entity/trolley.model";
 
-export const useCheckout = (data: TOrderProductList[] | undefined) => {
-
-	// eslint-disable-next-line react-hooks/rules-of-hooks
+export const useCheckout = (data: TTrolleyProduct[] | undefined) => {
 	const [ newData, setNewData ] = useState(data);
 
 	const onIncrement = (idTrolley: string) => {
 		setNewData((prev) =>
 			prev?.map((item) =>
 				item.id === idTrolley
-					? { ...item, qty: item.qty + 1 }
+					? { ...item, qty_at_buy: item.qty_at_buy + 1 }
 					: item
 			)
 		);
@@ -19,8 +17,8 @@ export const useCheckout = (data: TOrderProductList[] | undefined) => {
 	const onDecrement = (idTrolley: string) => {
 		setNewData((prev) =>
 			prev?.map((item) =>
-				item.id === idTrolley && item.qty > 1
-					? { ...item, qty: item.qty - 1 }
+				item.id === idTrolley && item.qty_at_buy > 1
+					? { ...item, qty_at_buy: item.qty_at_buy - 1 }
 					: item
 			)
 		);

@@ -1,16 +1,16 @@
-import {InterfaceController} from "@/interface/server/InterfaceController"
-import {TOrderDB} from "@/entity/order.model"
-import {TContext} from "@/interface/server/param"
-import {NextRequest} from "next/server"
+import { InterfaceController } from "@/interface/server/InterfaceController"
+import { TContext } from "@/interface/server/param"
+import { NextRequest } from "next/server"
 import OrderRepository from "@/server/repository/orderan.repo"
-import {getId, getJson, getParamsThrow} from "@/lib/requestHelper"
-import {TOrderTransactionCreate, TOrderTransactionUpdate,} from "@/entity/transaction.model"
-import {OrderProductTransaction} from "@/validation/orderProduct.valid"
-import {ReceiverCreate} from "@/validation/receiver.valid"
-import {UUIDSchema} from "@/validation/id.valid"
-import {OrderCreate} from "@/validation/order.valid"
+import { getId, getJson, getParamsThrow } from "@/lib/requestHelper"
+import { TOrderTransactionCreate, TOrderTransactionUpdate, } from "@/entity/transaction.model"
+import { OrderProductTransaction } from "@/validation/orderProduct.valid"
+import { ReceiverCreate } from "@/validation/receiver.valid"
+import { UUIDSchema } from "@/validation/id.valid"
+import { OrderCreate } from "@/validation/order.valid"
 
-export default class OrderController implements InterfaceController<TOrderDB> {
+export default class OrderController
+	implements InterfaceController {
 	constructor(private orderRepository: OrderRepository) {
 	}
 
@@ -34,7 +34,7 @@ export default class OrderController implements InterfaceController<TOrderDB> {
 		// console.log('test --')
 		const data: TOrderTransactionCreate = {
 			order: OrderCreate.parse(json.order),
-			orderProduct: OrderProductTransaction.parse(json.orderProduct),
+			orderTrolley: OrderProductTransaction.parse(json.orderProduct),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
 		}
 		// console.log('is valid')
@@ -46,7 +46,7 @@ export default class OrderController implements InterfaceController<TOrderDB> {
 		const id = await getId(context)
 		const data: TOrderTransactionUpdate = {
 			order: json.order ? OrderCreate.parse(json.order) : undefined,
-			orderProduct: json.orderProduct
+			orderOrder: json.orderProduct
 				? OrderProductTransaction.parse(json.orderProduct)
 				: undefined,
 			orderReceiver: json.orderReceiver

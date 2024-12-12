@@ -23,6 +23,7 @@ export enum TROLLEY_KEYS {
 	order = 'order'
 
 }
+
 export type TrolleyParams = { idUser: Users['id'] };
 export type IdTrolley = { idTrolley: TTrolleyDB['id'] };
 
@@ -32,11 +33,11 @@ export type Counter = {
 
 export const useTrolley = (queryClient: QueryClient) => {
 
-	const getAll = ({idUser}: TrolleyParams) => {
+	const getAll = ({ idUser }: TrolleyParams) => {
 		return useQuery({
 			queryKey: [ TROLLEY_KEYS.trolley ],
-			queryFn: () => trolleyAll({idUser}),
-			select:(context)=>context.data
+			queryFn: () => trolleyAll({ idUser }),
+			select: (context) => context.data
 		})
 	}
 
@@ -48,7 +49,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 	}
 
 	const push = useMutation({
-			mutationFn: pushTrolley,
+		mutationFn: pushTrolley,
 		onError: (error, variables, context) => {
 			toast.error(error.message)
 		},
@@ -61,7 +62,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 
 	const remove = useMutation({
 
-			mutationFn: removeTrolley,
+		mutationFn: removeTrolley,
 		onError: (error, variables, context) => {
 			console.log(error.message);
 			console.log(variables.idTrolley);
@@ -71,7 +72,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
 			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
 			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
-			}
+		}
 	})
 
 	const increment = useMutation({

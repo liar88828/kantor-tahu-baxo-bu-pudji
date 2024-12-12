@@ -1,7 +1,7 @@
 import { z } from "zod"
-import { Receiver } from "@prisma/client"
+import { Receivers } from "@prisma/client"
 
-type TReceiverCreate = Omit<Receiver, "id">
+type TReceiverCreate = Omit<Receivers, "id">
 export const ReceiverCreate: z.ZodType<TReceiverCreate> = z.object({
   name: z.string(),
   address: z.string(),

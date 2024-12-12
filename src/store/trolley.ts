@@ -1,18 +1,19 @@
 import { create } from 'zustand'
-import { TOrderProductList } from "@/entity/transaction.model";
+
+import { TTrolleyProduct } from "@/entity/trolley.model";
 
 type TrolleyTypeStore = {
-	onSelected: TOrderProductList[];
-	setSelected: (state: TOrderProductList) => void;
+	onSelected: TTrolleyProduct[];
+	setSelected: (state: TTrolleyProduct) => void;
 	onIncrement: (idTrolley: string) => void;
 	onDecrement: (idTrolley: string) => void;
 	onRemove: (idTrolley: string) => void;
-	setData: (state: TOrderProductList[]) => void;
+	setData: (state: TTrolleyProduct[]) => void;
 };
 
 const useTrolleyStore = create<TrolleyTypeStore>((set) => ({
 	onSelected: [],
-	setSelected: (dataProduct: TOrderProductList) => set((state) => {
+	setSelected: (dataProduct: TTrolleyProduct) => set((state) => {
 		const isIncluded = state.onSelected.some((trolley) => trolley.id === dataProduct.id);
 		const datas = isIncluded
 			? state.onSelected.filter((trolley) => trolley.id !== dataProduct.id)
@@ -24,15 +25,15 @@ const useTrolleyStore = create<TrolleyTypeStore>((set) => ({
 		set((state) => ({
 			onSelected: state.onSelected.map((item) =>
 				item.id === idTrolley
-					? { ...item, qty: item.qty + 1 }
+					? { ...item, qty_at_buy: item.qty_at_buy + 1 }
 					: item
 			),
 		})),
 	onDecrement: (idTrolley) =>
 		set((state) => ({
 			onSelected: state.onSelected.map((item) =>
-				item.id === idTrolley && item.qty > 1
-					? { ...item, qty: item.qty - 1 }
+				item.id === idTrolley && item.qty_at_buy > 1
+					? { ...item, qty_at_buy: item.qty_at_buy - 1 }
 					: item
 			),
 		})),
@@ -40,13 +41,13 @@ const useTrolleyStore = create<TrolleyTypeStore>((set) => ({
 		set((state) => ({
 			onSelected: state.onSelected.filter((item) => item.id !== idTrolley),
 		})),
-	setData: (data: TOrderProductList[]) => set((state) => ({
+	setData: (data: TTrolleyProduct[]) => set((state) => ({
 		onSelected: data,
 	})),
 }));
 
 // Hook for initializing data
-export const initializeCheckoutData = (initialData: TOrderProductList[]) => {
+export const initializeCheckoutData = (initialData: TTrolleyProduct[]) => {
 	const { onSelected, onIncrement, onDecrement, onRemove } = useTrolleyStore.getState();
 	useTrolleyStore.setState({ onSelected: initialData });
 };

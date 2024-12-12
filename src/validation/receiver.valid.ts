@@ -1,8 +1,6 @@
-import {z} from "zod"
-import {Receiver} from "@prisma/client"
+import { z } from "zod"
+import { TReceiverCreate } from "@/entity/receiver.model";
 
-export type TReceiverDB = Receiver
-export type TReceiverCreate = Omit<Receiver, "id">
 export const ReceiverCreate: z.ZodType<TReceiverCreate> = z.object({
 	// id: z.string().uuid(),
 	name: z.string({required_error: "name is required"}).min(1).max(100),

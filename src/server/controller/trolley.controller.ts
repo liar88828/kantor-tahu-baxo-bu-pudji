@@ -1,5 +1,4 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
-import { TProductDB } from "@/entity/product.model"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson } from "@/lib/requestHelper"
@@ -9,7 +8,7 @@ import { OrderProductCreate, OrderProductUpdate } from "@/validation/orderProduc
 import { userId } from "@/network/trolley";
 
 export default class TrolleyController
-	implements InterfaceController<TProductDB> {
+	implements InterfaceController {
 	constructor(private productRepository: TrolleyRepository) {
 	}
 

@@ -1,7 +1,8 @@
 import { TOrderCreate } from "@/entity/order.model"
-import { OrderProduct, Receiver } from "@prisma/client"
 import type { TOrder } from "@/entity/client/orderan"
 import { defaultDate, getTime } from "@/utils/formatDate"
+import { TReceiverDB } from "@/entity/receiver.model";
+import { TTrolleyDB } from "@/entity/trolley.model";
 
 export const exampleOrderCreate: TOrderCreate = {
   nameCs: "John Doe",
@@ -23,62 +24,65 @@ export const exampleOrderCreate: TOrderCreate = {
   // id_receiver: "770e8400-e29b-41d4-a716-666655440222", // UUID format
 }
 
-export const exampleOrderProductCreate: OrderProduct[] = [
-  {
-    id_product: "prod-001",
-    qty: 1,
-    id_user: "asdas",
-    id_order: "34234",
-    id: "12341342",
-  },
-  {
-    id_product: "prod-002",
-    qty: 1,
-    id_user: "2345234",
-    id_order: "32452345",
-    id: "2342342",
-  },
-  {
-    id_product: "prod-003",
-    qty: 1,
-    id_user: "23452345",
-    id_order: "234523",
-    id: "dsa245623456sda",
-  },
+export const exampleOrderProductCreate: TTrolleyDB[] = [
+	{
+		id_product: "prod-001",
+		qty_at_buy: 1,
+		price_at_buy: 1,
+		id_user: "asdas",
+		id_order: "34234",
+		id: "12341342",
+	},
+	{
+		qty_at_buy: 1,
+		price_at_buy: 1,
+		id_product: "prod-002",
+		id_user: "2345234",
+		id_order: "32452345",
+		id: "2342342",
+	},
+	{
+		id_product: "prod-003",
+		qty_at_buy: 1,
+		price_at_buy: 1,
+		id_user: "23452345",
+		id_order: "234523",
+		id: "dsa245623456sda",
+	},
 ]
-export const exampleReceiver: Receiver = {
-  id: "123e4567-e89b-12d3-a456-426614174000", // Valid UUID
-  name: "Alice Johnson",
-  address: "456 Elm Street, Springfield, USA",
-  phone: "+19876543210", // Valid phone string
+export const exampleReceiver: TReceiverDB = {
+	id: "123e4567-e89b-12d3-a456-426614174000", // Valid UUID
+	name: "Alice Johnson",
+	address: "456 Elm Street, Springfield, USA",
+	phone: "+19876543210", // Valid phone string
 }
 
 export const defaultValues: TOrder = {
-  //data orang
-  pengirim: "Kantor Tahu Baxo",
-  hpPengirim: "0123456789",
-  penerima: "",
-  alamatPenerima: "",
-  hpPenerima: "",
-  // waktu
-  pesan: defaultDate(),
-  kirim: defaultDate(),
-  waktuKirim: getTime(),
-  // product
-  listOrderan: [],
-  listItem: [],
-  semuaProduct: [],
-  //keterangan
-  // guna  : "Untuk apa ??",
-  lokasi: "Semarang",
-  //travel
-  namaPengiriman: "Kantor Tahu Baxo ",
-  ongkir: 0,
-  //transaksi
-  id: "",
-  typePembayaran: "CASH",
-  totalBayar: 0,
-  totalPenjualan: 0,
-  status: "Di terima",
-  guna: "",
+	//data orang
+	pengirim: "Kantor Tahu Baxo",
+	hpPengirim: "0123456789",
+	penerima: "",
+	alamatPenerima: "",
+	hpPenerima: "",
+	// waktu
+	pesan: defaultDate(),
+	kirim: defaultDate(),
+	waktuKirim: getTime(),
+	// product
+	listOrderan: [],
+	listItem: [],
+	semuaProduct: [],
+	//keterangan
+	// guna  : "Untuk apa ??",
+	lokasi: "Semarang",
+	//travel
+	namaPengiriman: "Kantor Tahu Baxo ",
+	ongkir: 0,
+	//transaksi
+	id: "",
+	typePembayaran: "CASH",
+	totalBayar: 0,
+	totalPenjualan: 0,
+	status: "Di terima",
+	guna: "",
 }

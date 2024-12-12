@@ -1,14 +1,12 @@
 import OrderRepository from "@/server/repository/orderan.repo";
-import {InterfaceController} from "@/interface/server/InterfaceController";
-import {TOrderDB} from "@/entity/order.model";
-import {NextRequest} from "next/server";
-import {TContext} from "@/interface/server/param";
-import {getId, getJson} from "@/lib/requestHelper";
+import { InterfaceController } from "@/interface/server/InterfaceController";
+import { NextRequest } from "next/server";
+import { TContext } from "@/interface/server/param";
+import { getId, getJson } from "@/lib/requestHelper";
 
-export default class TableController implements InterfaceController<TOrderDB> {
-	constructor(
-		private orderRepository: OrderRepository,
-	) {
+export default class TableController
+	implements InterfaceController {
+	constructor(private orderRepository: OrderRepository) {
 	}
 
 	async findAll(request: NextRequest, _: TContext): Promise<any> {

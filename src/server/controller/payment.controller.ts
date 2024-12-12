@@ -1,16 +1,16 @@
-import {InterfaceController} from "@/interface/server/InterfaceController"
-import {TPaymentDB} from "@/entity/payment.model"
-import {NextRequest} from "next/server"
-import {TContext} from "@/interface/server/param"
-import {PaymentRepository} from "@/server/repository/payment.repo"
-import {getId, getJson, getParams} from "@/lib/requestHelper"
-import {UUIDSchema} from "@/validation/id.valid"
-import {PaymentCreate} from "@/validation/payment.valid"
+import { InterfaceController } from "@/interface/server/InterfaceController"
+import { NextRequest } from "next/server"
+import { TContext } from "@/interface/server/param"
+import { PaymentRepository } from "@/server/repository/payment.repo"
+import { getId, getJson, getParams } from "@/lib/requestHelper"
+import { UUIDSchema } from "@/validation/id.valid"
+import { PaymentCreate } from "@/validation/payment.valid"
 
 export default class PaymentController
-  implements InterfaceController<TPaymentDB>
-{
-  constructor(private paymentRepository: PaymentRepository) {}
+	implements InterfaceController {
+	constructor(private paymentRepository: PaymentRepository) {
+
+	}
 
   async findAll(request: NextRequest, __: TContext): Promise<any> {
     return this.paymentRepository.findAll({

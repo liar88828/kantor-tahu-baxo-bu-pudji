@@ -1,7 +1,7 @@
-import {TOrderTransactionCreate, TOrderTransactionUpdate} from "@/entity/transaction.model";
-import {prisma} from "@/lib/prisma";
-import {TStatus} from "@/interface/Dashboard";
-import {TOptional} from "@/interface/types";
+import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/entity/transaction.model";
+import { prisma } from "@/lib/prisma";
+import { TStatus } from "@/interface/Dashboard";
+import { TOptional } from "@/interface/types";
 
 export const exampleSearch = {
 	receiverName: "Alice",
@@ -51,8 +51,8 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 					]
 				},
 				include: {
-					Receiver: true,
-					OrderProduct: {
+					Receivers: true,
+					Trolleys: {
 						include: {
 							Product: true
 						}
@@ -70,7 +70,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 			});
 
 			// Delete related order products
-			const orderProduct = await tx.orderProduct.deleteMany({
+			const orderProduct = await tx.trolleys.deleteMany({
 				where: {id_order: id_order},
 			});
 
@@ -80,7 +80,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 			});
 
 			// Delete the associated receiver
-			const orderReceiver = await tx.receiver.delete({
+			const orderReceiver = await tx.receivers.delete({
 				where: {id: order.id_receiver},
 			});
 
@@ -144,12 +144,12 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	async findAll() {
 		return prisma.orders.findMany({
 			include: {
-				OrderProduct: {
+				Trolleys: {
 					include: {
 						Product: true
 					}
 				},
-				Receiver: true,
+				Receivers: true,
 				Deliverys: true,
 				Payments: true
 			},
@@ -164,12 +164,12 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		return prisma.orders.findUnique({
 			where: {id},
 			include: {
-				OrderProduct: {
+				Trolleys: {
 					include: {
 						Product: true
 					}
 				},
-				Receiver: true,
+				Receivers: true,
 				Deliverys: true,
 				Payments: true
 			},
@@ -179,7 +179,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	// ---------CREATE
 	async createOne(data: TOrderTransactionCreate) {
 		return prisma.$transaction(async (tx) => {
-			const orderReceiver = await tx.receiver.create(
+			const orderReceiver = await tx.receivers.create(
 				{data: data.orderReceiver})
 			const order = await tx.orders.create(
 				{
@@ -189,13 +189,14 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 					},
 				})
 			if (order) {
-				const products = data.orderProduct.map((product) => ({
+				const products = data.orderTrolley.map((product) => ({
 					id_order: order.id,
 					id_product: product.id_product,
-					qty: product.qty
+					qty_at_buy: product.qty_at_buy,
+					price_at_buy: product.price_at_buy
 				}))
 
-				const orderProduct = await tx.orderProduct.createMany(
+				const orderProduct = await tx.trolleys.createMany(
 					{data: products})
 
 				return {
@@ -221,7 +222,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				const order = await tx.orders.findUniqueOrThrow({
 					where: {id: orderId},
 				});
-				updatedReceiver = await tx.receiver.update({
+				updatedReceiver = await tx.receivers.update({
 					where: {id: order.id_receiver},
 					data: data.orderReceiver,
 				});
@@ -229,20 +230,22 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 
 			let updatedProducts = null;
 
-			if (data.orderProduct) {
+			if (data.orderOrder) {
 				// Delete existing products for the order
-				await tx.orderProduct.deleteMany({
+				await tx.trolleys.deleteMany({
 					where: {id_order: orderId},
 				});
 
 				// Insert updated product list
-				const products = data.orderProduct.map((product) => ({
+				const products = data.orderOrder.map((product) => ({
 					id_order: orderId,
 					id_product: product.id_product,
-					qty: product.qty
+					qty_at_buy: product.qty_at_buy,
+					price_at_buy: product.price_at_buy,
+
 				}));
 
-				updatedProducts = await tx.orderProduct.createMany({
+				updatedProducts = await tx.trolleys.createMany({
 					data: products,
 				});
 			}

@@ -4,7 +4,7 @@
 // import { ValidationModel } from './ValidationModel';
 // import { TMethod, ToModel } from '@/entity/Utils';
 //
-// import { errorData, errorEmptyData, errorEmptyID } from '@/lib/exeption/errorResponse';
+// import { errorData, errorEmptyData, errorEmptyID } from '@/lib/exception/errorResponse';
 // import { setIdModel } from '@/lib/utils/formatId';
 // import { getId } from './setBank';
 // import { _test_ } from '../../../config.dev';
