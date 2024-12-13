@@ -1,6 +1,10 @@
-import { TOrderCreate, TOrderDB } from "@/entity/order.model"
+import { TOrderCreate } from "@/entity/order.model"
 import { TReceiverCreate, TReceiverDB } from "@/entity/receiver.model";
-import { TOrderTrolleyTransaction, TTrolleyDB } from "@/entity/trolley.model";
+import { TOrderTrolleyTransaction, TTrolleyProductDB } from "@/entity/trolley.model";
+import { TDeliveryDB } from "@/entity/delivery.model";
+import { Orders, Payments } from "@prisma/client";
+
+export type OrderId = TOrderTransactionDB['id'];
 
 export type TOrderTransactionCreate = {
 	order: TOrderCreate
@@ -8,10 +12,11 @@ export type TOrderTransactionCreate = {
 	orderReceiver: TReceiverCreate
 }
 
-export type TOrderTransactionDB = {
-	order: TOrderDB
-	orderProduct: TTrolleyDB[]
-	orderReceiver: TReceiverDB
+export type TOrderTransactionDB = Orders & {
+	Deliverys: TDeliveryDB
+	Payments: Payments
+	Receivers: TReceiverDB
+	Trolleys: TTrolleyProductDB[]
 }
 export type TOrderTransactionUpdate = {
 	order?: TOrderCreate

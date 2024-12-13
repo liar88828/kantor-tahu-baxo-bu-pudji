@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-'use server'
 
-import type {TDeliveryCreate, TDeliveryDB} from "@/entity/delivery.model";
-import {useFetch} from "@/hook/useFetch";
-import {ResponseAll} from "@/interface/server/param";
-
+import type { TDeliveryCreate, TDeliveryDB } from "@/entity/delivery.model";
+import { useFetch } from "@/hook/useFetch";
+import { ResponseAll } from "@/interface/server/param";
 
 export const deliveryAll = async () => {
 	return useFetch<ResponseAll<TDeliveryDB>>('GET', 'delivery')

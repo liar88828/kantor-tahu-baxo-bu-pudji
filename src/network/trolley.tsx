@@ -2,12 +2,12 @@
 import { useFetch } from "@/hook/useFetch"
 import { Counter, IdTrolley, TrolleyParams } from "@/store/useTrolley";
 import { ResponseAll } from "@/interface/server/param";
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProduct } from "@/entity/trolley.model";
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB } from "@/entity/trolley.model";
 
 export const userId = '1da116c8-2d8a-4f9b-ae93-37cbad1bd832'
 
 export const trolleyAll = ({idUser}: TrolleyParams) => {
-	return useFetch<ResponseAll<TTrolleyProduct>>('GET', 'trolley',)
+	return useFetch<ResponseAll<TTrolleyProductDB>>('GET', 'trolley',)
 }
 
 export const trolleyId = (id: TTrolleyDB['id']) => {

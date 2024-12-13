@@ -10,7 +10,6 @@ function Page() {
 	const { setData, onData, onDelivery } = useOrderStore();
 	const { onSelected } = useTrolleyStore();
 
-	// Calculate subtotal based on trolley items
 	const subtotal = useCallback(() => onSelected.reduce((total, item) => {
 			return total + item.qty_at_buy * item.price_at_buy
 		}, 0),
@@ -21,7 +20,7 @@ function Page() {
 	if (onSelected.length === 0) {
 		redirect('/trolley')
 	}
-	console.log(onData)
+
 	return (
 		<div className={ 'container px-2 space-y-5' }>
 			<Receiver/>
@@ -47,7 +46,7 @@ function Page() {
 				<button
 					className="mt-5 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
 					onClick={ () => {
-						setData({ trolley: onSelected })
+						// setData({ data: onSelected })
 					} }
 				>
 					Confirm Order

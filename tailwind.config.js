@@ -9,12 +9,13 @@ module.exports = {
   daisyui: {
     themes: [
       "light",
-      'dark'
+			'dark',
+			"dracula"
     ],
   },
   theme: {
     container: {
-      center: true,
+			center: true
     },
   },
   plugins: [require("daisyui")],

@@ -6,14 +6,18 @@ import Link from 'next/link'
 import { TDeliveryDB } from "@/entity/delivery.model";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { deliveryDelete } from "@/network/delivery";
+import { deliveryAll, deliveryDelete } from "@/network/delivery";
 import { ErrorData } from "@/app/components/ErrorData";
+import { useQuery } from "@tanstack/react-query";
+import { LoadingSpin } from "@/app/components/LoadingData";
 
 interface DeliveryListProps {
 	deliverys: TDeliveryDB[]
 }
 
-export default function DeliveryList({deliverys}: DeliveryListProps) {
+export default function DeliveryList() {
+	const { data: deliverys } = useQuery({ queryKey: [ 'delivery' ], queryFn: () => deliveryAll() })
+
 	const router = useRouter()
 	const onDelete = async (id: string) => {
 		const idToast = toast.loading('Delete Data API')
@@ -41,10 +45,11 @@ export default function DeliveryList({deliverys}: DeliveryListProps) {
 				</Link>
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-20 ">
-				{
-					deliverys.length === 0
+				{ !deliverys
+					? <LoadingSpin/>
+					: deliverys.data.data.length === 0
 						? <ErrorData code={404} msg={'Data Delivery is Empty'}/>
-						: deliverys.map(delivery => (
+						: deliverys.data.data.map(delivery => (
 							<div
 								key={delivery.id}
 								className="card card-side card-compact bg-base-300 ">

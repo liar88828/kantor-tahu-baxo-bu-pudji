@@ -15,14 +15,23 @@ import { useProductStore } from "@/store/product";
 import { useDeliveryStore } from "@/store/delivery";
 import { usePaymentStore } from "@/store/payment";
 import { useOrderStore } from "@/store/order";
+import { useReceiverStore } from "@/store/receiver";
+import { useMutation } from "@tanstack/react-query";
+import { TOrderTransactionCreate } from "@/entity/transaction.model";
+import toast from "react-hot-toast";
+import { orderPost } from "@/network/order";
 
-type DeliveryOrder = {
+export type DeliveryOrder = {
 	addressCs: string;
 	desc: string;
 	nameCs: string;
+	//
 	nameDelivery: string;
 	phoneDelivery: string;
-	priceDelivery: string; // Assuming price is string based on example
+	priceDelivery: number; // Assuming price is string based on example
+	//
+	namePayment: string;
+	//
 	orderTime: Date; // ISO date string
 	sendTime: Date; // ISO date string
 	status: string;
@@ -36,21 +45,37 @@ const DeliveryOrderSchema: z.ZodType<DeliveryOrder> = z.object({
 	desc: z.string(),
 	nameCs: z.string(),
 	nameDelivery: z.string(),
-	orderTime: z.date(),
 	phoneDelivery: z.string(),
-	priceDelivery: z.string(),
+	priceDelivery: z.number(),
+	namePayment: z.string(),
+	orderTime: z.date(),
 	sendTime: z.date(),
 	status: z.string(),
 	totalPayment: z.number(),
 	totalProduct: z.number(),
 	totalAll: z.number(),
+
 })
 
 export default function OrderForm() {
-	const { total: totalProduct } = useProductStore()
+	const { total: totalProduct, productStore, } = useProductStore()
 	const { delivery: dataDelivery } = useDeliveryStore()
+	const { data: dataReceiver } = useReceiverStore()
 	const { payment: dataPayment } = usePaymentStore()
-	const { setTotal, total } = useOrderStore()
+	const { setTotal, total, setData, onData } = useOrderStore()
+	const orderCreate = useMutation({
+		mutationFn: (data: TOrderTransactionCreate) => {
+			return orderPost(data)
+		},
+		onError: (data, variables, context) => {
+			if (data instanceof Error) {
+				toast.error(data.message)
+			}
+		},
+		onSuccess: (data, variables, context) => {
+			toast.success(data.msg)
+		}
+	})
 
 	const {
 		register,
@@ -61,15 +86,31 @@ export default function OrderForm() {
 	});
 
 	const onSubmit = (data: DeliveryOrder) => {
-		console.log(data);
+		const toastId = toast.loading('Loading...')
+		if (dataPayment && dataDelivery) {
+			setData({
+				product: productStore,
+				payment: dataPayment,
+				delivery: dataDelivery,
+				receiver: dataReceiver,
+				order: data,
+			})
+
+		}
+		console.log(onData)
+		if (onData) {
+			orderCreate.mutate(onData)
+		}
+		toast.dismiss(toastId)
 	};
+
 	useEffect(() => {
 		setTotal({ totalProduct })
 		console.log('test')
-	}, [ totalProduct ])
+	}, [ totalProduct, setTotal ])
 
 	return (
-		<div className={ 'container pt-12 grid grid-cols-2 gap-5' }>
+		<div className={ ' pt-12 grid grid-cols-2 gap-5' }>
 			<form
 				onSubmit={ handleSubmit(onSubmit) }
 				className=""
@@ -83,7 +124,7 @@ export default function OrderForm() {
 					</label>
 					<input
 						type="text"
-						{ ...register("nameCs", { required: "Customer name is required" }) }
+						{ ...register("nameCs", { required: "Customer name is required", }) }
 						className="input input-bordered"
 					/>
 					{ errors.nameCs && <span className="text-error">{ errors.nameCs.message }</span> }
@@ -96,10 +137,14 @@ export default function OrderForm() {
 					</label>
 					<input
 						type="datetime-local"
-						{ ...register("orderTime") }
+						{ ...register("orderTime",
+							{
+								valueAsDate: true,
+							}) }
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.orderTime && <span className="text-error">{ errors.orderTime.message }</span> }
 
 				{/* Send Time */ }
 				<div className="form-control">
@@ -108,10 +153,13 @@ export default function OrderForm() {
 					</label>
 					<input
 						type="datetime-local"
-						{ ...register("sendTime") }
+						{ ...register("sendTime", {
+							valueAsDate: true,
+						}) }
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.sendTime && <span className="text-error">{ errors.sendTime.message }</span> }
 
 				{/* Address */ }
 				<div className="form-control">
@@ -135,6 +183,8 @@ export default function OrderForm() {
 						className="textarea textarea-bordered"
 					></textarea>
 				</div>
+				{ errors.desc && <span className="text-error">{ errors.desc.message }</span> }
+
 
 
 				{/* Delivery */ }
@@ -152,6 +202,7 @@ export default function OrderForm() {
 						<DeliveryForm/>
 					</div>
 				</div>
+				{ errors.nameDelivery && <span className="text-error">{ errors.nameDelivery.message }</span> }
 
 				<div className="form-control">
 					<label className="label">
@@ -164,18 +215,18 @@ export default function OrderForm() {
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.phoneDelivery && <span className="text-error">{ errors.phoneDelivery.message }</span> }
 
 				<div className="form-control">
 					<label className="label">
 						<span className="label-text">Delivery Price</span>
 					</label>
 					<input
-
 						type="number"
 						{ ...register("priceDelivery"
-
 							, {
 								valueAsNumber: true,
+
 								onChange: (d) => setTotal({
 									totalProduct: totalProduct,
 									priceDelivery: Number(d.target.value),
@@ -184,6 +235,7 @@ export default function OrderForm() {
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.priceDelivery && <span className="text-error">{ errors.priceDelivery.message }</span> }
 
 
 				{/* Payment */ }
@@ -195,12 +247,13 @@ export default function OrderForm() {
 						<input
 							value={ dataPayment?.name ?? '' }
 							type="text"
-							{ ...register("nameDelivery") }
+							{ ...register("namePayment") }
 							className="input input-bordered join-item w-full"
 						/>
 						<PaymentButtonInput/>
 					</div>
 				</div>
+				{ errors.namePayment && <span className="text-error">{ errors.namePayment.message }</span> }
 
 
 				{/* Payment */ }
@@ -223,6 +276,7 @@ export default function OrderForm() {
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.totalPayment && <span className="text-error">{ errors.totalPayment.message }</span> }
 
 				{/* Product */ }
 				<div className="form-control">
@@ -230,7 +284,7 @@ export default function OrderForm() {
 						<span className="label-text">Total Product</span>
 					</label>
 					<input
-						disabled={ true }
+						// disabled={ true }
 						type="number"
 						value={ totalProduct }
 						{ ...register("totalProduct",
@@ -240,12 +294,15 @@ export default function OrderForm() {
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.totalProduct && <span className="text-error">{ errors.totalProduct.message }</span> }
+
+
 				<div className="form-control">
 					<label className="label">
 						<span className="label-text">Total All</span>
 					</label>
 					<input
-						disabled={ true }
+						// disabled={ true }
 						type="number"
 						value={ total }
 						{ ...register("totalAll",
@@ -255,6 +312,8 @@ export default function OrderForm() {
 						className="input input-bordered"
 					/>
 				</div>
+				{ errors.totalAll && <span className="text-error">{ errors.totalAll.message }</span> }
+
 
 				{/* Status */ }
 				<div className="form-control">
@@ -263,10 +322,11 @@ export default function OrderForm() {
 					</label>
 					<select { ...register("status") } className="select select-bordered">
 						<option value="Pending">Pending</option>
-						<option value="Processing">Processing</option>
+						<option value="Fail">Fail</option>
 						<option value="Completed">Completed</option>
 					</select>
 				</div>
+				{ errors.status && <span className="text-error">{ errors.status.message }</span> }
 
 				{/* Submit Button */ }
 				<div className="form-control mt-4">

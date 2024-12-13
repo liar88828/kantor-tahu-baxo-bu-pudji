@@ -80,7 +80,7 @@ export function DeliveryForm() {
 	const { getDeliveryData, } = useDeliveryStore()
 	return (
 		<button
-			type="submit"
+			type="button"
 			className="btn join-item "
 			onClick={ async () => {
 				await getDeliveryData()
@@ -234,6 +234,7 @@ export function PaymentButtonInput() {
 	const { getPaymentData } = usePaymentStore()
 
 	return <button className="btn join-item"
+				   type={ 'button' }
 				   onClick={ async () => {
 					   await getPaymentData()
 					   // @ts-ignore
@@ -457,6 +458,7 @@ export function ReceiverForm() {
 						className="input input-bordered"
 					/>
 				</div>
+
 
 				<div className="form-control">
 					<label className="label">

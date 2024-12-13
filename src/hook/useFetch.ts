@@ -1,5 +1,5 @@
-import {TMethod} from "@/interface/Utils"
-import {FetchResponse} from "@/interface/server/param";
+import { TMethod } from "@/interface/Utils"
+import { FetchResponse } from "@/interface/server/param";
 
 const isTest = false
 
@@ -17,13 +17,23 @@ export const useFetch = async <R>(
 	const fetchOptions: RequestInit = {
 		method: method,
 		headers,
-		cache: 'no-store'
+
 	}
 
 	// If method is POST, PUT, or PATCH, include the body
 	if (["POST", "PUT", "PATCH"].includes(method) && data) {
 		fetchOptions.body = JSON.stringify(data)
 	}
+
+	if ([ "GET" ].includes(method)) {
+		fetchOptions.cache = 'no-store'
+		// cache: 'no-store',
+		// fetchOptions.next = {
+		// 	revalidate: 0
+		// }
+
+	}
+
 
 	try {
 		// Make the fetch request

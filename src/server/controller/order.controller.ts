@@ -30,14 +30,14 @@ export default class OrderController
 	}
 
 	async createOne(request: NextRequest, _: TContext): Promise<any> {
-		const json = await getJson(request)
+		const json: TOrderTransactionCreate = await getJson(request)
 		// console.log('test --')
 		const data: TOrderTransactionCreate = {
 			order: OrderCreate.parse(json.order),
-			orderTrolley: OrderProductTransaction.parse(json.orderProduct),
+			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
 		}
-		// console.log('is valid')
+		console.log(data)
 		return this.orderRepository.createOne(data)
 	}
 

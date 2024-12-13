@@ -2,6 +2,7 @@ import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/entity/trans
 import { prisma } from "@/lib/prisma";
 import { TStatus } from "@/interface/Dashboard";
 import { TOptional } from "@/interface/types";
+import { Orders } from "@prisma/client";
 
 export const exampleSearch = {
 	receiverName: "Alice",
@@ -141,7 +142,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		// );
 	}
 
-	async findAll() {
+	async findAll(): Promise<Orders[]> {
 		return prisma.orders.findMany({
 			include: {
 				Trolleys: {
@@ -179,8 +180,10 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	// ---------CREATE
 	async createOne(data: TOrderTransactionCreate) {
 		return prisma.$transaction(async (tx) => {
+
 			const orderReceiver = await tx.receivers.create(
 				{data: data.orderReceiver})
+
 			const order = await tx.orders.create(
 				{
 					data: {
@@ -188,6 +191,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 						...data.order
 					},
 				})
+
 			if (order) {
 				const products = data.orderTrolley.map((product) => ({
 					id_order: order.id,

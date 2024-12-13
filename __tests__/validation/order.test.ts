@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import { OrderCreate } from "../../src/validation/order.valid";
 import { OrderProductTransaction } from "../../src/validation/orderProduct.valid";
 import { ReceiverCreate } from "../../src/validation/receiver.valid";
+import { TOrderTransactionCreate } from "../../src/entity/transaction.model";
 
 export const orderReceiver = {
 	"name": "Alice Johnson",
@@ -46,5 +47,50 @@ describe('test Order all', () => {
 		const test = ReceiverCreate.parse(orderReceiver)
 		expect(test).toEqual(orderReceiver)
 	})
-	
+
+	test('order complete', () => {
+		const json = {
+			"orderReceiver": {
+				"address": "Aut aut minima eveni",
+				"name": "Ipsa aliquid nesciu",
+				"phone": "+1 (144) 186-2208",
+			},
+			"orderTrolley": [
+				{
+					"qty_at_buy": 1,
+					"price_at_buy": 20000,
+					"id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+					"id_product": "229b54ec-54ac-40bc-9571-90b9494bd672"
+				},
+				{
+					"qty_at_buy": 1,
+					"price_at_buy": 20000,
+					"id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+					"id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b"
+				}
+			],
+			"order": {
+				"address": "Duis similique aliqu",
+				"desc": "Perspiciatis sapien",
+				"nameCs": "Venus Livingston",
+				"orderTime": "2019-02-01T06:16:00.000Z",
+				"sendTime": "1994-05-07T10:36:00.000Z",
+				"id_delivery": "d278edcd-6ec4-445f-9a3e-98edc950f597",
+				"nameDelivery": "Alisa Benjamin",
+				"phoneDelivery": "+1 (985) 359-3311",
+				"priceDelivery": 220,
+				"id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+				"totalPayment": 52,
+				"totalAll": 80,
+				"status": "Pending"
+			}
+		}
+		const data: TOrderTransactionCreate = {
+			order: OrderCreate.parse(json.order),
+			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
+			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
+		}
+		console.log(data)
+		expect(data).toEqual(json)
+	})
 })

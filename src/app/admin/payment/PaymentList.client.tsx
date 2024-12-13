@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import {Pen, Plus, Trash} from 'lucide-react'
+import { Pen, Plus, Trash } from 'lucide-react'
 import Link from 'next/link'
-import {TPaymentDB} from "@/entity/payment.model";
-import {toAccounting} from "@/utils/accounting";
-import {useRouter} from "next/navigation";
+import { TPaymentDB } from "@/entity/payment.model";
+import { toAccounting } from "@/utils/accounting";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import {paymentDelete} from "@/network/payment";
-import {ErrorData} from "@/app/components/ErrorData";
+import { paymentDelete } from "@/network/payment";
+import { ErrorData } from "@/app/components/ErrorData";
 
 interface PaymentListProps {
 	payments: TPaymentDB[]
@@ -27,7 +27,6 @@ export default function PaymentList({payments}: PaymentListProps) {
 				toast.error(e.message);
 			}
 			toast.error('something error');
-
 		} finally {
 			toast.dismiss(idToast)
 		}

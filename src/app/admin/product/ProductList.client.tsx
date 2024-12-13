@@ -1,34 +1,12 @@
-'use client'
 import React from 'react'
-import { Pen, Plus, Trash } from 'lucide-react'
+import { Pen, Plus } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
 import Link from 'next/link'
 import { TProductDB } from "@/entity/product.model";
-import { productDelete } from "@/network/product";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { ErrorData } from "@/app/components/ErrorData";
+import { DeleteProduct } from "@/app/admin/product/Delete.client";
 
 export default function ProductList({products}: { products: TProductDB[] }) {
-	const router = useRouter()
-
-	const onDelete = async (id: string) => {
-		const idToast = toast.loading('Delete Data API')
-		try {
-			await productDelete(id)
-			toast.success('Success Delete Data');
-			router.refresh()
-		} catch (e) {
-			if (e instanceof Error) {
-				console.error(e.message)
-				toast.error(e.message);
-			}
-			toast.error('something error');
-
-		} finally {
-			toast.dismiss(idToast)
-		}
-	}
 
 	return (
 		<div className='p-3'>
@@ -46,8 +24,8 @@ export default function ProductList({products}: { products: TProductDB[] }) {
 							<div
 								key={product.id}
 								className="card card-side card-compact bg-base-300 ">
-								<figure className={'p-1'}
-										onClick={() => router.push(`/admin/product/${product.id}`)}
+								<Link className={ 'p-1' }
+									  href={ `/admin/product/${ product.id }` }
 								>
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									<img
@@ -55,7 +33,7 @@ export default function ProductList({products}: { products: TProductDB[] }) {
 										alt="Movie"
 										className='rounded-xl object-cover w-32 h-32 '
 									/>
-								</figure>
+								</Link>
 								<div className="card-body">
 									<div className="flex justify-between h-full">
 										<h2 className='card-title'>{product.name}</h2>
@@ -66,11 +44,7 @@ export default function ProductList({products}: { products: TProductDB[] }) {
 											<p>{product.type}</p>
 										</div>
 										<div className="flex items-center gap-2">
-											<button
-												onClick={() => onDelete(product.id)}
-												className=' btn btn-square btn-error btn-sm '>
-												<Trash/>
-											</button>
+											<DeleteProduct id={ product.id }/>
 											<Link
 												href={`/admin/product/update/${product.id}`}
 												className=' btn btn-square btn-info btn-sm '>

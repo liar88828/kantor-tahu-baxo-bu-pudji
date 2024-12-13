@@ -8,7 +8,7 @@ import { LoadingDataList } from "@/app/components/LoadingData";
 import { useQueryClient } from "@tanstack/react-query";
 import { userId } from "@/network/trolley";
 import useTrolleyStore from "@/store/trolley";
-import { TTrolleyProduct } from "@/entity/trolley.model";
+import { TTrolleyProductDB } from "@/entity/trolley.model";
 
 export default function Page() {
 	const queryClient = useQueryClient()
@@ -32,7 +32,7 @@ export default function Page() {
 		return onSelected.some((trolley) => trolley.id === id);
 	};
 
-	function onSelect(dataProduct: TTrolleyProduct) {
+	function onSelect(dataProduct: TTrolleyProductDB) {
 		setSelected(dataProduct)
 	}
 	return (

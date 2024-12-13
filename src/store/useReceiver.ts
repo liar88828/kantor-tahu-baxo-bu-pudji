@@ -11,7 +11,7 @@ import {
 	trolleyIncrement
 } from "@/network/trolley";
 import toast from "react-hot-toast";
-import { TTrolleyDB, TTrolleyProduct } from "@/entity/trolley.model";
+import { TTrolleyDB, TTrolleyProductDB } from "@/entity/trolley.model";
 
 // export const TROLLEY_KEY = 'trolley'
 
@@ -122,7 +122,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 	}
 
 	const getIdTrolley = () => {
-		return useQuery<TTrolleyProduct[]>({
+		return useQuery<TTrolleyProductDB[]>({
 			queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
 			queryFn: () => {
 				const data = sessionStorage.getItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`)
@@ -138,7 +138,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 
 	const setIdTrolley = useMutation({
 		mutationKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
-		mutationFn: async (data: TTrolleyProduct[]) => {
+		mutationFn: async (data: TTrolleyProductDB[]) => {
 			sessionStorage.setItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`, JSON.stringify(data))
 			return true
 		},

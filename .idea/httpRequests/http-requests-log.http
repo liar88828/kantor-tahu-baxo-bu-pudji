@@ -1,3 +1,322 @@
+GET http://localhost:3000/api/order/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T144749.200.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 993
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "address": "123 Main St, Springfield, USA",
+    "desc": "Order of electronics including headphones and chargers.",
+ 	"id_delivery": "d278edcd-6ec4-445f-9a3e-98edc950f597",
+   				"id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+
+    "nameCs": "John Doe",
+    "nameDelivery": "Express Logistics",
+    "orderTime":  1734076063,
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "sendTime": 1734076063,
+    "status": "Pending",
+    "totalAll": 15498,
+    "totalPayment": 10499
+  },
+  "orderTrolley": [
+	{
+	  "qty_at_buy": 1,
+	  "price_at_buy": 20000,
+	  "id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	  "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b"
+	},
+  	{
+  	"qty_at_buy": 1,
+	"price_at_buy": 20000,
+	"id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	"id_product": "229b54ec-54ac-40bc-9571-90b9494bd672"
+  	}
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-13T144743.200.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 991
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "address": "123 Main St, Springfield, USA",
+    "desc": "Order of electronics including headphones and chargers.",
+    "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
+    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "nameCs": "John Doe",
+    "nameDelivery": "Express Logistics",
+    "orderTime":  1734076035,
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "sendTime": 1734076035,
+    "status": "Pending",
+    "totalAll": 15498,
+    "totalPayment": 10499
+  },
+  "orderTrolley": [
+	{
+	  "qty_at_buy": 1,
+	  "price_at_buy": 20000,
+	  "id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	  "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b"
+	},
+  	{
+  	"qty_at_buy": 1,
+	"price_at_buy": 20000,
+	"id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	"id_product": "229b54ec-54ac-40bc-9571-90b9494bd672"
+  	}
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-13T144715.400.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 992
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "address": "123 Main St, Springfield, USA",
+    "desc": "Order of electronics including headphones and chargers.",
+    "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
+    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "nameCs": "John Doe",
+    "nameDelivery": "Express Logistics",
+    "orderTime":  1734076003,
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "sendTime": 1734076003,
+    "status": "Pending",
+    "totalAll": 15498,
+    "totalPayment": 10499
+  },
+  "orderProduct": [
+	{
+	  "qty_at_buy": 1,
+	  "price_at_buy": 20000,
+	  "id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	  "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b"
+	},
+  	{
+  	"qty_at_buy": 1,
+	"price_at_buy": 20000,
+	"id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	"id_product": "229b54ec-54ac-40bc-9571-90b9494bd672"
+  	}
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-13T144643.400.json
+
+###
+
+POST http://localhost:3000/api/order/
+Content-Type: application/json
+Content-Length: 807
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+{
+  "order": {
+    "address": "123 Main St, Springfield, USA",
+    "desc": "Order of electronics including headphones and chargers.",
+    "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
+    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "nameCs": "John Doe",
+    "nameDelivery": "Express Logistics",
+    "orderTime":  1734075948,
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "sendTime": 1734075948,
+    "status": "Pending",
+    "totalAll": 15498,
+    "totalPayment": 10499
+  },
+  "orderProduct": [
+  	{ "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d" ,"qty": 1},
+  	{ "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672" ,"qty": 1}
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+<> 2024-12-13T144548.400.json
+
+###
+
+GET http://localhost:3000/api/order/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T144545.200.json
+
+###
+
+GET http://localhost:3000/api/order/
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T144251.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T132038.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T132001.200.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131952.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131740.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131613.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131516.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131432.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/count
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2024-12-13T131430.200.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131426.400.json
+
+###
+
+GET http://localhost:3000/api/trolley/
+User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+cookie:
+
+<> 2024-12-13T131424.400.json
+
+###
+
 GET http://localhost:3000/api/receiver/
 Content-Type: application/json
 User-Agent: IntelliJ HTTP Client/WebStorm 2024.3.1
@@ -367,282 +686,6 @@ cookie:
 content-length: 0
 
 <> 2024-12-08T125744.200.json
-
-###
-
-GET http://localhost:3000/api/product/?name=tahu baxo&location=Semarang
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-08T125736.200.json
-
-###
-
-PUT http://localhost:3000/api/trolley/d77c6eee-c6dd-4bd0-9e14-38a6e89d41cd
-Content-Type: application/json
-Content-Length: 72
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 10
-
-}
-
-<> 2024-12-07T202726.200.json
-
-###
-
-POST http://localhost:3000/api/trolley/
-Content-Type: application/json
-Content-Length: 71
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 2
-
-}
-
-<> 2024-12-07T202615.200.json
-
-###
-
-POST http://localhost:3000/api/trolley/
-Content-Type: application/json
-Content-Length: 59
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d"
-
-}
-
-<> 2024-12-07T202604.400.json
-
-###
-
-GET http://localhost:3000/api/trolley/
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-07T202548.200.json
-
-###
-
-POST http://localhost:3000/api/trolley/
-Content-Type: application/json
-Content-Length: 145
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "desc": "Pedas",
-  "img": "tidak ada ",
-  "location": "Semarang",
-  "name": "tahu baxo",
-  "price": 20000,
-  "qty": 86,
-  "type": "orderan"
-}
-
-<> 2024-12-07T202540.400.json
-
-###
-
-POST http://localhost:3000/api/trolley/
-Content-Type: application/json
-Content-Length: 145
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-
-{
-  "desc": "Pedas",
-  "img": "tidak ada ",
-  "location": "Semarang",
-  "name": "tahu baxo",
-  "price": 20000,
-  "qty": 86,
-  "type": "orderan"
-}
-
-###
-
-POST http://localhost:3000/api/trolley/5087c549-9ee9-4d3c-ab65-480ed8645556
-Content-Type: application/json
-Content-Length: 145
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "desc": "Pedas",
-  "img": "tidak ada ",
-  "location": "Semarang",
-  "name": "tahu baxo",
-  "price": 20000,
-  "qty": 86,
-  "type": "orderan"
-}
-
-<> 2024-12-07T202354.400.json
-
-###
-
-GET http://localhost:3000/api/trolley/
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-cookie:
-content-length: 0
-
-<> 2024-12-07T202350.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 71
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 10
-}
-
-<> 2024-12-07T201623-1.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 71
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 10
-}
-
-<> 2024-12-07T201623.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 71
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 10
-}
-
-<> 2024-12-07T201622.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 71
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 10
-}
-
-<> 2024-12-07T200539.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 71
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 10
-}
-
-<> 2024-12-07T200042.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 70
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 1
-}
-
-<> 2024-12-07T200038.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 70
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 1
-}
-
-<> 2024-12-07T200037.200.json
-
-###
-
-DELETE http://localhost:3000/api/trolley/counter/334a7a6c-f070-4df1-92e5-c53407d43c45
-Content-Type: application/json
-Content-Length: 70
-User-Agent: IntelliJ HTTP Client/WebStorm 2024.2.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-  "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d",
-  "qty": 1
-}
-
-<> 2024-12-07T200036.200.json
 
 ###
 

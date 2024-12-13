@@ -1,8 +1,8 @@
 import { toRupiah } from "@/utils/toRupiah";
-import { TTrolleyProduct } from "@/entity/trolley.model";
+import { TTrolleyProductDB } from "@/entity/trolley.model";
 
 interface TrolleyCaseProps {
-	trolleys?: TTrolleyProduct[],
+	trolleys?: TTrolleyProductDB[],
 	fun?: () => void,
 	text?: string,
 }

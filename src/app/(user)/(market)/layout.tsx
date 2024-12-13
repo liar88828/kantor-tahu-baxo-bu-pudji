@@ -10,12 +10,14 @@ import { TrolleyCase } from "@/app/components/TrolleyCase";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const queryClient = useQueryClient();
-	const path = usePathname()
 	const router = useRouter()
+	const path = usePathname()
+
 	const { getAll } = useTrolley(queryClient)
+
 	const { data } = getAll({ idUser: userId })
 	// queryClient.getQueryDefaults([TROLLEY_KEY,'COUNT'])
-
+// console.error(error)
 	return (<>
 			<div className="navbar bg-base-300 fixed z-50">
 				<div className="flex-1">

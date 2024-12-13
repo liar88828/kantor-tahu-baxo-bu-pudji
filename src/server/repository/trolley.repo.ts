@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProduct, TTrolleyUpdate } from "@/entity/trolley.model";
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB, TTrolleyUpdate } from "@/entity/trolley.model";
 
 export default class TrolleyRepository
 	implements InterfaceRepository<TTrolleyDB> {
@@ -16,7 +16,7 @@ export default class TrolleyRepository
 		page: number = 1,
 		pageSize: number = 100
 	): Promise<{
-		data: TTrolleyProduct[]
+		data: TTrolleyProductDB[]
 		page: number;
 		pageSize: number;
 	}> {

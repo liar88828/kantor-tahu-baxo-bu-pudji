@@ -11,8 +11,7 @@ export const useReceiverStore = create<ReceiverStore>((set) => ({
 		address: "",
 		name: "",
 		phone: "",
-		email: "",
-		userId: "",
+		userId: '1da116c8-2d8a-4f9b-ae93-37cbad1bd832',
 
 	},
 	setData: (data) =>

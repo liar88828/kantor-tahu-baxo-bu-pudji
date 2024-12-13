@@ -3,8 +3,17 @@ import { create } from "zustand";
 import { TDeliveryDB } from "@/entity/delivery.model";
 import { TPaymentDB } from "@/entity/payment.model";
 import { userId } from "@/network/trolley";
-import { TTrolleyProduct } from "@/entity/trolley.model";
+import { TTrolleyProductUser } from "@/entity/trolley.model";
+import { DeliveryOrder } from "@/app/admin/order/create/page";
+import { TReceiverCreate } from "@/entity/receiver.model";
 
+type DataOrder = {
+	payment: TPaymentDB,
+	delivery: TDeliveryDB,
+	product: TTrolleyProductUser[],
+	order: DeliveryOrder,
+	receiver: TReceiverCreate,
+};
 type OrderType = {
 	total: number;
 	pricePayment: number
@@ -16,7 +25,8 @@ type OrderType = {
 	setDelivery: (data: TDeliveryDB | null) => void,
 	setPayment: (data: TPaymentDB | null) => void,
 	setReceiver: (data: TOrderTransactionCreate['orderReceiver'] | null) => void,
-	setData: (data: { trolley: TTrolleyProduct[] }) => void,
+	setData: (data: DataOrder) => void,
+	setProduct: (data: DataOrder['product']) => void,
 	setTotal: (data: { totalProduct: number, pricePayment?: number, priceDelivery?: number }) => void,
 }
 
@@ -28,6 +38,8 @@ export const useOrderStore = create<OrderType>((set, get) => ({
 	total: 0,
 	pricePayment: 0,
 	priceDelivery: 0,
+	setProduct: (data: DataOrder['product']) => {
+	},
 	setTotal: ({ totalProduct, pricePayment, priceDelivery }) => {
 		console.log(totalProduct, pricePayment);
 		set(() => {
@@ -44,42 +56,36 @@ export const useOrderStore = create<OrderType>((set, get) => ({
 	setPayment: (data: TPaymentDB | null) => set(() => ({ onPayment: data })),
 	setDelivery: (data: TDeliveryDB | null) => set(() => ({ onDelivery: data })),
 	getDelivery: (data: TDeliveryDB | null) => set(() => ({ onDelivery: data })),
-	setData: (data: {
-		trolley: TTrolleyProduct[],
-
-	}) => set((store) => {
-		if (store) {
-			if (store.onReceiver && store.onDelivery && store.onPayment) {
-				const sendData: TOrderTransactionCreate = {
-					orderReceiver: store.onReceiver,
-					orderTrolley: data.trolley.map(d => (
-						{
-							qty_at_buy: d.qty_at_buy,
-							price_at_buy: d.price_at_buy,
-							id_user: userId,
-							id_product: d.id_product
-						})),
-					order: {
-						address: store.onReceiver.address,
-						desc: '',
-						nameCs: '',
-						orderTime: new Date(),
-						sendTime: new Date(),
-						id_delivery: store.onDelivery.id,
-						nameDelivery: store.onDelivery.name,
-						phoneDelivery: store.onDelivery.phone,
-						priceDelivery: store.onDelivery.price,
-						id_payment: store.onDelivery.id,
-						totalPayment: 0,
-						totalAll: 0,
-						status: '',
-					}
+	setData: ({ delivery, order, receiver, payment, product }: DataOrder) => {
+		set(() => {
+			const sendData: TOrderTransactionCreate = {
+				orderReceiver: receiver,
+				orderTrolley: product.map(d => (
+					{
+						qty_at_buy: d.qty_at_buy,
+						price_at_buy: d.price_at_buy,
+						id_user: userId,
+						id_product: d.id_product
+					})),
+				order: {
+					address: order.addressCs,
+					desc: order.desc,
+					nameCs: order.nameCs,
+					orderTime: order.orderTime,
+					sendTime: order.sendTime,
+					id_delivery: delivery.id,
+					nameDelivery: order.nameDelivery,
+					phoneDelivery: order.phoneDelivery,
+					priceDelivery: order.priceDelivery,
+					id_payment: payment.id,
+					totalPayment: order.totalPayment,
+					totalAll: order.totalAll,
+					status: order.status,
 				}
-				return { onData: sendData }
 			}
-		}
-		return store
-	}),
+			return { onData: sendData }
+		})
+	},
 
 }))
 

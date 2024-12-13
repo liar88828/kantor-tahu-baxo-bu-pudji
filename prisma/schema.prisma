@@ -30,12 +30,12 @@ model Orders {
   totalAll     Int
 
   // at update / create
-  status       String
-  Trolleys  Trolleys[]
-  Receivers Receivers  @relation(fields: [id_receiver], references: [id])
-  id_receiver  String
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt
+  status      String
+  Trolleys    Trolleys[]
+  Receivers   Receivers  @relation(fields: [id_receiver], references: [id])
+  id_receiver String
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
 }
 
 model Receivers {
@@ -48,29 +48,29 @@ model Receivers {
 
 model Trolleys {
   id         String   @id @default(uuid())
-  Order      Orders?   @relation(fields: [id_order], references: [id])
   id_order   String?
-  Product    Products @relation(fields: [id_product], references: [id])
+  Order      Orders?  @relation(fields: [id_order], references: [id])
   id_product String
+  Product    Products @relation(fields: [id_product], references: [id])
   qty_at_buy   Int
   price_at_buy Int
-  Users   Users?  @relation(fields: [id_user], references: [id])
-  id_user String?
+  Users      Users?   @relation(fields: [id_user], references: [id])
+  id_user    String?
 }
 
 model Products {
-  id           String         @id @default(uuid())
-  name         String
-  location     String
-  type         String
-  img          String
-  price        Int
-  qty          Int
-  desc         String
+  id         String    @id @default(uuid())
+  name       String
+  location   String
+  type       String
+  img        String
+  price      Int
+  qty        Int
+  desc       String
   // at update / create
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt
-  Trolleys Trolleys[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Trolleys   Trolleys[]
 }
 
 model Deliverys {
@@ -102,9 +102,9 @@ model Payments {
 }
 
 model Users {
-  id           String         @id @default(uuid())
-  name         String
-  phone        String
-  address      String
+  id      String @id @default(uuid())
+  name    String
+  phone   String
+  address String
   Trolleys Trolleys[]
 }
