@@ -108,3 +108,27 @@ model Users {
   address String
   Trolleys Trolleys[]
 }
+
+// please create use react-form-hook zod and tailwind daisyui
+model Employees {
+  id             String   @id @default(uuid()) // Primary key with auto-increment
+  name           String
+  email          String   @unique
+  phone          String
+  gender         String // Gender (e.g., "Male", "Female", "Other")
+  dateOfBirth    DateTime
+  hireDate       DateTime
+  jobTitle       String // Employee's job position
+  department     String // Department where the employee works
+  salary         Int // Employee's salary
+  managerId      Int? // Foreign key referencing the manager
+  status         String   @default("Active") // Employment status
+  address        String
+  city           String // City where the employee lives
+  postalCode     String // Postal/ZIP code
+  employmentType String // Employment type (e.g., "Full-Time", "Part-Time")
+  notes          String // Additional notes about the employee
+  img            String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

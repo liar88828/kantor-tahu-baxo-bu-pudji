@@ -13,6 +13,25 @@ export async function getId({params}: TContext) {
 	throw new Error("please add id")
 }
 
+export async function getContext({ params }: TContext, text: keyof Awaited<TContext['params']>) {
+
+	const param = await params
+	if (param && text in param) {
+		return param[text]
+	}
+	return ''
+}
+
+export async function getSearchName({ searchParams }: TContext, text: keyof Awaited<TContext['searchParams']>) {
+
+	const searchParam = await searchParams
+	if (searchParam && text in searchParam) {
+		return searchParam[text]
+	}
+	return ''
+}
+
+
 export async function getJson(request: NextRequest) {
 	return request.json()
 }

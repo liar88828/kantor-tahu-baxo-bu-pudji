@@ -11,6 +11,7 @@ export const useFetch = async <R>(
 	// Initialize headers
 	const headers: HeadersInit = {
 		"Content-Type": "application/json",
+
 	}
 
 	// Prepare fetch options

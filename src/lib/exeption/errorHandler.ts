@@ -1,4 +1,4 @@
-import { TResponse } from '@/entity/client/ress/TResponse';
+import { TResponse } from '@/entity/server/TResponse';
 
 export class newError extends Error {
   constructor( m: TResponse<string> | string = "from new Error  " ) {

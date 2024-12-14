@@ -1,6 +1,6 @@
 'use client'
 import type { ReactNode } from "react";
-import { BookA, Car, ChevronLeft, CreditCard, HomeIcon, LucidePackageSearch, } from 'lucide-react';
+import { BookA, Car, ChevronLeft, CreditCard, HomeIcon, LucidePackageSearch, User, } from 'lucide-react';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -21,7 +21,7 @@ export default function Layout({children,}: { children: ReactNode }) {
 
                 </div>
             </div>
-			<div className="container pt-20 ">
+			<div className="container pt-20 px-2">
                 {children}
             </div>
 			{
@@ -33,6 +33,13 @@ export default function Layout({children,}: { children: ReactNode }) {
 							<HomeIcon/>
 							<span className="btm-nav-label">Home</span>
 						</Link>
+						<Link href={ '/admin/employee' }
+							  className={ path.includes('/admin/employee') ? "active" : "" }>
+							<User/>
+							<span className="btm-nav-label">Employee</span>
+						</Link>
+
+
 						<Link href={ '/admin/order' }
 							  className={ path.includes('/admin/order') ? "active" : "" }>
 							<BookA/>

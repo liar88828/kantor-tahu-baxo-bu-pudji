@@ -22,9 +22,9 @@ Content-Type: application/json
     "nameCs": "John Doe",
     "nameDelivery": "Express Logistics",
     "orderTime":  {{$timestamp}},
+    "sendTime": {{$timestamp}},
     "phoneDelivery": "+1234567890",
     "priceDelivery": 4999,
-    "sendTime": {{$timestamp}},
     "status": "Pending",
     "totalAll": 15498,
     "totalPayment": 10499

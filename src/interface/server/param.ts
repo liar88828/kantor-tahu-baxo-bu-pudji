@@ -1,6 +1,10 @@
 import { TProductDB } from "@/entity/product.model";
 
-export type TContext = { params: Promise<{ id: string }> }
+export type TContext = {
+	searchParams: Promise<{ search: string }>,
+	params: Promise<{ id: string, search: string }>
+}
+
 export type TReactFormHookComponent<T> = {
 	defaultValues: T,
 	method: "POST" | "PUT",

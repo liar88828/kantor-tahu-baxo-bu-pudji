@@ -14,12 +14,10 @@ export const paymentId = async (id: string) => {
 };
 
 export const paymentCreate = async (data: TPaymentCreate) => {
-	console.log(data)
 	return useFetch<TDeliveryDB>('POST', 'payment', data)
 };
 
 export const paymentUpdate = async (data: TPaymentCreate, id: string) => {
-	console.log(data, id)
 	return useFetch<TDeliveryDB>('POST', `payment/${id}`, data)
 };
 

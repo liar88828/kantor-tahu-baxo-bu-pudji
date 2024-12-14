@@ -1,6 +1,6 @@
 "use server"
 import { _test_ } from '../../../config.dev';
-import { TResponse } from '@/entity/client/ress/TResponse';
+import { TResponse } from '@/entity/server/TResponse';
 import { revalidateTag } from 'next/cache';
 import { TMethod, ToModel } from '@/interface/Utils';
 

@@ -10,7 +10,9 @@ export type ToModel =
 	| 'not implement'
 	| 'delivery'
 	| 'trolley'
-	| 'receiver';
+	| 'receiver'
+	| 'employee'
+	;
 export type TMethod = "PUT" | "POST" | "GET" | "DELETE" | "PATCH";
 export type TRes<T> = { msg: string, data: T }
 

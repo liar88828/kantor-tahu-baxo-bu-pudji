@@ -73,3 +73,4 @@ prisma/dev.db
 /.idea/httpRequests/2024-12-10T183036.500.json
 .idea
 .idea/workspace.xml
+/public/uploads/
