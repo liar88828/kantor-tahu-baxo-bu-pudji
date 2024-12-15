@@ -1,13 +1,13 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
-import OrderRepository from "@/server/repository/orderan.repo"
+import OrderRepository from "@/server/repository/order.repo"
 import { getId, getJson, getParamsThrow } from "@/lib/requestHelper"
 import { TOrderTransactionCreate, TOrderTransactionUpdate, } from "@/entity/transaction.model"
 import { OrderProductTransaction } from "@/validation/orderProduct.valid"
 import { ReceiverCreate } from "@/validation/receiver.valid"
 import { UUIDSchema } from "@/validation/id.valid"
-import { OrderCreate } from "@/validation/order.valid"
+import { orderCreateServer } from "@/validation/order.valid"
 
 export default class OrderController
 	implements InterfaceController {
@@ -33,7 +33,7 @@ export default class OrderController
 		const json: TOrderTransactionCreate = await getJson(request)
 		// console.log('test --')
 		const data: TOrderTransactionCreate = {
-			order: OrderCreate.parse(json.order),
+			order: orderCreateServer.parse(json.order),
 			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
 		}
@@ -45,7 +45,7 @@ export default class OrderController
 		const json = await getJson(request)
 		const id = await getId(context)
 		const data: TOrderTransactionUpdate = {
-			order: json.order ? OrderCreate.parse(json.order) : undefined,
+			order: json.order ? orderCreateServer.parse(json.order) : undefined,
 			orderOrder: json.orderProduct
 				? OrderProductTransaction.parse(json.orderProduct)
 				: undefined,

@@ -1,8 +1,9 @@
 import path from "path";
 import fs from "fs";
+import { ErrorResponse } from "@/lib/requestHelper";
 
 export const saveImage = async (formData: FormData, pathImage: string) => {// Get the image file from the form data
-	const imgFile = formData.get('img') as File;
+	const imgFile = formData.get('file') as File;
 
 	if (!imgFile) {
 		throw new Error('Image is required',);
@@ -31,10 +32,10 @@ export const saveImage = async (formData: FormData, pathImage: string) => {// Ge
 }
 
 export const pathImage = async (formData: FormData) => {// Get the image file from the form data
-	const imgFile = formData.get('img') as File;
-
+	const imgFile = formData.get('file') as File;
+	// console.log(imgFile)
 	if (!imgFile) {
-		throw new Error('Image is required',);
+		throw new ErrorResponse('Image is required', 401);
 	}
 
 	// Save the image file locally (You can also upload it to a cloud storage service like AWS S3, Cloudinary, etc.)

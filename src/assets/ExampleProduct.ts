@@ -1,5 +1,4 @@
 import { TProductCreate, TProductDB } from "@/entity/product.model"
-import { TKPerson } from "@/entity/client/person"
 
 export const exampleProduct: TProductCreate = {
   price: 0,
@@ -33,16 +32,6 @@ export const defaultFormProduct: TProductDB = {
   updated_at: new Date(),
 }
 
-export const formProduct: TKPerson = {
-  id: "1231",
-  nama: "Nama Produk",
-  harga: "Harga Produk",
-  lokasi: "Lokasi Produk",
-  jumlah: "Masukan Jumlah",
-  jenis: "Jenis Produk",
-  img: "Gambar Produk",
-  keterangan: "Keterangan Produk",
-}
 
 export const exampleDataProduct: TProductDB[] = [
   {

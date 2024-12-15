@@ -20,42 +20,9 @@ import { useMutation } from "@tanstack/react-query";
 import { TOrderTransactionCreate } from "@/entity/transaction.model";
 import toast from "react-hot-toast";
 import { orderPost } from "@/network/order";
+import { crderCreateClient, OrderCreateClient } from "@/validation/order.valid";
 
-export type DeliveryOrder = {
-	addressCs: string;
-	desc: string;
-	nameCs: string;
-	//
-	nameDelivery: string;
-	phoneDelivery: string;
-	priceDelivery: number; // Assuming price is string based on example
-	//
-	namePayment: string;
-	//
-	orderTime: Date; // ISO date string
-	sendTime: Date; // ISO date string
-	status: string;
-	totalProduct: number;
-	totalPayment: number; // Assuming payment is string based on example
-	totalAll: number; // Assuming total is string based on example
-};
 
-const DeliveryOrderSchema: z.ZodType<DeliveryOrder> = z.object({
-	addressCs: z.string(),
-	desc: z.string(),
-	nameCs: z.string(),
-	nameDelivery: z.string(),
-	phoneDelivery: z.string(),
-	priceDelivery: z.number(),
-	namePayment: z.string(),
-	orderTime: z.date(),
-	sendTime: z.date(),
-	status: z.string(),
-	totalPayment: z.number(),
-	totalProduct: z.number(),
-	totalAll: z.number(),
-
-})
 
 export default function OrderForm() {
 	const { total: totalProduct, productStore, } = useProductStore()
@@ -81,11 +48,11 @@ export default function OrderForm() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<DeliveryOrder>({
-		resolver: zodResolver(DeliveryOrderSchema),
+	} = useForm<OrderCreateClient>({
+		resolver: zodResolver(crderCreateClient),
 	});
 
-	const onSubmit = (data: DeliveryOrder) => {
+	const onSubmit = (data: OrderCreateClient) => {
 		const toastId = toast.loading('Loading...')
 		if (dataPayment && dataDelivery) {
 			setData({

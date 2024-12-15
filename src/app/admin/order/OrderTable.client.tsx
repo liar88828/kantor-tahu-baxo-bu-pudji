@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react';
+import React, { startTransition, useRef, useState } from 'react';
 import { LoadingSpin } from "@/app/components/LoadingData";
 import { toStatus } from "@/utils/status";
 import { toDate } from "@/utils/formatDate";
@@ -10,16 +10,11 @@ import Link from "next/link";
 import { useTableStore } from "@/store/table";
 
 function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
-	const { setTable, existTable, search, setSearch, setStatus, status: statusTable } = useTableStore()
+	const { setTable, existTable, search, setSearch, status: statusTable, tableDetail } = useTableStore()
 	const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
 
 	const tableRef = useRef(null);
 
-	// const { onDownload } = useDownloadExcel({
-	// 	currentTableRef: tableRef.current,
-	// 	filename: 'Users table',
-	// 	sheet: 'Users',
-	// })
 
 	return (<>
 			<FilterDialog/>
@@ -71,11 +66,13 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 										type="checkbox"
 										className="checkbox checkbox-sm"
 										onChange={ (e) => {
-											if (e.target.checked) {
-												setSelectedOrders(data.map((order) => order.id));
-											} else {
-												setSelectedOrders([]);
-											}
+											startTransition(() => {
+												if (e.target.checked) {
+													setSelectedOrders(data.map((order) => order.id));
+												} else {
+													setSelectedOrders([]);
+												}
+											})
 										} }
 										checked={
 											data && selectedOrders.length === data.length
@@ -84,18 +81,41 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 								</label>
 							</th>
 							<th>ID</th>
-							<th>Address</th>
-							<th>Description</th>
-							<th>Name (Customer)</th>
-							<th>Name (Delivery)</th>
-							<th>Phone (Delivery)</th>
-							<th>Price Delivery</th>
-							<th>Status</th>
 							<th>Order Time</th>
 							<th>Send Time</th>
-							<th>Total Payment</th>
+							<th>Status</th>
+							{/**/ }
+							<th>Name (Customer)</th>
+							<th>Address</th>
+							{ tableDetail.description && (
+							<th>Description</th>
+							) }
+							{/**/ }
+							{ tableDetail.receiver && (<>
+								<th className={ 'bg-orange-100' }>Name (Receiver)</th>
+								<th className={ 'bg-orange-100' }>Address (Receiver)</th>
+								<th className={ 'bg-orange-100' }>Phone (Receiver)</th>
+							</>)
+							}
+							{/**/ }
+							{ tableDetail.deliver && (<>
+								<th className={ 'bg-green-100' }>Name (Delivery)</th>
+								<th className={ 'bg-green-100' }>Phone (Delivery)</th>
+							</>) }
+							{/**/ }
+							{ tableDetail.payment && (<>
+								<th className={ 'bg-red-100' }>Name (Payments)</th>
+								<th className={ 'bg-red-100' }>Type (Payments)</th>
+							</>) }
+							{/**/ }
+							<th className={ 'bg-yellow-100 ' }>Name (Product)</th>
+							<th className={ 'bg-yellow-100' }>Price (Product)</th>
+							{/**/ }
+							<th className={ 'bg-red-100' }>Price (Payments)</th>
+							<th className={ 'bg-green-100' }>Price Delivery</th>
+
 							<th>Total All</th>
-							<th>Action</th>
+							<th className={ 'w-24' }>Action</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -127,22 +147,52 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 											</label>
 										</td>
 										<td>{ order.id }</td>
-										<td>{ order.address }</td>
-										<td className={ 'line-clamp-2' }>{ order.desc }</td>
-										<td>{ order.nameCs }</td>
-										<td>{ order.nameDelivery }</td>
-										<td>{ order.phoneDelivery }</td>
-										<td>{ toRupiah(order.priceDelivery) }</td>
-										<td>{
-											<span className={ `badge badge-${ toStatus(order.status) }` }>
-										{ order.status }
-									</span>
-										}</td>
 										<td>{ toDate(order.orderTime || 0) }</td>
 										<td>{ toDate(order.sendTime || 0) }</td>
-										<td>{ toRupiah(order.totalPayment) }</td>
+										<td>
+											{
+												<span className={ `badge badge-${ toStatus(order.status) }` }>
+												{ order.status }
+											</span>
+											}
+										</td>
+										{/**/ }
+										<td>{ order.nameCs }</td>
+										<td>{ order.address }</td>
+										{ tableDetail.description && (
+										<td className={ 'line-clamp-2' }>{ order.desc }</td>
+										) }
+										{/**/ }
+										{ tableDetail.receiver &&
+											(<>
+												<td className={ 'bg-orange-50' }>{ order.Receivers.name }</td>
+												<td className={ 'bg-orange-50' }>{ order.Receivers.address }</td>
+												<td className={ 'bg-orange-50' }>{ order.Receivers.phone }</td>
+											</>) }
+										{/**/ }
+										{ tableDetail.deliver &&
+											(<>
+												<td className={ 'bg-green-50' }>{ order.nameDelivery }</td>
+												<td className={ 'bg-green-50' }>{ order.phoneDelivery }</td>
+											</>) }
+										{/**/ }
+										{ tableDetail.payment &&
+											(<>
+												<td className={ 'bg-red-50' }>{ order.Payments.name }</td>
+												<td className={ 'bg-red-50' }>{ order.Payments.type }</td>
+											</>) }
+										{/**/ }
+										<td className={ 'bg-yellow-50 ' }>{ order.Trolleys.map(d => (
+											<span key={ d.id } className={ 'text-nowrap' }>
+												{ d.Product.name } x { d.qty_at_buy } <br/>
+											</span>
+										)) }</td>
+										<td className={ 'bg-yellow-50' }>{ order.Trolleys.map(d => toRupiah(d.price_at_buy)).join(', \n') }</td>
+										{/**/ }
+										<td className={ 'bg-red-50' }>{ toRupiah(order.totalPayment) }</td>
+										<td className={ 'bg-green-50' }>{ toRupiah(order.priceDelivery) }</td>
 										<td>{ toRupiah(order.totalAll) }</td>
-										<td className={ 'flex flex-wrap gap-2' }>
+										<td className={ 'grid grid-cols-2 gap-2 w-24' }>
 											<Link
 												href={ `/admin/order/${ order.id }` }
 												className={ 'btn btn-sm btn-square' }>
@@ -169,7 +219,7 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 export default OrderTable;
 
 export function FilterDialog() {
-	const { setStatus, data } = useTableStore()
+	const { setStatus, data, setTableDetail, tableDetail } = useTableStore()
 
 	return (
 		<dialog id="my_modal_filter" className="modal ">
@@ -177,6 +227,7 @@ export function FilterDialog() {
 				<h3 className="font-bold text-lg">Filter</h3>
 
 				<div className=" ">
+
 					<label className="">
 						<span>Select Status</span>
 						<select className="select select-bordered w-full"
@@ -188,6 +239,51 @@ export function FilterDialog() {
 							<option value="Completed">Completed</option>
 						</select>
 					</label>
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							className="checkbox checkbox-sm"
+							checked={ tableDetail.description }
+							onChange={ () => {
+								setTableDetail({ description: !tableDetail.description })
+							} }
+						/>
+						<span>Description</span>
+					</label>
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							className="checkbox checkbox-sm"
+							checked={ tableDetail.receiver }
+							onChange={ () => {
+								setTableDetail({ receiver: !tableDetail.receiver })
+							} }
+						/>
+						<span>Receiver</span>
+					</label>
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							className="checkbox checkbox-sm"
+							checked={ tableDetail.payment }
+							onChange={ () => {
+								setTableDetail({ payment: !tableDetail.payment })
+							} }
+						/>
+						<span>Payment</span>
+					</label>
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							className="checkbox checkbox-sm"
+							checked={ tableDetail.deliver }
+							onChange={ () => {
+								setTableDetail({ deliver: !tableDetail.deliver })
+							} }
+						/>
+						<span>Deliver</span>
+					</label>
+
 					<div className="mt-2 space-x-2">
 						<h2>Selected Data : { data.length }</h2>
 						<Link href={ '/admin/order/export/excel' }

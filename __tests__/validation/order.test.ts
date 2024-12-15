@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { OrderCreate } from "../../src/validation/order.valid";
+import { orderCreateServer } from "../../src/validation/order.valid";
 import { OrderProductTransaction } from "../../src/validation/orderProduct.valid";
 import { ReceiverCreate } from "../../src/validation/receiver.valid";
 import { TOrderTransactionCreate } from "../../src/entity/transaction.model";
@@ -28,7 +28,7 @@ describe('test Order all', () => {
 			"totalAll": 15498,
 			"status": "Pending"
 		}
-		const test = OrderCreate.parse(order)
+		const test = orderCreateServer.parse(order)
 		expect(test).toEqual(order)
 	})
 	
@@ -86,7 +86,7 @@ describe('test Order all', () => {
 			}
 		}
 		const data: TOrderTransactionCreate = {
-			order: OrderCreate.parse(json.order),
+			order: orderCreateServer.parse(json.order),
 			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
 		}

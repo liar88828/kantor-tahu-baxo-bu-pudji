@@ -6,12 +6,12 @@ import { TContext } from "@/interface/server/param";
 import { getSearchName } from "@/lib/requestHelper";
 import { employeeAll } from "@/network/employee";
 import Link from "next/link";
+import { toRupiah } from "@/utils/toRupiah";
 
 export const dynamic = 'force-dynamic';
 
 export default async function page(context: TContext) {
 	const search = await getSearchName(context, 'search')
-	// console.log(search);
 	const { data } = await employeeAll({ name: search })
 	return (<div>
 			<div className="flex justify-between gap-2">
@@ -69,7 +69,7 @@ export function EmployeeTable(props: { employees: TEmployeeDB[] }) {
 						<td>{ new Date(employee.hireDate).toLocaleDateString() }</td>
 						<td>{ employee.jobTitle }</td>
 						<td>{ employee.department || "-" }</td>
-						<td>${ employee.salary.toFixed(2) }</td>
+						<td>{ toRupiah(employee.salary) }</td>
 						<td>{ employee.employmentType }</td>
 						<td>
                 <span

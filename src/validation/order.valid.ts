@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TOrderCreate } from "@/entity/order.model";
 
-export const OrderCreate: z.ZodType<TOrderCreate> = z.object({
+export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
 	nameCs: z.string().min(1).max(100),
 	sendTime: z.coerce.date(),
 	orderTime: z.coerce.date(),
@@ -42,3 +42,39 @@ export const OrderCreate: z.ZodType<TOrderCreate> = z.object({
 // 	id_payment: z.string().uuid(),
 // 	id_delivery: z.string().uuid(),
 // })
+
+export type OrderCreateClient = {
+	addressCs: string;
+	desc: string;
+	nameCs: string;
+	//
+	nameDelivery: string;
+	phoneDelivery: string;
+	priceDelivery: number; // Assuming price is string based on example
+	//
+	namePayment: string;
+	//
+	orderTime: Date; // ISO date string
+	sendTime: Date; // ISO date string
+	status: string;
+	totalProduct: number;
+	totalPayment: number; // Assuming payment is string based on example
+	totalAll: number; // Assuming total is string based on example
+};
+
+export const crderCreateClient: z.ZodType<OrderCreateClient> = z.object({
+	addressCs: z.string(),
+	desc: z.string(),
+	nameCs: z.string(),
+	nameDelivery: z.string(),
+	phoneDelivery: z.string(),
+	priceDelivery: z.number(),
+	namePayment: z.string(),
+	orderTime: z.date(),
+	sendTime: z.date(),
+	status: z.string(),
+	totalPayment: z.number(),
+	totalProduct: z.number(),
+	totalAll: z.number(),
+
+})

@@ -1,10 +1,17 @@
 import React from 'react';
 import { Employees } from "@prisma/client";
 import { toDate } from "@/utils/formatDate";
+import { employeeId } from "@/network/employee";
+import { TContext } from "@/interface/server/param";
+import { getId } from "@/lib/requestHelper";
+import { EmployeeCV } from "@/app/admin/employee/cv";
 
-export default async function Page() {
+export default async function Page(context: TContext) {
+	const id = await getId(context);
+	const employee = await employeeId(id)
+	console.log(employee)
 	return (
-		<EmployeeDetail/>
+		<EmployeeCV employee={ employee.data }/>
 	);
 }
 

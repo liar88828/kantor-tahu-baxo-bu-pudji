@@ -112,14 +112,37 @@ export async function ResponseJson(
 				)
 			}
 		}
+		if (err instanceof ErrorResponse) {
+
 		return NextResponse.json(
 			{
 				msg: `Error on ${method}`,
-				error: err,
-				code: 500,
+				error: err.msg,
+				code: err.code,
 			},
 			{status: 500}
 		)
+		}
+
+		if (err instanceof Error) {
+
+			return NextResponse.json(
+				{
+					msg: `Error on ${ method }`,
+					error: err.message,
+					code: 500,
+				},
+				{ status: 500 }
+			)
+		}
 	}
 }
 
+export class ErrorResponse extends Error {
+
+	constructor(public msg: string, public code: number) {
+		super(msg);
+		Object.setPrototypeOf(this, ErrorResponse.prototype);
+	}
+
+}

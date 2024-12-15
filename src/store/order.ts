@@ -4,14 +4,14 @@ import { TDeliveryDB } from "@/entity/delivery.model";
 import { TPaymentDB } from "@/entity/payment.model";
 import { userId } from "@/network/trolley";
 import { TTrolleyProductUser } from "@/entity/trolley.model";
-import { DeliveryOrder } from "@/app/admin/order/create/page";
 import { TReceiverCreate } from "@/entity/receiver.model";
+import { OrderCreateClient } from "@/validation/order.valid";
 
 type DataOrder = {
 	payment: TPaymentDB,
 	delivery: TDeliveryDB,
 	product: TTrolleyProductUser[],
-	order: DeliveryOrder,
+	order: OrderCreateClient,
 	receiver: TReceiverCreate,
 };
 type OrderType = {

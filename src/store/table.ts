@@ -5,6 +5,13 @@ type TableStore = {
 	search: string
 	status: string
 	data: TOrderTransactionDB[];
+	tableDetail: {
+		receiver: boolean,
+		deliver: boolean,
+		payment: boolean,
+		description: boolean,
+	},
+	setTableDetail: (data: Partial<TableStore['tableDetail']>) => void;
 	setData(data: TOrderTransactionDB[]): void;
 	setTable(table: TOrderTransactionDB): void;
 	existTable(id: OrderId): boolean;
@@ -16,6 +23,17 @@ export const useTableStore = create<TableStore>((set, get) => ({
 	data: [],
 	search: '',
 	status: "",
+	tableDetail: {
+		receiver: false,
+		deliver: false,
+		payment: false,
+		description: false,
+	},
+	setTableDetail: (data) => {
+		set((state) => {
+			return { tableDetail: { ...state.tableDetail, ...data } };
+		});
+	},
 	setStatus: (text) => set({ status: text }),
 	setSearch: (text) => set({ search: text }),
 	setData: (data: TOrderTransactionDB[]) => {

@@ -142,8 +142,8 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		// );
 	}
 
-	async findAll(): Promise<Orders[]> {
-		return prisma.orders.findMany({
+	async findAll(): Promise<{ data: Orders[], page: number, pageSize: number }> {
+		const order = await prisma.orders.findMany({
 			include: {
 				Trolleys: {
 					include: {
@@ -159,6 +159,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				created_at: "desc"
 			},
 		})
+		return { data: order, page: 0, pageSize: 100 }
 	}
 
 	async findById(id: string) {

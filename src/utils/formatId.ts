@@ -1,8 +1,8 @@
-import {TOrder,} from '@/entity/client/orderan';
 import {TProductDB} from "@/entity/product.model";
 import {TDeliveryDB} from "@/entity/delivery.model";
 import {TPaymentDB} from "@/entity/payment.model";
 import {ToModel} from "@/interface/Utils";
+import { TOrder, TOrderServer } from "@/interface/orderan";
 
 // Travel
 export const setIdDelivery = (dTravel: TDeliveryDB): string =>

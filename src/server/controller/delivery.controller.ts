@@ -48,6 +48,3 @@ export default class DeliveryController
     return res
   }
 }
-export const deliveryController = new DeliveryController(
-  new DeliveryRepository()
-)

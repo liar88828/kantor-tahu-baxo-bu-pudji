@@ -4,10 +4,10 @@ import { useFetch } from "@/hook/useFetch";
 import { TDeliveryDB } from "@/entity/delivery.model";
 import { ResponseAll } from "@/interface/server/param";
 import { TEmployeeDB, TEmployeeSearch } from "@/entity/employee.model";
-import { EmployeeSchema } from "@/validation/employee.valid";
+import { EmployeeCreateZod } from "@/validation/employee.valid";
 
 export function setUrl<T extends object>(endPoint: string, params: T): string {
-	const url = new URL(`http://xx.com/api/${ endPoint }`);
+	const url = new URL(`https://xx.com/api/${ endPoint }`);
 	const searchParams = new URLSearchParams();
 
 	// Loop through the keys of the params object
@@ -26,9 +26,7 @@ export function setUrl<T extends object>(endPoint: string, params: T): string {
 export const employeeAll = async (params: TEmployeeSearch) => {
 
 	const url = setUrl('employee', params)
-	// console.log('--------')
-	// console.log(url)
-	// console.log('--------')
+
 	return useFetch<ResponseAll<TEmployeeDB>>('GET', url)
 };
 
@@ -36,22 +34,12 @@ export const employeeId = async (id: string) => {
 	return useFetch<TEmployeeDB>('GET', `employee/${ id }`)
 };
 
-export const employeeCreate = async (data: EmployeeSchema) => {
+export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
 	try {
-		// Create FormData to handle file upload
 		const formData = new FormData();
 
-		// Append all fields to FormData
-		Object.keys(data).forEach(key => {
-			const value = data[key as keyof EmployeeSchema];
-
-			// Special handling for file input
-			if (key === 'img' && value instanceof FileList && value.length > 0) {
-				formData.append(key, value[0]);
-			} else if (value !== undefined && value !== null) {
-				formData.append(key, value.toString());
-			}
-		});
+		formData.append('file', img[0]);
+		formData.append('data', JSON.stringify(data));
 
 		const response = await fetch('/api/employee', {
 			method: 'POST',
@@ -73,9 +61,10 @@ export const employeeCreate = async (data: EmployeeSchema) => {
 		}
 		return false
 	}
+	return true
 };
 
-export const employeeUpdate = async (data: EmployeeSchema, id: string) => {
+export const employeeUpdate = async (data: EmployeeCreateZod, id: string) => {
 	return useFetch<TDeliveryDB>('POST', `employee/${ id }`, data)
 };
 

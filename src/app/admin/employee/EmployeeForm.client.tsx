@@ -1,28 +1,25 @@
 'use client'
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { employeeSchema, EmployeeSchema } from "@/validation/employee.valid";
-import { employeeCreate } from "@/network/employee";
-import toast from "react-hot-toast";
+import { EmployeeCreateZod, employeeCreateClient } from "@/validation/employee.valid";
 import { useRouter } from "next/navigation";
+import { Minus, Plus } from "lucide-react";
+import toast from "react-hot-toast";
+import { employeeCreate } from "@/network/employee";
 
 const EmployeeForm: React.FC = () => {
 	const router = useRouter();
-	const {
-		register,
-		handleSubmit,
-		control,
-		formState: { errors }
-	} = useForm<EmployeeSchema>({
-		resolver: zodResolver(employeeSchema),
+	const methods = useForm<EmployeeCreateZod>({
+		resolver: zodResolver(employeeCreateClient),
 		defaultValues: {
-			status: 'Active',
+			status: 'Process',
 			employmentType: 'Full-Time'
 		}
 	});
-
-	const onSubmit = async (data: EmployeeSchema) => {
+	const { register, handleSubmit, formState: { errors } } = methods
+	// console.log(watch()) // watch input value by passing the name of it
+	const onSubmit = async (data: EmployeeCreateZod) => {
 		const idToast = toast.loading('Loading...');
 		const response = await employeeCreate(data)
 		if (response) {
@@ -32,10 +29,11 @@ const EmployeeForm: React.FC = () => {
 			toast.error("Employee Fail Crate");
 		}
 		toast.dismiss(idToast)
-
 	};
+
 	return (
 		<div className="container mx-auto p-4">
+			<FormProvider { ...methods }>
 			<form onSubmit={ handleSubmit(onSubmit) } className="space-y-4">
 				<div className="form-control">
 					<label className="label">
@@ -73,26 +71,23 @@ const EmployeeForm: React.FC = () => {
 						className="input input-bordered"
 						placeholder="Phone Number"
 					/>
+					{ errors.phone && <p className="text-error text-sm mt-1">{ errors.phone.message }</p> }
 				</div>
+
 
 				<div className="form-control">
 					<label className="label">
 						<span className="label-text">Gender</span>
 					</label>
-					<Controller
-						name="gender"
-						control={ control }
-						render={ ({ field }) => (
-							<select
-								{ ...field }
+
+					<select
+						{ ...register('gender') }
 								className={ `select select-bordered ${ errors.gender ? 'select-error' : '' }` }
 							>
 								<option value="">Select Gender</option>
 								<option value="Male">Male</option>
 								<option value="Female">Female</option>
 							</select>
-						) }
-					/>
 					{ errors.gender && <p className="text-error text-sm mt-1">{ errors.gender.message }</p> }
 				</div>
 
@@ -105,6 +100,8 @@ const EmployeeForm: React.FC = () => {
 						{ ...register('dateOfBirth') }
 						className="input input-bordered"
 					/>
+					{ errors.dateOfBirth && <p className="text-error text-sm mt-1">{ errors.dateOfBirth.message }</p> }
+
 				</div>
 
 				<div className="form-control">
@@ -116,6 +113,8 @@ const EmployeeForm: React.FC = () => {
 						{ ...register('hireDate') }
 						className="input input-bordered"
 					/>
+					{ errors.hireDate && <p className="text-error text-sm mt-1">{ errors.hireDate.message }</p> }
+
 				</div>
 
 				<div className="form-control">
@@ -141,6 +140,8 @@ const EmployeeForm: React.FC = () => {
 						className="input input-bordered"
 						placeholder="Department"
 					/>
+					{ errors.department && <p className="text-error text-sm mt-1">{ errors.department.message }</p> }
+
 				</div>
 
 				<div className="form-control">
@@ -210,7 +211,18 @@ const EmployeeForm: React.FC = () => {
 						placeholder="Postal Code"
 					/>
 					{ errors.postalCode && <p className="text-error text-sm mt-1">{ errors.postalCode.message }</p> }
+				</div>
 
+				<div className="form-control">
+					<label className="label">
+						<span className="label-text">Country</span>
+					</label>
+					<input
+						{ ...register('country') }
+						className="input input-bordered"
+						placeholder="Additional notes"
+					/>
+					{ errors.country && <p className="text-error text-sm mt-1">{ errors.country.message }</p> }
 				</div>
 
 				<div className="form-control">
@@ -234,9 +246,29 @@ const EmployeeForm: React.FC = () => {
 						{ ...register('notes') }
 						className="textarea textarea-bordered"
 						placeholder="Additional notes"
-					/>
+					></textarea>
 					{ errors.notes && <p className="text-error text-sm mt-1">{ errors.notes.message }</p> }
 				</div>
+
+
+				<div className="form-control">
+					<label className="label">
+						<span className="label-text">Education</span>
+					</label>
+					<input
+						{ ...register('education') }
+						className="input input-bordered"
+						placeholder="Additional notes"
+					/>
+					{ errors.education && <p className="text-error text-sm mt-1">{ errors.education.message }</p> }
+				</div>
+
+
+				<DynamicForm keys={ 'skills' } label={ 'Skills' }/>
+				<DynamicForm keys={ 'languages' } label={ 'Languages' }/>
+				<DynamicForm keys={ 'certifications' } label={ 'Certifications' }/>
+				<DynamicForm keys={ 'projects' } label={ 'Projects' }/>
+
 
 				<div className="form-control">
 					<label className="label">
@@ -244,13 +276,16 @@ const EmployeeForm: React.FC = () => {
 					</label>
 					<input
 						type="file"
-						{ ...register('img') }
+
+						{
+							// @ts-ignore
+							...register('img') }
 						className="file-input file-input-bordered w-full"
 					/>
 					{/* @ts-ignore */
 						errors.img && <p className="text-error text-sm mt-1">{ errors.img.message }</p> }
-
 				</div>
+
 
 				<div className="form-control mt-6">
 					<button
@@ -261,8 +296,53 @@ const EmployeeForm: React.FC = () => {
 					</button>
 				</div>
 			</form>
+			</FormProvider>
 		</div>
 	);
 };
 
 export default EmployeeForm;
+
+export function DynamicForm({ label, keys }: { label: string, keys: string }) {
+	const { register, control } = useFormContext()
+	const { fields, append, remove } = useFieldArray({
+		control,
+		name: keys
+	});
+
+	return (
+		<div className="form-control ">
+			<div className="flex justify-between mb-1">
+				<label className="label items-end ">
+					<span className="label-text">{ label }</span>
+
+				</label>
+				<button
+					className="btn btn-info btn-square"
+					type="button"
+					onClick={ () => append({ text: "" }) }
+				>
+					<Plus/>
+				</button>
+			</div>
+			<div className="space-y-2">
+
+				{ fields.map((item, index) => (
+					<div key={ item.id } className="flex gap-2">
+						<input
+							className="input input-bordered w-full"
+							{ ...register(`${ keys }.${ index }.text`) } />
+						<button
+							className={ 'btn btn-error btn-square' }
+							type="button"
+							onClick={ () => remove(index) }>
+							<Minus/>
+						</button>
+					</div>
+				)) }
+
+			</div>
+		</div>
+	);
+}
+

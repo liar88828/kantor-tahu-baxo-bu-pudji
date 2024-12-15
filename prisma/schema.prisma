@@ -47,19 +47,19 @@ model Receivers {
 }
 
 model Trolleys {
-  id         String   @id @default(uuid())
-  id_order   String?
-  Order      Orders?  @relation(fields: [id_order], references: [id])
-  id_product String
-  Product    Products @relation(fields: [id_product], references: [id])
+  id           String   @id @default(uuid())
+  id_order     String?
+  Order        Orders?  @relation(fields: [id_order], references: [id])
+  id_product   String
+  Product      Products @relation(fields: [id_product], references: [id])
   qty_at_buy   Int
   price_at_buy Int
-  Users      Users?   @relation(fields: [id_user], references: [id])
-  id_user    String?
+  Users        Users?   @relation(fields: [id_user], references: [id])
+  id_user      String?
 }
 
 model Products {
-  id         String    @id @default(uuid())
+  id         String     @id @default(uuid())
   name       String
   location   String
   type       String
@@ -68,8 +68,8 @@ model Products {
   qty        Int
   desc       String
   // at update / create
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
   Trolleys   Trolleys[]
 }
 
@@ -102,18 +102,18 @@ model Payments {
 }
 
 model Users {
-  id      String @id @default(uuid())
-  name    String
-  phone   String
-  address String
+  id       String     @id @default(uuid())
+  name     String
+  phone    String
+  address  String
   Trolleys Trolleys[]
 }
 
 // please create use react-form-hook zod and tailwind daisyui
 model Employees {
-  id             String   @id @default(uuid()) // Primary key with auto-increment
+  id             String           @id @default(uuid()) // Primary key with auto-increment
   name           String
-  email          String   @unique
+  email          String           @unique
   phone          String
   gender         String // Gender (e.g., "Male", "Female", "Other")
   dateOfBirth    DateTime
@@ -122,13 +122,50 @@ model Employees {
   department     String // Department where the employee works
   salary         Int // Employee's salary
   managerId      Int? // Foreign key referencing the manager
-  status         String   @default("Active") // Employment status
+  status         String           @default("Active") // Employment status
   address        String
   city           String // City where the employee lives
   postalCode     String // Postal/ZIP code
   employmentType String // Employment type (e.g., "Full-Time", "Part-Time")
   notes          String // Additional notes about the employee
   img            String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  //
+  country        String
+  education      String
+  skills         Skills[] // Stored as an array of strings
+  languages      Languages[] // Stored as an array of strings
+  certifications Certifications[] // Stored as an array of strings
+  projects       Projects[] // Stored as an array of strings
+  //
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model Skills {
+  id   Int    @id @default(autoincrement())
+  text String
+
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
+}
+
+model Languages {
+  id          Int        @id @default(autoincrement())
+  text        String
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
+}
+
+model Certifications {
+  id          Int        @id @default(autoincrement())
+  text        String
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
+}
+
+model Projects {
+  id          Int        @id @default(autoincrement())
+  text        String
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
 }
