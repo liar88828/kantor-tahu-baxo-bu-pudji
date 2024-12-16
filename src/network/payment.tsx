@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { useFetch } from "@/hook/useFetch";
-import { TDeliveryDB } from "@/entity/delivery.model";
-import { TPaymentCreate, TPaymentDB } from "@/entity/payment.model";
+import { TDeliveryDB } from "@/interface/entity/delivery.model";
+import { TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 import { ResponseAll } from "@/interface/server/param";
 
 export const paymentAll = async () => {

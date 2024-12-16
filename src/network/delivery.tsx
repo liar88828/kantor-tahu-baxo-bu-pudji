@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import type { TDeliveryCreate, TDeliveryDB } from "@/entity/delivery.model";
+import type { TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { useFetch } from "@/hook/useFetch";
 import { ResponseAll } from "@/interface/server/param";
 
@@ -17,7 +17,7 @@ export const deliveryCreate = async (data: TDeliveryCreate) => {
 };
 
 export const deliveryUpdate = async (data: TDeliveryCreate, id: string) => {
-	return useFetch<TDeliveryDB>('POST', `delivery/${id}`, data)
+	return useFetch<TDeliveryDB>('PUT', `delivery/${id}`, data)
 };
 
 export const deliveryDelete = async (id: string) => {

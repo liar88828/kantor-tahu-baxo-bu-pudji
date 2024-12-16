@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { TPaymentCreate } from "@/entity/payment.model"
+import { TPaymentCreate } from "@/interface/entity/payment.model"
 
 export const PaymentCreate: z.ZodType<TPaymentCreate> = z.object({
   // id: z.string().uuid().optional(),

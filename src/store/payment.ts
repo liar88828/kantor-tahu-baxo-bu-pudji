@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { TPaymentDB } from "@/entity/payment.model";
+import { TPaymentDB } from "@/interface/entity/payment.model";
 import { paymentAll } from "@/network/payment";
 import toast from "react-hot-toast";
 

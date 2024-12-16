@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/prisma";
 import { EmployeeCreateZod } from "@/validation/employee.valid";
-import { EmployeeCreate, TEmployeeDB, TEmployeeSearch } from "@/entity/employee.model";
+import { EmployeeCreate, TEmployeeDB, TEmployeeSearch } from "@/interface/entity/employee.model";
 import { ResponseAll } from "@/interface/server/param";
 
 // getAll data from database
@@ -30,6 +30,7 @@ export default class EmployeeRepository implements InterfaceRepository<EmployeeC
 					AND: [
 						{
 							...(search.name ? { name: { contains: search.name, } } : {}),
+							...(search.status ? { status: { contains: search.status, } } : {}),
 						}
 					],
 				}

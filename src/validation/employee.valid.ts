@@ -1,7 +1,7 @@
 // Zod schema for validation
 import { z } from "zod";
 import { zImage } from "@/validation/image";
-import { EmployeeCreate } from "@/entity/employee.model";
+import { EmployeeCreate } from "@/interface/entity/employee.model";
 
 // @ts-ignore
 export const employeeCreateClient: z.ZodType<EmployeeCreate> = z.object({

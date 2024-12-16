@@ -2,13 +2,13 @@
 import React from 'react'
 import { Minus, Plus, Trash } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
-import { useTrolley } from "@/store/useTrolley";
+import { useTrolley } from "@/hook/useTrolley";
 import { ErrorData } from "@/app/components/ErrorData";
 import { LoadingDataList } from "@/app/components/LoadingData";
 import { useQueryClient } from "@tanstack/react-query";
 import { userId } from "@/network/trolley";
 import useTrolleyStore from "@/store/trolley";
-import { TTrolleyProductDB } from "@/entity/trolley.model";
+import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
 export default function Page() {
 	const queryClient = useQueryClient()

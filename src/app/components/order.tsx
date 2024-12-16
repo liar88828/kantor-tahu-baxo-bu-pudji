@@ -8,7 +8,7 @@ import { useProductStore } from "@/store/product";
 import { EmptyData } from "@/app/components/ErrorData";
 import React, { useState } from "react";
 import { useOrderStore } from "@/store/order";
-import { TReceiverDB } from "@/entity/receiver.model";
+import { TReceiverDB } from "@/interface/entity/receiver.model";
 import { receiverAll } from "@/network/receiver";
 import Link from "next/link";
 import useTrolleyStore from "@/store/trolley";
@@ -107,13 +107,12 @@ export function DeliveryDialog() {
 							<input
 								className={ 'input input-bordered w-full' }
 								type="text"
-								onChange={ (e) => {
-									setSearch(e.target.value)
-								} }
+								onChange={ (e) => setSearch(e.target.value) }
 								value={ search }
 								placeholder="Search..."
 							/>
 						</div>
+						<div className=" space-y-2">
 						{ deliveryData &&
 							deliveryData
 							.filter(data => data.name.toLowerCase().includes(search.toLowerCase()))
@@ -152,7 +151,9 @@ export function DeliveryDialog() {
 									</div>
 								}
 							) }
-					</div>)
+						</div>
+					</div>
+				)
 				}
 
 				<div className="modal-action">
@@ -360,7 +361,7 @@ export function Receiver() {
 								/>
 
 							</div>
-							<div className="">
+							<div className="space-y-2">
 								{
 									receiverData &&
 									receiverData
@@ -569,8 +570,7 @@ export function ProductAdmin() {
 		<div>
 			<div className={ 'card-title' }>Product</div>
 			<div className="  mt-2">
-				<div className="">
-					<div className="space-y-2">
+				<div className="space-y-2">
 						{ !productStore
 							? <EmptyData page={ 'checkout' }/>
 							: productStore.map(product => (
@@ -633,7 +633,6 @@ export function ProductAdmin() {
 								</div>
 							)) }
 					</div>
-				</div>
 			</div>
 
 			{/* Open the modal using document.getElementById('ID').showModal() method */ }
@@ -648,12 +647,10 @@ export function ProductAdmin() {
 				<div className="modal-box">
 					<h3 className="font-bold text-lg">Please Select The Product</h3>
 					<div className="space-y-2">
-						{
-							isLoading
+						{ isLoading
 								? <LoadingSpin/>
-								: productAsync.filter(product => {
-									return !idProduct.includes(product.id)
-								})
+							: productAsync
+							.filter(product => !idProduct.includes(product.id))
 								.map(product => <div
 										key={ product.id }
 										className={ `card card-side card-compact bg-base-300 card-bordered` }>

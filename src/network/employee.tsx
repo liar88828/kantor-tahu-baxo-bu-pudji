@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { useFetch } from "@/hook/useFetch";
-import { TDeliveryDB } from "@/entity/delivery.model";
+import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { ResponseAll } from "@/interface/server/param";
-import { TEmployeeDB, TEmployeeSearch } from "@/entity/employee.model";
+import { TEmployeeDB, TEmployeeSearch } from "@/interface/entity/employee.model";
 import { EmployeeCreateZod } from "@/validation/employee.valid";
 
 export function setUrl<T extends object>(endPoint: string, params: T): string {
@@ -24,9 +24,7 @@ export function setUrl<T extends object>(endPoint: string, params: T): string {
 }
 
 export const employeeAll = async (params: TEmployeeSearch) => {
-
 	const url = setUrl('employee', params)
-
 	return useFetch<ResponseAll<TEmployeeDB>>('GET', url)
 };
 

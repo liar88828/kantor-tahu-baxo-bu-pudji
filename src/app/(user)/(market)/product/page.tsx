@@ -3,19 +3,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { toRupiah } from '@/utils/toRupiah';
 import { ShoppingCart } from 'lucide-react';
 import { useRouter } from "next/navigation";
-import { TProductDB } from "@/entity/product.model";
-import { useProduct } from "@/store/useProduct";
+import { TProductDB } from "@/interface/entity/product.model";
+import { useProduct } from "@/hook/useProduct";
 import { EmptyData } from "@/app/components/ErrorData";
 import { LoadingSpin } from "@/app/components/LoadingData";
-import { useTrolley } from "@/store/useTrolley";
-import { useQueryClient } from "@tanstack/react-query";
+import { useTrolley } from "@/hook/useTrolley";
 import toast from "react-hot-toast";
 
 export default function Page() {
 	const router = useRouter();
 	const observerRef = useRef<HTMLDivElement | null>(null);
 	const { getProductUser } = useProduct();
-	const { push } = useTrolley(useQueryClient())
+	const { push } = useTrolley()
 
 	// State for search input
 	const [search, setSearch] = useState('');
@@ -40,9 +39,7 @@ export default function Page() {
 	const addTrolley = (data: TProductDB) => {
 		const idToast = toast.loading('Loading...')
 		try {
-			push.mutate({ id: data.id, qty: 1, price: data.price })
-		} catch (error) {
-			console.log(error);
+			push.mutate(data,)
 		} finally {
 			toast.dismiss(idToast)
 		}

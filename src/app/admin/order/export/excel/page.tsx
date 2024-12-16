@@ -1,9 +1,9 @@
 'use client'
-import React, { useRef } from "react";
-import { useDownloadExcel } from "react-export-table-to-excel";
+import React from "react";
 import { toRupiah } from "@/utils/toRupiah";
 import { toDate } from "@/utils/formatDate";
 import { useTableStore } from "@/store/table";
+import { useTable } from "@/hook/useTable";
 
 const data = [ {
 	"id": "712ec142-b620-4315-8571-877c84634642",
@@ -98,18 +98,9 @@ const data = [ {
 } ]
 
 const Test = () => {
+	const { tableRef, onDownload } = useTable()
 	const { data: dataTable } = useTableStore()
 
-	const tableRef = useRef(null);
-
-	const { onDownload } = useDownloadExcel({
-		currentTableRef: tableRef.current,
-		filename: 'Users table',
-		sheet: 'Users',
-	})
-	{
-		data.flatMap(d => console.log(d))
-	}
 	return (
 		<div className={ 'container-none' }>
 			<button onClick={ onDownload } className={ 'btn btn-info' }>

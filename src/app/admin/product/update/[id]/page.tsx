@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductForm from "@/app/admin/product/ProductForm.client";
-import {getId} from "@/lib/requestHelper";
+import {getId} from "@/utils/requestHelper";
 import type {TContext} from "@/interface/server/param";
 import {productId} from "@/network/product";
 

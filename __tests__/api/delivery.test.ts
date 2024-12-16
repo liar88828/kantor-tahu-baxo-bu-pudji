@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { statusTest } from '../../src/app/utils/test/statusTest';
 import { useFetch } from "../../src/hook/useFetch";
-import { TProductDB } from "../../src/entity/product.model";
-import { TDeliveryDB } from "../../src/entity/delivery.model";
+import { TProductDB } from "../../src/interface/entity/product.model";
+import { TDeliveryDB } from "../../src/interface/entity/delivery.model";
 import { exampleDelivery } from "../../src/assets/ExampleDelivery";
 import { deliveryCreate } from "../../src/network/delivery";
 

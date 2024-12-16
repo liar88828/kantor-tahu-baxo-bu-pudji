@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TProductCreate } from "@/entity/product.model";
+import { TProductCreate } from "@/interface/entity/product.model";
 
 export const ProductCreate: z.ZodType<TProductCreate> = z.object({
 	location: z.string().min(1).max(100),

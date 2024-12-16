@@ -1,5 +1,5 @@
-import { TDeliveryCreate, TDeliverySearch, } from "@/entity/delivery.model";
-import {prisma} from "@/lib/prisma";
+import { TDeliveryCreate, TDeliverySearch, } from "@/interface/entity/delivery.model";
+import {prisma} from "@/config/prisma";
 
 // getAll data from database
 export default class DeliveryRepository implements InterfaceRepository<TDeliveryCreate> {

@@ -1,6 +1,6 @@
-import { TOrderCreate } from "@/entity/order.model"
-import { TReceiverDB } from "@/entity/receiver.model";
-import { TTrolleyDB } from "@/entity/trolley.model";
+import { TOrderCreate } from "@/interface/entity/order.model"
+import { TReceiverDB } from "@/interface/entity/receiver.model";
+import { TTrolleyDB } from "@/interface/entity/trolley.model";
 
 export const exampleOrderCreate: TOrderCreate = {
   nameCs: "John Doe",

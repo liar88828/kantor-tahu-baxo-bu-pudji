@@ -1,5 +1,5 @@
 import { TMethod } from '@/interface/Utils';
 
-export const isObjectEmpty = ( objectName: TMethod ) => {
+export const formatObject = (objectName: TMethod ) => {
   return Object.keys( objectName ).length === 0
 }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TOrderCreate } from "@/entity/order.model";
+import { TOrderCreate } from "@/interface/entity/order.model";
 
 export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
 	nameCs: z.string().min(1).max(100),

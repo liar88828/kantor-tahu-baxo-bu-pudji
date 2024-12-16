@@ -1,4 +1,4 @@
-import { TProductDB } from "@/entity/product.model";
+import { TProductDB } from "@/interface/entity/product.model";
 import { Trolleys } from "@prisma/client";
 
 export type TTrolleyDB = Trolleys

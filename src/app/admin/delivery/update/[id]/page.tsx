@@ -2,7 +2,7 @@ import React from 'react'
 import DeliveryForm from '../../DeliveryForm.client'
 import {deliveryId} from '@/network/delivery'
 import type {TContext} from '@/interface/server/param'
-import {getId} from '@/lib/requestHelper'
+import {getId} from '@/utils/requestHelper'
 
 
 export default async function page(context: TContext) {
@@ -14,7 +14,7 @@ export default async function page(context: TContext) {
 		<DeliveryForm
 			defaultValues={data}
 			method={'PUT'}
-			id={''}
+			id={id}
 		/>
 	)
 }

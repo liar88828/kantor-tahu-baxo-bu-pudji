@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { TReceiverCreate } from "@/entity/receiver.model";
+import { TReceiverCreate } from "@/interface/entity/receiver.model";
 
 export const ReceiverCreate: z.ZodType<TReceiverCreate> = z.object({
 	// id: z.string().uuid(),

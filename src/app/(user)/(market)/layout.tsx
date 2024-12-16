@@ -3,21 +3,16 @@ import type { ReactNode } from "react";
 import { ChevronLeft, HomeIcon, LucidePackageSearch, ShoppingCart, UserIcon } from 'lucide-react';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useTrolley } from "@/store/useTrolley";
-import { useQueryClient } from "@tanstack/react-query";
+import { useTrolley } from "@/hook/useTrolley";
 import { userId } from "@/network/trolley";
 import { TrolleyCase } from "@/app/components/TrolleyCase";
 
 export default function Layout({ children }: { children: ReactNode }) {
-	const queryClient = useQueryClient();
 	const router = useRouter()
 	const path = usePathname()
-
-	const { getAll } = useTrolley(queryClient)
-
+	const { getAll } = useTrolley()
 	const { data } = getAll({ idUser: userId })
-	// queryClient.getQueryDefaults([TROLLEY_KEY,'COUNT'])
-// console.error(error)
+
 	return (<>
 			<div className="navbar bg-base-300 fixed z-50">
 				<div className="flex-1">

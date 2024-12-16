@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { TTrolleyProductDB } from "@/entity/trolley.model";
+import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
 type TrolleyTypeStore = {
 	onSelected: TTrolleyProductDB[];

@@ -12,6 +12,7 @@ export type ToModel =
 	| 'trolley'
 	| 'receiver'
 	| 'employee'
+	| "user"
 	;
 export type TMethod = "PUT" | "POST" | "GET" | "DELETE" | "PATCH";
 export type TRes<T> = { msg: string, data: T }

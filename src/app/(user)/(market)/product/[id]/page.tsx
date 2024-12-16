@@ -1,6 +1,6 @@
 import { Star } from 'lucide-react'
 import { TContext } from "@/interface/server/param";
-import { getId } from "@/lib/requestHelper";
+import { getId } from "@/utils/requestHelper";
 import { productId } from "@/network/product";
 import { ErrorData } from "@/app/components/ErrorData";
 import { toRupiah } from "@/utils/toRupiah";

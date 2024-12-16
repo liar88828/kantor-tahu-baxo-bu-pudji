@@ -5,7 +5,7 @@ import React from "react";
 export function ErrorData({msg = 'Error Load', code = 404,}: { msg?: string, code?: number }) {
 	const router = useRouter()
 	return (
-		<div className="card bg-neutral text-neutral-content w-96">
+		<div className="card w-96 md:w-full shadow bg-base-200/40">
 			<div className="card-body items-center text-center">
 				<h2 className="card-title">Error {code}</h2>
 				<p>{msg}</p>

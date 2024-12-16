@@ -1,7 +1,7 @@
 import { InterfaceController } from "@/interface/server/InterfaceController";
 import { NextRequest } from "next/server";
 import { TContext } from "@/interface/server/param";
-import { getId, getJson } from "@/lib/requestHelper";
+import { getId, getJson } from "@/utils/requestHelper";
 import OrderRepository from "@/server/repository/order.repo";
 
 export default class TableController

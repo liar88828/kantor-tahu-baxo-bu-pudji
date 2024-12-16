@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { TOrderTrolleyTransaction, TTrolleyCount, TTrolleyCreate, TTrolleyUpdate } from "@/entity/trolley.model";
+import { TOrderTrolleyTransaction, TTrolleyCount, TTrolleyCreate, TTrolleyUpdate } from "@/interface/entity/trolley.model";
 
 export const OrderProductTransaction: z.ZodType<TOrderTrolleyTransaction[]> = z.array(
 	z.object({

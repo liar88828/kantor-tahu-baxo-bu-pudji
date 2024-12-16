@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useFetch } from "@/hook/useFetch"
-import { Counter, IdTrolley, TrolleyParams } from "@/store/useTrolley";
+import { Counter, IdTrolley, TrolleyParams } from "@/hook/useTrolley";
 import { ResponseAll } from "@/interface/server/param";
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB } from "@/entity/trolley.model";
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
-export const userId = '1da116c8-2d8a-4f9b-ae93-37cbad1bd832'
+export const userId = 'ce2d9fac-7ab6-4b66-9e3a-8ef979b16dbe'
 
 export const trolleyAll = ({idUser}: TrolleyParams) => {
 	return useFetch<ResponseAll<TTrolleyProductDB>>('GET', 'trolley',)

@@ -2,7 +2,7 @@ import React from 'react'
 import { productId } from "@/network/product";
 import { ErrorData } from "@/app/components/ErrorData";
 import { TContext } from "@/interface/server/param";
-import { getId } from "@/lib/requestHelper";
+import { getId } from "@/utils/requestHelper";
 import { toRupiah } from "@/utils/toRupiah";
 import { toDate } from "@/utils/formatDate";
 import { repeat } from "@/utils/repeat";
@@ -10,26 +10,6 @@ import { repeat } from "@/utils/repeat";
 export default async function ProductDetail(context: TContext) {
 	const id = await getId(context)
 	const {data: product} = await productId(id)
-
-	// const router = useRouter()
-	//
-	// const onDelete = async (id: string) => {
-	// 	const idToast = toast.loading('Delete Data API')
-	// 	try {
-	// 		await productDelete(id)
-	// 		toast.success('Success Delete Data');
-	// 		router.refresh()
-	// 	} catch (e) {
-	// 		if (e instanceof Error) {
-	// 			console.error(e.message)
-	// 			toast.error(e.message);
-	// 		}
-	// 		toast.error('something error');
-	//
-	// 	} finally {
-	// 		toast.dismiss(idToast)
-	// 	}
-	// }
 
 	return (
 		<div className='p-3 my-4 '>

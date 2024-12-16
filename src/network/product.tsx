@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {TProductCreate, TProductDB} from "@/entity/product.model"
+import {TProductCreate, TProductDB} from "@/interface/entity/product.model"
 import {useFetch} from "@/hook/useFetch"
 import {ResponseAll} from "@/interface/server/param";
 

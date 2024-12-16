@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/prisma";
 import { ResponseAll } from "@/interface/server/param";
-import { ReceiverSearch, TReceiverCreate, TReceiverDB } from "@/entity/receiver.model";
+import { ReceiverSearch, TReceiverCreate, TReceiverDB } from "@/interface/entity/receiver.model";
 
 export default class ReceiverRepository implements InterfaceRepository<TReceiverCreate> {
 	paginate(data: { row: number; skip: number; }): Promise<any> {

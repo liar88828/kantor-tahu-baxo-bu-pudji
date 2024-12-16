@@ -1,5 +1,5 @@
 import { toRupiah } from "@/utils/toRupiah";
-import { TTrolleyProductDB } from "@/entity/trolley.model";
+import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
 interface TrolleyCaseProps {
 	trolleys?: TTrolleyProductDB[],
@@ -8,6 +8,7 @@ interface TrolleyCaseProps {
 }
 
 export function TrolleyCase({ trolleys, fun, text = "View cart" }: TrolleyCaseProps) {
+
 	const subTotal = (): number => {
 		if (!trolleys) return 0;
 		return trolleys.reduce((total, trolley) => {
@@ -15,6 +16,7 @@ export function TrolleyCase({ trolleys, fun, text = "View cart" }: TrolleyCasePr
 			return total;
 		}, 0)
 	}
+
 	return (
 		<div className="card-body">
 			<span className="text-lg font-bold">{ trolleys ? trolleys.length : 0 } Items</span>

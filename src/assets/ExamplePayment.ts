@@ -1,4 +1,4 @@
-import { TPaymentCreate, TPaymentDB } from "@/entity/payment.model";
+import { TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 
 export const examplePayment: TPaymentCreate = {
 	// id        : "kosong",

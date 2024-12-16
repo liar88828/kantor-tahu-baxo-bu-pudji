@@ -33,7 +33,7 @@ Content-Type: application/json
 
 
 ### Edit data Travel Text Only
-PUT {{api}}/d55ae41c-54fc-4335-b3fe-1756408ab20c
+PUT {{api}}/5c13752e-ddbc-4972-89f2-7d11b23a2072
 Content-Type: application/json
 
 {

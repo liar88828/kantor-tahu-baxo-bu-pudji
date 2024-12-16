@@ -1,41 +1,21 @@
 'use client'
-import {zodResolver} from '@hookform/resolvers/zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import {useForm} from 'react-hook-form';
-import type {TDeliveryCreate, TDeliveryDB} from '@/entity/delivery.model';
-import {DeliveryCreate} from '@/validation/delivery.valid';
-import {TReactFormHookComponent} from "@/interface/server/param";
-import {useRouter} from "next/navigation";
-import {deliveryCreate, deliveryUpdate} from "@/network/delivery";
-import toast from "react-hot-toast";
+import { useForm } from 'react-hook-form';
+import type { TDeliveryCreate, TDeliveryDB } from '@/interface/entity/delivery.model';
+import { DeliveryCreate } from '@/validation/delivery.valid';
+import { TReactFormHookComponent } from "@/interface/server/param";
+import { useDelivery } from "@/hook/useDelivery";
 
 export default function DeliveryForm({defaultValues, method, id,}: TReactFormHookComponent<TDeliveryDB>) {
-	const router = useRouter()
+	const { onUpsert } = useDelivery()
 
 	const {handleSubmit, register, formState: {errors}} = useForm<TDeliveryCreate>(
 		{resolver: zodResolver(DeliveryCreate), defaultValues}
 	);
 
 	const onSubmitAction = async (data: TDeliveryCreate) => {
-		const idToast = toast.loading("Send Data to API");
-		try {
-			if (method === 'POST') {
-				await deliveryCreate(data)
-				toast.success('Success Create Data');
-			} else if (method === 'PUT') {
-				await deliveryUpdate(data, id)
-				toast.success('Success Create Data');
-			}
-			router.push('/admin/delivery')
-		} catch (e: unknown) {
-			if (e instanceof Error) {
-				console.error(e)
-				toast(e.message);
-			}
-			toast.error('something error');
-		} finally {
-			toast.dismiss(idToast);
-		}
+		await onUpsert({ data, id, method })
 	}
 
 	return (

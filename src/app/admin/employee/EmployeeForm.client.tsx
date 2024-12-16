@@ -2,14 +2,13 @@
 import React from 'react';
 import { FormProvider, useFieldArray, useForm, useFormContext } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EmployeeCreateZod, employeeCreateClient } from "@/validation/employee.valid";
-import { useRouter } from "next/navigation";
+import { employeeCreateClient, EmployeeCreateZod } from "@/validation/employee.valid";
 import { Minus, Plus } from "lucide-react";
-import toast from "react-hot-toast";
-import { employeeCreate } from "@/network/employee";
+import { useEmployee } from "@/hook/useEmployee";
 
 const EmployeeForm: React.FC = () => {
-	const router = useRouter();
+	const { onCreate } = useEmployee()
+
 	const methods = useForm<EmployeeCreateZod>({
 		resolver: zodResolver(employeeCreateClient),
 		defaultValues: {
@@ -17,18 +16,11 @@ const EmployeeForm: React.FC = () => {
 			employmentType: 'Full-Time'
 		}
 	});
+
 	const { register, handleSubmit, formState: { errors } } = methods
-	// console.log(watch()) // watch input value by passing the name of it
+
 	const onSubmit = async (data: EmployeeCreateZod) => {
-		const idToast = toast.loading('Loading...');
-		const response = await employeeCreate(data)
-		if (response) {
-			toast.success("Employee created");
-			router.push('/admin/employee');
-		} else {
-			toast.error("Employee Fail Crate");
-		}
-		toast.dismiss(idToast)
+		await onCreate(data)
 	};
 
 	return (

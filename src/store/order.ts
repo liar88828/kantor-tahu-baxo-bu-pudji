@@ -1,10 +1,10 @@
-import { TOrderTransactionCreate } from "@/entity/transaction.model";
+import { TOrderTransactionCreate } from "@/interface/entity/transaction.model";
 import { create } from "zustand";
-import { TDeliveryDB } from "@/entity/delivery.model";
-import { TPaymentDB } from "@/entity/payment.model";
+import { TDeliveryDB } from "@/interface/entity/delivery.model";
+import { TPaymentDB } from "@/interface/entity/payment.model";
 import { userId } from "@/network/trolley";
-import { TTrolleyProductUser } from "@/entity/trolley.model";
-import { TReceiverCreate } from "@/entity/receiver.model";
+import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
+import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { OrderCreateClient } from "@/validation/order.valid";
 
 type DataOrder = {

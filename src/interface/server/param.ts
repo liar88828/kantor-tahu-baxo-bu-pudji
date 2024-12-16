@@ -1,8 +1,8 @@
-import { TProductDB } from "@/entity/product.model";
+import { TProductDB } from "@/interface/entity/product.model";
 
 export type TContext = {
-	searchParams: Promise<{ search: string }>,
-	params: Promise<{ id: string, search: string }>
+	searchParams: Promise<{ search: string,status:string }>,
+	params: Promise<{ id: string, search: string, }>
 }
 
 export type TReactFormHookComponent<T> = {
@@ -15,7 +15,8 @@ export type TReactFormHookComponent<T> = {
 export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>
 export type ResponseAll<T> = {
 	data: T[],
-	page: number, pageSize: number
+	page: number,
+	pageSize: number
 }
 
 export type PaginatedResponse = {

@@ -2,7 +2,7 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { NextRequest } from "next/server"
 import { TContext } from "@/interface/server/param"
 import DeliveryRepository from "@/server/repository/delivery.repo"
-import { getId, getJson, getParams } from "@/lib/requestHelper"
+import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import { DeliveryCreate } from "@/validation/delivery.valid"
 

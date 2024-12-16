@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { ErrorResponse } from "@/lib/requestHelper";
+import { ErrorResponse } from "@/utils/requestHelper";
 
 export const saveImage = async (formData: FormData, pathImage: string) => {// Get the image file from the form data
 	const imgFile = formData.get('file') as File;

@@ -4,7 +4,6 @@ import PaymentForm from "@/app/admin/payment/PaymentForm.client";
 
 
 export default async function page() {
-
 	return (
 		<PaymentForm
 			defaultValues={examplePayment}

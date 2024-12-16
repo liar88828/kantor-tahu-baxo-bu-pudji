@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
-import { TProductDB } from "@/entity/product.model";
-import { productAll } from "@/network/product";
-import { TTrolleyProductUser } from "@/entity/trolley.model";
+import { TProductDB } from "@/interface/entity/product.model";
+import { productAll, productDelete } from "@/network/product";
+import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
 interface ProductStore {
 	total: number;
@@ -74,7 +74,6 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 			)
 		}))
 		get().setTotal()
-
 	},
 
 	onDecrement: (id: string) => {
@@ -86,7 +85,6 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 			),
 		}))
 		get().setTotal()
-
 	},
 
 	setProduct: (data) => {
@@ -105,8 +103,8 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 			}
 		})
 		get().setTotal()
-
 	},
+
 	getProductData: async () => {
 		try {
 			set({ isLoading: true });
@@ -126,5 +124,6 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 			set({ isLoading: false });
 		}
 	},
+
 	setSearch: (search) => set(({ search }))
 }))

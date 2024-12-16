@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 import { TContext } from "@/interface/server/param"
-import { getJson, ResponseJson } from "@/lib/requestHelper";
+import { getJson, ResponseJson } from "@/utils/requestHelper";
 import { employeeCreateClient } from "@/validation/employee.valid";
 import EmployeeRepository from "@/server/repository/employee.repo";
 

@@ -1,7 +1,7 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { NextRequest } from "next/server"
 import { TContext } from "@/interface/server/param"
-import { getId, getParams } from "@/lib/requestHelper"
+import { getId, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import EmployeeRepository from "@/server/repository/employee.repo";
 import { pathImage, saveImage } from "@/server/repository/image.repo";
@@ -17,6 +17,7 @@ export default class EmployeeController
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
 		return this.employeeRepository.findAll({
 			name: getParams(request, "name") ?? '',
+			status: getParams(request, "status") ?? '',
 		})
 	}
 

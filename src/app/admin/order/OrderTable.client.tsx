@@ -5,20 +5,19 @@ import { toStatus } from "@/utils/status";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { Filter, NotebookTabs, Pencil, Search, Trash } from "lucide-react";
-import { TOrderTransactionDB } from "@/entity/transaction.model";
 import Link from "next/link";
 import { useTableStore } from "@/store/table";
+import { EmptyData } from "@/app/components/ErrorData";
+import { useOrder } from "@/hook/useOrder";
 
-function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
+function OrderTable() {
+	const { getAll } = useOrder()
+	const { data: orders, isLoading } = getAll()
 	const { setTable, existTable, search, setSearch, status: statusTable, tableDetail } = useTableStore()
 	const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
-
 	const tableRef = useRef(null);
-
-
 	return (<>
 			<FilterDialog/>
-
 			<div className="flex justify-between items-center gap-2">
 				<div className="join w-full ">
 					<input
@@ -42,22 +41,16 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 				</div>
 
 				<div className=" flex flex-nowrap gap-2">
-
-
 					{/* Open the modal using document.getElementById('ID').showModal() method */ }
-
-
 					<Link href={ '/admin/order/create' } className={ 'btn ' }>Create</Link>
-
-
 				</div>
-
 			</div>
 			<div>
 				{/*<button onClick={ onDownload }>Download</button>*/ }
 				<div className="overflow-x-auto mt-2">
-
-					<table className="table table-xs" ref={ tableRef }>
+					{ !orders
+						? <EmptyData page={ 'order' }/>
+						: <table className="table table-xs" ref={ tableRef } data-theme={'light'}>
 						<thead>
 						<tr>
 							<th>
@@ -65,18 +58,16 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 									<input
 										type="checkbox"
 										className="checkbox checkbox-sm"
+										checked={ selectedOrders.length === orders.data.data.length }
 										onChange={ (e) => {
 											startTransition(() => {
 												if (e.target.checked) {
-													setSelectedOrders(data.map((order) => order.id));
+													setSelectedOrders(orders.data.data.map((order) => order.id));
 												} else {
 													setSelectedOrders([]);
 												}
 											})
 										} }
-										checked={
-											data && selectedOrders.length === data.length
-										}
 									/>
 								</label>
 							</th>
@@ -120,11 +111,10 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 						</thead>
 						<tbody>
 						{
-							!data
+							!isLoading && !orders.data
 								? <LoadingSpin/>
-								: data
+								: orders.data.data
 								.filter((order) => {
-									console.log(statusTable);
 									const nameOrder = order.nameCs.toLowerCase().includes(search.toLowerCase());
 									const statusOrder = order.status.includes(statusTable);
 									return nameOrder && statusOrder;
@@ -209,6 +199,8 @@ function OrderTable({ data }: { data: TOrderTransactionDB[] }) {
 								)) }
 						</tbody>
 					</table>
+					}
+
 				</div>
 			</div>
 		</>
@@ -224,12 +216,12 @@ export function FilterDialog() {
 	return (
 		<dialog id="my_modal_filter" className="modal ">
 			<div className="modal-box ">
-				<h3 className="font-bold text-lg">Filter</h3>
+				<h3 className="font-bold text-lg mb-2">Filter</h3>
 
-				<div className=" ">
-
+				<div className=" space-y-5">
+					<div className="">
+						<h2 className={ 'font-semibold' }>Select Status</h2>
 					<label className="">
-						<span>Select Status</span>
 						<select className="select select-bordered w-full"
 								onChange={ (e) => setStatus(e.target.value) }
 						>
@@ -239,56 +231,70 @@ export function FilterDialog() {
 							<option value="Completed">Completed</option>
 						</select>
 					</label>
-					<label className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							className="checkbox checkbox-sm"
-							checked={ tableDetail.description }
-							onChange={ () => {
-								setTableDetail({ description: !tableDetail.description })
-							} }
-						/>
-						<span>Description</span>
-					</label>
-					<label className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							className="checkbox checkbox-sm"
-							checked={ tableDetail.receiver }
-							onChange={ () => {
-								setTableDetail({ receiver: !tableDetail.receiver })
-							} }
-						/>
-						<span>Receiver</span>
-					</label>
-					<label className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							className="checkbox checkbox-sm"
-							checked={ tableDetail.payment }
-							onChange={ () => {
-								setTableDetail({ payment: !tableDetail.payment })
-							} }
-						/>
-						<span>Payment</span>
-					</label>
-					<label className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							className="checkbox checkbox-sm"
-							checked={ tableDetail.deliver }
-							onChange={ () => {
-								setTableDetail({ deliver: !tableDetail.deliver })
-							} }
-						/>
-						<span>Deliver</span>
-					</label>
+					</div>
 
-					<div className="mt-2 space-x-2">
+					<div>
+						<h2 className="font-semibold">Show Column</h2>
+						<div className="space-y-1">
+							<label className="flex items-center gap-2">
+								<input
+									type="checkbox"
+									className="checkbox checkbox-sm"
+									checked={ tableDetail.description }
+									onChange={ () => {
+										setTableDetail({ description: !tableDetail.description })
+									} }
+								/>
+								<span>Description</span>
+							</label>
+							<label className="flex items-center gap-2">
+								<input
+									type="checkbox"
+									className="checkbox checkbox-sm"
+									checked={ tableDetail.receiver }
+									onChange={ () => {
+										setTableDetail({ receiver: !tableDetail.receiver })
+									} }
+								/>
+								<span>Receiver</span>
+							</label>
+							<label className="flex items-center gap-2">
+								<input
+									type="checkbox"
+									className="checkbox checkbox-sm"
+									checked={ tableDetail.payment }
+									onChange={ () => {
+										setTableDetail({ payment: !tableDetail.payment })
+									} }
+								/>
+								<span>Payment</span>
+							</label>
+							<label className="flex items-center gap-2">
+								<input
+									type="checkbox"
+									className="checkbox checkbox-sm"
+									checked={ tableDetail.deliver }
+									onChange={ () => {
+										setTableDetail({ deliver: !tableDetail.deliver })
+									} }
+								/>
+								<span>Deliver</span>
+							</label>
+						</div>
+					</div>
+
+					<div className="font-semibold ">
 						<h2>Selected Data : { data.length }</h2>
+						<div className="space-x-2">
 						<Link href={ '/admin/order/export/excel' }
-							  className={ 'btn ' }>Export</Link>
-						<Link href={ '/admin/order/print' } className={ 'btn btn-error' }>Delete</Link>
+							  className={ 'btn ' }>
+							Export
+						</Link>
+							<Link href={ '/admin/order/print' }
+								  className={ 'btn btn-error' }>
+								Delete
+							</Link>
+						</div>
 					</div>
 				</div>
 

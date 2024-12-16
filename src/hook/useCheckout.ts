@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TTrolleyProductDB } from "@/entity/trolley.model";
+import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
 export const useCheckout = (data: TTrolleyProductDB[] | undefined) => {
 	const [ newData, setNewData ] = useState(data);

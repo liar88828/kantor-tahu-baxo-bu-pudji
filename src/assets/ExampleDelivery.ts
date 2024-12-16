@@ -1,4 +1,4 @@
-import { TDeliveryCreate, TDeliveryDB } from "@/entity/delivery.model"
+import { TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model"
 
 export const exampleDelivery: TDeliveryDB = {
   id: "kosong",

@@ -1,42 +1,21 @@
 "use client"
 import React from 'react';
-import {useForm} from 'react-hook-form';
-import {TPaymentCreate} from "@/entity/payment.model";
-import {TReactFormHookComponent} from "@/interface/server/param";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {PaymentCreate} from "@/validation/payment.valid";
-import {paymentCreate, paymentUpdate} from "@/network/payment";
-import toast from "react-hot-toast";
-import {useRouter} from "next/navigation";
-
+import { useForm } from 'react-hook-form';
+import { TPaymentCreate } from "@/interface/entity/payment.model";
+import { TReactFormHookComponent } from "@/interface/server/param";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PaymentCreate } from "@/validation/payment.valid";
+import usePayment from "@/hook/usePayment";
 
 export default function PaymentForm({defaultValues, method, id,}: TReactFormHookComponent<TPaymentCreate>) {
-	const router = useRouter()
+	const { onUpsert } = usePayment()
 
 	const {handleSubmit, register, formState: {errors}} = useForm<TPaymentCreate>({
 		resolver: zodResolver(PaymentCreate), defaultValues
 		});
 
 	const onSubmitAction = async (data: TPaymentCreate) => {
-		const idToast = toast.loading("Send Data to API");
-		try {
-			if (method === 'POST') {
-				await paymentCreate(data)
-				toast.success('Success Create Data');
-			} else if (method === 'PUT') {
-				await paymentUpdate(data, id)
-				toast.success('Success Update Data');
-			}
-			router.push('/admin/payment')
-		} catch (e: unknown) {
-			if (e instanceof Error) {
-				console.error(e)
-				toast(e.message);
-			}
-			toast.error('something error');
-		} finally {
-			toast.dismiss(idToast);
-		}
+		await onUpsert({ method, data, id })
 	}
 
 	return (
@@ -101,10 +80,10 @@ export default function PaymentForm({defaultValues, method, id,}: TReactFormHook
 						<label htmlFor="accounting">Accounting</label>
 						<input
 							className='input input-bordered w-full'
-							type="text"
+							type="number"
 							{...register("accounting", {
 								required: "Accounting is required",
-								valueAsNumber: true,
+								// valueAsNumber: true,
 							})}
 						/>
 						{errors.accounting && <p className="text-red-500">{errors.accounting.message}</p>}

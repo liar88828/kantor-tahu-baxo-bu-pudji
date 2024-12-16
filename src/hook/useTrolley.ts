@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Users } from "@prisma/client";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
 	pushTrolley,
 	removeTrolley,
@@ -11,7 +10,9 @@ import {
 	trolleyIncrement
 } from "@/network/trolley";
 import toast from "react-hot-toast";
-import { TTrolleyDB, TTrolleyProductDB } from "@/entity/trolley.model";
+import { TTrolleyDB, TTrolleyProductDB } from "@/interface/entity/trolley.model";
+import { TProductDB } from "@/interface/entity/product.model";
+import { useState } from "react";
 
 // export const TROLLEY_KEY = 'trolley'
 
@@ -30,9 +31,12 @@ export type Counter = {
 	idTrolley: TTrolleyDB['id'],
 };
 
-export const useTrolley = (queryClient: QueryClient) => {
+export const useTrolley = () => {
+	const queryClient = useQueryClient()
+	const [ counter, setCounter ] = useState(1)
+	const [ message, setMessage ] = useState<string | null>()
 
-	const getAll = ({idUser}: TrolleyParams) => {
+	const GetAll = ({ idUser }: TrolleyParams) => {
 		return useQuery({
 			queryKey: [ TROLLEY_KEYS.trolley ],
 			queryFn: () => {
@@ -55,8 +59,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 			// },
 		})
 	}
-
-	const getId = ({ idTrolley }: IdTrolley) => {
+	const GetId = ({ idTrolley }: IdTrolley) => {
 		return useQuery({
 			queryKey: [ TROLLEY_KEYS.trolley ],
 			queryFn: () => {
@@ -71,16 +74,35 @@ export const useTrolley = (queryClient: QueryClient) => {
 		})
 	}
 
+	const incrementProduct = () => {
+		setCounter(prev => {
+			return prev + 1
+		})
+	}
+
+	const decrementProduct = () => {
+		setCounter(prev => {
+			if (prev !== 0) {
+				setMessage(null)
+				return prev - 1
+			}
+			setMessage('The stock cannot be less than 0')
+			return prev
+		})
+	}
 	const push = useMutation({
-			mutationFn: pushTrolley,
-		onError: (error, variables, context) => {
+		mutationFn: async (product: TProductDB) => {
+			await pushTrolley({ id: product.id, price: product.price, qty: counter })
+		},
+		onError: (error) => {
 			toast.error(error.message)
 		},
-		onSuccess: (data, variables, context) => {
+		onSuccess: async () => {
 			toast.success('Success Push Data ', { position: 'top-right' })
-			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
-			queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
+			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
+			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
 		}
+
 	})
 
 	const remove = useMutation({
@@ -130,7 +152,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 		},
 	})
 
-	const count = () => {
+	const Count = () => {
 		const { data } = useQuery({
 				queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ],
 			queryFn: () => {
@@ -152,7 +174,7 @@ export const useTrolley = (queryClient: QueryClient) => {
 		}
 	}
 
-	const getIdTrolley = () => {
+	const GetIdTrolley = () => {
 		return useQuery<TTrolleyProductDB[]>({
 			queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
 			queryFn: () => {
@@ -176,7 +198,21 @@ export const useTrolley = (queryClient: QueryClient) => {
 
 	})
 
-	return { count: count(), increment, decrement, push, getAll, getId, remove, getIdTrolley, setIdTrolley }
+	return {
+		count: Count,
+		increment,
+		decrement,
+		push,
+		// setCounter,
+		getAll: GetAll,
+		GetId,
+		remove,
+		GetIdTrolley,
+		setIdTrolley,
+		message,
+		decrementProduct,
+		incrementProduct, counter
+	}
 }
 
 // const test=useMutationState({

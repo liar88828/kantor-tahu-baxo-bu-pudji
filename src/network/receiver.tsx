@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import type { TReceiverCreate, TReceiverDB } from "@/entity/receiver.model";
+import type { TReceiverCreate, TReceiverDB } from "@/interface/entity/receiver.model";
 import { useFetch } from "@/hook/useFetch";
 import { ResponseAll } from "@/interface/server/param";
 

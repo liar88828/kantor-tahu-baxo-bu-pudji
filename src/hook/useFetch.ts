@@ -11,14 +11,12 @@ export const useFetch = async <R>(
 	// Initialize headers
 	const headers: HeadersInit = {
 		"Content-Type": "application/json",
-
 	}
 
 	// Prepare fetch options
 	const fetchOptions: RequestInit = {
 		method: method,
 		headers,
-
 	}
 
 	// If method is POST, PUT, or PATCH, include the body
@@ -56,8 +54,11 @@ export const useFetch = async <R>(
 		// Parse and return the JSON response
 		return await response.json()
 	} catch (error) {
+		if (error instanceof Error) {
 		// Handle errors
-		console.error("Fetch error:", error)
+			console.error("Fetch error:", error.message)
+
+		}
 		throw error // Rethrow the error for the caller to handle
 	}
 }

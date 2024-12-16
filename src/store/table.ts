@@ -1,4 +1,4 @@
-import { OrderId, TOrderTransactionDB } from "@/entity/transaction.model";
+import { OrderId, TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { create } from "zustand/index";
 
 type TableStore = {

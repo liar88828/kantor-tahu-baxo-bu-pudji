@@ -1,7 +1,7 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
-import { getId, getJson } from "@/lib/requestHelper"
+import { getId, getJson } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import TrolleyRepository from "@/server/repository/trolley.repo"
 import { OrderProductCreate, OrderProductUpdate, } from "@/validation/orderProduct.valid"

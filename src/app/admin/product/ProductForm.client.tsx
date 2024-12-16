@@ -1,42 +1,21 @@
 "use client"
 import React from 'react';
-import {TProductCreate} from "@/entity/product.model";
-import {TReactFormHookComponent} from "@/interface/server/param";
-import {useForm} from "react-hook-form";
-import {useRouter} from "next/navigation";
-import toast from "react-hot-toast";
-import {productCreate, productUpdate} from "@/network/product";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ProductCreate} from "@/validation/product.valid";
-
+import { TProductCreate } from "@/interface/entity/product.model";
+import { TReactFormHookComponent } from "@/interface/server/param";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductCreate } from "@/validation/product.valid";
+import { useProduct } from "@/hook/useProduct";
 
 export default function ProductForm({defaultValues, method, id,}: TReactFormHookComponent<TProductCreate>) {
-	const router = useRouter()
+	const { onUpsert } = useProduct()
 
 	const {handleSubmit, register, formState: {errors}} = useForm<TProductCreate>({
 		resolver: zodResolver(ProductCreate), defaultValues
 	});
 
 	const onSubmitAction = async (data: TProductCreate) => {
-		const idToast = toast.loading("Send Data to API");
-		try {
-			if (method === 'POST') {
-				await productCreate(data)
-				toast.success('Success Create Data');
-			} else if (method === 'PUT') {
-				await productUpdate(data, id)
-				toast.success('Success Update Data');
-			}
-			router.push('/admin/product')
-		} catch (e: unknown) {
-			if (e instanceof Error) {
-				console.error(e)
-				toast(e.message);
-			}
-			toast.error('something error');
-		} finally {
-			toast.dismiss(idToast);
-		}
+		await onUpsert({ method, data, id })
 	}
 
 

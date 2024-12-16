@@ -19,7 +19,9 @@ export default function RootLayout({children}: {
 	children: ReactNode
 }) {
 	return (
-		<html lang="en" className={ inter.className } data-theme={ 'light' }>
+		<html lang="en" className={ inter.className }
+			  // data-theme={ 'light' }
+		>
 		<body className={"min-h-screen "}>
 		<ReactQueryProvider>
 			{children}

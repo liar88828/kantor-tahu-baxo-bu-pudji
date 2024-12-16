@@ -8,9 +8,9 @@ module.exports = {
   ],
   daisyui: {
     themes: [
+			// 'dark',
+			// "dracula",
       "light",
-			'dark',
-			"dracula"
     ],
   },
   theme: {

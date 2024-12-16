@@ -1,51 +1,18 @@
 'use client'
 
 import { Minus, Plus, ShoppingCart } from "lucide-react";
-import { useState } from "react";
-import { TProductDB } from "@/entity/product.model";
-import { useTrolley } from "@/store/useTrolley";
-import { useQueryClient } from "@tanstack/react-query";
+import { TProductDB } from "@/interface/entity/product.model";
+import { useTrolley } from "@/hook/useTrolley";
 import { toRupiah } from "@/utils/toRupiah";
 import toast from "react-hot-toast";
 
 export default function AddTrolleyClient({ product }: { product: TProductDB }) {
-	const { push } = useTrolley(useQueryClient())
-	const [ counter, setCounter ] = useState(1)
-	const [ message, setMessage ] = useState<string | null>()
-
-	const increment = () => {
-		setCounter(prev => {
-			if (product.qty !== prev) {
-				setMessage(null)
-				return prev + 1
-			}
-			setMessage('Cannot more than stock')
-			return prev
-		})
-	}
-
-	const decrement = () => {
-		setCounter(prev => {
-			if (prev !== 0) {
-				setMessage(null)
-				return prev - 1
-			}
-			setMessage('The stock cannot be less than 0')
-			return prev
-		})
-	}
+	const { push, incrementProduct, decrementProduct, message, counter } = useTrolley()
 
 	const onPushTrolley = () => {
 		const idToast = toast.loading('Loading...')
 		try {
-			push.mutate({
-					id: product.id,
-				qty: counter,
-				price: product.price,
-				}
-			)
-		} catch (e) {
-			console.log(e)
+			push.mutate(product)
 		} finally {
 			toast.dismiss(idToast)
 		}
@@ -84,18 +51,20 @@ export default function AddTrolleyClient({ product }: { product: TProductDB }) {
 									</div>
 
 									<div className="card-action">
-
 										<div className="flex items-center gap-4">
 											<button className={ 'btn btn-square btn-neutral' }
-													onClick={ decrement }>
+													onClick={ decrementProduct }>
 												<Minus/>
 											</button>
 											<h1 className={ 'text-xl' }>{ counter }</h1>
-											<button className={ 'btn btn-square btn-neutral' }
-													onClick={ increment }>
+											<button
+												disabled={ product.qty === counter }
+												className={ 'btn btn-square btn-neutral' }
+												onClick={ incrementProduct }>
 												<Plus/>
 											</button>
 										</div>
+										{product.qty === counter&&<p className={'text-error'}>Product is Max to Add</p>}
 									</div>
 								</div>
 							</div>

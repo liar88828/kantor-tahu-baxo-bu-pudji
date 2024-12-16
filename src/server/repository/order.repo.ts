@@ -1,5 +1,5 @@
-import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/entity/transaction.model";
-import { prisma } from "@/lib/prisma";
+import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/interface/entity/transaction.model";
+import { prisma } from "@/config/prisma";
 import { TStatus } from "@/interface/Dashboard";
 import { TOptional } from "@/interface/types";
 import { Orders } from "@prisma/client";

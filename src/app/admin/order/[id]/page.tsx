@@ -1,7 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { useReactToPrint } from "react-to-print";
+import { usePrint } from "@/hook/usePrint";
 
 const data = {
 	"id": "712ec142-b620-4315-8571-877c84634642",
@@ -96,21 +95,7 @@ const data = {
 }
 
 export default function DetailedInvoicePrint() {
-	const [ isPrinting, setIsPrinting ] = useState(false)
-	const contentRef = useRef<HTMLDivElement>(null);
-	const reactToPrintFn = useReactToPrint({
-		contentRef,
-	});
-	const handlePrint = () => {
-		setIsPrinting(true)
-		let tempTitle = document.title;
-		document.title = "Special File Name.pdf";
-		// window.print()
-		reactToPrintFn()
-		document.title = tempTitle;
-		setIsPrinting(false)
-	}
-
+	const { isPrinting, handlePrint, contentRef } = usePrint()
 	const formatDate = (dateString: string) => {
 		return new Date(dateString).toLocaleString()
 	}

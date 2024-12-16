@@ -2,7 +2,7 @@ import ProductRepository from "@/server/repository/product.repo"
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
-import { getId, getJson, getParams } from "@/lib/requestHelper"
+import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import { ProductCreate } from "@/validation/product.valid";
 

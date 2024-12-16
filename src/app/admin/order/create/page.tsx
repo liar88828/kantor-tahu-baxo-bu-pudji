@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
 	DeliveryDialog,
 	DeliveryForm,
@@ -16,13 +15,9 @@ import { useDeliveryStore } from "@/store/delivery";
 import { usePaymentStore } from "@/store/payment";
 import { useOrderStore } from "@/store/order";
 import { useReceiverStore } from "@/store/receiver";
-import { useMutation } from "@tanstack/react-query";
-import { TOrderTransactionCreate } from "@/entity/transaction.model";
 import toast from "react-hot-toast";
-import { orderPost } from "@/network/order";
 import { crderCreateClient, OrderCreateClient } from "@/validation/order.valid";
-
-
+import { useOrder } from "@/hook/useOrder";
 
 export default function OrderForm() {
 	const { total: totalProduct, productStore, } = useProductStore()
@@ -30,19 +25,7 @@ export default function OrderForm() {
 	const { data: dataReceiver } = useReceiverStore()
 	const { payment: dataPayment } = usePaymentStore()
 	const { setTotal, total, setData, onData } = useOrderStore()
-	const orderCreate = useMutation({
-		mutationFn: (data: TOrderTransactionCreate) => {
-			return orderPost(data)
-		},
-		onError: (data, variables, context) => {
-			if (data instanceof Error) {
-				toast.error(data.message)
-			}
-		},
-		onSuccess: (data, variables, context) => {
-			toast.success(data.msg)
-		}
-	})
+	const { onCreate } = useOrder()
 
 	const {
 		register,
@@ -62,18 +45,14 @@ export default function OrderForm() {
 				receiver: dataReceiver,
 				order: data,
 			})
-
 		}
-		console.log(onData)
-		if (onData) {
-			orderCreate.mutate(onData)
-		}
+		if (onData) onCreate.mutate(onData)
 		toast.dismiss(toastId)
 	};
 
 	useEffect(() => {
 		setTotal({ totalProduct })
-		console.log('test')
+		// console.log('test')
 	}, [ totalProduct, setTotal ])
 
 	return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import PaymentForm from '../../PaymentForm.client'
 import type {TContext} from '@/interface/server/param'
-import {getId} from '@/lib/requestHelper'
+import {getId} from '@/utils/requestHelper'
 import {paymentId} from "@/network/payment";
 
 export default async function page(context: TContext) {

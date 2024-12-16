@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { TReceiverCreate } from "@/entity/receiver.model";
+import { TReceiverCreate } from "@/interface/entity/receiver.model";
+import { userId } from "@/network/trolley";
 
 type ReceiverStore = {
 	data: TReceiverCreate
@@ -11,7 +12,7 @@ export const useReceiverStore = create<ReceiverStore>((set) => ({
 		address: "",
 		name: "",
 		phone: "",
-		userId: '1da116c8-2d8a-4f9b-ae93-37cbad1bd832',
+		userId,
 
 	},
 	setData: (data) =>

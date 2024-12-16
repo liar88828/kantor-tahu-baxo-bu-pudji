@@ -1,4 +1,4 @@
-import { TProductCreate, TProductDB } from "@/entity/product.model"
+import { TProductCreate, TProductDB } from "@/interface/entity/product.model"
 
 export const exampleProduct: TProductCreate = {
   price: 0,

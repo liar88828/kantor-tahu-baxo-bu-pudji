@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma"
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB, TTrolleyUpdate } from "@/entity/trolley.model";
+import { prisma } from "@/config/prisma"
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB, TTrolleyUpdate } from "@/interface/entity/trolley.model";
 
 export default class TrolleyRepository
 	implements InterfaceRepository<TTrolleyDB> {

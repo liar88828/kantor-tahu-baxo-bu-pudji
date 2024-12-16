@@ -1,5 +1,5 @@
-import {ProductSearch, TProductCreate, TProductDB} from "@/entity/product.model";
-import {prisma} from "@/lib/prisma";
+import {ProductSearch, TProductCreate, TProductDB} from "@/interface/entity/product.model";
+import {prisma} from "@/config/prisma";
 import {ResponseAll} from "@/interface/server/param";
 
 

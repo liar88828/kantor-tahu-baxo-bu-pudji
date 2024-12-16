@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { orderCreateServer } from "../../src/validation/order.valid";
 import { OrderProductTransaction } from "../../src/validation/orderProduct.valid";
 import { ReceiverCreate } from "../../src/validation/receiver.valid";
-import { TOrderTransactionCreate } from "../../src/entity/transaction.model";
+import { TOrderTransactionCreate } from "../../src/interface/entity/transaction.model";
 
 export const orderReceiver = {
 	"name": "Alice Johnson",

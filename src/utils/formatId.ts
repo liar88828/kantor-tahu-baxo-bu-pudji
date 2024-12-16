@@ -1,6 +1,6 @@
-import {TProductDB} from "@/entity/product.model";
-import {TDeliveryDB} from "@/entity/delivery.model";
-import {TPaymentDB} from "@/entity/payment.model";
+import {TProductDB} from "@/interface/entity/product.model";
+import {TDeliveryDB} from "@/interface/entity/delivery.model";
+import {TPaymentDB} from "@/interface/entity/payment.model";
 import {ToModel} from "@/interface/Utils";
 import { TOrder, TOrderServer } from "@/interface/orderan";
 

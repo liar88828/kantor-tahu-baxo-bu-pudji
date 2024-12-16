@@ -1,5 +1,5 @@
 import {z} from "zod"
-import {TDeliveryCreate} from "@/entity/delivery.model"
+import {TDeliveryCreate} from "@/interface/entity/delivery.model"
 
 export const DeliveryCreate: z.ZodType<TDeliveryCreate> = z.object({
 	name: z.string().min(1).max(100),
