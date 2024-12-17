@@ -427,7 +427,7 @@ export function Receiver() {
 }
 
 export function ReceiverForm() {
-	const { data, setData } = useReceiverStore()
+	const { receiver, setReceiver } = useReceiverStore()
 	return (
 		<div className={ 'card card-compact bg-base-200' }>
 			<div className="card-body">
@@ -437,9 +437,9 @@ export function ReceiverForm() {
 						<span className="label-text">Receiver Name</span>
 					</label>
 					<input
-						value={ data.name }
+						value={ receiver.name }
 						onChange={ (e) => {
-							setData({ name: e.target.value })
+							setReceiver({ name: e.target.value })
 						} }
 						type="text"
 						className="input input-bordered"
@@ -451,9 +451,9 @@ export function ReceiverForm() {
 						<span className="label-text">Receiver Phone</span>
 					</label>
 					<input
-						value={ data.phone }
+						value={ receiver.phone }
 						onChange={ (e) => {
-							setData({ phone: e.target.value })
+							setReceiver({ phone: e.target.value })
 						} }
 						type="tel"
 						className="input input-bordered"
@@ -467,10 +467,10 @@ export function ReceiverForm() {
 					</label>
 					<textarea
 						onChange={ (e) => {
-							setData({ address: e.target.value })
+							setReceiver({ address: e.target.value })
 						} }
 						className="textarea textarea-bordered"
-						value={ data.address }
+						value={ receiver.address }
 					>
 				</textarea>
 				</div>
@@ -547,24 +547,13 @@ export function Product() {
 
 export function ProductAdmin() {
 	const {
-		productAsync,
-		product,
-		setSearch,
-		search,
-		isLoading,
-		idProduct,
 		productStore,
 		getProductData,
-		setProduct,
 		setQty,
 		onRemove,
 		onIncrement,
 		onDecrement,
-		total,
 	} = useProductStore()
-	const { setTotal: setTotalOrder } = useOrderStore()
-
-	// console.log(total)
 	return (
 
 		<div>
@@ -601,7 +590,10 @@ export function ProductAdmin() {
 											</div>
 											<div className="flex items-center gap-2">
 												<button
+													type={ 'button' }
+
 													onClick={
+
 														() => {
 															onIncrement(product.id_product)
 															// setTotalOrder(total)
@@ -620,6 +612,7 @@ export function ProductAdmin() {
 													value={ product.qty_at_buy }
 												/>
 												<button
+													type={ 'button' }
 													onClick={ () => {
 														onDecrement(product.id_product)
 														// setTotalOrder(total)
@@ -636,60 +629,175 @@ export function ProductAdmin() {
 			</div>
 
 			{/* Open the modal using document.getElementById('ID').showModal() method */ }
-			<button className='btn btn-neutral w-full mt-2' onClick={ async () => {
+			<button
+				type={ 'button' }
+				className='btn btn-neutral w-full mt-2'
+				onClick={ async () => {
 				await getProductData()
 				// @ts-ignore
 				document.getElementById('my_modal_product').showModal()
 			} }>
 				Add Product <Plus/>
 			</button>
-			<dialog id="my_modal_product" className="modal">
-				<div className="modal-box">
-					<h3 className="font-bold text-lg">Please Select The Product</h3>
-					<div className="space-y-2">
-						{ isLoading
-								? <LoadingSpin/>
-							: productAsync
-							.filter(product => !idProduct.includes(product.id))
-								.map(product => <div
-										key={ product.id }
-										className={ `card card-side card-compact bg-base-300 card-bordered` }>
-										<figure>
-											{/* eslint-disable-next-line @next/next/no-img-element */ }
-											<img
-												src="https://picsum.photos/200/300?random=1"
-												alt="Movie"
-												className='rounded-xl object-cover w-32 h-32 '
-											/>
-										</figure>
-										<div className="card-body">
-											<div className="flex justify-between">
-												<h2 className='card-title'>{ product.name }</h2>
-												<form method="dialog">
-													<button
-														className={ 'btn btn-square btn-sm btn-neutral' }
-														onClick={ () => setProduct(product) }>
-														<Plus/>
-													</button>
-												</form>
-											</div>
-											<p>{ toRupiah(product.price) }</p>
-											<p>type { product.type }</p>
-											<p>qty { product.qty }</p>
-										</div>
-									</div>
-								) }
-
-					</div>
-					<div className="modal-action">
-						<form method="dialog">
-							{/* if there is a button in form, it will close the modal */ }
-							<button className="btn">Close</button>
-						</form>
-					</div>
-				</div>
-			</dialog>
+			<ProductDialog/>
 		</div>
 
 	);
 }
+
+export function ProductCard() {
+	const {
+		productStore,
+		getProductData,
+		setQty,
+		onRemove,
+		onIncrement,
+		onDecrement,
+	} = useProductStore()
+	return (
+
+		<div>
+			<div className={ 'card-title' }>Product</div>
+			<div className="  mt-2">
+				<div className="space-y-2">
+					{ !productStore
+						? <EmptyData page={ 'checkout' }/>
+						: productStore.map(product => (
+							<div
+								key={ product.id_product }
+								className={ `card card-side card-compact card-bordered bg-base-200 ` }>
+								<figure>
+									{/* eslint-disable-next-line @next/next/no-img-element */ }
+									<img
+										src="https://picsum.photos/200/300?random=1"
+										alt="Movie"
+										className='rounded-xl object-cover w-32 h-32 '
+									/>
+								</figure>
+								<div className="card-body">
+									<div className="flex justify-between">
+										<h2 className='card-title'>{ product.Product.name }</h2>
+										<button
+											onClick={ () => onRemove(product.id_product) }
+											className=' btn btn-square btn-error btn-sm '>
+											<Trash/>
+										</button>
+									</div>
+									<div className="flex justify-between items-end">
+										<div className="">
+											<p>{ toRupiah(product.price_at_buy) }</p>
+											<p>{ product.Product.type }</p>
+										</div>
+										<div className="flex items-center gap-2">
+											<button
+												type={ 'button' }
+
+												onClick={
+
+													() => {
+														onIncrement(product.id_product)
+														// setTotalOrder(total)
+													} }
+												className="btn btn-square btn-sm">
+												<Plus/>
+											</button>
+											<input
+												className={ 'input w-20' }
+												type={ 'number' }
+												max={ product.Product.qty }
+												onChange={ (e) => {
+													setQty(product.id_product, Number(e.target.value))
+													// setTotalOrder(total)
+												} }
+												value={ product.qty_at_buy }
+											/>
+											<button
+												type={ 'button' }
+												onClick={ () => {
+													onDecrement(product.id_product)
+													// setTotalOrder(total)
+												} }
+												className="btn btn-square  btn-sm">
+												<Minus/>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						)) }
+				</div>
+			</div>
+
+			{/* Open the modal using document.getElementById('ID').showModal() method */ }
+			<button
+				type={ 'button' }
+				className='btn btn-neutral w-full mt-2'
+				onClick={ async () => {
+					await getProductData()
+					// @ts-ignore
+					document.getElementById('my_modal_product').showModal()
+				} }>
+				Add Product <Plus/>
+			</button>
+		</div>
+
+	);
+}
+
+export function ProductDialog() {
+	const {
+		productAsync,
+		isLoading,
+		idProduct,
+		setProduct,
+	} = useProductStore()
+	return (
+		<dialog id="my_modal_product" className="modal">
+			<div className="modal-box">
+				<h3 className="font-bold text-lg">Please Select The Product</h3>
+				<div className="space-y-2">
+					{ isLoading
+						? <LoadingSpin/>
+						: productAsync
+						.filter(product => !idProduct.includes(product.id))
+						.map(product => <div
+								key={ product.id }
+								className={ `card card-side card-compact bg-base-300 card-bordered` }>
+								<figure>
+									{/* eslint-disable-next-line @next/next/no-img-element */ }
+									<img
+										src="https://picsum.photos/200/300?random=1"
+										alt="Movie"
+										className='rounded-xl object-cover w-32 h-32 '
+									/>
+								</figure>
+								<div className="card-body">
+									<div className="flex justify-between">
+										<h2 className='card-title'>{ product.name }</h2>
+										<form method="dialog">
+											<button
+												className={ 'btn btn-square btn-sm btn-neutral' }
+												onClick={ () => setProduct(product) }>
+												<Plus/>
+											</button>
+										</form>
+									</div>
+									<p>{ toRupiah(product.price) }</p>
+									<p>type { product.type }</p>
+									<p>qty { product.qty }</p>
+								</div>
+							</div>
+						) }
+
+				</div>
+				<div className="modal-action">
+					<form method="dialog">
+						{/* if there is a button in form, it will close the modal */ }
+						<button className="btn">Close</button>
+					</form>
+				</div>
+			</div>
+		</dialog>
+	);
+}
+

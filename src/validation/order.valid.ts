@@ -44,6 +44,7 @@ export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
 // })
 
 export type OrderCreateClient = {
+	id: string;
 	addressCs: string;
 	desc: string;
 	nameCs: string;
@@ -62,19 +63,22 @@ export type OrderCreateClient = {
 	totalAll: number; // Assuming total is string based on example
 };
 
-export const crderCreateClient: z.ZodType<OrderCreateClient> = z.object({
+export const orderCreateClient: z.ZodType<Omit<OrderCreateClient,'id'>> = z.object({
 	addressCs: z.string(),
 	desc: z.string(),
 	nameCs: z.string(),
 	nameDelivery: z.string(),
 	phoneDelivery: z.string(),
 	priceDelivery: z.number(),
-	namePayment: z.string(),
 	orderTime: z.date(),
 	sendTime: z.date(),
 	status: z.string(),
+	namePayment: z.string(),
 	totalPayment: z.number(),
 	totalProduct: z.number(),
 	totalAll: z.number(),
 
-})
+}).refine((data) => data.orderTime <= data.sendTime, {
+	message: "Order Time cannot be later than Send Time",
+	path: [ "orderTime" ], // Show error message under orderTime
+});

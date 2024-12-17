@@ -11,13 +11,19 @@ interface DeliveryStore {
 	setDelivery: (data: TDeliveryDB | null) => void
 	getDeliveryData: () => Promise<void>
 	setSearch: (search: string) => void
+	reset: () => void
 }
 
-export const useDeliveryStore = create<DeliveryStore>((set, get) => ({
+const initialState = {
 	deliveryData: [],
 	delivery: null,
 	search: '',
 	isLoading: false,
+}
+
+export const useDeliveryStore = create<DeliveryStore>((set, get) => ({
+	...initialState,
+	reset: () => set(initialState),
 	setDelivery: (data) => set({ delivery: data }),
 	getDeliveryData: async () => {
 		try {

@@ -14,39 +14,31 @@ import { useProductStore } from "@/store/product";
 import { useDeliveryStore } from "@/store/delivery";
 import { usePaymentStore } from "@/store/payment";
 import { useOrderStore } from "@/store/order";
-import { useReceiverStore } from "@/store/receiver";
-import toast from "react-hot-toast";
-import { crderCreateClient, OrderCreateClient } from "@/validation/order.valid";
+import { orderCreateClient, OrderCreateClient } from "@/validation/order.valid";
 import { useOrder } from "@/hook/useOrder";
+import toast from "react-hot-toast";
 
 export default function OrderForm() {
-	const { total: totalProduct, productStore, } = useProductStore()
+	const { total: totalProduct, } = useProductStore()
 	const { delivery: dataDelivery } = useDeliveryStore()
-	const { data: dataReceiver } = useReceiverStore()
 	const { payment: dataPayment } = usePaymentStore()
-	const { setTotal, total, setData, onData } = useOrderStore()
-	const { onCreate } = useOrder()
+	const { setTotal, total } = useOrderStore()
+	const { onUpsert } = useOrder()
+	const { mutate, isPending } = onUpsert
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<OrderCreateClient>({
-		resolver: zodResolver(crderCreateClient),
+		resolver: zodResolver(orderCreateClient),
 	});
 
 	const onSubmit = (data: OrderCreateClient) => {
+		// data.totalProduct = totalProduct
+		// data.totalAll = total
 		const toastId = toast.loading('Loading...')
-		if (dataPayment && dataDelivery) {
-			setData({
-				product: productStore,
-				payment: dataPayment,
-				delivery: dataDelivery,
-				receiver: dataReceiver,
-				order: data,
-			})
-		}
-		if (onData) onCreate.mutate(onData)
+		mutate({ method: "POST", data })
 		toast.dismiss(toastId)
 	};
 
@@ -275,8 +267,12 @@ export default function OrderForm() {
 				{ errors.status && <span className="text-error">{ errors.status.message }</span> }
 
 				{/* Submit Button */ }
-				<div className="form-control mt-4">
-					<button type="submit" className="btn btn-primary">Submit</button>
+				<div className="form-control mt-4"
+				>
+					<button
+						disabled={ isPending }
+
+						type="submit" className="btn btn-primary">Submit</button>
 				</div>
 			</form>
 			<div className="space-y-4">

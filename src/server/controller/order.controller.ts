@@ -45,13 +45,9 @@ export default class OrderController
 		const json = await getJson(request)
 		const id = await getId(context)
 		const data: TOrderTransactionUpdate = {
-			order: json.order ? orderCreateServer.parse(json.order) : undefined,
-			orderOrder: json.orderProduct
-				? OrderProductTransaction.parse(json.orderProduct)
-				: undefined,
-			orderReceiver: json.orderReceiver
-				? ReceiverCreate.parse(json.orderReceiver)
-				: undefined,
+			order: orderCreateServer.parse(json.order),
+			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
+			orderReceiver: ReceiverCreate.parse(json.orderReceiver)
 		}
 		return this.orderRepository.updateOne(data, UUIDSchema.parse(id))
 

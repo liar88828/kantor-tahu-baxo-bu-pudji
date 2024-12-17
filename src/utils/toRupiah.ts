@@ -10,3 +10,9 @@ export const toRupiah = (n: number | string | undefined): string => {
   }
   return "kosong";
 }
+const formatCurrency = (amount: number) => {
+	return new Intl.NumberFormat('id-ID',
+		{
+			style: 'currency', currency: 'IDR'
+		}).format(amount)
+}

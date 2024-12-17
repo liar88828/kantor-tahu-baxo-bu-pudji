@@ -5,15 +5,9 @@ import { ResponseAll } from "@/interface/server/param";
 
 // getAll data from database
 export default class EmployeeRepository implements InterfaceRepository<EmployeeCreateZod> {
-	paginate(data: { row: number; skip: number; }): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
 
-	search(search: string): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
-
-	async findAll(search: TEmployeeSearch, page: number = 1, pageSize: number = 100): Promise<ResponseAll<TEmployeeDB>> {
+	async findAll(filter: TEmployeeSearch, pageSize: number = 100): Promise<ResponseAll<TEmployeeDB>> {
+		let page = filter.page;
 		const skip = (page - 1) * pageSize;
 		const take = pageSize;
 		const employee = await prisma.employees.findMany(
@@ -29,8 +23,8 @@ export default class EmployeeRepository implements InterfaceRepository<EmployeeC
 				where: {
 					AND: [
 						{
-							...(search.name ? { name: { contains: search.name, } } : {}),
-							...(search.status ? { status: { contains: search.status, } } : {}),
+							...(filter.name ? { name: { contains: filter.name, } } : {}),
+							...(filter.status ? { status: { contains: filter.status, } } : {}),
 						}
 					],
 				}

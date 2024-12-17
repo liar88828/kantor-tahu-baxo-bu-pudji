@@ -9,7 +9,7 @@ export type TEmployeeDB = Employees & {
 	updatedAt: Date;
 };
 
-export type TEmployeeSearch = Pick<TEmployeeDB, 'name'|'status'>
+export type TEmployeeSearch = Pick<TEmployeeDB, 'name' | 'status'> & { page?: number };
 export type EmployeeCreate = Omit<Employees, 'updatedAt' | 'createdAt' | 'id' | 'managerId'> & {
 	skills: Pick<Skills, 'text'>[];
 	languages: Pick<Languages, 'text'>[];

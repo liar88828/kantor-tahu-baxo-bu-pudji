@@ -19,9 +19,9 @@ export type TOrderTransactionDB = Orders & {
 	Trolleys: TTrolleyProductDB[]
 }
 export type TOrderTransactionUpdate = {
-	order?: TOrderCreate
-	orderOrder?: TOrderTrolleyTransaction[] // Assuming full replacement of products is required
-	orderReceiver?: TReceiverCreate
+	order: TOrderCreate
+	orderTrolley: TOrderTrolleyTransaction[] // Assuming full replacement of products is required
+	orderReceiver: TReceiverCreate
 }
 
 // export type TOrderProductCreate = Omit<

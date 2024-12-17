@@ -11,14 +11,19 @@ interface PaymentStore {
 	getPaymentData: () => Promise<void>
 	setSearch: (search: string) => void
 	isLoading: boolean;
-
+	reset: () => void
 }
 
-export const usePaymentStore = create<PaymentStore>((set, get) => ({
+const initialState = {
 	isLoading: false,
 	paymentData: [],
 	payment: null,
 	search: '',
+}
+
+export const usePaymentStore = create<PaymentStore>((set, get) => ({
+	...initialState,
+	reset: () => set(initialState),
 	setPayment: (data) => set({ payment: data }),
 	getPaymentData: async () => {
 		try {

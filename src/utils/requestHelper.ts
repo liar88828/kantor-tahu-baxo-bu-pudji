@@ -58,7 +58,7 @@ export async function ResponseJson(
 	_from: ToModel = "not implement",
 	code: number = 200
 ) {
-	console.info(`method : ${method} from : ${_from}`)
+	// console.info(`method : ${method} from : ${_from}`)
 
 	try {
 		const controls: any = await fun()

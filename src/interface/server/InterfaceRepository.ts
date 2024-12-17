@@ -1,9 +1,5 @@
 interface InterfaceRepository<T> {
-	
-	setOne(d: T, id?: string): any;
-	
-	setMany(data: T[] | any, method?: string): any[];
-	
+
 	findAll(search?: any,
 					page?: number,
 					pageSize?: number

@@ -61,6 +61,7 @@ export default function Page() {
 		if (observerRef.current) observer.observe(observerRef.current);
 
 		return () => {
+			// eslint-disable-next-line react-hooks/exhaustive-deps
 			if (observerRef.current) observer.unobserve(observerRef.current);
 		};
 	}, [hasNextPage, fetchNextPage]);
@@ -83,7 +84,7 @@ export default function Page() {
 				{ (status === 'error' || error) && <div className={ 'flex justify-center' }>
 									<EmptyData page={ 'Product User' }/>
 								</div> }
-				{ data?.pages.map((page, pageIndex) => (
+				{ data?.pages.map((page) => (
 						page.data
 						// .filter(product=>product.name.toLowerCase().includes(search.toLowerCase()))
 						.map(d => (<div

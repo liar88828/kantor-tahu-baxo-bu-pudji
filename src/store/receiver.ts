@@ -3,22 +3,26 @@ import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { userId } from "@/network/trolley";
 
 type ReceiverStore = {
-	data: TReceiverCreate
-	setData: (data: Partial<TReceiverCreate>) => void
+	receiver: TReceiverCreate
+	setReceiver: (data: Partial<TReceiverCreate>) => void
+	reset: () => void
 }
-
-export const useReceiverStore = create<ReceiverStore>((set) => ({
-	data: {
+const initialState = {
+	receiver: {
 		address: "",
 		name: "",
 		phone: "",
 		userId,
 
 	},
-	setData: (data) =>
+}
+export const useReceiverStore = create<ReceiverStore>((set) => ({
+	...initialState,
+	reset: () => set(initialState),
+	setReceiver: (data) =>
 		set((state) => ({
-			data: {
-				...state.data, // Preserve existing data
+			receiver: {
+				...state.receiver, // Preserve existing data
 				...data, // Merge in new updates
 			},
 		})),

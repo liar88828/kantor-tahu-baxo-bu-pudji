@@ -36,6 +36,7 @@ export const getDates = (option: MyTypeObject, value: number) => {
 
 export const toDate = (value: number | string | Date) => {
 
+
 	// @ts-ignore
 	return new Date(Date.parse(value)).toLocaleString(
 		"id-ID",

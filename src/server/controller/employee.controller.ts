@@ -5,7 +5,7 @@ import { getId, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import EmployeeRepository from "@/server/repository/employee.repo";
 import { pathImage, saveImage } from "@/server/repository/image.repo";
-import { sanitizeEmployee } from "@/server/sanitize/employe.sanitize";
+import { sanitizeEmployee } from "@/sanitize/employe.sanitize";
 import { employeeCreateServer } from "@/validation/employee.valid";
 
 export default class EmployeeController
@@ -18,7 +18,9 @@ export default class EmployeeController
 		return this.employeeRepository.findAll({
 			name: getParams(request, "name") ?? '',
 			status: getParams(request, "status") ?? '',
-		})
+			page: Number(getParams(request, "page") ?? '1')
+			},
+		)
 	}
 
 	async findById(_: NextRequest, context: TContext) {

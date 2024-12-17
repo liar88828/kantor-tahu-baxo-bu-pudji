@@ -235,14 +235,14 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 
 			let updatedProducts = null;
 
-			if (data.orderOrder) {
+			if (data.orderTrolley) {
 				// Delete existing products for the order
 				await tx.trolleys.deleteMany({
 					where: {id_order: orderId},
 				});
 
 				// Insert updated product list
-				const products = data.orderOrder.map((product) => ({
+				const products = data.orderTrolley.map((product) => ({
 					id_order: orderId,
 					id_product: product.id_product,
 					qty_at_buy: product.qty_at_buy,

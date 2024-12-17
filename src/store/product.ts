@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import { TProductDB } from "@/interface/entity/product.model";
-import { productAll, productDelete } from "@/network/product";
+import { productAll } from "@/network/product";
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
 interface ProductStore {
@@ -14,16 +14,18 @@ interface ProductStore {
 	product: TProductDB | null
 	getProductData: () => Promise<void>
 	setProduct: (data: TProductDB) => void
+	setProductStore: (data: TTrolleyProductUser[]) => void
 	setSearch: (search: string) => void
 	onIncrement: (id: string) => void;
 	onDecrement: (id: string) => void;
 	onRemove: (id: string) => void;
 	setQty: (id: string, qty: number) => void
 	setTotal: () => void
+	reset: () => void
 
 }
 
-export const useProductStore = create<ProductStore>((set, get) => ({
+const initialState = {
 	total: 0,
 	idProduct: [],
 	isLoading: false,
@@ -31,7 +33,19 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 	productStore: [],
 	product: null,
 	search: '',
+}
 
+export const useProductStore = create<ProductStore>((set, get) => ({
+
+	...initialState,
+	reset: () => {
+		set(initialState)
+	},
+	setProductStore: (data) => {
+		set({ productStore: data });
+		get().setTotal()
+
+	},
 	setTotal: () => {
 		set((state) => ({
 			total: state.productStore.reduce((total, item) => {

@@ -11,8 +11,7 @@ import useTrolleyStore from "@/store/trolley";
 import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
 export default function Page() {
-	const queryClient = useQueryClient()
-	const { getAll, increment, decrement, remove, } = useTrolley(queryClient)
+	const { getAll, increment, decrement, remove, } = useTrolley( )
 	const { data: stateTrolley, error, isFetching } = getAll({ idUser: userId })
 	const { setSelected, onSelected } = useTrolleyStore()
 

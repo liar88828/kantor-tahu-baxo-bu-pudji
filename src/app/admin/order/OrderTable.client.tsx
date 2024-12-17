@@ -1,18 +1,18 @@
 'use client'
 import React, { startTransition, useRef, useState } from 'react';
 import { LoadingSpin } from "@/app/components/LoadingData";
-import { toStatus } from "@/utils/status";
+import { toStatus } from "@/app/components/status";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { Filter, NotebookTabs, Pencil, Search, Trash } from "lucide-react";
+import { Filter, NotebookTabs, Search } from "lucide-react";
 import Link from "next/link";
 import { useTableStore } from "@/store/table";
-import { EmptyData } from "@/app/components/ErrorData";
 import { useOrder } from "@/hook/useOrder";
+import { EmptyData } from "@/app/components/ErrorData";
 
-function OrderTable() {
+export default function OrderTable() {
 	const { getAll } = useOrder()
-	const { data: orders, isLoading } = getAll()
+	const { data: orders, isLoading, isError } = getAll()
 	const { setTable, existTable, search, setSearch, status: statusTable, tableDetail } = useTableStore()
 	const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
 	const tableRef = useRef(null);
@@ -48,8 +48,8 @@ function OrderTable() {
 			<div>
 				{/*<button onClick={ onDownload }>Download</button>*/ }
 				<div className="overflow-x-auto mt-2">
-					{ !orders
-						? <EmptyData page={ 'order' }/>
+					{ !orders || isLoading
+						? <LoadingSpin/>
 						: <table className="table table-xs" ref={ tableRef } data-theme={'light'}>
 						<thead>
 						<tr>
@@ -110,9 +110,10 @@ function OrderTable() {
 						</tr>
 						</thead>
 						<tbody>
-						{
-							!isLoading && !orders.data
-								? <LoadingSpin/>
+						{ isError || !orders.data
+							? <tr>
+								<td><EmptyData page={ 'Data is Empty' }/></td>
+							</tr>
 								: orders.data.data
 								.filter((order) => {
 									const nameOrder = order.nameCs.toLowerCase().includes(search.toLowerCase());
@@ -182,18 +183,18 @@ function OrderTable() {
 										<td className={ 'bg-red-50' }>{ toRupiah(order.totalPayment) }</td>
 										<td className={ 'bg-green-50' }>{ toRupiah(order.priceDelivery) }</td>
 										<td>{ toRupiah(order.totalAll) }</td>
-										<td className={ 'grid grid-cols-2 gap-2 w-24' }>
+										<td className={ ' ' }>
 											<Link
 												href={ `/admin/order/${ order.id }` }
 												className={ 'btn btn-sm btn-square' }>
 												<NotebookTabs/>
 											</Link>
-											<button className={ 'btn btn-sm btn-info btn-square' }>
-												<Pencil/>
-											</button>
-											<button className={ 'btn btn-sm btn-error btn-square' }>
-												<Trash/>
-											</button>
+											{/*<button className={ 'btn btn-sm btn-info btn-square' }>*/ }
+											{/*	<Pencil/>*/ }
+											{/*</button>*/ }
+											{/*<button className={ 'btn btn-sm btn-error btn-square' }>*/ }
+											{/*	<Trash/>*/ }
+											{/*</button>*/ }
 										</td>
 									</tr>
 								)) }
@@ -208,7 +209,6 @@ function OrderTable() {
 	);
 }
 
-export default OrderTable;
 
 export function FilterDialog() {
 	const { setStatus, data, setTableDetail, tableDetail } = useTableStore()
