@@ -3,7 +3,6 @@ import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
-import { ProductCreate } from "@/validation/product.valid";
 import UserRepository from "@/server/repository/user.repo";
 import { UserCreate } from "@/validation/user.valid";
 
@@ -13,15 +12,16 @@ export default class UserController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		const page = getParams(request, 'page') ?? 1
 		return this.userRepository.findAll({
+			filter: {
 				name: getParams(request, "name") ?? '',
 				address: getParams(request, "address") ?? '',
 			},
-			Number(page),
-		)
+			pagination: {
+				page: Number(Number(getParams(request, 'page') ?? '1')),
+			}
+		},)
 	}
-
 	async findById(_: NextRequest, context: TContext): Promise<any> {
 		const id = await getId(context)
 		return this.userRepository.findById(

@@ -16,7 +16,7 @@ export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>
 export type ResponseAll<T> = {
 	data: T[],
 	page: number,
-	pageSize: number
+	limit: number
 }
 
 export type PaginatedResponse = {
@@ -27,3 +27,4 @@ export type PaginatedResponse = {
 export type PageParams = {
 	pageParam?: string;
 };
+

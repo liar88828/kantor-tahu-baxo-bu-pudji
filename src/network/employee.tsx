@@ -3,28 +3,14 @@
 import { useFetch } from "@/hook/useFetch";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { ResponseAll } from "@/interface/server/param";
-import { TEmployeeDB, TEmployeeSearch } from "@/interface/entity/employee.model";
+import { TEmployeeDB } from "@/interface/entity/employee.model";
 import { EmployeeCreateZod } from "@/validation/employee.valid";
+import { toUrl } from "@/utils/toUrl";
+import { ProductParams } from "@/server/repository/product.repo";
+import { EmployeeParams } from "@/server/repository/employee.repo";
 
-export function setUrl<T extends object>(endPoint: string, params: T): string {
-	const url = new URL(`https://xx.com/api/${ endPoint }`);
-	const searchParams = new URLSearchParams();
-
-	// Loop through the keys of the params object
-	Object.keys(params).forEach((key) => {
-		const value = params[key as keyof typeof params];//why error
-		// Otherwise, append the key-value pair
-		searchParams.append(key, value);
-	});
-
-	// Set the query parameters to the URL
-	url.search = searchParams.toString();
-
-	return url.toString().split('/').pop() || ''; // Return the full URL with query parameters
-}
-
-export const employeeAll = async (params: TEmployeeSearch) => {
-	const url = setUrl('employee', params)
+export const employeeAll = async ({ filter, pagination }: EmployeeParams) => {
+	const url = toUrl('employee', { ...filter, ...pagination })
 	return useFetch<ResponseAll<TEmployeeDB>>('GET', url)
 };
 

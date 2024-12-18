@@ -3,9 +3,12 @@
 import type { TReceiverCreate, TReceiverDB } from "@/interface/entity/receiver.model";
 import { useFetch } from "@/hook/useFetch";
 import { ResponseAll } from "@/interface/server/param";
+import { toUrl } from "@/utils/toUrl";
+import { ProductParams } from "@/server/repository/product.repo";
 
-export const receiverAll = async () => {
-	return useFetch<ResponseAll<TReceiverDB>>('GET', 'receiver')
+export const receiverAll = async ({ pagination: { limit } }: ProductParams) => {
+	const newUrl = toUrl("receiver", { limit })
+	return useFetch<ResponseAll<TReceiverDB>>('GET', newUrl)
 };
 
 export const receiverId = async (id: string) => {

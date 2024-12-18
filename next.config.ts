@@ -1,11 +1,13 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
 
-	// experimental: {
-	//   serverActions: true,
-	// },
+	experimental: {
+		serverActions: {
+			bodySizeLimit: '2mb',
+		},
+	},
 	// reactStrictMode: true,
 	// // Enable the React DevTools profiler
 	// profiler: true,

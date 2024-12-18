@@ -3,8 +3,13 @@
 import type { TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { useFetch } from "@/hook/useFetch";
 import { ResponseAll } from "@/interface/server/param";
+import { DeliveryParams } from "@/server/repository/delivery.repo";
+import { toUrl } from "@/utils/toUrl";
 
-export const deliveryAll = async () => {
+export const deliveryAll = async (
+	// { pagination, filter }: DeliveryParams
+) => {
+	// const newUrl = toUrl("delivery", { ...pagination, ...filter })
 	return useFetch<ResponseAll<TDeliveryDB>>('GET', 'delivery')
 };
 

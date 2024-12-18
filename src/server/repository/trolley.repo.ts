@@ -1,33 +1,19 @@
 import { prisma } from "@/config/prisma"
 import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB, TTrolleyUpdate } from "@/interface/entity/trolley.model";
+import { InterfaceRepository } from "@/interface/server/InterfaceRepository";
+import { ResponseAll } from "@/interface/server/param";
 
-export default class TrolleyRepository
-	implements InterfaceRepository<TTrolleyDB> {
-	setOne(d: TTrolleyCreate, id?: string | undefined) {
-		throw new Error("Method not implemented.");
-	}
+export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB> {
 
-	setMany(data: any, method?: string | undefined): any[] {
-		throw new Error("Method not implemented.");
-	}
-
-
-	async findAll(
-		page: number = 1,
-		pageSize: number = 100
-	): Promise<{
-		data: TTrolleyProductDB[]
-		page: number;
-		pageSize: number;
-	}> {
-		const skip = (page - 1) * pageSize
-		const take = pageSize
+	async findAll({ pagination: { page = 1, limit = 100 } }): Promise<ResponseAll<TTrolleyProductDB>> {
+		const skip = (page - 1) * limit
+		const take = limit
 		const products = await prisma.trolleys.findMany({
 			skip,
 			take,
 			include: {Product: true}
 		})
-		return { data: products, page, pageSize }
+		return { data: products, page, limit }
 	}
 
 	async findById(id: string): Promise<any> {

@@ -13,11 +13,14 @@ export default class DeliveryController
 	}
 
   async findAll(request: NextRequest, __: TContext): Promise<any> {
-    return this.deliveryRepository.findAll({
-      address: getParams(request, "address"),
-      type: getParams(request, "type"),
-      name: getParams(request, "name"),
-    })
+	  return this.deliveryRepository.findAll({
+		  filter: {
+			  address: getParams(request, "address"),
+			  type: getParams(request, "type"),
+			  name: getParams(request, "name"),
+		  },
+		  pagination: {}
+	  })
   }
 
   async findById(_: NextRequest, context: TContext) {

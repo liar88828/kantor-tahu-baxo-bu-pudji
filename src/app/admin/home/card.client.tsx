@@ -77,7 +77,7 @@ pointStyle:'line',
 		},
 	};
 
-	return <div className="card card-compact md:card-normal bg-base-200/30 ">
+	return <div className="card card-compact md:card-normal bg-base-200/30   ">
 		<div className="card-body ">
 			<h2 className="card-title">Earning</h2>
 				<Line data={ data } options={ options }/>

@@ -1,8 +1,7 @@
 import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/interface/entity/transaction.model";
 import { prisma } from "@/config/prisma";
-import { TStatus } from "@/interface/Dashboard";
-import { TOptional } from "@/interface/types";
 import { Orders } from "@prisma/client";
+import { InterfaceRepository, ParamsApi, TPagination } from "@/interface/server/InterfaceRepository";
 
 export const exampleSearch = {
 	receiverName: "Alice",
@@ -16,6 +15,8 @@ type SearchOrder = {
 	dateRange?: { start: Date; end: Date };
 	productId?: string;
 };
+export type OrderParams = ParamsApi<any>
+
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
 	async search(criteria: SearchOrder) {
@@ -63,86 +64,9 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		});
 	}
 
-	async deleteOne(id_order: string) {
-		return prisma.$transaction(async (tx) => {
-			// Find the order to retrieve the associated receiver ID
-			const order = await tx.orders.findUniqueOrThrow({
-				where: {id: id_order},
-			});
-
-			// Delete related order products
-			const orderProduct = await tx.trolleys.deleteMany({
-				where: {id_order: id_order},
-			});
-
-			// Delete the order itself
-			await tx.orders.delete({
-				where: {id: id_order},
-			});
-
-			// Delete the associated receiver
-			const orderReceiver = await tx.receivers.delete({
-				where: {id: order.id_receiver},
-			});
-
-			return {
-				order, orderProduct, orderReceiver
-
-			};
-		});
-	}
-
-// getAll data from database
-
-	setOne() {
-		// d.waktuKirim = !d.waktuKirim ? new Date() : d.waktuKirim
-		// d.pesan      = !d.pesan ? new Date() : d.pesan
-		// d.kirim      = !d.kirim ? new Date() : d.kirim
-
-		// const time = ( d.waktuKirim.toString().length === 5 )
-		//              ? d.waktuKirim + ":00"
-		//              : d.waktuKirim
-		// // console.log(new Date( d.pesan ),)
-		// return {
-		//   alamatPenerima: d.alamatPenerima,
-		//   guna          : d.guna,
-		//   hpPenerima    : d.hpPenerima,
-		//   hpPengirim: d.hpPengirim,
-		//   id            : d.id,
-		//   lokasi        : d.lokasi.replaceAll( " ", "" ),
-		//   namaPengiriman: d.namaPengiriman,
-		//   ongkir        : d.ongkir,
-		//   penerima      : d.penerima,
-		//   pengirim      : d.pengirim,
-		//   pesan         : new Date( d.pesan ),
-		//   kirim         : new Date( d.kirim ),
-		//   waktuKirim: new Date( d.kirim + "T" + time + ".000Z" ),
-		//   status        : d.status,
-		//   totalBayar    : d.totalBayar,
-		//   totalPenjualan: d.totalPenjualan,
-		//   typePembayaran: d.typePembayaran,
-		// }
-	}
-
-	setMany() {
-		return []
-		// return data.semuaProduct.map( ( d: TProOrderan ) => (
-		//     Object.assign( {
-		//       harga     : d.harga,
-		//       id        : method === "PUT" ? d.id : d.id + "_" + Date.now(),
-		//       jenis     : d.jenis.replaceAll( " ", "" ),
-		//       jumlah    : d.jumlah,
-		//       keterangan: d.keterangan,
-		//       lokasi    : d.lokasi.replaceAll( " ", "" ),
-		//       img       : d.img,
-		//       nama      : d.nama,
-		//       orderanId : data.id
-		//     } )
-		//   )
-		// );
-	}
-
-	async findAll(): Promise<{ data: Orders[], page: number, pageSize: number }> {
+	async findAll({ pagination: { limit = 100, page = 1 } }: OrderParams): Promise<{ data: Orders[] } & TPagination> {
+		const skip = (page - 1) * limit;
+		const take = limit;
 		const order = await prisma.orders.findMany({
 			include: {
 				Trolleys: {
@@ -154,12 +78,13 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				Deliverys: true,
 				Payments: true
 			},
-			take: 100,
+			skip,
+			take,
 			orderBy: {
-				created_at: "desc"
+				updated_at: "desc"
 			},
 		})
-		return { data: order, page: 0, pageSize: 100 }
+		return { data: order, page, limit, }
 	}
 
 	async findById(id: string) {
@@ -259,6 +184,35 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				updatedOrder,
 				updatedReceiver,
 				updatedProducts,
+			};
+		});
+	}
+
+	async deleteOne(id_order: string) {
+		return prisma.$transaction(async (tx) => {
+			// Find the order to retrieve the associated receiver ID
+			const order = await tx.orders.findUniqueOrThrow({
+				where: { id: id_order },
+			});
+
+			// Delete related order products
+			const orderProduct = await tx.trolleys.deleteMany({
+				where: { id_order: id_order },
+			});
+
+			// Delete the order itself
+			await tx.orders.delete({
+				where: { id: id_order },
+			});
+
+			// // Delete the associated receiver
+			// const orderReceiver = await tx.receivers.delete({
+			// 	where: {id: order.id_receiver},
+			// });
+
+			return {
+				order, orderProduct
+
 			};
 		});
 	}
@@ -468,141 +422,6 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 //     // return send
 //
 //   }
-
-	async findByStatus(status: TStatus) {
-		// let option = {
-		//   include: { semuaProduct: true }
-		// }
-		//
-		// if( status !== "Semua" ) {
-		//   option = Object.assign( option, { where: { status } } )
-		// }
-		//
-		// return prisma.orders.findMany(option)
-	}
-
-	async createNesting(data: any) {
-		// return prisma.orders.create({
-		//   data:
-		//     Object.assign( this.setOne( data ),
-		//       {
-		//         semuaProduct: {
-		//           createMany: {
-		//             data: this.setMany( data, "POST" )
-		//           }
-		//         },
-		//       }, ),
-		//
-		//   include: {
-		//     semuaProduct: true, // Include all posts in the returned object
-		//   },
-		// } )
-
-	}
-
-	async paginate(data: {
-		row: number,
-		skip: number
-	}) {
-		const {row, skip} = data
-		return prisma.orders.findMany({take: row, skip})
-	}
-
-	// -----DELETE
-	async destroyMany(array: string []) {
-		// const id            = array.map( d => d )
-		// const deleteOrder = prisma.orders.deleteMany({ where: { id: { in: id } } })
-		// const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: { in: id } } } )
-		// return await prisma.$transaction( [ deleteProduct, deleteOrder ] )
-		throw new Error('not implemented')
-	}
-
-	// -----DELETE
-	async destroyOne(id: string) {
-		// console.log( id )
-		// console.log( "one" )
-		// const delete1 = prisma.orders.delete({
-		//   where : { id: id },
-		//   select: { semuaProduct: true }
-		// } )
-		//
-		// const deleteMany = prisma.semuaProduct.deleteMany( {
-		//   where: { orderanId: id },
-		// } )
-		// return prisma.$transaction( [ deleteMany, delete1 ] )
-		throw new Error('not implemented')
-
-	}
-
-	async updateMany(data: any, id: string,) {
-
-		// const updateData = prisma.orders.update({
-		//   where: { id },
-		//   data: this.setOne( data )
-		// } );
-		//
-		// const createMany = prisma.semuaProduct.createMany( {
-		//   data: this.setMany( data, "POST" )
-		// } )
-		//
-		// const deleteProduct = prisma.semuaProduct.deleteMany( { where: { orderanId: id } } )
-		// return await prisma.$transaction( [ deleteProduct, createMany, updateData ] )
-		throw new Error('not implemented')
-
-	}
-
-	async updateOneOnly(data: Partial<TOptional>, id: string,) {
-		// return prisma.orderan.update( { where: { id: id }, data },
-		// )
-	}
-
-	async UpdateOneEx(data: any, id: string,) {
-		// data.waktuKirim = !data.waktuKirim ? new Date() : data.waktuKirim
-		// data.pesan      = !data.pesan ? new Date() : data.pesan
-		// data.kirim      = !data.kirim ? new Date() : data.kirim
-		// const time      = ( data.waktuKirim.toString().length === 5 )
-		//                   ? data.waktuKirim + ":00"
-		//                   : data.waktuKirim
-		//
-		// return await prisma.$transaction( [
-		//   ...data.semuaProduct.map( d =>
-		//     prisma.semuaProduct.updateMany( {
-		//       where: { id: d.id },
-		//       data : {
-		//         harga     : d.harga,
-		//         jenis     : d.jenis,
-		//         jumlah    : d.jumlah,
-		//         keterangan: d.keterangan,
-		//         lokasi    : d.lokasi,
-		//         nama      : d.nama,
-		//         orderanId : id
-		//       },
-		//     } )
-		//   ),
-		//   prisma.orderan.update( {
-		//     where: { id: data.id },
-		//     data : {
-		//       alamatPenerima: data.alamatPenerima,
-		//       guna          : data.guna,
-		//       hpPenerima    : data.hpPenerima,
-		//       hpPengirim    : data.hpPenerima,
-		//       id            : data.id,
-		//       lokasi        : data.lokasi,
-		//       namaPengiriman: data.namaPengiriman,
-		//       ongkir        : data.ongkir,
-		//       penerima      : data.penerima,
-		//       pengirim      : data.pengirim,
-		//       pesan         : new Date( data.pesan ),
-		//       kirim         : new Date( data.kirim ),
-		//       waktuKirim    : new Date( data.pesan + "T" + time + ".000Z" ),
-		//       status        : data.status,
-		//       totalBayar    : data.totalBayar,
-		//       totalPenjualan: data.totalPenjualan,
-		//       typePembayaran: data.typePembayaran,
-		//     },
-		//   } ),
-		// ] );
-	}
 
 	async updateStatus(data: string, id: string,) {
 		return prisma.orders.update({

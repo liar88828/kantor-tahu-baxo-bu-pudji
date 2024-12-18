@@ -2,7 +2,7 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import OrderRepository from "@/server/repository/order.repo"
-import { getId, getJson, getParamsThrow } from "@/utils/requestHelper"
+import { getId, getJson, getParams, getParamsThrow } from "@/utils/requestHelper"
 import { TOrderTransactionCreate, TOrderTransactionUpdate, } from "@/interface/entity/transaction.model"
 import { OrderProductTransaction } from "@/validation/orderProduct.valid"
 import { ReceiverCreate } from "@/validation/receiver.valid"
@@ -14,8 +14,12 @@ export default class OrderController
 	constructor(private orderRepository: OrderRepository) {
 	}
 
-	async findAll(__: NextRequest, _: TContext): Promise<any> {
-		return this.orderRepository.findAll()
+	async findAll(request: NextRequest, _: TContext): Promise<any> {
+		return this.orderRepository.findAll({
+			pagination: {
+				limit: Number(getParams(request, "limit") ?? '100'),
+			}
+		})
 	}
 
 	async findSearch(__: NextRequest, _: TContext): Promise<any> {

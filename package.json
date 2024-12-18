@@ -61,6 +61,7 @@
     "@vitest/browser": "^0.34.6",
     "@vitest/coverage-istanbul": "^0.34.6",
     "daisyui": "4.12.14",
+    "fluid-tailwind": "^1.0.4",
     "jsdom": "^22.1.0",
     "prisma": "^5.22.0",
     "vite-tsconfig-paths": "^4.3.2",

@@ -12,13 +12,17 @@ export default class ReceiverController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		const page = getParams(request, 'page') ?? 1
 		return this.receiverRepository.findAll({
-				name: getParams(request, "name"),
-				address: getParams(request, "address"),
-				phone: getParams(request, "phone"),
-			},
-			Number(page),
+				filter: {
+					name: getParams(request, "name") ?? '',
+					address: getParams(request, "address") ?? '',
+					phone: getParams(request, "phone") ?? ''
+				},
+				pagination: {
+					page: Number(getParams(request, 'page') ?? "1"),
+					limit: Number(getParams(request, 'limit') ?? "1"),
+				}
+			}
 		)
 	}
 

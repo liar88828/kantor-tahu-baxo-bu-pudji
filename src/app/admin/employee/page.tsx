@@ -15,7 +15,10 @@ export default async function page(context: TContext) {
 	const queryClient = new QueryClient();
 	await queryClient.prefetchQuery({
 		queryKey: [ EMPLOYEE_KEY.employees, search ],
-		queryFn: () => employeeAll({ name: search,status }),
+		queryFn: () => employeeAll({
+			filter: { name: search, status },
+			pagination: {}
+		}),
 	})
 
 	return (

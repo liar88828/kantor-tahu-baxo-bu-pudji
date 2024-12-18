@@ -109,7 +109,6 @@ model Users {
   Trolleys Trolleys[]
 }
 
-// please create use react-form-hook zod and tailwind daisyui
 model Employees {
   id             String           @id @default(uuid()) // Primary key with auto-increment
   name           String
@@ -137,8 +136,12 @@ model Employees {
   certifications Certifications[] // Stored as an array of strings
   projects       Projects[] // Stored as an array of strings
   //
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  photoKtp       String?
+  photo3x4       String?
+
+  //
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Skills {

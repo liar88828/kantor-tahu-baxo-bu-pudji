@@ -1,34 +1,28 @@
 import { prisma } from "@/config/prisma";
-import { ResponseAll } from "@/interface/server/param";
-import { ReceiverSearch, TReceiverCreate, TReceiverDB } from "@/interface/entity/receiver.model";
+import { ReceiverSearch, TReceiverCreate } from "@/interface/entity/receiver.model";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
 
+export type ReceiverParams = ParamsApi<ReceiverSearch>
 export default class ReceiverRepository implements InterfaceRepository<TReceiverCreate> {
-	paginate(data: { row: number; skip: number; }): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
 
-	search(search: string): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
+	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<ReceiverParams>) {
 
-	async findAll(searchQuery: ReceiverSearch, page: number = 1, pageSize: number = 10): Promise<ResponseAll<TReceiverDB>> {
-
-		const skip = (page - 1) * pageSize;
-		const take = pageSize;
+		const skip = (page - 1) * limit;
+		const take = limit;
 		const data = await prisma.receivers.findMany({
 			where: {
 				AND: [
 					{
-						...(searchQuery.name ? { name: { contains: searchQuery.name, } } : {}),
-						...(searchQuery.address ? { address: { contains: searchQuery.address, } } : {}),
-						...(searchQuery.phone ? { phone: { contains: searchQuery.phone, } } : {}),
+						...(filter.name ? { name: { contains: filter.name, } } : {}),
+						...(filter.address ? { address: { contains: filter.address, } } : {}),
+						...(filter.phone ? { phone: { contains: filter.phone, } } : {}),
 					}
 				],
 			},
 			skip,
 			take,
 		});
-		return { data: data, page, pageSize };
+		return { data: data, page, limit: limit };
 
 	}
 

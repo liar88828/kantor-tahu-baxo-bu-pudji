@@ -30,7 +30,10 @@ export function useEmployee() {
 
 		return useInfiniteQuery({
 			queryKey: [ EMPLOYEE_KEY.employees, search, status ],
-			queryFn: ({ pageParam }) => employeeAll({ name: search, status, page: pageParam }),
+			queryFn: ({ pageParam }) => employeeAll({
+				filter: { name: search, status },
+				pagination: { page: pageParam }
+			}),
 			initialPageParam: 1, // Starting page number
 			getNextPageParam: (lastPage, allPages) => {
 				// Determine the next page number

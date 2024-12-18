@@ -27,7 +27,7 @@ function Page() {
 			setPayment(order.data.Payments)
 			setDelivery(order.data.Deliverys)
 		}
-	}, [ order])
+	}, [order, setDelivery, setPayment, setProductStore, setReceiver])
 
 	if (isLoading || !order) {
 		return <LoadingSpin/>

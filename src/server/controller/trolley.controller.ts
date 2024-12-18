@@ -12,7 +12,7 @@ export default class TrolleyController implements InterfaceController {
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		return this.trolleyRepository.findAll()
+		return this.trolleyRepository.findAll({pagination:{}})
 
 	}
 

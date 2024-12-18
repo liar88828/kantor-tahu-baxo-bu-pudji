@@ -12,13 +12,17 @@ export default class ProductController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		const page = getParams(request, 'page') ?? 1
+
 		return this.productRepository.findAll({
-				location: getParams(request, "location"),
-				type: getParams(request, "type"),
-				name: getParams(request, "name"),
-			},
-			Number(page),
+				filter: {
+					location: getParams(request, "location"),
+					type: getParams(request, "type"),
+					name: getParams(request, "name"),
+				},
+				pagination: {
+					page: Number(getParams(request, 'page') ?? "1")
+				}
+			}
 		)
 	}
 

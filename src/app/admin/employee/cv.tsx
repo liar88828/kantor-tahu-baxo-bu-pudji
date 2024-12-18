@@ -3,9 +3,10 @@ import { TEmployeeDB } from "@/interface/entity/employee.model";
 import { toDate } from "@/utils/formatDate";
 import { usePrint } from "@/hook/usePrint";
 import { Employees } from "@prisma/client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Printer } from "lucide-react";
+import { TypeFile, uploadFile } from "@/server/action/upload";
 
 interface EmployeeCVProps {
 	employee: TEmployeeDB;
@@ -14,7 +15,6 @@ interface EmployeeCVProps {
 export function EmployeeCV({ employee }: EmployeeCVProps) {
 	const { isPrinting, handlePrint, contentRef } = usePrint()
 	return (
-		<div className="pb-20 space-y-5">
 			<div className="card w-full max-w-3xl mx-auto bg-white card-bordered">
 				<div className="card-body"
 					 ref={ contentRef }>
@@ -106,63 +106,101 @@ export function EmployeeCV({ employee }: EmployeeCVProps) {
 							</ul>
 						</section>
 					</div>
-				</div>
-			</div>
+					<div className="  flex justify-end print:hidden gap-2 mt-2">
+						<Link href={ +employee.id + '/edit' }
+							  className={ 'btn ' }>
+							Edit
+						</Link>
 
-			<div className="grid grid-cols-2 gap-2">
-				<div className="card card-bordered">
-					<div className="card-body">
-						<h2 className="card-title">Add KTP </h2>
-						{/* eslint-disable-next-line @next/next/no-img-element */ }
-						<div className="w-48 h-auto">
-							{/* eslint-disable-next-line @next/next/no-img-element */ }
-							<img src="https://picsum.photos/200/300" alt="image ktp" className={ 'aspect-[4/3] ' }/>
-						</div>
-						<div className="card-actions">
-							<button
-								className={ 'btn btn-info' }
-								onClick={ () => {
-								} }>Add
-							</button>
-						</div>
+						<button onClick={ handlePrint }
+								disabled={ isPrinting }
+								className={ 'btn btn-info' }>
+							{ isPrinting ? 'Printing...' : <Printer/> }
+						</button>
 					</div>
+
 				</div>
 
-				<div className="card card-bordered">
-					<div className="card-body">
-						<h2 className="card-title">Add Photo Profile</h2>
-						{/* eslint-disable-next-line @next/next/no-img-element */ }
-						<div className="w-36 h-auto">
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img src="https://picsum.photos/200/300" alt="image ktp" className={ 'aspect-[3/4] ' }/>
-						</div>
-						<div className="card-actions">
-							<button
-								className={ 'btn btn-info' }
-								onClick={ () => {
-								} }>Add
-							</button>
-						</div>
-					</div>
-				</div>
 			</div>
-
-			<div className="  grid grid-cols-1 sm:grid-cols-2 print:hidden gap-2 mt-2">
-				<Link href={ +employee.id + '/edit' }
-					  className={ 'btn ' }>
-					Edit
-				</Link>
-
-				<button onClick={ handlePrint }
-						disabled={ isPrinting }
-						className={ 'btn btn-info' }>
-					{ isPrinting ? 'Printing...' : <Printer/> }
-				</button>
-			</div>
-		</div>
 
 	);
 }
+
+export function PhotoEmployee({ employee }: EmployeeCVProps) {
+
+	return (
+			<div className="grid grid-cols-2 gap-2">
+				<PhotosUpload employee={ employee } type={ 'KTP' }/>
+				<PhotosUpload employee={ employee } type={ "3x4" }/>
+		</div>
+	);
+}
+
+const ktp = 'https://dummyimage.com/400x300/000/ffffff.jpg';
+const i3x4 = 'https://dummyimage.com/300x400/000/ffffff.jpg';
+
+export function PhotosUpload({ employee, type }: EmployeeCVProps & { type: TypeFile }) {
+	const [ imagePreview, setImagePreview ] = useState<string | null>(null);
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			const previewURL = URL.createObjectURL(file);
+			setImagePreview(previewURL);
+		}
+	};
+	const uploadImage = uploadFile.bind(null, { id: employee.id, from: 'employee', typeFile: type })
+
+	return (
+		<div className="card card-bordered">
+			<div className="card-body">
+				<h2 className="card-title">Add { type } </h2>
+
+				<div className="w-48 h-auto">
+					{ imagePreview
+						? (
+							<div className="mt-4">
+								<p>Image Preview:</p>
+								{/* eslint-disable-next-line @next/next/no-img-element */ }
+								<img src={ imagePreview } alt="Selected file"
+									 className="w-40 h-40 object-cover rounded-md border"/>
+							</div>
+						) : type === 'KTP'
+							// eslint-disable-next-line @next/next/no-img-element
+							? <img src={ employee.photoKtp ? employee.photoKtp : ktp } alt="image ktp"
+								   className={ 'aspect-[4/3] ' }/> :
+							// eslint-disable-next-line @next/next/no-img-element
+							<img src={ employee.photo3x4 ? employee.photo3x4 : i3x4 } alt="image 4x3"
+								 className={ 'aspect-[3/4] ' }/>
+
+					}
+				</div>
+				<form action={ uploadImage } className="flex flex-col gap-4">
+					<label>
+						<span>Upload a file</span>
+						{/*<input type="hidden"/>*/ }
+						<input
+							type="file"
+							name="file"
+							accept="image/*"
+							onChange={ handleFileChange }
+						/>
+					</label>
+					<button
+						className={ 'btn btn-info' }
+						type="submit">
+						Submit
+					</button>
+
+				</form>
+
+			</div>
+		</div>
+
+	)
+		;
+}
+
 
 export function EmployeeDetail({ employee }: { employee?: Employees }) {
 

@@ -1,18 +1,14 @@
 import { TPaymentCreate, TPaymentSearch, } from "@/interface/entity/payment.model";
-import {prisma} from "@/config/prisma";
+import { prisma } from "@/config/prisma";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
+
+export type PaymentParams = ParamsApi<TPaymentSearch>
 
 export class PaymentRepository implements InterfaceRepository<TPaymentCreate> {
-	paginate(data: { row: number; skip: number; }): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
-	
-	search(search: string): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
-	
-	async findAll(search: TPaymentSearch, page: number = 1, pageSize: number = 100) {
-		const skip = (page - 1) * pageSize;
-		const take = pageSize;
+
+	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<PaymentParams>) {
+		const skip = (page - 1) * limit;
+		const take = limit;
 		const payments = await prisma.payments.findMany(
 			{
 				skip,
@@ -20,15 +16,15 @@ export class PaymentRepository implements InterfaceRepository<TPaymentCreate> {
 				where: {
 					AND: [
 						{
-							...(search.address ? { address: { contains: search.address, } } : {}),
-							...(search.name ? { name: { contains: search.name, } } : {}),
-							...(search.type ? { type: { contains: search.type, } } : {}),
+							...(filter.address ? { address: { contains: filter.address, } } : {}),
+							...(filter.name ? { name: { contains: filter.name, } } : {}),
+							...(filter.type ? { type: { contains: filter.type, } } : {}),
 						}
 					],
 				}
 			}
 		);
-		return { data:payments, page, pageSize };
+		return { data: payments, page, limit };
 		
 	}
 	

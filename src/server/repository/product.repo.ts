@@ -1,35 +1,29 @@
-import {ProductSearch, TProductCreate, TProductDB} from "@/interface/entity/product.model";
-import {prisma} from "@/config/prisma";
-import {ResponseAll} from "@/interface/server/param";
+import { ProductSearch, TProductCreate, TProductDB } from "@/interface/entity/product.model";
+import { prisma } from "@/config/prisma";
+import { ResponseAll } from "@/interface/server/param";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
 
+export type ProductParams = ParamsApi<ProductSearch>
 
 export default class ProductRepository implements InterfaceRepository<TProductCreate> {
-	paginate(data: { row: number; skip: number; }): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
 
-	search(search: string): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
-
-	async findAll(searchQuery: ProductSearch, page: number = 1, pageSize: number = 10): Promise<ResponseAll<TProductDB>> {
-
-		const skip = (page - 1) * pageSize;
-		const take = pageSize;
+	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<ProductParams>,): Promise<ResponseAll<TProductDB>> {
+		const skip = (page - 1) * limit;
+		const take = limit;
 		const products = await prisma.products.findMany({
 			where: {
 				AND: [
 					{
-						...(searchQuery.location ? {location: {contains: searchQuery.location,}} : {}),
-						...(searchQuery.name ? {name: {contains: searchQuery.name,}} : {}),
-						...(searchQuery.type ? {type: {contains: searchQuery.type,}} : {}),
+						...(filter.location ? { location: { contains: filter.location, } } : {}),
+						...(filter.name ? { name: { contains: filter.name, } } : {}),
+						...(filter.type ? { type: { contains: filter.type, } } : {}),
 					}
 				],
 			},
 			skip,
 			take,
 		});
-		return {data: products, page, pageSize};
+		return { data: products, page, limit };
 
 	}
 

@@ -11,10 +11,13 @@ import { useOrder } from "@/hook/useOrder";
 
 export default function DetailedInvoicePrint() {
 	const param = useParams<{ id: string }>()
-	const { getId } = useOrder()
+	const { getId, onDelete } = useOrder()
 	const { data: order, isLoading, isError } = getId(param.id)
 	const { isPrinting, handlePrint, contentRef } = usePrint()
+	const handleDelete = () => {
 
+		onDelete.mutate(param.id)
+	}
 	if (!order || isLoading) return <LoadingSpin/>
 	if (isError) return <EmptyData page={ `Order Detail ${ param.id }` }/>
 
@@ -121,7 +124,10 @@ export default function DetailedInvoicePrint() {
 							className={ 'btn btn-warning' }>
 							Update
 						</Link>
-						<button disabled={ isPrinting }
+						<button
+
+							onClick={ handleDelete }
+							disabled={ isPrinting || onDelete.isPending }
 								className={ 'btn btn-error' }>
 							Delete
 						</button>

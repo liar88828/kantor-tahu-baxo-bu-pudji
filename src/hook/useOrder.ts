@@ -1,6 +1,6 @@
 'use client'
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { orderAll, orderCreate, orderId, orderUpdate } from "@/network/order";
+import { orderAll, orderCreate, orderDelete, orderId, orderUpdate } from "@/network/order";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useProductStore } from "@/store/product";
@@ -70,7 +70,7 @@ export function useOrder() {
 
 	const GetAll = () => {
 		return useQuery({
-			queryFn: orderAll,
+			queryFn: () => orderAll(),
 			queryKey: [ ORDER_KEY.order ],
 
 		})
@@ -81,9 +81,20 @@ export function useOrder() {
 			queryFn: () => orderId(id)
 		})
 	}
+	const onDelete = useMutation({
+		mutationFn: orderDelete,
+		onSuccess: () => {
+			toast.success('Success Delete Order')
+			router.push('/admin/order')
+		},
+		onError: (data, variables, context) => {
+			toast.error('Fail Delete Order')
+		}
+	})
 	return {
 		onUpsert,
 		getAll: GetAll,
-		getId: GetId
+		getId: GetId,
+		onDelete
 	}
 }

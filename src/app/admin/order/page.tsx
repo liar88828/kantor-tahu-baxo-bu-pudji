@@ -10,7 +10,7 @@ async function Page() {
 	const queryClient = new QueryClient();
 	await queryClient.prefetchQuery({
 		queryKey: [ ORDER_KEY.order ],
-		queryFn: orderAll,
+		queryFn: ()=>orderAll(),
 	});
 
 	return (

@@ -1,5 +1,8 @@
 import { TDeliveryCreate, TDeliverySearch, } from "@/interface/entity/delivery.model";
-import {prisma} from "@/config/prisma";
+import { prisma } from "@/config/prisma";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
+
+export type DeliveryParams = ParamsApi<TDeliverySearch>
 
 // getAll data from database
 export default class DeliveryRepository implements InterfaceRepository<TDeliveryCreate> {
@@ -10,10 +13,10 @@ export default class DeliveryRepository implements InterfaceRepository<TDelivery
   search(search: string): Promise<any> {
     throw new Error('Method not implemented.');
   }
-  
-  async findAll(search: TDeliverySearch, page: number = 1, pageSize: number = 100) {
-    const skip = (page - 1) * pageSize;
-    const take = pageSize;
+
+	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<DeliveryParams>) {
+		const skip = (page - 1) * limit;
+		const take = limit;
     const delivery = await prisma.deliverys.findMany(
       {
         skip,
@@ -21,15 +24,15 @@ export default class DeliveryRepository implements InterfaceRepository<TDelivery
         where: {
           AND: [
             {
-              ...(search.address ? { address: { contains: search.address, } } : {}),
-              ...(search.name ? { name: { contains: search.name, } } : {}),
-              ...(search.type ? { type: { contains: search.type, } } : {}),
+				...(filter.address ? { address: { contains: filter.address, } } : {}),
+				...(filter.name ? { name: { contains: filter.name, } } : {}),
+				...(filter.type ? { type: { contains: filter.type, } } : {}),
             }
           ],
         }
       }
     );
-    return { data:delivery, page, pageSize };
+		return { data: delivery, page, limit };
   }
   
   async findById(id: string) {

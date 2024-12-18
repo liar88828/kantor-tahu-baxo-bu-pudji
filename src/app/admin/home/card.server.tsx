@@ -13,7 +13,7 @@ export function GridData() {
 			<div className="card-body">
 				<div className=" flex md:flex-col xl:flex-row justify-around items-end md:items-start xl:items-end">
 					<div className="">
-						<h1 className={ 'font-bold text-6xl' }>{ toRupiah(10) }</h1>
+						<h1 className={ 'font-bold ~text-2xl/6xl' }>{ toRupiah(10) }</h1>
 						<p className={ 'text-base-content/50' }>total Customers</p>
 					</div>
 					<div className="">
@@ -27,10 +27,8 @@ export function GridData() {
 		<div className="card card-bordered bg-warning/10 shadow-sm xl:card-normal card-compact">
 			<div className="card-body">
 				<div className=" flex md:flex-col xl:flex-row justify-around items-end md:items-start xl:items-end">
-
-
 					<div className="">
-						<h1 className={ 'font-bold text-6xl' }>{ toRupiah(10) }</h1>
+						<h1 className={ 'font-bold ~text-2xl/6xl' }>{ toRupiah(10) }</h1>
 						<p className={ 'text-base-content/50' }>total Customers</p>
 					</div>
 					<div className="">
@@ -48,7 +46,7 @@ export function GridData() {
 
 
 					<div className="">
-						<h1 className={ 'font-bold text-6xl' }>{ toRupiah(10) }</h1>
+						<h1 className={ 'font-bold ~text-2xl/6xl' }>{ toRupiah(10) }</h1>
 						<p className={ 'text-base-content/50' }>total Customers</p>
 					</div>
 					<div className="">
@@ -64,13 +62,13 @@ export function GridData() {
 }
 
 // wil change order
-export async function TopProduct() {
-	const { data: orders } = await orderAll()
+export async function TopOrder() {
+	const { data: orders } = await orderAll(5)
 
 	return <div className="card bg-base-200/30 card-compact md:card-normal">
 		<div className="card-body ">
-			<h2 className="card-title">Top Selling Product</h2>
-
+			<h2 className="card-title">Top Order</h2>
+			<div className="overflow-x-auto">
 			<table className="table  w-full table-auto table-xs md:table-md">
 				<thead>
 				<tr>
@@ -109,11 +107,12 @@ export async function TopProduct() {
 				</tbody>
 			</table>
 		</div>
+		</div>
 	</div>;
 }
 
 export async function TopCustomers() {
-	const { data: receivers } = await receiverAll()
+	const { data: receivers } = await receiverAll({ filter: {}, pagination: { limit: 5 } })
 	return <div className="card card-compact bg-base-200/30  ">
 		<div className="card-body">
 			<h2 className="card-title">Top Customers</h2>
@@ -148,10 +147,10 @@ export async function TopCustomers() {
 
 // wil change product
 export async function RecentOrders() {
-	const { data: products } = await productAll()
+	const { data: products } = await productAll({ pagination: { limit: 5 } })
 	return <div className="card card-compact  bg-base-200/30 ">
 		<div className="card-body">
-			<h2 className="card-title">Recent Orders</h2>
+			<h2 className="card-title">Recent Product</h2>
 			<div className="divider m-0"></div>
 
 			{ products.data.map(item => (

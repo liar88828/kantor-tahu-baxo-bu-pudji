@@ -1,16 +1,19 @@
 import { prisma } from "@/config/prisma";
 import { EmployeeCreateZod } from "@/validation/employee.valid";
 import { EmployeeCreate, TEmployeeDB, TEmployeeSearch } from "@/interface/entity/employee.model";
-import { ResponseAll } from "@/interface/server/param";
+import { ResponseAll, } from "@/interface/server/param";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
+
+export type EmployeeParams = ParamsApi<TEmployeeSearch>
 
 // getAll data from database
 export default class EmployeeRepository implements InterfaceRepository<EmployeeCreateZod> {
 
-	async findAll(filter: TEmployeeSearch, pageSize: number = 100): Promise<ResponseAll<TEmployeeDB>> {
-		let page = filter.page;
-		const skip = (page - 1) * pageSize;
-		const take = pageSize;
-		const employee = await prisma.employees.findMany(
+	async findAll({ filter, pagination: { limit = 100, page = 1 } }: Required<EmployeeParams>,
+	): Promise<ResponseAll<TEmployeeDB>> {
+		const skip = (page - 1) * limit;
+		const take = limit;
+		const employees = await prisma.employees.findMany(
 			{
 				include: {
 					languages: true,
@@ -23,17 +26,28 @@ export default class EmployeeRepository implements InterfaceRepository<EmployeeC
 				where: {
 					AND: [
 						{
-							...(filter.name ? { name: { contains: filter.name, } } : {}),
+							...(filter.name ? { name: { contains:filter. name, } } : {}),
 							...(filter.status ? { status: { contains: filter.status, } } : {}),
 						}
 					],
 				}
 			}
 		);
-		return { data: employee, page, pageSize };
+		return { data: employees, page, limit };
 	}
 
 	async findById(id: string) {
+		return prisma.employees.findUnique({
+			where: { id },
+			include: {
+				languages: true,
+				projects: true,
+				skills: true,
+				certifications: true,
+			},
+		});
+	}
+	async findPhotoById(id: string) {
 		return prisma.employees.findUnique({
 			where: { id },
 			include: {

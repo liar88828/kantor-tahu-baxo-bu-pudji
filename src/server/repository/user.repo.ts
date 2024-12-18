@@ -1,34 +1,32 @@
-import {prisma} from "@/config/prisma";
-import {ResponseAll} from "@/interface/server/param";
+import { prisma } from "@/config/prisma";
+import { ResponseAll } from "@/interface/server/param";
 import { Users } from "@prisma/client";
 import { TUserCreate, UserSearch } from "@/interface/entity/user.model";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
 
+export type UserParams = ParamsApi<UserSearch>
 
 export default class UserRepository implements InterfaceRepository<TUserCreate> {
-	paginate(data: { row: number; skip: number; }): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
 
-	search(search: string): Promise<any> {
-		throw new Error('Method not implemented.');
-	}
+	async findAll({
+					  filter,
+					  pagination: { page = 1, limit = 100 }
+				  }: Required<UserParams>): Promise<ResponseAll<Users>> {
 
-	async findAll(searchQuery: UserSearch, page: number = 1, pageSize: number = 10): Promise<ResponseAll<Users>> {
-
-		const skip = (page - 1) * pageSize;
-		const take = pageSize;
+		const skip = (page - 1) * limit;
+		const take = limit;
 		const data = await prisma.users.findMany({
 			where: {
 				AND: [
 					{
-						...(searchQuery.name ? {name: {contains: searchQuery.name,}} : {}),
+						...(filter.name ? { name: { contains: filter.name, } } : {}),
 					}
 				],
 			},
 			skip,
 			take,
 		});
-		return {data, page, pageSize};
+		return { data, page, limit };
 
 	}
 

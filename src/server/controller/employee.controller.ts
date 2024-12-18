@@ -16,10 +16,13 @@ export default class EmployeeController
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
 		return this.employeeRepository.findAll({
-			name: getParams(request, "name") ?? '',
-			status: getParams(request, "status") ?? '',
-			page: Number(getParams(request, "page") ?? '1')
-			},
+				filter: {
+					name: getParams(request, "name") ?? '',
+					status: getParams(request, "status") ?? '',
+				}, pagination: {
+					page: Number(getParams(request, "page") ?? '1'),
+				}
+			}
 		)
 	}
 
@@ -27,6 +30,12 @@ export default class EmployeeController
 		const id = await getId(context)
 		return this.employeeRepository.findById(UUIDSchema.parse(id))
 	}
+
+	async findPhotoById(_: NextRequest, context: TContext) {
+		const id = await getId(context)
+		return this.employeeRepository.findById(UUIDSchema.parse(id))
+	}
+
 
 	async createOne(request: NextRequest, __: TContext) {
 

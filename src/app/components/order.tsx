@@ -324,7 +324,7 @@ export function Receiver() {
 
 	const loadReceiver = async () => {
 		if (receiverData.length === 0) {
-			const { data } = await receiverAll()
+			const { data } = await receiverAll({pagination:{}})
 			if (data.data.length > 0) {
 				setReceiverData(data.data)
 			}
