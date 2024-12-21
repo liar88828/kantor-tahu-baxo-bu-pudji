@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useFetch } from "@/hook/useFetch";
+import { toFetch } from "@/hook/toFetch";
 import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
 import { TProductCreate, TProductDB } from "@/interface/entity/product.model";
 import { useRouter } from "next/navigation";
@@ -61,7 +61,7 @@ export const useProduct = () => {
 				const url = `/product?page=${ context.pageParam }&name=${ debouncedSearch }`
 				console.log(url)
 				// eslint-disable-next-line react-hooks/rules-of-hooks
-				const { data } = await useFetch<ResponseAll<TProductDB>>('GET', url);
+				const { data } = await toFetch<ResponseAll<TProductDB>>('GET', url);
 
 				return {
 					data: data.data,

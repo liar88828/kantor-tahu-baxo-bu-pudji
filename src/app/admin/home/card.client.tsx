@@ -2,7 +2,8 @@
 import React from "react";
 import {
 	CategoryScale,
-	Chart as ChartJS, type ChartData,
+	Chart as ChartJS,
+	type ChartData,
 	type ChartOptions,
 	Legend,
 	LinearScale,
@@ -12,7 +13,7 @@ import {
 	Tooltip,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { repeat } from "@/utils/repeat";
+import { ResponseMonthData } from "@/server/repository/order.repo";
 
 ChartJS.register(
 	CategoryScale,
@@ -24,13 +25,20 @@ ChartJS.register(
 	Legend
 );
 
-export function Earning() {
+export function Earning({ year_new, year_old }: { year_new: ResponseMonthData, year_old: ResponseMonthData }) {
+
+	const dataEarning = {
+		date: year_new.dataMonth.map(d => d.month),
+		year_new: year_new.dataMonth.map(d => d.total),
+		year_old: year_old.dataMonth.map(d => d.total),
+	}
+	console.log(dataEarning)
 	const data :ChartData<'line'>= {
-		labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
+		labels: dataEarning.date,
 		datasets: [
 			{
-				label: 'Sales',
-				data: repeat(12).map(d => Math.random() * 100),
+				label: String(year_new.year),
+				data: dataEarning.year_new,
 				borderColor: 'rgba(75, 192, 192, 1)',
 				backgroundColor: 'rgba(75, 192, 192, 0.2)',
 				tension: 0.4, // Smooth curves
@@ -38,12 +46,12 @@ export function Earning() {
 
 			},
 			{
-				label: 'Sales',
-				data: repeat(12).map(d => Math.random() * 100),
+				label: String(year_old.year),
+				data: dataEarning.year_old,
 				borderColor: 'rgb(192,75,75)',
 				backgroundColor: 'rgb(203,141,141)',
 				tension: 0.4, // Smooth curves
-pointStyle:'line',
+				pointStyle: 'line',
 			},
 		],
 	};

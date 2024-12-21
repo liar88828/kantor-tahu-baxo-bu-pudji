@@ -14,12 +14,20 @@ export default class OrderController
 	constructor(private orderRepository: OrderRepository) {
 	}
 
-	async findAll(request: NextRequest, _: TContext): Promise<any> {
+	async findAll(request: NextRequest, context: TContext): Promise<any> {
+
+		const year = getParams(request, 'year')
+		if (year) {
+			console.log(year)
+			return this.orderRepository.getMonthlyTotal(Number(year))
+		} else {
 		return this.orderRepository.findAll({
 			pagination: {
 				limit: Number(getParams(request, "limit") ?? '100'),
 			}
 		})
+		}
+
 	}
 
 	async findSearch(__: NextRequest, _: TContext): Promise<any> {

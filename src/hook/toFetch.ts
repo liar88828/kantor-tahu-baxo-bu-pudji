@@ -3,7 +3,7 @@ import { FetchResponse } from "@/interface/server/param";
 
 const isTest = false
 
-export const useFetch = async <R>(
+export const toFetch = async <R>(
 	method: TMethod,
 	url: string,
 	data?: any

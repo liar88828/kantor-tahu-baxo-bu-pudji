@@ -3,6 +3,13 @@ import { prisma } from "@/config/prisma";
 import { Orders } from "@prisma/client";
 import { InterfaceRepository, ParamsApi, TPagination } from "@/interface/server/InterfaceRepository";
 
+export type MonthlyTotal = {
+	month: string;
+	total: number;
+};
+
+export type ResponseMonthData = { year: number, dataMonth: MonthlyTotal[] }
+
 export const exampleSearch = {
 	receiverName: "Alice",
 	status: "Pending",
@@ -63,6 +70,47 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 			});
 		});
 	}
+
+	async getMonthlyTotal(year: number) {
+		const monthlyTotals = await prisma.orders.groupBy({
+			by: [ 'orderTime' ],
+			_sum: {
+				totalAll: true,
+			},
+			where: {
+				orderTime: {
+					gte: new Date(`${ year }-01-01`),
+					lt: new Date(`${ year + 1 }-01-01`),
+				},
+			},
+		});
+
+// Sanitize the data to group by month
+		const dataMonth: MonthlyTotal[] = monthlyTotals.reduce<MonthlyTotal[]>((acc, { _sum, orderTime }) => {
+			// Extract the month name from the orderTime
+			const monthName = new Date(orderTime).toLocaleString('default', { month: 'long' });
+
+			// Find the existing entry for this month or create a new one
+			const existingMonth = acc.find(item => item.month === monthName);
+			if (existingMonth) {
+				// @ts-ignore
+				existingMonth.total += _sum.totalAll;
+			} else {
+				// @ts-ignore
+				acc.push({ month: monthName, total: _sum.totalAll });
+			}
+
+			return acc;
+		}, []);
+
+		console.log(dataMonth);
+		return {
+			year,
+			dataMonth
+		};
+	}
+
+
 
 	async findAll({ pagination: { limit = 100, page = 1 } }: OrderParams): Promise<{ data: Orders[] } & TPagination> {
 		const skip = (page - 1) * limit;

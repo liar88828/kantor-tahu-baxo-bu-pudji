@@ -1,5 +1,5 @@
 import {afterAll, beforeAll, describe, expect, it} from 'vitest';
-import {useFetch} from "../../src/hook/useFetch";
+import {toFetch} from "../../src/hook/toFetch";
 import {TPaymentDB} from "../../src/interface/entity/payment.model";
 import {examplePayment} from "../../src/assets/ExamplePayment";
 import {statusTest} from "../../src/app/utils/test/statusTest";
@@ -227,11 +227,11 @@ describe("Test Payment api", () => {
 
 	describe("POST Payment", () => {
 		it("Payment Can create a post success ", async () => {
-			const data = useFetch<TPaymentDB>('POST', "payment", json)
+			const data = toFetch<TPaymentDB>('POST', "payment", json)
 			contextId = await data.then(d => d.data.id)
 			// await expect( data ).resolves.toHaveProperty( "data.name", "kosong" )
 			it("Payment Can create a post success ", async () => {
-				const data = useFetch<TPaymentDB>('POST', "payment", json)
+				const data = toFetch<TPaymentDB>('POST', "payment", json)
 				contextId = await data.then(d => d.data.id)
 				// await expect( data ).resolves.toHaveProperty( "data.name", "kosong" )
 				await expect(data).resolves.toMatchObject(responseSuccess)
@@ -240,14 +240,14 @@ describe("Test Payment api", () => {
 			it("Payment Cannot create partial value post error ", async () => {
 
 				const {desc, address, phone, id, ...ress} = json
-				const data = useFetch('POST', "payment", ress)
+				const data = toFetch('POST', "payment", ress)
 				await expect(data).resolves.not.toHaveProperty("data.name", "kosong")
 				await expect(data).resolves.not.toContain(statusTest("POST", "payment"))
 				await expect(data).resolves.toMatchObject(responseErrorPartial)
 			})
 
 			it("Payment Cannot create empty post error ", async () => {
-				const data = useFetch('POST', "payment", {})
+				const data = toFetch('POST', "payment", {})
 				await expect(data).resolves.not.toHaveProperty("data.name", "kosong")
 				await expect(data).resolves.not.toContain(statusTest("POST", "payment"))
 				await expect(data).resolves.toMatchObject(responseErrorAll)
@@ -256,7 +256,7 @@ describe("Test Payment api", () => {
 
 		describe("GET Payment", () => {
 			it("Payment Can find by all ", async () => {
-				const data = useFetch('GET', "payment",)
+				const data = toFetch('GET', "payment",)
 
 				// await expect( data ).resolves.toContain( statusTest( "GET" ) )
 				await expect(data).resolves.toMatchObject({"msg": expect.any(String)})
@@ -277,7 +277,7 @@ describe("Test Payment api", () => {
 			})
 
 			it("Payment Can find ID ", async () => {
-				const data = useFetch('GET', `payment/${contextId}`,)
+				const data = toFetch('GET', `payment/${contextId}`,)
 				await expect(data).resolves.toMatchObject({"msg": expect.any(String)})
 				await expect(data).resolves.toMatchObject({"code": 201})
 				await expect(data).resolves.toMatchObject({"data": expect.any(Object)})
@@ -295,7 +295,7 @@ describe("Test Payment api", () => {
 			})
 
 			it("Payment Cannot find ID ", async () => {
-				const data = useFetch('GET', `payment/${12312312}`,)
+				const data = toFetch('GET', `payment/${12312312}`,)
 
 				await expect(data).resolves.toMatchObject({"msg": expect.any(String)})
 				await expect(data).resolves.toMatchObject({"code": 400})
@@ -316,7 +316,7 @@ describe("Test Payment api", () => {
 			})
 			it("Payment Cannot find empty ID ", async () => {
 
-				const data = useFetch('GET', `payment/${132423423}`,)
+				const data = toFetch('GET', `payment/${132423423}`,)
 
 				await expect(data).resolves.toMatchObject({"msg": expect.any(String)})
 				await expect(data).resolves.toMatchObject({"code": 400})
@@ -342,7 +342,7 @@ describe("Test Payment api", () => {
 				json.name = "update"
 				json.id = contextId
 				responseSuccess.data.name = json.name
-				const data = useFetch('PUT', `payment/${contextId}`, json)
+				const data = toFetch('PUT', `payment/${contextId}`, json)
 				await expect(data).resolves.toHaveProperty("data.name", "update")
 				await expect(data).resolves.toMatchObject(responseSuccess)
 			})
@@ -351,7 +351,7 @@ describe("Test Payment api", () => {
 				json.name = "update"
 				json.id = contextId
 				responseSuccess.data.name = json.name
-				const data = useFetch('PUT', `payment/${'123123'}`, json)
+				const data = toFetch('PUT', `payment/${'123123'}`, json)
 				await expect(data).resolves.not.toHaveProperty("data.name", "update")
 				await expect(data).resolves.toMatchObject(responseErrorID)
 
@@ -368,13 +368,13 @@ describe("Test Payment api", () => {
 				json.name = "update"
 				json.id = contextId
 				const {desc, address, phone, ...ress} = json
-				const data = useFetch('PUT', `payment/${contextId}`, ress)
+				const data = toFetch('PUT', `payment/${contextId}`, ress)
 				await expect(data).resolves.not.toHaveProperty("data.name", "update")
 				await expect(data).resolves.toMatchObject(responseErrorPartial)
 			})
 
 			it("Payment Cannot edit empty value by ID ", async () => {
-				const data = useFetch('PUT', `payment/${contextId}`, {})
+				const data = toFetch('PUT', `payment/${contextId}`, {})
 				await expect(data).resolves.not.toHaveProperty("data.name", "update")
 				await expect(data).resolves.toMatchObject(responseErrorAllUpdate)
 			})
@@ -382,7 +382,7 @@ describe("Test Payment api", () => {
 
 		describe("DELETE Payment", () => {
 			it("Payment Can delete by ID ", async () => {
-				const data = useFetch('DELETE', `payment/${contextId}`,)
+				const data = toFetch('DELETE', `payment/${contextId}`,)
 				// await expect( data ).resolves.toContain( statusTest( "DELETE" ) )
 				// await expect( data ).resolves.toMatchObject( successResponse( json, "DELETE" ) )
 				await expect(data).resolves.toMatchObject({"msg": expect.any(String)})
@@ -391,14 +391,14 @@ describe("Test Payment api", () => {
 			})
 
 			it("Cannot delete by wrong ID ", async () => {
-				const data = useFetch('DELETE', `payment/${'salah'}`,)
+				const data = toFetch('DELETE', `payment/${'salah'}`,)
 				await expect(data).resolves.not.toContain(statusTest("DELETE", "payment"))
 				// await expect( data ).resolves.toMatchObject( errorEmptyID( "PUT" ) )
 
 			})
 
 			it("Payment Cannot delete because has deleted ", async () => {
-				const data = useFetch('DELETE', `payment/${contextId}`,)
+				const data = toFetch('DELETE', `payment/${contextId}`,)
 				await expect(data).resolves.not.toContain(statusTest("DELETE", "payment"))
 				await expect(data).resolves.toMatchObject({
 					"code": 500,

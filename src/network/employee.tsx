@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { useFetch } from "@/hook/useFetch";
+import { toFetch } from "@/hook/toFetch";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { ResponseAll } from "@/interface/server/param";
 import { TEmployeeDB } from "@/interface/entity/employee.model";
@@ -11,11 +11,11 @@ import { EmployeeParams } from "@/server/repository/employee.repo";
 
 export const employeeAll = async ({ filter, pagination }: EmployeeParams) => {
 	const url = toUrl('employee', { ...filter, ...pagination })
-	return useFetch<ResponseAll<TEmployeeDB>>('GET', url)
+	return toFetch<ResponseAll<TEmployeeDB>>('GET', url)
 };
 
 export const employeeId = async (id: string) => {
-	return useFetch<TEmployeeDB>('GET', `employee/${ id }`)
+	return toFetch<TEmployeeDB>('GET', `employee/${ id }`)
 };
 
 export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
@@ -49,9 +49,9 @@ export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
 };
 
 export const employeeUpdate = async (data: EmployeeCreateZod, id: string) => {
-	return useFetch<TDeliveryDB>('POST', `employee/${ id }`, data)
+	return toFetch<TDeliveryDB>('POST', `employee/${ id }`, data)
 };
 
 export const employeeDelete = async (id: string) => {
-	return useFetch<TDeliveryDB>('DELETE', `employee/${ id }`)
+	return toFetch<TDeliveryDB>('DELETE', `employee/${ id }`)
 };

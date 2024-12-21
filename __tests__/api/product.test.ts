@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { statusTest } from '../../src/app/utils/test/statusTest';
-import { useFetch } from "../../src/hook/useFetch";
+import { toFetch } from "../../src/hook/toFetch";
 import { TProductDB } from "../../src/interface/entity/product.model";
 import { exampleProduct } from "../../src/assets/ExampleProduct";
 
@@ -225,7 +225,7 @@ describe( "Test Product", () => {
   // --------
   describe( "POST Product", () => {
     test( "Product Can create a post success ", async () => {
-      const data = useFetch<TProductDB>("POST", "product", json,)
+      const data = toFetch<TProductDB>("POST", "product", json,)
       contextId = await data.then(d => d.data.id)
       await expect(data).resolves.toHaveProperty("data.name", "kosong")
       await expect(data).resolves.toMatchObject(responseSuccess)
@@ -235,7 +235,7 @@ describe( "Test Product", () => {
 
     test( "Product cannot create partial value ", async () => {
       const { name, qty, img, ...ress } = json
-      const data = useFetch("POST", "product", ress,)
+      const data = toFetch("POST", "product", ress,)
       await expect(data).resolves.not.toHaveProperty("data.name", "kosong")
       await expect(data).resolves.not.toContain(statusTest("POST", 'product'))
       await expect(data).resolves.toMatchObject(responseErrorPartial)
@@ -243,7 +243,7 @@ describe( "Test Product", () => {
     } )
 
     test( "Product cannot create empty value ", async () => {
-      const data = useFetch("POST", "product", {},)
+      const data = toFetch("POST", "product", {},)
       await expect(data).resolves.not.toHaveProperty("data.name", "kosong")
       await expect(data).resolves.not.toContain(statusTest("POST", "product"))
       await expect(data).resolves.toMatchObject(responseErrorAll)
@@ -253,7 +253,7 @@ describe( "Test Product", () => {
   describe("GET Product", () => {
     test( "Product Can find by all ", async () => {
       // const data = getDashboard()
-      const data = useFetch("GET", "product",)
+      const data = toFetch("GET", "product",)
       await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
       await expect(data).resolves.toMatchObject({ "code": 200 })
       await expect(data).resolves.toMatchObject({ "data": expect.any(Object) })
@@ -271,7 +271,7 @@ describe( "Test Product", () => {
     } )
 
     test( "Product Can find ID ", async () => {
-      const data = useFetch("GET", `product/${ contextId }`,)
+      const data = toFetch("GET", `product/${ contextId }`,)
       await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
       await expect(data).resolves.toMatchObject({ "code": 201 })
       await expect(data).resolves.toMatchObject({ "data": expect.any(Object) })
@@ -289,7 +289,7 @@ describe( "Test Product", () => {
     } )
 
     test( "Product Cannot find wrong ID ", async () => {
-      const data = useFetch("GET", `product/${ 12312312 }`)
+      const data = toFetch("GET", `product/${ 12312312 }`)
       console.log(await data.then(d => d))
       await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
       await expect(data).resolves.toMatchObject({ "code": 400 })
@@ -316,7 +316,7 @@ describe( "Test Product", () => {
       json.name = "update"
       json.id = contextId
       responseSuccess.data.name = json.name
-      const data = useFetch("PUT", `product/${ json.id }`, json)
+      const data = toFetch("PUT", `product/${ json.id }`, json)
       await expect(data).resolves.toHaveProperty("data.name", "update")
       await expect(data).resolves.toMatchObject(responseSuccess)
       
@@ -326,7 +326,7 @@ describe( "Test Product", () => {
       json.name = "update"
       json.id = contextId
       responseSuccess.data.name = json.name
-      const data = useFetch("PUT", `product/${ "salah" }`, json,)
+      const data = toFetch("PUT", `product/${ "salah" }`, json,)
       console.log(await data.then(d => d))
       await expect(data).resolves.not.toHaveProperty("data.name", "update")
       await expect(data).resolves.toMatchObject(responseErrorID)
@@ -345,7 +345,7 @@ describe( "Test Product", () => {
       json.name = "update"
       json.id = contextId
       const { name, qty, img, ...ress } = json
-      const data = useFetch("PUT", `product/${ json.id }`, ress,)
+      const data = toFetch("PUT", `product/${ json.id }`, ress,)
       await expect(data).resolves.not.toHaveProperty("data.name", "update")
       await expect(data).resolves.toMatchObject(responseErrorPartial)
       
@@ -353,7 +353,7 @@ describe( "Test Product", () => {
 
     test( "Product Cannot edit by empty value ", async () => {
       json.name = "update"
-      const data = useFetch("PUT", `product/${ json.id }`, {},)
+      const data = toFetch("PUT", `product/${ json.id }`, {},)
       await expect(data).resolves.not.toHaveProperty("data.name", "update")
       await expect(data).resolves.toMatchObject(responseErrorAllUpdate)
       
@@ -362,14 +362,14 @@ describe( "Test Product", () => {
   
   describe("DELETE Product", () => {
     test( "Product Can delete by ID ", async () => {
-      const data = useFetch("DELETE", `product/${ contextId }`,)
+      const data = toFetch("DELETE", `product/${ contextId }`,)
       await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
       await expect(data).resolves.toMatchObject({ "code": 200 })
       await expect(data).resolves.toMatchObject({ "data": expect.any(Object) })
     } )
 
     test( "Cannot Product by wrong ID ", async () => {
-      const data = useFetch("DELETE", "product/asdaasdasda",)
+      const data = toFetch("DELETE", "product/asdaasdasda",)
       await expect(data).resolves.not.toContain(statusTest("DELETE", "product"))
       await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
       await expect(data).resolves.toMatchObject({ "code": 400 })
@@ -383,7 +383,7 @@ describe( "Test Product", () => {
     } )
 
     test( "Product Cannot delete by empty ID", async () => {
-      const data = useFetch("DELETE", `product/${ contextId }`,)
+      const data = toFetch("DELETE", `product/${ contextId }`,)
       await expect(data).resolves.not.toHaveProperty("data.name", "update")
       await expect(data).resolves.toMatchObject({
         "code": 500,

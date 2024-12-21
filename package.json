@@ -15,6 +15,7 @@
     "starter"
   ],
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@hookform/resolvers": "^2.9.11",
     "@iconify/react": "^5.0.2",
     "@prisma/client": "^5.22.0",

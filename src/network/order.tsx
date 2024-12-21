@@ -1,14 +1,14 @@
 /* eslint-disable */
-import { useFetch } from "@/hook/useFetch";
+import { toFetch } from "@/hook/toFetch";
 import { TOrderTransactionCreate, TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
 
-export const orderCreate = (data: TOrderTransactionCreate) => useFetch('POST', 'order', data)
-export const orderUpdate = (data: TOrderTransactionCreate,id:string) => useFetch('PUT', `order/${id}`, data)
+export const orderCreate = (data: TOrderTransactionCreate) => toFetch('POST', 'order', data)
+export const orderUpdate = (data: TOrderTransactionCreate,id:string) => toFetch('PUT', `order/${id}`, data)
 export const orderAll = (limit: number = 100) => {
 	const newUrl = toUrl('order', { limit })
-	return useFetch<ResponseAll<TOrderTransactionDB>>('GET', newUrl)
+	return toFetch<ResponseAll<TOrderTransactionDB>>('GET', newUrl)
 }
-export const orderId = (id:string) => useFetch<TOrderTransactionDB>('GET', `order/${id}`)
-export const orderDelete = (id: string) => useFetch('DELETE', `order/${ id }`)
+export const orderId = (id:string) => toFetch<TOrderTransactionDB>('GET', `order/${id}`)
+export const orderDelete = (id: string) => toFetch('DELETE', `order/${ id }`)
