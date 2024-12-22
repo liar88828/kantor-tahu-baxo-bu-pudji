@@ -152,9 +152,9 @@ const Test = () => {
 							<td className={ 'bg-green-100' }>{ order.phoneDelivery }</td>
 							<td className={ 'bg-green-100' }>{ toRupiah(order.priceDelivery) }</td>
 							{/**/ }
-							<td className={ 'bg-orange-100' }>{ order.Receivers.name }</td>
-							<td className={ 'bg-orange-100' }>{ order.Receivers.address }</td>
-							<td className={ 'bg-orange-100' }>{ order.Receivers.phone }</td>
+							<td className={ 'bg-orange-100' }>{ order.Customers.name }</td>
+							<td className={ 'bg-orange-100' }>{ order.Customers.address }</td>
+							<td className={ 'bg-orange-100' }>{ order.Customers.phone }</td>
 							{/**/ }
 							<td className={ 'bg-red-100' }>{ order.Payments.name }</td>
 							<td className={ 'bg-red-100' }>{ order.Payments.type }</td>

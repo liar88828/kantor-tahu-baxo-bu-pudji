@@ -13,19 +13,21 @@ const useInfinityScroll = ({ queryResult }: UseInfinityScrollProps) => {
 		const observer = new IntersectionObserver(
 			(entries) => {
 				if (entries[0].isIntersecting && hasNextPage) {
-					fetchNextPage();
+					fetchNextPage()
 				}
 			},
 			{ threshold: 1.0 }
 		);
+		// Capture the current ref value
+		const currentRef = loadMoreRef.current;
 
-		if (loadMoreRef.current) {
-			observer.observe(loadMoreRef.current);
+		if (currentRef) {
+			observer.observe(currentRef);
 		}
 
 		return () => {
-			if (loadMoreRef.current) {
-				observer.unobserve(loadMoreRef.current);
+			if (currentRef) {
+				observer.unobserve(currentRef);
 			}
 		};
 	}, [fetchNextPage, hasNextPage]);

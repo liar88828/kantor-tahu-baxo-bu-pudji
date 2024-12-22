@@ -3,12 +3,12 @@ import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
-import ReceiverRepository from "@/server/repository/receiver.repo";
+import CustomerRepository from "@/server/repository/receiver.repo";
 import { ReceiverCreate } from "@/validation/receiver.valid";
 
 export default class ReceiverController
 	implements InterfaceController {
-	constructor(private receiverRepository: ReceiverRepository) {
+	constructor(private receiverRepository: CustomerRepository) {
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {

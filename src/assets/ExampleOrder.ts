@@ -1,5 +1,5 @@
 import { TOrderCreate } from "@/interface/entity/order.model"
-import { TReceiverDB } from "@/interface/entity/receiver.model";
+import { TCustomersDB } from "@/interface/entity/receiver.model";
 import { TTrolleyDB } from "@/interface/entity/trolley.model";
 
 export const exampleOrderCreate: TOrderCreate = {
@@ -48,7 +48,7 @@ export const exampleOrderProductCreate: TTrolleyDB[] = [
 		id: "dsa245623456sda",
 	},
 ]
-export const exampleReceiver: TReceiverDB = {
+export const exampleReceiver: TCustomersDB = {
 	id: "123e4567-e89b-12d3-a456-426614174000", // Valid UUID
 	name: "Alice Johnson",
 	address: "456 Elm Street, Springfield, USA",

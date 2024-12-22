@@ -49,7 +49,6 @@ export default class EmployeeController
 		const response = await this.employeeRepository.createOne(
 			employeeCreateServer.parse(data)
 		)
-
 			if (response) {
 				await saveImage(formData, filePath)
 			}

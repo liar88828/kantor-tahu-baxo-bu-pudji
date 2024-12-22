@@ -50,7 +50,7 @@ export const employeeCreateServer: z.ZodType<EmployeeCreate> = z.object({
 	name: z.string().min(2, "Name must be at least 2 characters"),
 	email: z.string().email("Invalid email address"),
 	phone: z.string(),
-	gender: z.enum([ "Male", "Female" ]),
+	gender: z.string(),//[ "Male", "Female" ]
 	dateOfBirth: z.coerce.date(),
 	hireDate: z.coerce.date(),
 	jobTitle: z.string().min(2, "Job Title must be at least 2 characters"),
@@ -61,7 +61,7 @@ export const employeeCreateServer: z.ZodType<EmployeeCreate> = z.object({
 	address: z.string(),
 	city: z.string(),
 	postalCode: z.string(),
-	employmentType: z.enum([ "Full-Time", "Part-Time" ]),
+	employmentType: z.string(),//[ "Full-Time", "Part-Time" ]
 	notes: z.string(),
 	img: z.string(),
 	//

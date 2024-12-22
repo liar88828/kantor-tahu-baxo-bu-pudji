@@ -156,9 +156,9 @@ export default function OrderTable() {
 										{/**/ }
 										{ tableDetail.receiver &&
 											(<>
-												<td className={ 'bg-orange-50' }>{ order.Receivers.name }</td>
-												<td className={ 'bg-orange-50' }>{ order.Receivers.address }</td>
-												<td className={ 'bg-orange-50' }>{ order.Receivers.phone }</td>
+												<td className={ 'bg-orange-50' }>{ order.Customers.name }</td>
+												<td className={ 'bg-orange-50' }>{ order.Customers.address }</td>
+												<td className={ 'bg-orange-50' }>{ order.Customers.phone }</td>
 											</>) }
 										{/**/ }
 										{ tableDetail.deliver &&

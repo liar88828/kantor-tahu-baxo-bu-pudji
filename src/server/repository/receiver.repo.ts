@@ -1,15 +1,15 @@
 import { prisma } from "@/config/prisma";
-import { ReceiverSearch, TReceiverCreate } from "@/interface/entity/receiver.model";
+import { CustomerSearch, TReceiverCreate } from "@/interface/entity/receiver.model";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
 
-export type ReceiverParams = ParamsApi<ReceiverSearch>
-export default class ReceiverRepository implements InterfaceRepository<TReceiverCreate> {
+export type CustomerParams = ParamsApi<CustomerSearch>
+export default class CustomerRepository implements InterfaceRepository<TReceiverCreate> {
 
-	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<ReceiverParams>) {
+	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<CustomerParams>) {
 
 		const skip = (page - 1) * limit;
 		const take = limit;
-		const data = await prisma.receivers.findMany({
+		const data = await prisma.customers.findMany({
 			where: {
 				AND: [
 					{
@@ -27,19 +27,19 @@ export default class ReceiverRepository implements InterfaceRepository<TReceiver
 	}
 
 	async findById(id: string): Promise<any> {
-		return prisma.receivers.findUnique({ where: { id } });
+		return prisma.customers.findUnique({ where: { id } });
 	}
 
 	async createOne(data: TReceiverCreate): Promise<any> {
-		return prisma.receivers.create({ data: { ...data } });
+		return prisma.customers.create({ data: { ...data } });
 	}
 
 	async updateOne(data: TReceiverCreate, id: string): Promise<any> {
-		return prisma.receivers.update({ data: { ...data }, where: { id } });
+		return prisma.customers.update({ data: { ...data }, where: { id } });
 	}
 
 	async deleteOne(id: string): Promise<any> {
-		return prisma.receivers.delete({ where: { id } });
+		return prisma.customers.delete({ where: { id } });
 	}
 
 	setOne(d: (TReceiverCreate) & { id?: string }) {
@@ -56,7 +56,7 @@ export default class ReceiverRepository implements InterfaceRepository<TReceiver
 	}
 
 	async updateMany(data: TReceiverCreate[], id: string) {
-		return prisma.receivers.updateMany({
+		return prisma.customers.updateMany({
 			where: { id: id },
 			data: this.setMany(data)
 		})

@@ -6,6 +6,7 @@ export function toUrl<T extends object>(endPoint: string, params: T): string {
 	Object.keys(params).forEach((key) => {
 		const value = params[key as keyof typeof params];//why error
 		// Otherwise, append the key-value pair
+		// @ts-ignore
 		searchParams.append(key, value);
 	});
 

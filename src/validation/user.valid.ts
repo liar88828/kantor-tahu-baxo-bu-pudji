@@ -1,11 +1,13 @@
 import { z } from "zod";
-import { TProductCreate } from "@/interface/entity/product.model";
 import { TUserCreate } from "@/interface/entity/user.model";
 
 export const UserCreate: z.ZodType<TUserCreate> = z.object({
 	name: z.string().min(1).max(100),
 	phone: z.string().min(1).max(100),
 	address: z.string().min(1).max(100),
+	email: z.string(),
+	password: z.string(),
+	viewer: z.string(),
 })
 
 // export const ProductUpdate: z.ZodType<TProductUpdate> = z.object({

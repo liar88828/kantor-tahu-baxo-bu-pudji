@@ -32,18 +32,19 @@ model Orders {
   // at update / create
   status      String
   Trolleys    Trolleys[]
-  Receivers   Receivers  @relation(fields: [id_receiver], references: [id])
+  Customers   Customers  @relation(fields: [id_receiver], references: [id])
   id_receiver String
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
 }
 
-model Receivers {
-  id      String   @id @default(uuid())
+model Customers {
+  id      String @id @default(uuid())
   name    String
   address String
   phone   String
-  Orders  Orders[]
+
+  Orders Orders[]
 }
 
 model Trolleys {
@@ -104,9 +105,20 @@ model Payments {
 model Users {
   id       String     @id @default(uuid())
   name     String
-  phone    String
-  address  String
+  phone    String?
+  address  String?
+  email    String
+  password String
+  viewer   String
   Trolleys Trolleys[]
+  Session  Sessions?
+}
+
+model Sessions {
+  id        String   @id @default(uuid())
+  usersId   String   @unique
+  expiresAt DateTime
+  Users     Users    @relation(fields: [usersId], references: [id])
 }
 
 model Employees {

@@ -15,9 +15,9 @@ export default function DetailedInvoicePrint() {
 	const { data: order, isLoading, isError } = getId(param.id)
 	const { isPrinting, handlePrint, contentRef } = usePrint()
 	const handleDelete = () => {
-
 		onDelete.mutate(param.id)
 	}
+
 	if (!order || isLoading) return <LoadingSpin/>
 	if (isError) return <EmptyData page={ `Order Detail ${ param.id }` }/>
 
@@ -47,9 +47,9 @@ export default function DetailedInvoicePrint() {
 						</div>
 						<div>
 							<p className="font-semibold">Receiver:</p>
-							<p>{ order.data.Receivers.name }</p>
-							<p>{ order.data.Receivers.address }</p>
-							<p>{ order.data.Receivers.phone }</p>
+							<p>{ order.data.Customers.name }</p>
+							<p>{ order.data.Customers.address }</p>
+							<p>{ order.data.Customers.phone }</p>
 						</div>
 					</div>
 					<div className="mb-4">

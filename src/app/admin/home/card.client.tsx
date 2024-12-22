@@ -14,6 +14,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { ResponseMonthData } from "@/server/repository/order.repo";
+import useWindowResizeThreshold from "@/hook/useWindowResizeThreshold";
 
 ChartJS.register(
 	CategoryScale,
@@ -25,14 +26,20 @@ ChartJS.register(
 	Legend
 );
 
-export function Earning({ year_new, year_old }: { year_new: ResponseMonthData, year_old: ResponseMonthData }) {
+export function EarningClient({ year_new, year_old }: { year_new: ResponseMonthData, year_old: ResponseMonthData }) {
+	const isMobileSize = useWindowResizeThreshold(600)
+
+	// useEffect(() => {
+	// 	//Some more code to execute when the mobile size is toggled
+	// 	console.log(isMobileSize)
+	// }, [ isMobileSize ])
 
 	const dataEarning = {
 		date: year_new.dataMonth.map(d => d.month),
 		year_new: year_new.dataMonth.map(d => d.total),
 		year_old: year_old.dataMonth.map(d => d.total),
 	}
-	console.log(dataEarning)
+	// console.log(dataEarning)
 	const data :ChartData<'line'>= {
 		labels: dataEarning.date,
 		datasets: [
@@ -55,11 +62,11 @@ export function Earning({ year_new, year_old }: { year_new: ResponseMonthData, y
 			},
 		],
 	};
-	const options: ChartOptions = {
+	const options: ChartOptions<'line'> = {
 
 		responsive: true,
 		resizeDelay: 1000,
-		aspectRatio: 100 / 40,
+		aspectRatio: isMobileSize ? (100 / 80) : (100 / 60),
 		// aspectRatio: 100 / 80,
 		interaction: {
 			mode: 'index',
@@ -79,16 +86,16 @@ export function Earning({ year_new, year_old }: { year_new: ResponseMonthData, y
 				}
 			},
 			title: {
-				display: true,
+				display: false,
 				text: 'Monthly Sales Data',
 			},
 		},
 	};
 
-	return <div className="card card-compact md:card-normal bg-base-200/30   ">
+	return <div className="card card-compact md:card-normal bg-base-200/30    ">
 		<div className="card-body ">
 			<h2 className="card-title">Earning</h2>
-				<Line data={ data } options={ options }/>
+			<Line data={ data } options={ options }/>
 		</div>
 	</div>;
 }

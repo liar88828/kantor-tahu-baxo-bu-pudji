@@ -10,7 +10,9 @@ export type TEmployeeDB = Employees & {
 };
 
 export type TEmployeeSearch = Pick<TEmployeeDB, 'name' | 'status'> & { page?: number };
-export type EmployeeCreate = Omit<Employees, 'updatedAt' | 'createdAt' | 'id' | 'managerId'> & {
+export type EmployeeCreate =
+	Omit<Employees, 'updatedAt' | 'createdAt' | 'id' | 'managerId' | 'photoKtp' | 'photo3x4'>
+	& {
 	skills: Pick<Skills, 'text'>[];
 	languages: Pick<Languages, 'text'>[];
 	certifications: Pick<Certifications, 'text'>[];

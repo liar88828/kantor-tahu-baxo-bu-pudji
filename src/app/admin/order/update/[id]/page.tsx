@@ -23,7 +23,7 @@ function Page() {
 	useEffect(() => {
 		if (order) {
 			setProductStore(order.data.Trolleys.map(d => d))
-			setReceiver(order.data.Receivers)
+			setReceiver(order.data.Customers)
 			setPayment(order.data.Payments)
 			setDelivery(order.data.Deliverys)
 		}

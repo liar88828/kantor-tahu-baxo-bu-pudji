@@ -8,7 +8,7 @@ import { PaymentRepository } from "@/server/repository/payment.repo";
 import PaymentController from "@/server/controller/payment.controller";
 import TableController from "@/server/controller/table.controller";
 import ReceiverController from "@/server/controller/receiver.controller";
-import ReceiverRepository from "@/server/repository/receiver.repo";
+import CustomerRepository from "@/server/repository/receiver.repo";
 import EmployeeRepository from "@/server/repository/employee.repo";
 import EmployeeController from "@/server/controller/employee.controller";
 import DeliveryRepository from "@/server/repository/delivery.repo";
@@ -21,7 +21,7 @@ export const productController = new ProductController(new ProductRepository())
 export const orderController = new OrderController(new OrderRepository())
 export const paymentController = new PaymentController(new PaymentRepository())
 export const tableController = new TableController(new OrderRepository())
-export const receiverController = new ReceiverController(new ReceiverRepository())
+export const receiverController = new ReceiverController(new CustomerRepository())
 export const employeeController = new EmployeeController(new EmployeeRepository())
 export const deliveryController = new DeliveryController(new DeliveryRepository())
 export const userController = new UserController(new UserRepository())

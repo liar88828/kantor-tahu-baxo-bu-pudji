@@ -18,7 +18,7 @@ export default class OrderController
 
 		const year = getParams(request, 'year')
 		if (year) {
-			console.log(year)
+			// console.log(year)
 			return this.orderRepository.getMonthlyTotal(Number(year))
 		} else {
 		return this.orderRepository.findAll({

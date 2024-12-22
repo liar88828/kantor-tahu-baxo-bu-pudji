@@ -8,7 +8,7 @@ import { useProductStore } from "@/store/product";
 import { EmptyData } from "@/app/components/ErrorData";
 import React, { useState } from "react";
 import { useOrderStore } from "@/store/order";
-import { TReceiverDB } from "@/interface/entity/receiver.model";
+import { TCustomersDB } from "@/interface/entity/receiver.model";
 import { receiverAll } from "@/network/receiver";
 import Link from "next/link";
 import useTrolleyStore from "@/store/trolley";
@@ -319,7 +319,7 @@ export function PaymentDialog() {
 
 export function Receiver() {
 	const { onReceiver, setReceiver } = useOrderStore()
-	const [ receiverData, setReceiverData ] = useState<TReceiverDB[]>([])
+	const [ receiverData, setReceiverData ] = useState<TCustomersDB[]>([])
 	const [ search, setSearch ] = useState<string>('')
 
 	const loadReceiver = async () => {

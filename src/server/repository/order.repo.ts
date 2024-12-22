@@ -60,7 +60,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 					]
 				},
 				include: {
-					Receivers: true,
+					Customers: true,
 					Trolleys: {
 						include: {
 							Product: true
@@ -78,6 +78,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				totalAll: true,
 			},
 			where: {
+				status: 'Complete',
 				orderTime: {
 					gte: new Date(`${ year }-01-01`),
 					lt: new Date(`${ year + 1 }-01-01`),
@@ -103,11 +104,8 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 			return acc;
 		}, []);
 
-		console.log(dataMonth);
-		return {
-			year,
-			dataMonth
-		};
+		// console.log(dataMonth);
+		return { year, dataMonth };
 	}
 
 
@@ -122,7 +120,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 						Product: true
 					}
 				},
-				Receivers: true,
+				Customers: true,
 				Deliverys: true,
 				Payments: true
 			},
@@ -144,7 +142,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 						Product: true
 					}
 				},
-				Receivers: true,
+				Customers: true,
 				Deliverys: true,
 				Payments: true
 			},
@@ -155,7 +153,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	async createOne(data: TOrderTransactionCreate) {
 		return prisma.$transaction(async (tx) => {
 
-			const orderReceiver = await tx.receivers.create(
+			const orderReceiver = await tx.customers.create(
 				{data: data.orderReceiver})
 
 			const order = await tx.orders.create(
@@ -200,7 +198,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				const order = await tx.orders.findUniqueOrThrow({
 					where: {id: orderId},
 				});
-				updatedReceiver = await tx.receivers.update({
+				updatedReceiver = await tx.customers.update({
 					where: {id: order.id_receiver},
 					data: data.orderReceiver,
 				});

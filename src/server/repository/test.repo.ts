@@ -2,7 +2,6 @@ import { prisma } from "@/config/prisma";
 import OrderRepository, { MonthlyTotal } from "@/server/repository/order.repo";
 import { faker } from "@faker-js/faker";
 
-
 class TestRepo {
 	async getMonthlyTotals(year: number) {
 		const startDate = new Date(year, 0, 1); // January 1st
@@ -111,8 +110,8 @@ class TestRepo {
 				"order": {
 					"address": faker.person.firstName(),
 					"desc": "Order of electronics including headphones and chargers.",
-					"id_delivery": "9576b826-da1c-4763-9207-4bd9903609bf",
-					"id_payment": "e143b314-0cb6-47a2-9fb6-2b6e66d6d6bd",
+					"id_delivery": "1113e23f-0528-418e-b4e4-f2ee04bc29cf",
+					"id_payment": "e22724ae-a54a-4961-937b-981b973bc4d8",
 					"nameCs": faker.person.fullName(),
 					"nameDelivery": faker.person.fullName(),
 					"orderTime": faker.date.between({ from: '2023-01-01', to: '2025-01-01', }),
@@ -126,8 +125,8 @@ class TestRepo {
 					[ {
 						"qty_at_buy": faker.number.int(10000),
 						"price_at_buy": faker.number.int(10000),
-						"id_user": "ce2d9fac-7ab6-4b66-9e3a-8ef979b16dbe",
-						"id_product": "e3d0ed2d-1ea2-4347-846d-cd24f443389e"
+						"id_user": "ef15593c-f129-4925-b5b0-4beced176808",
+						"id_product": "c39af8bb-6e16-49b9-a57a-c5b0849f5547"
 					} ], "orderReceiver":
 					{
 						"name": faker.finance.accountName(),
