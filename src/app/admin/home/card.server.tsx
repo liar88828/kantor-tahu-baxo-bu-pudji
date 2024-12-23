@@ -90,12 +90,13 @@ export function GridCardChild(
 
 export async function TopOrder() {
 	const getTopOrderTotal = async () => {
-		return prisma.orders.findMany({
+		const res = await prisma.orders.findMany({
 			take: 5,
 			include: { Customers: true },
 			orderBy: { totalAll: 'desc' },
-
 		})
+		console.log(res)
+		return res
 	}
 
 	const orders = await getTopOrderTotal()

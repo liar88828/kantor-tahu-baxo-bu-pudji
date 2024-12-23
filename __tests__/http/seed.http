@@ -1,0 +1,12 @@
+
+
+### seed
+POST http://localhost:3000/api/seed/order
+Content-Type: application/json
+
+
+
+### seed
+POST http://localhost:3000/api/seed/product
+Content-Type: application/json
+

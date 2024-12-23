@@ -7,7 +7,7 @@ export async function GET() {
 }
 
 export async function POST() {
-	const data = testRepositories.createManySeed()
+	const data = testRepositories.seedOrder()
 	return NextResponse.json(data)
 
 }

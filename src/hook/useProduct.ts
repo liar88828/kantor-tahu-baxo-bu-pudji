@@ -5,6 +5,7 @@ import { TProductCreate, TProductDB } from "@/interface/entity/product.model";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { productCreate, productDelete, productUpdate } from "@/network/product";
+import React, { useEffect } from "react";
 
 export const PRODUCT_KEY = 'product'
 export const useProduct = () => {
@@ -56,7 +57,10 @@ export const useProduct = () => {
 	function getProductUser(search: string,debouncedSearch:string) {
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		return useInfiniteQuery<PaginatedResponse, Error>({
+			initialPageParam: 1,
+			enabled: !!debouncedSearch || search === '',
 			queryKey: [PRODUCT_KEY,debouncedSearch],
+
 			queryFn: async (context): Promise<PaginatedResponse> => {
 				const url = `/product?page=${ context.pageParam }&name=${ debouncedSearch }`
 				console.log(url)
@@ -68,7 +72,7 @@ export const useProduct = () => {
 					nextCursor: data.page
 				}
 			},
-			initialPageParam: 1,
+
 			getNextPageParam: (lastPage, pages) => {
 				if (lastPage.data.length !== 0) {
 					if (lastPage.nextCursor === 0) {
@@ -78,6 +82,7 @@ export const useProduct = () => {
 					}
 				}
 			},
+
 			getPreviousPageParam: (firstPage, pages) => {
 				// console.log(firstPage, 'firstPage', pages)
 
@@ -86,12 +91,76 @@ export const useProduct = () => {
 				}
 				return firstPage.nextCursor //- 1
 			},
-			enabled: !!debouncedSearch || search === '',
+
 		});
+
 	}
 
+	const useProductInfiniteQuery = (debouncedSearch: string, search: string, observerRef: React.RefObject<HTMLDivElement | null>) => {
+		const {
+			data,
+			status,
+			error,
+			fetchNextPage,
+			hasNextPage,
+			isFetching,
+			isFetchingNextPage,
+		} = useInfiniteQuery<PaginatedResponse, Error>({
+			initialPageParam: 1,
+			enabled: !!debouncedSearch || search === '',
+			queryKey: [ PRODUCT_KEY, debouncedSearch ],
+
+			queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
+				const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;
+				console.log(url);
+				const { data } = await toFetch<ResponseAll<TProductDB>>('GET', url);
+
+				return {
+					data: data.data,
+					nextCursor: data.page,
+				};
+			},
+
+			getNextPageParam: (lastPage) => {
+				if (lastPage.data.length === 0 || lastPage.nextCursor === 0) return undefined;
+				// console.log(lastPage.nextCursor)
+				return lastPage.nextCursor + 1;
+			},
+
+			getPreviousPageParam: (firstPage) => {
+				if (firstPage.nextCursor <= 1) return undefined;
+				return firstPage.nextCursor;
+			},
+
+		});
+
+		useEffect(() => {
+			if (!hasNextPage) return;
+
+			const observer = new IntersectionObserver(
+				([ entry ]) => {
+					if (entry.isIntersecting) fetchNextPage();
+				},
+				{ rootMargin: '200px' }
+			);
+
+			const observerRefCurrent = observerRef.current
+
+			if (observerRefCurrent) observer.observe(observerRefCurrent);
+
+			return () => {
+				if (observerRefCurrent) observer.unobserve(observerRefCurrent);
+			};
+		}, [ hasNextPage, fetchNextPage, observerRef ]);
+
+		return { data, status, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage };
+	};
+
+
+
 	return {
-		getProductUser, onDelete, onUpsert
+
+		getProductUser, onDelete, onUpsert, useProductInfiniteQuery
 
 
 	}

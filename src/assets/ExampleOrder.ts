@@ -3,23 +3,23 @@ import { TCustomersDB } from "@/interface/entity/receiver.model";
 import { TTrolleyDB } from "@/interface/entity/trolley.model";
 
 export const exampleOrderCreate: TOrderCreate = {
-  nameCs: "John Doe",
-  sendTime: new Date("2024-12-05T10:00:00Z"), // ISO 8601 formatted date
-  orderTime: new Date("2024-12-04T15:30:00Z"),
-  desc: "Order of electronics including headphones and chargers.",
-  address: "123 Main St, Springfield, USA",
-  // travel
-  id_delivery: "550e8400-e29b-41d4-a716-446655440000", // UUID format
-  nameDelivery: "Express Logistics",
-  phoneDelivery: "+1234567890",
-  priceDelivery: 4999, // Example price in cents (4999 cents = 49.99 currency units)
-  // payment
-  id_payment: "660e8400-e29b-41d4-a716-556655440111", // UUID format
-  totalPayment: 10499, // Total payment amount (e.g., in cents)
-  totalAll: 15498, // Sum of total payment and delivery price
-  //
-  status: "Pending", // Example status
-  // id_receiver: "770e8400-e29b-41d4-a716-666655440222", // UUID format
+	nameCs: "John Doe",
+	sendTime: new Date("2024-12-05T10:00:00Z"), // ISO 8601 formatted date
+	orderTime: new Date("2024-12-04T15:30:00Z"),
+	desc: "Order of electronics including headphones and chargers.",
+	address: "123 Main St, Springfield, USA",
+	// travel
+	id_delivery: "550e8400-e29b-41d4-a716-446655440000", // UUID format
+	nameDelivery: "Express Logistics",
+	phoneDelivery: "+1234567890",
+	priceDelivery: 4999, // Example price in cents (4999 cents = 49.99 currency units)
+	// payment
+	id_payment: "660e8400-e29b-41d4-a716-556655440111", // UUID format
+	totalPayment: 10499, // Total payment amount (e.g., in cents)
+	totalAll: 15498, // Sum of total payment and delivery price
+	status: "Pending", // Example status
+
+	// id_receiver: "770e8400-e29b-41d4-a716-666655440222", // UUID format
 }
 
 export const exampleOrderProductCreate: TTrolleyDB[] = [

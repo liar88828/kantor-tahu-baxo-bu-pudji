@@ -91,16 +91,28 @@ export const useTrolley = () => {
 		})
 	}
 	const push = useMutation({
+		onMutate: () => {
+			return toast.loading('Loading...')
+		},
 		mutationFn: async (product: TProductDB) => {
-			await pushTrolley({ id: product.id, price: product.price, qty: counter })
+			return {
+				data: await pushTrolley({ id: product.id, price: product.price, qty: counter })
+			}
+
 		},
 		onError: (error) => {
 			toast.error(error.message)
 		},
-		onSuccess: async () => {
+		onSuccess: async (data,) => {
 			toast.success('Success Push Data ', { position: 'top-right' })
 			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
 			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
+		},
+		onSettled: async (_,
+						  __,
+						  ___,
+						  context) => {
+			toast.dismiss(context)
 		}
 
 	})

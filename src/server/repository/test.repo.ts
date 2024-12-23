@@ -1,6 +1,7 @@
 import { prisma } from "@/config/prisma";
 import OrderRepository, { MonthlyTotal } from "@/server/repository/order.repo";
 import { faker } from "@faker-js/faker";
+import { repeat } from "@/utils/repeat";
 
 class TestRepo {
 	async getMonthlyTotals(year: number) {
@@ -102,16 +103,19 @@ class TestRepo {
 		);
 	}
 
-	async createManySeed() {
+	async seedOrder() {
 		const orderRepository = new OrderRepository()
-
-		for (let i = 0; i < 200; i++) {
+		const delivery = await prisma.deliverys.findFirst()
+		const payment = await prisma.payments.findFirst()
+		const user = await prisma.users.findFirst()
+		const product = await prisma.products.findFirst()
+		for await (const i of repeat(200)) {
 			await orderRepository.createOne({
 				"order": {
 					"address": faker.person.firstName(),
 					"desc": "Order of electronics including headphones and chargers.",
-					"id_delivery": "1113e23f-0528-418e-b4e4-f2ee04bc29cf",
-					"id_payment": "e22724ae-a54a-4961-937b-981b973bc4d8",
+					"id_delivery": delivery?.id ?? '',
+					"id_payment": payment?.id ?? '',
 					"nameCs": faker.person.fullName(),
 					"nameDelivery": faker.person.fullName(),
 					"orderTime": faker.date.between({ from: '2023-01-01', to: '2025-01-01', }),
@@ -121,19 +125,41 @@ class TestRepo {
 					"status": faker.helpers.fake([ 'Pending', 'Fail', 'Complete' ]),
 					"totalAll": faker.number.int(10000),
 					"totalPayment": faker.number.int(10000)
-				}, "orderTrolley":
-					[ {
+				},
+				"orderTrolley":
+					[
+						{
 						"qty_at_buy": faker.number.int(10000),
 						"price_at_buy": faker.number.int(10000),
-						"id_user": "ef15593c-f129-4925-b5b0-4beced176808",
-						"id_product": "c39af8bb-6e16-49b9-a57a-c5b0849f5547"
-					} ], "orderReceiver":
+							"id_user": user?.id ?? '',
+							"id_product": product?.id ?? ''
+						}
+					],
+				"orderReceiver":
 					{
 						"name": faker.finance.accountName(),
 						"address": "456 Elm Street, Springfield, USA",
 						"phone": faker.phone.number()
 					}
 			})
+		}
+		return 'success'
+	}
+
+	async seedProduct() {
+		for await (const i of repeat(200)) {
+			await prisma.products.create({
+				data: {
+					"desc": faker.food.description(),
+					"img": "tidak ada ",
+					"location": faker.location.city(),
+					"name": faker.food.meat(),
+					"price": faker.number.int(10000),
+					"qty": faker.number.int(10000),
+					"type": faker.food.adjective()
+				}
+			})
+
 		}
 		return 'success'
 	}

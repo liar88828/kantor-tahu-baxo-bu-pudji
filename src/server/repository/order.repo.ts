@@ -153,13 +153,13 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	async createOne(data: TOrderTransactionCreate) {
 		return prisma.$transaction(async (tx) => {
 
-			const orderReceiver = await tx.customers.create(
+			const orderCustomers = await tx.customers.create(
 				{data: data.orderReceiver})
 
 			const order = await tx.orders.create(
 				{
 					data: {
-						id_receiver: orderReceiver.id,
+						id_customer: orderCustomers.id,
 						...data.order
 					},
 				})
@@ -177,7 +177,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 
 				return {
 					order,
-					orderReceiver,
+					orderReceiver: orderCustomers,
 					orderProduct
 				}
 			}
@@ -199,7 +199,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 					where: {id: orderId},
 				});
 				updatedReceiver = await tx.customers.update({
-					where: {id: order.id_receiver},
+					where: { id: order.id_customer },
 					data: data.orderReceiver,
 				});
 			}
