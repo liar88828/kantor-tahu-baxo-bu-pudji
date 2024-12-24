@@ -3,9 +3,9 @@ import React from 'react';
 import { useRouter } from "next/navigation";
 import { useTrolley } from "@/hook/useTrolley";
 import { TProductDB } from "@/interface/entity/product.model";
-import { ProductCard } from "@/app/(user)/(market)/product/page";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { ProductCard } from "@/app/(user)/(market)/product/productLayout";
 
 function ProductClient({ products, title }: { title: string, products: TProductDB[] }) {
 	const router = useRouter();
@@ -33,7 +33,8 @@ function ProductClient({ products, title }: { title: string, products: TProductD
 							key={ product.id }
 							className={ ' flex-shrink-0 ~w-40/48 py-0.5' }
 						>
-							<ProductCard
+
+                        <ProductCard
 								product={ product }
 								addTrolleyAction={ () => addTrolley }
 								detailProductAction={ () => router.push(`/product/${ product.id }`) }

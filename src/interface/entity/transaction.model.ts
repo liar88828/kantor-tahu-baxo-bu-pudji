@@ -9,7 +9,7 @@ export type OrderId = TOrderTransactionDB['id'];
 export type TOrderTransactionCreate = {
 	order: TOrderCreate
 	orderTrolley: TOrderTrolleyTransaction[]
-	orderReceiver: TReceiverCreate
+    orderReceiver: TReceiverCreate & { id?: string }
 }
 
 export type TOrderTransactionDB = Orders & {

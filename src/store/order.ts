@@ -6,13 +6,14 @@ import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { orderTransactionSanitize } from "@/sanitize/orderSanitize";
+import { receiverUser } from "@/network/receiver";
 
 export type DataOrder = {
 	payment: TPaymentDB,
 	delivery: TDeliveryDB,
 	product: TTrolleyProductUser[],
 	order: OrderCreateClient,
-	receiver: TReceiverCreate,
+    receiver: TReceiverCreate & { id: string },
 };
 
 type OrderType = {
@@ -30,6 +31,7 @@ type OrderType = {
 	setProduct: (data: DataOrder['product']) => void,
 	setTotal: (data: { totalProduct: number, pricePayment?: number, priceDelivery?: number }) => void,
 	reset: () => void
+    getAsyncReceiver: () => Promise<void>,
 }
 
 const initialState = {
@@ -44,6 +46,14 @@ const initialState = {
 
 export const useOrderStore = create<OrderType>((set, get) => ({
 	...initialState,
+    getAsyncReceiver: async () => {
+        const data = await receiverUser()
+        set(() => ({
+            onReceiver: data.data
+        }))
+
+    },
+
 	reset: () => set(initialState),
 	setProduct: (data: DataOrder['product']) => {
 	},

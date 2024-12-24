@@ -13,7 +13,8 @@ const useInfinityScroll = ({ queryResult }: UseInfinityScrollProps) => {
 		const observer = new IntersectionObserver(
 			(entries) => {
 				if (entries[0].isIntersecting && hasNextPage) {
-					fetchNextPage()
+                    // noinspection JSIgnoredPromiseFromCall
+                    fetchNextPage()
 				}
 			},
 			{ threshold: 1.0 }

@@ -2,13 +2,15 @@ import { z } from "zod";
 import { TOrderCreate } from "@/interface/entity/order.model";
 
 export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
-	nameCs: z.string().min(1).max(100),
+    // nameCs: z.string().min(1).max(100),
 	sendTime: z.coerce.date(),
-	orderTime: z.coerce.date(),
+
+    orderTime: z.coerce.date(),
 	desc: z.string().min(1).max(300),
 	address: z.string().min(1).max(100),
 	// travel
 	id_delivery: z.string().uuid(),
+    id_customer: z.string().uuid(),
 	nameDelivery: z.string().min(1).max(100),
 	phoneDelivery: z.string().min(1).max(100),
 	priceDelivery: z.number().int().nonnegative(),
@@ -45,9 +47,10 @@ export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
 
 export type OrderCreateClient = {
 	id: string;
+    id_customer: string;
 	addressCs: string;
 	desc: string;
-	nameCs: string;
+    // nameCs: string;
 	//
 	nameDelivery: string;
 	phoneDelivery: string;
@@ -64,9 +67,10 @@ export type OrderCreateClient = {
 };
 
 export const orderCreateClient: z.ZodType<Omit<OrderCreateClient,'id'>> = z.object({
+    // nameCs: z.string(),
+    id_customer: z.string(),
 	addressCs: z.string(),
 	desc: z.string(),
-	nameCs: z.string(),
 	nameDelivery: z.string(),
 	phoneDelivery: z.string(),
 	priceDelivery: z.number(),

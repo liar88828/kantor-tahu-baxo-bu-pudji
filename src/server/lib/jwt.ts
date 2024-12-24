@@ -1,12 +1,12 @@
 import { jwtVerify, SignJWT } from 'jose'
 
 const secretKey = process.env.SESSION_SECRET
-export const expires = new Date(Date.now() + 60 * 60 * 1000)
 
 const encodedKey = new TextEncoder().encode(secretKey)
 export type SessionPayload = {
 	sessionId: string
-	expiresAt: Date
+    expiresAt: Date,
+    role: string
 	// name: string,
 	// email: string,
 }
@@ -31,5 +31,6 @@ export async function decrypt(session: string | undefined = ''): Promise<Session
 		return data.payload as SessionPayload
 	} catch (error) {
 		console.log('Failed to verify session')
-	}
+
+    }
 }

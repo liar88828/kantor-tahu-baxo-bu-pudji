@@ -116,7 +116,7 @@ export default function OrderTable() {
 							</tr>
 								: orders.data.data
 								.filter((order) => {
-									const nameOrder = order.nameCs.toLowerCase().includes(search.toLowerCase());
+                                    const nameOrder = order.Customers.name.toLowerCase().includes(search.toLowerCase());
 									const statusOrder = order.status.includes(statusTable);
 									return nameOrder && statusOrder;
 								})
@@ -148,7 +148,7 @@ export default function OrderTable() {
 											}
 										</td>
 										{/**/ }
-										<td>{ order.nameCs }</td>
+                                        <td>{ order.Customers.name }</td>
 										<td>{ order.address }</td>
 										{ tableDetail.description && (
 										<td className={ 'line-clamp-2' }>{ order.desc }</td>

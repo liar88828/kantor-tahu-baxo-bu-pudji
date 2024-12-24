@@ -1,6 +1,6 @@
 import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/interface/entity/transaction.model";
 import { prisma } from "@/config/prisma";
-import { Orders } from "@prisma/client";
+import { Customers, Orders } from "@prisma/client";
 import { InterfaceRepository, ParamsApi, TPagination } from "@/interface/server/InterfaceRepository";
 
 export type MonthlyTotal = {
@@ -24,6 +24,7 @@ type SearchOrder = {
 };
 export type OrderParams = ParamsApi<any>
 
+export type ResponseCreateOrderTransaction = { order: Orders, orderCustomers: Customers, orderProduct: any };
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
 	async search(criteria: SearchOrder) {
@@ -150,36 +151,49 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	}
 
 	// ---------CREATE
-	async createOne(data: TOrderTransactionCreate) {
+    async createOne(data: TOrderTransactionCreate): Promise<ResponseCreateOrderTransaction> {
 		return prisma.$transaction(async (tx) => {
+            let orderCustomerRes
+            // find
+            const customerDB = await tx.customers.findUnique(
+                {
+                    where: {
+                        id: data.order.id_customer
+                    }
+                })
 
-			const orderCustomers = await tx.customers.create(
-				{data: data.orderReceiver})
+            if (!customerDB) {
+                const orderCustomers = await tx.customers.create(
+                    { data: data.orderReceiver }
+                )
+                data.order.id_customer = orderCustomers.id
+                orderCustomerRes = orderCustomers
+            } else {
+                orderCustomerRes = customerDB
+            }
+
+
 
 			const order = await tx.orders.create(
 				{
 					data: {
-						id_customer: orderCustomers.id,
 						...data.order
 					},
 				})
+            const products = data.orderTrolley.map((product) => ({
+                id_order: order.id,
+                id_product: product.id_product,
+                qty_at_buy: product.qty_at_buy,
+                price_at_buy: product.price_at_buy
+            }))
 
-			if (order) {
-				const products = data.orderTrolley.map((product) => ({
-					id_order: order.id,
-					id_product: product.id_product,
-					qty_at_buy: product.qty_at_buy,
-					price_at_buy: product.price_at_buy
-				}))
+            const orderProduct = await tx.trolleys.createMany(
+                { data: products })
 
-				const orderProduct = await tx.trolleys.createMany(
-					{data: products})
-
-				return {
-					order,
-					orderReceiver: orderCustomers,
-					orderProduct
-				}
+            return {
+                order,
+                orderCustomers: orderCustomerRes,
+                orderProduct
 			}
 		})
 	}

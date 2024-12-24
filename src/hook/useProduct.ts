@@ -139,7 +139,9 @@ export const useProduct = () => {
 
 			const observer = new IntersectionObserver(
 				([ entry ]) => {
-					if (entry.isIntersecting) fetchNextPage();
+                    if (entry.isIntersecting) { // noinspection JSIgnoredPromiseFromCall
+                        fetchNextPage()
+                    }
 				},
 				{ rootMargin: '200px' }
 			);

@@ -45,7 +45,6 @@ export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
 		}
 		return false
 	}
-	return true
 };
 
 export const employeeUpdate = async (data: EmployeeCreateZod, id: string) => {

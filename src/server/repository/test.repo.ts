@@ -112,11 +112,11 @@ class TestRepo {
 		for await (const i of repeat(200)) {
 			await orderRepository.createOne({
 				"order": {
+                    id_customer: "",
 					"address": faker.person.firstName(),
 					"desc": "Order of electronics including headphones and chargers.",
 					"id_delivery": delivery?.id ?? '',
 					"id_payment": payment?.id ?? '',
-					"nameCs": faker.person.fullName(),
 					"nameDelivery": faker.person.fullName(),
 					"orderTime": faker.date.between({ from: '2023-01-01', to: '2025-01-01', }),
 					"sendTime": faker.date.between({ from: '2023-01-01', to: '2025-01-01', }),
@@ -136,7 +136,8 @@ class TestRepo {
 						}
 					],
 				"orderReceiver":
-					{
+                    {
+                        id: "",
 						"name": faker.finance.accountName(),
 						"address": "456 Elm Street, Springfield, USA",
 						"phone": faker.phone.number()

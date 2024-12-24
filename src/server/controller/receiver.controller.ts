@@ -5,6 +5,7 @@ import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import CustomerRepository from "@/server/repository/receiver.repo";
 import { ReceiverCreate } from "@/validation/receiver.valid";
+import { getUser } from "@/server/lib/db";
 
 export default class ReceiverController
 	implements InterfaceController {
@@ -26,13 +27,19 @@ export default class ReceiverController
 		)
 	}
 
-	async findById(_: NextRequest, context: TContext): Promise<any> {
-		const id = await getId(context)
-		return this.receiverRepository.findById(
-			// id
-			UUIDSchema.parse(id)
-		)
-	}
+    async findById(_: NextRequest, context: TContext): Promise<any> {
+        const id = await getId(context)
+        return this.receiverRepository.findById(
+            // id
+            UUIDSchema.parse(id)
+        )
+    }
+
+    async findUser(_: NextRequest, context: TContext): Promise<any> {
+        const user = await getUser()
+        if (!user) throw new Error('User is not valid')
+        return this.receiverRepository.findUser(user)
+    }
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)

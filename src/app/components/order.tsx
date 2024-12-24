@@ -60,7 +60,7 @@ export function Delivery() {
 										<div className="flex items-center gap-2">
 											<button
 												onClick={ () => setDelivery(null) }
-												className={ 'btn btn-square btn-neutral' }>
+                                                className={ 'btn btn-square ' }>
 												<XIcon/>
 											</button>
 										</div>
@@ -141,7 +141,7 @@ export function DeliveryDialog() {
 													<form method="dialog">
 														<button
 															onClick={ () => setDelivery(delivery) }
-															className={ 'btn btn-square btn-neutral' }>
+                                                            className={ 'btn btn-square ' }>
 															<Check/>
 														</button>
 													</form>
@@ -346,6 +346,7 @@ export function Receiver() {
 						} }>
 						<Search/>
 					</button>
+
 					<dialog id="my_modal_search" className="modal">
 						<div className="modal-box">
 							<h3 className="font-bold text-lg">Hello!</h3>
@@ -489,58 +490,55 @@ export function Product() {
 					<h1 className="card-title">Product</h1>
 				</div>
 			</div>
-			<div className="card card-compact bg-base-200 mt-2">
-				<div className="card-body">
-					<div className="space-y-2">
-						{ !onSelected
-							? <EmptyData page={ 'checkout' }/>
-							: onSelected.map(trolley => (
-								<div
-									key={ trolley.id }
-									className={ `card card-side card-compact bg-base-300 card-bordered` }>
-									<figure>
-										{/* eslint-disable-next-line @next/next/no-img-element */ }
-										<img
-											src="https://picsum.photos/200/300?random=1"
-											alt="Movie"
-											className='rounded-xl object-cover w-32 h-32 '
-										/>
-									</figure>
-									<div className="card-body">
-										<div className="flex justify-between">
-											<h2 className='card-title'>Lorem, ipsum dolor.</h2>
-											<button
-												onClick={ () => onRemove(trolley.id) }
-												className=' btn btn-square btn-error btn-sm '>
-												<Trash/>
-											</button>
-										</div>
-										<div className="flex justify-between items-end">
-											<div className="">
-												<p>{ toRupiah(trolley.Product.price) }</p>
-												<p>{ trolley.Product.type }</p>
-											</div>
-											<div className="flex items-center gap-2">
-												<button
-													onClick={
-														() => onIncrement(trolley.id) }
-													className="btn btn-square btn-sm">
-													<Plus/>
-												</button>
-												<h2>{ trolley.qty_at_buy }</h2>
-												<button
-													onClick={ () => onDecrement(trolley.id) }
-													className="btn btn-square  btn-sm">
-													<Minus/>
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							)) }
-					</div>
-				</div>
-			</div>
+
+            <div className="space-y-2 border rounded-2xl p-0.5">
+                { !onSelected
+                    ? <EmptyData page={ 'checkout' }/>
+                    : onSelected.map(trolley => (
+                        <div
+                            key={ trolley.id }
+                            className={ `card card-side card-compact bg-base-300 card-bordered` }>
+                            <figure>
+                                {/* eslint-disable-next-line @next/next/no-img-element */ }
+                                <img
+                                    src="https://picsum.photos/200/300?random=1"
+                                    alt="Movie"
+                                    className='rounded-xl object-cover w-32 h-32 '
+                                />
+                            </figure>
+                            <div className="card-body">
+                                <div className="flex justify-between">
+                                    <h2 className='card-title'>Lorem, ipsum dolor.</h2>
+                                    <button
+                                        onClick={ () => onRemove(trolley.id) }
+                                        className=' btn btn-square btn-error btn-sm '>
+                                        <Trash/>
+                                    </button>
+                                </div>
+                                <div className="flex justify-between items-end">
+                                    <div className="">
+                                        <p>{ toRupiah(trolley.Product.price) }</p>
+                                        <p>{ trolley.Product.type }</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={
+                                                () => onIncrement(trolley.id) }
+                                            className="btn btn-square btn-sm">
+                                            <Plus/>
+                                        </button>
+                                        <h2>{ trolley.qty_at_buy }</h2>
+                                        <button
+                                            onClick={ () => onDecrement(trolley.id) }
+                                            className="btn btn-square  btn-sm">
+                                            <Minus/>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )) }
+            </div>
 		</div>
 	)
 }

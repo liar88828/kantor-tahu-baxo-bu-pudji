@@ -15,6 +15,11 @@ export const receiverId = async (id: string) => {
 	return toFetch<TCustomersDB>('GET', `receiver/${ id }`)
 };
 
+export const receiverUser = async () => {
+    return toFetch<TCustomersDB>('GET', `receiver/user`)
+};
+
+
 export const receiverCreate = async (data: TReceiverCreate) => {
 	return toFetch<TCustomersDB>('POST', 'receiver', data)
 };

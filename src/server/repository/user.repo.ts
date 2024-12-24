@@ -8,11 +8,9 @@ export type UserParams = ParamsApi<UserSearch>
 
 export default class UserRepository implements InterfaceRepository<TUserCreate> {
 
-	async findAll({
-					  filter,
-					  pagination: { page = 1, limit = 100 }
-				  }: Required<UserParams>): Promise<ResponseAll<Users>> {
-
+    async findAll(
+        { filter, pagination: { page = 1, limit = 100 } }:
+        Required<UserParams>): Promise<ResponseAll<Users>> {
 		const skip = (page - 1) * limit;
 		const take = limit;
 		const data = await prisma.users.findMany({
@@ -52,15 +50,12 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
 		}
 	}
 
-	setMany(data: TUserCreate[]): any[] {
-		return data.map((d) => (this.setOne(d)))
+    setMany(data: TUserCreate[]) {
+
 	}
 
 	async updateMany(data: TUserCreate[], id: string) {
-		return prisma.users.updateMany({
-			where: {id: id},
-			data: this.setMany(data)
-		})
-	}
+
+    }
 }
 

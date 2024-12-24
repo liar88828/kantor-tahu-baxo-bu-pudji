@@ -126,14 +126,13 @@ export async function TopOrder() {
 							{/* eslint-disable-next-line @next/next/no-img-element */ }
 							<img
 								className={ 'rounded-2xl w-20' }
-								src="https://picsum.photos/200" alt={ order.nameCs }/>
+                                src="https://picsum.photos/200" alt={ order.Customers.name }/>
 						</td>
 						<td>
 							<p className={ ` badge badge-outline badge-${ toStatus(order.status) }` }>    { order.status }</p>
 						</td>
 						<td>{ toDate(order.sendTime) }</td>
-						<td>{ order.nameCs }</td>
-
+                        <td>{ order.Customers.name }</td>
 						<td>{ order.Customers.address }</td>
 						<td>{ order.nameDelivery }</td>
 						{/*<td>{ order.Trolleys.length }</td>*/}

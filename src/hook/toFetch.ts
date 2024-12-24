@@ -46,7 +46,7 @@ export const toFetch = async <R>(
 		if (!isTest) {
 			if (!response.ok) {
 				const data = await response.json()
-				// console.error()
+                console.log(data)
 				throw new Error(`HTTP error! status: ${response.status} msg : ${data.msg}`)
 			}
 		}
@@ -56,7 +56,7 @@ export const toFetch = async <R>(
 	} catch (error) {
 		if (error instanceof Error) {
 		// Handle errors
-			console.error("Fetch error:", error.message)
+            // 	console.error("Fetch error:", error.message)
 
 		}
 		throw error // Rethrow the error for the caller to handle

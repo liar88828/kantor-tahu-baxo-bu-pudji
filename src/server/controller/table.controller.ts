@@ -19,7 +19,7 @@ export default class TableController
 
 	}
 
-	async updateOne(request: NextRequest, context: TContext): Promise<any> {
+    async updateOne(_: NextRequest, __: TContext): Promise<any> {
 		// const json = await getJson(request)
 		// const id = await getId(context)
 		// return this.orderRepository.updateOne(ProductCreate.parse(json), id)
@@ -47,7 +47,7 @@ export default class TableController
 		return this.orderRepository.findById(id)
 	}
 
-	async findByStatus(request: NextRequest, context: TContext) {
+    async findByStatus(_: NextRequest, context: TContext) {
 
 		// return this.orderRepository.findByStatus( this.v.zodIdNew( status ) )
 

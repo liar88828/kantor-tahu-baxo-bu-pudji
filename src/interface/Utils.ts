@@ -13,7 +13,13 @@ export type ToModel =
 	| 'receiver'
 	| 'employee'
 	| "user"
-	;
+
+export enum ROLE {
+    USER = "USER",
+    ADMIN = "ADMIN"
+}
+
+
 export type TMethod = "PUT" | "POST" | "GET" | "DELETE" | "PATCH";
 export type TRes<T> = { msg: string, data: T }
 export type Status = 'Fail' | 'Complete' | 'Pending'

@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .shadows {
-    @apply shadow-xl shadow-slate-200;
-  }
-}
 
 @layer components {
   .text-title {

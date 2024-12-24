@@ -24,12 +24,29 @@ export function useOrder() {
 	const order = useOrderStore()
 
 	const onUpsert = useMutation({
-		mutationFn: ({ data, method, id }: { method: TMethod, data: OrderCreateClient, id?: string }) => {
+        onMutate: () => {
+            return { toastId: toast.loading('Loading...') }
+        },
+        onSettled: (_, __, ___, context) => {
+            if (context) {
+                toast.dismiss(context.toastId)
+            }
+        },
+        mutationFn: ({ data, method, id, isClient }: {
+            method: TMethod,
+            data: OrderCreateClient,
+            id?: string,
+            isClient?: boolean
+        }) => {
 			if (!payment.payment) {
 				throw new Error('Payment is not complete');
-			} else if (!delivery.delivery) {
+            }
+            if (!delivery.delivery) {
 				throw new Error('Delivery is not complete');
-			} else {
+            }
+            if (product.productStore.length === 0) {
+                throw new Error('product is Empty');
+            }
 				data.totalAll = order.total;
 				data.totalProduct = product.total;
 				const sanitize = order.setData({
@@ -39,32 +56,36 @@ export function useOrder() {
 					receiver: receiver.receiver,
 					order: data,
 				})
-				console.log(method, id)
+            // console.log(method, id)
 				if (method === 'PUT' && id) {
 					return orderUpdate(sanitize, id)
 				} else {
 					return orderCreate(sanitize)
 				}
-			}
 		},
 		onError: (data, variables, context) => {
+            // console.log(data)
 			if (data instanceof Error) {
 				toast.error(data.message)
 			}
 		},
 		onSuccess: (data, variables, context) => {
-			console.log(data)
+            // console.log(data)
 			toast.success(data.msg)
 			product.reset()
 			delivery.reset()
 			receiver.reset()
 			payment.reset()
 			order.reset()
+            console.log(variables)
+            if (variables.isClient) {
+                router.push(`/invoice/${ data.data.order.id }`)
+            } else
 			if (variables.method === 'PUT') {
 				router.push(`/admin/order/${ variables.id }`)
-			} else {
-			router.push('/admin/order')
-			}
+            } else {
+                router.push('/admin/order')
+            }
 		},
 	})
 

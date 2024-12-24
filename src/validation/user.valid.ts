@@ -7,7 +7,7 @@ export const UserCreate: z.ZodType<TUserCreate> = z.object({
 	address: z.string().min(1).max(100),
 	email: z.string(),
 	password: z.string(),
-	viewer: z.string(),
+    role: z.string(),
 })
 
 // export const ProductUpdate: z.ZodType<TProductUpdate> = z.object({

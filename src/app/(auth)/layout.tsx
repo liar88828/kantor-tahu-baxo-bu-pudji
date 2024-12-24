@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { getSession } from "@/app/lib/db";
+import { getSession } from "@/server/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeftIcon } from "lucide-react";

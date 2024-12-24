@@ -3,15 +3,11 @@ import type { ReactNode } from "react";
 import { ChevronLeft, HomeIcon, LucidePackageSearch, ShoppingCart, UserIcon } from 'lucide-react';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useTrolley } from "@/hook/useTrolley";
-import { userId } from "@/network/trolley";
-import { TrolleyCase } from "@/app/components/TrolleyCase";
+import { TrolleyCase, TrolleyCount } from "@/app/(user)/(market)/trolley.client";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const router = useRouter()
 	const path = usePathname()
-	const { getAll } = useTrolley()
-	const { data } = getAll({ idUser: userId })
 
 	return (<>
 			<div className="navbar bg-base-300 fixed z-50">
@@ -27,18 +23,13 @@ export default function Layout({ children }: { children: ReactNode }) {
 						<div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
 							<div className="indicator">
 								<ShoppingCart/>
-								<span className="badge badge-sm indicator-item">{ data ? data.data.length : 0 }</span>
+                                <TrolleyCount/>
 							</div>
 						</div>
 						<div
 							tabIndex={ 0 }
 							className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
-							{ data
-								? <TrolleyCase fun={ () => {
-									router.push('/trolley')
-								} } trolleys={ data.data }/>
-								: <TrolleyCase fun={ () => {
-								} } trolleys={ undefined }/> }
+                            <TrolleyCase/>
 						</div>
 					</div>
 				</div>
@@ -49,7 +40,6 @@ export default function Layout({ children }: { children: ReactNode }) {
 			<div className="btm-nav z-50">
 				<Link href={ '/home' }
 					  className={ path === '/home' ? "active" : "" }>
-
 					<HomeIcon/>
 					<span className="btm-nav-label">Home</span>
 				</Link>
@@ -71,4 +61,3 @@ export default function Layout({ children }: { children: ReactNode }) {
 
 	)
 }
-

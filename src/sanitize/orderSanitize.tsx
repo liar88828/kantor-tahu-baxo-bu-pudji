@@ -1,4 +1,4 @@
-import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
+import { TOrderTransactionCreate, TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { userId } from "@/network/trolley";
 import { DataOrder } from "@/store/order";
@@ -10,7 +10,6 @@ export const orderSanitize = (data: TOrderTransactionDB | undefined): OrderCreat
 			id: data.id,
 			addressCs: data.address,
 			desc: data.desc,
-			nameCs: data.nameCs,
 			nameDelivery: data.nameDelivery,
 			phoneDelivery: data.phoneDelivery,
 			priceDelivery: data.priceDelivery,
@@ -30,9 +29,9 @@ export const orderSanitize = (data: TOrderTransactionDB | undefined): OrderCreat
 	}
 	return {
 		id:'',
+        id_customer: "",
 		addressCs: '',
 		desc: '',
-		nameCs: '',
 		nameDelivery: '',
 		phoneDelivery: '',
 		priceDelivery: 0,
@@ -46,7 +45,13 @@ export const orderSanitize = (data: TOrderTransactionDB | undefined): OrderCreat
 	}
 }
 
-export const orderTransactionSanitize = ({ delivery, order, receiver, payment, product }: DataOrder) => {
+export const orderTransactionSanitize = ({
+                                             delivery,
+                                             order,
+                                             receiver,
+                                             payment,
+                                             product
+                                         }: DataOrder): TOrderTransactionCreate => {
 	return {
 		orderReceiver: receiver,
 		orderTrolley: product.map(d => (
@@ -57,9 +62,9 @@ export const orderTransactionSanitize = ({ delivery, order, receiver, payment, p
 				id_product: d.id_product
 			})),
 		order: {
+            id_customer: order.id_customer,
 			address: order.addressCs,
 			desc: order.desc,
-			nameCs: order.nameCs,
 			orderTime: order.orderTime,
 			sendTime: order.sendTime,
 			id_delivery: delivery.id,

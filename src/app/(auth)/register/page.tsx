@@ -11,6 +11,7 @@ export default function SignupForm() {
 		<div className="card card-bordered bg-base-100 lg:mx-60">
 			<form action={ action } className="card-body">
 				<h2 className="card-title">Sign Up</h2>
+
 				{/* Name Input */ }
 				<div className="form-control w-full">
 					<label htmlFor="name" className="label">
@@ -67,6 +68,38 @@ export default function SignupForm() {
 					) }
 				</div>
 
+                {/* Phone Input */ }
+                <div className="form-control w-full">
+                    <label htmlFor="phone" className="label">
+                        <span className="label-text">Phone</span>
+                    </label>
+                    <input
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        className="input input-bordered w-full"
+                    />
+                    { state?.errors?.phone && (
+                        <p className="text-red-500 text-sm mt-1">{ state.errors.phone }</p>
+                    ) }
+                </div>
+
+                {/* Address Input */ }
+                <div className="form-control w-full">
+                    <label htmlFor="address" className="label">
+                        <span className="label-text">Address</span>
+                    </label>
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter your address"
+                        className="textarea textarea-bordered w-full"
+                    />
+                    { state?.errors?.address && (
+                        <p className="text-red-500 text-sm mt-1">{ state.errors.address }</p>
+                    ) }
+                </div>
+
 				{/* Submit Button */ }
 				<div className="card-actions">
 					<button
@@ -76,13 +109,10 @@ export default function SignupForm() {
 					>
 						{ pending ? "Signing Up..." : "Sign Up" }
 					</button>
-					<div className="">
-						Dont Have Account Please
-						<Link
-							href="/register"
-							className={ `btn btn-link mx-0.5 px-0.5` }
-						>
-							Register
+                    <div>
+                        Already have an account?
+                        <Link href="/login" className="btn btn-link mx-0.5 px-0.5">
+                            Log In
 						</Link>
 						Now!
 					</div>
@@ -91,5 +121,3 @@ export default function SignupForm() {
 		</div>
 	);
 }
-
-

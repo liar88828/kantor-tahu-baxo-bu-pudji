@@ -1,11 +1,15 @@
 import { z } from "zod";
 
 export const SignupFormSchema = z.object({
-	name: z
+    address: z
 	.string()
 	.min(2, { message: 'Name must be at least 2 characters long.' })
 	.trim(),
 	email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+    name: z
+    .string()
+    .min(2, { message: 'Name must be at least 2 characters long.' })
+    .trim(),
 	password: z
 	.string()
 	.min(8, { message: 'Be at least 8 characters long' })
@@ -15,6 +19,10 @@ export const SignupFormSchema = z.object({
 	// 	message: 'Contain at least one special character.',
 	// })
 	.trim(),
+    phone: z
+    .string()
+    .min(2, { message: 'Name must be at least 2 characters long.' })
+    .trim(),
 })
 
 export type FormState =

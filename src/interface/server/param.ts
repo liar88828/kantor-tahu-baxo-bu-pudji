@@ -1,7 +1,7 @@
 import { TProductDB } from "@/interface/entity/product.model";
 
 export type TContext = {
-	searchParams: Promise<{ search: string,status:string }>,
+    searchParams: Promise<{ search: string, status: string, redirect: string }>,
 	params: Promise<{ id: string, search: string, }>
 }
 

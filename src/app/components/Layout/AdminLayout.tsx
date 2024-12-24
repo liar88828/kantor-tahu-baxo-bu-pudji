@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 import { BookA, Car, ChevronLeft, CreditCard, HomeIcon, LogOut, LucidePackageSearch, Menu, User, } from 'lucide-react';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { logout } from "@/app/lib/state";
+import { logout } from "@/server/lib/state";
 
 export default function AdminLayout({ children, isLogin }: { children: ReactNode, isLogin: boolean }) {
 	// console.log(isLogin)

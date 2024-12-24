@@ -22,7 +22,7 @@ export default function DetailedInvoicePrint() {
 	if (isError) return <EmptyData page={ `Order Detail ${ param.id }` }/>
 
 	return (
-		<div className={ ` mx-auto sm:p-4 ${ isPrinting ? 'w-[50rem]' : "" } pb-20` }>
+        <div className={ ` mx-auto sm:p-4 ${ isPrinting ? 'w-[50rem]' : "" } pb-20 max-w-[210mm]` }>
 			{ <div
 				className="mb-4 card  card-compact sm:card-normal bg-white card-bordered text-xs sm:text-base">
 				<div
@@ -42,11 +42,6 @@ export default function DetailedInvoicePrint() {
 						</div>
 						<div>
 							<p className="font-semibold">Customer:</p>
-							<p>{ order.data.nameCs }</p>
-							<p>{ order.data.address }</p>
-						</div>
-						<div>
-							<p className="font-semibold">Receiver:</p>
 							<p>{ order.data.Customers.name }</p>
 							<p>{ order.data.Customers.address }</p>
 							<p>{ order.data.Customers.phone }</p>

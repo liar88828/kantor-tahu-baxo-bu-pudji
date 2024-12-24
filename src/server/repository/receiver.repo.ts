@@ -1,6 +1,7 @@
 import { prisma } from "@/config/prisma";
 import { CustomerSearch, TReceiverCreate } from "@/interface/entity/receiver.model";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
+import { Users, Customers } from "@prisma/client";
 
 export type CustomerParams = ParamsApi<CustomerSearch>
 export default class CustomerRepository implements InterfaceRepository<TReceiverCreate> {
@@ -29,6 +30,24 @@ export default class CustomerRepository implements InterfaceRepository<TReceiver
 	async findById(id: string): Promise<any> {
 		return prisma.customers.findUnique({ where: { id } });
 	}
+
+    async findUser(user: Users): Promise<Customers> {
+        return prisma.$transaction(async (tx) => {
+            const found = await tx.customers.findUnique({ where: { id: user.id } });
+
+            if (!found) {
+                return tx.customers.create({
+                    data: {
+                        address: user.address,
+                        phone: user.phone,
+                        name: user.name,
+                        id: user.id,
+                    }
+                });
+            }
+            return found;
+        })
+    }
 
 	async createOne(data: TReceiverCreate): Promise<any> {
 		return prisma.customers.create({ data: { ...data } });

@@ -12,7 +12,6 @@ export async function GET(request: NextRequest, context: TContext) {
 }
 
 export async function POST(request: NextRequest, context: TContext) {
-
 	return ResponseJson(() => orderController.createOne(request, context),
 		"POST",
 		'order')

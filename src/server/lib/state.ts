@@ -1,7 +1,8 @@
 'use server'
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { decrypt, encrypt, expires } from "@/app/lib/jwt";
+import { decrypt, encrypt } from "@/server/lib/jwt";
+import { Sessions } from ".prisma/client";
 
 export async function deleteSession() {
 	const cookieStore = await cookies()
@@ -9,6 +10,7 @@ export async function deleteSession() {
 }
 
 export async function updateSession() {
+    const expires = new Date(Date.now() + 60 * 60 * 1000)
 	const session = (await cookies()).get('session')?.value
 	const payload = await decrypt(session)
 
@@ -29,9 +31,9 @@ export async function updateSession() {
 	// console.log(' is validate')
 }
 
-export async function createSession(userId: string) {
-	const expiresAt = expires
-	const session = await encrypt({ sessionId: userId, expiresAt })
+export async function createSession(data: Pick<Sessions, 'usersId' | 'role'>) {
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000)
+    const session = await encrypt({ sessionId: data.usersId, expiresAt, role: data.role })
 	const cookieStore = await cookies()
 
 	cookieStore.set('session', session, {

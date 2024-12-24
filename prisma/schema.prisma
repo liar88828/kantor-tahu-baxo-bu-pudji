@@ -10,7 +10,6 @@ datasource db {
 
 model Orders {
   id        String   @id @default(uuid())
-  nameCs    String
   orderTime DateTime
   sendTime  DateTime
   desc      String
@@ -32,18 +31,17 @@ model Orders {
   // at update / create
   status      String
   Trolleys    Trolleys[]
-  Customers   Customers @relation(fields: [id_customer], references: [id])
+  Customers Customers @relation(fields: [id_customer], references: [id])
   id_customer String
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
 }
 
 model Customers {
-  id      String @id @default(uuid())
+  id     String  @id @default(uuid())
   name    String
   address String
   phone   String
-
   Orders Orders[]
 }
 
@@ -105,11 +103,11 @@ model Payments {
 model Users {
   id       String     @id @default(uuid())
   name     String
-  phone    String?
-  address  String?
+  phone   String
+  address String
   email    String
   password String
-  viewer   String
+  role    String
   Trolleys Trolleys[]
   Session  Sessions?
 }
@@ -118,6 +116,7 @@ model Sessions {
   id        String   @id @default(uuid())
   usersId   String   @unique
   expiresAt DateTime
+  role String
   Users     Users    @relation(fields: [usersId], references: [id])
 }
 

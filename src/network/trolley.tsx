@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { toFetch } from "@/hook/toFetch"
-import { Counter, IdTrolley, TrolleyParams } from "@/hook/useTrolley";
+import { Counter, IdTrolley } from "@/hook/useTrolley";
 import { ResponseAll } from "@/interface/server/param";
 import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB } from "@/interface/entity/trolley.model";
 
 export const userId = 'ce2d9fac-7ab6-4b66-9e3a-8ef979b16dbe'
 
-export const trolleyAll = ({idUser}: TrolleyParams) => {
+export const trolleyAll = () => {
 	return toFetch<ResponseAll<TTrolleyProductDB>>('GET', 'trolley',)
 }
 
@@ -15,8 +14,7 @@ export const trolleyId = (id: TTrolleyDB['id']) => {
 }
 
 export const pushTrolley = ({ id, qty = 1, price }: { id: TTrolleyDB['id'], qty: number, price: number }) => {
-	const data: TTrolleyCreate = {
-		id_user: userId,
+    const data: Omit<TTrolleyCreate, 'id_user'> = {
 		id_product: id,
 		qty_at_buy: qty,
 		price_at_buy: price,
@@ -37,5 +35,5 @@ export const trolleyDecrement = (data:Counter) => {
 }
 
 export const trolleyCount = () => {
-	return toFetch<number>('GET', `trolley/count`,)
+    return toFetch<number>('GET', `trolley/counter`,)
 }

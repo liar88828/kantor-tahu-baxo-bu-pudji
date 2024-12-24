@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { decrypt } from "@/app/lib/jwt";
-import { updateSession } from "@/app/lib/db";
+import { decrypt } from "@/server/lib/jwt";
+import { updateSession } from "@/server/lib/db";
 // import { updateSession } from "@/app/lib/state";
 
 // 1. Specify protected and public routes
-const protectedRoutes = [ '/dashboard', '/admin' ]
+const protectedRoutes = [ '/dashboard', '/admin', '/profile', '/trolley' ]
 const publicRoutes = [ '/login', '/signup', ]
 
 export default async function middleware(req: NextRequest) {
@@ -17,6 +17,8 @@ export default async function middleware(req: NextRequest) {
 	// 3. Decrypt the session from the cookie
 	const cookie = (await cookies()).get('session')?.value
 	const session = await decrypt(cookie)
+    console.log(cookie)
+    console.log(session)
 	// 4. Redirect to /login if the user is not authenticated
 	if (isProtectedRoute && !session?.sessionId) {
 		return NextResponse.redirect(new URL('/login', req.nextUrl))
@@ -30,11 +32,12 @@ export default async function middleware(req: NextRequest) {
 	if (
 		isPublicRoute &&
 		session?.sessionId &&
-		!req.nextUrl.pathname.startsWith('/dashboard')
+        !req.nextUrl.pathname.startsWith('/home')
 	) {
-		return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
+        return NextResponse.redirect(new URL('/home', req.nextUrl))
 	}
-	// await updateSession()
+
+    // await updateSession(req)
 	// return NextResponse.next()
 	return await updateSession(req)
 }
