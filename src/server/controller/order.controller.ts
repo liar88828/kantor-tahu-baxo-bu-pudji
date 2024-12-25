@@ -22,8 +22,14 @@ export default class OrderController
 			return this.orderRepository.getMonthlyTotal(Number(year))
 		} else {
 		return this.orderRepository.findAll({
+            filter: {
+                name: getParams(request, "name") ?? '',
+                status: getParams(request, "status") ?? '',
+            },
 			pagination: {
 				limit: Number(getParams(request, "limit") ?? '100'),
+                page: Number(getParams(request, "page") ?? '1'),
+
 			}
 		})
 		}
@@ -43,13 +49,12 @@ export default class OrderController
 
 	async createOne(request: NextRequest, _: TContext): Promise<any> {
 		const json: TOrderTransactionCreate = await getJson(request)
-        console.log(json)
 		const data: TOrderTransactionCreate = {
 			order: orderCreateServer.parse(json.order),
 			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
 		}
-		console.log(data)
+        console.log(data)
 		return this.orderRepository.createOne(data)
 	}
 

@@ -18,9 +18,10 @@ export default class UserController
 				address: getParams(request, "address") ?? '',
 			},
 			pagination: {
-				page: Number(Number(getParams(request, 'page') ?? '1')),
+                page: Number(getParams(request, "page") ?? '1'),
+                limit: Number(getParams(request, "limit") ?? '100'),
 			}
-		},)
+        })
 	}
 	async findById(_: NextRequest, context: TContext): Promise<any> {
 		const id = await getId(context)
@@ -32,7 +33,7 @@ export default class UserController
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)
-		console.log(`test :${ json }`)
+        // console.log(`test :${ json }`)
 		return this.userRepository.createOne(UserCreate.parse(json))
 	}
 

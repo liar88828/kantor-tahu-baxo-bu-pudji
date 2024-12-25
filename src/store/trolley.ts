@@ -1,16 +1,16 @@
 import { create } from 'zustand'
 
-import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
+import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { toTotal } from "@/utils/toCalculate";
 
 type TrolleyTypeStore = {
-	onSelected: TTrolleyProductDB[];
+    onSelected: TTrolleyProductUser[];
     onTotalProduct: number;
-	setSelected: (state: TTrolleyProductDB) => void;
+    setSelected: (state: TTrolleyProductUser) => void;
 	onIncrement: (idTrolley: string) => void;
 	onDecrement: (idTrolley: string) => void;
 	onRemove: (idTrolley: string) => void;
-	setData: (state: TTrolleyProductDB[]) => void;
+    setData: (state: TTrolleyProductUser[]) => void;
     isTrolleyIncluded: (idTrolley: string) => boolean;
     setTotalProduct: () => void;
 };
@@ -26,7 +26,7 @@ const useTrolleyStore = create<TrolleyTypeStore>((set, get) => ({
         return get().onSelected.some((trolley) => trolley.id === idTrolley);
     },
 
-    setSelected: (dataProduct: TTrolleyProductDB) => {
+    setSelected: (dataProduct: TTrolleyProductUser) => {
         set((state) => {
             const isIncluded = state.onSelected.some((trolley) => trolley.id === dataProduct.id);
             const datas = isIncluded
@@ -62,15 +62,9 @@ const useTrolleyStore = create<TrolleyTypeStore>((set, get) => ({
 		set((state) => ({
 			onSelected: state.onSelected.filter((item) => item.id !== idTrolley),
 		})),
-	setData: (data: TTrolleyProductDB[]) => set((state) => ({
+    setData: (data: TTrolleyProductUser[]) => set((state) => ({
 		onSelected: data,
 	})),
 }));
-
-// Hook for initializing data
-export const initializeCheckoutData = (initialData: TTrolleyProductDB[]) => {
-	const { onSelected, onIncrement, onDecrement, onRemove } = useTrolleyStore.getState();
-	useTrolleyStore.setState({ onSelected: initialData });
-};
 
 export default useTrolleyStore;

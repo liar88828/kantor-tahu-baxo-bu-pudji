@@ -20,7 +20,10 @@ const nextConfig: NextConfig = {
 	bundlePagesRouterDependencies: true,
 	transpilePackages: ['lucide-react'],// add this
 	images: {
-		domains: ["localhost", "dummyimage.com"]
+        remotePatterns: [
+            { protocol: "http", hostname: 'localhost', },
+            { protocol: "https", hostname: 'dummyimage.com' },
+        ],
 	},
 }
 

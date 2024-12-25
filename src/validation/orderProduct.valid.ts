@@ -1,9 +1,14 @@
 import { z } from "zod"
-import { TOrderTrolleyTransaction, TTrolleyCount, TTrolleyCreate, TTrolleyUpdate } from "@/interface/entity/trolley.model";
+import {
+    TOrderTrolleyTransaction,
+    TTrolleyCount,
+    TTrolleyCreate,
+    TTrolleyUpdate
+} from "@/interface/entity/trolley.model";
 
 export const OrderProductTransaction: z.ZodType<TOrderTrolleyTransaction[]> = z.array(
 	z.object({
-		// id_order: z.string().min(1).max(100).max(100),
+        id: z.string(),
 		id_product: z.string().min(1).max(100),
 		id_user: z.string().min(1).max(100),
 		qty_at_buy: z.number(),

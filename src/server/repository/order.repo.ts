@@ -1,30 +1,9 @@
 import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/interface/entity/transaction.model";
 import { prisma } from "@/config/prisma";
-import { Customers, Orders } from "@prisma/client";
-import { InterfaceRepository, ParamsApi, TPagination } from "@/interface/server/InterfaceRepository";
+import { Orders } from "@prisma/client";
+import { InterfaceRepository, TPagination } from "@/interface/server/InterfaceRepository";
+import { MonthlyTotal, OrderParams, ResponseCreateOrderTransaction, SearchOrder } from "@/interface/entity/order.model";
 
-export type MonthlyTotal = {
-	month: string;
-	total: number;
-};
-
-export type ResponseMonthData = { year: number, dataMonth: MonthlyTotal[] }
-
-export const exampleSearch = {
-	receiverName: "Alice",
-	status: "Pending",
-	dateRange: {start: new Date("2024-12-01"), end: new Date("2024-12-31")},
-	productId: "prod-001",
-}
-type SearchOrder = {
-	receiverName?: string;
-	status?: string;
-	dateRange?: { start: Date; end: Date };
-	productId?: string;
-};
-export type OrderParams = ParamsApi<any>
-
-export type ResponseCreateOrderTransaction = { order: Orders, orderCustomers: Customers, orderProduct: any };
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
 	async search(criteria: SearchOrder) {
@@ -109,12 +88,21 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		return { year, dataMonth };
 	}
 
-
-
-	async findAll({ pagination: { limit = 100, page = 1 } }: OrderParams): Promise<{ data: Orders[] } & TPagination> {
+    async findAll({
+                      filter,
+                      pagination: { limit = 100, page = 1 }
+                  }: Required<OrderParams>): Promise<{ data: Orders[] } & TPagination> {
 		const skip = (page - 1) * limit;
 		const take = limit;
 		const order = await prisma.orders.findMany({
+            where: {
+                AND: [
+                    {
+                        ...(filter.name ? { Customers: { name: { contains: filter.name, } } } : {}),
+                        ...(filter.status ? { status: { contains: filter.status, } } : {}),
+                    }
+                ]
+            },
 			include: {
 				Trolleys: {
 					include: {
@@ -153,6 +141,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 	// ---------CREATE
     async createOne(data: TOrderTransactionCreate): Promise<ResponseCreateOrderTransaction> {
 		return prisma.$transaction(async (tx) => {
+
             let orderCustomerRes
             // find
             const customerDB = await tx.customers.findUnique(
@@ -172,20 +161,27 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                 orderCustomerRes = customerDB
             }
 
-
-
 			const order = await tx.orders.create(
 				{
 					data: {
 						...data.order
 					},
 				})
+
             const products = data.orderTrolley.map((product) => ({
                 id_order: order.id,
                 id_product: product.id_product,
                 qty_at_buy: product.qty_at_buy,
                 price_at_buy: product.price_at_buy
             }))
+
+            await tx.trolleys.deleteMany({
+                where: {
+                    id: {
+                        in: data.orderTrolley.map(d => d.id)
+                    }
+                }
+            })
 
             const orderProduct = await tx.trolleys.createMany(
                 { data: products })

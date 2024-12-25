@@ -1,3 +1,4 @@
+'use client'
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { toFetch } from "@/hook/toFetch";
 import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
@@ -7,7 +8,7 @@ import toast from "react-hot-toast";
 import { productCreate, productDelete, productUpdate } from "@/network/product";
 import React, { useEffect } from "react";
 
-export const PRODUCT_KEY = 'product'
+export enum PRODUCT {KEY = 'product' }
 export const useProduct = () => {
 	const router = useRouter()
 
@@ -59,7 +60,7 @@ export const useProduct = () => {
 		return useInfiniteQuery<PaginatedResponse, Error>({
 			initialPageParam: 1,
 			enabled: !!debouncedSearch || search === '',
-			queryKey: [PRODUCT_KEY,debouncedSearch],
+            queryKey: [ PRODUCT.KEY, debouncedSearch ],
 
 			queryFn: async (context): Promise<PaginatedResponse> => {
 				const url = `/product?page=${ context.pageParam }&name=${ debouncedSearch }`
@@ -108,7 +109,7 @@ export const useProduct = () => {
 		} = useInfiniteQuery<PaginatedResponse, Error>({
 			initialPageParam: 1,
 			enabled: !!debouncedSearch || search === '',
-			queryKey: [ PRODUCT_KEY, debouncedSearch ],
+            queryKey: [ PRODUCT.KEY, debouncedSearch ],
 
 			queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
 				const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;

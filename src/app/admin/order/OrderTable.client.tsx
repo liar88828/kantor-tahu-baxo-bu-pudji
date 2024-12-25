@@ -4,50 +4,34 @@ import { LoadingSpin } from "@/app/components/LoadingData";
 import { toStatus } from "@/app/components/status";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { Filter, NotebookTabs, Search } from "lucide-react";
+import { Filter, NotebookTabs, Plus } from "lucide-react";
 import Link from "next/link";
 import { useTableStore } from "@/store/table";
 import { useOrder } from "@/hook/useOrder";
 import { EmptyData } from "@/app/components/ErrorData";
+import { useDebounce } from "@/hook/useDebounce";
 
 export default function OrderTable() {
+    const { setTable, existTable, search: nameTable, status: statusTable, tableDetail } = useTableStore()
 	const { getAll } = useOrder()
-	const { data: orders, isLoading, isError } = getAll()
-	const { setTable, existTable, search, setSearch, status: statusTable, tableDetail } = useTableStore()
+    const searchDebounce = useDebounce(nameTable)
+    const statusDebounce = useDebounce(statusTable)
+    const { data: orders, isLoading, isError } = getAll({
+            filter: {
+                name: nameTable,
+                status: statusTable,
+            },
+            pagination: {}
+        },
+        {
+            name: searchDebounce,
+            status: statusDebounce,
+        }
+    )
 	const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
 	const tableRef = useRef(null);
-	return (<>
-			<FilterDialog/>
-			<div className="flex justify-between items-center gap-2">
-				<div className="join w-full ">
-					<input
-						className="input input-bordered join-item w-full"
-						onChange={ (e) => setSearch(e.target.value) }
-						placeholder="Search"/>
-
-					<button
-						className="btn join-item ">
-						<Search/>
-					</button>
-
-					<button
-						className="btn join-item "
-						onClick={ () => {
-							// @ts-ignore
-							document.getElementById('my_modal_filter').showModal()
-						} }>
-						<Filter/>
-					</button>
-				</div>
-
-				<div className=" flex flex-nowrap gap-2">
-					{/* Open the modal using document.getElementById('ID').showModal() method */ }
-					<Link href={ '/admin/order/create' } className={ 'btn ' }>Create</Link>
-				</div>
-			</div>
-			<div>
-				{/*<button onClick={ onDownload }>Download</button>*/ }
-				<div className="overflow-x-auto mt-2">
+    return (
+        <div className="overflow-x-auto mt-2">
 					{ !orders || isLoading
 						? <LoadingSpin/>
 						: <table className="table table-xs" ref={ tableRef } data-theme={'light'}>
@@ -58,11 +42,11 @@ export default function OrderTable() {
 									<input
 										type="checkbox"
 										className="checkbox checkbox-sm"
-										checked={ selectedOrders.length === orders.data.data.length }
+                                        checked={ selectedOrders.length === orders.length }
 										onChange={ (e) => {
 											startTransition(() => {
 												if (e.target.checked) {
-													setSelectedOrders(orders.data.data.map((order) => order.id));
+                                                    setSelectedOrders(orders.map((order) => order.id));
 												} else {
 													setSelectedOrders([]);
 												}
@@ -110,13 +94,13 @@ export default function OrderTable() {
 						</tr>
 						</thead>
 						<tbody>
-						{ isError || !orders.data
+                        { isError || !orders
 							? <tr>
 								<td><EmptyData page={ 'Data is Empty' }/></td>
 							</tr>
-								: orders.data.data
+                            : orders
 								.filter((order) => {
-                                    const nameOrder = order.Customers.name.toLowerCase().includes(search.toLowerCase());
+                                    const nameOrder = order.Customers.name.toLowerCase().includes(nameTable.toLowerCase());
 									const statusOrder = order.status.includes(statusTable);
 									return nameOrder && statusOrder;
 								})
@@ -203,35 +187,69 @@ export default function OrderTable() {
 					}
 
 				</div>
-			</div>
-		</>
 
-	);
+    );
+}
+
+export function OrderSearch({ children }: { children: React.ReactNode }) {
+    const { search, setSearch } = useTableStore()
+
+    return (<>
+            <div className="flex justify-between items-center gap-2">
+                <div className="join w-full ">
+                    <input
+                        className="input input-bordered join-item w-full"
+                        onChange={ (e) => setSearch(e.target.value) }
+                        placeholder="Search"
+                        value={ search }
+                    />
+
+                    <button
+                        className="btn join-item "
+                        onClick={ () => {
+                            // @ts-ignore
+                            document.getElementById('my_modal_filter').showModal()
+                        } }>
+                        <Filter/>
+                    </button>
+                </div>
+
+                <div className=" flex flex-nowrap gap-2">
+                    {/* Open the modal using document.getElementById('ID').showModal() method */ }
+                    <Link href={ '/admin/order/create' } className={ 'btn ' }>
+                        <Plus/>
+                    </Link>
+                </div>
+            </div>
+            { children }
+        </>
+
+    );
 }
 
 
 export function FilterDialog() {
-	const { setStatus, data, setTableDetail, tableDetail } = useTableStore()
+    const { setStatus, data, setTableDetail, tableDetail } = useTableStore()
 
-	return (
-		<dialog id="my_modal_filter" className="modal ">
-			<div className="modal-box ">
-				<h3 className="font-bold text-lg mb-2">Filter</h3>
+    return (
+        <dialog id="my_modal_filter" className="modal ">
+            <div className="modal-box ">
+                <h3 className="font-bold text-lg mb-2">Filter</h3>
 
-				<div className=" space-y-5">
-					<div className="">
-						<h2 className={ 'font-semibold' }>Select Status</h2>
-					<label className="">
-						<select className="select select-bordered w-full"
-								onChange={ (e) => setStatus(e.target.value) }
-						>
-							<option value={ '' }>All</option>
-							<option value="Pending">Pending</option>
-							<option value="Fail">Fail</option>
-							<option value="Completed">Completed</option>
-						</select>
-					</label>
-					</div>
+                <div className=" space-y-5">
+                    <div className="">
+                        <h2 className={ 'font-semibold' }>Select Status</h2>
+                        <label className="">
+                            <select className="select select-bordered w-full"
+                                    onChange={ (e) => setStatus(e.target.value) }
+                            >
+                                <option value={ '' }>All</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Fail">Fail</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </label>
+                    </div>
 
 					<div>
 						<h2 className="font-semibold">Show Column</h2>

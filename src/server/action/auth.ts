@@ -53,12 +53,14 @@ export async function signUp(state: FormState, formData: FormData) {
 }
 
 export async function signIn(state: FormState, formData: FormData) {
-	try {
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    try {
 
 		// Validate form fields
 		const validatedFields = SignInFormSchema.safeParse({
-			email: formData.get('email'),
-			password: formData.get('password'),
+            email,
+            password,
 		})
 
 		// If any form fields are invalid, return early
@@ -68,24 +70,22 @@ export async function signIn(state: FormState, formData: FormData) {
 			}
 		}
 
-		const { email, password } = validatedFields.data
+        const valid = validatedFields.data
 		// e.g. Hash the user's password before storing it
 
 		// 3. Insert the user into the database or call an Auth Library's API
-		const user = await prisma.users.findFirst({
-				where: { email },
-			}
-		)
+        const user = await prisma.users.findFirst(
+            { where: { email: valid.email } }
+        )
+
 		if (!user) {
-			return {
-				message: 'User already exists!',
-			}
-		}
-		const validPassword = await bcrypt.compare(password, user.password)
+            throw new Error('User already exists!')
+        }
+
+        const validPassword = await bcrypt.compare(valid.password, user.password)
 		if (!validPassword) {
-			return {
-				message: 'Password is incorrect',
-			}
+            throw new Error('Password is incorrect')
+
 		}
 		// 4. Create user session
         await createSession({
@@ -99,11 +99,12 @@ export async function signIn(state: FormState, formData: FormData) {
 		if (e instanceof Error) {
 			return {
 				message: e.message,
-
+                // prev: { email, password }
 			}
 		}
 		return {
 			message: 'An error occurred while creating your account.',
+            // prev: { email, password }
 
 		}
 	}

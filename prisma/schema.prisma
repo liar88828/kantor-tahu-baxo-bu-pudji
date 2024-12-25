@@ -17,32 +17,32 @@ model Orders {
 
   // travel
   Deliverys     Deliverys? @relation(fields: [id_delivery], references: [id])
-  id_delivery   String?
+  id_delivery   String
   nameDelivery  String
   phoneDelivery String
   priceDelivery Int
 
   // payment
   Payments     Payments? @relation(fields: [id_payment], references: [id])
-  id_payment   String?
+  id_payment   String
   totalPayment Int // for product
   totalAll     Int
 
   // at update / create
   status      String
   Trolleys    Trolleys[]
-  Customers Customers @relation(fields: [id_customer], references: [id])
+  Customers   Customers  @relation(fields: [id_customer], references: [id])
   id_customer String
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
 }
 
 model Customers {
-  id     String  @id @default(uuid())
+  id      String   @id @default(uuid())
   name    String
   address String
   phone   String
-  Orders Orders[]
+  Orders  Orders[]
 }
 
 model Trolleys {
@@ -54,7 +54,7 @@ model Trolleys {
   qty_at_buy   Int
   price_at_buy Int
   Users        Users?   @relation(fields: [id_user], references: [id])
-  id_user      String?
+  id_user      String
 }
 
 model Products {
@@ -103,11 +103,11 @@ model Payments {
 model Users {
   id       String     @id @default(uuid())
   name     String
-  phone   String
-  address String
+  phone    String
+  address  String
   email    String
   password String
-  role    String
+  role     String
   Trolleys Trolleys[]
   Session  Sessions?
 }
@@ -116,7 +116,7 @@ model Sessions {
   id        String   @id @default(uuid())
   usersId   String   @unique
   expiresAt DateTime
-  role String
+  role      String
   Users     Users    @relation(fields: [usersId], references: [id])
 }
 

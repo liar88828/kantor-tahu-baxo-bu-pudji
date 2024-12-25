@@ -15,14 +15,16 @@ export default class EmployeeController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		return this.employeeRepository.findAll({
-				filter: {
-					name: getParams(request, "name") ?? '',
-					status: getParams(request, "status") ?? '',
-				}, pagination: {
-					page: Number(getParams(request, "page") ?? '1'),
-				}
-			}
+        return this.employeeRepository.findAll({
+                filter: {
+                    name: getParams(request, "name") ?? '',
+                    status: getParams(request, "status") ?? '',
+                },
+                pagination: {
+                    page: Number(getParams(request, "page") ?? '1'),
+                    limit: Number(getParams(request, "limit") ?? '100'),
+                }
+            }
 		)
 	}
 

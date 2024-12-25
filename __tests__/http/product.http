@@ -1,6 +1,10 @@
 @api = http://localhost:3000/api/product/
 
 ### get data Produk
+GET {{api}}
+
+
+### get data Produk
 GET {{api}}?page=1
 
 ### get data Produk

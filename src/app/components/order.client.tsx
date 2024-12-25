@@ -552,9 +552,7 @@ export function ProductAdmin() {
 		onIncrement,
 		onDecrement,
 	} = useProductStore()
-	return (
-
-		<div>
+    return (<div>
 			<div className={ 'card-title' }>Product</div>
 			<div className="  mt-2">
 				<div className="space-y-2">

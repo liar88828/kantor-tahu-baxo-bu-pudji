@@ -4,7 +4,6 @@ import { toRupiah } from "@/utils/toRupiah";
 import useTrolleyStore from "@/store/trolley";
 import { useOrderStore } from "@/store/order";
 import { redirect } from "next/navigation";
-import { Delivery, Payment, Product } from "@/app/components/order";
 import { LoadingSpin } from "@/app/components/LoadingData";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { useOrder } from "@/hook/useOrder";
@@ -12,6 +11,7 @@ import { useProductStore } from "@/store/product";
 import { useDeliveryStore } from "@/store/delivery";
 import { usePaymentStore } from "@/store/payment";
 import { useReceiverStore } from "@/store/receiver";
+import { Delivery, Payment, Product } from "@/app/components/order.client";
 
 function Page() {
     const { onUpsert } = useOrder()
@@ -63,7 +63,7 @@ function Page() {
             method: "POST",
             isClient: true
         })
-        console.log(data)
+        // console.log(data)
     };
 
     useEffect(() => {

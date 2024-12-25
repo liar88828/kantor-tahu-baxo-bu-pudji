@@ -1,5 +1,5 @@
 import React from 'react'
-import { EarningServer, GridData, RecentOrders, TopCustomers, TopOrder } from "@/app/admin/home/card.server";
+import { EarningServer, GridData, RecentProduct, TopCustomers, TopOrder } from "@/app/admin/home/card.server";
 
 export default async function page() {
 
@@ -12,7 +12,7 @@ export default async function page() {
 			</div>
 			<div className="md:col-span-3 lg:col-span-1 md:space-y-5 space-y-2 ">
 				<TopCustomers/>
-				<RecentOrders/>
+                <RecentProduct/>
 			</div>
 		</div>
 	)

@@ -56,6 +56,7 @@ export const orderTransactionSanitize = ({
 		orderReceiver: receiver,
 		orderTrolley: product.map(d => (
 			{
+                id: d.id,
 				qty_at_buy: d.qty_at_buy,
 				price_at_buy: d.price_at_buy,
 				id_user: userId,

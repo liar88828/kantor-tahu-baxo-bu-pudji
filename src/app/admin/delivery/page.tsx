@@ -1,19 +1,30 @@
 import React from 'react'
-import DeliveryList from "@/app/admin/delivery/DeliveryList.client";
+import DeliveryList, { DeliverySearch } from "@/app/admin/delivery/DeliveryList.client";
 import { deliveryAll } from "@/network/delivery";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { DELIVERY } from "@/hook/useDelivery";
+import { TContext } from "@/interface/server/param";
+import { getSearchName } from "@/utils/requestHelper";
 
 export const dynamic = 'force-dynamic';
-export default async function page() {
-	const queryClient = new QueryClient();
+
+export default async function page(context: TContext) {
+    const search = await getSearchName(context, 'search') ?? ''
+
+    const queryClient = new QueryClient();
 	await queryClient.prefetchQuery({
-		queryKey: [ 'delivery' ],
-		queryFn: deliveryAll,
+        queryKey: [ DELIVERY.KEY, search ],
+        queryFn: () => deliveryAll({
+            filter: { name: search },
+            pagination: {}
+        }),
 	});
 
 	return (
-		<HydrationBoundary state={ dehydrate(queryClient) }>
-			<DeliveryList/>
-		</HydrationBoundary>
+        <DeliverySearch>
+            <HydrationBoundary state={ dehydrate(queryClient) }>
+                <DeliveryList/>
+            </HydrationBoundary>
+        </DeliverySearch>
 	)
 }

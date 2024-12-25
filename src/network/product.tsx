@@ -5,8 +5,9 @@ import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
 import { ProductParams } from "@/server/repository/product.repo";
 
-export const productAll = async ({  pagination: { limit } }: Pick<ProductParams,'pagination'>) => {
-	const newUrl = toUrl('product', { limit })
+export const productAll = async ({ pagination, filter }: ProductParams) => {
+    const newUrl = toUrl('product', { ...pagination, ...filter })
+    console.log("newUrl", newUrl)
 	return toFetch<ResponseAll<TProductDB>>('GET', newUrl)
 }
 export const productId = async (id: string) => {

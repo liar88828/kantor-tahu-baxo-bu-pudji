@@ -1,3 +1,4 @@
+'use client'
 import { useTrolley } from "@/hook/useTrolley";
 import { LoadingSpin } from "@/app/components/LoadingData";
 import { useRouter } from "next/navigation";
@@ -8,10 +9,10 @@ import useTrolleyStore from "@/store/trolley";
 
 export function TrolleyCount() {
     const { count } = useTrolley()
-    const { data, isLoading, isError } = count()
+    const { data, isLoading } = count()
     if (isLoading) return <LoadingSpin/>
-    return (<span className="badge badge-sm indicator-item">{ data }</span>
-
+    return (
+        <span className="badge badge-sm indicator-item">{ data }</span>
     );
 }
 

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { decrypt, encrypt } from "@/server/lib/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { ROLE } from "@/interface/Utils";
+import { Users } from "@prisma/client";
 
 export type UserSession = { isAuth: boolean, userId: string }
 export async function createSessionDB(id: string) {
@@ -72,7 +73,6 @@ export const verifySession = cache(async () => {
 
 	return {
 		isAuth: true,
-
         userId: session.sessionId as string,
 	}
 })

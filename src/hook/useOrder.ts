@@ -10,6 +10,7 @@ import { usePaymentStore } from "@/store/payment";
 import { useOrderStore } from "@/store/order";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { TMethod } from "@/interface/Utils";
+import { OrderParams } from "@/interface/entity/order.model";
 
 export enum ORDER_KEY {
 	order = "order",
@@ -89,10 +90,12 @@ export function useOrder() {
 		},
 	})
 
-	const GetAll = () => {
+    const GetAll = ({ filter, pagination }: OrderParams, debounce: OrderParams['filter']) => {
 		return useQuery({
-			queryFn: () => orderAll(),
-			queryKey: [ ORDER_KEY.order ],
+            enabled: filter?.status === debounce?.status && filter?.name === debounce?.name,
+            select: (orders) => orders.data.data,
+            queryFn: () => orderAll({ filter, pagination }),
+            queryKey: [ ORDER_KEY.order, filter?.name ?? '', filter?.status ?? '' ],
 
 		})
 	}

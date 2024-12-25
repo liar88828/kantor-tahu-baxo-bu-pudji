@@ -29,7 +29,7 @@ export const useDeliveryStore = create<DeliveryStore>((set, get) => ({
 		try {
 			set({ isLoading: true });
 			if (get().deliveryData.length === 0) {
-				const { data } = await deliveryAll()
+                const { data } = await deliveryAll({ filter: {}, pagination: {} })
 				if (data.data.length > 0) {
 					set({ deliveryData: data.data })
 				}

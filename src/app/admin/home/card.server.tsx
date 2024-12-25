@@ -76,11 +76,11 @@ export function GridCardChild(
 				<div className=" flex md:flex-col xl:flex-row justify-around items-end md:items-start xl:items-end">
 					<div className="">
 						<h1 className={ 'font-bold ~text-2xl/6xl' }>{ toRupiah(data._sum.totalAll) }</h1>
-						<p className={ 'text-base-content/50' }>total Customers</p>
+                        <p className={ 'text-base-content/50 ~text-xs/base' }>Total Customers</p>
 					</div>
 					<div className="">
 						<h2 className="text-xl font-bold xl:text-end">{ data._count }</h2>
-						<p className={ 'text-base-content/50' }>this Mouth</p>
+                        <p className={ 'text-base-content/50 ~text-xs/base' }>This Mouth</p>
 					</div>
 				</div>
 			</div>
@@ -90,13 +90,14 @@ export function GridCardChild(
 
 export async function TopOrder() {
 	const getTopOrderTotal = async () => {
-		const res = await prisma.orders.findMany({
-			take: 5,
-			include: { Customers: true },
-			orderBy: { totalAll: 'desc' },
-		})
-		console.log(res)
-		return res
+        return prisma.orders.findMany({
+            take: 5,
+            include: {
+                Customers: true,
+                Trolleys: true
+            },
+            orderBy: { totalAll: 'desc' },
+        })
 	}
 
 	const orders = await getTopOrderTotal()
@@ -110,12 +111,9 @@ export async function TopOrder() {
 					<tr>
 						<th>Img</th>
 						<th>Status</th>
-						<th>Send</th>
 						<th>Name</th>
-						<th>Address</th>
-						<th>Delivery</th>
-						{/*<th>Total Product</th>*/ }
-						{/*<th>Total Price</th>*/ }
+                        <th>Total Product</th>
+                        <th>Total Price</th>
 
 				</tr>
 				</thead>
@@ -129,14 +127,17 @@ export async function TopOrder() {
                                 src="https://picsum.photos/200" alt={ order.Customers.name }/>
 						</td>
 						<td>
-							<p className={ ` badge badge-outline badge-${ toStatus(order.status) }` }>    { order.status }</p>
+                            <div className=" space-y-1">
+                                <p className={ ` badge badge-outline badge-${ toStatus(order.status) }` }>{ order.status }</p>
+                                <p className={ '~text-xs/base' }>{ toDate(order.sendTime) }</p>
+                            </div>
 						</td>
-						<td>{ toDate(order.sendTime) }</td>
                         <td>{ order.Customers.name }</td>
-						<td>{ order.Customers.address }</td>
-						<td>{ order.nameDelivery }</td>
-						{/*<td>{ order.Trolleys.length }</td>*/}
-						{/*<td>{ order.totalAll }</td>*/}
+                        <td>{ order.Trolleys.reduce((total, item) => {
+                            return total + item.qty_at_buy
+                        }, 0) }</td>
+                        <td>{ toRupiah(order.totalAll) }</td>
+                        {/*<td>{ order.nameDelivery }</td>*/ }
 					</tr>)) }
 				</tbody>
 			</table>
@@ -180,7 +181,7 @@ export async function TopCustomers() {
 }
 
 // wil change product
-export async function RecentOrders() {
+export async function RecentProduct() {
 	const { data: products } = await productAll({ pagination: { limit: 5 } })
 	return <div className="card card-compact  bg-base-200/30 ">
 		<div className="card-body">

@@ -4,6 +4,7 @@ import { BookA, Car, ChevronLeft, CreditCard, HomeIcon, LogOut, LucidePackageSea
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/server/lib/state";
+import { useScrollVisibility } from "@/hook/UseScrollVisibility";
 
 export default function AdminLayout({ children, isLogin }: { children: ReactNode, isLogin: boolean }) {
 	// console.log(isLogin)
@@ -11,7 +12,11 @@ export default function AdminLayout({ children, isLogin }: { children: ReactNode
 	const router = useRouter()
 	const [ sideMenuIsExpand, setSideMenuIsExpand ] = useState(true);
 
-	const linkPrimary = [
+// Use custom hook for visibility
+    const showNavbar = useScrollVisibility(true);
+    const showBottomNav = useScrollVisibility(true);
+
+    const linkPrimary = [
 		{
 			href: '/admin/home',
 			icon: <HomeIcon className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
@@ -48,38 +53,44 @@ export default function AdminLayout({ children, isLogin }: { children: ReactNode
 		},
 	]
 	return (<>
-			<div className="navbar bg-base-200/50 fixed ">
-				<div className="flex-1">
-					<button
-						onClick={ () => router.back() }
-						className="btn btn-ghost text-xl btn-square sm:hidden">
-						<ChevronLeft/>
-					</button>
+            <div
+                className={ `navbar bg-base-200/50 fixed top-0 start-0 z-20 w-full transition-transform duration-300 ${
+                    showNavbar ? 'translate-y-0' : '-translate-y-full'
+                }` }
+            >
+                {/*<div className="navbar bg-base-200/50  fixed w-full z-20 top-0 start-0 ">*/ }
 
-					<button
-						className="btn btn-ghost text-xl invisible  sm:visible  btn-square"
-						onClick={ () => setSideMenuIsExpand(prevState => !prevState) }>
-						<Menu/>
-					</button>
-				</div>
-				<div className="flex-none">
-					{ isLogin ? (
-						<button
-							className="btn btn-square btn-ghost"
-							onClick={ async () => {
-								await logout()
-							} }>
-							<LogOut/>
-						</button>) : null
-					}
-				</div>
-			</div>
-			<div className=" container max-w-full px-2 ">
-				<aside
-					className={ `fixed top-0 left-0 z-40 ${ sideMenuIsExpand ? ' w-52 -translate-x-full sm:translate-x-0 ' : ' -translate-x-full' } h-screen transition-transform  bg-base-200` }
+
+                <div className="flex-1">
+                    <button
+                        onClick={ () => router.back() }
+                        className="btn btn-ghost text-xl btn-square sm:hidden">
+                        <ChevronLeft/>
+                    </button>
+
+                    <button
+                        className="btn btn-ghost text-xl invisible  sm:visible  btn-square"
+                        onClick={ () => setSideMenuIsExpand(prevState => !prevState) }>
+                        <Menu/>
+                    </button>
+                </div>
+                <div className="flex-none">
+                    { isLogin ? (
+                        <button
+                            className="btn btn-square btn-ghost"
+                            onClick={ async () => {
+                                await logout()
+                            } }>
+                            <LogOut/>
+                        </button>) : null
+                    }
+                </div>
+            </div>
+
+            <div className=" container max-w-full px-2 ">
+                <aside
+                    className={ `fixed top-0 left-0 z-40 ${ sideMenuIsExpand ? ' w-52 -translate-x-full sm:translate-x-0 ' : ' -translate-x-full' } h-screen transition-transform  bg-base-200` }
 					aria-label="Sidebar">
-
-
 					<div className="h-full px-3 py-4 overflow-y-auto ">
 						<div className="flex items-center justify-between">
 							<div className="avatar">
@@ -131,7 +142,8 @@ export default function AdminLayout({ children, isLogin }: { children: ReactNode
 					</div>
 				</aside>
 
-				<div className={ `${ sideMenuIsExpand ? 'sm:ml-52' : 'ml-0' }  transition-transform  sm:px-0   pt-20` }>
+                <div
+                    className={ `${ sideMenuIsExpand ? 'sm:ml-52' : 'ml-0' }  transition-transform  sm:px-0  pt-20 ` }>
 					{ children }
 				</div>
 
@@ -139,22 +151,26 @@ export default function AdminLayout({ children, isLogin }: { children: ReactNode
 			{
 				!path.includes("create")
 				&& (
-					<div className="btm-nav z-50 sm:hidden bg-base-200/50">
-						{ [ ...linkPrimary, ...linkSecondary ].map((item) => (
-							<Link
-								key={ item.href }
-								href={ item.href }
-								className={ path.includes(item.href) ? "active" : "" }
-							>
-								{ item.icon }
-								<span className="btm-nav-label text-xs">{ item.label }</span>
-							</Link>
-						)) }
-					</div>)
-			}
+                    <div
+                        className={ `btm-nav z-50 sm:hidden bg-base-200/50 fixed bottom-0 w-full transition-transform duration-300 ${
+                            showBottomNav ? 'translate-y-0' : 'translate-y-full'
+                        }` }
+                    >
+                        { [ ...linkPrimary, ...linkSecondary ].map((item) => (
+                            <Link
+                                key={ item.href }
+                                href={ item.href }
+                                className={ path.includes(item.href) ? "active" : "" }
+                            >
+                                { item.icon }
+                                <span className="btm-nav-label text-xs">{ item.label }</span>
+                            </Link>
+                        )) }
+                    </div>)
+            }
 
 
-		</>
+        </>
 
-	)
+    )
 }

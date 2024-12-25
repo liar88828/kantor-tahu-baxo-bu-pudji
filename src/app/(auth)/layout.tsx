@@ -3,6 +3,12 @@ import { getSession } from "@/server/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeftIcon } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Auth',
+    description: 'Authenticated create next ',
+}
 
 export default async function Layout({ children, }: { children: ReactNode }) {
 	const session = await getSession()

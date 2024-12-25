@@ -45,7 +45,7 @@ export default function OrderForm() {
 	}, [ totalProduct, setTotal ])
 
 	return (
-		<div className={ ' pt-12 grid grid-cols-2 gap-5' }>
+        <div className={ ' grid sm:grid-cols-2 grid-cols-1 gap-5 ' }>
 			<form
 				onSubmit={ handleSubmit(onSubmit) }
 				className=""
@@ -260,7 +260,7 @@ export default function OrderForm() {
 						type="submit" className="btn btn-primary">Submit</button>
 				</div>
 			</form>
-			<div className="space-y-4">
+            <div className="space-y-4 pb-2">
 				<ReceiverForm/>
 				{/*<Delivery/>*/ }
 				{/*<Payment/>*/ }

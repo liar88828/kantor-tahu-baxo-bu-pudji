@@ -1,8 +1,14 @@
+'use client'
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { deliveryAll, deliveryCreate, deliveryDelete, deliveryUpdate } from "@/network/delivery";
 import { useQuery } from "@tanstack/react-query";
 import type { TDeliveryCreate } from "@/interface/entity/delivery.model";
+import { DeliveryParams } from "@/server/repository/delivery.repo";
+
+export enum DELIVERY {
+    KEY = 'delivery'
+}
 
 export const useDelivery = () => {
 	const router = useRouter()
@@ -24,7 +30,14 @@ export const useDelivery = () => {
 		}
 	}
 
-	const GetAll = () => useQuery({ queryKey: [ 'delivery' ], queryFn: () => deliveryAll() })
+    const GetAll = (option: DeliveryParams, enabled: boolean) => useQuery({
+        enabled,
+        queryKey: [ DELIVERY.KEY, option?.filter?.name ?? '' ],
+        queryFn: () => deliveryAll(option),
+        select: (deliverys) => {
+            return deliverys.data.data
+        }
+    })
 
 	const onUpsert = async ({ data, method, id }: {
 		data: TDeliveryCreate, method: string, id?: string

@@ -1,7 +1,8 @@
 import { prisma } from "@/config/prisma";
-import OrderRepository, { MonthlyTotal } from "@/server/repository/order.repo";
+import OrderRepository from "@/server/repository/order.repo";
 import { faker } from "@faker-js/faker";
 import { repeat } from "@/utils/repeat";
+import { MonthlyTotal } from "@/interface/entity/order.model";
 
 class TestRepo {
 	async getMonthlyTotals(year: number) {
@@ -113,8 +114,8 @@ class TestRepo {
 			await orderRepository.createOne({
 				"order": {
                     id_customer: "",
-					"address": faker.person.firstName(),
-					"desc": "Order of electronics including headphones and chargers.",
+                    address: faker.location.streetAddress(),
+                    "desc": "Order of electronics including headphones and chargers.",
 					"id_delivery": delivery?.id ?? '',
 					"id_payment": payment?.id ?? '',
 					"nameDelivery": faker.person.fullName(),
@@ -160,11 +161,45 @@ class TestRepo {
 					"type": faker.food.adjective()
 				}
 			})
+        }
+        return 'success'
+    }
 
-		}
-		return 'success'
-	}
+    async seedDelivery() {
+        for await (const i of repeat(200)) {
+            await prisma.deliverys.create({
+                data: {
+                    "desc": faker.food.description(),
+                    "img": "tidak ada ",
+                    "name": faker.company.name(),
+                    "price": faker.number.int(10000),
+                    "type": faker.food.adjective(),
+                    phone: faker.phone.number(),
+                    address: faker.location.streetAddress(),
 
+                }
+            })
+        }
+        return 'success'
+    }
+
+    async seedPayment() {
+        for await (const i of repeat(200)) {
+            await prisma.payments.create({
+                data: {
+                    accounting: faker.finance.accountNumber(),
+                    "desc": faker.food.description(),
+                    "img": "tidak ada ",
+                    "name": faker.company.name(),
+                    "type": faker.food.adjective(),
+                    phone: faker.phone.number(),
+                    address: faker.location.streetAddress(),
+
+                }
+            })
+        }
+        return 'success'
+    }
 }
 
 export const testRepositories = new TestRepo()

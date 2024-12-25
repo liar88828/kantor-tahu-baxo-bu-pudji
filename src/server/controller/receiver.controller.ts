@@ -20,8 +20,8 @@ export default class ReceiverController
 					phone: getParams(request, "phone") ?? ''
 				},
 				pagination: {
-					page: Number(getParams(request, 'page') ?? "1"),
-					limit: Number(getParams(request, 'limit') ?? "1"),
+                    page: Number(getParams(request, "page") ?? '1'),
+                    limit: Number(getParams(request, "limit") ?? '100'),
 				}
 			}
 		)

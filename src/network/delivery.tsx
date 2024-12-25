@@ -7,10 +7,10 @@ import { DeliveryParams } from "@/server/repository/delivery.repo";
 import { toUrl } from "@/utils/toUrl";
 
 export const deliveryAll = async (
-	// { pagination, filter }: DeliveryParams
+    { pagination, filter }: DeliveryParams
 ) => {
-	// const newUrl = toUrl("delivery", { ...pagination, ...filter })
-	return toFetch<ResponseAll<TDeliveryDB>>('GET', 'delivery')
+    const newUrl = toUrl("delivery", { ...pagination, ...filter })
+    return toFetch<ResponseAll<TDeliveryDB>>('GET', newUrl)
 };
 
 export const deliveryId = async (id: string) => {

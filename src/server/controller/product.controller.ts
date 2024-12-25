@@ -20,7 +20,8 @@ export default class ProductController
 					name: getParams(request, "name"),
 				},
 				pagination: {
-					page: Number(getParams(request, 'page') ?? "1")
+                    page: Number(getParams(request, 'page') ?? "1"),
+                    limit: Number(getParams(request, 'limit') ?? "100")
 				}
 			}
 		)

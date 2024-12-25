@@ -10,7 +10,7 @@ import {
     trolleyIncrement
 } from "@/network/trolley";
 import toast from "react-hot-toast";
-import { TTrolleyDB, TTrolleyProductDB } from "@/interface/entity/trolley.model";
+import { TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TProductDB } from "@/interface/entity/product.model";
 import { useState } from "react";
 import { ResponseAll } from "@/interface/server/param";
@@ -139,7 +139,7 @@ export const useTrolley = () => {
             // console.log(context)
             await queryClient.cancelQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
             const previousTodos = queryClient.getQueryData([ TROLLEY_KEYS.trolley ])
-            queryClient.setQueryData<{ data: ResponseAll<TTrolleyProductDB> }>(
+            queryClient.setQueryData<{ data: ResponseAll<TTrolleyProductUser> }>(
                 [ TROLLEY_KEYS.trolley ],
                 (old) => {
                     if (old) {
@@ -198,7 +198,7 @@ export const useTrolley = () => {
 	}
 
 	const GetIdTrolley = () => {
-		return useQuery<TTrolleyProductDB[]>({
+        return useQuery<TTrolleyProductUser[]>({
 			queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
 			queryFn: () => {
 				const data = sessionStorage.getItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`)
@@ -214,7 +214,7 @@ export const useTrolley = () => {
 
 	const setIdTrolley = useMutation({
 		mutationKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
-		mutationFn: async (data: TTrolleyProductDB[]) => {
+        mutationFn: async (data: TTrolleyProductUser[]) => {
 			sessionStorage.setItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`, JSON.stringify(data))
 			return true
 		},

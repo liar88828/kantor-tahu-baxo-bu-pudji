@@ -19,7 +19,10 @@ export default class PaymentController
 			  type: getParams(request, "type"),
 			  name: getParams(request, "name"),
 		  },
-		  pagination: {}
+          pagination: {
+              page: Number(getParams(request, "page") ?? '1'),
+              limit: Number(getParams(request, "limit") ?? '100'),
+          }
 	  })
   }
 

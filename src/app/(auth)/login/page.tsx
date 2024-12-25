@@ -6,14 +6,11 @@ import Link from "next/link";
 
 export default function SignupForm() {
 	const [ state, action, pending ] = useActionState(signIn, undefined);
-
+    console.log(state);
 	return (
 		<div className="card card-bordered bg-base-100 lg:mx-60">
 			<form action={ action } className="card-body">
 				<h2 className="card-title">Sign In</h2>
-				{/* Name Input */ }
-
-
 				{/* Email Input */ }
 				<div className="form-control w-full">
 					<label htmlFor="email" className="label">
@@ -24,6 +21,7 @@ export default function SignupForm() {
 						name="email"
 						placeholder="Enter your email"
 						className="input input-bordered w-full"
+                        // defaultValue={ state?.prev?.email ??''}
 					/>
 					{ state?.errors?.email && (
 						<p className="text-red-500 text-sm mt-1">{ state.errors.email }</p>
@@ -41,7 +39,8 @@ export default function SignupForm() {
 						type="password"
 						placeholder="Enter your password"
 						className="input input-bordered w-full"
-					/>
+                        // defaultValue={ state?.prev?.password ??''}
+                    />
 					{ state?.errors?.password && (
 						<div className="mt-2 text-red-500 text-sm">
 							<p>Password must:</p>
@@ -53,7 +52,9 @@ export default function SignupForm() {
 						</div>
 					) }
 				</div>
-
+                { state?.message && (
+                    <p className="text-red-500 text-sm mt-1">{ state.message }</p>
+                ) }
 				{/* Submit Button */ }
 				<div className="card-actions">
 					<button

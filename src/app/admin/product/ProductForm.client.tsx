@@ -1,11 +1,12 @@
 "use client"
 import React from 'react';
-import { TProductCreate } from "@/interface/entity/product.model";
+import { TProductCreate, TProductDB } from "@/interface/entity/product.model";
 import { TReactFormHookComponent } from "@/interface/server/param";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductCreate } from "@/validation/product.valid";
 import { useProduct } from "@/hook/useProduct";
+import { Trash } from "lucide-react";
 
 export default function ProductForm({defaultValues, method, id,}: TReactFormHookComponent<TProductCreate>) {
 	const { onUpsert } = useProduct()
@@ -18,10 +19,8 @@ export default function ProductForm({defaultValues, method, id,}: TReactFormHook
 		await onUpsert({ method, data, id })
 	}
 
-
 	return (
-		<div>
-			<div className="card">
+        <div className="card card-compact">
 				<form className='card-body' onSubmit={handleSubmit(onSubmitAction)}>
 					<h2 className={'card-title mb-5'}>Form {method === 'POST' ? "Create" : 'Update'} Product</h2>
 					{/* Name */}
@@ -122,6 +121,18 @@ export default function ProductForm({defaultValues, method, id,}: TReactFormHook
 					<button className='btn btn-info mt-4' type="submit">Submit</button>
 				</form>
 			</div>
-		</div>
 	);
 }
+
+export function DeleteProduct({ id }: { id: TProductDB["id"] }) {
+    const { onDelete } = useProduct()
+
+    return (
+        <button
+            onClick={ () => onDelete(id) }
+            className=' btn btn-square btn-error btn-sm '>
+            <Trash/>
+        </button>
+    );
+}
+

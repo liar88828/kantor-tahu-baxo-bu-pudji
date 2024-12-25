@@ -1,12 +1,12 @@
 import { toFetch } from "@/hook/toFetch"
 import { Counter, IdTrolley } from "@/hook/useTrolley";
 import { ResponseAll } from "@/interface/server/param";
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB } from "@/interface/entity/trolley.model";
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
 export const userId = 'ce2d9fac-7ab6-4b66-9e3a-8ef979b16dbe'
 
 export const trolleyAll = () => {
-	return toFetch<ResponseAll<TTrolleyProductDB>>('GET', 'trolley',)
+    return toFetch<ResponseAll<TTrolleyProductUser>>('GET', 'trolley',)
 }
 
 export const trolleyId = (id: TTrolleyDB['id']) => {

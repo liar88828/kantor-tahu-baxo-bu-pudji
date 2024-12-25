@@ -4,9 +4,14 @@ import { toFetch } from "@/hook/toFetch";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 import { ResponseAll } from "@/interface/server/param";
+import { DeliveryParams } from "@/server/repository/delivery.repo";
+import { toUrl } from "@/utils/toUrl";
 
-export const paymentAll = async () => {
-	return toFetch<ResponseAll<TPaymentDB>>('GET', 'payment')
+export const paymentAll = async (
+    { pagination, filter }: DeliveryParams
+) => {
+    const newUrl = toUrl('payment', { ...pagination, ...filter })
+    return toFetch<ResponseAll<TPaymentDB>>('GET', newUrl)
 };
 
 export const paymentId = async (id: string) => {

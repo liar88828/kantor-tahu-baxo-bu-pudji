@@ -29,7 +29,8 @@ export function useEmployee() {
 	const GetAll = ({ search, status }: { search: string, status: string }) => {
 
 		return useInfiniteQuery({
-			queryKey: [ EMPLOYEE_KEY.employees, search, status ],
+
+            queryKey: [ EMPLOYEE_KEY.employees, search, status ],
 			queryFn: ({ pageParam }) => employeeAll({
 				filter: { name: search, status },
 				pagination: { page: pageParam }

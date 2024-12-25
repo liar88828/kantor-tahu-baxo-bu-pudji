@@ -3,17 +3,19 @@ import React from 'react'
 import { Minus, Plus, Trash } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
 import { useTrolley } from "@/hook/useTrolley";
-import { ErrorData } from "@/app/components/ErrorData";
+import { EmptyData, ErrorData } from "@/app/components/ErrorData";
 import { LoadingDataList } from "@/app/components/LoadingData";
 import useTrolleyStore from "@/store/trolley";
 
 export default function Page() {
 	const { getAll, increment, decrement, remove, } = useTrolley( )
-    const { data: stateTrolley, error, isFetching } = getAll()
+    const { data: stateTrolley, isError, isFetching } = getAll()
     const { setSelected, isTrolleyIncluded, onIncrement, onDecrement } = useTrolleyStore()
 
     if (isFetching) return <LoadingDataList/>
-    if (!stateTrolley || (error)) return <ErrorData/>
+    if (!stateTrolley || isError) return <ErrorData/>
+    if (stateTrolley.data.length === 0) return <div className={ 'flex w-full justify-center' }><EmptyData
+        page={ 'Trolley' }/></div>
 
     return stateTrolley.data.map(trolley => (
         <div
@@ -46,7 +48,6 @@ export default function Page() {
                             onClick={ () => {
                                 increment.mutate({ idTrolley: trolley.id })
                                 onIncrement(trolley.id)
-
                             } }
                             className="btn btn-square btn-sm">
                             <Plus/>

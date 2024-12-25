@@ -1,7 +1,7 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
-import { getId, getJson } from "@/utils/requestHelper"
+import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import TrolleyRepository from "@/server/repository/trolley.repo"
 import { OrderProductCreate, OrderProductUpdate, } from "@/validation/orderProduct.valid"
@@ -15,7 +15,10 @@ export default class TrolleyController implements InterfaceController {
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
         const user = await verifySession()
         return this.trolleyRepository.findAll({
-            pagination: {},
+            pagination: {
+                page: Number(getParams(request, "page") ?? '1'),
+                limit: Number(getParams(request, "limit") ?? '100'),
+            },
             filter: { id_user: user.userId }
         })
 	}
@@ -55,7 +58,6 @@ export default class TrolleyController implements InterfaceController {
 
 	async count(request: NextRequest, context: TContext) {
         const user = await verifySession()
-        console.log(user)
         return this.trolleyRepository.count(user.userId)
 	}
 }
