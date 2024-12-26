@@ -10,36 +10,40 @@ export async function deleteSession() {
 }
 
 export async function updateSession() {
+    const session = (await cookies()).get('session')?.value
+    const payload = await decrypt(session)
+
+    if (!session || !payload) {
+        return null
+    }
+
     const expires = new Date(Date.now() + 60 * 60 * 1000)
-	const session = (await cookies()).get('session')?.value
-	const payload = await decrypt(session)
-
-	if (!session || !payload) {
-		return null
-	}
-
 	const cookieStore = await cookies()
-	cookieStore.set({
-		name: 'session',
-		value: session,
-		httpOnly: true,
-		expires: expires,
-		// secure: true,
-		// sameSite: 'lax',
-		// path: '/',
+    cookieStore.set('session', session, {
+        httpOnly: true,
+        secure: true,
+        expires,
+        sameSite: 'lax',
+        path: '/',
 	})
+    // console.log(cookieStore.get('session'))
+
 	// console.log(' is validate')
 }
 
 export async function createSession(data: Pick<Sessions, 'usersId' | 'role'>) {
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000)
-    const session = await encrypt({ sessionId: data.usersId, expiresAt, role: data.role })
+    const expires = new Date(Date.now() + 60 * 60 * 1000)
+    const session = await encrypt({
+        sessionId: data.usersId,
+        expiresAt: expires,
+        role: data.role
+    })
 	const cookieStore = await cookies()
 
 	cookieStore.set('session', session, {
 		httpOnly: true,
 		secure: true,
-		expires: expiresAt,
+        expires,
 		sameSite: 'lax',
 		path: '/',
 	})

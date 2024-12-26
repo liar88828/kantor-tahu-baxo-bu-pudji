@@ -80,7 +80,7 @@ export function useOrder() {
 			order.reset()
             console.log(variables)
             if (variables.isClient) {
-                router.push(`/invoice/${ data.data.order.id }`)
+                router.push(`/invoice/${ data.data.order.id }?redirect=/home`)
             } else
 			if (variables.method === 'PUT') {
 				router.push(`/admin/order/${ variables.id }`)

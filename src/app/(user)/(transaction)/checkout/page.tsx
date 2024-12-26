@@ -11,7 +11,7 @@ import { useProductStore } from "@/store/product";
 import { useDeliveryStore } from "@/store/delivery";
 import { usePaymentStore } from "@/store/payment";
 import { useReceiverStore } from "@/store/receiver";
-import { Delivery, Payment, Product } from "@/app/components/order.client";
+import { Delivery, Payment, Product } from "@/app/components/order/order.client";
 
 function Page() {
     const { onUpsert } = useOrder()
@@ -112,10 +112,7 @@ function Page() {
                     placeholder="Enter your desc"
                     className="textarea textarea-bordered w-full"
                     value={ desc }
-                    onChange={ (e) => {
-                        setDesc(e.target.value)
-                    } }
-
+                    onChange={ (e) => setDesc(e.target.value) }
                 />
             </div>
             <div>
@@ -135,6 +132,7 @@ function Page() {
                     </div>
                 </div>
                 <button
+                    disabled={ onUpsert.isPending }
                     className="mt-5 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={ onSubmit }
                 >

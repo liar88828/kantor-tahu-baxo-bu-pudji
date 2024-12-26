@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { toFetch } from "@/hook/toFetch";
 import { TOrderTransactionCreate, TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { ResponseAll } from "@/interface/server/param";

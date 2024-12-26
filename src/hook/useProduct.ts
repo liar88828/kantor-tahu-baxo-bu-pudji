@@ -5,8 +5,9 @@ import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
 import { TProductCreate, TProductDB } from "@/interface/entity/product.model";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { productCreate, productDelete, productUpdate } from "@/network/product";
+import { productAll, productCreate, productDelete, productUpdate, productUpdateStock } from "@/network/product";
 import React, { useEffect } from "react";
+import { ProductStore } from "@/store/product";
 
 export enum PRODUCT {KEY = 'product' }
 export const useProduct = () => {
@@ -55,6 +56,24 @@ export const useProduct = () => {
 		}
 	}
 
+    const onUpdateStock = async (id: string, data: number) => {
+        const idToast = toast.loading('Update Data API')
+        try {
+            await productUpdateStock({ qty: data }, id)
+            toast.success('Success Update Data');
+            router.refresh()
+        } catch (e) {
+            if (e instanceof Error) {
+                console.error(e.message)
+                toast.error(e.message);
+            }
+            toast.error('something error');
+
+        } finally {
+            toast.dismiss(idToast)
+        }
+    }
+
 	function getProductUser(search: string,debouncedSearch:string) {
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		return useInfiniteQuery<PaginatedResponse, Error>({
@@ -97,7 +116,7 @@ export const useProduct = () => {
 
 	}
 
-	const useProductInfiniteQuery = (debouncedSearch: string, search: string, observerRef: React.RefObject<HTMLDivElement | null>) => {
+    const useProductInfiniteQuery = (debouncedSearch: string, filter: ProductStore['filter'], observerRef: React.RefObject<HTMLDivElement | null>) => {
 		const {
 			data,
 			status,
@@ -108,13 +127,26 @@ export const useProduct = () => {
 			isFetchingNextPage,
 		} = useInfiniteQuery<PaginatedResponse, Error>({
 			initialPageParam: 1,
-			enabled: !!debouncedSearch || search === '',
-            queryKey: [ PRODUCT.KEY, debouncedSearch ],
+            enabled: !!debouncedSearch || filter.name === '',
+            queryKey: [ PRODUCT.KEY, debouncedSearch, ...Object.values(filter) ],
 
-			queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
-				const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;
-				console.log(url);
-				const { data } = await toFetch<ResponseAll<TProductDB>>('GET', url);
+            queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
+                // const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;
+                // console.log(url);
+                const { data } = await productAll({
+                    pagination: {
+                        page: pageParam as number,
+                    },
+                    filter: {
+                        name: debouncedSearch,
+                        new: filter.new,
+                        price: filter.price,
+                        // related: filter.related,
+                        popular: filter.popular,
+                    }
+                })
+
+                //await toFetch<ResponseAll<TProductDB>>('GET', url);
 
 				return {
 					data: data.data,
@@ -159,10 +191,8 @@ export const useProduct = () => {
 		return { data, status, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage };
 	};
 
-
-
-	return {
-
+    return {
+        onUpdateStock,
 		getProductUser, onDelete, onUpsert, useProductInfiniteQuery
 
 

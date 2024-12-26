@@ -16,7 +16,7 @@ import {
     ProductCard,
     ProductDialog,
     ReceiverForm
-} from "@/app/components/order";
+} from "@/app/components/order/order.client";
 
 export function OrderForm({ data }: { data: OrderCreateClient }) {
 	const { total: totalProduct, } = useProductStore()

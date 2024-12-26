@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { TProductCreate } from "@/interface/entity/product.model";
+import { UpdateStock } from "@/server/repository/product.repo";
 
 export const ProductCreate: z.ZodType<TProductCreate> = z.object({
 	location: z.string().min(1).max(100),
@@ -10,6 +11,12 @@ export const ProductCreate: z.ZodType<TProductCreate> = z.object({
 	qty: z.number().int().nonnegative(),
 	desc: z.string().min(1).max(200),
 })
+
+export const ProductUpdateStock: z.ZodType<UpdateStock> = z.object({
+    id: z.string(),
+    qty: z.number()
+})
+
 
 // export const ProductUpdate: z.ZodType<TProductUpdate> = z.object({
 // 	id: z.string({ required_error: 'ID is required', }).min(1).max(100),

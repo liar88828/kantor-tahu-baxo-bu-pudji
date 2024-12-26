@@ -54,22 +54,24 @@ model Trolleys {
   qty_at_buy   Int
   price_at_buy Int
   Users        Users?   @relation(fields: [id_user], references: [id])
-  id_user      String
+  id_user      String?
 }
 
 model Products {
-  id         String     @id @default(uuid())
-  name       String
-  location   String
-  type       String
-  img        String
-  price      Int
-  qty        Int
-  desc       String
+  id           String     @id @default(uuid())
+  name         String
+  location     String
+  type         String
+  img          String
+  price        Int
+  qty          Int
+  desc         String
+  sold         Int        @default(0)
   // at update / create
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  Trolleys   Trolleys[]
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+  update_stock DateTime   @default(now())
+  Trolleys     Trolleys[]
 }
 
 model Deliverys {
@@ -183,3 +185,9 @@ model Projects {
   Employees   Employees @relation(fields: [employeesId], references: [id])
   employeesId String
 }
+
+// model Categorys {
+//   id    Int    @id @default(autoincrement())
+//   title String
+//   icon  String
+// }

@@ -14,7 +14,6 @@ import { TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.mode
 import { TProductDB } from "@/interface/entity/product.model";
 import { useState } from "react";
 import { ResponseAll } from "@/interface/server/param";
-import useTrolleyStore from "@/store/trolley";
 
 // export const TROLLEY_KEY = 'trolley'
 
@@ -96,7 +95,7 @@ export const useTrolley = () => {
 			toast.error(error.message)
 		},
 		onSuccess: async (data,) => {
-			toast.success('Success Push Data ', { position: 'top-right' })
+            toast.success('Success Push Data ',)
 			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
 			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
 		},

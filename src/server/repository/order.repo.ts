@@ -13,7 +13,6 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 				where: {
 					AND: [
 						{
-
 							...(criteria.receiverName ?
 								{Receiver: {name: {contains: criteria.receiverName},}} : {}),
 
@@ -151,6 +150,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                     }
                 })
 
+            // orderCustomers
             if (!customerDB) {
                 const orderCustomers = await tx.customers.create(
                     { data: data.orderReceiver }
@@ -168,13 +168,6 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 					},
 				})
 
-            const products = data.orderTrolley.map((product) => ({
-                id_order: order.id,
-                id_product: product.id_product,
-                qty_at_buy: product.qty_at_buy,
-                price_at_buy: product.price_at_buy
-            }))
-
             await tx.trolleys.deleteMany({
                 where: {
                     id: {
@@ -182,6 +175,44 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                     }
                 }
             })
+
+            const products = data.orderTrolley.map((product) => ({
+                id_order: order.id,
+                id_product: product.id_product,
+                qty_at_buy: product.qty_at_buy,
+                price_at_buy: product.price_at_buy
+            }))
+
+            for await (const product of data.orderTrolley) {
+                await tx.products.update({
+                    where: { id: product.id_product },
+                    data: {
+                        sold: { increment: product.qty_at_buy },
+                        qty: { decrement: product.qty_at_buy }
+                    }
+                });
+            }
+
+            // data.orderTrolley.map(async (product) => (
+            //     await tx.products.update({
+            //         where: { id: product.id_product },
+            //         data: {
+            //             sold: { increment: product.qty_at_buy }
+            //         }
+            //     })
+            // ))
+
+            // Update product stock
+            // await Promise.all(
+            //     data.orderTrolley.map(product =>
+            //         tx.products.update({
+            //             where: { id: product.id_product },
+            //             data: {
+            //                 sold: { increment: product.qty_at_buy }
+            //             }
+            //         })
+            //     )
+            // );
 
             const orderProduct = await tx.trolleys.createMany(
                 { data: products })

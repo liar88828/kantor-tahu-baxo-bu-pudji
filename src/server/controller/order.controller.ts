@@ -54,7 +54,7 @@ export default class OrderController
 			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),
 		}
-        console.log(data)
+        // console.log(data)
 		return this.orderRepository.createOne(data)
 	}
 

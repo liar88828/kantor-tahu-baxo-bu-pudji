@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { decrypt } from "@/server/lib/jwt";
 import { updateSession } from "@/server/lib/db";
-// import { updateSession } from "@/app/lib/state";
 
 // 1. Specify protected and public routes
 const protectedRoutes = [ '/dashboard', '/admin', '/profile', '/trolley' ]
@@ -17,6 +16,7 @@ export default async function middleware(req: NextRequest) {
 	// 3. Decrypt the session from the cookie
 	const cookie = (await cookies()).get('session')?.value
 	const session = await decrypt(cookie)
+
     // console.log(cookie)
     // console.log(session)
 	// 4. Redirect to /login if the user is not authenticated
@@ -24,8 +24,8 @@ export default async function middleware(req: NextRequest) {
 		return NextResponse.redirect(new URL('/login', req.nextUrl))
 	}
 
-	if (path.includes('admin') && !session?.sessionId) {
-		return NextResponse.redirect(new URL('/login', req.nextUrl))
+    if (path.includes('admin') && session?.role !== 'ADMIN') {
+        return NextResponse.redirect(new URL('/home', req.nextUrl))
 	}
 
 	// 5. Redirect to /dashboard if the user is authenticated
@@ -37,8 +37,8 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/home', req.nextUrl))
 	}
 
-    // await updateSession(req)
-	// return NextResponse.next()
+    // await updateSession()
+    // return NextResponse.next()
 	return await updateSession(req)
 }
 // Routes Middleware should not run on

@@ -1,20 +1,30 @@
 import React from 'react'
 import { prisma } from "@/config/prisma";
 import ProductClient from "@/app/(user)/(market)/home/product.client";
-import { BaggageClaim } from "lucide-react";
-import { repeat } from "@/utils/repeat";
+import { categoryData } from "@/assets/category";
 
 export default async function Page() {
 
 	const newProduct = await prisma.products.findMany({
 		take: 20,
-		where: {
-			updated_at: {
-				// gte: new Date(),
-				// lte: new Date(),
-			},
-		}
-	})
+        orderBy: {
+            update_stock: 'desc'
+        }
+    })
+
+    const popularProduct = await prisma.products.findMany({
+        take: 20,
+        orderBy: {
+            sold: 'desc'
+        }
+    })
+    const lowPriceProduct = await prisma.products.findMany({
+        take: 20,
+        orderBy: {
+            price: 'asc'
+        }
+    })
+
 	return (
 		<div className={ 'space-y-2' }>
 			<div className="grid grid-cols-1">
@@ -23,15 +33,18 @@ export default async function Page() {
 					<div className="card-body w-full">
 						<h1 className="card-title">Shop My Category</h1>
 						<div className="flex gap-5 overflow-x-auto py-0.5">
-							{ repeat(5).map((item) => (
+                            { categoryData.map((item) => (
 								<div
-									key={ item }
-									className="border shadow p-7 bg-base-200/40 rounded-2xl "
+                                    key={ item.title }
+                                    className="border shadow p-5 bg-base-200/40 rounded-2xl flex items-center flex-col gap-2 "
 								>
-									<BaggageClaim/>
+                                    <div className="">
+                                        { item.icon }
+                                    </div>
+
 									<h1 className={ 'text-xl font-bold' }>
-										Bag
-									</h1>
+                                        { item.title }
+                                    </h1>
 								</div>
 							)) }
 
@@ -40,8 +53,8 @@ export default async function Page() {
 				</div>
 			</div>
 			<ProductClient products={ newProduct } title={ 'New Product' }/>
-			<ProductClient products={ newProduct } title={ 'Top Product' }/>
-			<ProductClient products={ newProduct } title={ 'Old Product' }/>
+            <ProductClient products={ popularProduct } title={ 'Popular Product' }/>
+            <ProductClient products={ lowPriceProduct } title={ 'Economical' }/>
 		</div>
 	)
 }

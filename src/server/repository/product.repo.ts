@@ -2,15 +2,25 @@ import { ProductSearch, TProductCreate, TProductDB } from "@/interface/entity/pr
 import { prisma } from "@/config/prisma";
 import { ResponseAll } from "@/interface/server/param";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
+import { PRODUCT_FILTER_PRICE } from "@/store/product";
 
 export type ProductParams = ParamsApi<ProductSearch>
 
+export type UpdateStock = Pick<TProductDB, 'qty' | 'id'>;
 export default class ProductRepository implements InterfaceRepository<TProductCreate> {
 
 	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<ProductParams>,): Promise<ResponseAll<TProductDB>> {
 		const skip = (page - 1) * limit;
 		const take = limit;
+        // console.log(filter)
 		const products = await prisma.products.findMany({
+            orderBy: [
+                filter.new ? { updated_at: 'desc' } : {},
+                filter.popular ? { sold: 'desc' } : {},
+                filter.price === PRODUCT_FILTER_PRICE.HIGH ? { price: 'desc' }
+                    : filter.price === PRODUCT_FILTER_PRICE.LOW ? { price: 'asc' }
+                        : {},
+            ],
 			where: {
 				AND: [
 					{
@@ -38,6 +48,16 @@ export default class ProductRepository implements InterfaceRepository<TProductCr
 	async updateOne(data: TProductCreate, id: string): Promise<any> {
 		return prisma.products.update({data: {...data}, where: {id}});
 	}
+
+    async updateStock(data: UpdateStock,): Promise<any> {
+        return prisma.products.update({
+            where: { id: data.id },
+            data: {
+                update_stock: new Date(),
+                qty: { increment: data.qty }
+            }
+        })
+    }
 
 	async deleteOne(id: string): Promise<any> {
 		return prisma.products.delete({where: {id}});

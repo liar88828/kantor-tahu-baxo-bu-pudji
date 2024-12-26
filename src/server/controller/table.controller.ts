@@ -10,7 +10,7 @@ export default class TableController
 	}
 
 	async findAll(request: NextRequest, _: TContext): Promise<any> {
-		return this.orderRepository.findAll({ filter: {}, pagination: {} })
+        return this.orderRepository.findAll({ filter: { status: "", name: "" }, pagination: {} })
 	}
 
 	async createOne(request: NextRequest, _: TContext): Promise<any> {

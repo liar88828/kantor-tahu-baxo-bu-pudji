@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic';
 export default async function page(context: TContext) {
     const search = await getSearchName(context, 'search') ?? ''
     // const status = await getSearchName(context, 'status') ?? ''
-
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
         queryKey: [ PRODUCT.KEY, search ],

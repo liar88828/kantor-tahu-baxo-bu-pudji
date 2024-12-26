@@ -3,11 +3,11 @@ import { TProductCreate, TProductDB } from "@/interface/entity/product.model"
 import { toFetch } from "@/hook/toFetch"
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
-import { ProductParams } from "@/server/repository/product.repo";
+import { ProductParams, UpdateStock } from "@/server/repository/product.repo";
 
 export const productAll = async ({ pagination, filter }: ProductParams) => {
     const newUrl = toUrl('product', { ...pagination, ...filter })
-    console.log("newUrl", newUrl)
+    // console.log("newUrl", newUrl)
 	return toFetch<ResponseAll<TProductDB>>('GET', newUrl)
 }
 export const productId = async (id: string) => {
@@ -21,4 +21,7 @@ export const productUpdate = async (data: TProductCreate, id: string) => {
 }
 export const productDelete = async (id: string) => {
 	return toFetch('DELETE', `product/${id}`)
+}
+export const productUpdateStock = async (data: Omit<UpdateStock, 'id'>, id: string) => {
+    return toFetch('PATCH', `product/${ id }`, data)
 }

@@ -1,20 +1,20 @@
 'use client'
 import React from "react";
 import {
-	CategoryScale,
-	Chart as ChartJS,
-	type ChartData,
-	type ChartOptions,
-	Legend,
-	LinearScale,
-	LineElement,
-	PointElement,
-	Title,
-	Tooltip,
+    CategoryScale,
+    Chart as ChartJS,
+    type ChartData,
+    type ChartOptions,
+    Legend,
+    LinearScale,
+    LineElement,
+    PointElement,
+    Title,
+    Tooltip,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { ResponseMonthData } from "@/server/repository/order.repo";
 import useWindowResizeThreshold from "@/hook/useWindowResizeThreshold";
+import { ResponseMonthData } from "@/interface/entity/order.model";
 
 ChartJS.register(
 	CategoryScale,

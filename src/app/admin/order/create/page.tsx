@@ -2,6 +2,13 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useProductStore } from "@/store/product";
+import { useDeliveryStore } from "@/store/delivery";
+import { usePaymentStore } from "@/store/payment";
+import { useOrderStore } from "@/store/order";
+import { orderCreateClient, OrderCreateClient } from "@/validation/order.valid";
+import { useOrder } from "@/hook/useOrder";
 import {
     DeliveryDialog,
     DeliveryForm,
@@ -9,13 +16,7 @@ import {
     PaymentDialog,
     ProductAdmin,
     ReceiverForm
-} from "@/app/components/order";
-import { useProductStore } from "@/store/product";
-import { useDeliveryStore } from "@/store/delivery";
-import { usePaymentStore } from "@/store/payment";
-import { useOrderStore } from "@/store/order";
-import { orderCreateClient, OrderCreateClient } from "@/validation/order.valid";
-import { useOrder } from "@/hook/useOrder";
+} from "@/app/components/order/order.client";
 
 export default function OrderForm() {
 	const { total: totalProduct, } = useProductStore()

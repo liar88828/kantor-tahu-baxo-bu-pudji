@@ -6,9 +6,9 @@ import { redirect } from "next/navigation";
 import { decrypt, encrypt } from "@/server/lib/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { ROLE } from "@/interface/Utils";
-import { Users } from "@prisma/client";
 
 export type UserSession = { isAuth: boolean, userId: string }
+
 export async function createSessionDB(id: string) {
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000)
 
@@ -20,7 +20,6 @@ export async function createSessionDB(id: string) {
             role: ROLE.USER
 		}
 	})
-
 
 	// 2. Encrypt the session ID
     const session = await encrypt({

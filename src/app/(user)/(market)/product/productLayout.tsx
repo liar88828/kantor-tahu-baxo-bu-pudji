@@ -1,6 +1,7 @@
+'use client'
 import React, { useRef } from "react";
-import { useProductStore } from "@/store/product";
-import { ChevronDown, ShoppingCart } from "lucide-react";
+import { PRODUCT_FILTER_PRICE, useProductStore } from "@/store/product";
+import { ChevronDown, ChevronsUpDown, ChevronUp, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useProduct } from "@/hook/useProduct";
 import { useTrolley } from "@/hook/useTrolley";
@@ -11,7 +12,7 @@ import { TProductDB } from "@/interface/entity/product.model";
 import { toRupiah } from "@/utils/toRupiah";
 
 export function ProductLayout({ children }: { children: React.ReactNode }) {
-    const { search, setSearch } = useProductStore();
+    const { filter, setFilter } = useProductStore();
 
     return (
         <div className="px-4 space-y-5">
@@ -20,29 +21,43 @@ export function ProductLayout({ children }: { children: React.ReactNode }) {
                     <input
                         className='input input-bordered w-full'
                         placeholder='Search ...'
-                        value={ search }
+                        value={ filter.name }
                         type="text"
-                        onChange={ (e) => setSearch(e.target.value) }
+                        onChange={ (e) => setFilter({ name: e.target.value }) }
                     />
                 </div>
-                <div className="flex gap-5 mt-2">
+                <div className="flex gap-4 mt-2">
 
-                    <button className={ 'btn btn-outline btn-sm ' }>
-                        Price <ChevronDown/>
+
+                    <button
+                        onClick={ () => setFilter({ related: true }) }
+                        className={ `btn btn-outline btn-sm  ${ filter.related && "btn-active" }` }>
+                        Related
                     </button>
-
-                    <button className={ 'btn btn-outline btn-sm ' }>
+                    <button
+                        onClick={ () => setFilter({ popular: true }) }
+                        className={ `btn btn-outline btn-sm  ${ filter.popular && "btn-active" }` }>
                         Popular
                     </button>
 
-                    <button className={ 'btn btn-outline btn-sm' }>
+                    <button
+                        onClick={ () => setFilter({ new: true }) }
+                        className={ `btn btn-outline btn-sm  ${ filter.new && "btn-active" }` }>
                         New
                     </button>
 
+                    <button
+                        onClick={ () => setFilter({ price: filter.price }) }
+                        className={ `btn btn-outline btn-sm ${ filter.price === PRODUCT_FILTER_PRICE.NORMAL ? '' : 'btn-active' } ` }>
+                        Price {
+                        filter.price === PRODUCT_FILTER_PRICE.NORMAL
+                            ? <ChevronsUpDown/>
+                            : filter.price === PRODUCT_FILTER_PRICE.LOW
+                                ? <ChevronDown/>
+                                : <ChevronUp/>
+                    }
+                    </button>
 
-                    {/*<button className={ 'btn btn-outline ' }>*/ }
-                    {/*	Popular*/ }
-                    {/*</button>*/ }
                 </div>
             </div>
             { children }
@@ -55,8 +70,8 @@ export function ProductFetch() {
     const router = useRouter();
     const { useProductInfiniteQuery } = useProduct();
     const { push } = useTrolley()
-    const { search } = useProductStore();
-    const debouncedSearch = useDebounce(search)
+    const { filter } = useProductStore();
+    const debouncedSearch = useDebounce(filter.name)
 
     const {
         data,
@@ -65,7 +80,7 @@ export function ProductFetch() {
         hasNextPage,
         isFetching,
         isFetchingNextPage,
-    } = useProductInfiniteQuery(debouncedSearch, search, observerRef)
+    } = useProductInfiniteQuery(debouncedSearch, filter, observerRef)
 
     if (status === 'pending') return <LoadingSpin/>
 
@@ -117,7 +132,6 @@ export function ProductCard({ product, detailProductAction, addTrolleyAction }: 
         <div
             className=" bordered rounded-xl bg-base-200/20 shadow ">
             <figure
-                className='p-1'
                 onClick={ detailProductAction }
             >
                 {/* eslint-disable-next-line @next/next/no-img-element */ }

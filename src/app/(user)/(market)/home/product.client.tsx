@@ -6,19 +6,21 @@ import { TProductDB } from "@/interface/entity/product.model";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { ProductCard } from "@/app/(user)/(market)/product/productLayout";
+import { PRODUCT_FILTER_PRICE, useProductStore } from "@/store/product";
 
-function ProductClient({ products, title }: { title: string, products: TProductDB[] }) {
+function ProductClient({ products, title }: {
+    title: 'New Product' | 'Economical' | 'Popular Product',
+    products: TProductDB[]
+}) {
+    const { setFilter } = useProductStore();
+
 	const router = useRouter();
 	const { push } = useTrolley()
 
-	const addTrolley = (data: TProductDB) => {
-		push.mutate(data,)
-	}
-
-	return (
+    return (
 		<div className="card card-compact ">
 			<div className="card-body">
-				<div className="flex justify-between">
+                <div className="flex justify-between text-base-content/40">
 					<h2 className="card-title">{ title }</h2>
 					<Link
 						className={ 'flex flex-nowrap items-center hover:text-info' }
@@ -33,11 +35,20 @@ function ProductClient({ products, title }: { title: string, products: TProductD
 							key={ product.id }
 							className={ ' flex-shrink-0 ~w-40/48 py-0.5' }
 						>
-
                         <ProductCard
 								product={ product }
-								addTrolleyAction={ () => addTrolley }
-								detailProductAction={ () => router.push(`/product/${ product.id }`) }
+                                addTrolleyAction={ () => push.mutate(product) }
+                                detailProductAction={ () => {
+                                    if (title === 'Popular Product') {
+                                        setFilter({ popular: true })
+                                    } else if (title === 'Economical') {
+                                        setFilter({ price: PRODUCT_FILTER_PRICE.LOW })
+                                    } else if (title === 'New Product') {
+                                        setFilter({ new: true })
+                                    }
+                                    router.push(`/product/${ product.id }`)
+                                }
+                                }
 							/>
 						</div>
 					))

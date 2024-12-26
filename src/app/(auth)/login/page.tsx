@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function SignupForm() {
 	const [ state, action, pending ] = useActionState(signIn, undefined);
-    console.log(state);
+    // console.log(state);
 	return (
 		<div className="card card-bordered bg-base-100 lg:mx-60">
 			<form action={ action } className="card-body">

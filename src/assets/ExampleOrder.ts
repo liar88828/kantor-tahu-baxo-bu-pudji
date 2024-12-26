@@ -107,12 +107,14 @@ export const dataOrderTransaction: TOrderTransactionDB[] = [
         "Trolleys": [
             {
                 "id": "575fe63d-6ffb-4560-8082-6dafc3bf792c",
-                "id_order": "712ec142-b620-4315-8571-877c84634642",
+                // "id_order": "712ec142-b620-4315-8571-877c84634642",
                 "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
                 "qty_at_buy": 1,
                 "price_at_buy": 20000,
                 "id_user": null,
                 "Product": {
+                    update_stock: new Date(),
+                    sold: 0,
                     "id": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
                     "name": "tahu ayam",
                     "location": "Semarang",
@@ -127,12 +129,14 @@ export const dataOrderTransaction: TOrderTransactionDB[] = [
             },
             {
                 "id": "48db427b-401f-4d6a-a2bb-2a379f944813",
-                "id_order": "712ec142-b620-4315-8571-877c84634642",
+                // "id_order": "712ec142-b620-4315-8571-877c84634642",
                 "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672",
                 "qty_at_buy": 1,
                 "price_at_buy": 20000,
                 "id_user": null,
                 "Product": {
+                    update_stock: new Date(),
+                    sold: 0,
                     "id": "229b54ec-54ac-40bc-9571-90b9494bd672",
                     "name": "tahu baxo",
                     "location": "Semarang",

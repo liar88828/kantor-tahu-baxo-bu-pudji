@@ -6,10 +6,10 @@ import { toDate } from "@/utils/formatDate";
 import { toStatus } from "@/app/components/status";
 import { EarningClient } from "@/app/admin/home/card.client";
 import { toFetch } from "@/hook/toFetch";
-import { ResponseMonthData } from "@/server/repository/order.repo";
 import { FetchResponse } from "@/interface/server/param";
 import { prisma } from "@/config/prisma";
 import { Status } from "@/interface/Utils";
+import { ResponseMonthData } from "@/interface/entity/order.model";
 
 export const now = new Date();
 export const monthStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the current month

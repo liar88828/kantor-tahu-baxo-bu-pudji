@@ -130,11 +130,12 @@ class TestRepo {
 				"orderTrolley":
 					[
 						{
-						"qty_at_buy": faker.number.int(10000),
-						"price_at_buy": faker.number.int(10000),
-							"id_user": user?.id ?? '',
-							"id_product": product?.id ?? ''
-						}
+                            id: "",// to delete
+                            "qty_at_buy": faker.number.int(10000),
+                            "price_at_buy": faker.number.int(10000),
+                            "id_user": user?.id ?? '',
+                            "id_product": product?.id ?? '',
+                        }
 					],
 				"orderReceiver":
                     {

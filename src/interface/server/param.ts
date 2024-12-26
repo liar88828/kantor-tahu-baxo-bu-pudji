@@ -6,25 +6,25 @@ export type TContext = {
 }
 
 export type TReactFormHookComponent<T> = {
-	defaultValues: T,
-	method: "POST" | "PUT",
-	id: string,
-	// onSubmitAction: (value: T) => void
+    defaultValues?: T,
+    method: "POST" | "PUT",
+    id: string,
+
 };
 
 export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>
 export type ResponseAll<T> = {
-	data: T[],
-	page: number,
-	limit: number
+    data: T[],
+    page: number,
+    limit: number
 }
 
 export type PaginatedResponse = {
-	data: TProductDB[];
-	nextCursor: number; // Cursor for next page or null if no more data
+    data: TProductDB[];
+    nextCursor: number; // Cursor for next page or null if no more data
 };
 
 export type PageParams = {
-	pageParam?: string;
+    pageParam?: string;
 };
 

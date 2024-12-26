@@ -4,10 +4,17 @@ import { TProductDB } from "@/interface/entity/product.model";
 import { productAll } from "@/network/product";
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
-interface ProductStore {
+export enum PRODUCT_FILTER_PRICE {
+    NORMAL = "NORMAL",
+    HIGH = "HIGH",
+    LOW = "LOW",
+
+}
+
+export interface ProductStore {
 	total: number;
 	idProduct: string []
-	search: string
+    // search: string
 	isLoading: boolean;
 	productAsync: TProductDB[]
 	productStore: TTrolleyProductUser[]
@@ -15,36 +22,79 @@ interface ProductStore {
 	getProductData: () => Promise<void>
 	setProduct: (data: TProductDB) => void
 	setProductStore: (data: TTrolleyProductUser[]) => void
-	setSearch: (search: string) => void
+    // setSearch: (search: string) => void
 	onIncrement: (id: string) => void;
 	onDecrement: (id: string) => void;
 	onRemove: (id: string) => void;
 	setQty: (id: string, qty: number) => void
 	setTotal: () => void
 	reset: () => void
+    filter: {
+        name: string,
+        price: PRODUCT_FILTER_PRICE,
+        popular: boolean,
+        new: boolean,
+        related: boolean,
+    }
+    setFilter: (filter: Partial<ProductStore['filter']>) => void
 
 }
 
-const initialState = {
+export const initialState = {
 	total: 0,
 	idProduct: [],
 	isLoading: false,
 	productAsync: [],
 	productStore: [],
 	product: null,
-	search: '',
+    // search: '',
+    filter: {
+        name: "",
+        price: PRODUCT_FILTER_PRICE.NORMAL,
+        popular: false,
+        new: false,
+        related: true,
+    }
 }
+
 
 export const useProductStore = create<ProductStore>((set, get) => ({
 
 	...initialState,
+    setFilter: (filter) => {
+        // Update price conditionally
+        // console.log(filter.price);
+        if (filter.price === PRODUCT_FILTER_PRICE.NORMAL) {
+            filter.price = PRODUCT_FILTER_PRICE.LOW;
+        } else if (filter.price === PRODUCT_FILTER_PRICE.LOW) {
+            filter.price = PRODUCT_FILTER_PRICE.HIGH;
+        } else if (filter.price === PRODUCT_FILTER_PRICE.HIGH) {
+            filter.price = PRODUCT_FILTER_PRICE.NORMAL;
+        }
+
+        // Update other properties without overwriting or unnecessarily deleting
+        // filter.related = filter.related === true;
+        if (filter.related === true) {
+            filter.popular = false
+            filter.new = false
+        } else {
+            filter.related = false
+        }
+
+        filter.popular = filter.popular === true;
+
+        filter.new = filter.new === true;
+        // console.log(filter); // Updated filter object
+
+        // Update state
+        set((state) => ({ filter: { ...state.filter, ...filter } }));
+    },
 	reset: () => {
 		set(initialState)
 	},
 	setProductStore: (data) => {
 		set({ productStore: data });
 		get().setTotal()
-
 	},
 	setTotal: () => {
 		set((state) => ({
@@ -68,7 +118,6 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 			})
 		}
 		get().setTotal()
-
 	},
 
 	onRemove: (id) => {
@@ -104,6 +153,7 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 	setProduct: (data) => {
 		set((store) => {
 			const newData: TTrolleyProductUser = {
+                id: data.id,
 				id_user: "",
 				id_product: data.id,
 				Product: data,
@@ -139,5 +189,5 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 		}
 	},
 
-	setSearch: (search) => set(({ search }))
+    // setSearch: (search) => set(({ search }))
 }))

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Pen, Plus, Trash } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
 import Link from 'next/link'
@@ -15,25 +15,20 @@ import { toDate } from "@/utils/formatDate";
 import { useRouter } from "next/navigation";
 import { THistoryOrder } from "@/interface/entity/transaction.model";
 import { ResponseAll } from "@/interface/server/param";
-import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { DELIVERY } from "@/hook/useDelivery";
 
 export default function ProductList() {
 
 	const { onDelete } = useProduct()
-    const { search } = useProductStore()
-    const searchDebounce = useDebounce(search, 500)
+    const { filter } = useProductStore()
+    const searchDebounce = useDebounce(filter.name, 500)
 
     const { data: products, isLoading, isError } = useQuery({
-        enabled: searchDebounce === search,
-        select: (data) => {
-            return data.data.data
-        },
+        enabled: searchDebounce === filter.name,
+        select: (data) => data.data.data,
         queryKey: [ PRODUCT.KEY, searchDebounce ],
         queryFn: () => productAll({
             pagination: { limit: 50 },
             filter: { name: searchDebounce }
-
         })
     })
 
@@ -53,7 +48,7 @@ export default function ProductList() {
 }
 
 export function ProductSearch({ children }: { children: React.ReactNode }) {
-    const { search, setSearch } = useProductStore()
+    const { filter, setFilter } = useProductStore()
     const queryClient = useQueryClient();
     const products = queryClient.getQueryData<{ data: ResponseAll<TProductDB> }>([ PRODUCT.KEY, '' ])
     return (<>
@@ -61,8 +56,8 @@ export function ProductSearch({ children }: { children: React.ReactNode }) {
                 <input
                     type="text"
                     className='input input-bordered w-full'
-                    onChange={ e => setSearch(e.target.value) }
-                    value={ search }
+                    onChange={ e => setFilter({ name: e.target.value }) }
+                    value={ filter.name }
                     placeholder='search...'
                     list={ 'products' }
 
@@ -90,11 +85,16 @@ export function ProductSearch({ children }: { children: React.ReactNode }) {
 }
 
 export function ProductDetails({ product }: { product: TProductDB }) {
-    const { onDelete } = useProduct()
+    const { onDelete, onUpdateStock } = useProduct()
     const router = useRouter()
+    const [ stock, setStock ] = useState(0)
+    const updateStock = async () => {
+        await onUpdateStock(product.id, stock)
+    }
     return (
         <div className="card lg:card-side bg-base-100 shadow-xl">
             <figure className="w-full lg:w-1/2">
+                {/* eslint-disable-next-line @next/next/no-img-element */ }
                 <img src="https://picsum.photos/300/200?random=1"
                      alt={ product.name }
                      className="rounded-lg h-auto w-full"
@@ -113,7 +113,21 @@ export function ProductDetails({ product }: { product: TProductDB }) {
                     <p className="text-sm text-gray-500">Created At: { toDate(product.created_at) }</p>
                     <p className="text-sm text-gray-500">Updated At: { toDate(product.updated_at) }</p>
                 </div>
-                <div className="card-actions justify-end mt-6">
+                <div className="card-actions mt-6 grid grid-cols-2 items-end">
+                    <div className="form-control">
+                        <label htmlFor={ 'stock' }>Add Stock</label>
+                        <div className="join">
+                            <input
+                                className={ 'input input-bordered w-24 join-item' }
+                                type="number"
+                                onChange={ e => setStock(Number(e.target.value)) }
+                            />
+                            <button
+                                onClick={ updateStock }
+                                className={ 'btn join-item' }><Plus/></button>
+                        </div>
+                    </div>
+                    <div className=" flex gap-2">
                     <button
                         onClick={ () => router.push(`/admin/product/update/${ product.id }`) }
                         className="btn btn-primary">Update
@@ -122,6 +136,7 @@ export function ProductDetails({ product }: { product: TProductDB }) {
                         onClick={ () => () => onDelete(product.id) }
                         className="btn btn-secondary">Delete
                     </button>
+                </div>
                 </div>
             </div>
         </div>
@@ -147,6 +162,7 @@ export function ProductCard(props: { product: TProductDB, onClick: () => Promise
 			<div className="flex justify-between items-end">
 				<div className="">
 					<p>{ toRupiah(props.product.price) }</p>
+                    <p>qty: { props.product.qty }</p>
 					<p>{ props.product.type }</p>
 				</div>
 				<div className="flex items-center gap-2">
