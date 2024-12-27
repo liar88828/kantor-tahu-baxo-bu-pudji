@@ -15,9 +15,8 @@ import { Delivery, Payment, Product } from "@/app/components/order/order.client"
 
 function Page() {
     const { onUpsert } = useOrder()
-    const { onDelivery, getAsyncReceiver, onReceiver } = useOrderStore();
+    const { getAsyncReceiver, onReceiver } = useOrderStore();
     const receiver = useReceiverStore()
-
 	const { onSelected } = useTrolleyStore();
     const { total: totalProduct, setProductStore } = useProductStore()
     const { delivery: dataDelivery } = useDeliveryStore()
@@ -28,9 +27,6 @@ function Page() {
 		}, 0),
 		[ onSelected ]
 	)
-
-	const delivery = onDelivery ? onDelivery.price : 0
-
 	if (onSelected.length === 0) {
 		redirect('/trolley')
 	}
@@ -55,7 +51,7 @@ function Page() {
             namePayment: dataPayment.name,
             totalPayment: 0,
             totalProduct,
-            totalAll: totalProduct,
+            totalAll: subtotal() + dataDelivery.price,
             // totalAll
         }
         onUpsert.mutate({
@@ -124,11 +120,11 @@ function Page() {
                     </div>
                     <div className="flex justify-between">
                         <span>Delivery Fee</span>
-                        <span>{ toRupiah(delivery) }</span>
+                        <span>{ toRupiah(dataDelivery?.price ?? 0) }</span>
                     </div>
                     <div className="flex justify-between font-bold">
                         <span>Total</span>
-                        <span>{ toRupiah(subtotal() + delivery) }</span>
+                        <span>{ toRupiah(subtotal() + (dataDelivery?.price ?? 0)) }</span>
                     </div>
                 </div>
                 <button

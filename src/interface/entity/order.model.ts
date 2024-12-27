@@ -1,5 +1,5 @@
 import { Customers, Orders } from "@prisma/client";
-import { ParamsApi } from "@/interface/server/InterfaceRepository";
+import { ParamsApi } from "@/interface/server/Interfacesitory";
 
 export type TOrderDB = Orders
 export type TOrderCreate = Omit<Orders, 'id' | "created_at" | "updated_at">;

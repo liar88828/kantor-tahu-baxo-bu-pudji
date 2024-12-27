@@ -1,4 +1,3 @@
-import ProductRepository, { UpdateStock } from "@/server/repository/product.repo"
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
@@ -6,6 +5,8 @@ import { getId, getJson, getParams, getParamsBool, getParamsValue } from "@/util
 import { UUIDSchema } from "@/validation/id.valid"
 import { ProductCreate, ProductUpdateStock } from "@/validation/product.valid";
 import { PRODUCT_FILTER_PRICE } from "@/store/product";
+import { UpdateStock } from "@/interface/entity/product.model";
+import ProductRepository from "@/server/repository/product.repo";
 
 export default class ProductController
 	implements InterfaceController {
@@ -32,13 +33,21 @@ export default class ProductController
 		)
 	}
 
-	async findById(_: NextRequest, context: TContext): Promise<any> {
+    async findHomeUser(request: NextRequest, _context: TContext): Promise<any> {
+        return this.productRepository.findHomeUser()
+    }
+
+    async findById(_: NextRequest, context: TContext): Promise<any> {
 		const id = await getId(context)
 		return this.productRepository.findById(
 			// id
 			UUIDSchema.parse(id)
 		)
 	}
+
+    async findRecent(_: NextRequest, _context: TContext): Promise<any> {
+        return this.productRepository.findRecent()
+    }
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)

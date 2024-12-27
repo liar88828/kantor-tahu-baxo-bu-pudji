@@ -1,5 +1,5 @@
 import React from 'react'
-import { EarningServer, GridData, RecentProduct, TopCustomers, TopOrder } from "@/app/admin/home/card.server";
+import { EarningServer, GridData, RecentProduct, TopCustomers, TopOrder } from "@/app/admin/dashboard/card.server";
 
 export default async function page() {
 

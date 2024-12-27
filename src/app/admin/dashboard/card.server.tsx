@@ -1,86 +1,48 @@
 import { toRupiah } from "@/utils/toRupiah";
-import { productAll } from "@/network/product";
+import { productRecent } from "@/network/product";
 import { receiverAll } from "@/network/receiver";
 import React from "react";
 import { toDate } from "@/utils/formatDate";
 import { toStatus } from "@/app/components/status";
-import { EarningClient } from "@/app/admin/home/card.client";
-import { toFetch } from "@/hook/toFetch";
-import { FetchResponse } from "@/interface/server/param";
-import { prisma } from "@/config/prisma";
-import { Status } from "@/interface/Utils";
-import { ResponseMonthData } from "@/interface/entity/order.model";
-
-export const now = new Date();
-export const monthStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the current month
-export const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59); // End of the current month
+import { EarningClient } from "@/app/admin/dashboard/card.client";
+import { getEarningNew, getEarningOld, orderMonthTotal, orderTopTotal } from "@/network/order";
+import { OrderMonthTotal } from "@/interface/entity/transaction.model";
 
 export async function GridData() {
-	const getOrderMonthTotal = async (status: Status) => {
+    const dataComplete = await orderMonthTotal('Complete')
+    const dataProcess = await orderMonthTotal('Pending')
+    const dataFail = await orderMonthTotal('Fail')
 
-		return prisma.orders.aggregate({
-			_count: true,
-			_sum: { totalAll: true },
-			where: {
-				orderTime: {
-					gte: monthStart,
-					lte: monthEnd,
-				},
-				status: status
-			},
-		})
-	}
-	// console.log(now.getMonth());
-// 	January = 0
-// 	February = 1
-// 	November = 10
-// 	December = 11
-
-	const dataComplete = await getOrderMonthTotal('Complete')
-	const dataProcess = await getOrderMonthTotal('Pending')
-	const dataFail = await getOrderMonthTotal('Fail')
 	return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5">
 		<GridCardChild
-			// @ts-ignore
-			data={ dataProcess }
+            data={ dataProcess.data }
 			classNames={ 'bg-warning/10' }
 		/>
 		<GridCardChild
-			// @ts-ignore
-			data={ dataComplete }
+            data={ dataComplete.data }
 			classNames={ 'bg-success/10' }
 		/>
 		<GridCardChild
-			// @ts-ignore
-			data={ dataFail }
+            data={ dataFail.data }
 			classNames={ 'bg-error/10' }
 		/>
 
 	</div>
 }
 
-export function GridCardChild(
-	{ classNames, data }: {
-		data: {
-			_count: number,
-			_sum: {
-				totalAll: number
-			},
-		},
-		classNames: string
-	}
-) {
+export function GridCardChild({ classNames, data }: { data: OrderMonthTotal, classNames: string }) {
 	return (
-		<div className={ `card card-bordered ${ classNames } shadow-sm xl:card-normal card-compact` }>
+        <div className={ `card  ${ classNames }  2xl:card-normal card-compact` }>
 			<div className="card-body">
 				<div className=" flex md:flex-col xl:flex-row justify-around items-end md:items-start xl:items-end">
 					<div className="">
-						<h1 className={ 'font-bold ~text-2xl/6xl' }>{ toRupiah(data._sum.totalAll) }</h1>
+                        <h1 className={ 'font-bold ~text-2xl/3xl' }>{ toRupiah(data.totalAll) }</h1>
                         <p className={ 'text-base-content/50 ~text-xs/base' }>Total Customers</p>
 					</div>
 					<div className="">
-						<h2 className="text-xl font-bold xl:text-end">{ data._count }</h2>
-                        <p className={ 'text-base-content/50 ~text-xs/base' }>This Mouth</p>
+                        <h2 className="text-xl font-bold  text-end sm:text-end md:text-start xl:text-end ">{ data.count }</h2>
+                        <p className={ 'text-base-content/50 ~text-xs/base text-nowrap  text-start md:text-end' }>This
+                            Mouth</p>
 					</div>
 				</div>
 			</div>
@@ -89,18 +51,7 @@ export function GridCardChild(
 }
 
 export async function TopOrder() {
-	const getTopOrderTotal = async () => {
-        return prisma.orders.findMany({
-            take: 5,
-            include: {
-                Customers: true,
-                Trolleys: true
-            },
-            orderBy: { totalAll: 'desc' },
-        })
-	}
-
-	const orders = await getTopOrderTotal()
+    const { data: orders } = await orderTopTotal()
 
 	return <div className="card bg-base-200/30 card-compact md:card-normal">
 		<div className="card-body ">
@@ -180,15 +131,15 @@ export async function TopCustomers() {
 	</div>;
 }
 
-// wil change product
 export async function RecentProduct() {
-	const { data: products } = await productAll({ pagination: { limit: 5 } })
+    const { data: products } = await productRecent()
+    // console.log(products)
 	return <div className="card card-compact  bg-base-200/30 ">
 		<div className="card-body">
 			<h2 className="card-title">Recent Product</h2>
 			<div className="divider m-0"></div>
 
-			{ products.data.map(item => (
+            { products.map(item => (
 				<div className="flex  items-center justify-between"
 					 key={ item.id }>
 					<div className="flex gap-2">
@@ -220,17 +171,9 @@ export async function RecentProduct() {
 }
 
 export async function EarningServer() {
-	const getEarningOld = async () => {
-		return fetch('http://localhost:3000/api/order?year=2023', {
-			method: "GET",
-			next: { revalidate: 1000 * 60 * 60 }
-		}).then(res => {
-			return res.json() as FetchResponse<ResponseMonthData>
-		})
-	}
-
-	const earningDataNew = await toFetch<ResponseMonthData>('GET', 'order?year=2024')
-	const earningDataOld = await getEarningOld()
+    const year = new Date().getFullYear()
+    const earningDataNew = await getEarningNew(year)
+    const earningDataOld = await getEarningOld(year)
 	return (
 		<EarningClient
 			year_new={ earningDataNew.data }

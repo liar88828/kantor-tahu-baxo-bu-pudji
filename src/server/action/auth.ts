@@ -6,6 +6,9 @@ import { createSession } from "@/server/lib/state";
 import { FormState, SignInFormSchema, SignupFormSchema } from "@/validation/auth.valid";
 import { userRepository } from "@/server/controller";
 import { ROLE } from "@/interface/Utils";
+import { OTPGenerate } from "@/interface/server/param";
+import { generateOtp } from "@/utils/otp";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export async function signUp(state: FormState, formData: FormData) {
 	// Validate form fields
@@ -30,6 +33,7 @@ export async function signUp(state: FormState, formData: FormData) {
 	// e.g. Hash the user's password before storing it
 	const hashedPassword = await bcrypt.hash(password, 10)
 
+    const otp = generateOtp({ length: 6 })
 	// 3. Insert the user into the database or call an Auth Library's API
     const user = await userRepository.createOne({
         name,
@@ -47,9 +51,19 @@ export async function signUp(state: FormState, formData: FormData) {
 	}
 
 	// 4. Create user session
-	await createSession(user.id)
+    // await createSession(user.id)
+    const sendEmail: OTPGenerate = {
+        email: user.email,
+        time: new Date(Date.now() + 2 * 60 * 1000)
+    };
+    await fetch('http://localhost:3000/api/email/otp', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sendEmail)
+    })
+
 	// 5. Redirect user
-	redirect('/profile')
+    redirect('/otp')
 }
 
 export async function signIn(state: FormState, formData: FormData) {
@@ -79,10 +93,17 @@ export async function signIn(state: FormState, formData: FormData) {
         )
 
 		if (!user) {
-            throw new Error('User already exists!')
+            throw new Error('User not exists!')
+        }
+        console.log(user.isValidate)
+        if (user.isValidate === false) {
+            // console.log('will redirect to otp')
+            // throw new Error('User is not Registered!. please go Otp')
+            redirect('/otp')
         }
 
         const validPassword = await bcrypt.compare(valid.password, user.password)
+
 		if (!validPassword) {
             throw new Error('Password is incorrect')
 
@@ -96,12 +117,17 @@ export async function signIn(state: FormState, formData: FormData) {
 		redirect('/profile')
 
 	} catch (e) {
-		if (e instanceof Error) {
-			return {
-				message: e.message,
+
+        if (isRedirectError(e)) {
+            redirect('/otp')
+        }
+
+        if (e instanceof Error) {
+            return {
+                message: e.message,
                 // prev: { email, password }
-			}
-		}
+            }
+        }
 		return {
 			message: 'An error occurred while creating your account.',
             // prev: { email, password }

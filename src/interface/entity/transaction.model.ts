@@ -2,9 +2,10 @@ import { TOrderCreate } from "@/interface/entity/order.model"
 import { TCustomersDB, TReceiverCreate } from "@/interface/entity/receiver.model";
 import { TOrderTrolleyTransaction, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { Orders, Payments } from "@prisma/client";
+import { Orders, Payments, Trolleys } from "@prisma/client";
 
 export type OrderId = TOrderTransactionDB['id'];
+export type OrderMonthTotal = { count: number, totalAll: number };
 
 export type TOrderTransactionCreate = {
 	order: TOrderCreate
@@ -18,6 +19,12 @@ export type TOrderTransactionDB = Orders & {
 	Payments: Payments
     Trolleys: TTrolleyProductUser[]
 }
+
+export type TOrderTopTotal = Orders & {
+    Customers: TCustomersDB
+    Trolleys: Trolleys[]
+}
+
 export type TOrderTransactionUpdate = {
 	order: TOrderCreate
 	orderTrolley: TOrderTrolleyTransaction[] // Assuming full replacement of products is required

@@ -3,10 +3,23 @@ import { FetchResponse } from "@/interface/server/param";
 
 const isTest = false
 
+type ToFetch = {
+    url: string,
+    data?: any,
+    cacheData?: RequestInit
+};
+
 export const toFetch = async <R>(
-	method: TMethod,
-	url: string,
-	data?: any
+    method: TMethod,
+    {
+        url,
+        data,
+        cacheData = {
+            cache: "default",
+            next: { revalidate: 0 }
+        }
+    }: ToFetch
+
 ): FetchResponse<R> => {
 	// Initialize headers
 	const headers: HeadersInit = {
@@ -25,7 +38,8 @@ export const toFetch = async <R>(
 	}
 
 	if ([ "GET" ].includes(method)) {
-		fetchOptions.cache = 'no-store'
+        fetchOptions.cache = cacheData.cache
+        fetchOptions.next = cacheData.next
 		// cache: 'no-store',
 		// fetchOptions.next = {
 		// 	revalidate: 0

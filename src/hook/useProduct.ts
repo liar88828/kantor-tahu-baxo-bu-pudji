@@ -85,8 +85,7 @@ export const useProduct = () => {
 				const url = `/product?page=${ context.pageParam }&name=${ debouncedSearch }`
 				console.log(url)
 				// eslint-disable-next-line react-hooks/rules-of-hooks
-				const { data } = await toFetch<ResponseAll<TProductDB>>('GET', url);
-
+                const { data } = await toFetch<ResponseAll<TProductDB>>('GET', { url });
 				return {
 					data: data.data,
 					nextCursor: data.page
@@ -116,7 +115,10 @@ export const useProduct = () => {
 
 	}
 
-    const useProductInfiniteQuery = (debouncedSearch: string, filter: ProductStore['filter'], observerRef: React.RefObject<HTMLDivElement | null>) => {
+    const useProductInfiniteQuery = (debouncedSearch: string, {
+        name,
+        ...filter
+    }: ProductStore['filter'], observerRef: React.RefObject<HTMLDivElement | null>) => {
 		const {
 			data,
 			status,
@@ -125,11 +127,15 @@ export const useProduct = () => {
 			hasNextPage,
 			isFetching,
 			isFetchingNextPage,
+            isLoading,
+            isError,
 		} = useInfiniteQuery<PaginatedResponse, Error>({
 			initialPageParam: 1,
-            enabled: !!debouncedSearch || filter.name === '',
+            // retryDelay: 5000,
+            // staleTime: 1000*60,
+            gcTime: 1000 * 60,
+            enabled: debouncedSearch === name,
             queryKey: [ PRODUCT.KEY, debouncedSearch, ...Object.values(filter) ],
-
             queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
                 // const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;
                 // console.log(url);
@@ -141,8 +147,10 @@ export const useProduct = () => {
                         name: debouncedSearch,
                         new: filter.new,
                         price: filter.price,
+                        type: filter.type,
                         // related: filter.related,
                         popular: filter.popular,
+
                     }
                 })
 
@@ -162,7 +170,7 @@ export const useProduct = () => {
 
 			getPreviousPageParam: (firstPage) => {
 				if (firstPage.nextCursor <= 1) return undefined;
-				return firstPage.nextCursor;
+                return firstPage.nextCursor - 1;
 			},
 
 		});
@@ -188,7 +196,11 @@ export const useProduct = () => {
 			};
 		}, [ hasNextPage, fetchNextPage, observerRef ]);
 
-		return { data, status, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage };
+        return {
+            data, status, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,
+            isLoading,
+            isError,
+        };
 	};
 
     return {

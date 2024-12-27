@@ -34,6 +34,7 @@ export interface ProductStore {
         price: PRODUCT_FILTER_PRICE,
         popular: boolean,
         new: boolean,
+        type: string,
         related: boolean,
     }
     setFilter: (filter: Partial<ProductStore['filter']>) => void
@@ -50,11 +51,12 @@ export const initialState = {
     // search: '',
     filter: {
         name: "",
+        type: "",
         price: PRODUCT_FILTER_PRICE.NORMAL,
         popular: false,
         new: false,
         related: true,
-    }
+    } as ProductStore['filter'],
 }
 
 

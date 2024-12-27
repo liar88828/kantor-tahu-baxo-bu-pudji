@@ -58,9 +58,10 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
     // @ts-ignore
 
     return (
-        <div className={ `p-6 bg-base-100 rounded-lg  print:p-14 print:shadow-none shadow-lg h-[297mm] relative` }
+        <div
+            className={ `p-6 bg-base-100 rounded-lg ~text-sm/base  print:p-15 print:shadow-none shadow-lg h-[270mm] relative print:text-sm` }
              ref={ ref }>
-            <h1 className="text-2xl font-bold mb-4 text-center">Invoice</h1>
+            <h1 className="text-2xl font-bold mb-10 text-center">Invoice</h1>
             <div className="border-b pb-4 mb-4">
                 <div className="flex justify-between">
                     <p><span className="font-semibold">Invoice ID:</span> { id }</p>
@@ -77,15 +78,15 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
                 <p><span className="font-semibold">Phone:</span> { Customers.phone }</p>
             </div>
 
-            <div className="border-b pb-4 mb-4">
+            <div className="border-b pb-4 mb-4 ">
                 <h2 className="font-semibold text-lg mb-2">Items</h2>
-                <table className="table w-full border-collapse   ">
+                <table className="table w-full border-collapse  table-xs ">
                     <thead>
                     <tr>
-                        <th className={ 'border ' }>Product Name</th>
-                        <th className={ 'border ' }>Quantity</th>
-                        <th className={ 'border ' }>Price</th>
-                        <th className={ 'border ' }>Total</th>
+                        <th className={ 'border  ' }>Product Name</th>
+                        <th className={ 'border  ' }>Quantity</th>
+                        <th className={ 'border  ' }>Price</th>
+                        <th className={ 'border  ' }>Total</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -101,14 +102,14 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
                 </table>
             </div>
 
-            <div className="border-b pb-4 mb-4">
+            <div className="border-b pb-4 mb-4 ">
                 <h2 className="font-semibold text-lg mb-2">Delivery Details</h2>
                 <p><span className="font-semibold">Courier:</span> { Deliverys.name }</p>
                 <p><span className="font-semibold">Phone:</span> { Deliverys.phone }</p>
                 <p><span className="font-semibold">Type:</span> { Deliverys.type }</p>
             </div>
 
-            <div className="border-b pb-4 mb-4">
+            <div className="border-b pb-4 mb-4 ">
                 <h2 className="font-semibold text-lg mb-2">Payment Details</h2>
                 <p><span className="font-semibold">Method:</span> { Payments.name }</p>
                 <p><span className="font-semibold">Type:</span> { Payments.type }</p>
@@ -125,6 +126,10 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
 
                 <div className="">
                     <h2 className="font-bold text-xl">Total: ${ totalAll.toFixed(2) }</h2>
+                    <h2 className="font-semibold text-lg">PPN: 12%</h2>
+                    <h2 className="font-bold text-xl">
+                        Total + PPN: ${ ((totalAll * 1.12).toFixed(2)) }
+                    </h2>
                     <p className="text-green-600 font-semibold">Status: { status }</p>
                 </div>
             </div>

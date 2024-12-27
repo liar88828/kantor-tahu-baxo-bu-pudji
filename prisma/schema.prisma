@@ -103,15 +103,18 @@ model Payments {
 }
 
 model Users {
-  id       String     @id @default(uuid())
-  name     String
-  phone    String
-  address  String
-  email    String
-  password String
-  role     String
-  Trolleys Trolleys[]
-  Session  Sessions?
+  id         String     @id @default(uuid())
+  name       String
+  phone      String
+  address    String
+  email      String
+  password   String
+  role       String
+  otp        String?
+  otpDate    DateTime   @default(now())
+  isValidate Boolean    @default(false)
+  Trolleys   Trolleys[]
+  Session    Sessions?
 }
 
 model Sessions {

@@ -29,6 +29,11 @@ export function useOrder() {
             return { toastId: toast.loading('Loading...') }
         },
         onSettled: (_, __, ___, context) => {
+            product.reset()
+            delivery.reset()
+            receiver.reset()
+            payment.reset()
+            order.reset()
             if (context) {
                 toast.dismiss(context.toastId)
             }
@@ -48,8 +53,9 @@ export function useOrder() {
             if (product.productStore.length === 0) {
                 throw new Error('product is Empty');
             }
-				data.totalAll = order.total;
-				data.totalProduct = product.total;
+            // console.log(data)
+            // data.totalAll = order.total;
+            // data.totalProduct = product.total;
 				const sanitize = order.setData({
 					product: product.productStore,
 					payment: payment.payment,
@@ -58,6 +64,8 @@ export function useOrder() {
 					order: data,
 				})
             // console.log(method, id)
+            // console.log(sanitize)
+            // throw  new Error('error bos')
 				if (method === 'PUT' && id) {
 					return orderUpdate(sanitize, id)
 				} else {
@@ -71,18 +79,10 @@ export function useOrder() {
 			}
 		},
 		onSuccess: (data, variables, context) => {
-            // console.log(data)
 			toast.success(data.msg)
-			product.reset()
-			delivery.reset()
-			receiver.reset()
-			payment.reset()
-			order.reset()
-            console.log(variables)
             if (variables.isClient) {
                 router.push(`/invoice/${ data.data.order.id }?redirect=/home`)
-            } else
-			if (variables.method === 'PUT') {
+            } else if (variables.method === 'PUT') {
 				router.push(`/admin/order/${ variables.id }`)
             } else {
                 router.push('/admin/order')

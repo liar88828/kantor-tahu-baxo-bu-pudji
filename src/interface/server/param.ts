@@ -28,3 +28,14 @@ export type PageParams = {
     pageParam?: string;
 };
 
+export type OTPValid = {
+    email: string,
+    otp: string
+}
+
+export type OTPGenerate = {
+    email: string,
+    time: Date
+}
+
+

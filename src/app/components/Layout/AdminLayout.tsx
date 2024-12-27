@@ -18,9 +18,9 @@ export default function AdminLayout({ children, isLogin }: { children: ReactNode
 
     const linkPrimary = [
 		{
-			href: '/admin/home',
+            href: '/admin/dashboard',
 			icon: <HomeIcon className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-			label: 'Home',
+            label: 'Dashboard',
 			add: 'pro'
 		},
 		{

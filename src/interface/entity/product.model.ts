@@ -11,7 +11,12 @@ export type ProductSearch = {
     // related?:boolean,
     popular?: boolean,
     new?: boolean,
-
 };
 
+export type UpdateStock = Pick<TProductDB, 'qty' | 'id'>;
+export type ProductHomeUser = {
+    // newProduct: TProductDB[],
+    popularProduct: TProductDB[],
+    lowPriceProduct: TProductDB[],
+};
 // export type TProductUpdate = Omit<Products, "created_at" | "updated_at">;

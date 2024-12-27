@@ -3,8 +3,11 @@
 import { signIn } from "@/server/action/auth";
 import { useActionState } from "react";
 import Link from "next/link";
+import { useOtpStore } from "@/store/otp";
 
 export default function SignupForm() {
+    const { store, setData } = useOtpStore()
+
 	const [ state, action, pending ] = useActionState(signIn, undefined);
     // console.log(state);
 	return (
@@ -17,6 +20,8 @@ export default function SignupForm() {
 						<span className="label-text">Email</span>
 					</label>
 					<input
+                        onChange={ e => setData({ email: e.target.value }) }
+                        value={ store.email }
 						id="email"
 						name="email"
 						placeholder="Enter your email"

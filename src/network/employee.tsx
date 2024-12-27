@@ -6,16 +6,17 @@ import { ResponseAll } from "@/interface/server/param";
 import { TEmployeeDB } from "@/interface/entity/employee.model";
 import { EmployeeCreateZod } from "@/validation/employee.valid";
 import { toUrl } from "@/utils/toUrl";
-import { ProductParams } from "@/server/repository/product.repo";
 import { EmployeeParams } from "@/server/repository/employee.repo";
 
 export const employeeAll = async ({ filter, pagination }: EmployeeParams) => {
 	const url = toUrl('employee', { ...filter, ...pagination })
-	return toFetch<ResponseAll<TEmployeeDB>>('GET', url)
+    return toFetch<ResponseAll<TEmployeeDB>>('GET', { url })
 };
 
 export const employeeId = async (id: string) => {
-	return toFetch<TEmployeeDB>('GET', `employee/${ id }`)
+    return toFetch<TEmployeeDB>('GET', {
+        url: `employee/${ id }`
+    })
 };
 
 export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
@@ -48,9 +49,13 @@ export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
 };
 
 export const employeeUpdate = async (data: EmployeeCreateZod, id: string) => {
-	return toFetch<TDeliveryDB>('POST', `employee/${ id }`, data)
+    return toFetch<TDeliveryDB>('POST', {
+        url: `employee/${ id }`, data
+    })
 };
 
 export const employeeDelete = async (id: string) => {
-	return toFetch<TDeliveryDB>('DELETE', `employee/${ id }`)
+    return toFetch<TDeliveryDB>('DELETE', {
+        url: `employee/${ id }`
+    })
 };

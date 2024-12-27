@@ -3,7 +3,6 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { ReactNode } from 'react';
 import ReactQueryProvider from "@/app/components/Layout/ReactQueryProvider";
-import 'react-toastify/dist/ReactToastify.css';
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
 	subsets: ['latin'],

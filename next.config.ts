@@ -2,7 +2,11 @@ import type { NextConfig } from 'next';
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-
+    logging: {
+        fetches: {
+            fullUrl: true,
+        },
+    },
 	experimental: {
 		serverActions: {
 			bodySizeLimit: '2mb',

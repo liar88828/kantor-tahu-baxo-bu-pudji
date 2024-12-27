@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
-import { BookMarked, LogOut, LucideClock, MoveRight, ShoppingCartIcon, Truck, } from 'lucide-react';
-import { prisma } from "@/config/prisma";
+import { BookMarked, LogOut, LucideClock, ShoppingCartIcon, Truck, } from 'lucide-react';
 import { Users } from "@prisma/client";
 import { logout } from "@/server/lib/state";
 
@@ -61,41 +60,6 @@ export function UserProfile({ user }: { user: Users }) {
                         </div>
                     </div>
                 </>
-            </div>
-        </div>
-
-    );
-}
-
-export async function OrderHistory({ user }: { user: Users }) {
-    const orderHistory = await prisma.orders.findMany(
-        {
-            where: { id_customer: user.id, },
-            include: { Customers: true },
-        }
-    );
-    return (
-        <div className="">
-            <h2 className='card-title'>History</h2>
-            <div className="space-y-1 overflow-y-auto h-[60vh] py-2">
-                { orderHistory.map(d => (
-                    <div
-                        key={ d.id }
-                        className="card card-compact bg-base-300">
-                        <div className="card-body">
-                            <h2 className="card-title">#12312312312312</h2>
-                            <div className="flex justify-between">
-                                <div className="">
-                                    <p>Lorem 12312312 </p>
-                                    <p>{ new Date().toISOString() }</p>
-                                </div>
-                                <button className=' btn btn-square'>
-                                    <MoveRight/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )) }
             </div>
         </div>
 

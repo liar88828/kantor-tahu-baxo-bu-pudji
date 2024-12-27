@@ -1,8 +1,5 @@
 'use client'
 
-import { useEffect } from 'react';
-import { notifyData } from '@/utils/toash';
-
 export default function ErrorBoundary( {
   error,
   reset,
@@ -10,13 +7,7 @@ export default function ErrorBoundary( {
   error: Error & { digest?: string }
   reset: () => void
 } ) {
-  // console.log(error.message)
-
-  useEffect( () => {
-    notifyData( error.message )
-  }, [ error ] )
-
-  return (
+    return (
     <div>
       <h2 className={ 'font-bold' }>Something went wrong!</h2>
       <h3>{ error.message }</h3>

@@ -1,8 +1,14 @@
-import { TOrderTransactionCreate, TOrderTransactionUpdate } from "@/interface/entity/transaction.model";
+import {
+    OrderMonthTotal,
+    TOrderTopTotal,
+    TOrderTransactionCreate,
+    TOrderTransactionUpdate
+} from "@/interface/entity/transaction.model";
 import { prisma } from "@/config/prisma";
 import { Orders } from "@prisma/client";
 import { InterfaceRepository, TPagination } from "@/interface/server/InterfaceRepository";
 import { MonthlyTotal, OrderParams, ResponseCreateOrderTransaction, SearchOrder } from "@/interface/entity/order.model";
+import { StatusOrder } from "@/interface/Utils";
 
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
@@ -137,7 +143,43 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		})
 	}
 
-	// ---------CREATE
+    async findByMonth(status: StatusOrder): Promise<OrderMonthTotal> {
+        const now = new Date();
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the current month
+        const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59); // End of the current month
+        // console.log(now.getMonth());
+        // 	January = 0
+        // 	February = 1
+        // 	November = 10
+        // 	December = 11
+        return prisma.orders.aggregate({
+            _count: true,
+            _sum: { totalAll: true },
+            where: {
+                orderTime: {
+                    gte: monthStart,
+                    lte: monthEnd,
+                },
+                status: status
+            },
+        }).then((data) => ({
+            count: data._count,
+            totalAll: data._sum.totalAll ?? 0,
+        }))
+    }
+
+    async findTopOrderTotal(): Promise<TOrderTopTotal[]> {
+        return prisma.orders.findMany({
+            take: 5,
+            include: {
+                Customers: true,
+                Trolleys: true
+            },
+            orderBy: { totalAll: 'desc' },
+        })
+    }
+
+    // ---------CREATE
     async createOne(data: TOrderTransactionCreate): Promise<ResponseCreateOrderTransaction> {
 		return prisma.$transaction(async (tx) => {
 
@@ -275,7 +317,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		});
 	}
 
-	async deleteOne(id_order: string) {
+    async deleteOne(id_order: string) {
 		return prisma.$transaction(async (tx) => {
 			// Find the order to retrieve the associated receiver ID
 			const order = await tx.orders.findUniqueOrThrow({
