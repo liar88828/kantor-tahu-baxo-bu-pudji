@@ -1,6 +1,6 @@
 'use client'
 import React, { startTransition, useRef, useState } from 'react';
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { toStatus } from "@/app/components/status";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
@@ -8,7 +8,7 @@ import { Filter, NotebookTabs, Plus } from "lucide-react";
 import Link from "next/link";
 import { useTableStore } from "@/store/table";
 import { useOrder } from "@/hook/useOrder";
-import { EmptyData } from "@/app/components/ErrorData";
+import { EmptyData } from "@/app/components/PageErrorData";
 import { useDebounce } from "@/hook/useDebounce";
 
 export default function OrderTable() {
@@ -33,7 +33,7 @@ export default function OrderTable() {
     return (
         <div className="overflow-x-auto mt-2">
 					{ !orders || isLoading
-						? <LoadingSpin/>
+                        ? <PageLoadingSpin/>
 						: <table className="table table-xs" ref={ tableRef } data-theme={'light'}>
 						<thead>
 						<tr>

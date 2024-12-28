@@ -2,8 +2,8 @@
 
 import { usePrint } from "@/hook/usePrint";
 import { useParams } from "next/navigation";
-import { EmptyData } from "@/app/components/ErrorData";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { EmptyData } from "@/app/components/PageErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function DetailedInvoicePrint() {
 		onDelete.mutate(param.id)
 	}
 
-	if (!order || isLoading) return <LoadingSpin/>
+    if (!order || isLoading) return <PageLoadingSpin/>
 	if (isError) return <EmptyData page={ `Order Detail ${ param.id }` }/>
 
 	return (

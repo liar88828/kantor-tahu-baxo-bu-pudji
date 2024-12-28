@@ -4,8 +4,8 @@ import { toFetch } from "@/hook/toFetch";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 import { ResponseAll } from "@/interface/server/param";
-import { DeliveryParams } from "@/server/sitory/delivery.";
 import { toUrl } from "@/utils/toUrl";
+import { DeliveryParams } from "@/server/repository/delivery.repo";
 
 export const paymentAll = async ({ pagination, filter }: DeliveryParams) => {
     const url = toUrl('payment', { ...pagination, ...filter })

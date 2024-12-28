@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useEmail } from "@/hook/useEmail";
 import { useOtpStore } from "@/store/otp";
 
@@ -9,7 +9,6 @@ const useOtpInput = () => {
 
     const [ otp, setOtp ] = useState<string[]>(Array(6).fill(""));
     const [ error, setError ] = useState<string>("");
-    const [ success, setSuccess ] = useState<string>("");
     const handleChange = (value: string, index: number) => {
         if (value.length > 1) return; // Allow only single digit
 
@@ -17,7 +16,6 @@ const useOtpInput = () => {
         newOtp[index] = value;
         setOtp(newOtp);
         setError("");
-        setSuccess("");
 
         // Replace subsequent values with empty strings when any square is updated
         for (let i = index + 1; i < 6; i++) {
@@ -44,22 +42,18 @@ const useOtpInput = () => {
         e.preventDefault();
         const enteredOtp = otp.join("");
         setError('');
-        setSuccess('');
         if (enteredOtp.length !== 6) {
             setError("Please enter a 6-digit OTP.");
         } else {
-            validOTP.mutate({ email: store.email, otp: enteredOtp });
-            // sendOtp.mutate({ enteredOtp })
-            // Simulate OTP validation
+            validOTP.mutate({ email: store.email, otp: enteredOtp, reason: store.reason });
             if (validOTP.isError) {
                 setError("Invalid OTP. Please try again.");
-            } else {
-                setSuccess("OTP validated successfully!");
             }
         }
+
     };
 
-    return { otp, error, success, handleChange, handleKeyDown, handleSubmit };
+    return { otp, error, handleChange, handleKeyDown, handleSubmit };
 };
 
 export default useOtpInput;

@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { useOtpStore } from "@/store/otp";
+import { useEmail } from "@/hook/useEmail";
 
 // const targetTime = new Date(Date.now() + 60 * 1000).getTime();
 
@@ -40,17 +41,38 @@ export const Countdown = () => {
     );
 };
 
-// export function Countdown({ startDate }: CountdownProps) {
 //     const dataUser = new Date(startDate).getTime(); // Convert startDate to milliseconds
 //     const dataNow = Date.now(); // Get current time in milliseconds
 //     const date = dataUser - dataNow
 //     console.log(date)// to date
-//
-//     return (
-//         <div>
-//             asdas
-//         </div>
-//     )
-//
-// }
 
+export function CountdownButton() {
+    const { store, setData } = useOtpStore()
+    const { generateOTP } = useEmail()
+
+    const addOneMinute = () => {
+        // let myTime = store.time ?? 0
+        let moreTime = Date.now() + 62 * 1000
+        setData({ time: moreTime })
+        generateOTP.mutate({
+            email: store.email,
+            time: new Date(moreTime),
+            reason: store.reason
+        })
+    };
+
+    return (
+        <div className="flex items-center flex-col mb-2">
+            <div className="">
+                <Countdown/>
+            </div>
+            <button
+                disabled={ store.remainingTime > 0 }
+                className="btn btn-sm"
+                onClick={ addOneMinute }
+            >
+                Send email : { store.email }
+            </button>
+        </div>
+    );
+}

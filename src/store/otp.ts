@@ -8,6 +8,8 @@ type StoreOTP = {
     otp: string
     time: number | null
     remainingTime: number
+    reason: "VALID" | 'RESET'
+
 };
 
 interface OTPState {
@@ -22,7 +24,8 @@ export const useOtpStore = create<OTPState>()(
                 otp: "",
                 email: "",
                 time: 0,
-                remainingTime: 0
+                remainingTime: 0,
+                reason: "VALID"
             },
             setData: (data) => {
                 set((state) => ({ store: { ...state.store, ...data } }))

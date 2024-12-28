@@ -4,15 +4,13 @@ import { Pen, Plus, Trash } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
 import Link from 'next/link'
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { ErrorData } from "@/app/components/ErrorData";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageErrorData } from "@/app/components/PageErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { DELIVERY, useDelivery } from "@/hook/useDelivery";
 import { useDeliveryStore } from "@/store/delivery";
 import { useDebounce } from "@/hook/useDebounce";
 import { useQueryClient } from "@tanstack/react-query";
 import { ResponseAll } from "@/interface/server/param";
-import { TPaymentDB } from "@/interface/entity/payment.model";
-import { PAYMENT } from "@/hook/usePayment";
 
 export default function DeliveryList() {
     const { search } = useDeliveryStore()
@@ -23,8 +21,8 @@ export default function DeliveryList() {
         filter: { name: searchDebounce },
     }, searchDebounce === search)
 
-    if (!deliverys || isLoading) return <LoadingSpin/>
-    if (deliverys.length === 0 || isError) return <ErrorData code={ 404 } msg={ 'Data Delivery is Empty' }/>
+    if (!deliverys || isLoading) return <PageLoadingSpin/>
+    if (deliverys.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Delivery is Empty' }/>
 
     return (
 

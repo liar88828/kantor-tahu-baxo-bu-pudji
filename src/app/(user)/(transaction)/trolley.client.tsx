@@ -1,8 +1,8 @@
 'use client'
 import { useTrolley } from "@/hook/useTrolley";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useRouter } from "next/navigation";
-import { ErrorData } from "@/app/components/ErrorData";
+import { PageErrorData } from "@/app/components/PageErrorData";
 import { toTotal } from "@/utils/toCalculate";
 import { toRupiah } from "@/utils/toRupiah";
 import useTrolleyStore from "@/store/trolley";
@@ -10,7 +10,7 @@ import useTrolleyStore from "@/store/trolley";
 export function TrolleyCount() {
     const { count } = useTrolley()
     const { data, isLoading } = count()
-    if (isLoading) return <LoadingSpin/>
+    if (isLoading) return <PageLoadingSpin/>
     return (
         <span className="badge badge-sm indicator-item">{ data }</span>
     );
@@ -20,8 +20,8 @@ export function TrolleyCase() {
     const router = useRouter()
     const { getAll } = useTrolley()
     const { data, isError, isLoading } = getAll()
-    if (isLoading || !data) return <LoadingSpin/>
-    if (isError) return <ErrorData code={ 401 } msg={ 'Data is Not Found' }/>
+    if (isLoading || !data) return <PageLoadingSpin/>
+    if (isError) return <PageErrorData code={ 401 } msg={ 'Data is Not Found' }/>
 
     return (
         <TrolleyDropDown

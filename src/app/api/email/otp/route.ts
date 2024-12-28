@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { OTPValid } from "@/interface/server/param";
+import { OTPValid, ResponseValidOTP } from "@/interface/server/param";
 import { validGenerateOtp, validOtp } from "@/validation/validGenerateOtp";
 import { NextResponse } from "next/server";
 import { createSession } from "@/server/lib/state";
@@ -7,28 +7,56 @@ import { prisma } from "@/config/prisma";
 import { generateOtp } from "@/utils/otp";
 import Zod from "zod";
 
+// generate
 export async function POST(request: Request) {
     try {
         const json: OTPValid = await request.json()
-        const { time, email } = validGenerateOtp.parse(json)
+
+        const { time, email, reason } = validGenerateOtp.parse(json)
         const user = await prisma.users.findFirst({ where: { email } })
         if (!user) {
             throw new Error("User doesn't exist")
         }
 
-        if (user.otpDate >= new Date()) {
+        // console.log(new Date())
+        // console.log(user.otpDate)
+        // console.log(user.otpDate < new Date())
+
+        if (user.otpRegenerate > new Date()) {
             throw new Error("Please Wait until OTP date is end ")
         }
 
         const otp = generateOtp({ length: 6 })
+        const otpValid = new Date(Date.now() + 60 * 60 * 1000)// Invalid Date
+        // console.log(otpValid)
+
+        if (reason === 'VALID') {
+            console.log("VALID")
 
         await prisma.users.update({
             where: { id: user.id },
             data: {
                 otp,
-                otpDate: time
+                otpRegenerate: time,
+                otpCount: { increment: 1 },
+                otpValid,
+                isValidate: true,
             }
         })
+
+        } else if (reason === 'RESET') {
+            console.log("RESET")
+            await prisma.users.update({
+                where: { id: user.id },
+                data: {
+                    otp,
+                    otpRegenerate: time,
+                    otpCount: { increment: 1 },
+                    otpValid,
+                    isReset: true
+                }
+            })
+        }
 
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -62,6 +90,21 @@ export async function POST(request: Request) {
                 console.log("Email sent: ", info.response);
             }
         });
+
+        // const cookieStore = await cookies()
+        // cookieStore.set('otpSession',
+        //     JSON.stringify({
+        //         email: user.email,
+        //         otpValid
+        //     })
+        //     , {
+        //         httpOnly: true,
+        //         secure: true,
+        //         expires: otpValid,
+        //         sameSite: 'lax',
+        //         path: '/',
+        //     })
+
         return NextResponse.json({ msg: "Success" }, { status: 200 });
 
     } catch (error) {
@@ -85,41 +128,68 @@ export async function POST(request: Request) {
 
 }
 
-export async function PUT(request: Request) {
+//valid
+export async function PUT(request: Request): Promise<NextResponse<ResponseValidOTP>> {
     try {
         const json: OTPValid = await request.json()
-        // console.log(json)
-        const { email, otp } = validOtp.parse(json)
-        const user = await prisma.users.findFirst({ where: { email, } })
+        console.log(json)
+        const { email, otp, reason } = validOtp.parse(json)
+        const user = await prisma.users.findFirst({ where: { email } })
+
         if (!user) {
             throw new Error("User not found")
         }
+
+        if (user.otpValid < new Date()) {
+            throw new Error("The Otp Is Expired")
+        }
+
+
         if (user.otp !== otp) {
             throw new Error("Otp Is Not Match")
         }
-        await prisma.users.update({
-            where: {
-                id: user.id
-            },
-            data: {
-                otp: null,
-                isValidate: true
-            }
-        })
-        await createSession({
-            usersId: user.id,
-            role: user.role
-        })
 
-        return NextResponse.json({ status: "Success" }, { status: 200 });
+        if (reason === 'VALID') {
+
+            await prisma.users.update({
+                where: {
+                    id: user.id
+                },
+                data: {
+                    otp: null,
+                    isValidate: false
+                }
+            })
+
+            await createSession({
+                usersId: user.id,
+                role: user.role
+            })
+
+        } else if (reason === 'RESET') {
+
+            await prisma.users.update({
+                where: {
+                    id: user.id
+                },
+                data: {
+                    otp: null,
+                    // isReset: false
+                }
+            })
+
+        }
+
+        return NextResponse.json({
+            msg: "Success",
+            data: reason
+        }, { status: 200 });
+
     } catch (error) {
 
         if (error instanceof Zod.ZodError) {
             return NextResponse.json(
-                {
-                    error: error.issues,
-                    code: 400,
-                },
+                { msg: error.issues },
                 { status: 400 }
             )
         }

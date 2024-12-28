@@ -1,8 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import fs from "node:fs/promises";
 import { prisma } from "@/config/prisma";
-import { ResponseEnc } from "@/app/api/test/upload/route";
 
 export type TypeFile = 'KTP' | '3x4'
 

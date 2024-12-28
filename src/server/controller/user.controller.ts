@@ -48,13 +48,12 @@ export default class UserController
 
 	async deleteOne(request: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const res = await this.userRepository.deleteOne(
-			// UUIDSchema.parse(id)
-			UUIDSchema.parse(id)
-		)
-		// if (res) {
+        // if (res) {
 		// await fileSystem( res.img )
 		// }
-		return res
+        return await this.userRepository.deleteOne(
+            // UUIDSchema.parse(id)
+            UUIDSchema.parse(id)
+        )
 	}
 }

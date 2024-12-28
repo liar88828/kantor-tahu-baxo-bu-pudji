@@ -51,7 +51,7 @@ export const toFetch = async <R>(
 	try {
 		// Make the fetch request
 		const response = await fetch(
-			`http://localhost:3000/api/${url}`,
+            `${ process.env.NEXT_PUBLIC_URL_API }${ url }`,
 			fetchOptions
 		)
 
@@ -59,15 +59,18 @@ export const toFetch = async <R>(
 		// @ts-ignore
 		if (!isTest) {
 			if (!response.ok) {
-				const data = await response.json()
-                console.log(data)
-				throw new Error(`HTTP error! status: ${response.status} msg : ${data.msg}`)
+                // const data = await response.json()
+
+                // throw new Error(`HTTP error! status`)
+                // throw new Error(`HTTP error! status: ${response.status} msg : ${data.msg}`)
 			}
 		}
 
 		// Parse and return the JSON response
 		return await response.json()
 	} catch (error) {
+
+        // console.log(error.)
 		if (error instanceof Error) {
 		// Handle errors
             // 	console.error("Fetch error:", error.message)

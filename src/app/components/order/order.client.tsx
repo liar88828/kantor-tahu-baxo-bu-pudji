@@ -1,11 +1,11 @@
 import { useDeliveryStore } from "@/store/delivery";
 import { Check, Minus, Plus, Search, Trash, XIcon } from "lucide-react";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { toRupiah } from "@/utils/toRupiah";
 import { usePaymentStore } from "@/store/payment";
 import { toAccounting } from "@/utils/accounting";
 import { useProductStore } from "@/store/product";
-import { EmptyData } from "@/app/components/ErrorData";
+import { EmptyData } from "@/app/components/PageErrorData";
 import React, { useState } from "react";
 import { useOrderStore } from "@/store/order";
 import { TCustomersDB } from "@/interface/entity/receiver.model";
@@ -100,7 +100,7 @@ export function DeliveryDialog() {
 		<dialog id="my_modal_delivery" className="modal">
 			<div className="modal-box">
 				<h3 className="font-bold text-lg">Please Add</h3>
-				{ isLoading ? <LoadingSpin/> : (
+                { isLoading ? <PageLoadingSpin/> : (
 					<div className="">
 						{/*<p className="py-4">Press ESC key or click the button below to close</p>*/ }
 						<div className="flex justify-between py-4">
@@ -753,7 +753,7 @@ export function ProductDialog() {
 				<h3 className="font-bold text-lg">Please Select The Product</h3>
 				<div className="space-y-2">
 					{ isLoading
-						? <LoadingSpin/>
+                        ? <PageLoadingSpin/>
 						: productAsync
 						.filter(product => !idProduct.includes(product.id))
 						.map(product => <div

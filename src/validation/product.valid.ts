@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { TProductCreate } from "@/interface/entity/product.model";
-import { UpdateStock } from "@/server/repository/product.repo";
+import { TProductCreate, UpdateStock } from "@/interface/entity/product.model";
 
 export const ProductCreate: z.ZodType<TProductCreate> = z.object({
 	location: z.string().min(1).max(100),

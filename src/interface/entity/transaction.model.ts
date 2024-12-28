@@ -30,10 +30,16 @@ export type TOrderTransactionUpdate = {
 	orderTrolley: TOrderTrolleyTransaction[] // Assuming full replacement of products is required
 	orderReceiver: TReceiverCreate
 }
+
 export type THistoryOrder = Omit<TOrderTransactionDB,
     "Deliverys" |
     "Payments" |
     "Trolleys">
+
+export type HistoryUser = Orders & {
+    Customers: TCustomersDB,
+    Trolleys: Trolleys[]
+}
 
 // export type TOrderProductCreate = Omit<
 //     TTrolleyDB,

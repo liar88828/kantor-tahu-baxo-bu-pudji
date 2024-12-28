@@ -4,7 +4,7 @@ import { toRupiah } from "@/utils/toRupiah";
 import useTrolleyStore from "@/store/trolley";
 import { useOrderStore } from "@/store/order";
 import { redirect } from "next/navigation";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { useOrder } from "@/hook/useOrder";
 import { useProductStore } from "@/store/product";
@@ -77,7 +77,7 @@ function Page() {
                 </div>
                 <div className="rounded-xl bg-base-200">
                     { !onReceiver
-                        ? <LoadingSpin/>
+                        ? <PageLoadingSpin/>
                         : (
                             <div className="flex gap-2 items-center">
                                 <div className="avatar">

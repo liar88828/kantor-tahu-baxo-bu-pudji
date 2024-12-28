@@ -5,6 +5,9 @@ import React, { Ref } from "react";
 import { usePrint } from "@/hook/usePrint";
 import Link from "next/link";
 import { setDateIndo } from "@/utils/formatDate";
+import QRCode from "react-qr-code";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export function InvoiceLayout({ redirectAction, order }: { redirectAction: string, order: TOrderTransactionDB }) {
     const { isPrinting, handlePrint, contentRef } = usePrint()
@@ -51,17 +54,31 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
         Payments,
         totalAll,
         status,
-        totalPayment,
         priceDelivery
     } = invoice;
 
-    // @ts-ignore
+    const path = usePathname()
 
     return (
         <div
             className={ `p-6 bg-base-100 rounded-lg ~text-sm/base  print:p-15 print:shadow-none shadow-lg h-[270mm] relative print:text-sm` }
              ref={ ref }>
-            <h1 className="text-2xl font-bold mb-10 text-center">Invoice</h1>
+            <div className="grid grid-cols-3 ">
+                <Image src='/my-logo.png' alt="Tahu Bakso Logo" width={ 100 } height={ 100 }/>
+
+                <div className="">
+                    <h1 className="text-2xl font-bold  text-center">Invoice</h1>
+                </div>
+                <div className=" flex justify-end p-2">
+                    <QRCode
+                        className={ 'w-20 h-auto' }
+                        size={ 256 }
+                        value={ process.env.NEXT_PUBLIC_URL_PAGE + path }
+                        viewBox={ `0 0 256 256` }
+                    />
+                </div>
+            </div>
+            <div className={ 'divider mt-0' }></div>
             <div className="border-b pb-4 mb-4">
                 <div className="flex justify-between">
                     <p><span className="font-semibold">Invoice ID:</span> { id }</p>
@@ -119,16 +136,18 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
             <div className="flex justify-between">
                 <div className="grid grid-cols-2">
                     <div><span className="font-semibold">Subtotal:</span></div>
-                    <div><span>{ toRupiah(totalPayment) }</span></div>
+                    <div>
+                        <span>{ toRupiah(Trolleys.reduce((total, item) => total + (item.price_at_buy * item.qty_at_buy), 0)) }</span>
+                    </div>
                     <div className={ 'pr-5' }><span className="font-semibold">Delivery Fee:</span></div>
                     <div><span>{ toRupiah(priceDelivery) }</span></div>
                 </div>
 
-                <div className="">
-                    <h2 className="font-bold text-xl">Total: ${ totalAll.toFixed(2) }</h2>
+                <div className="text-end">
+                    <h2 className="font-bold text-xl">Total: { toRupiah(totalAll) }</h2>
                     <h2 className="font-semibold text-lg">PPN: 12%</h2>
                     <h2 className="font-bold text-xl">
-                        Total + PPN: ${ ((totalAll * 1.12).toFixed(2)) }
+                        Total + PPN: ${ toRupiah(totalAll * 1.12) }
                     </h2>
                     <p className="text-green-600 font-semibold">Status: { status }</p>
                 </div>

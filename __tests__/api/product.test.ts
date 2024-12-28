@@ -326,7 +326,7 @@ describe( "Test Product", () => {
       json.name = "update"
       json.id = contextId
       responseSuccess.data.name = json.name
-      const data = toFetch("PUT", `product/${ "salah" }`, json,)
+        const data = toFetch("PUT", `product/salah`, json,)
       console.log(await data.then(d => d))
       await expect(data).resolves.not.toHaveProperty("data.name", "update")
       await expect(data).resolves.toMatchObject(responseErrorID)

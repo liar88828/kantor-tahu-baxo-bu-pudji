@@ -1,5 +1,6 @@
 import { toFetch } from "@/hook/toFetch";
 import {
+    HistoryUser,
     OrderMonthTotal,
     TOrderTopTotal,
     TOrderTransactionCreate,
@@ -58,4 +59,14 @@ export const getEarningNew = async (year: number) => {
     }).then(res => {
         return res.json() as FetchResponse<ResponseMonthData>
     })
+}
+
+export const findHistoryUser = async () => {
+    return toFetch<HistoryUser[]>("GET",
+        {
+            url: 'history/user/order',
+            cacheData: {
+                next: { revalidate: 2 }
+            }
+        })
 }

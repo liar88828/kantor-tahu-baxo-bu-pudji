@@ -1,14 +1,21 @@
+// noinspection ExceptionCaughtLocallyJS
+
 'use server'
 import { prisma } from "@/config/prisma";
 import bcrypt from 'bcrypt'
 import { redirect } from "next/navigation";
 import { createSession } from "@/server/lib/state";
-import { FormState, SignInFormSchema, SignupFormSchema } from "@/validation/auth.valid";
+import {
+    ForgetFormSchema,
+    FormState,
+    ResetFormSchema,
+    SignInFormSchema,
+    SignupFormSchema
+} from "@/validation/auth.valid";
 import { userRepository } from "@/server/controller";
 import { ROLE } from "@/interface/Utils";
-import { OTPGenerate } from "@/interface/server/param";
-import { generateOtp } from "@/utils/otp";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { sendOtp } from "@/network/otp";
 
 export async function signUp(state: FormState, formData: FormData) {
 	// Validate form fields
@@ -33,7 +40,6 @@ export async function signUp(state: FormState, formData: FormData) {
 	// e.g. Hash the user's password before storing it
 	const hashedPassword = await bcrypt.hash(password, 10)
 
-    const otp = generateOtp({ length: 6 })
 	// 3. Insert the user into the database or call an Auth Library's API
     const user = await userRepository.createOne({
         name,
@@ -52,14 +58,9 @@ export async function signUp(state: FormState, formData: FormData) {
 
 	// 4. Create user session
     // await createSession(user.id)
-    const sendEmail: OTPGenerate = {
+    await sendOtp({
         email: user.email,
-        time: new Date(Date.now() + 2 * 60 * 1000)
-    };
-    await fetch('http://localhost:3000/api/email/otp', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sendEmail)
+        reason: 'VALID'
     })
 
 	// 5. Redirect user
@@ -95,8 +96,8 @@ export async function signIn(state: FormState, formData: FormData) {
 		if (!user) {
             throw new Error('User not exists!')
         }
-        console.log(user.isValidate)
-        if (user.isValidate === false) {
+        // console.log(user.isValidate)
+        if (user.isValidate === true) {
             // console.log('will redirect to otp')
             // throw new Error('User is not Registered!. please go Otp')
             redirect('/otp')
@@ -136,3 +137,145 @@ export async function signIn(state: FormState, formData: FormData) {
 	}
 
 }
+
+export async function forget(state: FormState, formData: FormData) {
+    const email = formData.get('email') as string;
+    try {
+
+        // Validate form fields
+        const validatedFields = ForgetFormSchema.safeParse({
+            email,
+        })
+
+        // If any form fields are invalid, return early
+        if (!validatedFields.success) {
+            return {
+                errors: validatedFields.error.flatten().fieldErrors,
+            }
+        }
+
+        const valid = validatedFields.data
+
+        // 3. Insert the user into the database or call an Auth Library's API
+        const user = await prisma.users.findFirst(
+            { where: { email: valid.email } }
+        )
+
+        if (!user) {
+            throw new Error('User not exists!')
+        }
+
+        await sendOtp({
+            email: user.email,
+            reason: 'RESET'
+        })
+
+        redirect('/otp')
+
+    } catch (e) {
+
+        if (isRedirectError(e)) {
+            redirect('/otp')
+        }
+
+        if (e instanceof Error) {
+            return {
+                message: e.message,
+                // prev: { email, password }
+            }
+        }
+        return {
+            message: 'An error occurred while creating your account.',
+            // prev: { email, password }
+
+        }
+    }
+
+}
+
+// const [ state, action, pending ] = useActionState(reset, {state:initialData});
+///
+// export async function reset(state: FormState, formData: FormData)
+//
+// // please modifier the FormState!!
+// export type FormState =
+//
+//     | {
+//     errors?: {
+//         name?: string[]
+//         email?: string[]
+//         password?: string[]
+//     }
+//     message?: string
+// }
+//     | undefined
+
+export async function reset(state: FormState, formData: FormData) {
+    const password = formData.get('password') as string;
+    const confirm = formData.get('confirm') as string;
+    const email = formData.get('email') as string;
+    try {
+        // Validate form fields
+        const validatedFields = ResetFormSchema.safeParse({
+            password,
+            confirm,
+            email,
+        })
+
+        // If any form fields are invalid, return early
+        if (!validatedFields.success) {
+            return {
+                errors: validatedFields.error.flatten().fieldErrors,
+            }
+        }
+
+        const valid = validatedFields.data
+
+        // 3. Insert the user into the database or call an Auth Library's API
+        const user = await prisma.users.findFirst(
+            { where: { email: valid.email } }
+        )
+
+        if (!user) {
+            throw new Error('User not exists!')
+        }
+
+        if (user.isReset === true) {
+            // console.log('will redirect to otp')
+            // throw new Error('User is not Registered!. please go Otp')
+            redirect('/otp')
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        await prisma.users.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                isReset: false
+            }
+        })
+        // await createSession({ usersId: user.id, role: user.role })
+        redirect('/login')
+    } catch (e) {
+
+        if (isRedirectError(e)) {
+            throw e
+        }
+
+        if (e instanceof Error) {
+            return {
+                message: e.message,
+                // prev: { email, password }
+            }
+        }
+        return {
+            message: 'An error occurred while creating your account.',
+            // prev: { email, password }
+
+        }
+    }
+
+}
+
+

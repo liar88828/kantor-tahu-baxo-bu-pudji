@@ -3,7 +3,7 @@ import React from 'react'
 import { Minus, Plus, Trash } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
 import { useTrolley } from "@/hook/useTrolley";
-import { EmptyData, ErrorData } from "@/app/components/ErrorData";
+import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
 import { LoadingDataList } from "@/app/components/LoadingData";
 import useTrolleyStore from "@/store/trolley";
 
@@ -13,7 +13,7 @@ export default function Page() {
     const { setSelected, isTrolleyIncluded, onIncrement, onDecrement } = useTrolleyStore()
 
     if (isFetching) return <LoadingDataList/>
-    if (!stateTrolley || isError) return <ErrorData/>
+    if (!stateTrolley || isError) return <PageErrorData/>
     if (stateTrolley.data.length === 0) return <div className={ 'flex w-full justify-center' }><EmptyData
         page={ 'Trolley' }/></div>
 

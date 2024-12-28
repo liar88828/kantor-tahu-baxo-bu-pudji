@@ -4,7 +4,7 @@ import { decrypt } from "@/server/lib/jwt";
 import { updateSession } from "@/server/lib/db";
 
 // 1. Specify protected and public routes
-const protectedRoutes = [ '/dashboard', '/admin', '/profile', '/trolley' ]
+const protectedRoutes = [ '/dashboard', '/admin', '/profile', '/trolley', '/invoice' ]
 const publicRoutes = [ '/login', '/signup', ]
 
 export default async function middleware(req: NextRequest) {

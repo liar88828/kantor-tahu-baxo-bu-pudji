@@ -55,7 +55,6 @@ export function UserProfile({ user }: { user: Users }) {
                             <span className="indicator-item badge badge-secondary">99+</span>
                             <button className="btn btn-square">
                                 <BookMarked/>
-
                             </button>
                         </div>
                     </div>

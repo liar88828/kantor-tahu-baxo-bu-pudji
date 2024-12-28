@@ -10,4 +10,4 @@ export const config = {
 }
 export const debugs = false
 // export const _test_ = true // turn of at test
-export const _test_ = false || process.env.TEST
+export const _test_ = process.env.TEST

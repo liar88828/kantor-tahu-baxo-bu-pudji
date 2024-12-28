@@ -38,7 +38,6 @@ export default function SignupForm() {
                         value={ store.email }
                         onChange={ e => setData({
                             email: e.target.value,
-                            time: null
                         }) }
 						id="email"
 						name="email"
@@ -109,6 +108,10 @@ export default function SignupForm() {
 				{/* Submit Button */ }
 				<div className="card-actions">
 					<button
+                        onClick={ e => setData({
+                            time: null,
+                            reason: "VALID"
+                        }) }
 						disabled={ pending }
 						type="submit"
 						className={ `btn btn-primary w-full ${ pending ? "btn-disabled" : "" }` }

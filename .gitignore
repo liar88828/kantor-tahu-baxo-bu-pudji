@@ -40,7 +40,8 @@ next-env.d.ts
 /public/img/
 /.idea/sonarlint/
 /prisma/dev.db
-/.env
+.env
+.env.local
 prisma/dev.db
 /.idea/httpRequests/2024-12-07T194940.200.json
 /.idea/httpRequests/2024-12-07T195005.200.json

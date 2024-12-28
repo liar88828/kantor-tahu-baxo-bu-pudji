@@ -1,4 +1,5 @@
 import {
+    HistoryUser,
     OrderMonthTotal,
     TOrderTopTotal,
     TOrderTransactionCreate,
@@ -142,6 +143,18 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 			},
 		})
 	}
+
+    async findHistoryUser(id_user: string): Promise<HistoryUser[]> {
+        return prisma.orders.findMany(
+            {
+                where: { id_customer: id_user, },
+                include: {
+                    Customers: true,
+                    Trolleys: true
+                },
+            }
+        );
+    }
 
     async findByMonth(status: StatusOrder): Promise<OrderMonthTotal> {
         const now = new Date();

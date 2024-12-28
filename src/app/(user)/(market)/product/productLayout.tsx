@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { PRODUCT, useProduct } from "@/hook/useProduct";
 import { useTrolley } from "@/hook/useTrolley";
 import { useDebounce } from "@/hook/useDebounce";
-import { LoadingSpin } from "@/app/components/LoadingData";
-import { EmptyData } from "@/app/components/ErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { EmptyData } from "@/app/components/PageErrorData";
 import { TProductDB } from "@/interface/entity/product.model";
 import { toRupiah } from "@/utils/toRupiah";
 import { categoryData } from "@/assets/category";
@@ -120,7 +120,7 @@ export function ProductFetch() {
     //     }
     // })
 
-    if (isLoading && isFetching || status === 'pending' || !data) return <LoadingSpin/>
+    if (isLoading && isFetching || status === 'pending' || !data) return <PageLoadingSpin/>
     if (isError || status === 'error' || error) {
         return (
             <div className={ 'flex justify-center' }>

@@ -1,4 +1,5 @@
 import { TProductDB } from "@/interface/entity/product.model";
+import { ZodIssue } from "zod";
 
 export type TContext = {
     searchParams: Promise<{ search: string, status: string, redirect: string }>,
@@ -27,15 +28,19 @@ export type PaginatedResponse = {
 export type PageParams = {
     pageParam?: string;
 };
+export type ResponseValidOTP = { msg: string | ZodIssue[], data?: string };
 
 export type OTPValid = {
     email: string,
-    otp: string
+    otp: string,
+    reason: 'RESET' | 'VALID'
 }
 
 export type OTPGenerate = {
     email: string,
-    time: Date
+    time: Date,
+    reason: 'RESET' | 'VALID'
+
 }
 
 

@@ -4,11 +4,11 @@ import { Pen, Plus, Trash } from 'lucide-react'
 import { toRupiah } from '@/utils/toRupiah'
 import Link from 'next/link'
 import { TProductDB } from "@/interface/entity/product.model";
-import { ErrorData } from "@/app/components/ErrorData";
+import { PageErrorData } from "@/app/components/PageErrorData";
 import { PRODUCT, useProduct } from "@/hook/useProduct";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { productAll } from "@/network/product";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useProductStore } from "@/store/product";
 import { useDebounce } from "@/hook/useDebounce";
 import { toDate } from "@/utils/formatDate";
@@ -32,9 +32,9 @@ export default function ProductList() {
         })
     })
 
-    if (isLoading || !products) return <LoadingSpin/>
-    if (isError) return <ErrorData/>
-    if (products.length === 0) return <ErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
+    if (isLoading || !products) return <PageLoadingSpin/>
+    if (isError) return <PageErrorData/>
+    if (products.length === 0) return <PageErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
     return (
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 mb-20 ">
             { products.map(product => (

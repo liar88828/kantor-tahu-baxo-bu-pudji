@@ -1,14 +1,14 @@
 'use client'
 import { toRupiah } from "@/utils/toRupiah";
 import Link from "next/link";
-import { BookUser, Plus, Search } from "lucide-react";
+import { BookUser, Plus } from "lucide-react";
 import React, { Fragment } from "react";
 import Form from "next/form";
 import { useEmployee } from "@/hook/useEmployee";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useEmployeeStore } from "@/store/employee";
 import { useDebounce } from "@/hook/useDebounce";
-import { EmptyData } from "@/app/components/ErrorData";
+import { EmptyData } from "@/app/components/PageErrorData";
 import useInfinityScroll from "@/hook/useInfinityScroll";
 
 export function EmployeeSearch({ children }: { children: React.ReactNode }) {
@@ -62,7 +62,7 @@ export function EmployeeTable() {
     });
 
     const { data: employees, isLoading, isError } = queryResult;
-    if (isLoading || !employees) return <LoadingSpin/>
+    if (isLoading || !employees) return <PageLoadingSpin/>
     if (isError) return <EmptyData page={ 'Employees' }/>
 
     return <div>

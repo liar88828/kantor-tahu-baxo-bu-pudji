@@ -142,15 +142,14 @@ export const useTrolley = () => {
                 [ TROLLEY_KEYS.trolley ],
                 (old) => {
                     if (old) {
-                        const newData = old.data.data.map((trolley) => {
+                        // console.log('new data', newData)
+                        // console.log('prev data', previousTodos)
+                        old.data.data = old.data.data.map((trolley) => {
                             if (trolley.id === context.idTrolley) {
                                 trolley.qty_at_buy = trolley.qty_at_buy + 1
                             }
                             return trolley;
                         })
-                        // console.log('new data', newData)
-                        // console.log('prev data', previousTodos)
-                        old.data.data = newData
                         return old
                     }
 

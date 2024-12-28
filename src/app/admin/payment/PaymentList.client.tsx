@@ -4,11 +4,11 @@ import { Pen, Plus, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { TPaymentDB } from "@/interface/entity/payment.model";
 import { toAccounting } from "@/utils/accounting";
-import { ErrorData } from "@/app/components/ErrorData";
+import { PageErrorData } from "@/app/components/PageErrorData";
 import usePayment, { PAYMENT } from "@/hook/usePayment";
 import { usePaymentStore } from "@/store/payment";
 import { useDebounce } from "@/hook/useDebounce";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useQueryClient } from "@tanstack/react-query";
 import { ResponseAll } from "@/interface/server/param";
 
@@ -17,8 +17,8 @@ export default function PaymentList() {
     const { search, } = usePaymentStore();
     const searchDebounce = useDebounce(search,)
     const { payments, isError, isFetching } = onGet(searchDebounce, search);
-    if (isFetching || !payments) return <LoadingSpin/>
-    if (payments.length === 0 || isError) return <ErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
+    if (isFetching || !payments) return <PageLoadingSpin/>
+    if (payments.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
     return (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-20 ">
             { payments.map(payment => (

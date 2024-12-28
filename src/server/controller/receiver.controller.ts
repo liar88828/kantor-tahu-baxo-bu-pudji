@@ -30,7 +30,6 @@ export default class ReceiverController
     async findById(_: NextRequest, context: TContext): Promise<any> {
         const id = await getId(context)
         return this.receiverRepository.findById(
-            // id
             UUIDSchema.parse(id)
         )
     }
@@ -58,13 +57,12 @@ export default class ReceiverController
 
 	async deleteOne(request: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const res = await this.receiverRepository.deleteOne(
-			// UUIDSchema.parse(id)
-			UUIDSchema.parse(id)
-		)
-		// if (res) {
+        // if (res) {
 		// await fileSystem( res.img )
 		// }
-		return res
+        return await this.receiverRepository.deleteOne(
+            // UUIDSchema.parse(id)
+            UUIDSchema.parse(id)
+        )
 	}
 }

@@ -351,7 +351,7 @@ describe("Test Payment api", () => {
 				json.name = "update"
 				json.id = contextId
 				responseSuccess.data.name = json.name
-				const data = toFetch('PUT', `payment/${'123123'}`, json)
+                const data = toFetch('PUT', `payment/123123`, json)
 				await expect(data).resolves.not.toHaveProperty("data.name", "update")
 				await expect(data).resolves.toMatchObject(responseErrorID)
 
@@ -391,7 +391,7 @@ describe("Test Payment api", () => {
 			})
 
 			it("Cannot delete by wrong ID ", async () => {
-				const data = toFetch('DELETE', `payment/${'salah'}`,)
+                const data = toFetch('DELETE', `payment/salah`,)
 				await expect(data).resolves.not.toContain(statusTest("DELETE", "payment"))
 				// await expect( data ).resolves.toMatchObject( errorEmptyID( "PUT" ) )
 

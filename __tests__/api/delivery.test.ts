@@ -321,7 +321,7 @@ describe("Test Travel", () => {
 			json.name = "update"
 			json.id = contextId
 			responseSuccess.data.name = json.name
-			const data = toFetch("PUT", `delivery/${ "salah" }`, json,)
+            const data = toFetch("PUT", `delivery/salah`, json,)
 			await expect(data).resolves.not.toHaveProperty("data.name", "update")
 			await expect(data).resolves.toMatchObject(responseErrorID)
 		})

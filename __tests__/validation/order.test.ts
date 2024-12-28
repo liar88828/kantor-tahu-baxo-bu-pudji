@@ -1,3 +1,5 @@
+// noinspection SpellCheckingInspection
+
 import { describe, expect, test } from "vitest";
 import { orderCreateServer } from "../../src/validation/order.valid";
 import { OrderProductTransaction } from "../../src/validation/orderProduct.valid";

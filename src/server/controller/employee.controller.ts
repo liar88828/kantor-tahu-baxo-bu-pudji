@@ -68,10 +68,9 @@ export default class EmployeeController
 
 	async deleteOne(_: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const res = await this.employeeRepository.deleteOne(UUIDSchema.parse(id))
-		// if (res) {
+        // if (res) {
 		// 	await fileSystem(res.img)
 		// }
-		return res
+        return await this.employeeRepository.deleteOne(UUIDSchema.parse(id))
 	}
 }

@@ -31,8 +31,8 @@ export default async function Layout({ children, }: { children: ReactNode }) {
 
 			</div>
 		</div>
-		<div className={ `container pt-20` }>
+        <div className={ `container pt-20  justify-center w-full flex` }>
 			{ children }
-		</div>
+        </div>
 	</>
 }

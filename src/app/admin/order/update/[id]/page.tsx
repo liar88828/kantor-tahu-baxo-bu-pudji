@@ -6,8 +6,8 @@ import { usePaymentStore } from "@/store/payment";
 import { useReceiverStore } from "@/store/receiver";
 import { useOrder } from "@/hook/useOrder";
 import { useParams } from "next/navigation";
-import { LoadingSpin } from "@/app/components/LoadingData";
-import { ErrorData } from "@/app/components/ErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { PageErrorData } from "@/app/components/PageErrorData";
 import { orderSanitize } from "@/sanitize/orderSanitize";
 import { OrderForm } from "@/app/admin/order/OrderForm.client";
 
@@ -30,10 +30,10 @@ function Page() {
 	}, [order, setDelivery, setPayment, setProductStore, setReceiver])
 
 	if (isLoading || !order) {
-		return <LoadingSpin/>
+        return <PageLoadingSpin/>
 	}
 	if (isError) {
-		return <ErrorData/>
+        return <PageErrorData/>
 	}
 	return <OrderForm data={ orderSanitize(order.data) }/>
 }

@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export function ErrorData({msg = 'Error Load', code = 404,}: { msg?: string, code?: number }) {
+export function PageErrorData({ msg = 'Error Load', code = 404, }: { msg?: string, code?: number }) {
 	const router = useRouter()
 	return (
 		<div className="card w-96 md:w-full shadow bg-base-200/40">
@@ -21,7 +21,7 @@ export function ErrorData({msg = 'Error Load', code = 404,}: { msg?: string, cod
 export function EmptyData(
 	{ page }: { page: string }) {
 	return (
-		<ErrorData msg={ `${ page } Data Is Empty` } code={ 404 }/>
+        <PageErrorData msg={ `${ page } Data Is Empty` } code={ 404 }/>
 	);
 }
 

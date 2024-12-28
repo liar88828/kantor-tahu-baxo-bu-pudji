@@ -51,7 +51,6 @@ export default class ProductController
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)
-        // console.log(`test :${ json }`)
 		return this.productRepository.createOne(ProductCreate.parse(json))
 	}
 
@@ -74,13 +73,12 @@ export default class ProductController
 
 	async deleteOne(request: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const res = await this.productRepository.deleteOne(
-			// UUIDSchema.parse(id)
-			UUIDSchema.parse(id)
-		)
-		// if (res) {
+        // if (res) {
 		// await fileSystem( res.img )
 		// }
-		return res
+        return await this.productRepository.deleteOne(
+            // UUIDSchema.parse(id)
+            UUIDSchema.parse(id)
+        )
 	}
 }
