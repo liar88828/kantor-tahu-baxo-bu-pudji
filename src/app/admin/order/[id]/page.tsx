@@ -2,8 +2,8 @@
 
 import { usePrint } from "@/hook/usePrint";
 import { useParams } from "next/navigation";
-import { EmptyData } from "@/app/components/ErrorData";
-import { LoadingSpin } from "@/app/components/LoadingData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import Link from "next/link";
@@ -15,14 +15,14 @@ export default function DetailedInvoicePrint() {
 	const { data: order, isLoading, isError } = getId(param.id)
 	const { isPrinting, handlePrint, contentRef } = usePrint()
 	const handleDelete = () => {
-
 		onDelete.mutate(param.id)
 	}
-	if (!order || isLoading) return <LoadingSpin/>
-	if (isError) return <EmptyData page={ `Order Detail ${ param.id }` }/>
+
+    if (!order || isLoading) return <PageLoadingSpin/>
+    if (isError) return <PageEmptyData page={ `Order Detail ${ param.id }` }/>
 
 	return (
-		<div className={ ` mx-auto sm:p-4 ${ isPrinting ? 'w-[50rem]' : "" } pb-20` }>
+        <div className={ ` mx-auto sm:p-4 ${ isPrinting ? 'w-[50rem]' : "" } pb-20 max-w-[210mm]` }>
 			{ <div
 				className="mb-4 card  card-compact sm:card-normal bg-white card-bordered text-xs sm:text-base">
 				<div
@@ -42,14 +42,9 @@ export default function DetailedInvoicePrint() {
 						</div>
 						<div>
 							<p className="font-semibold">Customer:</p>
-							<p>{ order.data.nameCs }</p>
-							<p>{ order.data.address }</p>
-						</div>
-						<div>
-							<p className="font-semibold">Receiver:</p>
-							<p>{ order.data.Receivers.name }</p>
-							<p>{ order.data.Receivers.address }</p>
-							<p>{ order.data.Receivers.phone }</p>
+							<p>{ order.data.Customers.name }</p>
+							<p>{ order.data.Customers.address }</p>
+							<p>{ order.data.Customers.phone }</p>
 						</div>
 					</div>
 					<div className="mb-4">

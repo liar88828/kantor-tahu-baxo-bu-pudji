@@ -8,11 +8,9 @@ export type UserParams = ParamsApi<UserSearch>
 
 export default class UserRepository implements InterfaceRepository<TUserCreate> {
 
-	async findAll({
-					  filter,
-					  pagination: { page = 1, limit = 100 }
-				  }: Required<UserParams>): Promise<ResponseAll<Users>> {
-
+    async findAll(
+        { filter, pagination: { page = 1, limit = 100 } }:
+        Required<UserParams>): Promise<ResponseAll<Users>> {
 		const skip = (page - 1) * limit;
 		const take = limit;
 		const data = await prisma.users.findMany({
@@ -34,7 +32,17 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
 		return prisma.users.findUnique({where: {id}});
 	}
 
-	async createOne(data: TUserCreate): Promise<any> {
+    async findByIdValid(id?: string) {
+        const response = await prisma.users.findUnique({ where: { id } });
+        if (!response) {
+            throw new Error("User does not exist");
+        }
+        return response;
+    }
+
+
+
+    async createOne(data: TUserCreate): Promise<Users> {
 		return prisma.users.create({data: {...data}});
 	}
 
@@ -46,21 +54,8 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
 		return prisma.users.delete({where: {id}});
 	}
 
-	setOne(d: (TUserCreate) & { id?: string }) {
-		return {
+    async updateMany(data: TUserCreate[], id: string) {
 
-		}
-	}
-
-	setMany(data: TUserCreate[]): any[] {
-		return data.map((d) => (this.setOne(d)))
-	}
-
-	async updateMany(data: TUserCreate[], id: string) {
-		return prisma.users.updateMany({
-			where: {id: id},
-			data: this.setMany(data)
-		})
-	}
+    }
 }
 

@@ -29,7 +29,10 @@ export const usePaymentStore = create<PaymentStore>((set, get) => ({
 		try {
 			set({ isLoading: true });
 			if (get().paymentData.length === 0) {
-				const { data } = await paymentAll()
+                const { data } = await paymentAll({
+                    filter: {},
+                    pagination: {}
+                })
 				if (data.data.length > 0) {
 					set({ paymentData: data.data })
 				}

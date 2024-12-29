@@ -47,16 +47,14 @@ export const toDate = (value: number | string | Date) => {
 		})
 }
 
-export const setDates = (date: string,): Date | string => {
-	const d = new Date(Date.parse(date)).toLocaleString(
+export const setDateIndo = (date: number | string | Date): Date | string => {
+
+    return new Date(date).toLocaleString(
 		"id-ID",
 		{
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
+            dateStyle: "full",
 		})
-	const array = d.split("/")
-	return array[2] + "-" + array[1] + "-" + array[0]
+
 }
 
 export const defaultDate = () => {

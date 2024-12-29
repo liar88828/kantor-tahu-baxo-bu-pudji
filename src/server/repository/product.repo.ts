@@ -1,9 +1,14 @@
-import { ProductSearch, TProductCreate, TProductDB } from "@/interface/entity/product.model";
+import {
+    ProductHomeUser, ProductParams,
+    ProductSearch,
+    TProductCreate,
+    TProductDB,
+    UpdateStock
+} from "@/interface/entity/product.model";
 import { prisma } from "@/config/prisma";
 import { ResponseAll } from "@/interface/server/param";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
-
-export type ProductParams = ParamsApi<ProductSearch>
+import { PRODUCT_FILTER_PRICE } from "@/store/product";
 
 export default class ProductRepository implements InterfaceRepository<TProductCreate> {
 
@@ -11,6 +16,13 @@ export default class ProductRepository implements InterfaceRepository<TProductCr
 		const skip = (page - 1) * limit;
 		const take = limit;
 		const products = await prisma.products.findMany({
+            orderBy: [
+                filter.new ? { updated_at: 'desc' } : {},
+                filter.popular ? { sold: 'desc' } : {},
+                filter.price === PRODUCT_FILTER_PRICE.HIGH ? { price: 'desc' }
+                    : filter.price === PRODUCT_FILTER_PRICE.LOW ? { price: 'asc' }
+                        : {},
+            ],
 			where: {
 				AND: [
 					{
@@ -31,6 +43,34 @@ export default class ProductRepository implements InterfaceRepository<TProductCr
 		return prisma.products.findUnique({where: {id}});
 	}
 
+    async findRecent(): Promise<any> {
+        return prisma.products.findMany({
+            orderBy: {
+                updated_at: 'desc'
+            },
+            take: 5
+        });
+    }
+
+    async findHomeUser(): Promise<ProductHomeUser> {
+        const popularProduct = await prisma.products.findMany({
+            take: 20,
+            orderBy: {
+                sold: 'desc'
+            }
+        })
+        const lowPriceProduct = await prisma.products.findMany({
+            take: 20,
+            orderBy: {
+                price: 'asc'
+            }
+        })
+        return {
+            popularProduct,
+            lowPriceProduct
+        }
+    }
+
 	async createOne(data: TProductCreate): Promise<any> {
 		return prisma.products.create({data: {...data}});
 	}
@@ -38,6 +78,16 @@ export default class ProductRepository implements InterfaceRepository<TProductCr
 	async updateOne(data: TProductCreate, id: string): Promise<any> {
 		return prisma.products.update({data: {...data}, where: {id}});
 	}
+
+    async updateStock(data: UpdateStock): Promise<any> {
+        return prisma.products.update({
+            where: { id: data.id },
+            data: {
+                update_stock: new Date(),
+                qty: { increment: data.qty }
+            }
+        })
+    }
 
 	async deleteOne(id: string): Promise<any> {
 		return prisma.products.delete({where: {id}});

@@ -1,6 +1,6 @@
 import React from 'react'
 import { productId } from "@/network/product";
-import { ErrorData } from "@/app/components/ErrorData";
+import { PageErrorData } from "@/app/components/PageErrorData";
 import { TContext } from "@/interface/server/param";
 import { getId } from "@/utils/requestHelper";
 import { toRupiah } from "@/utils/toRupiah";
@@ -15,7 +15,7 @@ export default async function ProductDetail(context: TContext) {
 		<div className='p-3 my-4 '>
 			{
 				!product
-					? <ErrorData code={404} msg={'Data Payment is Empty'}/>
+                    ? <PageErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
 					: <div className="card card-bordered card-compact bg-base-200">
 						<div className="card-body">
 

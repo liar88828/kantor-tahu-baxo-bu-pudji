@@ -4,43 +4,76 @@ import { Pen, Plus, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { TPaymentDB } from "@/interface/entity/payment.model";
 import { toAccounting } from "@/utils/accounting";
-import { ErrorData } from "@/app/components/ErrorData";
-import usePayment from "@/hook/usePayment";
+import { PageErrorData } from "@/app/components/PageErrorData";
+import usePayment, { PAYMENT } from "@/hook/usePayment";
+import { usePaymentStore } from "@/store/payment";
+import { useDebounce } from "@/hook/useDebounce";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { useQueryClient } from "@tanstack/react-query";
+import { ResponseAll } from "@/interface/server/param";
 
-interface PaymentListProps {
-	payments: TPaymentDB[]
+export default function PaymentList() {
+    const { onDelete, onGet } = usePayment()
+    const { search, } = usePaymentStore();
+    const searchDebounce = useDebounce(search,)
+    const { payments, isError, isFetching } = onGet(searchDebounce, search);
+    if (isFetching || !payments) return <PageLoadingSpin/>
+    if (payments.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-20 ">
+            { payments.map(payment => (
+                <PaymentCard
+                    key={ payment.id }
+                    payment={ payment }
+                    onClick={ () => onDelete(payment.id) }
+                />
+            )) }
+        </div>
+    )
 }
 
-export default function PaymentList({payments}: PaymentListProps) {
-	const { onDelete } = usePayment()
-	return (
-		<div className='p-3'>
-			<div className="flex justify-between my-4 gap-3">
-				<input type="text" className='input input-bordered w-full' placeholder='search...'/>
-				<Link href={'/admin/payment/create'} className='btn btn-square'>
-					<Plus/>
-				</Link>
-			</div>
-			{ payments.length === 0
-				? <ErrorData code={ 404 } msg={ 'Data Payment is Empty' }/>
-				: <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-20 ">
+export function PaymentSearch({ children }: { children: React.ReactNode }) {
+    const { search, setSearch } = usePaymentStore();
+    const queryClient = useQueryClient();
+    const payments = queryClient.getQueryData<{ data: ResponseAll<TPaymentDB> }>([ PAYMENT.KEY, '' ])
+    return (
+        <>
+            <div className="flex justify-between mb-4 gap-3">
+                <input
+                    type="text"
+                    className='input input-bordered w-full'
+                    placeholder='search...'
+                    onChange={ (e) => setSearch(e.target.value) }
+                    value={ search }
+                    list="payments"
+                />
 
-					{ payments.map(payment => (<PaymentCard
-							key={ payment.id }
-							payment={ payment }
-							onClick={ () => onDelete(payment.id) }/>
-					)) }
-				</div> }
-		</div>
-	)
+                <datalist id="payments">
+                    { payments?.data.data
+                    .slice(0, 10)
+                    .map((item) => (
+                        <option
+                            key={ item.id }
+                            value={ item.name }>
+                            { item.name }
+                        </option>
+                    )) }
+                </datalist>
+                <Link href={ '/admin/payment/create' } className='btn btn-square'>
+                    <Plus/>
+                </Link>
+            </div>
+            { children }
+        </>
+    );
 }
 
 export function PaymentCard(props: { payment: TPaymentDB, onClick: () => Promise<void> }) {
-	return <div
+    return <div
 
-		className="card card-side card-compact bg-base-300 ">
-		<figure className={ "p-1" }>
-			{/* eslint-disable-next-line @next/next/no-img-element */ }
+        className="card card-side card-compact bg-base-300 ">
+        <figure className={ "p-1" }>
+            {/* eslint-disable-next-line @next/next/no-img-element */ }
 			<img
 				src="https://picsum.photos/200/300?random=1"
 				alt="Movie"

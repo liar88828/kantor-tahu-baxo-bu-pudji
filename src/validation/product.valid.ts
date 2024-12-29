@@ -1,15 +1,22 @@
 import { z } from "zod";
-import { TProductCreate } from "@/interface/entity/product.model";
+import { TProductCreate, UpdateStock } from "@/interface/entity/product.model";
+import { zodDesc, zodInt } from "./zod.valid";
 
 export const ProductCreate: z.ZodType<TProductCreate> = z.object({
-	location: z.string().min(1).max(100),
-	name: z.string().min(1).max(100),
-	price: z.number().int().nonnegative(),
-	img: z.string().min(1).max(100),
-	type: z.string().min(1).max(100),
-	qty: z.number().int().nonnegative(),
-	desc: z.string().min(1).max(200),
+    desc: zodDesc,
+    img: z.string().min(1).max(100),
+    location: z.string().min(1).max(100),
+    name: z.string().min(1).max(100),
+    price: zodInt,
+    qty: zodInt,
+    type: z.string().min(1).max(100),
 })
+
+export const ProductUpdateStock: z.ZodType<UpdateStock> = z.object({
+    id: z.string(),
+    qty: zodInt
+})
+
 
 // export const ProductUpdate: z.ZodType<TProductUpdate> = z.object({
 // 	id: z.string({ required_error: 'ID is required', }).min(1).max(100),

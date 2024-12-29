@@ -3,7 +3,7 @@ import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { userId } from "@/network/trolley";
 
 type ReceiverStore = {
-	receiver: TReceiverCreate
+    receiver: TReceiverCreate & { id: string }
 	setReceiver: (data: Partial<TReceiverCreate>) => void
 	reset: () => void
 }
@@ -12,6 +12,7 @@ const initialState = {
 		address: "",
 		name: "",
 		phone: "",
+        id: '',
 		userId,
 
 	},

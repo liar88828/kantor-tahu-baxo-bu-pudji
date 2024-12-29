@@ -1,30 +1,46 @@
 import { TProductDB } from "@/interface/entity/product.model";
+import { ZodIssue } from "zod";
 
 export type TContext = {
-	searchParams: Promise<{ search: string,status:string }>,
-	params: Promise<{ id: string, search: string, }>
+    searchParams: Promise<{ search: string, status: string, redirect: string }>,
+    params: Promise<{ id: string, search: string, route: string }>
 }
 
 export type TReactFormHookComponent<T> = {
-	defaultValues: T,
-	method: "POST" | "PUT",
-	id: string,
-	// onSubmitAction: (value: T) => void
+    defaultValues?: T,
+    method: "POST" | "PUT",
+    id: string,
+
 };
 
 export type FetchResponse<R> = Promise<{ msg: string; data: R; code: number }>
 export type ResponseAll<T> = {
-	data: T[],
-	page: number,
-	limit: number
+    data: T[],
+    page: number,
+    limit: number
 }
 
 export type PaginatedResponse = {
-	data: TProductDB[];
-	nextCursor: number; // Cursor for next page or null if no more data
+    data: TProductDB[];
+    nextCursor: number; // Cursor for next page or null if no more data
 };
 
 export type PageParams = {
-	pageParam?: string;
+    pageParam?: string;
 };
+export type ResponseValidOTP = { msg: string | ZodIssue[], data?: string };
+
+export type OTPValid = {
+    email: string,
+    otp: string,
+    reason: 'RESET' | 'VALID'
+}
+
+export type OTPGenerate = {
+    email: string,
+    time: Date,
+    reason: 'RESET' | 'VALID'
+
+}
+
 

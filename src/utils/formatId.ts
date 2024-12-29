@@ -1,8 +1,7 @@
-import {TProductDB} from "@/interface/entity/product.model";
-import {TDeliveryDB} from "@/interface/entity/delivery.model";
-import {TPaymentDB} from "@/interface/entity/payment.model";
-import {ToModel} from "@/interface/Utils";
-import { TOrder, TOrderServer } from "@/interface/orderan";
+import { TProductDB } from "@/interface/entity/product.model";
+import { TDeliveryDB } from "@/interface/entity/delivery.model";
+import { TPaymentDB } from "@/interface/entity/payment.model";
+import { ToModel } from "@/interface/Utils";
 
 // Travel
 export const setIdDelivery = (dTravel: TDeliveryDB): string =>
@@ -32,8 +31,9 @@ export const setIdBank = (dBank: TPaymentDB): string =>
 // Orderan
 function setIdOrderanString(
 	dataBaru: {
+        [x: string]: any;
 		semuaProduct: TProductDB[]
-	} & TOrder | TOrderServer) {
+    }) {
 	function getNumbers(hpPenerima: string, hpPengirim: string, penerima: string) {
 		return hpPenerima + hpPengirim + penerima.length;
 	}
@@ -55,7 +55,7 @@ function setIdOrderanString(
 		).toString().slice(0, 5);
 }
 
-export const setIdOrderan = (dataBaru: TOrder | TOrderServer): string =>
+export const setIdOrderan = (dataBaru: { [x: string]: any; semuaProduct: TProductDB[]; }): string =>
 	setIdOrderanString(dataBaru).replaceAll(" ", "_")
 
 export function setIdModel(to: ToModel, data: any) {
@@ -71,7 +71,7 @@ export function setIdModel(to: ToModel, data: any) {
 			return setIdDelivery(data);
 		}
 		if (to === "orderan") {
-			console.log(data)
+            // console.log(data)
 			return setIdOrderan(data);
 		}
 		// if( to === "semuaProduk" ) {

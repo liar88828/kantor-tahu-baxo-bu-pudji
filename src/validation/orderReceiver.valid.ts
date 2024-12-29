@@ -1,11 +1,14 @@
 import { z } from "zod"
-import { Receivers } from "@prisma/client"
+import { Customers } from "@prisma/client";
 
-type TReceiverCreate = Omit<Receivers, "id">
-export const ReceiverCreate: z.ZodType<TReceiverCreate> = z.object({
-  name: z.string(),
-  address: z.string(),
-  phone: z.string(),
+import { zodAddress, zodPhone } from "@/validation/zod.valid";
+
+type TCustomerCreate = Omit<Customers, "id">
+export const CustomerCreate: z.ZodType<TCustomerCreate> = z.object({
+    address: zodAddress,
+    name: z.string(),
+    phone: zodPhone,
+
 })
 
 // export  const TransactionUpdate: z.ZodType<TTransactionUpdate> = z.object({

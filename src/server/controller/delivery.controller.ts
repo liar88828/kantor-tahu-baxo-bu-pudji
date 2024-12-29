@@ -44,10 +44,9 @@ export default class DeliveryController
 
   async deleteOne(_: NextRequest, context: TContext) {
     const id = await getId(context)
-    const res = await this.deliveryRepository.deleteOne(UUIDSchema.parse(id))
-    // if (res) {
+      // if (res) {
     // 	await fileSystem(res.img)
     // }
-    return res
+      return await this.deliveryRepository.deleteOne(UUIDSchema.parse(id))
   }
 }

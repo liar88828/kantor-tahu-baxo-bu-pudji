@@ -1,28 +1,28 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "node:url";
 // https://vitejs.dev/config/
 
 export default defineConfig( {
-  plugins: [ react(), tsconfigPaths() ],
-  test   : {
-    // browser: {
-    //   enabled: true,
-    //   name   : 'chrome', // browser name is required
+    base: "/",
+    plugins: [
+        react(),
+        tsconfigPaths(),
+    ],
+    // resolve: {
+    //     alias: [
+    //         { find: "@", replacement: resolve(__dirname, "./src") } ]
     // },
+    test: {
+        setupFiles: [ './vitest.setup.ts' ],
+        globals: true,
+        environment: 'jsdom',
+        coverage: { provider: "istanbul" },
 
-    // setupFiles: './src/test/setup.ts',
-    alias      : {
-      "@": fileURLToPath( new URL( "./src", import.meta.url ) )
+        alias: {
+            "@": fileURLToPath(new URL("./src", import.meta.url))
+            //     '@/': new URL('./src/', import.meta.url).pathname,
+        },
     },
-    environment: 'jsdom',
-    // globals    : true
-    // css:true
-    coverage: {
-      provider: "istanbul"
-    },
-
-  },
-  base   : "/"
 } )

@@ -22,7 +22,7 @@ export async function PUT(request: NextRequest, context: TContext) {
 	)
 }
 
-export async function POST(request: NextRequest, context: TContext) {
+export async function POST(request: NextRequest, _: TContext) {
 
 	try {
 		const formData = await request.formData();

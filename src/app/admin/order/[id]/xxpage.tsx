@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useOrder } from "@/hook/useOrder";
 
 // Mock data for the invoice
 const invoiceData = {

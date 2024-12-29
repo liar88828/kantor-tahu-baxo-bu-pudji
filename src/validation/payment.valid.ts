@@ -1,15 +1,17 @@
 import { z } from "zod"
 import { TPaymentCreate } from "@/interface/entity/payment.model"
 
+import { zodAddress, zodDesc, zodPhone } from "@/validation/zod.valid";
+
 export const PaymentCreate: z.ZodType<TPaymentCreate> = z.object({
-  // id: z.string().uuid().optional(),
-  phone: z.string().min(2).max(30),
-  img: z.string().min(2).max(200),
-  accounting: z.string().min(2).max(30),
-  name: z.string().min(2).max(30),
-  address: z.string().min(2).max(30),
-  type: z.string().min(2).max(30),
-  desc: z.string().min(2).max(300),
+    // id: z.string().uuid().optional(),
+    accounting: z.string().min(2).max(30),
+    address: zodAddress,
+    desc: zodDesc,
+    img: z.string().min(2).max(200),
+    name: z.string().min(2).max(30),
+    phone: zodPhone,
+    type: z.string().min(2).max(30),
 })
 
 // export const BankUpdate: z.ZodType<TPaymentUpdate> = z.object({

@@ -9,7 +9,9 @@ import { useReceiverStore } from "@/store/receiver";
 import { usePaymentStore } from "@/store/payment";
 import { useOrderStore } from "@/store/order";
 import { OrderCreateClient } from "@/validation/order.valid";
-import { TMethod } from "@/interface/Utils";
+import { TMethod, TStatusOrder } from "@/interface/Utils";
+import { OrderParams } from "@/interface/entity/order.model";
+import { toFetch } from "@/hook/toFetch";
 
 export enum ORDER_KEY {
 	order = "order",
@@ -24,14 +26,37 @@ export function useOrder() {
 	const order = useOrderStore()
 
 	const onUpsert = useMutation({
-		mutationFn: ({ data, method, id }: { method: TMethod, data: OrderCreateClient, id?: string }) => {
+        onMutate: () => {
+            return { toastId: toast.loading('Loading...') }
+        },
+        onSettled: (_, __, ___, context) => {
+            product.reset()
+            delivery.reset()
+            receiver.reset()
+            payment.reset()
+            order.reset()
+            if (context) {
+                toast.dismiss(context.toastId)
+            }
+        },
+        mutationFn: ({ data, method, id, isClient }: {
+            method: TMethod,
+            data: OrderCreateClient,
+            id?: string,
+            isClient?: boolean
+        }) => {
 			if (!payment.payment) {
 				throw new Error('Payment is not complete');
-			} else if (!delivery.delivery) {
+            }
+            if (!delivery.delivery) {
 				throw new Error('Delivery is not complete');
-			} else {
-				data.totalAll = order.total;
-				data.totalProduct = product.total;
+            }
+            if (product.productStore.length === 0) {
+                throw new Error('product is Empty');
+            }
+            // console.log(data)
+            // data.totalAll = order.total;
+            // data.totalProduct = product.total;
 				const sanitize = order.setData({
 					product: product.productStore,
 					payment: payment.payment,
@@ -39,39 +64,39 @@ export function useOrder() {
 					receiver: receiver.receiver,
 					order: data,
 				})
-				console.log(method, id)
+            // console.log(method, id)
+            // console.log(sanitize)
+            // throw  new Error('error bos')
 				if (method === 'PUT' && id) {
 					return orderUpdate(sanitize, id)
 				} else {
 					return orderCreate(sanitize)
 				}
-			}
 		},
 		onError: (data, variables, context) => {
+            // console.log(data)
 			if (data instanceof Error) {
 				toast.error(data.message)
 			}
 		},
 		onSuccess: (data, variables, context) => {
-			console.log(data)
 			toast.success(data.msg)
-			product.reset()
-			delivery.reset()
-			receiver.reset()
-			payment.reset()
-			order.reset()
-			if (variables.method === 'PUT') {
+            if (variables.isClient) {
+                router.push(`/invoice/${ data.data.order.id }?redirect=/home`)
+            } else if (variables.method === 'PUT') {
 				router.push(`/admin/order/${ variables.id }`)
-			} else {
-			router.push('/admin/order')
-			}
+            } else {
+                router.push('/admin/order')
+            }
 		},
 	})
 
-	const GetAll = () => {
+    const GetAll = ({ filter, pagination }: OrderParams, debounce: OrderParams['filter']) => {
 		return useQuery({
-			queryFn: () => orderAll(),
-			queryKey: [ ORDER_KEY.order ],
+            enabled: filter?.status === debounce?.status && filter?.name === debounce?.name,
+            select: (orders) => orders.data.data,
+            queryFn: () => orderAll({ filter, pagination }),
+            queryKey: [ ORDER_KEY.order, filter?.name ?? '', filter?.status ?? '' ],
 
 		})
 	}
@@ -91,7 +116,24 @@ export function useOrder() {
 			toast.error('Fail Delete Order')
 		}
 	})
-	return {
+
+    const GetOrderStatus = (status: TStatusOrder) => useQuery({
+        queryKey: [ ORDER_KEY, status ],
+        queryFn: () => {
+            return toFetch<number>('GET', {
+                url: `/order/count?status=${ status }`,
+            })
+        },
+        select: (response) => response.data,
+        gcTime: 5 * 60 * 1000,
+        refetchOnMount: false,
+        // initialData:()=> ({
+        //     data:0
+        // })
+    })
+
+    return {
+        getOrderStatus: GetOrderStatus,
 		onUpsert,
 		getAll: GetAll,
 		getId: GetId,

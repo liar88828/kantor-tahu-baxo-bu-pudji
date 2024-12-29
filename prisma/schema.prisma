@@ -10,7 +10,6 @@ datasource db {
 
 model Orders {
   id        String   @id @default(uuid())
-  nameCs    String
   orderTime DateTime
   sendTime  DateTime
   desc      String
@@ -18,27 +17,27 @@ model Orders {
 
   // travel
   Deliverys     Deliverys? @relation(fields: [id_delivery], references: [id])
-  id_delivery   String?
+  id_delivery   String
   nameDelivery  String
   phoneDelivery String
   priceDelivery Int
 
   // payment
   Payments     Payments? @relation(fields: [id_payment], references: [id])
-  id_payment   String?
+  id_payment   String
   totalPayment Int // for product
   totalAll     Int
 
   // at update / create
   status      String
   Trolleys    Trolleys[]
-  Receivers   Receivers  @relation(fields: [id_receiver], references: [id])
-  id_receiver String
+  Customers   Customers  @relation(fields: [id_customer], references: [id])
+  id_customer String
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
 }
 
-model Receivers {
+model Customers {
   id      String   @id @default(uuid())
   name    String
   address String
@@ -59,18 +58,20 @@ model Trolleys {
 }
 
 model Products {
-  id         String     @id @default(uuid())
-  name       String
-  location   String
-  type       String
-  img        String
-  price      Int
-  qty        Int
-  desc       String
+  id           String     @id @default(uuid())
+  name         String
+  location     String
+  type         String
+  img          String
+  price        Int
+  qty          Int
+  desc         String
+  sold         Int        @default(0)
   // at update / create
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  Trolleys   Trolleys[]
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+  update_stock DateTime   @default(now())
+  Trolleys     Trolleys[]
 }
 
 model Deliverys {
@@ -102,11 +103,29 @@ model Payments {
 }
 
 model Users {
-  id       String     @id @default(uuid())
-  name     String
-  phone    String
-  address  String
-  Trolleys Trolleys[]
+  id            String     @id @default(uuid())
+  name          String
+  phone         String
+  address       String
+  email         String
+  password      String
+  role          String
+  otp           String?
+  otpCount      Int        @default(0)
+  otpRegenerate DateTime   @default(now())
+  otpValid      DateTime   @default(now())
+  isValidate    Boolean    @default(false)
+  isReset       Boolean    @default(false)
+  Trolleys      Trolleys[]
+  Session       Sessions?
+}
+
+model Sessions {
+  id        String   @id @default(uuid())
+  usersId   String   @unique
+  expiresAt DateTime
+  role      String
+  Users     Users    @relation(fields: [usersId], references: [id])
 }
 
 model Employees {
@@ -172,3 +191,9 @@ model Projects {
   Employees   Employees @relation(fields: [employeesId], references: [id])
   employeesId String
 }
+
+// model Categorys {
+//   id    Int    @id @default(autoincrement())
+//   title String
+//   icon  String
+// }

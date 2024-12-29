@@ -1,27 +1,44 @@
 import { TOrderCreate } from "@/interface/entity/order.model"
-import { TReceiverCreate, TReceiverDB } from "@/interface/entity/receiver.model";
-import { TOrderTrolleyTransaction, TTrolleyProductDB } from "@/interface/entity/trolley.model";
+import { TCustomersDB, TReceiverCreate } from "@/interface/entity/receiver.model";
+import { TOrderTrolleyTransaction, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { Orders, Payments } from "@prisma/client";
+import { Orders, Payments, Trolleys } from "@prisma/client";
 
 export type OrderId = TOrderTransactionDB['id'];
+export type OrderMonthTotal = { count: number, totalAll: number };
 
 export type TOrderTransactionCreate = {
 	order: TOrderCreate
 	orderTrolley: TOrderTrolleyTransaction[]
-	orderReceiver: TReceiverCreate
+    orderReceiver: TReceiverCreate & { id?: string }
 }
 
 export type TOrderTransactionDB = Orders & {
+    Customers: TCustomersDB
 	Deliverys: TDeliveryDB
 	Payments: Payments
-	Receivers: TReceiverDB
-	Trolleys: TTrolleyProductDB[]
+    Trolleys: TTrolleyProductUser[]
 }
+
+export type TOrderTopTotal = Orders & {
+    Customers: TCustomersDB
+    Trolleys: Trolleys[]
+}
+
 export type TOrderTransactionUpdate = {
 	order: TOrderCreate
 	orderTrolley: TOrderTrolleyTransaction[] // Assuming full replacement of products is required
 	orderReceiver: TReceiverCreate
+}
+
+export type THistoryOrder = Omit<TOrderTransactionDB,
+    "Deliverys" |
+    "Payments" |
+    "Trolleys">
+
+export type HistoryUser = Orders & {
+    Customers: TCustomersDB,
+    Trolleys: Trolleys[]
 }
 
 // export type TOrderProductCreate = Omit<

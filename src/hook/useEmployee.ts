@@ -29,7 +29,8 @@ export function useEmployee() {
 	const GetAll = ({ search, status }: { search: string, status: string }) => {
 
 		return useInfiniteQuery({
-			queryKey: [ EMPLOYEE_KEY.employees, search, status ],
+
+            queryKey: [ EMPLOYEE_KEY.employees, search, status ],
 			queryFn: ({ pageParam }) => employeeAll({
 				filter: { name: search, status },
 				pagination: { page: pageParam }
@@ -37,11 +38,14 @@ export function useEmployee() {
 			initialPageParam: 1, // Starting page number
 			getNextPageParam: (lastPage, allPages) => {
 				// Determine the next page number
-				console.log(lastPage)
+				// console.log(lastPage)
 				if (lastPage.data.data.length === 0 || !lastPage.data) {
 					return undefined
 				}
-				return lastPage.data.page + 1 ?? undefined; // `nextPage` returned by the backend
+				if (typeof lastPage.data.page === "number") {
+					return lastPage.data.page + 1
+				}
+				return undefined // `nextPage` returned by the backend
 			},
 		})
 	}

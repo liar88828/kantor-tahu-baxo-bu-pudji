@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 			body: formData,
 		})
 		const json = await response.json()
-		console.log(json)
+        // console.log(json)
 		// const arrayBuffer = await file.arrayBuffer();
 		// const buffer = new Uint8Array(arrayBuffer);
 		// await fs.writeFile(`./public/uploads/${file.name}`, buffer);

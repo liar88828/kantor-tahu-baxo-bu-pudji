@@ -1,14 +1,23 @@
-import {z} from "zod"
-import {TDeliveryCreate} from "@/interface/entity/delivery.model"
+import { z } from "zod"
+import { TDeliveryCreate } from "@/interface/entity/delivery.model"
+
+import {
+    zodAddress,
+    zodDesc,
+    zodEmail,
+    zodInt,
+    zodPhone,
+} from "@/validation/zod.valid"
 
 export const DeliveryCreate: z.ZodType<TDeliveryCreate> = z.object({
-	name: z.string().min(1).max(100),
-	phone: z.string().min(1).max(100),
-	address: z.string().min(1).max(100),
-	type: z.string().min(1).max(100),
-	img: z.string().min(1).max(300),
-	desc: z.string().min(1),
-	price: z.number().int().nonnegative(),
+    address: zodAddress,
+    desc: zodDesc,
+    // email: zodEmail,
+    img: z.string().min(1).max(300),
+    name: z.string().min(1).max(100),
+    phone: zodPhone,
+    price: zodInt,
+    type: z.string().min(1).max(100),
 })
 
 // export  const TravelUpdate: z.ZodType<TDeliveryUpdate> = z.object({
@@ -21,4 +30,3 @@ export const DeliveryCreate: z.ZodType<TDeliveryCreate> = z.object({
 // 	keterangan: z.string({ required_error: 'Keterangan is required', }).min(1),
 // 	harga: z.number({ required_error: 'Harga is required', }).int().nonnegative(),
 // })
-

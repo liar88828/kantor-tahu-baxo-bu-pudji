@@ -3,12 +3,13 @@ import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
-import ReceiverRepository from "@/server/repository/receiver.repo";
+import CustomerRepository from "@/server/repository/receiver.repo";
 import { ReceiverCreate } from "@/validation/receiver.valid";
+import { getUser } from "@/server/lib/db";
 
 export default class ReceiverController
 	implements InterfaceController {
-	constructor(private receiverRepository: ReceiverRepository) {
+	constructor(private receiverRepository: CustomerRepository) {
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
@@ -19,20 +20,25 @@ export default class ReceiverController
 					phone: getParams(request, "phone") ?? ''
 				},
 				pagination: {
-					page: Number(getParams(request, 'page') ?? "1"),
-					limit: Number(getParams(request, 'limit') ?? "1"),
+                    page: Number(getParams(request, "page") ?? '1'),
+                    limit: Number(getParams(request, "limit") ?? '100'),
 				}
 			}
 		)
 	}
 
-	async findById(_: NextRequest, context: TContext): Promise<any> {
-		const id = await getId(context)
-		return this.receiverRepository.findById(
-			// id
-			UUIDSchema.parse(id)
-		)
-	}
+    async findById(_: NextRequest, context: TContext): Promise<any> {
+        const id = await getId(context)
+        return this.receiverRepository.findById(
+            UUIDSchema.parse(id)
+        )
+    }
+
+    async findUser(_: NextRequest, context: TContext): Promise<any> {
+        const user = await getUser()
+        if (!user) throw new Error('User is not valid')
+        return this.receiverRepository.findUser(user)
+    }
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)
@@ -51,13 +57,12 @@ export default class ReceiverController
 
 	async deleteOne(request: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const res = await this.receiverRepository.deleteOne(
-			// UUIDSchema.parse(id)
-			UUIDSchema.parse(id)
-		)
-		// if (res) {
+        // if (res) {
 		// await fileSystem( res.img )
 		// }
-		return res
+        return await this.receiverRepository.deleteOne(
+            // UUIDSchema.parse(id)
+            UUIDSchema.parse(id)
+        )
 	}
 }

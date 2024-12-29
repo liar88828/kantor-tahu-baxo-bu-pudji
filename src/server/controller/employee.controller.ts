@@ -15,14 +15,16 @@ export default class EmployeeController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		return this.employeeRepository.findAll({
-				filter: {
-					name: getParams(request, "name") ?? '',
-					status: getParams(request, "status") ?? '',
-				}, pagination: {
-					page: Number(getParams(request, "page") ?? '1'),
-				}
-			}
+        return this.employeeRepository.findAll({
+                filter: {
+                    name: getParams(request, "name") ?? '',
+                    status: getParams(request, "status") ?? '',
+                },
+                pagination: {
+                    page: Number(getParams(request, "page") ?? '1'),
+                    limit: Number(getParams(request, "limit") ?? '100'),
+                }
+            }
 		)
 	}
 
@@ -49,7 +51,6 @@ export default class EmployeeController
 		const response = await this.employeeRepository.createOne(
 			employeeCreateServer.parse(data)
 		)
-
 			if (response) {
 				await saveImage(formData, filePath)
 			}
@@ -67,10 +68,9 @@ export default class EmployeeController
 
 	async deleteOne(_: NextRequest, context: TContext) {
 		const id = await getId(context)
-		const res = await this.employeeRepository.deleteOne(UUIDSchema.parse(id))
-		// if (res) {
+        // if (res) {
 		// 	await fileSystem(res.img)
 		// }
-		return res
+        return await this.employeeRepository.deleteOne(UUIDSchema.parse(id))
 	}
 }

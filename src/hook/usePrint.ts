@@ -5,8 +5,8 @@ export function usePrint() {
 	const [ isPrinting, setIsPrinting ] = useState(false)
 	const contentRef = useRef<HTMLDivElement>(null);
 	const reactToPrintFn = useReactToPrint({
+		// @ts-expect-error
 		contentRef,
-
 	});
 	const handlePrint = () => {
 		setIsPrinting(true)

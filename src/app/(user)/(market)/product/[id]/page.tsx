@@ -2,7 +2,7 @@ import { Star } from 'lucide-react'
 import { TContext } from "@/interface/server/param";
 import { getId } from "@/utils/requestHelper";
 import { productId } from "@/network/product";
-import { ErrorData } from "@/app/components/ErrorData";
+import { PageErrorData } from "@/app/components/PageErrorData";
 import { toRupiah } from "@/utils/toRupiah";
 import { toDate } from "@/utils/formatDate";
 import AddTrolleyClient from "@/app/(user)/(market)/product/[id]/AddTrolley.client";
@@ -15,7 +15,7 @@ export default async function DetailedProduct(context: TContext) {
 		<div className="container mb-12">
 			{ !response.data ? (
 				<div className="">
-					<ErrorData code={ 404 } msg={ 'Data is not found' }/>
+                    <PageErrorData code={ 404 } msg={ 'Data is not found' }/>
 				</div>
 			) : (
 				<div className="flex flex-col md:flex-row card">

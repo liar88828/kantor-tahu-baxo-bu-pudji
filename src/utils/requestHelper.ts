@@ -1,5 +1,4 @@
 import { TContext } from "@/interface/server/param"
-//ResponseJson
 import { NextRequest, NextResponse } from "next/server"
 import Zod from "zod"
 import { Prisma } from ".prisma/client"
@@ -23,7 +22,6 @@ export async function getContext({ params }: TContext, text: keyof Awaited<TCont
 }
 
 export async function getSearchName({ searchParams }: TContext, text: keyof Awaited<TContext['searchParams']>) {
-
 	const searchParam = await searchParams
 	if (searchParam && text in searchParam) {
 		return searchParam[text]
@@ -40,6 +38,30 @@ export function getParams(request: NextRequest, text: string) {
 	const url = new URL(request.url)
 	const searchParams = new URLSearchParams(url.search)
 	return searchParams.get(text) ?? undefined
+}
+
+export function getParamsBool(request: NextRequest, text: string) {
+    const url = new URL(request.url)
+    const searchParams = new URLSearchParams(url.search)
+    const search = searchParams.get(text);
+    if (search === 'true') {
+        return true
+    } else if (search === 'false') {
+        return false
+    } else if (search === null) {
+        return undefined
+    }
+}
+
+export function getParamsValue<T>(request: NextRequest, text: string, value: T): T {
+    const url = new URL(request.url)
+    const searchParams = new URLSearchParams(url.search)
+    const search = searchParams.get(text)
+    if (search) {
+        return search as T
+    } else {
+        return value
+    }
 }
 
 export function getParamsThrow(request: NextRequest, text: string) {

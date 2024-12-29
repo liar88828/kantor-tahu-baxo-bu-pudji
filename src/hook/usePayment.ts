@@ -1,9 +1,30 @@
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { paymentCreate, paymentDelete, paymentUpdate } from "@/network/payment";
+import { paymentAll, paymentCreate, paymentDelete, paymentUpdate } from "@/network/payment";
 import { TPaymentCreate } from "@/interface/entity/payment.model";
+import { useQuery } from "@tanstack/react-query";
 
+export enum PAYMENT {
+    KEY = 'paymentKey',
+}
 export default function usePayment() {
+    function OnGet(searchDebounce: string, search: string) {
+        const { data: payments, isError, isFetching } = useQuery(
+            {
+                select: (payments) => {
+                    return payments.data.data
+                },
+                queryFn: () => paymentAll({
+                    filter: { name: searchDebounce },
+                    pagination: {}
+                }),
+                enabled: searchDebounce === search,
+                queryKey: [ PAYMENT.KEY, searchDebounce ],
+            }
+        )
+        return { payments, isError, isFetching };
+    }
+
 	const router = useRouter()
 	const onDelete = async (id: string) => {
 		const idToast = toast.loading('Delete Data API')
@@ -48,6 +69,6 @@ export default function usePayment() {
 	}
 
 	return {
-		onDelete, onUpsert
+        onDelete, onUpsert, onGet: OnGet
 	}
 }

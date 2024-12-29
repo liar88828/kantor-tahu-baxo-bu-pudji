@@ -1,78 +1,76 @@
 'use client'
 import { toRupiah } from "@/utils/toRupiah";
 import Link from "next/link";
-import { BookUser, Plus, Search } from "lucide-react";
-import React, { Fragment, Suspense } from "react";
+import { BookUser, Plus } from "lucide-react";
+import React, { Fragment } from "react";
 import Form from "next/form";
 import { useEmployee } from "@/hook/useEmployee";
-import { LoadingSpin } from "@/app/components/LoadingData";
-import { useSearchParams } from "next/navigation";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useEmployeeStore } from "@/store/employee";
 import { useDebounce } from "@/hook/useDebounce";
-import { EmptyData } from "@/app/components/ErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import useInfinityScroll from "@/hook/useInfinityScroll";
 
-export function EmployeeTable({}) {
-	const setFilter = useEmployeeStore(s => s.setFilter);
-	return (<div>
-			<div className="flex justify-between gap-2">
-				<Form action={ '/admin/employee' } className="join w-full">
-					<input
-						onChange={ e => setFilter({ name: e.target.value }) }
-						type="text"
-						   className={ 'input input-bordered join-item w-full' }
-						   name={ 'search' }
-					/>
-					<select className="select select-bordered join-item w-fit"
-							defaultValue={ '' }
-							onChange={ e => setFilter({ status: e.target.value }) }
-							name={ 'status' }>
-						<option disabled>Filter</option>
-						<option value={''}>All</option>
-						<option>Process</option>
-						<option>Active</option>
-						<option>Inactive</option>
-					</select>
-					<button className={ 'btn btn-neutral join-item' }>
-						<Search/>
-					</button>
+export function EmployeeSearch({ children }: { children: React.ReactNode }) {
+    const { setFilter, filter } = useEmployeeStore();
 
-				</Form>
-				<Link href={ '/admin/employee/create' } className={ 'btn' }>
-					<Plus/>
-				</Link>
-			</div>
-			<Suspense fallback={ <LoadingSpin/> }>
-				<EmployeeTableClient/>
-			</Suspense>
-		</div>
-	);
+    return (
+        <>
+            <div className="flex justify-between gap-2">
+                <Form action={ '/admin/employee' } className="join w-full">
+                    <input
+                        onChange={ e => setFilter({ name: e.target.value }) }
+                        type="text"
+                        className={ 'input input-bordered join-item w-full' }
+                        name={ 'search' }
+                        value={ filter.name }
+                    />
+                    <select className="select select-bordered join-item w-fit"
+                            defaultValue={ '' }
+                            onChange={ e => setFilter({ status: e.target.value }) }
+                            name={ 'status' }>
+                        <option disabled>Filter</option>
+                        <option value={ '' }>All</option>
+                        <option>Process</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </Form>
+                <Link href={ '/admin/employee/create' } className={ 'btn' }>
+                    <Plus/>
+                </Link>
+            </div>
+            { children }
+        </>
+
+    );
 }
 
-function EmployeeTableClient() {
-	const employeeFilter = useEmployeeStore(s => s.filter);
-	const { getAll } = useEmployee()
-	const searchParams = useSearchParams()
-	const search = searchParams.get('search') || employeeFilter.name
-	const status = searchParams.get('status') || employeeFilter.status
-	const debouncedSearch = useDebounce(search, 1000); // 1000ms delay
+export function EmployeeTable() {
+    const { filter } = useEmployeeStore();
+    const { getAll } = useEmployee()
+    const searchDebounced = useDebounce(filter.name, 1000); // 1000ms delay
+    const statusDebounced = useDebounce(filter.status, 1000); // 1000ms delay
 
-	const queryResult = getAll({ search: debouncedSearch, status })
+    const queryResult = getAll({
+        search: searchDebounced,
+        status: statusDebounced
+    })
 
-	const { loadMoreRef, isFetchingNextPage, hasNextPage } = useInfinityScroll({
-		queryResult,
-	});
+    const { loadMoreRef, isFetchingNextPage, hasNextPage } = useInfinityScroll({
+        queryResult,
+    });
 
-	const { data: employees, isLoading, isError } = queryResult;
-	if (isLoading || !employees) return <LoadingSpin/>
-	if (isError) return <EmptyData page={ 'Employees' }/>
+    const { data: employees, isLoading, isError } = queryResult;
+    if (isLoading || !employees) return <PageLoadingSpin/>
+    if (isError) return <PageEmptyData page={ 'Employees' }/>
 
-	return <div>
-		<div className="overflow-x-auto w-full">
+    return <div>
+        <div className="overflow-x-auto w-full">
 
-			<table
+            <table
 
-				className="table table-zebra w-full table-sm">
+                className="table table-zebra w-full table-sm">
 				{/* Table Head */ }
 				<thead>
 				<tr>
@@ -95,13 +93,7 @@ function EmployeeTableClient() {
 				<tbody>
 				{ employees.pages.map(({ data }, i) => (
 					<Fragment key={ i }>
-						{ data.data
-						.filter(item => {
-							const name = item.name.toLowerCase().includes(employeeFilter.name.toLowerCase())
-							const status = item.status.includes(employeeFilter.status)
-							return status && name
-						})
-						.map((employee) => (
+                        { data.data.map((employee) => (
 								<tr key={ employee.id }>
 									{/*<td>{ employee.id }</td>*/ }
 									<td>

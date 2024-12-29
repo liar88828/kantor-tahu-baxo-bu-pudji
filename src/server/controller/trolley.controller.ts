@@ -1,19 +1,26 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
-import { getId, getJson } from "@/utils/requestHelper"
+import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import TrolleyRepository from "@/server/repository/trolley.repo"
 import { OrderProductCreate, OrderProductUpdate, } from "@/validation/orderProduct.valid"
-import { userId } from "@/network/trolley"
+import { verifySession } from "@/server/lib/db";
+import { TTrolleyCreate } from "@/interface/entity/trolley.model";
 
 export default class TrolleyController implements InterfaceController {
 	constructor(private trolleyRepository: TrolleyRepository) {
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-		return this.trolleyRepository.findAll({pagination:{}})
-
+        const user = await verifySession()
+        return this.trolleyRepository.findAll({
+            pagination: {
+                page: Number(getParams(request, "page") ?? '1'),
+                limit: Number(getParams(request, "limit") ?? '100'),
+            },
+            filter: { id_user: user.userId }
+        })
 	}
 
 	async findById(_: NextRequest, context: TContext): Promise<any> {
@@ -22,7 +29,9 @@ export default class TrolleyController implements InterfaceController {
 	}
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
-		const json = await getJson(request)
+        const json: TTrolleyCreate = await getJson(request)
+        const user = await verifySession()
+        json.id_user = user.userId
 		return this.trolleyRepository.createOne(OrderProductCreate.parse(json))
 	}
 
@@ -48,6 +57,7 @@ export default class TrolleyController implements InterfaceController {
 	}
 
 	async count(request: NextRequest, context: TContext) {
-		return this.trolleyRepository.count(userId)
+        const user = await verifySession()
+        return this.trolleyRepository.count(user.userId)
 	}
 }

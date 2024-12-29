@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { TTrolleyProductDB } from "@/interface/entity/trolley.model";
+import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
-export const useCheckout = (data: TTrolleyProductDB[] | undefined) => {
+export const useCheckout = (data: TTrolleyProductUser[] | undefined) => {
 	const [ newData, setNewData ] = useState(data);
 
 	const onIncrement = (idTrolley: string) => {

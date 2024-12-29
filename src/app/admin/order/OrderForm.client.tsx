@@ -9,15 +9,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import {
-	DeliveryDialog,
-	DeliveryForm,
-	PaymentButtonInput,
-	PaymentDialog,
-	ProductCard,
-	ProductDialog,
-	ReceiverForm
-} from "@/app/components/order";
-import toast from "react-hot-toast";
+    DeliveryDialog,
+    DeliveryForm,
+    PaymentButtonInput,
+    PaymentDialog,
+    ProductCard,
+    ProductDialog,
+    ReceiverForm
+} from "@/app/components/order/order.client";
 
 export function OrderForm({ data }: { data: OrderCreateClient }) {
 	const { total: totalProduct, } = useProductStore()
@@ -38,13 +37,8 @@ export function OrderForm({ data }: { data: OrderCreateClient }) {
 	const onSubmit = (formData: OrderCreateClient) => {
 		data.totalProduct=totalProduct
 		data.totalAll=total
-		const toastId = toast.loading('Loading...')
 		onUpsert.mutate({ data:formData, method: 'PUT', id: data.id })
-		console.log(onUpsert.isIdle)
-		console.log(onUpsert.isPaused)
-		console.log(onUpsert.isPending)
-		toast.dismiss(toastId)
-	};
+    };
 
 	useEffect(() => {
 		setTotal({ totalProduct })
@@ -58,19 +52,6 @@ export function OrderForm({ data }: { data: OrderCreateClient }) {
 			>
 				<div>
 					<h2 className="text-xl font-bold">Order Form</h2>
-
-					{/* Name */ }
-					<div className="form-control">
-						<label className="label">
-							<span className="label-text">Customer Name</span>
-						</label>
-						<input
-							type="text"
-							{ ...register("nameCs", { required: "Customer name is required", }) }
-							className="input input-bordered"
-						/>
-						{ errors.nameCs && <span className="text-error">{ errors.nameCs.message }</span> }
-					</div>
 
 					{/* Order Time */ }
 					<div className="form-control">

@@ -27,7 +27,7 @@ export function LoadingDataList() {
 	);
 }
 
-export function LoadingSpin() {
+export function PageLoadingSpin() {
 	return (
 		<span className="loading loading-spinner loading-lg"></span>
 	);

@@ -1,14 +1,24 @@
 import { prisma } from "@/config/prisma"
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProductDB, TTrolleyUpdate } from "@/interface/entity/trolley.model";
-import { InterfaceRepository } from "@/interface/server/InterfaceRepository";
+import { TTrolleyCreate, TTrolleyDB, TTrolleyProductUser, TTrolleyUpdate } from "@/interface/entity/trolley.model";
+import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
 import { ResponseAll } from "@/interface/server/param";
+
+export type TrolleyParams = Required<ParamsApi<Pick<TTrolleyDB, 'id_user'>>>
 
 export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB> {
 
-	async findAll({ pagination: { page = 1, limit = 100 } }): Promise<ResponseAll<TTrolleyProductDB>> {
+    async findAll({
+                      pagination: { page = 1, limit = 100 },
+                      filter: { id_user }
+                  }: TrolleyParams
+    ): Promise<ResponseAll<TTrolleyProductUser>> {
 		const skip = (page - 1) * limit
 		const take = limit
 		const products = await prisma.trolleys.findMany({
+            where: {
+                id_user,
+                id_order: null
+            },
 			skip,
 			take,
 			include: {Product: true}
@@ -18,9 +28,13 @@ export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB
 
 	async findById(id: string): Promise<any> {
 		return prisma.trolleys.findUnique({
-			where: {id},
-			include: {Product: true}
-
+            where: {
+                id,
+                id_order: null
+            },
+            include: {
+                Product: true,
+            }
 		})
 	}
 
@@ -102,7 +116,10 @@ export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB
 
 	async count(id_user: string): Promise<any> {
 		return prisma.trolleys.count({
-			where: { id_user: id_user },
+            where: {
+                id_user: id_user,
+                id_order: null,
+            },
 		})
 	}
 

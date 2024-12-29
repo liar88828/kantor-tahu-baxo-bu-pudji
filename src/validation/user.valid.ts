@@ -1,11 +1,15 @@
 import { z } from "zod";
-import { TProductCreate } from "@/interface/entity/product.model";
 import { TUserCreate } from "@/interface/entity/user.model";
 
+import { zodAddress, zodPassword, zodPhone } from "@/validation/zod.valid";
+
 export const UserCreate: z.ZodType<TUserCreate> = z.object({
-	name: z.string().min(1).max(100),
-	phone: z.string().min(1).max(100),
-	address: z.string().min(1).max(100),
+    address: zodAddress,
+    email: z.string(),
+    name: z.string().min(1).max(100),
+    password: zodPassword,
+    phone: zodPhone,
+    role: z.string(),
 })
 
 // export const ProductUpdate: z.ZodType<TProductUpdate> = z.object({

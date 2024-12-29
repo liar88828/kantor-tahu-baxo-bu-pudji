@@ -2,7 +2,11 @@ import type { NextConfig } from 'next';
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-
+    logging: {
+        fetches: {
+            fullUrl: true,
+        },
+    },
 	experimental: {
 		serverActions: {
 			bodySizeLimit: '2mb',
@@ -20,7 +24,10 @@ const nextConfig: NextConfig = {
 	bundlePagesRouterDependencies: true,
 	transpilePackages: ['lucide-react'],// add this
 	images: {
-		domains: ["localhost", "dummyimage.com"]
+        remotePatterns: [
+            { protocol: "http", hostname: 'localhost', },
+            { protocol: "https", hostname: 'dummyimage.com' },
+        ],
 	},
 }
 

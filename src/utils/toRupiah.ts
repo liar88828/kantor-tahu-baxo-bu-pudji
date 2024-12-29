@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 export const toRupiah = (n: number | string | undefined): string => {
   if( typeof n !== "string" ) {
 

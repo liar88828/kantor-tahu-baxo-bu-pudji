@@ -12,12 +12,14 @@ export const exampleDelivery: TDeliveryDB = {
   created_at: new Date(),
   updated_at: new Date(),
 }
+
 export const exampleDeliveryCreate: TDeliveryCreate = {
-  name: "kosong",
-  phone: "kosong",
-  address: "kosong",
-  type: "kosong",
-  price: 0,
-  img: "kosong",
-  desc: "kosong",
+    name: "John Doe",
+    phone: "+6234567890",
+    address: "123 Main St, Springfield, IL, 62701",
+    type: "Standard",
+    price: 20,
+    img: "https://example.com/image.jpg",
+    desc: "Standard delivery within 5-7 business days.",
+
 }
