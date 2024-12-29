@@ -71,7 +71,7 @@ export function setIdModel(to: ToModel, data: any) {
 			return setIdDelivery(data);
 		}
 		if (to === "orderan") {
-			console.log(data)
+            // console.log(data)
 			return setIdOrderan(data);
 		}
 		// if( to === "semuaProduk" ) {

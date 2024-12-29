@@ -49,29 +49,6 @@ export default function SignupForm() {
 					) }
 				</div>
 
-				{/* Password Input */ }
-				<div className="form-control w-full">
-					<label htmlFor="password" className="label">
-						<span className="label-text">Password</span>
-					</label>
-					<input
-						id="password"
-						name="password"
-						type="password"
-						placeholder="Enter your password"
-						className="input input-bordered w-full"
-					/>
-					{ state?.errors?.password && (
-						<div className="mt-2 text-red-500 text-sm">
-							<p>Password must:</p>
-							<ul className="list-disc list-inside">
-								{ state.errors.password.map((error) => (
-									<li key={ error }>{ error }</li>
-								)) }
-							</ul>
-						</div>
-					) }
-				</div>
 
                 {/* Phone Input */ }
                 <div className="form-control w-full">
@@ -102,6 +79,55 @@ export default function SignupForm() {
                     />
                     { state?.errors?.address && (
                         <p className="text-red-500 text-sm mt-1">{ state.errors.address }</p>
+                    ) }
+                </div>
+
+
+                {/* Password Input */ }
+                <div className="form-control w-full">
+                    <label htmlFor="password" className="label">
+                        <span className="label-text">Password</span>
+                    </label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        className="input input-bordered w-full"
+                    />
+                    { state?.errors?.password && (
+                        <div className="mt-2 text-red-500 text-sm">
+                            <p>Password must:</p>
+                            <ul className="list-disc list-inside">
+                                { state.errors.password.map((error) => (
+                                    <li key={ error }>{ error }</li>
+                                )) }
+                            </ul>
+                        </div>
+                    ) }
+                </div>
+
+
+                {/* Password Input */ }
+                <div className="form-control w-full">
+                    <label htmlFor="confirm" className="label">
+                        <span className="label-text">Confirm Password</span>
+                    </label>
+                    <input
+                        name="confirm"
+                        type="password"
+                        placeholder="Enter your confirm password"
+                        className="input input-bordered w-full"
+                    />
+                    { state?.errors?.confirm && (
+                        <div className="mt-2 text-red-500 text-sm">
+                            <p>Password must:</p>
+                            <ul className="list-disc list-inside">
+                                { state.errors.confirm.map((error) => (
+                                    <li key={ error }>{ error }</li>
+                                )) }
+                            </ul>
+                        </div>
                     ) }
                 </div>
 

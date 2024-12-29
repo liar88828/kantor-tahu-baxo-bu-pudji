@@ -19,7 +19,7 @@ export default function UploadForm() {
 			body: formData,
 		});
 		const result = await response.json();
-		console.log(result);
+        // console.log(result);
 		const data = result.data as ResponseEnc;
 		setMyImage(data)
 		return data

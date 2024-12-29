@@ -5,7 +5,7 @@ import { toRupiah } from "@/utils/toRupiah";
 import { usePaymentStore } from "@/store/payment";
 import { toAccounting } from "@/utils/accounting";
 import { useProductStore } from "@/store/product";
-import { EmptyData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import React, { useState } from "react";
 import { useOrderStore } from "@/store/order";
 import { TCustomersDB } from "@/interface/entity/receiver.model";
@@ -493,7 +493,7 @@ export function Product() {
 
             <div className="space-y-2 border rounded-2xl p-0.5">
                 { !onSelected
-                    ? <EmptyData page={ 'checkout' }/>
+                    ? <PageEmptyData page={ 'checkout' }/>
                     : onSelected.map(trolley => (
                         <div
                             key={ trolley.id }
@@ -557,7 +557,7 @@ export function ProductAdmin() {
 			<div className="  mt-2">
 				<div className="space-y-2">
 						{ !productStore
-							? <EmptyData page={ 'checkout' }/>
+                            ? <PageEmptyData page={ 'checkout' }/>
 							: productStore.map(product => (
 								<div
 									key={ product.id_product }
@@ -657,7 +657,7 @@ export function ProductCard() {
 			<div className="  mt-2">
 				<div className="space-y-2">
 					{ !productStore
-						? <EmptyData page={ 'checkout' }/>
+                        ? <PageEmptyData page={ 'checkout' }/>
 						: productStore.map(product => (
 							<div
 								key={ product.id_product }

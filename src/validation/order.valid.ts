@@ -1,23 +1,24 @@
 import { z } from "zod";
 import { TOrderCreate } from "@/interface/entity/order.model";
 
+import { zodAddress, zodDesc, zodInt } from "@/validation/zod.valid";
+
 export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
     // nameCs: z.string().min(1).max(100),
 	sendTime: z.coerce.date(),
-
     orderTime: z.coerce.date(),
-	desc: z.string().min(1).max(300),
-	address: z.string().min(1).max(100),
-	// travel
+    desc: zodDesc,
+    address: zodAddress,
+    // travel
 	id_delivery: z.string().uuid(),
     id_customer: z.string().uuid(),
 	nameDelivery: z.string().min(1).max(100),
 	phoneDelivery: z.string().min(1).max(100),
-	priceDelivery: z.number().int().nonnegative(),
+    priceDelivery: zodInt,
 	// payment
 	id_payment: z.string().uuid(),
-	totalPayment: z.number().int().nonnegative(),
-	totalAll: z.number().int().nonnegative(),
+    totalPayment: zodInt,
+    totalAll: zodInt,
 	//
 	status: z.string().min(1).max(100),
 	// id_receiver: z.string().uuid(),
@@ -69,18 +70,18 @@ export type OrderCreateClient = {
 export const orderCreateClient: z.ZodType<Omit<OrderCreateClient,'id'>> = z.object({
     // nameCs: z.string(),
     id_customer: z.string(),
-	addressCs: z.string(),
-	desc: z.string(),
+    addressCs: zodAddress,
+    desc: zodDesc,
 	nameDelivery: z.string(),
 	phoneDelivery: z.string(),
-	priceDelivery: z.number(),
-	orderTime: z.date(),
-	sendTime: z.date(),
+    priceDelivery: zodInt,
+    orderTime: z.coerce.date(),
+    sendTime: z.coerce.date(),
 	status: z.string(),
 	namePayment: z.string(),
-	totalPayment: z.number(),
-	totalProduct: z.number(),
-	totalAll: z.number(),
+    totalPayment: zodInt,
+    totalProduct: zodInt,
+    totalAll: zodInt,
 
 }).refine((data) => data.orderTime <= data.sendTime, {
 	message: "Order Time cannot be later than Send Time",

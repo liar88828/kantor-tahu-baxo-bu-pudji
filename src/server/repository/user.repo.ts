@@ -32,6 +32,16 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
 		return prisma.users.findUnique({where: {id}});
 	}
 
+    async findByIdValid(id?: string) {
+        const response = await prisma.users.findUnique({ where: { id } });
+        if (!response) {
+            throw new Error("User does not exist");
+        }
+        return response;
+    }
+
+
+
     async createOne(data: TUserCreate): Promise<Users> {
 		return prisma.users.create({data: {...data}});
 	}
@@ -44,17 +54,7 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
 		return prisma.users.delete({where: {id}});
 	}
 
-	setOne(d: (TUserCreate) & { id?: string }) {
-		return {
-
-		}
-	}
-
-    setMany(data: TUserCreate[]) {
-
-	}
-
-	async updateMany(data: TUserCreate[], id: string) {
+    async updateMany(data: TUserCreate[], id: string) {
 
     }
 }

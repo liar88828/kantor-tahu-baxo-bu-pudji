@@ -7,19 +7,23 @@ import { PRODUCT, useProduct } from "@/hook/useProduct";
 import { useTrolley } from "@/hook/useTrolley";
 import { useDebounce } from "@/hook/useDebounce";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
-import { EmptyData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import { TProductDB } from "@/interface/entity/product.model";
 import { toRupiah } from "@/utils/toRupiah";
-import { categoryData } from "@/assets/category";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { PaginatedResponse } from "@/interface/server/param";
+import { categoryData } from "@/assets/MenuList";
 
 export function ProductLayout({ children }: { children: React.ReactNode }) {
+
     const { filter, setFilter } = useProductStore();
     const { name, ...rest } = filter
+    const { getProductType } = useProduct();
+    const { data: productType } = getProductType()
     const queryClient = useQueryClient();
     const debouncedSearch = useDebounce(filter.name, 1000)
     const data = queryClient.getQueryData<InfiniteData<PaginatedResponse, unknown> | undefined>([ PRODUCT.KEY, debouncedSearch, ...Object.values(rest) ],)
+
     // console.log(data)
     return (
         <div className="px-3 space-y-5">
@@ -28,6 +32,7 @@ export function ProductLayout({ children }: { children: React.ReactNode }) {
                     <input
                         className='input input-bordered w-full'
                         placeholder='Search ...'
+
                         value={ filter.name }
                         type="text"
                         onChange={ (e) => setFilter({ name: e.target.value }) }
@@ -80,7 +85,7 @@ export function ProductLayout({ children }: { children: React.ReactNode }) {
                         defaultValue={ filter.type }
                     >
                         <option value={ '' }>Select Type</option>
-                        { categoryData.map((item) =>
+                        { productType && [ ...categoryData, ...productType ].map((item) =>
                             (<option key={ item.title }>{ item.title }</option>)
                         ) }
                     </select>
@@ -124,7 +129,7 @@ export function ProductFetch() {
     if (isError || status === 'error' || error) {
         return (
             <div className={ 'flex justify-center' }>
-                <EmptyData page={ 'Product User' }/>
+                <PageEmptyData page={ 'Product User' }/>
             </div>
         )
     }

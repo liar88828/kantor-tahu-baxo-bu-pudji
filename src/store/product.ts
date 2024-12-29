@@ -8,7 +8,6 @@ export enum PRODUCT_FILTER_PRICE {
     NORMAL = "NORMAL",
     HIGH = "HIGH",
     LOW = "LOW",
-
 }
 
 export interface ProductStore {

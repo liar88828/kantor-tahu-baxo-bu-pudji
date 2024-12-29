@@ -18,14 +18,17 @@ export default function RootLayout({children}: {
 	children: ReactNode
 }) {
 	return (
-		<html lang="en" className={ inter.className }
-			  // data-theme={ 'light' }
-		>
-		<body className={"min-h-screen "}>
-		<ReactQueryProvider>
-			{children}
-		</ReactQueryProvider>
-		</body>
-		</html>
-	)
+        <html
+            lang="en"
+            className={ inter.className }
+        >
+        <body className={ "min-h-screen " }
+            // data-theme={ (isDarkTheme || !isDarkTheme) ? "dark" : "light" }
+        >
+        <ReactQueryProvider>
+            { children }
+        </ReactQueryProvider>
+        </body>
+        </html>
+    )
 }

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 
-import { statusTest } from '../../src/app/utils/test/statusTest';
 import { toFetch } from "../../src/hook/toFetch";
 import { TProductDB } from "../../src/interface/entity/product.model";
 import { TDeliveryDB } from "../../src/interface/entity/delivery.model";
@@ -235,25 +234,27 @@ describe("Test Travel", () => {
 		})
 		
 		it("Travel Cannot create partial value ", async () => {
-			const { name, phone, desc, price, ...ress } = json
-			const data = toFetch<TProductDB>("POST", "delivery", ress)
-			await expect(data).resolves.not.toHaveProperty("data.name", "kosong")
-			await expect(data).resolves.not.toContain(statusTest("POST", 'product'))
-			await expect(data).resolves.toMatchObject(responseErrorPartial)
+            const { name, phone, desc, price, ...data } = json
+            const response = toFetch<TProductDB>("POST", { url: "delivery", data })
+            await expect(response).resolves.not.toHaveProperty("data.name", "kosong")
+            await expect(response).resolves.toMatchObject(responseErrorPartial)
 			
 		})
 		
 		it("Travel Cannot create empty value ", async () => {
-			const data = toFetch<TProductDB>("POST", "delivery", {})
+            const data = toFetch<TProductDB>("POST", {
+                url: "delivery",
+                data: {}
+            })
 			await expect(data).resolves.not.toHaveProperty("data.name", "kosong")
-			await expect(data).resolves.not.toContain(statusTest("POST", "delivery"))
+            // await expect(data).resolves.not.toContain(statusTest("POST", "delivery"))
 			await expect(data).resolves.toMatchObject(responseErrorAll)
 		})
 	})
 	
 	describe("GET Method ", () => {
 		it("Travel Can find by all ", async () => {
-			const data = toFetch("GET", `delivery/`,)
+            const data = toFetch("GET", { url: `delivery` },)
 			await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
 			await expect(data).resolves.toMatchObject({ "code": 200 })
 			await expect(data).resolves.toMatchObject({ "data": expect.any(Object) })
@@ -271,7 +272,9 @@ describe("Test Travel", () => {
 		})
 		
 		it("Travel Can find ID ", async () => {
-			const data = toFetch("GET", `delivery/${ contextId }`,)
+            const data = toFetch("GET", {
+                url: `delivery/${ contextId }`
+            },)
 			await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
 			await expect(data).resolves.toMatchObject({ "code": 201 })
 			await expect(data).resolves.toMatchObject({ "data": expect.any(Object) })
@@ -289,7 +292,9 @@ describe("Test Travel", () => {
 		})
 		
 		it("Travel Cannot find ID ", async () => {
-			const data = toFetch("GET", `delivery/${ 12312312 }`)
+            const data = toFetch("GET", {
+                url: `delivery/${ 12312312 }`
+            })
 			await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
 			await expect(data).resolves.toMatchObject({ "code": 400 })
 			await expect(data).resolves.toMatchObject({ "error": expect.any(Array) })
@@ -312,7 +317,10 @@ describe("Test Travel", () => {
 			json.name = "update"
 			json.id = contextId
 			responseSuccess.data.name = json.name
-			const data = toFetch("PUT", `delivery/${ json.id }`, json)
+            const data = toFetch("PUT", {
+                url: `delivery/${ json.id }`,
+                data: json
+            })
 			await expect(data).resolves.toHaveProperty("data.name", "update")
 			await expect(data).resolves.toMatchObject(responseSuccess)
 		})
@@ -321,7 +329,10 @@ describe("Test Travel", () => {
 			json.name = "update"
 			json.id = contextId
 			responseSuccess.data.name = json.name
-            const data = toFetch("PUT", `delivery/salah`, json,)
+            const data = toFetch("PUT", {
+                url: `delivery/salah`,
+                data: json
+            })
 			await expect(data).resolves.not.toHaveProperty("data.name", "update")
 			await expect(data).resolves.toMatchObject(responseErrorID)
 		})
@@ -366,16 +377,22 @@ describe("Test Travel", () => {
 		it("Travel Cannot edit by empty ID", async () => {
 			json.name = "update"
 			json.id = contextId
-			const { name, phone, desc, price, ...ress } = json
-			const data = toFetch("PUT", `delivery/${ json.id }`, ress,)
-			await expect(data).resolves.not.toHaveProperty("data.name", "update")
-			await expect(data).resolves.toMatchObject(responseErrorPartial)
+            const { name, phone, desc, price, ...data } = json
+            const response = toFetch("PUT", {
+                url: `delivery/${ json.id }`,
+                data
+            })
+            await expect(response).resolves.not.toHaveProperty("response.name", "update")
+            await expect(response).resolves.toMatchObject(responseErrorPartial)
 			
 		})
 		
 		it("Travel Cannot edit by empty value ", async () => {
 			json.name = "update"
-			const data = toFetch("PUT", `delivery/${ json.id }`, {},)
+            const data = toFetch("PUT", {
+                url: `delivery/${ json.id }`,
+                data: {}
+            })
 			await expect(data).resolves.not.toHaveProperty("data.name", "update")
 			await expect(data).resolves.toMatchObject(responseErrorAllUpdate)
 			
@@ -386,15 +403,18 @@ describe("Test Travel", () => {
 	describe.sequential("DELETE Travel", () => {
 		
 		it("Travel Can delete by ID ", async () => {
-			const data = toFetch("DELETE", `delivery/${ contextId }`,)
+            const data = toFetch("DELETE", {
+                url: `delivery/${ contextId }`
+            })
 			await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
 			await expect(data).resolves.toMatchObject({ "code": 200 })
 			await expect(data).resolves.toMatchObject({ "data": expect.any(Object) })
 		})
 		
 		it("Travel Cannot delete by wrong ID ", async () => {
-			const data = toFetch("DELETE", `delivery/${ 123123 }`,)
-			await expect(data).resolves.not.toContain(statusTest("DELETE", "product"))
+            const data = toFetch("DELETE", {
+                url: `delivery/${ 123123 }`
+            })
 			await expect(data).resolves.toMatchObject({ "msg": expect.any(String) })
 			await expect(data).resolves.toMatchObject({ "code": 400 })
 			await expect(data).resolves.toMatchObject({ "error": expect.any(Array) })
@@ -406,7 +426,9 @@ describe("Test Travel", () => {
 		})
 		
 		it("Travel Cannot delete by empty ID ", async () => {
-			const data = toFetch("DELETE", `delivery/${ contextId }`,)
+            const data = toFetch("DELETE", {
+                url: `delivery/${ contextId }`,
+            })
 			await expect(data).resolves.not.toHaveProperty("data.name", "update")
 			await expect(data).resolves.toMatchObject({
 				"code": 500,

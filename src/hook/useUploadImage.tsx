@@ -16,7 +16,7 @@ export function useUploadImage(id: string = '') {
 			body: formData,
 		});
 		const result = await response.json();
-		console.log(result);
+        // console.log(result);
 	}
 
 	return {

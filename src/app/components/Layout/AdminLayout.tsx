@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/server/lib/state";
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
+import { linkPrimary, linkSecondary } from "@/assets/MenuList";
 
 export default function AdminLayout({ children, isLogin }: { children: ReactNode, isLogin: boolean }) {
 	// console.log(isLogin)
@@ -16,42 +17,6 @@ export default function AdminLayout({ children, isLogin }: { children: ReactNode
     const showNavbar = useScrollVisibility(true);
     const showBottomNav = useScrollVisibility(true);
 
-    const linkPrimary = [
-		{
-            href: '/admin/dashboard',
-			icon: <HomeIcon className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-            label: 'Dashboard',
-			add: 'pro'
-		},
-		{
-			href: '/admin/employee',
-			icon: <User className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-			label: 'Employee'
-		},
-	]
-	const linkSecondary = [
-		{
-			href: '/admin/order',
-			icon: <BookA className={ 'flex-shrink-0 w-5 h-5  transition duration-75  ' }/>,
-			label: 'Order',
-			add: 2
-		},
-		{
-			href: '/admin/product',
-			icon: <LucidePackageSearch className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-			label: 'Product'
-		},
-		{
-			href: '/admin/delivery',
-			icon: <Car className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-			label: 'Delivery'
-		},
-		{
-			href: '/admin/payment',
-			icon: <CreditCard className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-			label: 'Payment'
-		},
-	]
 	return (<>
             <div
                 className={ `navbar bg-base-200/50 fixed top-0 start-0 z-20 w-full transition-transform duration-300 ${

@@ -9,7 +9,9 @@ import {
 import { FetchResponse, ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
 import { OrderParams, ResponseCreateOrderTransaction, ResponseMonthData } from "@/interface/entity/order.model";
-import { StatusOrder } from "@/interface/Utils";
+import { TStatusOrder } from "@/interface/Utils";
+import { useQuery } from "@tanstack/react-query";
+import { ORDER_KEY } from "@/hook/useOrder";
 
 export const orderCreate = (data: TOrderTransactionCreate) => toFetch<ResponseCreateOrderTransaction>('POST', {
     url: 'order',
@@ -33,7 +35,7 @@ export const orderDelete = (id: string) => toFetch('DELETE', {
     url: `order/${ id }`
 })
 
-export const orderMonthTotal = (status: StatusOrder) => toFetch<OrderMonthTotal>('GET', {
+export const orderMonthTotal = (status: TStatusOrder) => toFetch<OrderMonthTotal>('GET', {
     url: `order/month?status=${ status }`
 })
 
@@ -61,12 +63,13 @@ export const getEarningNew = async (year: number) => {
     })
 }
 
-export const findHistoryUser = async () => {
+export const findHistoryUser = async (status: string) => {
     return toFetch<HistoryUser[]>("GET",
         {
-            url: 'history/user/order',
+            url: `history/user/order?status=${ status }`,
             cacheData: {
-                next: { revalidate: 2 }
+                next: { revalidate: 5 }
             }
         })
 }
+

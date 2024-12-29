@@ -1,8 +1,7 @@
 import React from 'react'
 import { getUser } from "@/server/lib/db";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
-import { UserProfile } from "@/app/(user)/(market)/profile/profile.client";
-import { ProfileServer } from "@/app/(user)/(market)/profile/profile.server";
+import { ProfileServer, UserProfile } from "@/app/(user)/(market)/profile/profile.client";
 
 export default async function page() {
     const user = await getUser()

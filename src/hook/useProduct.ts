@@ -1,15 +1,18 @@
 'use client'
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { toFetch } from "@/hook/toFetch";
 import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
-import { TProductCreate, TProductDB } from "@/interface/entity/product.model";
+import { ResponseProductType, TProductCreate, TProductDB } from "@/interface/entity/product.model";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { productAll, productCreate, productDelete, productUpdate, productUpdateStock } from "@/network/product";
 import React, { useEffect } from "react";
 import { ProductStore } from "@/store/product";
 
-export enum PRODUCT {KEY = 'product' }
+export enum PRODUCT {
+    KEY = 'product',
+    TYPE = 'type'
+}
 export const useProduct = () => {
 	const router = useRouter()
 
@@ -115,7 +118,8 @@ export const useProduct = () => {
 
 	}
 
-    const useProductInfiniteQuery = (debouncedSearch: string, {
+    const useProductInfiniteQuery = (
+        debouncedSearch: string, {
         name,
         ...filter
     }: ProductStore['filter'], observerRef: React.RefObject<HTMLDivElement | null>) => {
@@ -131,9 +135,10 @@ export const useProduct = () => {
             isError,
 		} = useInfiniteQuery<PaginatedResponse, Error>({
 			initialPageParam: 1,
+            // refetchOnMount: 'always',
             // retryDelay: 5000,
-            // staleTime: 1000*60,
-            gcTime: 1000 * 60,
+            // staleTime: 0,
+            // gcTime: 1000 * 60,
             enabled: debouncedSearch === name,
             queryKey: [ PRODUCT.KEY, debouncedSearch, ...Object.values(filter) ],
             queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
@@ -203,8 +208,25 @@ export const useProduct = () => {
         };
 	};
 
+    const GetProductType = () => useQuery({
+        // initialData: [ { type: "" } ],
+        gcTime: 1000 * 60 * 60,
+        staleTime: 1000 * 60 * 60,
+        select: (response) => response.data.map(d => ({
+            title: d.type
+        })),
+        queryKey: [ PRODUCT.KEY, PRODUCT.TYPE ],
+        queryFn: () => toFetch<ResponseProductType[]>("GET", {
+            url: 'product/type',
+            cacheData: {
+                next: {
+                    revalidate: 24 * 60
+                }
+            }
+        }),
+    })
     return {
-        onUpdateStock,
+        onUpdateStock, getProductType: GetProductType,
 		getProductUser, onDelete, onUpsert, useProductInfiniteQuery
 
 

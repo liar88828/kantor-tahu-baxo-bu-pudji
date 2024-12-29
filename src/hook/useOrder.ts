@@ -9,8 +9,9 @@ import { useReceiverStore } from "@/store/receiver";
 import { usePaymentStore } from "@/store/payment";
 import { useOrderStore } from "@/store/order";
 import { OrderCreateClient } from "@/validation/order.valid";
-import { TMethod } from "@/interface/Utils";
+import { TMethod, TStatusOrder } from "@/interface/Utils";
 import { OrderParams } from "@/interface/entity/order.model";
+import { toFetch } from "@/hook/toFetch";
 
 export enum ORDER_KEY {
 	order = "order",
@@ -115,7 +116,24 @@ export function useOrder() {
 			toast.error('Fail Delete Order')
 		}
 	})
-	return {
+
+    const GetOrderStatus = (status: TStatusOrder) => useQuery({
+        queryKey: [ ORDER_KEY, status ],
+        queryFn: () => {
+            return toFetch<number>('GET', {
+                url: `/order/count?status=${ status }`,
+            })
+        },
+        select: (response) => response.data,
+        gcTime: 5 * 60 * 1000,
+        refetchOnMount: false,
+        // initialData:()=> ({
+        //     data:0
+        // })
+    })
+
+    return {
+        getOrderStatus: GetOrderStatus,
 		onUpsert,
 		getAll: GetAll,
 		getId: GetId,

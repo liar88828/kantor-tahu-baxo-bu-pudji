@@ -1,12 +1,14 @@
 import { z } from "zod";
 import { TUserCreate } from "@/interface/entity/user.model";
 
+import { zodAddress, zodPassword, zodPhone } from "@/validation/zod.valid";
+
 export const UserCreate: z.ZodType<TUserCreate> = z.object({
-	name: z.string().min(1).max(100),
-	phone: z.string().min(1).max(100),
-	address: z.string().min(1).max(100),
-	email: z.string(),
-	password: z.string(),
+    address: zodAddress,
+    email: z.string(),
+    name: z.string().min(1).max(100),
+    password: zodPassword,
+    phone: zodPhone,
     role: z.string(),
 })
 

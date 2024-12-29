@@ -1,29 +1,5 @@
 import { z } from "zod";
-
-export const SignupFormSchema = z.object({
-    address: z
-	.string()
-	.min(2, { message: 'Name must be at least 2 characters long.' })
-	.trim(),
-	email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-    name: z
-    .string()
-    .min(2, { message: 'Name must be at least 2 characters long.' })
-    .trim(),
-	password: z
-	.string()
-	.min(8, { message: 'Be at least 8 characters long' })
-	.regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-	.regex(/[0-9]/, { message: 'Contain at least one number.' })
-	// .regex(/[^a-zA-Z0-9]/, {
-	// 	message: 'Contain at least one special character.',
-	// })
-	.trim(),
-    phone: z
-    .string()
-    .min(2, { message: 'Name must be at least 2 characters long.' })
-    .trim(),
-})
+import { zodAddress, zodEmail, zodPassword, zodPhone } from "@/validation/zod.valid";
 
 export type FormState = {
     errors?: {
@@ -34,37 +10,38 @@ export type FormState = {
     message?: string
 } | undefined
 
-export const SignInFormSchema = z.object({
+export const SignupFormSchema = z.object({
+    id: z.string().uuid().optional(),
+    address: zodAddress,
+    confirm: z.string(),
+    email: zodEmail,
+    name: z
+    .string()
+    .min(2, { message: 'Name must be at least 2 characters long.' })
+    .trim(),
+    password: zodPassword,
+    phone: zodPhone,
 
-	email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-	password: z
-	.string()
-	.min(8, { message: 'Be at least 8 characters long' })
-	.regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-	.regex(/[0-9]/, { message: 'Contain at least one number.' })
-	// .regex(/[^a-zA-Z0-9]/, {
-	// 	message: 'Contain at least one special character.',
-	// })
-	.trim(),
+})
+.refine((data) => data.password === data.confirm,
+    {
+        message: "Passwords don't match",
+        path: [ "confirm" ],
+    });
+
+export const SignInFormSchema = z.object({
+    email: zodEmail,
+    password: zodPassword,
 })
 
 export const ForgetFormSchema = z.object({
-    email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-
+    email: zodEmail,
 })
 
 export const ResetFormSchema = z.object({
-    email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-    password: z
-    .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-    .regex(/[0-9]/, { message: 'Contain at least one number.' })
-    // .regex(/[^a-zA-Z0-9]/, {
-    // 	message: 'Contain at least one special character.',
-    // })
-    .trim(),
     confirm: z.string(),
+    email: zodEmail,
+    password: zodPassword,
 })
 .refine((data) => data.password === data.confirm,
     {

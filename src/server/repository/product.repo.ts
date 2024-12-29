@@ -1,5 +1,5 @@
 import {
-    ProductHomeUser,
+    ProductHomeUser, ProductParams,
     ProductSearch,
     TProductCreate,
     TProductDB,
@@ -9,8 +9,6 @@ import { prisma } from "@/config/prisma";
 import { ResponseAll } from "@/interface/server/param";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
 import { PRODUCT_FILTER_PRICE } from "@/store/product";
-
-export type ProductParams = ParamsApi<ProductSearch>
 
 export default class ProductRepository implements InterfaceRepository<TProductCreate> {
 

@@ -8,7 +8,7 @@ import { OrderProductTransaction } from "@/validation/orderProduct.valid"
 import { ReceiverCreate } from "@/validation/receiver.valid"
 import { UUIDSchema } from "@/validation/id.valid"
 import { orderCreateServer } from "@/validation/order.valid"
-import { StatusOrder } from "@/interface/Utils";
+import { TStatusOrder } from "@/interface/Utils";
 import { verifySession } from "@/server/lib/db";
 
 export default class OrderController
@@ -48,6 +48,12 @@ export default class OrderController
 			},
 		})
 	}
+
+    async findOrderStatus(request: NextRequest, _: TContext): Promise<any> {
+        const status = getParams(request, 'status',) ?? ''
+        const { userId } = await verifySession()
+        return this.orderRepository.findOrderStatus({ status, userId })
+    }
 
 	async createOne(request: NextRequest, _: TContext): Promise<any> {
 		const json: TOrderTransactionCreate = await getJson(request)
@@ -89,11 +95,12 @@ export default class OrderController
 
     async findHistoryUser(request: NextRequest, _context: TContext) {
         const user = await verifySession()
-        return this.orderRepository.findHistoryUser(user.userId)
+        const status = getParams(request, "status") ?? ''
+        return this.orderRepository.findHistoryUser(status, user.userId)
     }
 
     async findByMonth(request: NextRequest, _: TContext) {
-        const status = getParamsThrow(request, 'status') as StatusOrder
+        const status = getParamsThrow(request, 'status') as TStatusOrder
         return this.orderRepository.findByMonth(status)
 
     }

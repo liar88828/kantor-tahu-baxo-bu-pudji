@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ChevronLeft, DollarSign } from 'lucide-react';
 import { usePathname, useRouter } from "next/navigation";
 import useTrolleyStore from "@/store/trolley";
-import { CheckoutCase } from "@/app/(user)/(transaction)/trolley.client";
+import { CheckoutCase } from "@/app/(user)/trolley.client";
 
 export default function Layout({children}: { children: ReactNode, }) {
 	const router = useRouter()

@@ -9,7 +9,7 @@ import { prisma } from "@/config/prisma";
 import { Orders } from "@prisma/client";
 import { InterfaceRepository, TPagination } from "@/interface/server/InterfaceRepository";
 import { MonthlyTotal, OrderParams, ResponseCreateOrderTransaction, SearchOrder } from "@/interface/entity/order.model";
-import { StatusOrder } from "@/interface/Utils";
+import { TStatusOrder } from "@/interface/Utils";
 
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
@@ -144,10 +144,15 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 		})
 	}
 
-    async findHistoryUser(id_user: string): Promise<HistoryUser[]> {
+    async findHistoryUser(status: string, id_user: string): Promise<HistoryUser[]> {
         return prisma.orders.findMany(
             {
-                where: { id_customer: id_user, },
+                where: {
+                    id_customer: id_user,
+                    status: {
+                        contains: status
+                    }
+                },
                 include: {
                     Customers: true,
                     Trolleys: true
@@ -156,7 +161,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
         );
     }
 
-    async findByMonth(status: StatusOrder): Promise<OrderMonthTotal> {
+    async findByMonth(status: TStatusOrder): Promise<OrderMonthTotal> {
         const now = new Date();
         const monthStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the current month
         const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59); // End of the current month
@@ -191,6 +196,17 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
             orderBy: { totalAll: 'desc' },
         })
     }
+
+    async findOrderStatus({ status, userId }: { userId: string, status: string }): Promise<number> {
+        return prisma.orders.count({
+            where: {
+                id_customer: userId,
+                status: status
+            }
+        })
+
+    }
+
 
     // ---------CREATE
     async createOne(data: TOrderTransactionCreate): Promise<ResponseCreateOrderTransaction> {

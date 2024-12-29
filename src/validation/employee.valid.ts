@@ -3,12 +3,14 @@ import { z } from "zod";
 import { zImage } from "@/validation/image";
 import { EmployeeCreate } from "@/interface/entity/employee.model";
 
+import { zodAddress, zodEmail, zodPhone } from "@/validation/zod.valid";
+
 // @ts-ignore
 export const employeeCreateClient: z.ZodType<EmployeeCreate> = z.object({
 	name: z.string().min(2, "Name must be at least 2 characters"),
-	email: z.string().email("Invalid email address"),
-	phone: z.string(),
-	// gender: z.enum([ "Male", "Female" ]),
+    email: zodEmail,
+    phone: zodPhone,
+    // gender: z.enum([ "Male", "Female" ]),
 	gender: z.string(),
 	dateOfBirth: z.coerce.date(),
 	hireDate: z.coerce.date(),
@@ -18,14 +20,12 @@ export const employeeCreateClient: z.ZodType<EmployeeCreate> = z.object({
 	managerId: z.number().optional(),
 	// status: z.enum([ "Active", "Inactive" ]),
 	status: z.string().min(2, "Status must be a positive number"),
-	address: z.string(),
+    address: zodAddress,
 	city: z.string(),
 	postalCode: z.string(),
 	employmentType: z.enum([ "Full-Time", "Part-Time" ]),
 	notes: z.string(),
 	img: zImage,
-//
-	//
 	country: z.string(),
 	education: z.string(),
 	//
@@ -49,7 +49,7 @@ export const employeeCreateClient: z.ZodType<EmployeeCreate> = z.object({
 export const employeeCreateServer: z.ZodType<EmployeeCreate> = z.object({
 	name: z.string().min(2, "Name must be at least 2 characters"),
 	email: z.string().email("Invalid email address"),
-	phone: z.string(),
+    phone: zodPhone,
 	gender: z.string(),//[ "Male", "Female" ]
 	dateOfBirth: z.coerce.date(),
 	hireDate: z.coerce.date(),
@@ -58,8 +58,8 @@ export const employeeCreateServer: z.ZodType<EmployeeCreate> = z.object({
 	salary: z.number().min(0, "Salary must be a positive number"),
 	// status: z.enum(["Active", "Inactive"]),
 	status: z.string(),
-	address: z.string(),
-	city: z.string(),
+    address: zodAddress,
+    city: z.string(),
 	postalCode: z.string(),
 	employmentType: z.string(),//[ "Full-Time", "Part-Time" ]
 	notes: z.string(),

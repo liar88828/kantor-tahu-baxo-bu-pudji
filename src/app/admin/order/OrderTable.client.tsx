@@ -8,7 +8,7 @@ import { Filter, NotebookTabs, Plus } from "lucide-react";
 import Link from "next/link";
 import { useTableStore } from "@/store/table";
 import { useOrder } from "@/hook/useOrder";
-import { EmptyData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import { useDebounce } from "@/hook/useDebounce";
 
 export default function OrderTable() {
@@ -96,7 +96,7 @@ export default function OrderTable() {
 						<tbody>
                         { isError || !orders
 							? <tr>
-								<td><EmptyData page={ 'Data is Empty' }/></td>
+                                <td><PageEmptyData page={ 'Data is Empty' }/></td>
 							</tr>
                             : orders
 								.filter((order) => {

@@ -5,8 +5,9 @@ import { getId, getJson, getParams, getParamsBool, getParamsValue } from "@/util
 import { UUIDSchema } from "@/validation/id.valid"
 import { ProductCreate, ProductUpdateStock } from "@/validation/product.valid";
 import { PRODUCT_FILTER_PRICE } from "@/store/product";
-import { UpdateStock } from "@/interface/entity/product.model";
+import { ResponseProductType, UpdateStock } from "@/interface/entity/product.model";
 import ProductRepository from "@/server/repository/product.repo";
+import { prisma } from "@/config/prisma";
 
 export default class ProductController
 	implements InterfaceController {
@@ -49,7 +50,12 @@ export default class ProductController
         return this.productRepository.findRecent()
     }
 
-	async createOne(request: NextRequest, context: TContext): Promise<any> {
+    async findType(): Promise<ResponseProductType[]> {
+        // @ts-ignore
+        return prisma.products.groupBy({ by: [ 'type' ] });
+    }
+
+    async createOne(request: NextRequest, context: TContext): Promise<any> {
 		const json = await getJson(request)
 		return this.productRepository.createOne(ProductCreate.parse(json))
 	}

@@ -5,7 +5,7 @@ import { useActionState } from "react";
 import Link from "next/link";
 import { useOtpStore } from "@/store/otp";
 
-export default function SignupForm() {
+export default function LoginForm() {
     const { store, setData } = useOtpStore()
 
 	const [ state, action, pending ] = useActionState(signIn, undefined);

@@ -7,11 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductCreate } from "@/validation/product.valid";
 import { useProduct } from "@/hook/useProduct";
 import { Trash } from "lucide-react";
-import { categoryData } from "@/assets/category";
+import { categoryData } from "@/assets/MenuList";
 
 export default function ProductForm({ defaultValues, method, id, }: TReactFormHookComponent<TProductCreate>) {
-	const { onUpsert } = useProduct()
 
+    const { onUpsert, getProductType } = useProduct()
+    const { data: productType } = getProductType()
 	const {handleSubmit, register, formState: {errors}} = useForm<TProductCreate>({
 		resolver: zodResolver(ProductCreate), defaultValues
 	});
@@ -19,7 +20,6 @@ export default function ProductForm({ defaultValues, method, id, }: TReactFormHo
 
 	const onSubmitAction = async (data: TProductCreate) => {
         data.type = category;
-        // console.log(data)
         await onUpsert({ method, data, id })
 	}
     return (
@@ -58,7 +58,7 @@ export default function ProductForm({ defaultValues, method, id, }: TReactFormHo
                             className={ `select select-bordered join-item  ${ errors.type ? 'select-error' : '' }` }
 
                         >
-                            { categoryData?.map((category) => (
+                            { productType && [ ...productType, ...categoryData ].map((category) => (
                                 <option key={ category.title }
                                         value={ category.title }>
                                     { category.title }

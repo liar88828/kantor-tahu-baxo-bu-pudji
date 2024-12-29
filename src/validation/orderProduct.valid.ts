@@ -6,28 +6,28 @@ import {
     TTrolleyUpdate
 } from "@/interface/entity/trolley.model";
 
+import { zodInt } from "@/validation/zod.valid";
+
 export const OrderProductTransaction: z.ZodType<TOrderTrolleyTransaction[]> = z.array(
 	z.object({
         id: z.string(),
-		id_product: z.string().min(1).max(100),
-		id_user: z.string().min(1).max(100),
-		qty_at_buy: z.number(),
-		price_at_buy: z.number(),
-	})
+        id_product: z.string().min(1).max(100),
+        id_user: z.string().min(1).max(100),
+        price_at_buy: zodInt,
+        qty_at_buy: zodInt,
+    })
 )
 
 export const OrderProductUpdate: z.ZodType<TTrolleyUpdate> = z.object({
-	id_product: z.string().min(1).max(100),
-	qty_at_buy: z.number().positive(),
-	price_at_buy: z.number().positive(),
+    id_product: z.string().min(1).max(100),
+    price_at_buy: zodInt,
+    qty_at_buy: zodInt,
 })
 export const OrderProductCreate: z.ZodType<TTrolleyCreate> = z.object({
-	id_product: z.string().min(1).max(100),
-	id_user: z.string().min(1).max(100),
-	qty_at_buy: z.number(),
-	price_at_buy: z.number(),
-
-
+    id_product: z.string().min(1).max(100),
+    id_user: z.string().min(1).max(100),
+    price_at_buy: zodInt,
+    qty_at_buy: zodInt,
 })
 
 export const OrderProductCount: z.ZodType<TTrolleyCount> = z.object({

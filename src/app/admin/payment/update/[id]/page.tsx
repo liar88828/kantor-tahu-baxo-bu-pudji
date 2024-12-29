@@ -8,7 +8,7 @@ export default async function page(context: TContext) {
 
 	const id = await getId(context)
 	const {data} = await paymentId(id)
-	console.log(data)
+    // console.log(data)
 	return (
 		<PaymentForm
 			defaultValues={data}

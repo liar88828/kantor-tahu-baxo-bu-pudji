@@ -2,7 +2,6 @@ import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 import {toFetch} from "../../src/hook/toFetch";
 import {TPaymentDB} from "../../src/interface/entity/payment.model";
 import {examplePayment} from "../../src/assets/ExamplePayment";
-import {statusTest} from "../../src/app/utils/test/statusTest";
 
 const json = structuredClone(examplePayment)
 

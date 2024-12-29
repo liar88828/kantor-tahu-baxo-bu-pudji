@@ -5,8 +5,6 @@ export const validGenerateOtp: z.ZodType<OTPGenerate> = z.object({
     email: z.string().email(),
     time: z.coerce.date(),
     reason: z.enum([ 'RESET', 'VALID' ]),
-
-
 })
 
 export const validOtp: z.ZodType<OTPValid> = z.object({

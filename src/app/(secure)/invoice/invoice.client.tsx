@@ -18,7 +18,7 @@ export function InvoiceLayout({ redirectAction, order }: { redirectAction: strin
                 ref={ contentRef }
                 isPrinting={ isPrinting }
             />
-            <div className="  print:hidden mt-5 space-x-5 p-5">
+            <div className="print:hidden mt-5 space-x-5 p-5">
                 <button
                     onClick={ handlePrint }
                     disabled={ isPrinting }

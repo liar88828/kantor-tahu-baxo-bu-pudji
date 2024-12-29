@@ -8,24 +8,27 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 
 		queries: {
+            // refetchOnMount:false,
+            // gcTime: 1000 * 60 , // 24 hours
 			// gcTime: 1000 * 60 * 60 * 24, // 24 hours
 			// retry: 3,
 			// retryDelay: 1000,
-			// staleTime: 60000,
+            staleTime: 2 * 60 * 1000,
 
 		},
 	},
 })
 
 function ReactQueryProvider({children}: { children: ReactNode }) {
-	return (
-		<QueryClientProvider client={ queryClient }
-		>
-			{children}
-			<Toaster/>
-			<ReactQueryDevtools initialIsOpen={ false }/>
-		</QueryClientProvider>
-	);
+    // const isDarkTheme = useThemeDetector()
+
+    return (<QueryClientProvider client={ queryClient }>
+            { children }
+            <Toaster/>
+            <ReactQueryDevtools initialIsOpen={ false }/>
+        </QueryClientProvider>
+
+    )
 }
 
 export default ReactQueryProvider;

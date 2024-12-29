@@ -1,9 +1,7 @@
-// noinspection HtmlUnknownAnchorTarget
-
 import Link from "next/link";
 import Image from "next/image";
 
-export default async function Page() {
+export default async function HomePage() {
 	return < >
 		<header className="navbar bg-base-300 ">
 			<div className="flex justify-between  w-full">

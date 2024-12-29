@@ -2,7 +2,7 @@
 
 import { usePrint } from "@/hook/usePrint";
 import { useParams } from "next/navigation";
-import { EmptyData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
@@ -19,7 +19,7 @@ export default function DetailedInvoicePrint() {
 	}
 
     if (!order || isLoading) return <PageLoadingSpin/>
-	if (isError) return <EmptyData page={ `Order Detail ${ param.id }` }/>
+    if (isError) return <PageEmptyData page={ `Order Detail ${ param.id }` }/>
 
 	return (
         <div className={ ` mx-auto sm:p-4 ${ isPrinting ? 'w-[50rem]' : "" } pb-20 max-w-[210mm]` }>

@@ -8,7 +8,7 @@ import { useEmployee } from "@/hook/useEmployee";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useEmployeeStore } from "@/store/employee";
 import { useDebounce } from "@/hook/useDebounce";
-import { EmptyData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import useInfinityScroll from "@/hook/useInfinityScroll";
 
 export function EmployeeSearch({ children }: { children: React.ReactNode }) {
@@ -63,7 +63,7 @@ export function EmployeeTable() {
 
     const { data: employees, isLoading, isError } = queryResult;
     if (isLoading || !employees) return <PageLoadingSpin/>
-    if (isError) return <EmptyData page={ 'Employees' }/>
+    if (isError) return <PageEmptyData page={ 'Employees' }/>
 
     return <div>
         <div className="overflow-x-auto w-full">

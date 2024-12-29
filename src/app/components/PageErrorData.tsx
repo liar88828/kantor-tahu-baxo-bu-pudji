@@ -18,7 +18,7 @@ export function PageErrorData({ msg = 'Error Load', code = 404, }: { msg?: strin
 	);
 }
 
-export function EmptyData(
+export function PageEmptyData(
 	{ page }: { page: string }) {
 	return (
         <PageErrorData msg={ `${ page } Data Is Empty` } code={ 404 }/>

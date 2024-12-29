@@ -161,10 +161,7 @@ export async function PUT(request: Request): Promise<NextResponse<ResponseValidO
                 }
             })
 
-            await createSession({
-                usersId: user.id,
-                role: user.role
-            })
+            await createSession(user)
 
         } else if (reason === 'RESET') {
 

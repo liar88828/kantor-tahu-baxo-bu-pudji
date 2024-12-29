@@ -24,6 +24,9 @@ type OrderType = {
 	onReceiver: TOrderTransactionCreate['orderReceiver'] | null,
 	onDelivery: TDeliveryDB | null,
 	onPayment: TPaymentDB | null,
+    status: string,
+    //
+    setStatus: (status: string) => void,
 	setDelivery: (data: TDeliveryDB | null) => void,
 	setPayment: (data: TPaymentDB | null) => void,
 	setReceiver: (data: TOrderTransactionCreate['orderReceiver'] | null) => void,
@@ -32,9 +35,11 @@ type OrderType = {
 	setTotal: (data: { totalProduct: number, pricePayment?: number, priceDelivery?: number }) => void,
 	reset: () => void
     getAsyncReceiver: () => Promise<void>,
+
 }
 
 const initialState = {
+    status: '',
 	onData: null,
 	onReceiver: null,
 	onDelivery: null,
@@ -46,14 +51,15 @@ const initialState = {
 
 export const useOrderStore = create<OrderType>((set, get) => ({
 	...initialState,
+    setStatus: (status: string) => set((state) => ({
+        status: state.status === status ? '' : status,
+    })),
     getAsyncReceiver: async () => {
         const data = await receiverUser()
         set(() => ({
             onReceiver: data.data
         }))
-
     },
-
 	reset: () => set(initialState),
 	setProduct: (data: DataOrder['product']) => {
 	},

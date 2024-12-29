@@ -1,13 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { TProductCreate, TProductDB, UpdateStock } from "@/interface/entity/product.model"
+import { ProductParams, TProductCreate, TProductDB, UpdateStock } from "@/interface/entity/product.model"
 import { toFetch } from "@/hook/toFetch"
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
-import { ProductParams } from "@/server/repository/product.repo";
 
 export const productAll = async ({ pagination, filter }: ProductParams) => {
     const url = toUrl('product', { ...pagination, ...filter })
-    return toFetch<ResponseAll<TProductDB>>('GET', { url })
+    // console.log(response)
+    return await toFetch<ResponseAll<TProductDB>>('GET', {
+        url,
+        cacheData: {
+            cache: "no-cache",
+            next: { revalidate: 0 }
+        }
+    })
 }
 
 export const productRecent = async () => {

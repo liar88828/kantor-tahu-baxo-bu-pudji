@@ -1,10 +1,11 @@
 'use client'
 import React from 'react';
-import { ChevronLeft, HomeIcon, LucidePackageSearch, ShoppingCart, UserIcon } from "lucide-react";
+import { ChevronLeft, ShoppingCart } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from 'next/link';
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
-import { TrolleyCase, TrolleyCount } from "@/app/(user)/(transaction)/trolley.client";
+import { TrolleyCase, TrolleyCount } from "@/app/(user)/trolley.client";
+import { menuUser } from "@/assets/MenuList";
 
 function AdminClient() {
     const router = useRouter()
@@ -60,21 +61,15 @@ export function NavButtonUser() {
                 showBottomNav ? 'translate-y-0' : 'translate-y-full'
             }` }
         >
-            <Link href={ '/home' }
-                  className={ path === '/home' ? "active" : "" }>
-                <HomeIcon/>
-                <span className="btm-nav-label">Home</span>
-            </Link>
-            <Link href={ '/product' }
-                  className={ path === '/product' ? "active" : "" }>
-                <LucidePackageSearch/>
-                <span className="btm-nav-label">Product</span>
-            </Link>
-            <Link href={ '/profile' }
-                  className={ path === '/profile' ? "active" : "" }>
-                <UserIcon/>
-                <span className="btm-nav-label">Profile</span>
-            </Link>
+            { menuUser.map((item) => (
+                <Link
+                    href={ item.href }
+                    key={ item.title }
+                    className={ path === item.href ? "active" : "" }>
+                    { item.icon }
+                    <span className="btm-nav-label">{ item.title }</span>
+                </Link>
+            )) }
         </div>
     );
 }

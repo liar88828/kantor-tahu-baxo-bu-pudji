@@ -1,10 +1,10 @@
 import { TOrderCreate } from "@/interface/entity/order.model"
 import { TCustomersDB } from "@/interface/entity/receiver.model";
-import { TTrolleyDB } from "@/interface/entity/trolley.model";
+import { TOrderTrolleyTransaction, TTrolleyDB } from "@/interface/entity/trolley.model";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 
 export const exampleOrderCreate: TOrderCreate = {
-    id_customer: "",
+    id_customer: "550e8400-e29b-41d4-a716-446655440000",
 	sendTime: new Date("2024-12-05T10:00:00Z"), // ISO 8601 formatted date
 	orderTime: new Date("2024-12-04T15:30:00Z"),
 	desc: "Order of electronics including headphones and chargers.",
@@ -23,13 +23,12 @@ export const exampleOrderCreate: TOrderCreate = {
 	// id_receiver: "770e8400-e29b-41d4-a716-666655440222", // UUID format
 }
 
-export const exampleOrderProductCreate: TTrolleyDB[] = [
+export const exampleOrderProductCreate: TOrderTrolleyTransaction[] = [
 	{
 		id_product: "prod-001",
 		qty_at_buy: 1,
 		price_at_buy: 1,
 		id_user: "asdas",
-		id_order: "34234",
 		id: "12341342",
 	},
 	{
@@ -37,7 +36,6 @@ export const exampleOrderProductCreate: TTrolleyDB[] = [
 		price_at_buy: 1,
 		id_product: "prod-002",
 		id_user: "2345234",
-		id_order: "32452345",
 		id: "2342342",
 	},
 	{
@@ -45,7 +43,6 @@ export const exampleOrderProductCreate: TTrolleyDB[] = [
 		qty_at_buy: 1,
 		price_at_buy: 1,
 		id_user: "23452345",
-		id_order: "234523",
 		id: "dsa245623456sda",
 	},
 ]
@@ -53,7 +50,7 @@ export const exampleReceiver: TCustomersDB = {
 	id: "123e4567-e89b-12d3-a456-426614174000", // Valid UUID
 	name: "Alice Johnson",
 	address: "456 Elm Street, Springfield, USA",
-	phone: "+19876543210", // Valid phone string
+    phone: "+62876543210", // Valid phone string
 }
 
 // export const defaultValues: TOrder = {

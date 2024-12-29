@@ -1,5 +1,3 @@
-// please create otp form use react and tailwind. validate for user
-
 import { create } from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 

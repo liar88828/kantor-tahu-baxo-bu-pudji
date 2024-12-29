@@ -4,7 +4,7 @@ import type { TCustomersDB, TReceiverCreate } from "@/interface/entity/receiver.
 import { toFetch } from "@/hook/toFetch";
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
-import { ProductParams } from "@/server/repository/product.repo";
+import { ProductParams } from "@/interface/entity/product.model";
 
 export const receiverAll = async ({ pagination: { limit } }: ProductParams) => {
     const url = toUrl("receiver", { limit })

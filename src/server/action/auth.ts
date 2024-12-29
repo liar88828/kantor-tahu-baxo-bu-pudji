@@ -1,5 +1,3 @@
-// noinspection ExceptionCaughtLocallyJS
-
 'use server'
 import { prisma } from "@/config/prisma";
 import bcrypt from 'bcrypt'
@@ -16,6 +14,7 @@ import { userRepository } from "@/server/controller";
 import { ROLE } from "@/interface/Utils";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { sendOtp } from "@/network/otp";
+import { checkPassword } from "../lib/password";
 
 export async function signUp(state: FormState, formData: FormData) {
 	// Validate form fields
@@ -25,6 +24,7 @@ export async function signUp(state: FormState, formData: FormData) {
         name: formData.get('name'),
 		password: formData.get('password'),
         phone: formData.get('phone'),
+        confirm: formData.get('confirm'),
 	})
 
 	// If any form fields are invalid, return early
@@ -110,10 +110,8 @@ export async function signIn(state: FormState, formData: FormData) {
 
 		}
 		// 4. Create user session
-        await createSession({
-            role: user.role,
-            usersId: user.id
-        })
+        await createSession(user)
+
 		// 5. Redirect user
 		redirect('/profile')
 
@@ -193,23 +191,6 @@ export async function forget(state: FormState, formData: FormData) {
 
 }
 
-// const [ state, action, pending ] = useActionState(reset, {state:initialData});
-///
-// export async function reset(state: FormState, formData: FormData)
-//
-// // please modifier the FormState!!
-// export type FormState =
-//
-//     | {
-//     errors?: {
-//         name?: string[]
-//         email?: string[]
-//         password?: string[]
-//     }
-//     message?: string
-// }
-//     | undefined
-
 export async function reset(state: FormState, formData: FormData) {
     const password = formData.get('password') as string;
     const confirm = formData.get('confirm') as string;
@@ -278,4 +259,58 @@ export async function reset(state: FormState, formData: FormData) {
 
 }
 
+export async function changeProfile(state: FormState, formData: FormData) {
+    // Validate form fields
+    const validatedFields = SignupFormSchema.safeParse({
+        address: formData.get('address'),
+        email: formData.get('email'),
+        name: formData.get('name'),
+        password: formData.get('password'),
+        confirm: formData.get('confirm'),
+        phone: formData.get('phone'),
+        id: formData.get('id'),
+    })
+
+    // If any form fields are invalid, return early
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    // 2. Prepare data for insertion into database
+    const { name, email, password, phone, address, id } = validatedFields.data
+
+    const userDB = await userRepository.findByIdValid(id)
+
+    await checkPassword(password, userDB.password)
+
+    // e.g. Hash the user's password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    // 3. Insert the user into the database or call an Auth Library's API
+    const user = await userRepository.updateOne(
+        {
+            name,
+            email,
+            password: hashedPassword,
+            phone,
+            address,
+            role: ROLE.USER,
+        },
+        userDB.id
+    )
+
+    if (!user) {
+        return {
+            message: 'An error occurred while creating your account.',
+        }
+    }
+
+    // 4. Create user session
+    await createSession(user)
+
+    // 5. Redirect user
+    redirect('/profile')
+}
 
