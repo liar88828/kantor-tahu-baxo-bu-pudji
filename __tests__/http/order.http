@@ -1,0 +1,90 @@
+@api = http://localhost:3000/api/order/
+
+### get all
+GET {{api}}
+Content-Type: application/json
+
+### get by id
+GET {{api}}/6279a6b3-8b69-480e-84fe-9d5271c54e96
+Content-Type: application/json
+
+### post
+POST {{api}}
+Content-Type: application/json
+
+{
+  "order": {
+    "address": "123 Main St, Springfield, USA",
+    "desc": "Order of electronics including headphones and chargers.",
+ 	"id_delivery": "d278edcd-6ec4-445f-9a3e-98edc950f597",
+   				"id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+
+    "nameCs": "John Doe",
+    "nameDelivery": "Express Logistics",
+    "orderTime":  {{$timestamp}},
+    "sendTime": {{$timestamp}},
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "status": "Pending",
+    "totalAll": 15498,
+    "totalPayment": 10499
+  },
+  "orderTrolley": [
+	{
+	  "qty_at_buy": 1,
+	  "price_at_buy": 20000,
+	  "id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	  "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b"
+	},
+  	{
+  	"qty_at_buy": 1,
+	"price_at_buy": 20000,
+	"id_user": "1da116c8-2d8a-4f9b-ae93-37cbad1bd832",
+	"id_product": "229b54ec-54ac-40bc-9571-90b9494bd672"
+  	}
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+### Update
+PUT {{api}}/baffe8aa-aa6a-400f-9a8a-d2aee689cd41
+Content-Type: application/json
+
+{
+  "order": {
+    "address": "123 Main St, Springfield, USA update haahahhaxxx",
+    "desc": "Order of electronics including headphones and chargers.",
+       "id_delivery": "f14f57e4-b2c0-4429-a326-f8430395763b",
+    "id_payment": "dde29f69-1fcd-49f8-8f1a-3d40a544e0c5",
+    "nameCs": "John Doe update",
+    "nameDelivery": "Express Logistics",
+    "orderTime":  {{$timestamp}},
+    "phoneDelivery": "+1234567890",
+    "priceDelivery": 4999,
+    "sendTime": {{$timestamp}},
+    "status": "Pending",
+    "totalAll": 15498,
+    "totalPayment": 10499
+  },
+  "orderProduct": [
+    	{ "id_product": "1da116c8-2d8a-4f9b-ae93-37cbad1bd83d" ,"qty": 1},
+  	{ "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672" ,"qty": 1}
+  ],
+  "orderReceiver": {
+	"name": "Alice Johnson",
+	"address": "456 Elm Street, Springfield, USA",
+	"phone": "+19876543210"
+  }
+}
+
+
+
+### delete
+DELETE {{api}}/6f01f47e-acb5-41f8-85d2-f44de9fe99ea
+Content-Type: application/json
+
+{}

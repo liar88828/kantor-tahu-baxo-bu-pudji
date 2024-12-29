@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react';
-import { notifyData } from '@/lib/notif/toash';
+import { notifyData } from '@/utils/toash';
 
 export default function ErrorBoundary( {
   error,

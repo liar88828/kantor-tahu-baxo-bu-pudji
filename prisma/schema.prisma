@@ -1,107 +1,174 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "data"
+  // output   = "data"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model SemuaProduct {
-  id         String   @id @default(uuid())
-  nama       String   @db.VarChar(100)
-  lokasi     String   @db.VarChar(100)
-  jenis      String   @db.VarChar(100)
-  harga      Int      @db.Integer
-  jumlah     Int      @db.Integer
-  img        String   @db.Text
-  // keterangan String   @db.Text
-  // at update / create
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  Orderan    Orderan? @relation(fields: [orderanId], references: [id])
-  orderanId  String?
+model Orders {
+  id        String   @id @default(uuid())
+  nameCs    String
+  orderTime DateTime
+  sendTime  DateTime
+  desc      String
+  address   String
 
-  // relational
-  // Orderan    Orderan? @relation(fields: [orderanId], references: [id])
-  // orderanId  String?  @unique
-  @@map("SemuaProducts")
-}
-
-model Orderan {
-  id             String         @id @default(uuid())
-  // orang
-  dari           String         @db.VarChar(20)
-  pengirim       String         @db.VarChar(100)
-  hpPengirim     String         @db.VarChar(20)
-  penerima       String         @db.VarChar(100)
-  alamatPenerima String         @db.VarChar(100)
-  hpPenerima     String         @db.VarChar(100)
-  // tanggal
-  pesan          DateTime       @db.Date
-  waktuKirim     DateTime       @db.Timestamp
-  // keterangan
-  guna           String         @db.Text
-  lokasi         String         @db.VarChar(100)
   // travel
-  namaPengiriman String         @db.VarChar(100)
-  ongkir         Int            @db.Integer
-  // total
-  typePembayaran String         @db.VarChar(100)
-  totalBayar     Int            @db.Integer
-  totalPenjualan Int            @db.Integer
-  status         String         @db.VarChar(20)
-  // semua
-  semuaProduct   SemuaProduct[]
-  // at update / create
-  created_at     DateTime       @default(now())
-  updated_at     DateTime       @updatedAt
+  Deliverys     Deliverys? @relation(fields: [id_delivery], references: [id])
+  id_delivery   String?
+  nameDelivery  String
+  phoneDelivery String
+  priceDelivery Int
 
-  @@map("Orderans")
+  // payment
+  Payments     Payments? @relation(fields: [id_payment], references: [id])
+  id_payment   String?
+  totalPayment Int // for product
+  totalAll     Int
+
+  // at update / create
+  status      String
+  Trolleys    Trolleys[]
+  Receivers   Receivers  @relation(fields: [id_receiver], references: [id])
+  id_receiver String
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
 }
 
-model Product {
-  id         String   @id @default(uuid())
-  nama       String   @db.VarChar(100)
-  lokasi     String   @db.VarChar(100)
-  jenis      String   @db.VarChar(100)
-  img        String   @db.Text
-  harga      Int      @db.Integer
-  jumlah     Int      @db.Integer
-  keterangan String   @db.Text
+model Receivers {
+  id      String   @id @default(uuid())
+  name    String
+  address String
+  phone   String
+  Orders  Orders[]
+}
+
+model Trolleys {
+  id           String   @id @default(uuid())
+  id_order     String?
+  Order        Orders?  @relation(fields: [id_order], references: [id])
+  id_product   String
+  Product      Products @relation(fields: [id_product], references: [id])
+  qty_at_buy   Int
+  price_at_buy Int
+  Users        Users?   @relation(fields: [id_user], references: [id])
+  id_user      String?
+}
+
+model Products {
+  id         String     @id @default(uuid())
+  name       String
+  location   String
+  type       String
+  img        String
+  price      Int
+  qty        Int
+  desc       String
   // at update / create
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  Trolleys   Trolleys[]
+}
+
+model Deliverys {
+  id         String   @id @default(uuid())
+  name       String
+  phone      String
+  address    String
+  type       String
+  price      Int
+  img        String
+  desc       String
+  Orders     Orders[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-
-  @@map("Products")
 }
 
-model Delivery {
-  id         String @id @default(uuid())
-  nama       String
-  hp         String
-  lokasi     String
-  jenis      String
-  harga      Int    @db.Integer
-  img        String @db.Text
-  keterangan String @db.Text
-
-  @@map("Deliverys")
+model Payments {
+  id         String   @id @default(uuid())
+  name       String
+  phone      String
+  accounting String
+  address    String
+  type       String
+  img        String
+  desc       String
+  Orders     Orders[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
-model Bank {
-  id         String @id @default(uuid())
-  nama       String
-  hp         String
-  no         String
-  lokasi     String
-  jenis      String
-  img        String @db.Text
-  keterangan String @db.Text
+model Users {
+  id       String     @id @default(uuid())
+  name     String
+  phone    String
+  address  String
+  Trolleys Trolleys[]
+}
 
-  @@map("Banks")
+model Employees {
+  id             String           @id @default(uuid()) // Primary key with auto-increment
+  name           String
+  email          String           @unique
+  phone          String
+  gender         String // Gender (e.g., "Male", "Female", "Other")
+  dateOfBirth    DateTime
+  hireDate       DateTime
+  jobTitle       String // Employee's job position
+  department     String // Department where the employee works
+  salary         Int // Employee's salary
+  managerId      Int? // Foreign key referencing the manager
+  status         String           @default("Active") // Employment status
+  address        String
+  city           String // City where the employee lives
+  postalCode     String // Postal/ZIP code
+  employmentType String // Employment type (e.g., "Full-Time", "Part-Time")
+  notes          String // Additional notes about the employee
+  img            String
+  //
+  country        String
+  education      String
+  skills         Skills[] // Stored as an array of strings
+  languages      Languages[] // Stored as an array of strings
+  certifications Certifications[] // Stored as an array of strings
+  projects       Projects[] // Stored as an array of strings
+  //
+  photoKtp       String?
+  photo3x4       String?
+
+  //
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skills {
+  id   Int    @id @default(autoincrement())
+  text String
+
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
+}
+
+model Languages {
+  id          Int       @id @default(autoincrement())
+  text        String
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
+}
+
+model Certifications {
+  id          Int       @id @default(autoincrement())
+  text        String
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
+}
+
+model Projects {
+  id          Int       @id @default(autoincrement())
+  text        String
+  Employees   Employees @relation(fields: [employeesId], references: [id])
+  employeesId String
 }
