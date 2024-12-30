@@ -59,9 +59,9 @@ export const toFetch = async <R>(
 		// @ts-ignore
 		if (!isTest) {
 			if (!response.ok) {
-                // const data = await response.json()
-
-                // throw new Error(`HTTP error! status`)
+                const data = await response.text()
+                console.error(data)
+                throw new Error(`HTTP error! status`)
                 // throw new Error(`HTTP error! status: ${response.status} msg : ${data.msg}`)
 			}
 		}

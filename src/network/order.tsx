@@ -10,8 +10,6 @@ import { FetchResponse, ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
 import { OrderParams, ResponseCreateOrderTransaction, ResponseMonthData } from "@/interface/entity/order.model";
 import { TStatusOrder } from "@/interface/Utils";
-import { useQuery } from "@tanstack/react-query";
-import { ORDER_KEY } from "@/hook/useOrder";
 
 export const orderCreate = (data: TOrderTransactionCreate) => toFetch<ResponseCreateOrderTransaction>('POST', {
     url: 'order',
@@ -37,16 +35,28 @@ export const orderDelete = (id: string) => toFetch('DELETE', {
 
 export const orderMonthTotal = (status: TStatusOrder) => toFetch<OrderMonthTotal>('GET', {
     url: `order/month?status=${ status }`
+    , cacheData: {
+        next: {
+            revalidate: 60 * 10
+        }
+    }
 })
 
 export const orderTopTotal = () => toFetch<TOrderTopTotal[]>('GET', {
-    url: `order/top`
+    url: `order/top`,
+    cacheData: {
+        next: {
+            revalidate: 60 * 10
+        }
+    }
 })
 
 export const getEarningOld = async (year: number) => {
     return fetch(`http://localhost:3000/api/order?year=${ year - 1 }`, {
         method: "GET",
-        cache: "force-cache"
+        next: {
+            revalidate: 60 * 60 * 24
+        }
     }).then(res => {
         return res.json() as FetchResponse<ResponseMonthData>
     })
@@ -72,4 +82,3 @@ export const findHistoryUser = async (status: string) => {
             }
         })
 }
-

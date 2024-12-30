@@ -8,15 +8,15 @@ export type OrderId = TOrderTransactionDB['id'];
 export type OrderMonthTotal = { count: number, totalAll: number };
 
 export type TOrderTransactionCreate = {
-	order: TOrderCreate
-	orderTrolley: TOrderTrolleyTransaction[]
+    order: TOrderCreate
+    orderTrolley: TOrderTrolleyTransaction[]
     orderReceiver: TReceiverCreate & { id?: string }
 }
 
 export type TOrderTransactionDB = Orders & {
     Customers: TCustomersDB
-	Deliverys: TDeliveryDB
-	Payments: Payments
+    Deliverys: TDeliveryDB
+    Payments: Payments
     Trolleys: TTrolleyProductUser[]
 }
 
@@ -26,15 +26,20 @@ export type TOrderTopTotal = Orders & {
 }
 
 export type TOrderTransactionUpdate = {
-	order: TOrderCreate
-	orderTrolley: TOrderTrolleyTransaction[] // Assuming full replacement of products is required
-	orderReceiver: TReceiverCreate
+    order: TOrderCreate
+    orderTrolley: TOrderTrolleyTransaction[] // Assuming full replacement of products is required
+    orderReceiver: TReceiverCreate
 }
 
 export type THistoryOrder = Omit<TOrderTransactionDB,
     "Deliverys" |
     "Payments" |
-    "Trolleys">
+    "Customers" |
+    "Trolleys"> & {
+    Customers: {
+        name: string
+    }
+}
 
 export type HistoryUser = Orders & {
     Customers: TCustomersDB,

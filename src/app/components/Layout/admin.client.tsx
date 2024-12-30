@@ -1,76 +1,156 @@
 'use client'
-import React from 'react';
-import { ChevronLeft, ShoppingCart } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import Link from 'next/link';
+import Link from "next/link";
+import { ChevronLeftIcon, LogOut, Menu, } from 'lucide-react';
+import { ReactNode, useState } from "react";
+import { linkPrimary, linkSecondary, TMenuList } from "@/assets/MenuList";
+import { logout } from "@/server/lib/state";
+import { usePathname } from "next/navigation";
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
-import { TrolleyCase, TrolleyCount } from "@/app/(user)/trolley.client";
-import { menuUser } from "@/assets/MenuList";
+import { BackButton } from "@/app/components/Layout/backButton";
 
-function AdminClient() {
-    const router = useRouter()
+export function LinkListLayoutAdmin({ item, path }: {
+    item: TMenuList,
+    path: string
+}) {
     return (
-        <button
-            onClick={ () => router.back() }
-            className="btn btn-ghost text-xl">
-            <ChevronLeft/>
-        </button>
+        <li>
+            <Link href={ item.href }
+                  className={ `flex items-center p-2 rounded  ${ path.includes(item.href) ? "btn-active" : "" }` }
+            >
+                { item.icon }
+                <span className="flex-1 ms-3 whitespace-nowrap">{ item.label }</span>
+                { item.add && <span className=" badge-neutral badge">{ item.add }</span> }
+            </Link>
+        </li>
     );
 }
 
-export default AdminClient;
+export function BaseLayoutAdmin({ children, isLogin }: { children: ReactNode, isLogin: boolean }) {
+    const path = usePathname()
+    const [ sideMenuIsExpand, setSideMenuIsExpand ] = useState(true);
 
-export function NavbarUser() {
+    // Use custom hook for visibility
     const showNavbar = useScrollVisibility(true);
+    const showBottomNav = useScrollVisibility(true);
 
-    return (
-        <div
-            className={ `navbar bg-base-200/50 fixed top-0 start-0 z-20 w-full transition-transform duration-300 ${
-                showNavbar ? 'translate-y-0' : '-translate-y-full'
-            }` }
-        >
-            <div className="flex-1">
-                <AdminClient/>
-            </div>
-            <div className="flex-none">
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
-                        <div className="indicator">
-                            <ShoppingCart/>
-                            <TrolleyCount/>
-                        </div>
-                    </div>
-                    <div
-                        tabIndex={ 0 }
-                        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
-                        <TrolleyCase/>
-                    </div>
+    return ( <>
+            <div
+                className={ `navbar bg-base-200/50 fixed top-0 start-0 z-20 w-full transition-transform duration-300 ${
+                    showNavbar ? 'translate-y-0' : '-translate-y-full'
+                }` }
+            >
+                {/*<div className="navbar bg-base-200/50  fixed w-full z-20 top-0 start-0 ">*/ }
+
+                <div className="flex-1">
+                    <BackButton />
+                    <button
+                        className="btn btn-ghost text-xl invisible  sm:visible  btn-square"
+                        onClick={ () => setSideMenuIsExpand(prevState => !prevState) }
+                    >
+                        <Menu />
+                    </button>
+                </div>
+                <div className="flex-none">
+                    { isLogin && (
+                        <button
+                            className="btn btn-square btn-ghost"
+                            onClick={ async () => {
+                                await logout()
+                            } }
+                        >
+                            <LogOut />
+                        </button>
+                    ) }
                 </div>
             </div>
-        </div>
+
+            <div className=" container max-w-full px-2 ">
+                <aside
+                    className={ `fixed top-0 left-0 z-40 ${ sideMenuIsExpand ? ' w-52 -translate-x-full sm:translate-x-0 ' : ' -translate-x-full' } h-screen transition-transform  bg-base-200` }
+                    aria-label="Sidebar"
+                >
+                    <div className="h-full px-3 py-4 overflow-y-auto ">
+                        <div className="flex items-center justify-between">
+                            <div className="avatar">
+                                <div className="w-24 rounded-full">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */ }
+                                    <img
+                                        alt={ 'avatar' }
+                                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                className="btn btn-ghost text-xl btn-square"
+                                onClick={ () => setSideMenuIsExpand(prevState => !prevState) }
+                            >
+                                <Menu />
+                            </button>
+
+                        </div>
+
+                        <div className="divider"></div>
+
+                        <ul className="space-y-2 font-medium">
+                            { linkPrimary.map(item => (
+                                <LinkListLayoutAdmin key={ item.label } item={ item } path={ path } />
+                            )) }
+                        </ul>
+                        <div className="divider"></div>
+                        <ul className="pt-4 mt-4 space-y-2 font-medium ">
+                            { linkSecondary.map(item => (
+                                <LinkListLayoutAdmin key={ item.label } item={ item } path={ path } />
+                            )) }
+                        </ul>
+                    </div>
+                </aside>
+
+                <div
+                    className={ `${ sideMenuIsExpand ? 'sm:ml-52' : 'ml-0' }  transition-transform  sm:px-2   pt-20 ` }
+                >
+                    { children }
+                </div>
+
+            </div>
+            {
+                !path.includes("create")
+                && (
+                    <div
+                        className={ `btm-nav z-50 sm:hidden bg-base-200/50 fixed bottom-0 w-full transition-transform duration-300 ${
+                            showBottomNav ? 'translate-y-0' : 'translate-y-full'
+                        }` }
+                    >
+                        { [ ...linkPrimary, ...linkSecondary ].map((item) => (
+                            <Link
+                                key={ item.href }
+                                href={ item.href }
+                                className={ path.includes(item.href) ? "active" : "" }
+                            >
+                                { item.icon }
+                                <span className="btm-nav-label text-xs">{ item.label }</span>
+                            </Link>
+                        )) }
+                    </div> )
+            }
+        </>
+
     )
 }
 
-export function NavButtonUser() {
-    const path = usePathname()
-    const showBottomNav = useScrollVisibility(true);
-
+export function AuthLayoutAdmin() {
     return (
-        <div
-            className={ `btm-nav z-50 sm:hidden bg-base-200/50 fixed bottom-0 w-full transition-transform duration-300 ${
-                showBottomNav ? 'translate-y-0' : 'translate-y-full'
-            }` }
-        >
-            { menuUser.map((item) => (
+        <div className="navbar bg-base-200/50 fixed ">
+            <div className="flex-1">
                 <Link
-                    href={ item.href }
-                    key={ item.title }
-                    className={ path === item.href ? "active" : "" }>
-                    { item.icon }
-                    <span className="btm-nav-label">{ item.title }</span>
+                    href={ "/" }
+                    className="btn btn-ghost text-xl btn-square "
+                >
+                    <ChevronLeftIcon />
                 </Link>
-            )) }
+
+            </div>
+            <div className="flex-none">
+            </div>
         </div>
     );
 }
-

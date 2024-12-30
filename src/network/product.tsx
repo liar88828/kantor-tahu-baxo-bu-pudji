@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { ProductParams, TProductCreate, TProductDB, UpdateStock } from "@/interface/entity/product.model"
-import { toFetch } from "@/hook/toFetch"
 import { ResponseAll } from "@/interface/server/param";
+import { toFetch } from "@/hook/toFetch"
 import { toUrl } from "@/utils/toUrl";
+import { THistoryOrder } from "@/interface/entity/transaction.model";
 
 export const productAll = async ({ pagination, filter }: ProductParams) => {
     const url = toUrl('product', { ...pagination, ...filter })
@@ -28,7 +28,15 @@ export const productRecent = async () => {
 }
 
 export const productId = async (id: string) => {
-    return toFetch<TProductDB>('GET', { url: `product/${ id }` })
+    return toFetch<TProductDB>('GET', {
+        url: `product/${ id }`,
+    })
+}
+
+export const productHistory = async (id: string) => {
+    return toFetch<THistoryOrder[]>('GET', {
+        url: `product/history/${ id }`
+    })
 }
 
 export const productNew = async ({ filter, pagination }: ProductParams) => {

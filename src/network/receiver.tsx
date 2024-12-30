@@ -8,7 +8,14 @@ import { ProductParams } from "@/interface/entity/product.model";
 
 export const receiverAll = async ({ pagination: { limit } }: ProductParams) => {
     const url = toUrl("receiver", { limit })
-    return toFetch<ResponseAll<TCustomersDB>>('GET', { url })
+    return toFetch<ResponseAll<TCustomersDB>>('GET', {
+        url,
+        cacheData: {
+            next: {
+                revalidate: 60 * 2
+            }
+        }
+    })
 };
 
 export const receiverId = async (id: string) => {
@@ -22,7 +29,6 @@ export const receiverUser = async () => {
         url: `receiver/user`
     })
 };
-
 
 export const receiverCreate = async (data: TReceiverCreate) => {
     return toFetch<TCustomersDB>('POST', { url: 'receiver', data })

@@ -1,33 +1,30 @@
 import { create } from "zustand";
 import { TReceiverCreate } from "@/interface/entity/receiver.model";
-import { userId } from "@/network/trolley";
 
 type ReceiverStore = {
     receiver: TReceiverCreate & { id: string }
-	setReceiver: (data: Partial<TReceiverCreate>) => void
-	reset: () => void
+    setReceiver: (data: Partial<TReceiverCreate>) => void
+    reset: () => void
 }
 const initialState = {
-	receiver: {
-		address: "",
-		name: "",
-		phone: "",
+    receiver: {
+        address: "",
+        name: "",
+        phone: "",
         id: '',
-		userId,
-
-	},
+    },
 }
-export const useReceiverStore = create<ReceiverStore>((set) => ({
-	...initialState,
-	reset: () => set(initialState),
-	setReceiver: (data) =>
-		set((state) => ({
-			receiver: {
-				...state.receiver, // Preserve existing data
-				...data, // Merge in new updates
-			},
-		})),
-}))
+export const useReceiverStore = create<ReceiverStore>((set) => ( {
+    ...initialState,
+    reset: () => set(initialState),
+    setReceiver: (data) =>
+        set((state) => ( {
+            receiver: {
+                ...state.receiver, // Preserve existing data
+                ...data, // Merge in new updates
+            },
+        } )),
+} ))
 
 // export const initializeOrderData = (initialData: TOrderTransactionCreate) => {
 // 	const { onData, setData, setReceiver, onReceiver } = useOrderStore.getState();

@@ -1,12 +1,7 @@
 import React from 'react'
-import ProductForm from '../ProductForm.client'
+import { ProductFormClientAdmin } from "@/app/components/product/product.client";
 
 export default async function Page() {
 
-	return (
-			<ProductForm
-				method={'POST'}
-				id={''}
-            />
-	)
+    return ( <ProductFormClientAdmin method={ 'POST' } id={ '' } /> )
 }

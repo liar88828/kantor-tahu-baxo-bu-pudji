@@ -1,11 +1,17 @@
 import { Products } from "@prisma/client";
-import { PRODUCT_FILTER_PRICE } from "@/store/product";
 import { ParamsApi } from "@/interface/server/InterfaceRepository";
 
 export type TProductDB = Products
 export type ProductParams = ParamsApi<ProductSearch>
 export type ResponseProductType = { type: string }
 export type TProductCreate = Omit<Products, 'id' | "created_at" | "updated_at" | 'sold' | 'update_stock'>;
+
+export enum PRODUCT_FILTER_PRICE {
+    NORMAL = "NORMAL",
+    HIGH = "HIGH",
+    LOW = "LOW",
+}
+
 export type ProductSearch = {
     location?: string,
     type?: string,

@@ -1,13 +1,13 @@
+'use client'
 import React from 'react'
-import PaymentList, { PaymentSearch } from "@/app/admin/payment/PaymentList.client";
+import { PaymentListClientAdmin, PaymentSearchClientAdmin } from "@/app/components/payment/payment.client";
 
 export const dynamic = 'force-dynamic';
 
-export default async function page() {
-    // const {data: payments} = await paymentAll()
+export default function page() {
     return (
-        <PaymentSearch>
-            <PaymentList/>
-        </PaymentSearch>
+        <PaymentSearchClientAdmin>
+            <PaymentListClientAdmin />
+        </PaymentSearchClientAdmin>
     )
 }

@@ -63,7 +63,7 @@ export const updateSession = async (request: NextRequest) => {
 
 }
 
-export const verifySession = cache(async () => {
+export const validSession = cache(async () => {
 	const session = await getSession()
 
 	if (!session?.sessionId) {
@@ -77,7 +77,7 @@ export const verifySession = cache(async () => {
 })
 
 export const getUser = cache(async () => {
-	const session = await verifySession()
+    const session = await validSession()
 
     if (!session) return null
 
@@ -91,4 +91,3 @@ export const getUser = cache(async () => {
 		return null
 	}
 })
-

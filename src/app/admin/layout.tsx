@@ -1,21 +1,20 @@
-import { ReactNode } from "react";
-import AdminLayout from "@/app/components/Layout/AdminLayout";
-import { getSession } from "@/server/lib/db";
+import { BaseLayoutAdmin } from "@/app/components/Layout/admin.client";
 import { Metadata } from "next";
+import { ReactNode } from "react";
+import { getSession } from "@/server/lib/db";
 
 export const metadata: Metadata = {
     title: 'Admin Dashboard',
     description: 'Admin Dashboard',
 }
 
-export default async function Layout({ children, }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
 	const session = await getSession()
-	// console.log(session)
 	const isLogin = !!session
 	return (
-		<AdminLayout isLogin={ isLogin }>
+        <BaseLayoutAdmin isLogin={ isLogin }>
 			{ children }
-		</AdminLayout>
+        </BaseLayoutAdmin>
 	)
 
 }

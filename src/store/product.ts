@@ -1,14 +1,8 @@
-import { create } from "zustand";
 import toast from "react-hot-toast";
-import { TProductDB } from "@/interface/entity/product.model";
-import { productAll } from "@/network/product";
+import { PRODUCT_FILTER_PRICE, TProductDB } from "@/interface/entity/product.model";
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
-
-export enum PRODUCT_FILTER_PRICE {
-    NORMAL = "NORMAL",
-    HIGH = "HIGH",
-    LOW = "LOW",
-}
+import { create } from "zustand";
+import { productAll } from "@/network/product";
 
 export interface ProductStore {
 	total: number;

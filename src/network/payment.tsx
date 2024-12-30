@@ -6,6 +6,8 @@ import { TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
 import { DeliveryParams } from "@/server/repository/delivery.repo";
+import { prisma } from "@/config/prisma";
+import { THistoryOrder } from "@/interface/entity/transaction.model";
 
 export const paymentAll = async ({ pagination, filter }: DeliveryParams) => {
     const url = toUrl('payment', { ...pagination, ...filter })
@@ -17,6 +19,26 @@ export const paymentId = async (id: string) => {
         url: `payment/${ id }`
     })
 };
+
+export const paymentHistory = async (id: string) => {
+    const data: THistoryOrder[] = await prisma.orders.findMany({
+        include: {
+            Customers: {
+                select: {
+                    name: true
+                }
+            }
+        },
+        take: 10,
+        where: {
+            id_payment: id
+        }
+    })
+
+    return {
+        data
+    }
+}
 
 export const paymentCreate = async (data: TPaymentCreate) => {
     return toFetch<TDeliveryDB>('POST', { url: 'payment', data })

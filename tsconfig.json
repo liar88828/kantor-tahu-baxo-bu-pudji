@@ -21,7 +21,6 @@
     "types": [
       "@testing-library/jest-dom",
       "vitest/globals",
-      "cypress",
       "node"
     ],
     "plugins": [

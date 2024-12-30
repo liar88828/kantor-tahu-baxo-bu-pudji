@@ -1,10 +1,8 @@
 import React from 'react';
-import EmployeeForm from "@/app/admin/employee/EmployeeForm.client";
+import { EmployeeFormClientAdmin } from "@/app/components/employee/employee.client";
 
-function Page() {
-	return (
-		<EmployeeForm/>
-	);
+export default function PageEmployeeFormAdmin() {
+    return (
+        <EmployeeFormClientAdmin method={ 'POST' } />
+    );
 }
-
-export default Page;

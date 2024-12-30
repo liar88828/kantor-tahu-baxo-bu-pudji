@@ -5,7 +5,6 @@ import { TPaymentDB } from "@/interface/entity/payment.model";
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { OrderCreateClient } from "@/validation/order.valid";
-import { orderTransactionSanitize } from "@/sanitize/orderSanitize";
 import { receiverUser } from "@/network/receiver";
 
 export type DataOrder = {
@@ -20,7 +19,10 @@ type OrderType = {
 	total: number;
 	pricePayment: number
 	priceDelivery: number
-	onData: TOrderTransactionCreate | null,
+    //
+    // onData: TOrderTransactionCreate | null,
+    // setData: (data: DataOrder) => TOrderTransactionCreate,
+    //
 	onReceiver: TOrderTransactionCreate['orderReceiver'] | null,
 	onDelivery: TDeliveryDB | null,
 	onPayment: TPaymentDB | null,
@@ -30,7 +32,6 @@ type OrderType = {
 	setDelivery: (data: TDeliveryDB | null) => void,
 	setPayment: (data: TPaymentDB | null) => void,
 	setReceiver: (data: TOrderTransactionCreate['orderReceiver'] | null) => void,
-	setData: (data: DataOrder) => TOrderTransactionCreate,
 	setProduct: (data: DataOrder['product']) => void,
 	setTotal: (data: { totalProduct: number, pricePayment?: number, priceDelivery?: number }) => void,
 	reset: () => void
@@ -40,7 +41,7 @@ type OrderType = {
 
 const initialState = {
     status: '',
-	onData: null,
+    // onData: null,
 	onReceiver: null,
 	onDelivery: null,
 	onPayment: null,
@@ -78,11 +79,11 @@ export const useOrderStore = create<OrderType>((set, get) => ({
 	setPayment: (data: TPaymentDB | null) => set(() => ({ onPayment: data })),
 	setDelivery: (data: TDeliveryDB | null) => set(() => ({ onDelivery: data })),
 	getDelivery: (data: TDeliveryDB | null) => set(() => ({ onDelivery: data })),
-	setData: (data: DataOrder) => {
-		const newData = orderTransactionSanitize(data)
-		set({ onData: newData })
-		return newData
-	},
+    // setData: (data: DataOrder) => {
+    // 	const newData = orderTransactionSanitize(data)
+    // 	set({ onData: newData })
+    // 	return newData
+    // },
 
 }))
 

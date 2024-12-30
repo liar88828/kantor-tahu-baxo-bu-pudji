@@ -1,4 +1,3 @@
-
 import type { TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { toFetch } from "@/hook/toFetch";
 import { ResponseAll } from "@/interface/server/param";
@@ -12,9 +11,9 @@ export const deliveryAll = async (
     return toFetch<ResponseAll<TDeliveryDB>>('GET', { url })
 };
 
-export const deliveryId = async (id: string) => {
+export const deliveryId = async (idDelivery: string) => {
     return toFetch<TDeliveryDB>('GET', {
-        url: `delivery/${ id }`
+        url: `delivery/${ idDelivery }`
     })
 };
 

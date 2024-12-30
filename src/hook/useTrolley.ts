@@ -18,121 +18,122 @@ import { ResponseAll } from "@/interface/server/param";
 // export const TROLLEY_KEY = 'trolley'
 
 export enum TROLLEY_KEYS {
-	trolley = "trolley",
+    trolley = "trolley",
     count = "trolleyCount",
     selected = "trolleySelected",
     counter = "trolleyCounter",
     order = 'trolleyOrder'
 
 }
+
 export type TrolleyParams = { idUser: Users['id'] };
 export type IdTrolley = { idTrolley: TTrolleyDB['id'] };
 
 export type Counter = {
-	idTrolley: TTrolleyDB['id'],
+    idTrolley: TTrolleyDB['id'],
 };
 
 export const useTrolley = () => {
-	const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
-	const [ counter, setCounter ] = useState(1)
-	const [ message, setMessage ] = useState<string | null>()
+    const [ counter, setCounter ] = useState(1)
+    const [ message, setMessage ] = useState<string | null>()
 
     const GetAll = () => {
-		return useQuery({
-			queryKey: [ TROLLEY_KEYS.trolley ],
+        return useQuery({
+            queryKey: [ TROLLEY_KEYS.trolley ],
             queryFn: () => trolleyAll(),
-			select: (context) => {
-				if (context) {
+            select: (context) => {
+                if (context) {
                     return {
                         data: context.data.data,
                         count: context.data.data.length
                     }
-				}
-			},
-		})
-	}
+                }
+            },
+        })
+    }
 
     const GetId = ({ idTrolley }: IdTrolley) => {
-		return useQuery({
-			queryKey: [ TROLLEY_KEYS.trolley ],
-			queryFn: () => {
-				try {
-					return trolleyId(idTrolley)
-				} catch (error) {
-					if (error instanceof Error) {
-						toast.error(error.message);
-					}
-				}
-			}
-		})
-	}
+        return useQuery({
+            queryKey: [ TROLLEY_KEYS.trolley ],
+            queryFn: () => {
+                try {
+                    return trolleyId(idTrolley)
+                } catch (error) {
+                    if (error instanceof Error) {
+                        toast.error(error.message);
+                    }
+                }
+            }
+        })
+    }
 
-	const incrementProduct = () => {
-		setCounter(prev => {
-			return prev + 1
-		})
-	}
+    const incrementProduct = () => {
+        setCounter(prev => {
+            return prev + 1
+        })
+    }
 
-	const decrementProduct = () => {
-		setCounter(prev => {
-			if (prev !== 0) {
-				setMessage(null)
-				return prev - 1
-			}
-			setMessage('The stock cannot be less than 0')
-			return prev
-		})
-	}
-	const push = useMutation({
-		onMutate: () => {
-			return toast.loading('Loading...')
-		},
-		mutationFn: async (product: TProductDB) => {
+    const decrementProduct = () => {
+        setCounter(prev => {
+            if (prev !== 0) {
+                setMessage(null)
+                return prev - 1
+            }
+            setMessage('The stock cannot be less than 0')
+            return prev
+        })
+    }
+    const push = useMutation({
+        onMutate: () => {
+            return { toast: toast.loading('Loading...') }
+        },
+        mutationFn: async (product: TProductDB) => {
             return pushTrolley({ id: product.id, price: product.price, qty: counter })
         },
-		onError: (error) => {
-			toast.error(error.message)
-		},
-		onSuccess: async (data,) => {
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: async (data,) => {
             toast.success('Success Push Data ',)
-			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
-			await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
-		},
-		onSettled: async (_,
-						  __,
-						  ___,
-						  context) => {
-			toast.dismiss(context)
-		}
+            await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
+            await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
+        },
+        onSettled: async (_,
+                          __,
+                          ___,
+                          context) => {
+            toast.dismiss(context?.toast)
+        }
 
-	})
+    })
 
-	const remove = useMutation({
-			mutationFn: removeTrolley,
-		onError: (error, variables, context) => {
-			console.log(error.message);
-			console.log(variables.idTrolley);
-			toast.error(`Error on : increment id ${ variables.idTrolley }`);
-		},
-		onSuccess: (data, variables,) => {
-			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+    const remove = useMutation({
+        mutationFn: removeTrolley,
+        onError: (error, variables, context) => {
+            console.log(error.message);
+            console.log(variables.idTrolley);
+            toast.error(`Error on : increment id ${ variables.idTrolley }`);
+        },
+        onSuccess: (data, variables,) => {
+            toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
             // noinspection JSIgnoredPromiseFromCall
             queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
             // noinspection JSIgnoredPromiseFromCall
             queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
-			}
-	})
+        }
+    })
 
-	const increment = useMutation({
-		mutationFn: trolleyIncrement,
+    const increment = useMutation({
+        mutationFn: trolleyIncrement,
         mutationKey: [ TROLLEY_KEYS.counter ],
         onError: (error, variables, context: any) => {
-			toast.error(`Error on : increment id ${ variables.idTrolley }`);
+            toast.error(`Error on : increment id ${ variables.idTrolley }`);
             queryClient.setQueryData([ TROLLEY_KEYS.trolley ], context.previousTodos)
-		},
-		onSuccess: (data, variables, context) => {
-			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+        },
+        onSuccess: (data, variables, context) => {
+            toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
         },
         onMutate: async (context) => {
             // console.log(context)
@@ -170,70 +171,70 @@ export const useTrolley = () => {
         },
     })
 
-	const decrement = useMutation({
-		mutationFn: trolleyDecrement,
-		onError: (error, variables, context) => {
+    const decrement = useMutation({
+        mutationFn: trolleyDecrement,
+        onError: (error, variables, context) => {
             // console.log(error.message);
             // console.log(variables.idTrolley);
-			toast.error(`Error on : increment id ${ variables.idTrolley }`);
-		},
-		onSuccess: (data, variables) => {
-			toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+            toast.error(`Error on : increment id ${ variables.idTrolley }`);
+        },
+        onSuccess: (data, variables) => {
+            toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
         },
         onSettled: () => {
             // noinspection JSIgnoredPromiseFromCall
             queryClient.invalidateQueries({ queryKey: [ TROLLEY_KEYS.trolley ], });
 
         }
-	})
+    })
 
-	const Count = () => {
+    const Count = () => {
         return useQuery({
             queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ],
             queryFn: () => trolleyCount(),
             select: (response) => response.data
         })
-	}
+    }
 
-	const GetIdTrolley = () => {
+    const GetIdTrolley = () => {
         return useQuery<TTrolleyProductUser[]>({
-			queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
-			queryFn: () => {
-				const data = sessionStorage.getItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`)
-				if (data) {
-					return JSON.parse(data)
-				} else {
-					// throw new Error('Data is Not Found')
-					return []
-				}
-			}
-		})
-	}
+            queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
+            queryFn: () => {
+                const data = sessionStorage.getItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`)
+                if (data) {
+                    return JSON.parse(data)
+                } else {
+                    // throw new Error('Data is Not Found')
+                    return []
+                }
+            }
+        })
+    }
 
-	const setIdTrolley = useMutation({
-		mutationKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
+    const setIdTrolley = useMutation({
+        mutationKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
         mutationFn: async (data: TTrolleyProductUser[]) => {
-			sessionStorage.setItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`, JSON.stringify(data))
-			return true
-		},
+            sessionStorage.setItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`, JSON.stringify(data))
+            return true
+        },
 
-	})
+    })
 
-	return {
-		count: Count,
-		increment,
-		decrement,
-		push,
-		// setCounter,
-		getAll: GetAll,
-		GetId,
-		remove,
-		GetIdTrolley,
-		setIdTrolley,
-		message,
-		decrementProduct,
-		incrementProduct, counter
-	}
+    return {
+        count: Count,
+        increment,
+        decrement,
+        push,
+        // setCounter,
+        getAll: GetAll,
+        GetId,
+        remove,
+        GetIdTrolley,
+        setIdTrolley,
+        message,
+        decrementProduct,
+        incrementProduct, counter
+    }
 }
 
 // const test=useMutationState({

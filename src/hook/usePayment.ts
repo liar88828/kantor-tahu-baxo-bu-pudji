@@ -1,12 +1,13 @@
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { paymentAll, paymentCreate, paymentDelete, paymentUpdate } from "@/network/payment";
 import { TPaymentCreate } from "@/interface/entity/payment.model";
+import { paymentAll, paymentCreate, paymentDelete, paymentUpdate } from "@/network/payment";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export enum PAYMENT {
     KEY = 'paymentKey',
 }
+
 export default function usePayment() {
     function OnGet(searchDebounce: string, search: string) {
         const { data: payments, isError, isFetching } = useQuery(

@@ -1,6 +1,6 @@
 import { TOrderCreate } from "@/interface/entity/order.model"
 import { TCustomersDB } from "@/interface/entity/receiver.model";
-import { TOrderTrolleyTransaction, TTrolleyDB } from "@/interface/entity/trolley.model";
+import { TOrderTrolleyTransaction } from "@/interface/entity/trolley.model";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 
 export const exampleOrderCreate: TOrderCreate = {
@@ -108,7 +108,7 @@ export const dataOrderTransaction: TOrderTransactionDB[] = [
                 "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
                 "qty_at_buy": 1,
                 "price_at_buy": 20000,
-                "id_user": null,
+                "id_user": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
                 "Product": {
                     update_stock: new Date(),
                     sold: 0,
@@ -130,7 +130,7 @@ export const dataOrderTransaction: TOrderTransactionDB[] = [
                 "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672",
                 "qty_at_buy": 1,
                 "price_at_buy": 20000,
-                "id_user": null,
+                "id_user": "229b54ec-54ac-40bc-9571-90b9494bd672",
                 "Product": {
                     update_stock: new Date(),
                     sold: 0,

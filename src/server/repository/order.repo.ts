@@ -13,136 +13,136 @@ import { TStatusOrder } from "@/interface/Utils";
 
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
-	async search(criteria: SearchOrder) {
-		return prisma.$transaction(async (tx) => {
+    async search(criteria: SearchOrder) {
+        return prisma.$transaction(async (tx) => {
 
-			return tx.orders.findMany({
-				where: {
-					AND: [
-						{
-							...(criteria.receiverName ?
-								{Receiver: {name: {contains: criteria.receiverName},}} : {}),
+            return tx.orders.findMany({
+                where: {
+                    AND: [
+                        {
+                            ...( criteria.receiverName ?
+                                { Receiver: { name: { contains: criteria.receiverName }, } } : {} ),
 
-							...(criteria.status ?
-								{status: {equals: criteria.status}} : {}),
+                            ...( criteria.status ?
+                                { status: { equals: criteria.status } } : {} ),
 
-							...(criteria.dateRange ?
-								{
-									orderTime: {
-										gte: criteria.dateRange.start,
-										lte: criteria.dateRange.end
-									}
-								} : {}),
+                            ...( criteria.dateRange ?
+                                {
+                                    orderTime: {
+                                        gte: criteria.dateRange.start,
+                                        lte: criteria.dateRange.end
+                                    }
+                                } : {} ),
 
-							...(criteria.productId ? {
-								OrderProduct: {
-									some: {
-										id_product: criteria.productId,
-									}
-								}
-							} : {}),
+                            ...( criteria.productId ? {
+                                OrderProduct: {
+                                    some: {
+                                        id_product: criteria.productId,
+                                    }
+                                }
+                            } : {} ),
 
-						}
-					]
-				},
-				include: {
-					Customers: true,
-					Trolleys: {
-						include: {
-							Product: true
-						}
-					}
-				},
-			});
-		});
-	}
+                        }
+                    ]
+                },
+                include: {
+                    Customers: true,
+                    Trolleys: {
+                        include: {
+                            Product: true
+                        }
+                    }
+                },
+            });
+        });
+    }
 
-	async getMonthlyTotal(year: number) {
-		const monthlyTotals = await prisma.orders.groupBy({
-			by: [ 'orderTime' ],
-			_sum: {
-				totalAll: true,
-			},
-			where: {
-				status: 'Complete',
-				orderTime: {
-					gte: new Date(`${ year }-01-01`),
-					lt: new Date(`${ year + 1 }-01-01`),
-				},
-			},
-		});
+    async getMonthlyTotal(year: number) {
+        const monthlyTotals = await prisma.orders.groupBy({
+            by: [ 'orderTime' ],
+            _sum: {
+                totalAll: true,
+            },
+            where: {
+                status: 'Complete',
+                orderTime: {
+                    gte: new Date(`${ year }-01-01`),
+                    lt: new Date(`${ year + 1 }-01-01`),
+                },
+            },
+        });
 
 // Sanitize the data to group by month
-		const dataMonth: MonthlyTotal[] = monthlyTotals.reduce<MonthlyTotal[]>((acc, { _sum, orderTime }) => {
-			// Extract the month name from the orderTime
-			const monthName = new Date(orderTime).toLocaleString('default', { month: 'long' });
+        const dataMonth: MonthlyTotal[] = monthlyTotals.reduce<MonthlyTotal[]>((acc, { _sum, orderTime }) => {
+            // Extract the month name from the orderTime
+            const monthName = new Date(orderTime).toLocaleString('default', { month: 'long' });
 
-			// Find the existing entry for this month or create a new one
-			const existingMonth = acc.find(item => item.month === monthName);
-			if (existingMonth) {
-				// @ts-ignore
-				existingMonth.total += _sum.totalAll;
-			} else {
-				// @ts-ignore
-				acc.push({ month: monthName, total: _sum.totalAll });
-			}
+            // Find the existing entry for this month or create a new one
+            const existingMonth = acc.find(item => item.month === monthName);
+            if (existingMonth) {
+                // @ts-ignore
+                existingMonth.total += _sum.totalAll;
+            } else {
+                // @ts-ignore
+                acc.push({ month: monthName, total: _sum.totalAll });
+            }
 
-			return acc;
-		}, []);
+            return acc;
+        }, []);
 
-		// console.log(dataMonth);
-		return { year, dataMonth };
-	}
+        // console.log(dataMonth);
+        return { year, dataMonth };
+    }
 
     async findAll({
                       filter,
                       pagination: { limit = 100, page = 1 }
                   }: Required<OrderParams>): Promise<{ data: Orders[] } & TPagination> {
-		const skip = (page - 1) * limit;
-		const take = limit;
-		const order = await prisma.orders.findMany({
+        const skip = ( page - 1 ) * limit;
+        const take = limit;
+        const order = await prisma.orders.findMany({
             where: {
                 AND: [
                     {
-                        ...(filter.name ? { Customers: { name: { contains: filter.name, } } } : {}),
-                        ...(filter.status ? { status: { contains: filter.status, } } : {}),
+                        ...( filter.name ? { Customers: { name: { contains: filter.name, } } } : {} ),
+                        ...( filter.status ? { status: { contains: filter.status, } } : {} ),
                     }
                 ]
             },
-			include: {
-				Trolleys: {
-					include: {
-						Product: true
-					}
-				},
-				Customers: true,
-				Deliverys: true,
-				Payments: true
-			},
-			skip,
-			take,
-			orderBy: {
-				updated_at: "desc"
-			},
-		})
-		return { data: order, page, limit, }
-	}
+            include: {
+                Trolleys: {
+                    include: {
+                        Product: true
+                    }
+                },
+                Customers: true,
+                Deliverys: true,
+                Payments: true
+            },
+            skip,
+            take,
+            orderBy: {
+                updated_at: "desc"
+            },
+        })
+        return { data: order, page, limit, }
+    }
 
-	async findById(id: string) {
-		return prisma.orders.findUnique({
-			where: {id},
-			include: {
-				Trolleys: {
-					include: {
-						Product: true
-					}
-				},
-				Customers: true,
-				Deliverys: true,
-				Payments: true
-			},
-		})
-	}
+    async findById(id: string) {
+        return prisma.orders.findUnique({
+            where: { id },
+            include: {
+                Trolleys: {
+                    include: {
+                        Product: true
+                    }
+                },
+                Customers: true,
+                Deliverys: true,
+                Payments: true
+            },
+        })
+    }
 
     async findHistoryUser(status: string, id_user: string): Promise<HistoryUser[]> {
         return prisma.orders.findMany(
@@ -180,10 +180,10 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                 },
                 status: status
             },
-        }).then((data) => ({
+        }).then((data) => ( {
             count: data._count,
             totalAll: data._sum.totalAll ?? 0,
-        }))
+        } ))
     }
 
     async findTopOrderTotal(): Promise<TOrderTopTotal[]> {
@@ -207,10 +207,10 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 
     }
 
-
     // ---------CREATE
     async createOne(data: TOrderTransactionCreate): Promise<ResponseCreateOrderTransaction> {
-		return prisma.$transaction(async (tx) => {
+        // console.log(data)
+        return prisma.$transaction(async (tx) => {
 
             let orderCustomerRes
             // find
@@ -232,27 +232,40 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                 orderCustomerRes = customerDB
             }
 
-			const order = await tx.orders.create(
-				{
-					data: {
-						...data.order
-					},
-				})
+            const order = await tx.orders.create(
+                {
+                    data: {
+                        ...data.order
+                    },
+                })
 
-            await tx.trolleys.deleteMany({
+            const trolleyId = await tx.trolleys.findMany({
+                select: { id: true },
                 where: {
                     id: {
                         in: data.orderTrolley.map(d => d.id)
                     }
                 }
             })
+            console.log(trolleyId)
+            if (trolleyId.length > 0) {
+                console.log('is execute delete')
+                await tx.trolleys.deleteMany({
+                    where: {
+                        id: {
+                            in: trolleyId.map(d => d.id)
+                        }
+                    }
+                })
+            }
 
-            const products = data.orderTrolley.map((product) => ({
+            const productsOrder = data.orderTrolley.map((product) => ( {
                 id_order: order.id,
                 id_product: product.id_product,
                 qty_at_buy: product.qty_at_buy,
-                price_at_buy: product.price_at_buy
-            }))
+                price_at_buy: product.price_at_buy,
+                id_user: product.id_user
+            } ))
 
             for await (const product of data.orderTrolley) {
                 await tx.products.update({
@@ -263,6 +276,7 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                     }
                 });
             }
+            // console.log('update many finish')
 
             // data.orderTrolley.map(async (product) => (
             //     await tx.products.update({
@@ -285,95 +299,101 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
             //     )
             // );
 
+            // console.log(productsOrder)
             const orderProduct = await tx.trolleys.createMany(
-                { data: products })
+                {
+                    data: productsOrder,
+                })
+            // console.log('create many finish')
 
             return {
                 order,
                 orderCustomers: orderCustomerRes,
                 orderProduct
-			}
-		})
-	}
+            }
+        })
+    }
 
-	async updateOne(data: TOrderTransactionUpdate, orderId: string) {
-		return prisma.$transaction(async (tx) => {
-			const updatedOrder = data.order
-				? await tx.orders.update({
-					where: {id: orderId},
-					data: data.order,
-				})
-				: null;
+    async updateOne(data: TOrderTransactionUpdate, orderId: string) {
+        return prisma.$transaction(async (tx) => {
+            const updatedOrder = data.order
+                ? await tx.orders.update({
+                    where: { id: orderId },
+                    data: data.order,
+                })
+                : null;
 
-			let updatedReceiver = null;
-			if (data.orderReceiver) {
-				const order = await tx.orders.findUniqueOrThrow({
-					where: {id: orderId},
-				});
-				updatedReceiver = await tx.customers.update({
-					where: { id: order.id_customer },
-					data: data.orderReceiver,
-				});
-			}
+            let updatedReceiver = null;
+            if (data.orderReceiver) {
+                const order = await tx.orders.findUniqueOrThrow({
+                    where: { id: orderId },
+                });
+                updatedReceiver = await tx.customers.update({
+                    where: { id: order.id_customer },
+                    data: data.orderReceiver,
+                });
+            }
 
-			let updatedProducts = null;
+            let updatedProducts = null;
 
-			if (data.orderTrolley) {
-				// Delete existing products for the order
-				await tx.trolleys.deleteMany({
-					where: {id_order: orderId},
-				});
+            if (data.orderTrolley) {
+                // Delete existing products for the order
+                await tx.trolleys.deleteMany({
+                    where: { id_order: orderId },
+                });
 
-				// Insert updated product list
-				const products = data.orderTrolley.map((product) => ({
-					id_order: orderId,
-					id_product: product.id_product,
-					qty_at_buy: product.qty_at_buy,
-					price_at_buy: product.price_at_buy,
+                // Insert updated product list
+                const products = data.orderTrolley.map((product) => ( {
+                    id_order: orderId,
+                    id_product: product.id_product,
+                    qty_at_buy: product.qty_at_buy,
+                    price_at_buy: product.price_at_buy,
+                    id_user: product.id_user
 
-				}));
+                } ));
 
-				updatedProducts = await tx.trolleys.createMany({
-					data: products,
-				});
-			}
+                updatedProducts = await tx.trolleys.createMany({
+                    data: products,
 
-			return {
-				updatedOrder,
-				updatedReceiver,
-				updatedProducts,
-			};
-		});
-	}
+                });
+            }
+
+            return {
+                updatedOrder,
+                updatedReceiver,
+                updatedProducts,
+            };
+        });
+    }
 
     async deleteOne(id_order: string) {
-		return prisma.$transaction(async (tx) => {
-			// Find the order to retrieve the associated receiver ID
-			const order = await tx.orders.findUniqueOrThrow({
-				where: { id: id_order },
-			});
+        return prisma.$transaction(async (tx) => {
+            // Find the order to retrieve the associated receiver ID
+            const order = await tx.orders.findUniqueOrThrow({
+                where: { id: id_order },
+            });
 
-			// Delete related order products
-			const orderProduct = await tx.trolleys.deleteMany({
-				where: { id_order: id_order },
-			});
+            // Delete related order products
+            const orderProduct = await tx.trolleys.deleteMany({
+                where: { id_order: id_order },
+            });
 
-			// Delete the order itself
-			await tx.orders.delete({
-				where: { id: id_order },
-			});
+            // Delete the order itself
+            await tx.orders.delete({
+                where: { id: id_order },
+            });
 
-			// // Delete the associated receiver
-			// const orderReceiver = await tx.receivers.delete({
-			// 	where: {id: order.id_receiver},
-			// });
+            // // Delete the associated receiver
+            // const orderReceiver = await tx.receivers.delete({
+            // 	where: {id: order.id_receiver},
+            // });
 
-			return {
-				order, orderProduct
+            return {
+                order, orderProduct
 
-			};
-		});
-	}
+            };
+        });
+    }
 
 //   async findDashboard( a: string ) {
 //     if( a === "false" ) {
@@ -581,11 +601,11 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
 //
 //   }
 
-	async updateStatus(data: string, id: string,) {
-		return prisma.orders.update({
-			where: {id: id},
-			data: {status: data}
-		})
-	}
+    async updateStatus(data: string, id: string,) {
+        return prisma.orders.update({
+            where: { id: id },
+            data: { status: data }
+        })
+    }
 
 }

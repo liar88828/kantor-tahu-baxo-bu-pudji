@@ -1,18 +1,14 @@
-import React from 'react'
-import ProductForm from "@/app/admin/product/ProductForm.client";
-import { getId } from "@/utils/requestHelper";
+import React, { Suspense } from 'react'
 import type { TContext } from "@/interface/server/param";
-import { productId } from "@/network/product";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { ProductFormUpdateServerAdmin } from "@/app/components/product/product.server";
+import { getId } from "@/utils/requestHelper";
 
 export default async function Page(context: TContext) {
-
-	const id = await getId(context)
-	const {data} = await productId(id)
-
-    return (<ProductForm
-				defaultValues={data}
-				method={'PUT'}
-				id={id}
-			/>
-	)
+    const id = await getId(context)
+    return (
+        <Suspense fallback={ <PageLoadingSpin /> }>
+            <ProductFormUpdateServerAdmin idProduct={ id } />
+        </Suspense>
+    )
 }

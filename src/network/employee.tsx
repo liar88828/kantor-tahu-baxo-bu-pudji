@@ -9,7 +9,7 @@ import { toUrl } from "@/utils/toUrl";
 import { EmployeeParams } from "@/server/repository/employee.repo";
 
 export const employeeAll = async ({ filter, pagination }: EmployeeParams) => {
-	const url = toUrl('employee', { ...filter, ...pagination })
+    const url = toUrl('employee', { ...filter, ...pagination })
     return toFetch<ResponseAll<TEmployeeDB>>('GET', { url })
 };
 
@@ -20,39 +20,68 @@ export const employeeId = async (id: string) => {
 };
 
 export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
-	try {
-		const formData = new FormData();
+    try {
+        const formData = new FormData();
 
-		formData.append('file', img[0]);
-		formData.append('data', JSON.stringify(data));
+        formData.append('file', img[0]);
+        formData.append('data', JSON.stringify(data));
 
-		const response = await fetch('/api/employee', {
-			method: 'POST',
-			body: formData, // Send as FormData
-		});
+        const response = await fetch('/api/employee', {
+            method: 'POST',
+            body: formData, // Send as FormData
+        });
 
-		if (!response.ok) {
-			const errorData = await response.json();
-			console.log(errorData)
-			throw new Error(errorData || 'Failed to create employee');
-		}
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData)
+            throw new Error(errorData || 'Failed to create employee');
+        }
 
-		// Optionally redirect or show success message
-		// router.push('/employees'); // Redirect to employees list
-		return response.json();
-	} catch (error) {
-		if (error instanceof Error) {
-			console.log(error.message);
-		}
-		return false
-	}
+        // Optionally redirect or show success message
+        // router.push('/employees'); // Redirect to employees list
+        return response.json();
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
+        return false
+    }
 };
 
-export const employeeUpdate = async (data: EmployeeCreateZod, id: string) => {
-    return toFetch<TDeliveryDB>('POST', {
-        url: `employee/${ id }`, data
-    })
+export const employeeUpdate = async ({ img, ...data }: EmployeeCreateZod, id: string) => {
+    try {
+        const formData = new FormData();
+
+        formData.append('file', img[0]);
+        formData.append('data', JSON.stringify(data));
+
+        const response = await fetch(`/api/employee/${ id }`, {
+            method: 'PUT',
+            body: formData, // Send as FormData
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.log(errorData)
+            throw new Error(errorData || 'Failed to create employee');
+        }
+
+        return response.json();
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
+        return false
+    }
 };
+
+export async function onUpsertData(method: "POST" | "PUT", data: EmployeeCreateZod, id?: string) {
+    if (method === "POST") {
+        return employeeCreate(data)
+    } else if (method === "PUT" && id) {
+        return employeeUpdate(data, id)
+    }
+}
 
 export const employeeDelete = async (id: string) => {
     return toFetch<TDeliveryDB>('DELETE', {

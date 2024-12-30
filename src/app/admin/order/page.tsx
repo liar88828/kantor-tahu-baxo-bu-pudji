@@ -1,30 +1,27 @@
-import { orderAll } from "@/network/order";
-import OrderTable, { FilterDialog, OrderSearch } from "@/app/admin/order/OrderTable.client";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { ORDER_KEY } from "@/hook/useOrder";
 import React from "react";
+import { FilterDialog, OrderSearch, OrderTable } from "@/app/components/order/OrderTable.client";
+import { ORDER_KEY } from "@/hook/useOrder";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { orderAll } from "@/network/order";
 
 export const dynamic = 'force-dynamic';
 
-async function Page() {
-	const queryClient = new QueryClient();
-	await queryClient.prefetchQuery({
-		queryKey: [ ORDER_KEY.order ],
+export default async function Page() {
+    const queryClient = new QueryClient();
+    await queryClient.prefetchQuery({
+        queryKey: [ ORDER_KEY.order ],
         queryFn: () => orderAll({
             filter: { name: "", status: "" },
             pagination: {}
         }),
-	});
+    });
 
-	return (
-
+    return (
         <OrderSearch>
-            <FilterDialog/>
+            <FilterDialog />
             <HydrationBoundary state={ dehydrate(queryClient) }>
-                <OrderTable/>
+                <OrderTable />
             </HydrationBoundary>
         </OrderSearch>
-	);
+    );
 }
-
-export default Page;

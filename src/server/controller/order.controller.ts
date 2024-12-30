@@ -9,7 +9,7 @@ import { ReceiverCreate } from "@/validation/receiver.valid"
 import { UUIDSchema } from "@/validation/id.valid"
 import { orderCreateServer } from "@/validation/order.valid"
 import { TStatusOrder } from "@/interface/Utils";
-import { verifySession } from "@/server/lib/db";
+import { validSession } from "@/server/lib/db";
 
 export default class OrderController
 	implements InterfaceController {
@@ -51,7 +51,7 @@ export default class OrderController
 
     async findOrderStatus(request: NextRequest, _: TContext): Promise<any> {
         const status = getParams(request, 'status',) ?? ''
-        const { userId } = await verifySession()
+        const { userId } = await validSession()
         return this.orderRepository.findOrderStatus({ status, userId })
     }
 
@@ -94,8 +94,9 @@ export default class OrderController
 	}
 
     async findHistoryUser(request: NextRequest, _context: TContext) {
-        const user = await verifySession()
+        const user = await validSession()
         const status = getParams(request, "status") ?? ''
+        // console.log(user)
         return this.orderRepository.findHistoryUser(status, user.userId)
     }
 
@@ -111,4 +112,3 @@ export default class OrderController
     }
 
 }
-

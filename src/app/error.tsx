@@ -9,8 +9,8 @@ export default function ErrorBoundary( {
 } ) {
     return (
     <div>
-      <h2 className={ 'font-bold' }>Something went wrong!</h2>
-      <h3>{ error.message }</h3>
+        <h1 className={ 'font-bold' }>Something went wrong!</h1>
+        <h1>{ error.message }</h1>
       <button onClick={ () => reset() }>Try again</button>
     </div>
   )

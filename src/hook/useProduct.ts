@@ -13,6 +13,7 @@ export enum PRODUCT {
     KEY = 'product',
     TYPE = 'type'
 }
+
 export const useProduct = () => {
 	const router = useRouter()
 

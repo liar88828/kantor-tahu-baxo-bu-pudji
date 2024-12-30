@@ -1,34 +1,49 @@
-import React from 'react'
-import { ProductClient, ProductHomeCategory } from "@/app/(user)/(market)/home/product.client";
+import { HomeClientUser, ProductHomeCategoryUser } from "@/app/components/home/home.client";
+import { PRODUCT_FILTER_PRICE } from "@/interface/entity/product.model";
 import { productNew } from "@/network/product";
-import { PRODUCT_FILTER_PRICE } from "@/store/product";
 
 export default async function Page() {
     const newProduct = await productNew({
         pagination: { limit: 20 },
         filter: { new: true }
     })
-    .then(res => res.data.data)
+    .then(res => {
+        if (res) {
+            return res.data.data
+        }
+        return res
+    })
+
 
     const lowPriceProduct = await productNew({
         pagination: { limit: 20 },
         filter: { price: PRODUCT_FILTER_PRICE.LOW }
     })
-    .then(res => res.data.data)
+    .then(res => {
+        if (res) {
+            return res.data.data
+        }
+        return res
+    })
+
 
     const popularProduct = await productNew({
         pagination: { limit: 20 },
         filter: { popular: true }
     })
-    .then(res => res.data.data)
+    .then(res => {
+        if (res) {
+            return res.data.data
+        }
+        return res
+    })
 
-	return (
-		<div className={ 'space-y-2' }>
-            <ProductHomeCategory/>
-            <ProductClient products={ newProduct } title={ 'New Product' }/>
-            <ProductClient products={ popularProduct } title={ 'Popular Product' }/>
-            <ProductClient products={ lowPriceProduct } title={ 'Economical' }/>
-		</div>
-	)
+    return (
+        <div className={ 'space-y-2' }>
+            <ProductHomeCategoryUser />
+            <HomeClientUser products={ newProduct } title={ 'New Product' } />
+            <HomeClientUser products={ popularProduct } title={ 'Popular Product' } />
+            <HomeClientUser products={ lowPriceProduct } title={ 'Economical' } />
+        </div>
+    )
 }
-

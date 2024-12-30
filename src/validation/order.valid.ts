@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { TOrderCreate } from "@/interface/entity/order.model";
 
-import { zodAddress, zodDesc, zodInt } from "@/validation/zod.valid";
+import { zodAddress, zodDesc, zodInt, zodPhone } from "@/validation/zod.valid";
+import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 
 export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
     // nameCs: z.string().min(1).max(100),
@@ -13,7 +14,7 @@ export const orderCreateServer: z.ZodType<TOrderCreate> = z.object({
 	id_delivery: z.string().uuid(),
     id_customer: z.string().uuid(),
 	nameDelivery: z.string().min(1).max(100),
-	phoneDelivery: z.string().min(1).max(100),
+    phoneDelivery: zodPhone,
     priceDelivery: zodInt,
 	// payment
 	id_payment: z.string().uuid(),
@@ -73,7 +74,7 @@ export const orderCreateClient: z.ZodType<Omit<OrderCreateClient,'id'>> = z.obje
     addressCs: zodAddress,
     desc: zodDesc,
 	nameDelivery: z.string(),
-	phoneDelivery: z.string(),
+    phoneDelivery: zodPhone,
     priceDelivery: zodInt,
     orderTime: z.coerce.date(),
     sendTime: z.coerce.date(),
@@ -82,8 +83,13 @@ export const orderCreateClient: z.ZodType<Omit<OrderCreateClient,'id'>> = z.obje
     totalPayment: zodInt,
     totalProduct: zodInt,
     totalAll: zodInt,
-
 }).refine((data) => data.orderTime <= data.sendTime, {
 	message: "Order Time cannot be later than Send Time",
 	path: [ "orderTime" ], // Show error message under orderTime
 });
+
+export type FormOrderProps = {
+    data: OrderCreateClient,
+    orderRes: TOrderTransactionDB,
+    id_customer: string
+};

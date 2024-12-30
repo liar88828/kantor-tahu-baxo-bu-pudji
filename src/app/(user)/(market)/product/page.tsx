@@ -1,10 +1,10 @@
 import React from 'react';
-import { ProductFetch, ProductLayout } from "@/app/(user)/(market)/product/productLayout";
+import { ProductFetchClientUser, ProductLayoutClientUser } from "@/app/components/product/product.client";
 
 export default function Page() {
 	return (
-		<ProductLayout>
-			<ProductFetch/>
-		</ProductLayout>
+        <ProductLayoutClientUser>
+            <ProductFetchClientUser />
+        </ProductLayoutClientUser>
 	)
 }

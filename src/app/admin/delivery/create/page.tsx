@@ -1,10 +1,10 @@
 import React from 'react'
-import {exampleDelivery} from '@/assets/ExampleDelivery'
-import DeliveryForm from '../DeliveryForm.client'
+import { DeliveryFormClientAdmin } from "@/app/components/delivery/delivery.client";
+import { exampleDelivery } from '@/assets/ExampleDelivery'
 
 export default function page() {
 	return (
-		<DeliveryForm
+        <DeliveryFormClientAdmin
 			defaultValues={exampleDelivery}
 			method={'POST'}
 			id={''}

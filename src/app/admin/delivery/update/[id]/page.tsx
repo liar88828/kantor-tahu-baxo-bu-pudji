@@ -1,20 +1,14 @@
-import React from 'react'
-import DeliveryForm from '../../DeliveryForm.client'
-import {deliveryId} from '@/network/delivery'
-import type {TContext} from '@/interface/server/param'
-import {getId} from '@/utils/requestHelper'
-
+import React, { Suspense } from 'react'
+import type { TContext } from '@/interface/server/param'
+import { DeliveryFormUpdateServerAdmin } from "@/app/components/delivery/delivery.server";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { getId } from '@/utils/requestHelper'
 
 export default async function page(context: TContext) {
-
-	const id = await getId(context)
-	const {data} = await deliveryId(id)
-
-	return (
-		<DeliveryForm
-			defaultValues={data}
-			method={'PUT'}
-			id={id}
-		/>
-	)
+    const id = await getId(context)
+    return (
+        <Suspense fallback={ <PageLoadingSpin /> }>
+            <DeliveryFormUpdateServerAdmin idDelivery={ id } />
+        </Suspense>
+    )
 }

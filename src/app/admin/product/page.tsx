@@ -1,16 +1,13 @@
 import React from 'react'
-import ProductList, { ProductSearch } from "@/app/admin/product/ProductList.client";
-import { productAll } from "@/network/product";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { TContext } from "@/interface/server/param";
-import { getSearchName } from "@/utils/requestHelper";
 import { PRODUCT } from "@/hook/useProduct";
-
-export const dynamic = 'force-dynamic';
+import { ProductListClientAdmin, ProductSearchClientAdmin } from "@/app/components/product/product.client";
+import { TContext } from "@/interface/server/param";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { getSearchName } from "@/utils/requestHelper";
+import { productAll } from "@/network/product";
 
 export default async function page(context: TContext) {
     const search = await getSearchName(context, 'search') ?? ''
-    // const status = await getSearchName(context, 'status') ?? ''
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
         queryKey: [ PRODUCT.KEY, search ],
@@ -20,11 +17,11 @@ export default async function page(context: TContext) {
         })
     })
 
-	return (
-        <ProductSearch>
+    return (
+        <ProductSearchClientAdmin>
             <HydrationBoundary state={ dehydrate(queryClient) }>
-                <ProductList/>
+                <ProductListClientAdmin />
             </HydrationBoundary>
-        </ProductSearch>
-	)
+        </ProductSearchClientAdmin>
+    )
 }
