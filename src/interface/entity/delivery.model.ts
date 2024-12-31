@@ -8,3 +8,7 @@ export type TDeliverySearch = {
 	type?: string,
 	name?: string
 };
+
+export enum DELIVERY {
+    KEY = 'delivery'
+}

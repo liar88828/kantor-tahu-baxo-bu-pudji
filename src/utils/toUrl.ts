@@ -1,17 +1,18 @@
-export function toUrl<T extends object>(endPoint: string, params: T): string {
-	const url = new URL(`https://xx.com/api/${ endPoint }`);
-	const searchParams = new URLSearchParams();
+type QueryParams = Record<string, string | number | boolean | null | undefined>;
 
-	// Loop through the keys of the params object
-	Object.keys(params).forEach((key) => {
-		const value = params[key as keyof typeof params];//why error
-		// Otherwise, append the key-value pair
-		// @ts-ignore
-		searchParams.append(key, value);
-	});
+export function toParams<T extends QueryParams>(params: T): string {
+    const searchParams = new URLSearchParams();
 
-	// Set the query parameters to the URL
-	url.search = searchParams.toString();
+    // Populate searchParams with key-value pairs from params
+    for (const [ key, value ] of Object.entries(params)) {
+        if (value !== null && value !== undefined) {
+            searchParams.append(key, String(value));
+        }
+    }
 
-	return url.toString().split('/').pop() || ''; // Return the full URL with query parameters
+    return `?${ searchParams.toString() }`;
+}
+
+export function toUrl<T extends QueryParams>(endPoint: string, params: T): string {
+    return `${ endPoint }${ toParams(params) }`;
 }

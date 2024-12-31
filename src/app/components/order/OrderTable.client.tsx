@@ -8,14 +8,14 @@ import { Filter, NotebookTabs, Plus } from "lucide-react";
 import Link from "next/link";
 import { useTableStore } from "@/store/table";
 import { useOrder } from "@/hook/useOrder";
-import { PageEmptyData } from "@/app/components/PageErrorData";
+import { EmptyData } from "@/app/components/PageErrorData";
 import { useDebounce } from "@/hook/useDebounce";
 
 export function OrderTable() {
     const { setTable, existTable, search: nameTable, status: statusTable, tableDetail } = useTableStore()
     const { getAll } = useOrder()
-    const searchDebounce = useDebounce(nameTable)
-    const statusDebounce = useDebounce(statusTable)
+    const searchDebounce = useDebounce({ value: nameTable })
+    const statusDebounce = useDebounce({ value: statusTable })
     const { data: orders, isLoading, isError } = getAll({
             filter: {
                 name: nameTable,
@@ -99,7 +99,7 @@ export function OrderTable() {
                     <tbody>
                     { isError || !orders
                         ? <tr>
-                            <td><PageEmptyData page={ 'Data is Empty' } /></td>
+                            <td><EmptyData page={ 'Data is Empty' } /></td>
                         </tr>
                         : orders
                         .filter((order) => {

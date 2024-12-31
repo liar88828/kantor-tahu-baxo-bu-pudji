@@ -14,7 +14,7 @@ export default class ProductRepository implements InterfaceRepository<TProductCr
 
     async findAll({
                       filter,
-                      pagination: { page = 1, limit = 100 }
+                      pagination: { page = 1, limit = 20 }
                   }: Required<ProductParams>,): Promise<ResponseAll<TProductDB>> {
         const skip = ( page - 1 ) * limit;
         const take = limit;

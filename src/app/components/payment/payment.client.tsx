@@ -132,7 +132,7 @@ export function PaymentFormClientAdmin({ defaultValues, method, id, }: TReactFor
 export function PaymentListClientAdmin() {
     const { onDelete, onGet } = usePayment()
     const { search } = usePaymentStore();
-    const searchDebounce = useDebounce(search,)
+    const searchDebounce = useDebounce({ value: search })
     const { payments, isError, isFetching } = onGet(searchDebounce, search);
     if (isFetching || !payments) return <PageLoadingSpin />
     if (payments.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Payment is Empty' } />

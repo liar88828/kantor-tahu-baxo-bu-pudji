@@ -1,64 +1,59 @@
 'use client'
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { toFetch } from "@/hook/toFetch";
-import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
-import { ResponseProductType, TProductCreate, TProductDB } from "@/interface/entity/product.model";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { productAll, productCreate, productDelete, productUpdate, productUpdateStock } from "@/network/product";
 import React, { useEffect } from "react";
+import toast from "react-hot-toast";
+import { PRODUCT, ResponseProductType, TProductCreate, TProductDB } from "@/interface/entity/product.model";
+import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
 import { ProductStore } from "@/store/product";
-
-export enum PRODUCT {
-    KEY = 'product',
-    TYPE = 'type'
-}
+import { productAll, productCreate, productDelete, productUpdate, productUpdateStock } from "@/network/product";
+import { toFetch } from "@/hook/toFetch";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export const useProduct = () => {
-	const router = useRouter()
+    const router = useRouter()
 
-	const onUpsert = async ({ data, method, id }: {
-		data: TProductCreate, method: string, id?: string
-	}) => {
-		const idToast = toast.loading("Send Data to API");
-		try {
-			if (method === 'POST') {
-				await productCreate(data)
-				toast.success('Success Create Data');
-			} else if (method === 'PUT' && id) {
-				await productUpdate(data, id)
-				toast.success('Success Update Data');
-			}
-			router.push('/admin/product')
-		} catch (e: unknown) {
-			if (e instanceof Error) {
-				console.error(e)
-				toast(e.message);
-			}
-			toast.error('something error');
-		} finally {
-			toast.dismiss(idToast);
-		}
+    const onUpsert = async ({ data, method, id }: {
+        data: TProductCreate, method: string, id?: string
+    }) => {
+        const idToast = toast.loading("Send Data to API");
+        try {
+            if (method === 'POST') {
+                await productCreate(data)
+                toast.success('Success Create Data');
+            } else if (method === 'PUT' && id) {
+                await productUpdate(data, id)
+                toast.success('Success Update Data');
+            }
+            router.push('/admin/product')
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                console.error(e)
+                toast(e.message);
+            }
+            toast.error('something error');
+        } finally {
+            toast.dismiss(idToast);
+        }
 
-	}
+    }
 
-	const onDelete = async (id: string) => {
-		const idToast = toast.loading('Delete Data API')
-		try {
-			await productDelete(id)
-			toast.success('Success Delete Data');
-			router.refresh()
-		} catch (e) {
-			if (e instanceof Error) {
-				console.error(e.message)
-				toast.error(e.message);
-			}
-			toast.error('something error');
+    const onDelete = async (id: string) => {
+        const idToast = toast.loading('Delete Data API')
+        try {
+            await productDelete(id)
+            toast.success('Success Delete Data');
+            router.refresh()
+        } catch (e) {
+            if (e instanceof Error) {
+                console.error(e.message)
+                toast.error(e.message);
+            }
+            toast.error('something error');
 
-		} finally {
-			toast.dismiss(idToast)
-		}
-	}
+        } finally {
+            toast.dismiss(idToast)
+        }
+    }
 
     const onUpdateStock = async (id: string, data: number) => {
         const idToast = toast.loading('Update Data API')
@@ -78,68 +73,68 @@ export const useProduct = () => {
         }
     }
 
-	function getProductUser(search: string,debouncedSearch:string) {
-		// eslint-disable-next-line react-hooks/rules-of-hooks
-		return useInfiniteQuery<PaginatedResponse, Error>({
-			initialPageParam: 1,
-			enabled: !!debouncedSearch || search === '',
+    function getProductUser(search: string, debouncedSearch: string) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        return useInfiniteQuery<PaginatedResponse, Error>({
+            initialPageParam: 1,
+            enabled: !!debouncedSearch || search === '',
             queryKey: [ PRODUCT.KEY, debouncedSearch ],
 
-			queryFn: async (context): Promise<PaginatedResponse> => {
-				const url = `/product?page=${ context.pageParam }&name=${ debouncedSearch }`
-				console.log(url)
-				// eslint-disable-next-line react-hooks/rules-of-hooks
+            queryFn: async (context): Promise<PaginatedResponse> => {
+                const url = `/product?page=${ context.pageParam }&name=${ debouncedSearch }`
+                console.log(url)
+                // eslint-disable-next-line react-hooks/rules-of-hooks
                 const { data } = await toFetch<ResponseAll<TProductDB>>('GET', { url });
-				return {
-					data: data.data,
-					nextCursor: data.page
-				}
-			},
+                return {
+                    data: data.data,
+                    nextCursor: data.page
+                }
+            },
 
-			getNextPageParam: (lastPage, pages) => {
-				if (lastPage.data.length !== 0) {
-					if (lastPage.nextCursor === 0) {
-						return undefined;
-					} else {
-						return lastPage.nextCursor + 1
-					}
-				}
-			},
+            getNextPageParam: (lastPage, pages) => {
+                if (lastPage.data.length !== 0) {
+                    if (lastPage.nextCursor === 0) {
+                        return undefined;
+                    } else {
+                        return lastPage.nextCursor + 1
+                    }
+                }
+            },
 
-			getPreviousPageParam: (firstPage, pages) => {
-				// console.log(firstPage, 'firstPage', pages)
+            getPreviousPageParam: (firstPage, pages) => {
+                // console.log(firstPage, 'firstPage', pages)
 
-				if (firstPage.nextCursor <= 1) {
-					return undefined
-				}
-				return firstPage.nextCursor //- 1
-			},
+                if (firstPage.nextCursor <= 1) {
+                    return undefined
+                }
+                return firstPage.nextCursor //- 1
+            },
 
-		});
+        });
 
-	}
+    }
 
     const useProductInfiniteQuery = (
         debouncedSearch: string, {
-        name,
-        ...filter
-    }: ProductStore['filter'], observerRef: React.RefObject<HTMLDivElement | null>) => {
-		const {
-			data,
-			status,
-			error,
-			fetchNextPage,
-			hasNextPage,
-			isFetching,
-			isFetchingNextPage,
+            name,
+            ...filter
+        }: ProductStore['filter'], observerRef: React.RefObject<HTMLDivElement | null>) => {
+        const {
+            data,
+            status,
+            error,
+            fetchNextPage,
+            hasNextPage,
+            isFetching,
+            isFetchingNextPage,
             isLoading,
             isError,
-		} = useInfiniteQuery<PaginatedResponse, Error>({
-			initialPageParam: 1,
+        } = useInfiniteQuery<PaginatedResponse, Error>({
+            initialPageParam: 1,
             // refetchOnMount: 'always',
             // retryDelay: 5000,
-            // staleTime: 0,
-            // gcTime: 1000 * 60,
+            staleTime: 1000 * 10,
+            gcTime: 1000 * 60,
             enabled: debouncedSearch === name,
             queryKey: [ PRODUCT.KEY, debouncedSearch, ...Object.values(filter) ],
             queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {
@@ -148,6 +143,7 @@ export const useProduct = () => {
                 const { data } = await productAll({
                     pagination: {
                         page: pageParam as number,
+                        limit: 10,
                     },
                     filter: {
                         name: debouncedSearch,
@@ -162,60 +158,60 @@ export const useProduct = () => {
 
                 //await toFetch<ResponseAll<TProductDB>>('GET', url);
 
-				return {
-					data: data.data,
-					nextCursor: data.page,
-				};
-			},
+                return {
+                    data: data.data,
+                    nextCursor: data.page,
+                };
+            },
 
-			getNextPageParam: (lastPage) => {
-				if (lastPage.data.length === 0 || lastPage.nextCursor === 0) return undefined;
-				// console.log(lastPage.nextCursor)
-				return lastPage.nextCursor + 1;
-			},
+            getNextPageParam: (lastPage) => {
+                if (lastPage.data.length === 0 || lastPage.nextCursor === 0) return undefined;
+                // console.log(lastPage.nextCursor)
+                return lastPage.nextCursor + 1;
+            },
 
-			getPreviousPageParam: (firstPage) => {
-				if (firstPage.nextCursor <= 1) return undefined;
+            getPreviousPageParam: (firstPage) => {
+                if (firstPage.nextCursor <= 1) return undefined;
                 return firstPage.nextCursor - 1;
-			},
+            },
 
-		});
+        });
 
-		useEffect(() => {
-			if (!hasNextPage) return;
+        useEffect(() => {
+            if (!hasNextPage) return;
 
-			const observer = new IntersectionObserver(
-				([ entry ]) => {
+            const observer = new IntersectionObserver(
+                ([ entry ]) => {
                     if (entry.isIntersecting) { // noinspection JSIgnoredPromiseFromCall
                         fetchNextPage()
                     }
-				},
-				{ rootMargin: '200px' }
-			);
+                },
+                { rootMargin: '200px' }
+            );
 
-			const observerRefCurrent = observerRef.current
+            const observerRefCurrent = observerRef.current
 
-			if (observerRefCurrent) observer.observe(observerRefCurrent);
+            if (observerRefCurrent) observer.observe(observerRefCurrent);
 
-			return () => {
-				if (observerRefCurrent) observer.unobserve(observerRefCurrent);
-			};
-		}, [ hasNextPage, fetchNextPage, observerRef ]);
+            return () => {
+                if (observerRefCurrent) observer.unobserve(observerRefCurrent);
+            };
+        }, [ hasNextPage, fetchNextPage, observerRef ]);
 
         return {
             data, status, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,
             isLoading,
             isError,
         };
-	};
+    };
 
     const GetProductType = () => useQuery({
         // initialData: [ { type: "" } ],
         gcTime: 1000 * 60 * 60,
         staleTime: 1000 * 60 * 60,
-        select: (response) => response.data.map(d => ({
+        select: (response) => response.data.map(d => ( {
             title: d.type
-        })),
+        } )),
         queryKey: [ PRODUCT.KEY, PRODUCT.TYPE ],
         queryFn: () => toFetch<ResponseProductType[]>("GET", {
             url: 'product/type',
@@ -228,8 +224,7 @@ export const useProduct = () => {
     })
     return {
         onUpdateStock, getProductType: GetProductType,
-		getProductUser, onDelete, onUpsert, useProductInfiniteQuery
+        getProductUser, onDelete, onUpsert, useProductInfiniteQuery
 
-
-	}
+    }
 }

@@ -5,7 +5,8 @@ import { ResponseJson } from "@/utils/requestHelper";
 import { orderController } from "@/server/controller";
 
 export async function GET(request: NextRequest, context: TContext) {
-	return ResponseJson(
+
+    return ResponseJson(
 		async () => orderController.findAll(request, context),
 		"GET",
 		'order')

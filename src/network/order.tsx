@@ -74,9 +74,11 @@ export const getEarningNew = async (year: number) => {
 }
 
 export const findHistoryUser = async (status: string) => {
+    const url = toUrl("history/user/order", { status: status, limit: 10 })
+
     return toFetch<HistoryUser[]>("GET",
         {
-            url: `history/user/order?status=${ status }`,
+            url,
             cacheData: {
                 next: { revalidate: 5 }
             }

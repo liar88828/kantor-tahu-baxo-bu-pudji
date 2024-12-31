@@ -8,54 +8,10 @@ import {
 import { prisma } from "@/config/prisma";
 import { Orders } from "@prisma/client";
 import { InterfaceRepository, TPagination } from "@/interface/server/InterfaceRepository";
-import { MonthlyTotal, OrderParams, ResponseCreateOrderTransaction, SearchOrder } from "@/interface/entity/order.model";
+import { MonthlyTotal, OrderParams, ResponseCreateOrderTransaction } from "@/interface/entity/order.model";
 import { TStatusOrder } from "@/interface/Utils";
 
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
-
-    async search(criteria: SearchOrder) {
-        return prisma.$transaction(async (tx) => {
-
-            return tx.orders.findMany({
-                where: {
-                    AND: [
-                        {
-                            ...( criteria.receiverName ?
-                                { Receiver: { name: { contains: criteria.receiverName }, } } : {} ),
-
-                            ...( criteria.status ?
-                                { status: { equals: criteria.status } } : {} ),
-
-                            ...( criteria.dateRange ?
-                                {
-                                    orderTime: {
-                                        gte: criteria.dateRange.start,
-                                        lte: criteria.dateRange.end
-                                    }
-                                } : {} ),
-
-                            ...( criteria.productId ? {
-                                OrderProduct: {
-                                    some: {
-                                        id_product: criteria.productId,
-                                    }
-                                }
-                            } : {} ),
-
-                        }
-                    ]
-                },
-                include: {
-                    Customers: true,
-                    Trolleys: {
-                        include: {
-                            Product: true
-                        }
-                    }
-                },
-            });
-        });
-    }
 
     async getMonthlyTotal(year: number) {
         const monthlyTotals = await prisma.orders.groupBy({
@@ -94,10 +50,8 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
         return { year, dataMonth };
     }
 
-    async findAll({
-                      filter,
-                      pagination: { limit = 100, page = 1 }
-                  }: Required<OrderParams>): Promise<{ data: Orders[] } & TPagination> {
+    async findAll({ filter, pagination: { limit = 20, page = 1 } }: Required<OrderParams>)
+        : Promise<{ data: Orders[] } & TPagination> {
         const skip = ( page - 1 ) * limit;
         const take = limit;
         const order = await prisma.orders.findMany({
@@ -144,9 +98,10 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
         })
     }
 
-    async findHistoryUser(status: string, id_user: string): Promise<HistoryUser[]> {
+    async findHistoryUser(status: string, id_user: string, limit: number): Promise<HistoryUser[]> {
         return prisma.orders.findMany(
             {
+                take: limit,
                 where: {
                     id_customer: id_user,
                     status: {
@@ -609,3 +564,46 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
     }
 
 }
+// async search(criteria: SearchOrder) {
+//     return prisma.$transaction(async (tx) => {
+//
+//         return tx.orders.findMany({
+//             where: {
+//                 AND: [
+//                     {
+//                         ...( criteria.receiverName ?
+//                             { Receiver: { name: { contains: criteria.receiverName }, } } : {} ),
+//
+//                         ...( criteria.status ?
+//                             { status: { equals: criteria.status } } : {} ),
+//
+//                         ...( criteria.dateRange ?
+//                             {
+//                                 orderTime: {
+//                                     gte: criteria.dateRange.start,
+//                                     lte: criteria.dateRange.end
+//                                 }
+//                             } : {} ),
+//
+//                         ...( criteria.productId ? {
+//                             OrderProduct: {
+//                                 some: {
+//                                     id_product: criteria.productId,
+//                                 }
+//                             }
+//                         } : {} ),
+//
+//                     }
+//                 ]
+//             },
+//             include: {
+//                 Customers: true,
+//                 Trolleys: {
+//                     include: {
+//                         Product: true
+//                     }
+//                 }
+//             },
+//         });
+//     });
+// }

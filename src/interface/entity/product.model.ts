@@ -29,3 +29,7 @@ export type ProductHomeUser = {
     lowPriceProduct: TProductDB[],
 };
 // export type TProductUpdate = Omit<Products, "created_at" | "updated_at">;
+export enum PRODUCT {
+    KEY = 'product',
+    TYPE = 'type'
+}

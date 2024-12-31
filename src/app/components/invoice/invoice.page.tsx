@@ -1,47 +1,13 @@
-'use client'
-import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
-import { toRupiah } from "@/utils/toRupiah";
-import React, { Ref } from "react";
-import { usePrint } from "@/hook/usePrint";
-import Link from "next/link";
-import { setDateIndo } from "@/utils/formatDate";
-import QRCode from "react-qr-code";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import QRCode from "react-qr-code";
+import React from "react";
+import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
+import { setDateIndo } from "@/utils/formatDate";
+import { toRupiah } from "@/utils/toRupiah";
 
-export function InvoiceLayout({ redirectAction, order }: { redirectAction: string, order: TOrderTransactionDB }) {
-    const { isPrinting, handlePrint, contentRef } = usePrint()
-
-    return (<>
-            <Invoice
-                invoice={ order }
-                ref={ contentRef }
-                isPrinting={ isPrinting }
-            />
-            <div className="print:hidden mt-5 space-x-5 p-5">
-                <button
-                    onClick={ handlePrint }
-                    disabled={ isPrinting }
-                    className={ 'btn btn-info' }>
-                    { isPrinting ? 'Printing...' : 'Print Invoice' }
-                </button>
-                <Link
-                    href={ redirectAction }
-                    hidden={ isPrinting }
-                    className={ 'btn ' }>
-                    Back
-                </Link>
-
-            </div>
-        </>
-
-    );
-}
-
-export const Invoice = ({ invoice, ref, isPrinting }: {
-    ref: Ref<HTMLDivElement>
+export const Invoice = ({ invoice, path }: {
     invoice: TOrderTransactionDB
-    isPrinting: boolean;
+    path: string
 }) => {
     const {
         id,
@@ -57,14 +23,12 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
         priceDelivery
     } = invoice;
 
-    const path = usePathname()
-
     return (
         <div
-            className={ `p-6 bg-base-100 rounded-lg ~text-sm/base  print:p-15 print:shadow-none shadow-lg h-[270mm] relative print:text-sm` }
-             ref={ ref }>
+            className={ `p-6 bg-base-100 rounded-lg ~text-sm/base print:p-15 print:shadow-none shadow-lg h-[270mm] relative print:text-sm` }
+        >
             <div className="grid grid-cols-3 ">
-                <Image src='/my-logo.png' alt="Tahu Bakso Logo" width={ 100 } height={ 100 }/>
+                <Image src='/my-logo.png' alt="Tahu Bakso Logo" width={ 100 } height={ 100 } />
 
                 <div className="">
                     <h1 className="text-2xl font-bold  text-center">Invoice</h1>
@@ -112,7 +76,7 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
                             <td className={ 'border ' }>{ item.Product.name }</td>
                             <td className={ 'border ' }>{ item.qty_at_buy }</td>
                             <td className={ 'border ' }>${ item.price_at_buy.toFixed(2) }</td>
-                            <td className={ 'border ' }>${ (item.qty_at_buy * item.price_at_buy).toFixed(2) }</td>
+                            <td className={ 'border ' }>${ ( item.qty_at_buy * item.price_at_buy ).toFixed(2) }</td>
                         </tr>
                     )) }
                     </tbody>
@@ -137,7 +101,7 @@ export const Invoice = ({ invoice, ref, isPrinting }: {
                 <div className="grid grid-cols-2">
                     <div><span className="font-semibold">Subtotal:</span></div>
                     <div>
-                        <span>{ toRupiah(Trolleys.reduce((total, item) => total + (item.price_at_buy * item.qty_at_buy), 0)) }</span>
+                        <span>{ toRupiah(Trolleys.reduce((total, item) => total + ( item.price_at_buy * item.qty_at_buy ), 0)) }</span>
                     </div>
                     <div className={ 'pr-5' }><span className="font-semibold">Delivery Fee:</span></div>
                     <div><span>{ toRupiah(priceDelivery) }</span></div>

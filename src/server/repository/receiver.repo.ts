@@ -1,12 +1,12 @@
 import { prisma } from "@/config/prisma";
 import { CustomerSearch, TReceiverCreate } from "@/interface/entity/receiver.model";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
-import { Users, Customers } from "@prisma/client";
+import { Customers, Users } from "@prisma/client";
 
 export type CustomerParams = ParamsApi<CustomerSearch>
 export default class CustomerRepository implements InterfaceRepository<TReceiverCreate> {
 
-	async findAll({ filter, pagination: { page = 1, limit = 100 } }: Required<CustomerParams>) {
+    async findAll({ filter, pagination: { page = 1, limit = 20 } }: Required<CustomerParams>) {
 
 		const skip = (page - 1) * limit;
 		const take = limit;
@@ -81,4 +81,3 @@ export default class CustomerRepository implements InterfaceRepository<TReceiver
 		})
 	}
 }
-

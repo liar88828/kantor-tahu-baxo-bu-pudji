@@ -1,22 +1,17 @@
 'use client'
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { orderAll, orderCreate, orderDelete, orderId, orderUpdate } from "@/network/order";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { useProductStore } from "@/store/product";
-import { useDeliveryStore } from "@/store/delivery";
-import { useReceiverStore } from "@/store/receiver";
-import { usePaymentStore } from "@/store/payment";
-import { useOrderStore } from "@/store/order";
+import { ORDER, OrderParams } from "@/interface/entity/order.model";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { TMethod, TStatusOrder } from "@/interface/Utils";
-import { OrderParams } from "@/interface/entity/order.model";
-import { toFetch } from "@/hook/toFetch";
+import { orderAll, orderCreate, orderDelete, orderId, orderUpdate } from "@/network/order";
 import { orderTransactionSanitize } from "@/sanitize/orderSanitize";
-
-export enum ORDER_KEY {
-    order = "order",
-}
+import { toFetch } from "@/hook/toFetch";
+import { useDeliveryStore } from "@/store/delivery";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { usePaymentStore } from "@/store/payment";
+import { useProductStore } from "@/store/product";
+import { useReceiverStore } from "@/store/receiver";
+import { useRouter } from "next/navigation";
 
 export function useOrder() {
     const router = useRouter();
@@ -24,19 +19,16 @@ export function useOrder() {
     const delivery = useDeliveryStore()
     const receiver = useReceiverStore()
     const payment = usePaymentStore()
-    const order = useOrderStore()
 
     const onUpsert = useMutation({
         onMutate: () => {
             return { toastId: toast.loading('Loading...') }
         },
         onSettled: (_, __, ___, context) => {
-
             if (context) {
                 toast.dismiss(context.toastId)
             }
         },
-
         mutationFn: ({ data, method, id }: {
             method: TMethod,
             data: OrderCreateClient,
@@ -53,7 +45,6 @@ export function useOrder() {
             if (product.productStore.length === 0) {
                 throw new Error('product is Empty');
             }
-
             const sanitize = orderTransactionSanitize({
                 product: product.productStore,
                 payment: payment.payment,
@@ -79,7 +70,6 @@ export function useOrder() {
             delivery.reset()
             receiver.reset()
             payment.reset()
-            order.reset()
             if (variables.isClient) {
                 router.push(`/invoice/${ data.data.order.id }?redirect=/home`)
             } else if (variables.method === 'PUT') {
@@ -95,13 +85,13 @@ export function useOrder() {
             enabled: filter?.status === debounce?.status && filter?.name === debounce?.name,
             select: (orders) => orders.data.data,
             queryFn: () => orderAll({ filter, pagination }),
-            queryKey: [ ORDER_KEY.order, filter?.name ?? '', filter?.status ?? '' ],
+            queryKey: [ ORDER.KEY, filter?.name ?? '', filter?.status ?? '' ],
 
         })
     }
     const GetId = (id: string) => {
         return useQuery({
-            queryKey: [ ORDER_KEY, id ],
+            queryKey: [ ORDER, id ],
             queryFn: () => orderId(id)
         })
     }
@@ -115,12 +105,19 @@ export function useOrder() {
             toast.error('Fail Delete Order')
         }
     })
-
+    //
     const GetOrderStatus = (status: TStatusOrder) => useQuery({
-        queryKey: [ ORDER_KEY, status ],
+        queryKey: [ ORDER, status ],
         queryFn: () => {
             return toFetch<number>('GET', {
                 url: `/order/count?status=${ status }`,
+                cacheData: {
+                    // cache: 'default',
+                    next: {
+                        revalidate: 60,
+                        // tags: [ 'cached',status ]
+                    }
+                }
             })
         },
         select: (response) => response.data,
@@ -130,6 +127,27 @@ export function useOrder() {
         //     data:0
         // })
     })
+    //
+
+    // const GetOrderStatus =  (status: TStatusOrder) => {
+    //     return toFetch<number>('GET', {
+    //         url: `/order/count?status=${ status }`,
+    //         cacheData: {
+    //             // cache: 'default',
+    //             next: {
+    //                 revalidate: 60,
+    //                 // tags: [ 'cached',status ]
+    //             }
+    //         }
+    //     }).then(response => {
+    //         // console.log(response)
+    //         return response.data
+    //     })
+    //
+    //     // initialData:()=> ({
+    //     //     data:0
+    //     // })
+    // }
 
     return {
         getOrderStatus: GetOrderStatus,

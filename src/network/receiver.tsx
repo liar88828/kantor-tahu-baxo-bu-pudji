@@ -1,10 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
 import type { TCustomersDB, TReceiverCreate } from "@/interface/entity/receiver.model";
-import { toFetch } from "@/hook/toFetch";
-import { ResponseAll } from "@/interface/server/param";
-import { toUrl } from "@/utils/toUrl";
 import { ProductParams } from "@/interface/entity/product.model";
+import { ResponseAll } from "@/interface/server/param";
+import { toFetch } from "@/hook/toFetch";
+import { toUrl } from "@/utils/toUrl";
 
 export const receiverAll = async ({ pagination: { limit } }: ProductParams) => {
     const url = toUrl("receiver", { limit })

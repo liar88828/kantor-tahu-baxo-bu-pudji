@@ -34,3 +34,9 @@ export function PageLoadingSpin() {
         </div>
     );
 }
+
+export function LoadingSpin() {
+    return (
+        <span className="loading loading-spinner loading-lg"></span>
+    );
+}

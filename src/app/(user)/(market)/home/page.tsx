@@ -1,49 +1,25 @@
-import { HomeClientUser, ProductHomeCategoryUser } from "@/app/components/home/home.client";
-import { PRODUCT_FILTER_PRICE } from "@/interface/entity/product.model";
-import { productNew } from "@/network/product";
+import { LowPriceProduct, NewProduct, PopularProduct } from "@/app/components/home/home.server";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { ProductHomeCategoryUser } from "@/app/components/home/home.client";
+import { Suspense } from "react";
 
 export default async function Page() {
-    const newProduct = await productNew({
-        pagination: { limit: 20 },
-        filter: { new: true }
-    })
-    .then(res => {
-        if (res) {
-            return res.data.data
-        }
-        return res
-    })
-
-
-    const lowPriceProduct = await productNew({
-        pagination: { limit: 20 },
-        filter: { price: PRODUCT_FILTER_PRICE.LOW }
-    })
-    .then(res => {
-        if (res) {
-            return res.data.data
-        }
-        return res
-    })
-
-
-    const popularProduct = await productNew({
-        pagination: { limit: 20 },
-        filter: { popular: true }
-    })
-    .then(res => {
-        if (res) {
-            return res.data.data
-        }
-        return res
-    })
-
     return (
         <div className={ 'space-y-2' }>
-            <ProductHomeCategoryUser />
-            <HomeClientUser products={ newProduct } title={ 'New Product' } />
-            <HomeClientUser products={ popularProduct } title={ 'Popular Product' } />
-            <HomeClientUser products={ lowPriceProduct } title={ 'Economical' } />
+            <Suspense fallback={ <PageLoadingSpin /> }>
+                <ProductHomeCategoryUser />
+            </Suspense>
+            <Suspense fallback={ <PageLoadingSpin /> }>
+                <NewProduct />
+                {/**/ }
+                <Suspense fallback={ <PageLoadingSpin /> }>
+                    <LowPriceProduct />
+                    {/**/ }
+                    <Suspense fallback={ <PageLoadingSpin /> }>
+                        <PopularProduct />
+                    </Suspense>
+                </Suspense>
+            </Suspense>
         </div>
     )
 }

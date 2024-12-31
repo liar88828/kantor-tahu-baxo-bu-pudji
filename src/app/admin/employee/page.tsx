@@ -6,7 +6,7 @@ import { employeeAll } from "@/network/employee";
 import { getSearchName } from "@/utils/requestHelper";
 import { EMPLOYEE_KEY } from "@/interface/entity/employee.model";
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 
 export default async function page(context: TContext) {
     const search = await getSearchName(context, 'search') ?? ''
@@ -17,7 +17,7 @@ export default async function page(context: TContext) {
         queryKey: [ EMPLOYEE_KEY.employees, search ],
         queryFn: () => employeeAll({
             filter: { name: search, status },
-            pagination: {}
+            pagination: { limit: 20 }
         }),
     })
 

@@ -6,13 +6,10 @@ import { THistoryOrder } from "@/interface/entity/transaction.model";
 
 export const productAll = async ({ pagination, filter }: ProductParams) => {
     const url = toUrl('product', { ...pagination, ...filter })
-    // console.log(response)
+    // console.log('is fetch')
     return await toFetch<ResponseAll<TProductDB>>('GET', {
         url,
-        cacheData: {
-            cache: "no-cache",
-            next: { revalidate: 0 }
-        }
+        cacheData: { next: { revalidate: 60 * 2 } }
     })
 }
 

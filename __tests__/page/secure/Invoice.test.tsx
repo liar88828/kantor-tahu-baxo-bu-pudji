@@ -1,8 +1,9 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Invoice, InvoiceLayout } from "../../../src/app/(secure)/invoice/invoice.client";
+import { InvoiceLayout } from "../../../src/app/components/invoice/invoice.client";
 import { dataOrderTransaction } from "../../../src/assets/ExampleOrder";
 import React from "react";
+import { Invoice } from "../../../src/app/components/invoice/invoice.page";
 
 const mockUseRef = (obj: any) => () => Object.defineProperty({}, 'current',
     {

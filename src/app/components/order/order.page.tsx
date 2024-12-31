@@ -259,10 +259,48 @@ export function DeliveryListDialog(props: { delivery: TDeliveryDB, onClick: () =
                     </div>
                 </div>
             </div>
-        </div> );
+        </div>
+    );
 }
 
-export function PaymentItem(props: {
+export function DeliveryActionItem(props: {
+    delivery: TDeliveryDB
+    onClick: () => void
+}) {
+    return (
+        <div className="card card-side card-compact bg-base-300 ">
+            <figure className={ "p-1" }>
+                {/* eslint-disable-next-line @next/next/no-img-element */ }
+                <img
+                    src="https://picsum.photos/200/300?random=1"
+                    alt="Movie"
+                    className="rounded-xl object-cover w-32 h-32 "
+                />
+            </figure>
+            <div className="card-body">
+                <div className="flex justify-between h-full">
+                    <h2 className="card-title">{ props.delivery.name }</h2>
+                </div>
+                <div className="flex justify-between items-end">
+                    <div className="">
+                        <p>{ props.delivery.phone }</p>
+                        <p>{ props.delivery.address }</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={ props.onClick }
+                            className={ "btn btn-square " }
+                        >
+                            <XIcon />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export function PaymentActionItem(props: {
     payment: TPaymentDB,
     onDeleteAction: () => void
 }) {
@@ -316,4 +354,41 @@ export function ReceiverItemSelected(props: { onReceiver: TReceiverCreate & { id
             <p className={ "text-gray-400 ~text-xs/base line-clamp-2" }>{ props.onReceiver.address }</p>
         </div>
     </div>;
+}
+
+export function PaymentDialogList(props: { payment: TPaymentDB, onClick: () => void }) {
+    return (
+        <div className="card card-side card-compact bg-base-300 ">
+            <figure className={ "p-1" }>
+                {/* eslint-disable-next-line @next/next/no-img-element */ }
+                <img
+                    src="https://picsum.photos/200/300?random=1"
+                    alt="Movie"
+                    className="rounded-xl object-cover w-32 h-32 "
+                />
+            </figure>
+            <div className="card-body">
+                <div className="flex justify-between h-full">
+                    <h2 className="card-title">{ props.payment.name }</h2>
+                </div>
+                <div className="flex justify-between items-end">
+                    <div className="">
+                        <p>{ toAccounting(props.payment.accounting) }</p>
+                        <p>{ props.payment.phone }</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */ }
+                            <button
+                                className="btn btn-square "
+                                onClick={ props.onClick }
+                            >
+                                <Check />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }

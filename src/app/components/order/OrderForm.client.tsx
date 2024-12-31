@@ -9,20 +9,20 @@ import { usePaymentStore } from "@/store/payment";
 import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ReceiverForm } from "@/app/components/order/order.client";
 import {
     DeliveryFormActionDialog,
-    DeliveryShowDialog,
+    DeliveryShowLoadDialog,
     PaymentFormActionDialog,
-    PaymentShowDialog,
-    ProductCard,
-    ProductShowDialog,
-    ReceiverForm
-} from "@/app/components/order/order.client";
+    PaymentShowLoadDialog,
+    ProductActionDialogAdmin,
+    ProductShowDialog
+} from "@/app/components/order/order.dialog";
 
 export function OrderFormUpdate({ data, orderRes, id_customer }: FormOrderProps) {
     const { total: totalProduct, setProductStore } = useProductStore()
     const { setDelivery } = useDeliveryStore()
-    const { setReceiver } = useReceiverStore()
+    const { setPartialReceiver } = useReceiverStore()
     const { setPayment } = usePaymentStore()
     const { total } = useOrderStore()
     const { onUpsert } = useOrder()
@@ -40,10 +40,10 @@ export function OrderFormUpdate({ data, orderRes, id_customer }: FormOrderProps)
 
     useEffect(() => {
         setProductStore(orderRes.Trolleys.map(d => d))
-        setReceiver(orderRes.Customers)
+        setPartialReceiver(orderRes.Customers)
         setPayment(orderRes.Payments)
         setDelivery(orderRes.Deliverys)
-    }, [ orderRes.Customers, orderRes.Deliverys, orderRes.Payments, orderRes.Trolleys, setDelivery, setPayment, setProductStore, setReceiver ])
+    }, [ orderRes.Customers, orderRes.Deliverys, orderRes.Payments, orderRes.Trolleys, setDelivery, setPayment, setProductStore, setPartialReceiver ])
 
     return (
         <>
@@ -55,7 +55,7 @@ export function OrderFormUpdate({ data, orderRes, id_customer }: FormOrderProps)
                     <OrderFormContext isPending={ onUpsert.isPending } id_customer={ id_customer } />
                     <div>
                         <ReceiverForm />
-                        <ProductCard />
+                        <ProductActionDialogAdmin />
                         <div className="form-control mt-4  visible sm:invisible">
                             <button
                                 disabled={ onUpsert.isPending }
@@ -67,8 +67,8 @@ export function OrderFormUpdate({ data, orderRes, id_customer }: FormOrderProps)
                     </div>
                 </form>
             </FormProvider>
-            <DeliveryShowDialog />
-            <PaymentShowDialog />
+            <DeliveryShowLoadDialog />
+            <PaymentShowLoadDialog />
             <ProductShowDialog />
         </>
     )
@@ -95,7 +95,7 @@ export function OrderFormCreate({ id_customer }: Pick<FormOrderProps, 'id_custom
                     <OrderFormContext isPending={ onUpsert.isPending } id_customer={ id_customer } />
                     <div className="space-y-4 pb-2">
                         <ReceiverForm />
-                        <ProductCard />
+                        <ProductActionDialogAdmin />
                         <div className="form-control mt-4  visible sm:invisible">
                             <button
                                 type="submit"
@@ -108,8 +108,8 @@ export function OrderFormCreate({ id_customer }: Pick<FormOrderProps, 'id_custom
                     </div>
                 </form>
             </FormProvider>
-            <DeliveryShowDialog />
-            <PaymentShowDialog />
+            <DeliveryShowLoadDialog />
+            <PaymentShowLoadDialog />
             <ProductShowDialog />
         </ >
     );

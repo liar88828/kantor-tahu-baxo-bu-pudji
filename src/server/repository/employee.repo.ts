@@ -9,7 +9,7 @@ export type EmployeeParams = ParamsApi<TEmployeeSearch>
 // getAll data from database
 export default class EmployeeRepository implements InterfaceRepository<EmployeeCreateZod> {
 
-	async findAll({ filter, pagination: { limit = 100, page = 1 } }: Required<EmployeeParams>,
+    async findAll({ filter, pagination: { limit = 20, page = 1 } }: Required<EmployeeParams>,
 	): Promise<ResponseAll<TEmployeeDB>> {
 		const skip = (page - 1) * limit;
 		const take = limit;

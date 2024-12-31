@@ -9,7 +9,7 @@ export type UserParams = ParamsApi<UserSearch>
 export default class UserRepository implements InterfaceRepository<TUserCreate> {
 
     async findAll(
-        { filter, pagination: { page = 1, limit = 100 } }:
+        { filter, pagination: { page = 1, limit = 20 } }:
         Required<UserParams>): Promise<ResponseAll<Users>> {
 		const skip = (page - 1) * limit;
 		const take = limit;
@@ -58,4 +58,3 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
 
     }
 }
-

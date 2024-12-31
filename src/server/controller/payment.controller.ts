@@ -1,10 +1,10 @@
 import { InterfaceController } from "@/interface/server/InterfaceController"
 import { NextRequest } from "next/server"
-import { TContext } from "@/interface/server/param"
-import { PaymentRepository } from "@/server/repository/payment.repo"
-import { getId, getJson, getParams } from "@/utils/requestHelper"
-import { UUIDSchema } from "@/validation/id.valid"
 import { PaymentCreate } from "@/validation/payment.valid"
+import { PaymentRepository } from "@/server/repository/payment.repo"
+import { TContext } from "@/interface/server/param"
+import { UUIDSchema } from "@/validation/id.valid"
+import { getId, getJson, getParams } from "@/utils/requestHelper"
 
 export default class PaymentController
 	implements InterfaceController {

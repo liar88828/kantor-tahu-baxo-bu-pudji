@@ -1,15 +1,15 @@
 'use client'
 import Link from "next/link";
-import React from "react";
-import { DELIVERY, useDelivery } from "@/hook/useDelivery";
-import { DeliveryCardPageAdmin } from "@/app/components/delivery/delivery.page";
+import React, { Suspense } from "react";
+import { DELIVERY, TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
+import { DeliveryCardPageAdmin, } from "@/app/components/delivery/delivery.page";
 import { DeliveryCreate } from "@/validation/delivery.valid";
+import { LoadingSpin, PageLoadingSpin } from "@/app/components/LoadingData";
 import { PageErrorData } from "@/app/components/PageErrorData";
-import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { Plus } from "lucide-react";
 import { ResponseAll, TReactFormHookComponent } from "@/interface/server/param";
-import { TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { useDebounce } from "@/hook/useDebounce";
+import { useDelivery } from "@/hook/useDelivery";
 import { useDeliveryStore } from "@/store/delivery";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
@@ -140,7 +140,7 @@ export function DeliveryFormClientAdmin({ defaultValues, method, id, }: TReactFo
 
 export function DeliveryListClientAdmin() {
     const { search } = useDeliveryStore()
-    const searchDebounce = useDebounce(search)
+    const searchDebounce = useDebounce({ value: search })
     const { onDelete, getAll } = useDelivery()
     const { data: deliverys, isLoading, isError } = getAll({
         pagination: {},
@@ -149,7 +149,7 @@ export function DeliveryListClientAdmin() {
 
     if (!deliverys || isLoading) return <PageLoadingSpin />
     if (deliverys.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Delivery is Empty' } />
-
+    // console.log('is client', [ DELIVERY.KEY, searchDebounce ?? '' ])
     return (
 
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 mb-20 ">
@@ -167,8 +167,6 @@ export function DeliveryListClientAdmin() {
 
 export function DeliverySearchClientAdmin({ children }: { children: React.ReactNode }) {
     const { search, setSearch } = useDeliveryStore()
-    const queryClient = useQueryClient();
-    const deliverys = queryClient.getQueryData<{ data: ResponseAll<TDeliveryDB> }>([ DELIVERY.KEY, '' ])
     return (
         <>
             <div className="flex justify-between mb-4 gap-3">
@@ -180,23 +178,34 @@ export function DeliverySearchClientAdmin({ children }: { children: React.ReactN
                     onChange={ e => setSearch(e.target.value) }
                     list={ 'deliverys' }
                 />
-                <datalist id="deliverys">
-                    { deliverys?.data.data
-                    .slice(0, 10)
-                    .map((item) => (
-                        <option
-                            key={ item.id }
-                            value={ item.name }
-                        >
-                            { item.name }
-                        </option>
-                    )) }
-                </datalist>
+                <Suspense fallback={ <LoadingSpin /> }>
+                    <DeliveryDataList />
+                </Suspense>
                 <Link href={ '/admin/delivery/create' } className='btn btn-square'>
                     <Plus />
                 </Link>
             </div>
             { children }
         </>
+    );
+}
+
+export function DeliveryDataList() {
+    const queryClient = useQueryClient();
+    const deliverys = queryClient.getQueryData<{ data: ResponseAll<TDeliveryDB> }>([ DELIVERY.KEY, '' ])
+    if (!deliverys) return <LoadingSpin />
+    return (
+        <datalist id="deliverys">
+            { deliverys.data.data
+            .slice(0, 10)
+            .map((item) => (
+                <option
+                    key={ item.id }
+                    value={ item.name }
+                >
+                    { item.name }
+                </option>
+            )) }
+        </datalist>
     );
 }

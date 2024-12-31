@@ -313,4 +313,3 @@ export async function changeProfile(state: FormState, formData: FormData) {
     // 5. Redirect user
     redirect('/profile')
 }
-

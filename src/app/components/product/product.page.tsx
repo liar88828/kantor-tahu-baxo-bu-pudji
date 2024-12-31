@@ -16,6 +16,7 @@ export function ProductCardPageUser({ product, detailProductAction, addTrolleyAc
     return (
         <div className=" bordered rounded-xl bg-base-200/20 shadow ">
             <figure
+                className={ 'hover:cursor-pointer' }
                 onClick={ detailProductAction }
             >
                 {/* eslint-disable-next-line @next/next/no-img-element */ }

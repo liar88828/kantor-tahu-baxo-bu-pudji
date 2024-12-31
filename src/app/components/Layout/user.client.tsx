@@ -7,7 +7,7 @@ import { menuUser } from "@/assets/MenuList";
 import { usePathname } from "next/navigation";
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
 import { BackButton } from "@/app/components/Layout/backButton";
-import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
+import useTrolleyStore from "@/store/trolley";
 
 export function NavbarUser() {
     const showNavbar = useScrollVisibility(true);
@@ -64,10 +64,9 @@ export function NavButtonUser() {
     );
 }
 
-export function HeaderTransaction({ path, onSelected }: {
-    path: string,
-    onSelected: TTrolleyProductUser[]
-}) {
+export function HeaderTransactionLayoutUser() {
+    const path = usePathname()
+    const { onSelected } = useTrolleyStore()
     return <div className="navbar bg-base-300 fixed z-50">
         <div className="flex-1 ">
             <BackButton />

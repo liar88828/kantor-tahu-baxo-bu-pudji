@@ -6,8 +6,8 @@ import useInfinityScroll from "@/hook/useInfinityScroll";
 import { BookUser, Minus, Plus } from "lucide-react";
 import { EmployeeCVPageAdmin, EmployeePhotoPageAdmin } from "@/app/components/employee/employee.page";
 import { EmployeeCVProps, TEmployeeDB } from "@/interface/entity/employee.model";
+import { EmptyData } from "@/app/components/PageErrorData";
 import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
-import { PageEmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { TypeFile, uploadFile } from "@/server/action/upload";
 import { employeeCreateClient, EmployeeCreateZod } from "@/validation/employee.valid";
@@ -419,8 +419,8 @@ export function EmployeeSearchClientAdmin({ children }: { children: React.ReactN
 export function EmployeeTableClientAdmin() {
     const { filter } = useEmployeeStore();
     const { getAll } = useEmployee()
-    const searchDebounced = useDebounce(filter.name, 1000); // 1000ms delay
-    const statusDebounced = useDebounce(filter.status, 1000); // 1000ms delay
+    const searchDebounced = useDebounce({ value: filter.name }); // 1000ms delay
+    const statusDebounced = useDebounce({ value: filter.status }); // 1000ms delay
 
     const queryResult = getAll({
         search: searchDebounced,
@@ -433,7 +433,7 @@ export function EmployeeTableClientAdmin() {
 
     const { data: employees, isLoading, isError } = queryResult;
     if (isLoading || !employees) return <PageLoadingSpin />
-    if (isError) return <PageEmptyData page={ 'Employees' } />
+    if (isError) return <EmptyData page={ 'Employees' } />
 
     return (
         <div>

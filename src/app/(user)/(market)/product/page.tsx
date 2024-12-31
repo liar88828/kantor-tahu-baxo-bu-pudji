@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ProductFetchClientUser, ProductLayoutClientUser } from "@/app/components/product/product.client";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 
 export default function Page() {
-	return (
+    return (
         <ProductLayoutClientUser>
-            <ProductFetchClientUser />
+            <Suspense fallback={ <PageLoadingSpin /> }>
+                <ProductFetchClientUser />
+            </Suspense>
         </ProductLayoutClientUser>
-	)
+    )
 }

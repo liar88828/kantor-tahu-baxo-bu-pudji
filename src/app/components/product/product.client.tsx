@@ -1,12 +1,12 @@
 'use client'
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import { ChevronDown, ChevronsUpDown, ChevronUp, Minus, Plus, ShoppingCart } from "lucide-react";
 import { InfiniteData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PRODUCT, useProduct } from "@/hook/useProduct";
-import { PRODUCT_FILTER_PRICE, TProductCreate, TProductDB } from "@/interface/entity/product.model";
-import { PageEmptyData, PageErrorData } from "@/app/components/PageErrorData";
-import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { useProduct } from "@/hook/useProduct";
+import { PRODUCT, PRODUCT_FILTER_PRICE, TProductCreate, TProductDB } from "@/interface/entity/product.model";
+import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
+import { LoadingSpin, PageLoadingSpin } from "@/app/components/LoadingData";
 import { PaginatedResponse, ResponseAll, TReactFormHookComponent } from "@/interface/server/param";
 import {
     ProductCardPageAdmin,
@@ -28,12 +28,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export function ProductLayoutClientUser({ children }: { children: React.ReactNode }) {
 
     const { filter, setFilter } = useProductStore();
-    const { name, ...rest } = filter
+    const { name } = filter
     const { getProductType } = useProduct();
     const { data: productType } = getProductType()
-    const queryClient = useQueryClient();
-    const debouncedSearch = useDebounce(filter.name, 1000)
-    const data = queryClient.getQueryData<InfiniteData<PaginatedResponse, unknown> | undefined>([ PRODUCT.KEY, debouncedSearch, ...Object.values(rest) ],)
 
     return (
         <div className="px-3 space-y-5">
@@ -42,21 +39,14 @@ export function ProductLayoutClientUser({ children }: { children: React.ReactNod
                     <input
                         className='input input-bordered w-full'
                         placeholder='Search ...'
-
-                        value={ filter.name }
+                        value={ name }
                         type="text"
                         onChange={ (e) => setFilter({ name: e.target.value }) }
                         list={ 'products' }
                     />
-                    <datalist id={ 'products' }>{
-                        data?.pages
-                        .map(item => item.data
-                        .slice(0, 10)
-                        .map(_item => (
-                            <option key={ _item.id }>{ _item.name }</option>
-                        )))
-                    }
-                    </datalist>
+                    <Suspense fallback={ <LoadingSpin /> }>
+                        <ProductDataList />
+                    </Suspense>
                 </div>
                 <div className="flex gap-5 mt-2 justify-between sm:justify-normal">
 
@@ -99,9 +89,14 @@ export function ProductLayoutClientUser({ children }: { children: React.ReactNod
                         defaultValue={ filter.type }
                     >
                         <option value={ '' }>Select Type</option>
-                        { productType && [ ...categoryData, ...productType ].map((item) =>
-                            ( <option key={ item.title }>{ item.title }</option> )
-                        ) }
+                        {
+                            productType && toUnique<string>(
+                                categoryData.map(d => d.title),
+                                productType.map(d => d.title)
+                            )
+                            .map((title) =>
+                                ( <option key={ title }>{ title }</option> )
+                            ) }
                     </select>
                 </div>
             </div>
@@ -110,14 +105,35 @@ export function ProductLayoutClientUser({ children }: { children: React.ReactNod
     )
 }
 
+export function ProductDataList() {
+    const { name, ...rest } = useProductStore(state => state.filter);
+    const debouncedSearch = useDebounce({ value: name })
+    const queryClient = useQueryClient();
+    const dataQueryClient = queryClient.getQueryData<InfiniteData<PaginatedResponse, unknown> | undefined>([
+        PRODUCT.KEY, debouncedSearch,
+        ...Object.values(rest)
+    ])
+
+    return (
+        <datalist id={ 'products' }>{
+            dataQueryClient?.pages
+            .map(item => item.data
+            .slice(0, 10)
+            .map(_item => (
+                <option key={ _item.id }>{ _item.name }</option>
+            )))
+        }
+        </datalist>
+    );
+}
+
 export function ProductFetchClientUser() {
     const observerRef = useRef<HTMLDivElement | null>(null);
-    // const queryClient = useQueryClient();
     const router = useRouter();
     const { useProductInfiniteQuery } = useProduct();
     const { push } = useTrolley()
     const { filter } = useProductStore();
-    const debouncedSearch = useDebounce(filter.name, 1000)
+    const debouncedSearch = useDebounce({ value: filter.name })
 
     const {
         isError, isLoading,
@@ -133,7 +149,7 @@ export function ProductFetchClientUser() {
     if (isError || status === 'error' || error) {
         return (
             <div className={ 'flex justify-center' }>
-                <PageEmptyData page={ 'Product User' } />
+                <EmptyData page={ 'Product User' } />
             </div>
         )
     }
@@ -141,17 +157,16 @@ export function ProductFetchClientUser() {
     return <>
         <div className='grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 grid xl:grid-cols-6 gap-2'>
             {
-                data.pages.map((page) => (
-                        page.data
-                        // .filter(product=>product.name.toLowerCase().includes(search.toLowerCase()))
-                        .map((product) => (
-                                <ProductCardPageUser
-                                    key={ product.id }
-                                    product={ product }
-                                    addTrolleyAction={ () => push.mutate(product) }
-                                    detailProductAction={ () => router.push(`/product/${ product.id }`) }
-                                />
-                            )
+                data.pages.map((page) =>
+                    page.data
+                    // .filter(product=>product.name.toLowerCase().includes(search.toLowerCase()))
+                    .map((product) => (
+                        <ProductCardPageUser
+                            key={ product.id }
+                            product={ product }
+                            addTrolleyAction={ () => push.mutate(product) }
+                            detailProductAction={ () => router.push(`/product/${ product.id }`) }
+                        />
                         )
                     )
                 )
@@ -172,16 +187,20 @@ export function ProductFetchClientUser() {
 export function ProductListClientAdmin() {
     const { onDelete } = useProduct()
     const { filter } = useProductStore()
-    const searchDebounce = useDebounce(filter.name, 500)
+    // const router = useRouter()
+    const searchDebounce = useDebounce({
+        value: filter.name,
+        // fun: () => router.push(`/admin/product?search=${ filter.name }`)
+    })
 
     const { data: products, isLoading, isError } = useQuery({
-        enabled: searchDebounce === filter.name,
-        select: (data) => data.data.data,
         queryKey: [ PRODUCT.KEY, searchDebounce ],
         queryFn: () => productAll({
-            pagination: { limit: 50 },
+            pagination: {},
             filter: { name: searchDebounce }
-        })
+        }),
+        enabled: searchDebounce === filter.name,
+        select: (data) => data.data.data,
     })
 
     if (isLoading || !products) return <PageLoadingSpin />
@@ -307,22 +326,22 @@ export function ProductFormClientAdmin({ defaultValues, method, id, }: TReactFor
                             className={ `select select-bordered join-item  ${ errors.type ? 'select-error' : '' }` }
 
                         >
-                            { productType && toUnique(
-                                productType.map(d => d.title),
-                                categoryData.map(d => d.title)
-                            ).map((category) => (
-                                <option key={ category }
-                                        value={ category }
-                                >
-                                    { category }
-                                </option>
-                            )) }
+                            {
+                                productType && toUnique<string>(
+                                    categoryData.map(d => d.title),
+                                    productType.map(d => d.title)
+                                ).map((title) => (
+                                    <option key={ title } value={ title }
+                                    >{ title }</option>
+                                ))
+                            }
                         </select>
                     </div>
                     { errors.type && <p className="text-error text-sm mt-1">{ errors.type.message }</p> }
                 </div>
 
-                {/* Price */ }
+                {/* Price */
+                }
                 <div className="">
                     <label htmlFor="price">Price</label>
                     <input
@@ -340,7 +359,8 @@ export function ProductFormClientAdmin({ defaultValues, method, id, }: TReactFor
                     { errors.price && <p className="text-red-500">{ errors.price.message }</p> }
                 </div>
 
-                {/* Image */ }
+                {/* Image */
+                }
                 <div className="">
                     <label htmlFor="img">Image URL</label>
                     <input
@@ -357,7 +377,8 @@ export function ProductFormClientAdmin({ defaultValues, method, id, }: TReactFor
                     { errors.img && <p className="text-red-500">{ errors.img.message }</p> }
                 </div>
 
-                {/* Description */ }
+                {/* Description */
+                }
                 <div className="">
                     <label htmlFor="desc">Description</label>
                     <textarea
@@ -367,7 +388,8 @@ export function ProductFormClientAdmin({ defaultValues, method, id, }: TReactFor
                     { errors.desc && <p className="text-red-500">{ errors.desc.message }</p> }
                 </div>
 
-                {/* Location */ }
+                {/* Location */
+                }
                 <div className="">
                     <label htmlFor="location">Location</label>
                     <textarea
@@ -377,7 +399,8 @@ export function ProductFormClientAdmin({ defaultValues, method, id, }: TReactFor
                     { errors.location && <p className="text-red-500">{ errors.location.message }</p> }
                 </div>
 
-                {/* Quantity */ }
+                {/* Quantity */
+                }
                 <div className="">
                     <label htmlFor="qty">Quantity</label>
                     <input
@@ -400,7 +423,8 @@ export function ProductFormClientAdmin({ defaultValues, method, id, }: TReactFor
 
         </div>
 
-    );
+    )
+        ;
 }
 
 export function ProductAddTrolleyClientUser({ product }: { product: TProductDB }) {

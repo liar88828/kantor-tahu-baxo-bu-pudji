@@ -1,300 +1,29 @@
 'use client'
 import Link from "next/link";
 import React, { useState } from "react";
-import useTrolleyStore from "@/store/trolley";
 import { Check, Minus, Plus, Search, Trash, XIcon } from "lucide-react";
+import { OrderCreateClient } from "@/validation/order.valid";
+import { OrderDetailAdmin } from "@/app/components/order/order.page";
 import { OrderFormUpdate } from "@/app/components/order/OrderForm.client";
-import { PageEmptyData, PageErrorData } from "@/app/components/PageErrorData";
+import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { ProductShowDialog } from "@/app/components/order/order.dialog";
 import { TCustomersDB } from "@/interface/entity/receiver.model";
 import { orderSanitize } from "@/sanitize/orderSanitize";
 import { receiverAll } from "@/network/receiver";
-import { toAccounting } from "@/utils/accounting";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { useDeliveryStore } from "@/store/delivery";
+import { useFormContext } from "react-hook-form";
 import { useOrder } from "@/hook/useOrder";
-import { useOrderStore } from "@/store/order";
 import { useParams } from "next/navigation";
-import { usePaymentStore } from "@/store/payment";
 import { usePrint } from "@/hook/usePrint";
 import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
 import { useTable } from "@/hook/useTable";
 import { useTableStore } from "@/store/table";
-import {
-    DeliveryListDialog,
-    OrderDetailAdmin,
-    PaymentItem,
-    ProductOrderDialog,
-    ProductSelectedList
-} from "@/app/components/order/order.page";
-import { useFormContext } from "react-hook-form";
-import { OrderCreateClient } from "@/validation/order.valid";
-
-export function DeliveryActionDialog() {
-    const { setDelivery, delivery, getDeliveryData } = useDeliveryStore()
-    return (
-        <div className="">
-            <div className=" mb-2">
-                <h1 className="card-title">Delivery</h1>
-            </div>
-            <div className=" mt-2">
-                <div className="">
-                    <div className="space-y-2">
-                        { !delivery
-                            ? <>
-                                <button
-                                    className="btn btn-neutral w-full"
-                                    onClick={ async () => {
-                                        await getDeliveryData()
-                                        // @ts-ignore
-                                        document.getElementById('my_modal_delivery').showModal()
-                                    } }
-                                >
-                                    Please Add Delivery <Plus />
-                                </button>
-                                <DeliveryShowDialog />
-                            </>
-                            : <div
-                                key={ delivery.id }
-                                className="card card-side card-compact bg-base-300 "
-                            >
-                                <figure className={ 'p-1' }>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */ }
-                                    <img
-                                        src="https://picsum.photos/200/300?random=1"
-                                        alt="Movie"
-                                        className='rounded-xl object-cover w-32 h-32 '
-                                    />
-                                </figure>
-                                <div className="card-body">
-                                    <div className="flex justify-between h-full">
-                                        <h2 className='card-title'>{ delivery.name }</h2>
-                                    </div>
-                                    <div className="flex justify-between items-end">
-                                        <div className="">
-                                            <p>{ delivery.phone }</p>
-                                            <p>{ delivery.address }</p>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <button
-                                                onClick={ () => setDelivery(null) }
-                                                className={ 'btn btn-square ' }
-                                            >
-                                                <XIcon />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    )
-}
-
-export function DeliveryFormActionDialog() {
-    const { getDeliveryData } = useDeliveryStore()
-    return (
-        <button
-            type="button"
-            className="btn join-item "
-            onClick={ async () => {
-                await getDeliveryData()
-                // @ts-ignore
-                document.getElementById('my_modal_delivery').showModal()
-            } }
-        >
-            <Search />
-        </button>
-    )
-}
-
-export function DeliveryShowDialog() {
-    const { setDelivery, deliveryData, setSearch, search, isLoading } = useDeliveryStore()
-
-    return (
-        <dialog id="my_modal_delivery" className="modal">
-            <div className="modal-box">
-                <h3 className="font-bold text-lg">Please Add</h3>
-                { isLoading
-                    ? <PageLoadingSpin />
-                    : (
-                        <div className="">
-                            {/*<p className="py-4">Press ESC key or click the button below to close</p>*/ }
-                            <div className="flex justify-between py-4">
-                                <input
-                                    className={ 'input input-bordered w-full' }
-                                    type="text"
-                                    onChange={ (e) => setSearch(e.target.value) }
-                                    value={ search }
-                                    placeholder="Search..."
-                                />
-                            </div>
-                            <div className=" space-y-2">
-                                { deliveryData &&
-                                    deliveryData
-                                    .filter(data => data.name.toLowerCase().includes(search.toLowerCase()))
-                                    .map(delivery => (
-                                            <DeliveryListDialog
-                                                key={ delivery.id }
-                                                delivery={ delivery }
-                                                onClick={ () => setDelivery(delivery) }
-                                            />
-                                        )
-                                    ) }
-                            </div>
-                        </div>
-                    )
-                }
-
-                <div className="modal-action">
-                    <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */ }
-                        <button className="btn">Close</button>
-                    </form>
-                </div>
-            </div>
-            <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-            </form>
-        </dialog>
-    );
-}
-
-export function PaymentActionDialog() {
-    const { getPaymentData, setPayment, payment } = usePaymentStore()
-
-    return <div className="">
-        <div className="mb-2">
-            <h1 className="card-title">Payment</h1>
-        </div>
-        <div className=" mt-2">
-            <div className="">
-                <div className="space-y-2">
-                    { !payment
-                        ? <>
-                            <button className="btn btn-neutral w-full"
-                                    onClick={ async () => {
-                                        await getPaymentData()
-                                        // @ts-ignore
-                                        document.getElementById('my_modal_payment').showModal()
-                                    } }
-                            >
-                                Please Add Payment <Plus />
-                            </button>
-                        </>
-                        : (
-                            <PaymentItem
-                                payment={ payment }
-                                onDeleteAction={ () => setPayment(null) }
-                            />
-                        )
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-
-}
-
-export function PaymentFormActionDialog() {
-    const { getPaymentData } = usePaymentStore()
-
-    return <button className="btn join-item"
-                   type={ 'button' }
-                   onClick={ async () => {
-                       await getPaymentData()
-                       // @ts-ignore
-                       document.getElementById('my_modal_payment').showModal()
-                   } }
-    >
-        <Search />
-    </button>
-
-}
-
-export function PaymentShowDialog() {
-    const { setSearch, setPayment, paymentData, search, } = usePaymentStore()
-
-    return <dialog id="my_modal_payment" className="modal">
-        <div className="modal-box">
-            <h3 className="font-bold text-lg">Hello!</h3>
-            {/*<p className="py-4">Press ESC key or click the button below to close</p>*/ }
-            <input
-                className={ 'input input-bordered w-full' }
-                type="text"
-                onChange={ (e) => {
-                    setSearch(e.target.value)
-                } }
-                value={ search }
-                placeholder="Search..."
-            />
-            <div className="space-y-2 mt-2">
-                {
-                    paymentData &&
-                    paymentData
-                    .filter(data => data.name.toLowerCase().includes(search.toLowerCase()))
-                    .map(payment => (
-                        <div
-                            key={ payment.id }
-                            className="card card-side card-compact bg-base-300 "
-                        >
-                            <figure className={ 'p-1' }>
-                                {/* eslint-disable-next-line @next/next/no-img-element */ }
-                                <img
-                                    src="https://picsum.photos/200/300?random=1"
-                                    alt="Movie"
-                                    className='rounded-xl object-cover w-32 h-32 '
-                                />
-                            </figure>
-                            <div className="card-body">
-                                <div className="flex justify-between h-full">
-                                    <h2 className='card-title'>{ payment.name }</h2>
-                                </div>
-                                <div className="flex justify-between items-end">
-                                    <div className="">
-                                        <p>{ toAccounting(payment.accounting) }</p>
-                                        <p>{ payment.phone }</p>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <form method="dialog">
-                                            {/* if there is a button in form, it will close the modal */ }
-                                            <button
-                                                className="btn btn-square "
-                                                onClick={ () => {
-                                                    setPayment(payment);
-                                                } }
-                                            >
-                                                <Check />
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    )) }
-            </div>
-            <div className="modal-action">
-                <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */ }
-                    <button className="btn">Close</button>
-                </form>
-            </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
-}
 
 export function Receiver() {
-    const { onReceiver, setReceiver } = useOrderStore()
+    const { onReceiver, setPartialReceiver } = useReceiverStore()
     const [ receiverData, setReceiverData ] = useState<TCustomersDB[]>([])
     const [ search, setSearch ] = useState<string>('')
 
@@ -354,7 +83,7 @@ export function Receiver() {
                                                     <p className={ 'text-gray-400' }>{ receiver.address }</p>
                                                 </div>
                                                 <button className={ 'btn btn-square' }
-                                                        onClick={ () => setReceiver(receiver) }
+                                                        onClick={ () => setPartialReceiver(receiver) }
                                                 >
                                                     <Check />
                                                 </button>
@@ -395,7 +124,7 @@ export function Receiver() {
                                     <p className={ 'text-gray-400' }>{ onReceiver.address }</p>
                                 </div>
                                 <button className={ 'btn btn-square btn-neutral' }
-                                        onClick={ () => setReceiver(null) }
+                                        onClick={ () => setPartialReceiver(null) }
                                 >
                                     <XIcon />
                                 </button>
@@ -408,7 +137,7 @@ export function Receiver() {
 }
 
 export function ReceiverForm() {
-    const { receiver, setReceiver } = useReceiverStore()
+    const { receiver, setPartialReceiver } = useReceiverStore()
     const { register, formState: { errors }, setValue, getValues } = useFormContext<OrderCreateClient>()
 
     return (
@@ -422,7 +151,7 @@ export function ReceiverForm() {
                     <input
                         value={ receiver.name }
                         onChange={ (e) => {
-                            setReceiver({ name: e.target.value })
+                            setPartialReceiver({ name: e.target.value })
                         } }
                         type="text"
                         className="input input-bordered"
@@ -436,7 +165,7 @@ export function ReceiverForm() {
                     <input
                         value={ receiver.phone }
                         onChange={ (e) => {
-                            setReceiver({ phone: e.target.value })
+                            setPartialReceiver({ phone: e.target.value })
                         } }
                         type="tel"
                         className="input input-bordered"
@@ -449,80 +178,13 @@ export function ReceiverForm() {
                     </label>
                     <textarea
                         onChange={ (e) => {
-                            setReceiver({ address: e.target.value })
+                            setPartialReceiver({ address: e.target.value })
                         } }
                         className="textarea textarea-bordered"
                         value={ receiver.address }
                     >
 				</textarea>
                 </div>
-            </div>
-        </div>
-    )
-}
-
-export function ProductActionDialog() {
-    const { onIncrement, onDecrement, onRemove, onSelected } = useTrolleyStore();
-
-    return (
-        <div className="">
-            <div className="px-2 mb-2">
-                <div className="flex justify-between">
-                    <h1 className="card-title">Product</h1>
-                </div>
-            </div>
-
-            <div className="space-y-2 border rounded-2xl p-0.5">
-                { !onSelected
-                    ? <PageEmptyData page={ 'checkout' } />
-                    : onSelected.map(trolley => (
-                        <div
-                            key={ trolley.id }
-                            className={ `card card-side card-compact bg-base-300 card-bordered` }
-                        >
-                            <figure>
-                                {/* eslint-disable-next-line @next/next/no-img-element */ }
-                                <img
-                                    src="https://picsum.photos/200/300?random=1"
-                                    alt="Movie"
-                                    className='rounded-xl object-cover w-32 h-32 '
-                                />
-                            </figure>
-                            <div className="card-body">
-                                <div className="flex justify-between">
-                                    <h2 className='card-title'>Lorem, ipsum dolor.</h2>
-                                    <button
-                                        onClick={ () => onRemove(trolley.id) }
-                                        className=' btn btn-square btn-error btn-sm '
-                                    >
-                                        <Trash />
-                                    </button>
-                                </div>
-                                <div className="flex justify-between items-end">
-                                    <div className="">
-                                        <p>{ toRupiah(trolley.Product.price) }</p>
-                                        <p>{ trolley.Product.type }</p>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={
-                                                () => onIncrement(trolley.id) }
-                                            className="btn btn-square btn-sm"
-                                        >
-                                            <Plus />
-                                        </button>
-                                        <h2>{ trolley.qty_at_buy }</h2>
-                                        <button
-                                            onClick={ () => onDecrement(trolley.id) }
-                                            className="btn btn-square  btn-sm"
-                                        >
-                                            <Minus />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )) }
             </div>
         </div>
     )
@@ -543,7 +205,7 @@ export function ProductAdminXXX() {
             <div className="  mt-2">
                 <div className="space-y-2">
                     { !productStore
-                        ? <PageEmptyData page={ 'checkout' } />
+                        ? <EmptyData page={ 'checkout' } />
                         : productStore.map(product => (
                             <div
                                 key={ product.id_product }
@@ -627,92 +289,6 @@ export function ProductAdminXXX() {
     );
 }
 
-export function ProductCard() {
-    const {
-        productStore,
-        getProductData,
-        setQty,
-        onRemove,
-        onIncrement,
-        onDecrement,
-    } = useProductStore()
-    return (
-        <div>
-            <div className={ 'card-title' }>Product</div>
-            <div className=" mt-2">
-                <div className="space-y-2">
-                    { !productStore
-                        ? <PageEmptyData page={ 'Checkout Product' } />
-                        : productStore.map(product => (
-                            <ProductSelectedList
-                                key={ product.id_product }
-                                product={ product }
-                                onChangeQty={ (e) => setQty(product.id_product, Number(e.target.value)) }
-                                onRemoveAction={ () => onRemove(product.id_product) }
-                                onIncrementAction={ () => onIncrement(product.id_product) }
-                                onDecrementAction={ () => onDecrement(product.id_product) }
-                            />
-                        )) }
-                </div>
-            </div>
-
-            {/* Open the modal using document.getElementById('ID').showModal() method */ }
-            <button
-                type={ 'button' }
-                className='btn btn-neutral w-full mt-2'
-                onClick={ async () => {
-                    await getProductData()
-                    // @ts-ignore
-                    document.getElementById('my_modal_product').showModal()
-                } }
-            >
-                Add Product
-                <Plus />
-            </button>
-        </div>
-    );
-}
-
-export function ProductShowDialog() {
-
-    const {
-        productAsync,
-        isLoading,
-        idProduct,
-        setProduct,
-    } = useProductStore()
-
-    return (
-        <dialog id="my_modal_product" className="modal">
-            <div className="modal-box">
-                <h3 className="font-bold text-lg">Please Select The Product</h3>
-                <div className="space-y-2">
-                    { isLoading
-                        ? <PageLoadingSpin />
-                        : productAsync
-                        .filter(product => !idProduct.includes(product.id))
-                        .map(product => (
-                            <ProductOrderDialog
-                                key={ product.id }
-                                product={ product }
-                                onClick={ () => setProduct(product) }
-                            />
-                        )) }
-                </div>
-                <div className="modal-action">
-                    <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */ }
-                        <button className="btn">Close</button>
-                    </form>
-                </div>
-            </div>
-            <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-            </form>
-        </dialog>
-    );
-}
-
 export function DetailedInvoicePrintAdmin() {
     const param = useParams<{ id: string }>()
     const { getId, onDelete } = useOrder()
@@ -723,7 +299,7 @@ export function DetailedInvoicePrintAdmin() {
     }
 
     if (!order || isLoading) return <PageLoadingSpin />
-    if (isError) return <PageEmptyData page={ `Order Detail ${ param.id }` } />
+    if (isError) return <EmptyData page={ `Order Detail ${ param.id }` } />
 
     return ( <OrderDetailAdmin
             order={ order.data }

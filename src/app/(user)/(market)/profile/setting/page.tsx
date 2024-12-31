@@ -1,13 +1,12 @@
-import React from "react";
-import { getUser } from "@/server/lib/db";
+import React, { Suspense } from "react";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
-import { ProfileChangeUser } from "@/app/components/profile/profile.client";
+import { ProfileChangeServerUser } from "@/app/components/profile/profile.server";
 
-async function Page() {
-    const user = await getUser()
-    if (!user) return <PageLoadingSpin/>
+export default function Page() {
 
-    return ( <ProfileChangeUser user={ user } /> );
+    return (
+        <Suspense fallback={ <PageLoadingSpin /> }>
+            <ProfileChangeServerUser />
+        </Suspense>
+    );
 }
-
-export default Page;

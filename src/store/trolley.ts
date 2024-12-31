@@ -13,12 +13,30 @@ type TrolleyTypeStore = {
     setData: (state: TTrolleyProductUser[]) => void;
     isTrolleyIncluded: (idTrolley: string) => boolean;
     setTotalProduct: () => void;
+    setQty: (id: string, qty: number) => void
+
 };
 
 const useTrolleyStore = create<TrolleyTypeStore>((set, get) => ({
 
 	onSelected: [],
     onTotalProduct: 0,
+    setQty: (id, qty) => {
+        if (qty > 0) {
+            set((state) => {
+                return {
+                    onSelected: state.onSelected.map((item) =>
+                        item.id_product === id
+                            ? { ...item, qty_at_buy: qty }
+                            : item
+                    )
+                }
+            })
+        }
+        get().setTotalProduct()
+
+    },
+
     setTotalProduct: () => {
         set({ onTotalProduct: toTotal.subTotal(get().onSelected) });
     },

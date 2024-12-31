@@ -1,119 +1,60 @@
 'use client'
-import { Ban, BookMarked, LogOut, LucideClock, MoveRight, Palette, Settings, ShoppingCartIcon, } from 'lucide-react';
 import Link from "next/link";
-import { PageEmptyData, PageErrorData } from "@/app/components/PageErrorData";
-import { PageLoadingSpin } from "@/app/components/LoadingData";
+import React, { useActionState } from "react";
+import { MoveRight, Palette, ShoppingCartIcon, } from 'lucide-react';
+import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
+import { LoadingSpin, PageLoadingSpin } from "@/app/components/LoadingData";
+import { ProfileStatusCountPage } from "@/app/components/profile/profile.page";
+import { TStatusOrder } from "@/interface/Utils";
 import { Users } from "@prisma/client";
 import { changeProfile } from "@/server/action/auth";
 import { findHistoryUser } from "@/network/order";
-import { logout } from "@/server/lib/state";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
-import { useActionState } from "react";
 import { useOrder } from "@/hook/useOrder";
 import { useOrderStore } from "@/store/order";
 import { useQuery } from "@tanstack/react-query";
 import { useTrolley } from "@/hook/useTrolley";
 
-export function ProfileUser({ user }: { user: Users }) {
+export function ProfileTrolleyCountClientUser() {
     const { count } = useTrolley()
-    const { data: countTrolley } = count()
-    const { getOrderStatus } = useOrder()
-    const { data: countPending } = getOrderStatus('Pending')
-    const { data: countComplete } = getOrderStatus('Complete')
-    const { data: countFail } = getOrderStatus('Fail')
+    const { data, isFetching, isLoading, isPaused, isPending } = count()
+    if (!data || isFetching || isLoading || isPaused || isPending) {
+        return <div>Loading...</div>
+    }
+    return (
+        <ProfileStatusCountPage
+            isStatus={ false }
+            countStatus={ data ?? 0 }
+            onClick={ () => {
+            } }
+        >
+            <ShoppingCartIcon />
+        </ProfileStatusCountPage>
+    );
+}
+
+export function ProfileStatusClient({ statusOrder, children }: {
+    statusOrder: TStatusOrder,
+    children: React.ReactNode
+}) {
     const { status, setStatus } = useOrderStore()
+    const { getOrderStatus } = useOrder()
+    const { data, isFetching } = getOrderStatus(statusOrder)
+
+    if (!data || isFetching) {
+        return <LoadingSpin />
+    }
 
     return (
-        <div className="card card-compact bg-base-300">
-            <div className="card-body">
-                <div className="justify-between flex">
-
-                    <h2 className='card-title'>{ user.name }</h2>
-
-                    <div className=" flex gap-5 items-center">
-
-                        <label className="swap swap-rotate">
-                            {/* this hidden checkbox controls the state */ }
-                            {/*<input type="checkbox" className="theme-controller" value="dark"/>*/ }
-                            {/*<Sun*/ }
-                            {/*    className="swap-off  fill-current"*/ }
-                            {/*/>*/ }
-                            {/*<Moon*/ }
-                            {/*    className="swap-on  fill-current"*/ }
-
-                            {/*/>*/ }
-                        </label>
-
-                        <Link
-                            href={ '/profile/setting' }
-                            className='btn  btn-square btn-sm '
-                        >
-                            <Settings />
-                        </Link>
-
-                        <form action={ logout }>
-                            <button className='btn  btn-square btn-sm btn-error'>
-                                <LogOut />
-                            </button>
-                        </form>
-
-                    </div>
-                </div>
-
-                <div className="flex gap-2">
-                    <p>{ user.email }</p>
-                    <p>{ user.phone }</p>
-                </div>
-                <div className="pb-2">
-                    <p className={ 'text-base-content/50 ~text-xs/base' }>
-                        { user.address }
-                    </p>
-                </div>
-                <>
-                    <div className="flex justify-between">
-                        <div className="indicator">
-                            <span className="indicator-item badge badge-secondary">{ countTrolley }</span>
-                            <button className="btn btn-square ">
-                                <ShoppingCartIcon />
-                            </button>
-                        </div>
-                        {/* for progress */ }
-                        <div className="indicator">
-                            <span className="indicator-item badge badge-secondary">{ countPending }</span>
-                            <button
-                                onClick={ () => setStatus('Pending') }
-                                className={ `btn btn-square ${ status === 'Pending' && 'btn-active' }` }
-                            >
-                                <LucideClock />
-                            </button>
-                        </div>
-
-                        {/* for finish / history */ }
-                        <div className="indicator">
-                            <span className="indicator-item badge badge-secondary">{ countComplete }</span>
-                            <button
-                                onClick={ () => setStatus('Complete') }
-                                className={ `btn btn-square ${ status === 'Complete' && 'btn-active' }` }
-                            >
-                                <BookMarked />
-                            </button>
-                        </div>
-                        <div className="indicator">
-                            <span className="indicator-item badge badge-secondary">{ countFail }</span>
-                            <button
-                                onClick={ () => setStatus('Fail') }
-                                className={ `btn btn-square ${ status === 'Fail' && 'btn-active' }` }
-                            >
-                                <Ban />
-                            </button>
-                        </div>
-                    </div>
-                </>
-            </div>
-        </div>
-
+        <ProfileStatusCountPage
+            isStatus={ status === statusOrder }
+            countStatus={ data }
+            onClick={ () => setStatus(statusOrder) }
+        >
+            { children }
+        </ProfileStatusCountPage>
     );
 }
 
@@ -130,7 +71,7 @@ export function ProfileOrderHistoryUser() {
 
     const loadEmpty = invoices.length === 0 && (
         <div className={ 'flex justify-center' }>
-            <PageEmptyData page={ 'Order Profile' } />
+            <EmptyData page={ 'Order Profile' } />
         </div>
     )
 
@@ -141,16 +82,16 @@ export function ProfileOrderHistoryUser() {
         >
             <div className="card-body">
                 <div className="flex justify-between">
-                    <h2 className="card-title">#{ invoice.id }</h2>
+                    <h2 className="text-base font-bold  sm:card-title ">#{ invoice.id }</h2>
                     <div className={ `badge badge-${ toStatus(invoice.status) }` }>
                         { invoice.status }
                     </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-xs sm:text-sm">
                     <div className="">
                         <div className=" flex gap-2 mb-2">
-                            <p>Total Item: { invoice.Trolleys.length }</p>
-                            <p>Total Price: { toRupiah(invoice.totalAll) }</p>
+                            <p>Total Item: { invoice.Trolleys.length },</p>
+                            <p>Total Price: { toRupiah(invoice.totalAll) },</p>
                         </div>
                         <p>{ toDate(invoice.orderTime) }</p>
                     </div>

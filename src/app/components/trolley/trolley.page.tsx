@@ -22,7 +22,7 @@ export function TrolleyCardPageUser(
     return (
         <div
             key={ trolley.id }
-            className={ `card card-side card-compact bg-base-300 card-bordered ${ isTrolleyIncluded ? 'border-neutral' : '' }` }
+            className={ `card card-side card-compact bg-base-300 card-bordered ${ isTrolleyIncluded ? 'border-info' : '' }` }
         >
             <figure onClick={ onSelectAction }>
                 {/* eslint-disable-next-line @next/next/no-img-element */ }

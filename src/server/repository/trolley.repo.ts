@@ -8,7 +8,7 @@ export type TrolleyParams = Required<ParamsApi<Pick<TTrolleyDB, 'id_user'>>>
 export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB> {
 
     async findAll({
-                      pagination: { page = 1, limit = 100 },
+                      pagination: { page = 1, limit = 20 },
                       filter: { id_user }
                   }: TrolleyParams
     ): Promise<ResponseAll<TTrolleyProductUser>> {

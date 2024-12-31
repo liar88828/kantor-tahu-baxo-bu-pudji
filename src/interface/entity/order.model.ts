@@ -26,3 +26,7 @@ export type SearchOrder = {
 
 export type OrderParams = ParamsApi<{ name: string, status: string }>
 export type ResponseCreateOrderTransaction = { order: Orders, orderCustomers: Customers, orderProduct: any };
+
+export enum ORDER {
+    KEY = "order",
+}

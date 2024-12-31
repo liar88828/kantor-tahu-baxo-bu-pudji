@@ -169,7 +169,7 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 			set({ isLoading: true });
 			if (get().productAsync.length === 0) {
 				console.info("is fetching");
-				const { data } = await productAll({ pagination: { limit: 100 } })
+                const { data } = await productAll({ pagination: { limit: 20 } })
 				if (data.data.length > 0) {
 					set({ productAsync: data.data })
 				}

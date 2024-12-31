@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { Pen, Trash } from "lucide-react";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { repeat } from "@/utils/repeat";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 
@@ -84,20 +83,20 @@ export function DeliveryDetailPageAdmin({ delivery }: { delivery: TDeliveryDB })
     );
 }
 
-export function DeliveryDetailHistoryPageAdmin({ delivery }: { delivery: TDeliveryDB }) {
+export function DeliveryDetailHistoryPageAdmin({ delivery }: { delivery: TDeliveryDB[] }) {
     return (
         <div className="mt-2 pb-14">
             <h1 className={ 'text-2xl font-bold py-4' }>History</h1>
             <div className="space-y-3 overflow-y-scroll h-[80vw]">
-                { repeat(10).map(d => ( <div key={ d } className={ 'card card-compact bg-base-200' }>
+                { delivery.map(d => (
+                    <div key={ d.id } className={ 'card card-compact bg-base-200' }>
                         <div className="card-body">
                             <h2 className="card-title">#asdasda34234234</h2>
                             <p className="">Data</p>
                             <p className="">Data</p>
                         </div>
                     </div>
-                ))
-                }
+                )) }
             </div>
         </div>
     );
