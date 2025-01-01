@@ -18,10 +18,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useTrolley } from "@/hook/useTrolley";
 
 export function ProfileTrolleyCountClientUser() {
+
     const { count } = useTrolley()
-    const { data, isFetching, isLoading, isPaused, isPending } = count()
-    if (!data || isFetching || isLoading || isPaused || isPending) {
-        return <div>Loading...</div>
+    const { data, isLoading } = count()
+
+    if (!data || isLoading) {
+        return <LoadingSpin />
     }
     return (
         <ProfileStatusCountPage

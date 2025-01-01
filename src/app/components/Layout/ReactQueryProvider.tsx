@@ -8,9 +8,19 @@ import { getQueryClient } from "@/app/components/Layout/ReactQueryProvider.serve
 function ReactQueryProvider({ children }: { children: ReactNode }) {
     // const isDarkTheme = useThemeDetector()
     const queryClient = getQueryClient()
-    return ( <QueryClientProvider client={ queryClient }>
+    return (
+        <QueryClientProvider client={ queryClient }>
             { children }
-            <Toaster />
+            <Toaster
+                position="top-right"
+                toastOptions={ {
+                    className: '',
+                    duration: 1000,
+                    success: {
+                        duration: 1000,
+                    },
+                } }
+            />
             <ReactQueryDevtools initialIsOpen={ false } />
         </QueryClientProvider>
 

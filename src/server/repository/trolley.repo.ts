@@ -41,7 +41,11 @@ export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB
     async createOne(data: TTrolleyCreate,): Promise<any> {
         if (data.id_product) {
             const TrolleyDB = await prisma.trolleys.findFirst({
-                where: { id_product: data.id_product, id_user: data.id_user }
+                where: {
+                    id_product: data.id_product,
+                    id_user: data.id_user,
+                    id_order: null
+                }
             })
             if (TrolleyDB) {
                 return prisma.trolleys.update({

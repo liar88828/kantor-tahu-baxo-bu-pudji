@@ -1,39 +1,43 @@
 'use client'
 import Link from 'next/link';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import useTrolleyStore from "@/store/trolley";
+import { BackButton } from "@/app/components/Layout/backButton";
 import { DollarSign, ShoppingCart } from "lucide-react";
-import { TrolleyCase, TrolleyCheckoutCaseUser, TrolleyCount } from "@/app/components/trolley/trolley.client";
 import { menuUser } from "@/assets/MenuList";
 import { usePathname } from "next/navigation";
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
-import { BackButton } from "@/app/components/Layout/backButton";
-import useTrolleyStore from "@/store/trolley";
+import { useTrolley } from "@/hook/useTrolley";
 
-export function NavbarUser() {
+export function NavbarMarketLayoutClientUser({ children }: { children: ReactNode }) {
     const showNavbar = useScrollVisibility(true);
+    const { count } = useTrolley()
+    const { data, isLoading } = count()
 
     return (
         <div
-            className={ `navbar bg-base-200/50 fixed top-0 start-0 z-20 w-full transition-transform duration-300 ${
-                showNavbar ? 'translate-y-0' : '-translate-y-full'
-            }` }
+            className={ `navbar bg-base-200/50 fixed top-0 start-0 z-20 w-full transition-transform duration-300 
+            ${ showNavbar ? 'translate-y-0' : '-translate-y-full' }`
+            }
         >
             <div className="flex-1">
                 <BackButton />
             </div>
             <div className="flex-none">
                 <div className="dropdown dropdown-end">
-                    <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-circle">
+                    <div tabIndex={ 0 } role="button" className="btn btn-circle btn-neutral">
                         <div className="indicator">
                             <ShoppingCart />
-                            <TrolleyCount />
+                            <span className="badge badge-sm indicator-item badge-neutral">
+                                { isLoading ? 0 : data }
+                            </span>
                         </div>
                     </div>
                     <div
                         tabIndex={ 0 }
                         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
                     >
-                        <TrolleyCase />
+                        { children }
                     </div>
                 </div>
             </div>
@@ -41,7 +45,7 @@ export function NavbarUser() {
     )
 }
 
-export function NavButtonUser() {
+export function NavButtonMarketLayoutClientUser() {
     const path = usePathname()
     const showBottomNav = useScrollVisibility(true);
 
@@ -64,9 +68,10 @@ export function NavButtonUser() {
     );
 }
 
-export function HeaderTransactionLayoutUser() {
+export function NavbarTransactionLayoutClientUser({ children }: { children: ReactNode }) {
     const path = usePathname()
     const { onSelected } = useTrolleyStore()
+
     return <div className="navbar bg-base-300 fixed z-50">
         <div className="flex-1 ">
             <BackButton />
@@ -74,7 +79,7 @@ export function HeaderTransactionLayoutUser() {
         <div className="flex-none">
             { path.includes("/trolley") && (
                 <div className="dropdown dropdown-end">
-                    <div tabIndex={ 0 } role="button" className="btn btn-ghost btn-square">
+                    <div tabIndex={ 0 } role="button" className="btn btn-circle btn-neutral">
                         <div className="indicator">
                             <DollarSign />
                             <span className="badge badge-sm indicator-item">
@@ -85,7 +90,7 @@ export function HeaderTransactionLayoutUser() {
                     <div tabIndex={ 0 }
                          className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
                     >
-                        <TrolleyCheckoutCaseUser />
+                        { children }
                     </div>
                 </div>
             ) }

@@ -17,7 +17,7 @@ export default class TrolleyController implements InterfaceController {
         return this.trolleyRepository.findAll({
             pagination: {
                 page: Number(getParams(request, "page") ?? '1'),
-                limit: Number(getParams(request, "limit") ?? '100'),
+                limit: Number(getParams(request, "limit") ?? '10'),
             },
             filter: { id_user: user.userId }
         })

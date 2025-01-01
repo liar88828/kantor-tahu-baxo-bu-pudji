@@ -5,7 +5,7 @@ import { receiverUser } from "@/network/receiver";
 
 type ReceiverStore = {
     receiver: TReceiverCreate & { id: string }
-    setPartialReceiver: (data: Partial<TReceiverCreate> | null) => void
+    setReceiverPartial: (data: Partial<TReceiverCreate> | null) => void
     reset: () => void,
     getAsyncReceiver: () => Promise<void>,
     setReceiver: (data: TReceiverCreate) => void,
@@ -33,7 +33,7 @@ export const useReceiverStore = create<ReceiverStore>((set) => ( {
             onReceiver: data.data
         } ))
     },
-    setPartialReceiver: (data) =>
+    setReceiverPartial: (data) =>
         set((state) => ( {
             receiver: {
                 ...state.receiver, // Preserve existing data

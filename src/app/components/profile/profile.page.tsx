@@ -1,12 +1,11 @@
 import Link from "next/link";
 import React from "react";
-import { Ban, BookMarked, LogOut, LucideClock, Settings } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import { Users } from "@prisma/client";
 import { logout } from "@/server/lib/state";
-import { ProfileStatusClient } from "@/app/components/profile/profile.client";
 
 export function ProfileUserPage(props: {
-
+    children: React.ReactNode;
     user: Users
 }) {
     return (
@@ -38,17 +37,7 @@ export function ProfileUserPage(props: {
                     </p>
                 </div>
                 <div className="flex gap-10 justify-end">
-                    {/*is crash at fetching data ???*/ }
-                    {/*<ProfileTrolleyCountClientUser />*/ }
-                    <ProfileStatusClient statusOrder={ 'Pending' }>
-                        <LucideClock />
-                    </ProfileStatusClient>
-                    <ProfileStatusClient statusOrder={ 'Complete' }>
-                        <BookMarked />
-                    </ProfileStatusClient>
-                    <ProfileStatusClient statusOrder={ 'Fail' }>
-                        <Ban />
-                    </ProfileStatusClient>
+                    { props.children }
                 </div>
             </div>
         </div>

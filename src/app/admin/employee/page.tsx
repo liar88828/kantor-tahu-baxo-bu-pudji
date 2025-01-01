@@ -4,7 +4,7 @@ import { TContext } from "@/interface/server/param";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { employeeAll } from "@/network/employee";
 import { getSearchName } from "@/utils/requestHelper";
-import { EMPLOYEE_KEY } from "@/interface/entity/employee.model";
+import { EMPLOYEE } from "@/interface/entity/employee.model";
 
 // export const dynamic = 'force-dynamic';
 
@@ -14,7 +14,7 @@ export default async function page(context: TContext) {
 
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
-        queryKey: [ EMPLOYEE_KEY.employees, search ],
+        queryKey: [ EMPLOYEE.KEY, search ],
         queryFn: () => employeeAll({
             filter: { name: search, status },
             pagination: { limit: 20 }

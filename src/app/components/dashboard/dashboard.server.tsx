@@ -43,6 +43,8 @@ export async function DashboardEarningServerServerAdmin() {
     const year = new Date().getFullYear()
     const earningDataOld = await getEarningOld(year)
     const earningDataNew = await getEarningNew(year)
+    // console.log(earningDataOld)
+    // console.log(earningDataNew)
     return (
         <EarningClient
             year_new={ earningDataNew.data }

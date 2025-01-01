@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { employeeAll, onUpsertData } from "@/network/employee";
 import { useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { EMPLOYEE_KEY } from "@/interface/entity/employee.model";
+import { EMPLOYEE } from "@/interface/entity/employee.model";
 
 export function useEmployee() {
     const router = useRouter();
@@ -24,7 +24,7 @@ export function useEmployee() {
     const GetAll = ({ search, status }: { search: string, status: string }) => {
         return useInfiniteQuery({
 
-            queryKey: [ EMPLOYEE_KEY.employees, search, status ],
+            queryKey: [ EMPLOYEE.KEY, search, status ],
             queryFn: ({ pageParam }) => employeeAll({
                 filter: { name: search, status },
                 pagination: { page: pageParam }

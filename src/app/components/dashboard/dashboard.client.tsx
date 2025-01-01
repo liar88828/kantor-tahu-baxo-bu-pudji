@@ -35,7 +35,7 @@ export function EarningClient({ year_new, year_old }: { year_new: ResponseMonthD
     // }, [ isMobileSize ])
 
     const dataEarning = {
-        date: year_new.dataMonth.map(d => d.month),
+        date: year_old.dataMonth.map(d => d.month),
         year_new: year_new.dataMonth.map(d => d.total),
         year_old: year_old.dataMonth.map(d => d.total),
     }

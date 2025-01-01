@@ -1,16 +1,11 @@
 'use client'
-import Link from "next/link";
-import React, { useState } from "react";
-import { Check, Minus, Plus, Search, Trash, XIcon } from "lucide-react";
-import { OrderCreateClient } from "@/validation/order.valid";
-import { OrderDetailAdmin } from "@/app/components/order/order.page";
-import { OrderFormUpdate } from "@/app/components/order/OrderForm.client";
+import React, { useEffect } from "react";
 import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
+import { Minus, Plus, Trash } from "lucide-react";
+import { OrderCreateAdmin } from "@/validation/order.valid";
+import { OrderDetailAdmin } from "@/app/components/order/order.page";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { ProductShowDialog } from "@/app/components/order/order.dialog";
-import { TCustomersDB } from "@/interface/entity/receiver.model";
-import { orderSanitize } from "@/sanitize/orderSanitize";
-import { receiverAll } from "@/network/receiver";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { useFormContext } from "react-hook-form";
@@ -18,128 +13,17 @@ import { useOrder } from "@/hook/useOrder";
 import { useParams } from "next/navigation";
 import { usePrint } from "@/hook/usePrint";
 import { useProductStore } from "@/store/product";
-import { useReceiverStore } from "@/store/receiver";
 import { useTable } from "@/hook/useTable";
 import { useTableStore } from "@/store/table";
+import { useDeliveryStore } from "@/store/delivery";
+import { useReceiverStore } from "@/store/receiver";
+import { usePaymentStore } from "@/store/payment";
+import { OrderFormUpsertAdmin } from "@/app/components/order/order.form";
+import { orderSanitize } from "@/sanitize/orderSanitize";
 
-export function Receiver() {
-    const { onReceiver, setPartialReceiver } = useReceiverStore()
-    const [ receiverData, setReceiverData ] = useState<TCustomersDB[]>([])
-    const [ search, setSearch ] = useState<string>('')
-
-    const loadReceiver = async () => {
-        if (receiverData.length === 0) {
-            const { data } = await receiverAll({ pagination: {} })
-            if (data.data.length > 0) {
-                setReceiverData(data.data)
-            }
-        }
-    }
-
-    return (
-        <div className="">
-            <div className="px-2 mb-2">
-                <div className="flex justify-between">
-                    <h1 className="card-title">User Receiver</h1>
-
-                    <button
-                        className='btn btn-square btn-neutral'
-                        onClick={ async () => {
-                            await loadReceiver()
-                            // @ts-ignore
-                            document.getElementById('my_modal_search').showModal()
-                        } }
-                    >
-                        <Search />
-                    </button>
-
-                    <dialog id="my_modal_search" className="modal">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg">Hello!</h3>
-                            <div className="flex justify-between py-4">
-                                <input
-                                    className={ 'input input-bordered w-full' }
-                                    type="text"
-                                    onChange={ (e) => {
-                                        setSearch(e.target.value)
-                                    } }
-                                    value={ search }
-                                    placeholder="Search..."
-                                />
-
-                            </div>
-                            <div className="space-y-2">
-                                {
-                                    receiverData &&
-                                    receiverData
-                                    .filter(receiver => receiver.name.toLowerCase().includes(search.toLowerCase()))
-                                    .map((receiver) => ( <>
-                                            <div key={ receiver.id }
-                                                 className="flex justify-between items-center"
-                                            >
-                                                <div className="">
-                                                    <h2 className={ 'text-xl font-bold' }>{ receiver.name }</h2>
-                                                    <p className={ 'text-gray-400' }>{ receiver.phone }</p>
-                                                    <p className={ 'text-gray-400' }>{ receiver.address }</p>
-                                                </div>
-                                                <button className={ 'btn btn-square' }
-                                                        onClick={ () => setPartialReceiver(receiver) }
-                                                >
-                                                    <Check />
-                                                </button>
-                                            </div>
-                                            <div className="divider"></div>
-                                        </>
-
-                                    )) }
-                            </div>
-                            <div className="modal-action">
-                                <Link
-                                    className={ 'btn btn-neutral' }
-                                    href={ '/admin/receiver/create' }
-                                >
-                                    Create <Plus />
-
-                                </Link>
-                                <form method="dialog">
-                                    {/* if there is a button in form, it will close the modal */ }
-                                    <button className="btn">Close</button>
-                                </form>
-                            </div>
-                        </div>
-                    </dialog>
-                </div>
-            </div>
-            <div className="card card-compact bg-base-200">
-                <div className="card-body">
-                    { !onReceiver
-                        ? <div className="text-lg font-bold flex justify-between">
-                            <h1>Please Add Receiver</h1>
-                        </div>
-                        : (
-                            <div className="flex justify-between  items-center">
-                                <div className="">
-                                    <h2 className={ 'text-xl font-bold' }>{ onReceiver.name }</h2>
-                                    <p className={ 'text-gray-400' }>{ onReceiver.phone }</p>
-                                    <p className={ 'text-gray-400' }>{ onReceiver.address }</p>
-                                </div>
-                                <button className={ 'btn btn-square btn-neutral' }
-                                        onClick={ () => setPartialReceiver(null) }
-                                >
-                                    <XIcon />
-                                </button>
-                            </div>
-                        ) }
-                </div>
-            </div>
-        </div>
-    );
-}
-
-export function ReceiverForm() {
-    const { receiver, setPartialReceiver } = useReceiverStore()
-    const { register, formState: { errors }, setValue, getValues } = useFormContext<OrderCreateClient>()
-
+export function ReceiverFormClientAdmin() {
+    const { register, formState: { errors } } = useFormContext<OrderCreateAdmin>()
+    const { setReceiverPartial, receiver } = useReceiverStore();
     return (
         <div className={ 'card card-compact bg-base-200' }>
             <div className="card-body">
@@ -149,42 +33,63 @@ export function ReceiverForm() {
                         <span className="label-text">Receiver Name</span>
                     </label>
                     <input
-                        value={ receiver.name }
-                        onChange={ (e) => {
-                            setPartialReceiver({ name: e.target.value })
-                        } }
+                        { ...register('nameCs', {
+                            value: receiver.name,
+                            onChange: (e) => {
+                                setReceiverPartial({ name: e.target.value })
+                            }
+                        }) }
                         type="text"
                         className="input input-bordered"
                     />
                 </div>
+                { errors.nameCs && <span className="text-error">{ errors.nameCs.message }</span> }
 
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Receiver Phone</span>
                     </label>
                     <input
-                        value={ receiver.phone }
-                        onChange={ (e) => {
-                            setPartialReceiver({ phone: e.target.value })
-                        } }
+                        { ...register('phoneCs', {
+                            value: receiver.phone,
+                            onChange: (e) => {
+                                setReceiverPartial({ phone: e.target.value })
+                            }
+                        }) }
                         type="tel"
                         className="input input-bordered"
                     />
                 </div>
+                { errors.phoneCs && <span className="text-error">{ errors.phoneCs.message }</span> }
 
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Receiver Address </span>
                     </label>
                     <textarea
-                        onChange={ (e) => {
-                            setPartialReceiver({ address: e.target.value })
-                        } }
+                        { ...register('addressCs', {
+                            value: receiver.address,
+                            onChange: (e) => {
+                                setReceiverPartial({ address: e.target.value })
+                            }
+                        }) }
                         className="textarea textarea-bordered"
-                        value={ receiver.address }
                     >
-				</textarea>
+		    		</textarea>
                 </div>
+                { errors.addressCs && <span className="text-error">{ errors.addressCs.message }</span> }
+
+                {/* Description */ }
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Description</span>
+                    </label>
+                    <textarea
+                        { ...register("desc") }
+                        className="textarea textarea-bordered"
+                    ></textarea>
+                </div>
+                { errors.desc && <span className="text-error">{ errors.desc.message }</span> }
             </div>
         </div>
     )
@@ -302,7 +207,7 @@ export function DetailedInvoicePrintAdmin() {
     if (isError) return <EmptyData page={ `Order Detail ${ param.id }` } />
 
     return ( <OrderDetailAdmin
-            order={ order.data }
+            order={ order }
             isPrinting={ isPrinting }
             contentRef={ contentRef }
             id={ param.id }
@@ -394,16 +299,29 @@ export function OrderExcelAdmin() {
 
 export function OrderFormUpdateClient({ idOrder, id_user }: { idOrder: string, id_user: string }) {
     const { getId } = useOrder()
+    const { setProductStore } = useProductStore()
+    const { setDelivery } = useDeliveryStore()
+    const { setReceiverPartial } = useReceiverStore()
+    const { setPayment } = usePaymentStore()
     const { data: order, isLoading, isError } = getId(idOrder)
+
+    useEffect(() => {
+        if (order) {
+            setProductStore(order.Trolleys.map(d => d))
+            setReceiverPartial(order.Customers)
+            setPayment(order.Payments)
+            setDelivery(order.Deliverys)
+        }
+    }, [])
 
     if (isLoading || !order) return <PageLoadingSpin />
     if (isError) return <PageErrorData />
 
     return (
-        <OrderFormUpdate
-            data={ orderSanitize(order.data) }
-            orderRes={ order.data }
-            id_customer={ id_user }
+        <OrderFormUpsertAdmin
+            defaultValue={ orderSanitize(order) }
+            method={ 'PUT' }
+            idCustomer={ id_user }
         />
     )
 }

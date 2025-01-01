@@ -1,6 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { useReceiverStore } from "@/store/receiver";
+import { TCustomersDB } from "@/interface/entity/receiver.model";
+import { receiverAll } from "@/network/receiver";
+import { Check, Plus, Search, XIcon } from "lucide-react";
+import Link from "next/link";
 
 // Mock data for the invoice
 const invoiceData = {
@@ -96,3 +101,116 @@ export default function InvoicePrint() {
 	)
 }
 
+export function Receiver() {
+    const { onReceiver, setReceiverPartial } = useReceiverStore()
+    const [ receiverData, setReceiverData ] = useState<TCustomersDB[]>([])
+    const [ search, setSearch ] = useState<string>('')
+
+    const loadReceiver = async () => {
+        if (receiverData.length === 0) {
+            const { data } = await receiverAll({ pagination: {} })
+            if (data.data.length > 0) {
+                setReceiverData(data.data)
+            }
+        }
+    }
+
+    return (
+        <div className="">
+            <div className="px-2 mb-2">
+                <div className="flex justify-between">
+                    <h1 className="card-title">User Receiver</h1>
+
+                    <button
+                        className='btn btn-square btn-neutral'
+                        onClick={ async () => {
+                            await loadReceiver()
+                            // @ts-ignore
+                            document.getElementById('my_modal_search').showModal()
+                        } }
+                    >
+                        <Search />
+                    </button>
+
+                    <dialog id="my_modal_search" className="modal">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">Hello!</h3>
+                            <div className="flex justify-between py-4">
+                                <input
+                                    className={ 'input input-bordered w-full' }
+                                    type="text"
+                                    onChange={ (e) => {
+                                        setSearch(e.target.value)
+                                    } }
+                                    value={ search }
+                                    placeholder="Search..."
+                                />
+
+                            </div>
+                            <div className="space-y-2">
+                                {
+                                    receiverData &&
+                                    receiverData
+                                    .filter(receiver => receiver.name.toLowerCase().includes(search.toLowerCase()))
+                                    .map((receiver) => ( <>
+                                            <div key={ receiver.id }
+                                                 className="flex justify-between items-center"
+                                            >
+                                                <div className="">
+                                                    <h2 className={ 'text-xl font-bold' }>{ receiver.name }</h2>
+                                                    <p className={ 'text-gray-400' }>{ receiver.phone }</p>
+                                                    <p className={ 'text-gray-400' }>{ receiver.address }</p>
+                                                </div>
+                                                <button className={ 'btn btn-square' }
+                                                        onClick={ () => setReceiverPartial(receiver) }
+                                                >
+                                                    <Check />
+                                                </button>
+                                            </div>
+                                            <div className="divider"></div>
+                                        </>
+
+                                    )) }
+                            </div>
+                            <div className="modal-action">
+                                <Link
+                                    className={ 'btn btn-neutral' }
+                                    href={ '/admin/receiver/create' }
+                                >
+                                    Create <Plus />
+
+                                </Link>
+                                <form method="dialog">
+                                    {/* if there is a button in form, it will close the modal */ }
+                                    <button className="btn">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
+            </div>
+            <div className="card card-compact bg-base-200">
+                <div className="card-body">
+                    { !onReceiver
+                        ? <div className="text-lg font-bold flex justify-between">
+                            <h1>Please Add Receiver</h1>
+                        </div>
+                        : (
+                            <div className="flex justify-between  items-center">
+                                <div className="">
+                                    <h2 className={ 'text-xl font-bold' }>{ onReceiver.name }</h2>
+                                    <p className={ 'text-gray-400' }>{ onReceiver.phone }</p>
+                                    <p className={ 'text-gray-400' }>{ onReceiver.address }</p>
+                                </div>
+                                <button className={ 'btn btn-square btn-neutral' }
+                                        onClick={ () => setReceiverPartial(null) }
+                                >
+                                    <XIcon />
+                                </button>
+                            </div>
+                        ) }
+                </div>
+            </div>
+        </div>
+    );
+}

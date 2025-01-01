@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { PRODUCT, ResponseProductType, TProductCreate, TProductDB } from "@/interface/entity/product.model";
@@ -134,7 +133,7 @@ export const useProduct = () => {
             // refetchOnMount: 'always',
             // retryDelay: 5000,
             staleTime: 1000 * 10,
-            gcTime: 1000 * 60,
+            gcTime: 1000 * 10,
             enabled: debouncedSearch === name,
             queryKey: [ PRODUCT.KEY, debouncedSearch, ...Object.values(filter) ],
             queryFn: async ({ pageParam }): Promise<PaginatedResponse> => {

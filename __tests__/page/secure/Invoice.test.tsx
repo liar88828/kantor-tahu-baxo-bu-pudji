@@ -50,8 +50,9 @@ describe('auth  Invoice', async () => {
             render(
                 <Invoice
                     invoice={ dataOrderTransaction }
-                    ref={ mockChildMethod }
-                    isPrinting={ true }
+                    path={ '' }
+                    // ref={ mockChildMethod }
+                    // isPrinting={ true }
                 />
             );
             expect(

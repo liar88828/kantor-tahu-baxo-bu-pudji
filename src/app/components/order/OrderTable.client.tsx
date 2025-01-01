@@ -1,194 +1,44 @@
 'use client'
-import React, { startTransition, useRef, useState } from 'react';
-import { PageLoadingSpin } from "@/app/components/LoadingData";
-import { toStatus } from "@/app/components/status";
-import { toDate } from "@/utils/formatDate";
-import { toRupiah } from "@/utils/toRupiah";
-import { Filter, NotebookTabs, Plus } from "lucide-react";
 import Link from "next/link";
-import { useTableStore } from "@/store/table";
-import { useOrder } from "@/hook/useOrder";
-import { EmptyData } from "@/app/components/PageErrorData";
+import React from 'react';
+import { Filter, Plus } from "lucide-react";
+import { OrderTablePage } from "@/app/components/order/order.page";
+import { PageErrorData } from "@/app/components/PageErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useDebounce } from "@/hook/useDebounce";
+import { useOrder } from "@/hook/useOrder";
+import { useTableStore } from "@/store/table";
 
-export function OrderTable() {
-    const { setTable, existTable, search: nameTable, status: statusTable, tableDetail } = useTableStore()
-    const { getAll } = useOrder()
+export function OrderTableClientAdmin() {
+    const { search: nameTable, status: statusTable } = useTableStore()
     const searchDebounce = useDebounce({ value: nameTable })
     const statusDebounce = useDebounce({ value: statusTable })
-    const { data: orders, isLoading, isError } = getAll({
+    const { getAll } = useOrder()
+    const { data: orders, isFetching, isError } = getAll({
             filter: {
                 name: nameTable,
                 status: statusTable,
             },
-            pagination: {}
+            pagination: {
+                limit: 10
+            }
         },
         {
             name: searchDebounce,
             status: statusDebounce,
         }
     )
-    const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
-    const tableRef = useRef(null);
+
+    if (!orders || isFetching) {
+        return <PageLoadingSpin />
+    }
+    if (isError) {
+        return <PageErrorData msg={ 'Error Page' } />
+    }
+
     return (
         <div className="overflow-x-auto mt-2 ">
-            { !orders || isLoading
-                ? <PageLoadingSpin />
-                : <table className="table table-xs"
-                         ref={ tableRef }
-                         data-theme={ 'light' }
-                >
-                    <thead>
-                    <tr>
-                        <th>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    className="checkbox checkbox-sm"
-                                    checked={ selectedOrders.length === orders.length }
-                                    onChange={ (e) => {
-                                        startTransition(() => {
-                                            if (e.target.checked) {
-                                                setSelectedOrders(orders.map((order) => order.id));
-                                            } else {
-                                                setSelectedOrders([]);
-                                            }
-                                        })
-                                    } }
-                                />
-                            </label>
-                        </th>
-                        <th>ID</th>
-                        <th>Order Time</th>
-                        <th>Send Time</th>
-                        <th>Status</th>
-                        {/**/ }
-                        <th>Name (Customer)</th>
-                        <th>Address</th>
-                        { tableDetail.description && (
-                            <th>Description</th>
-                        ) }
-                        {/**/ }
-                        { tableDetail.receiver && ( <>
-                            <th className={ 'bg-orange-100' }>Name (Receiver)</th>
-                            <th className={ 'bg-orange-100' }>Address (Receiver)</th>
-                            <th className={ 'bg-orange-100' }>Phone (Receiver)</th>
-                        </> )
-                        }
-                        {/**/ }
-                        { tableDetail.deliver && ( <>
-                            <th className={ 'bg-green-100' }>Name (Delivery)</th>
-                            <th className={ 'bg-green-100' }>Phone (Delivery)</th>
-                        </> ) }
-                        {/**/ }
-                        { tableDetail.payment && ( <>
-                            <th className={ 'bg-red-100' }>Name (Payments)</th>
-                            <th className={ 'bg-red-100' }>Type (Payments)</th>
-                        </> ) }
-                        {/**/ }
-                        <th className={ 'bg-yellow-100 ' }>Name (Product)</th>
-                        <th className={ 'bg-yellow-100' }>Price (Product)</th>
-                        {/**/ }
-                        <th className={ 'bg-red-100' }>Price (Payments)</th>
-                        <th className={ 'bg-green-100' }>Price Delivery</th>
-
-                        <th>Total All</th>
-                        <th className={ 'w-24' }>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    { isError || !orders
-                        ? <tr>
-                            <td><EmptyData page={ 'Data is Empty' } /></td>
-                        </tr>
-                        : orders
-                        .filter((order) => {
-                            const nameOrder = order.Customers.name.toLowerCase().includes(nameTable.toLowerCase());
-                            const statusOrder = order.status.includes(statusTable);
-                            return nameOrder && statusOrder;
-                        })
-                        .map((order) => (
-                            <tr key={ order.id }>
-                                <td>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            className="checkbox checkbox-sm"
-                                            checked={
-                                                // isChecked(order.id) ||
-                                                existTable(order.id) }
-                                            onChange={ () => {
-                                                setTable(order)
-                                                // handleCheckboxChange(order.id)
-                                            } }
-                                        />
-                                    </label>
-                                </td>
-                                <td>{ order.id }</td>
-                                <td>{ toDate(order.orderTime || 0) }</td>
-                                <td>{ toDate(order.sendTime || 0) }</td>
-                                <td>
-                                    {
-                                        <span className={ `badge badge-${ toStatus(order.status) }` }>
-												{ order.status }
-											</span>
-                                    }
-                                </td>
-                                {/**/ }
-                                <td>{ order.Customers.name }</td>
-                                <td>{ order.address }</td>
-                                { tableDetail.description && (
-                                    <td className={ 'line-clamp-2' }>{ order.desc }</td>
-                                ) }
-                                {/**/ }
-                                { tableDetail.receiver &&
-                                    ( <>
-                                        <td className={ 'bg-orange-50' }>{ order.Customers.name }</td>
-                                        <td className={ 'bg-orange-50' }>{ order.Customers.address }</td>
-                                        <td className={ 'bg-orange-50' }>{ order.Customers.phone }</td>
-                                    </> ) }
-                                {/**/ }
-                                { tableDetail.deliver &&
-                                    ( <>
-                                        <td className={ 'bg-green-50' }>{ order.nameDelivery }</td>
-                                        <td className={ 'bg-green-50' }>{ order.phoneDelivery }</td>
-                                    </> ) }
-                                {/**/ }
-                                { tableDetail.payment &&
-                                    ( <>
-                                        <td className={ 'bg-red-50' }>{ order.Payments.name }</td>
-                                        <td className={ 'bg-red-50' }>{ order.Payments.type }</td>
-                                    </> ) }
-                                {/**/ }
-                                <td className={ 'bg-yellow-50 ' }>{ order.Trolleys.map(d => (
-                                    <span key={ d.id } className={ 'text-nowrap' }>
-												{ d.Product.name } x { d.qty_at_buy } <br />
-											</span>
-                                )) }</td>
-                                <td className={ 'bg-yellow-50' }>{ order.Trolleys.map(d => toRupiah(d.price_at_buy)).join(', \n') }</td>
-                                {/**/ }
-                                <td className={ 'bg-red-50' }>{ toRupiah(order.totalPayment) }</td>
-                                <td className={ 'bg-green-50' }>{ toRupiah(order.priceDelivery) }</td>
-                                <td>{ toRupiah(order.totalAll) }</td>
-                                <td className={ ' ' }>
-                                    <Link
-                                        href={ `/admin/order/${ order.id }` }
-                                        className={ 'btn btn-sm btn-square' }
-                                    >
-                                        <NotebookTabs />
-                                    </Link>
-                                    {/*<button className={ 'btn btn-sm btn-info btn-square' }>*/ }
-                                    {/*	<Pencil/>*/ }
-                                    {/*</button>*/ }
-                                    {/*<button className={ 'btn btn-sm btn-error btn-square' }>*/ }
-                                    {/*	<Trash/>*/ }
-                                    {/*</button>*/ }
-                                </td>
-                            </tr>
-                        )) }
-                    </tbody>
-                </table>
-            }
+            <OrderTablePage orders={ orders } />
         </div>
     );
 }

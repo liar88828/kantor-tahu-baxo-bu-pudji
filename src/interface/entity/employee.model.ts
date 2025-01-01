@@ -26,6 +26,6 @@ export interface EmployeeCVProps {
 export const ktp = 'https://dummyimage.com/400x300/000/ffffff.jpg';
 export const i3x4 = 'https://dummyimage.com/300x400/000/ffffff.jpg';
 
-export enum EMPLOYEE_KEY {
-    employees = "employees",
+export enum EMPLOYEE {
+    KEY = "employee",
 }

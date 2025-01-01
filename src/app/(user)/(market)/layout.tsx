@@ -1,15 +1,17 @@
-import type { ReactNode } from "react";
-import { NavbarUser, NavButtonUser } from "@/app/components/Layout/user.client";
+import React, { ReactNode } from "react";
+import { NavbarMarketLayoutClientUser, NavButtonMarketLayoutClientUser } from "@/app/components/Layout/user.client";
+import { TrolleyCase } from "@/app/components/trolley/trolley.client";
 
 export default async function Layout({ children }: { children: ReactNode }) {
     return (
         <>
-            <NavbarUser />
+            <NavbarMarketLayoutClientUser>
+                <TrolleyCase />
+            </NavbarMarketLayoutClientUser>
             <div className="container pt-20 ">
                 { children }
             </div>
-            <NavButtonUser />
+            <NavButtonMarketLayoutClientUser />
         </>
-
     )
 }

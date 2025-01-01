@@ -1,19 +1,21 @@
-import React, { Ref } from "react";
+import React, { Ref, startTransition, useRef, useState } from "react";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import Link from "next/link";
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
-import { Check, Minus, Plus, Trash, XIcon } from "lucide-react";
+import { Check, Minus, NotebookTabs, Plus, Trash, XIcon } from "lucide-react";
 import { TProductDB } from "@/interface/entity/product.model";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { TPaymentDB } from "@/interface/entity/payment.model";
 import { toAccounting } from "@/utils/accounting";
 import { TReceiverCreate } from "@/interface/entity/receiver.model";
+import { toStatus } from "@/app/components/status";
+import { useTableStore } from "@/store/table";
 
 export function OrderDetailAdmin(
-    { order, contentRef, isPrinting, handlePrintAction, isPending, handleDeleteAction, id }
-    : {
+    { order, contentRef, isPrinting, handlePrintAction, isPending, handleDeleteAction, id }:
+    {
         contentRef: Ref<HTMLDivElement>
         handleDeleteAction: () => void,
         handlePrintAction: () => void,
@@ -198,7 +200,7 @@ export function ProductSelectedList(props: {
 
 export function ProductOrderDialog(props: { product: TProductDB, onClick: () => void }) {
     return (
-        <div className={ `card card-side card-compact bg-base-300 card-bordered` }>
+        <div className={ `card card-side card-compact bg-base-300 card-bordered ` }>
             <figure>
                 {/* eslint-disable-next-line @next/next/no-img-element */ }
                 <img
@@ -207,7 +209,7 @@ export function ProductOrderDialog(props: { product: TProductDB, onClick: () => 
                     className="rounded-xl object-cover w-32 h-32 "
                 />
             </figure>
-            <div className="card-body">
+            <div className="card-body ">
                 <div className="flex justify-between">
                     <h2 className="card-title">{ props.product.name }</h2>
                     <form method="dialog">
@@ -219,9 +221,11 @@ export function ProductOrderDialog(props: { product: TProductDB, onClick: () => 
                         </button>
                     </form>
                 </div>
-                <p>{ toRupiah(props.product.price) }</p>
-                <p>type { props.product.type }</p>
-                <p>qty { props.product.qty }</p>
+                <div className="text-xs sm:text-sm leading-normal sm:leading-none">
+                    <p>{ toRupiah(props.product.price) }</p>
+                    <p>type { props.product.type }</p>
+                    <p>qty { props.product.qty }</p>
+                </div>
             </div>
         </div>
     );
@@ -391,4 +395,163 @@ export function PaymentDialogList(props: { payment: TPaymentDB, onClick: () => v
             </div>
         </div>
     );
+}
+
+export function OrderTablePage({ orders }: { orders: TOrderTransactionDB[] }) {
+    const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
+    const tableRef = useRef(null);
+    const { setTable, existTable, search: nameTable, status: statusTable, tableDetail } = useTableStore()
+
+    return (
+        <table className="table table-xs"
+               ref={ tableRef }
+               data-theme={ 'light' }
+        >
+            <thead>
+            <tr>
+                <th>
+                    <label>
+                        <input
+                            type="checkbox"
+                            className="checkbox checkbox-sm"
+                            checked={ selectedOrders.length === orders.length }
+                            onChange={ (e) => {
+                                startTransition(() => {
+                                    if (e.target.checked) {
+                                        setSelectedOrders(orders.map((order) => order.id));
+                                    } else {
+                                        setSelectedOrders([]);
+                                    }
+                                })
+                            } }
+                        />
+                    </label>
+                </th>
+                <th>ID</th>
+                <th>Order Time</th>
+                <th>Send Time</th>
+                <th>Status</th>
+                {/**/ }
+                <th>Name (Customer)</th>
+                <th>Address</th>
+                { tableDetail.description && (
+                    <th>Description</th>
+                ) }
+                {/**/ }
+                { tableDetail.receiver && ( <>
+                    <th className={ 'bg-orange-100' }>Name (Receiver)</th>
+                    <th className={ 'bg-orange-100' }>Address (Receiver)</th>
+                    <th className={ 'bg-orange-100' }>Phone (Receiver)</th>
+                </> )
+                }
+                {/**/ }
+                { tableDetail.deliver && ( <>
+                    <th className={ 'bg-green-100' }>Name (Delivery)</th>
+                    <th className={ 'bg-green-100' }>Phone (Delivery)</th>
+                </> ) }
+                {/**/ }
+                { tableDetail.payment && ( <>
+                    <th className={ 'bg-red-100' }>Name (Payments)</th>
+                    <th className={ 'bg-red-100' }>Type (Payments)</th>
+                </> ) }
+                {/**/ }
+                <th className={ 'bg-yellow-100 ' }>Name (Product)</th>
+                <th className={ 'bg-yellow-100' }>Price (Product)</th>
+                {/**/ }
+                <th className={ 'bg-red-100' }>Price (Payments)</th>
+                <th className={ 'bg-green-100' }>Price Delivery</th>
+
+                <th>Total All</th>
+                <th className={ 'w-24' }>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {
+                orders
+                .filter((order) => {
+                    const nameOrder = order.Customers.name.toLowerCase().includes(nameTable.toLowerCase());
+                    const statusOrder = order.status.includes(statusTable);
+                    return nameOrder && statusOrder;
+                })
+                .map((order) => (
+                    <tr key={ order.id }>
+                        <td>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    className="checkbox checkbox-sm"
+                                    checked={ existTable(order.id) }
+                                    onChange={ () => {
+                                        setTable(order)
+                                    } }
+                                />
+                            </label>
+                        </td>
+                        <td>{ order.id }</td>
+                        <td>{ toDate(order.orderTime || 0) }</td>
+                        <td>{ toDate(order.sendTime || 0) }</td>
+                        <td>
+                            {
+                                <span className={ `badge badge-${ toStatus(order.status) }` }>
+												{ order.status }
+											</span>
+                            }
+                        </td>
+                        {/**/ }
+                        <td>{ order.Customers.name }</td>
+                        <td>{ order.address }</td>
+                        { tableDetail.description && (
+                            <td className={ 'line-clamp-2' }>{ order.desc }</td>
+                        ) }
+                        {/**/ }
+                        { tableDetail.receiver &&
+                            ( <>
+                                <td className={ 'bg-orange-50' }>{ order.Customers.name }</td>
+                                <td className={ 'bg-orange-50' }>{ order.Customers.address }</td>
+                                <td className={ 'bg-orange-50' }>{ order.Customers.phone }</td>
+                            </> ) }
+                        {/**/ }
+                        { tableDetail.deliver &&
+                            ( <>
+                                <td className={ 'bg-green-50' }>{ order.nameDelivery }</td>
+                                <td className={ 'bg-green-50' }>{ order.phoneDelivery }</td>
+                            </> ) }
+                        {/**/ }
+                        { tableDetail.payment &&
+                            ( <>
+                                <td className={ 'bg-red-50' }>{ order.Payments.name }</td>
+                                <td className={ 'bg-red-50' }>{ order.Payments.type }</td>
+                            </> ) }
+                        {/**/ }
+                        <td className={ 'bg-yellow-50 ' }>{ order.Trolleys.map(d => (
+                            <span key={ d.id } className={ 'text-nowrap' }>
+												{ d.Product.name } x { d.qty_at_buy } <br />
+											</span>
+                        )) }</td>
+                        <td className={ 'bg-yellow-50' }>{ order.Trolleys.map(d => toRupiah(d.price_at_buy)).join(', \n') }</td>
+                        {/**/ }
+                        <td className={ 'bg-red-50' }>{ toRupiah(order.totalPayment) }</td>
+                        <td className={ 'bg-green-50' }>{ toRupiah(order.priceDelivery) }</td>
+                        <td>{ toRupiah(order.totalAll) }</td>
+                        <td className={ ' ' }>
+                            <Link
+                                href={ `/admin/order/${ order.id }` }
+                                className={ 'btn btn-sm btn-square' }
+                            >
+                                <NotebookTabs />
+                            </Link>
+                            {/*<button className={ 'btn btn-sm btn-info btn-square' }>*/ }
+                            {/*	<Pencil/>*/ }
+                            {/*</button>*/ }
+                            {/*<button className={ 'btn btn-sm btn-error btn-square' }>*/ }
+                            {/*	<Trash/>*/ }
+                            {/*</button>*/ }
+                        </td>
+                    </tr>
+                ))
+            }
+            </tbody>
+        </table>
+    )
+
 }

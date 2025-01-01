@@ -1,11 +1,10 @@
-import { useDeliveryStore } from "@/store/delivery";
-import { Plus, Search } from "lucide-react";
-import React from "react";
-import { usePaymentStore } from "@/store/payment";
-
-import { PageLoadingSpin } from "@/app/components/LoadingData";
+import React, { useState } from "react";
 import useTrolleyStore from "@/store/trolley";
 import { EmptyData } from "@/app/components/PageErrorData";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
+import { Plus, Search } from "lucide-react";
+import { useDeliveryStore } from "@/store/delivery";
+import { usePaymentStore } from "@/store/payment";
 import { useProductStore } from "@/store/product";
 import {
     DeliveryActionItem,
@@ -15,10 +14,13 @@ import {
     ProductOrderDialog,
     ProductSelectedList
 } from "@/app/components/order/order.page";
-//
+import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
+import { TDeliveryDB } from "@/interface/entity/delivery.model";
+import { TPaymentDB } from "@/interface/entity/payment.model";
+import { redirect } from "next/navigation";
 
 export function DeliveryActionDialog() {
-    const { setDelivery, delivery, getDeliveryData } = useDeliveryStore()
+    const { setDelivery, delivery } = useDeliveryStore()
     return (
         <div className="">
             <div className=" mb-2">
@@ -28,10 +30,10 @@ export function DeliveryActionDialog() {
                 <div className="">
                     <div className="space-y-2">
                         { !delivery
-                            ? <DeliveryFormActionDialog />
+                            ? <DeliveryFormButtonDialog />
                             : <DeliveryActionItem
                                 key={ delivery.id }
-                                delivery={ delivery }
+                                delivery={ delivery as TDeliveryDB }
                                 onClick={ () => setDelivery(null) }
                             />
                         }
@@ -47,7 +49,7 @@ export function DeliveryFormActionDialog() {
     return (
         <button
             type="button"
-            className="btn join-item "
+            className="btn join-item btn-neutral"
             onClick={ async () => {
                 await getDeliveryData()
                 // @ts-ignore
@@ -59,11 +61,27 @@ export function DeliveryFormActionDialog() {
     )
 }
 
+export function DeliveryFormButtonDialog() {
+    const { getDeliveryData } = useDeliveryStore()
+    return (
+        <button
+            className="btn btn-neutral w-full"
+            type={ 'button' }
+            onClick={ async () => {
+                await getDeliveryData()
+                // @ts-ignore
+                document.getElementById('my_modal_delivery').showModal()
+            } }
+        >
+            Please Add Delivery <Plus />
+        </button>
+    )
+}
 export function DeliveryShowLoadDialog() {
     const { setDelivery, deliveryData, setSearch, search, isLoading } = useDeliveryStore()
 
     return (
-        <dialog id="my_modal_delivery" className="modal">
+        <dialog id="my_modal_delivery" className="modal modal-bottom sm:modal-middle">
             <div className="modal-box">
                 <h3 className="font-bold text-lg">Please Add</h3>
                 { isLoading
@@ -74,7 +92,7 @@ export function DeliveryShowLoadDialog() {
                             <div className="flex justify-between py-4">
                                 <input
                                     className={ 'input input-bordered w-full' }
-                                    type="text"
+                                    type="search"
                                     onChange={ (e) => setSearch(e.target.value) }
                                     value={ search }
                                     placeholder="Search..."
@@ -114,45 +132,52 @@ export function DeliveryShowLoadDialog() {
 //
 
 export function PaymentActionDialog() {
-    const { getPaymentData, setPayment, payment } = usePaymentStore()
+    const { setPayment, payment } = usePaymentStore()
 
-    return <div className="">
-        <div className="mb-2">
-            <h1 className="card-title">Payment</h1>
-        </div>
-        <div className=" mt-2">
-            <div className="">
-                <div className="space-y-2">
-                    { !payment
-                        ? <>
-                            <button className="btn btn-neutral w-full"
-                                    onClick={ async () => {
-                                        await getPaymentData()
-                                        // @ts-ignore
-                                        document.getElementById('my_modal_payment').showModal()
-                                    } }
-                            >
-                                Please Add Payment <Plus />
-                            </button>
-                        </>
-                        : (
-                            <PaymentActionItem
-                                payment={ payment }
+    return (
+        <div className="">
+            <div className="mb-2">
+                <h1 className="card-title">Payment</h1>
+            </div>
+            <div className=" mt-2">
+                <div className="">
+                    <div className="space-y-2">
+                        { !payment
+                            ? <PaymentActionButtonDialog />
+                            : <PaymentActionItem
+                                payment={ payment as TPaymentDB }
                                 onDeleteAction={ () => setPayment(null) }
                             />
-                        )
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    )
+}
 
+function PaymentActionButtonDialog() {
+    const getPaymentData = usePaymentStore(state => state.getPaymentData)
+
+    return (
+        <button
+            className="btn btn-neutral w-full"
+            type={ 'button' }
+            onClick={ async () => {
+                await getPaymentData()
+                // @ts-ignore
+                document.getElementById('my_modal_payment').showModal()
+            } }
+        >
+            Please Add Payment <Plus />
+        </button>
+    );
 }
 
 export function PaymentFormActionDialog() {
     const { getPaymentData } = usePaymentStore()
 
-    return <button className="btn join-item"
+    return <button className="btn join-item btn-neutral"
                    type={ 'button' }
                    onClick={ async () => {
                        await getPaymentData()
@@ -168,13 +193,13 @@ export function PaymentShowLoadDialog() {
     const { setSearch, setPayment, paymentData, search, } = usePaymentStore()
 
     return (
-        <dialog id="my_modal_payment" className="modal">
+        <dialog id="my_modal_payment" className="modal modal-bottom sm:modal-middle">
             <div className="modal-box">
                 <h3 className="font-bold text-lg">Please Select Payment Methods</h3>
                 {/*<p className="py-4">Press ESC key or click the button below to close</p>*/ }
                 <input
                     className={ 'input input-bordered w-full' }
-                    type="text"
+                    type="search"
                     onChange={ (e) => {
                         setSearch(e.target.value)
                     } }
@@ -214,6 +239,10 @@ export function PaymentShowLoadDialog() {
 export function ProductActionDialogUser() {
     const { onIncrement, onDecrement, onRemove, setQty, onSelected } = useTrolleyStore();
 
+    if (onSelected.length === 0) {
+        redirect('/trolley')
+    }
+
     return (
         <div className="">
             <div className="px-2 mb-2">
@@ -248,16 +277,30 @@ export function ProductShowDialog() {
         idProduct,
         setProduct,
     } = useProductStore()
-
+    const [ search, setSearch ] = useState<string>('')
     return (
-        <dialog id="my_modal_product" className="modal">
-            <div className="modal-box">
-                <h3 className="font-bold text-lg">Please Select The Product</h3>
-                <div className="space-y-2">
+        <dialog id="my_modal_product" className="modal modal-bottom sm:modal-middle">
+            <div className="modal-box ">
+                <div className="space-y-2 mb-2">
+                    <div className="flex justify-between items-center ">
+                        <h3 className="font-bold text-lg">Please Select The Product</h3>
+                        <form method="dialog">
+                            <button className="btn btn-square btn-neutral btn-sm"><CloseIcon /></button>
+                        </form>
+                    </div>
+                    <input type="search"
+                           placeholder="Search..."
+                           className={ 'input input-bordered  input-sm w-full' }
+                           onChange={ (e) => setSearch(e.target.value) }
+                           value={ search }
+                    />
+                </div>
+                <div className="space-y-2 overflow-auto h-[76vh]">
                     { isLoading
                         ? <PageLoadingSpin />
                         : productAsync
                         .filter(product => !idProduct.includes(product.id))
+                        .filter(product => product.name.toLowerCase().includes(search.toLowerCase()))
                         .map(product => (
                             <ProductOrderDialog
                                 key={ product.id }
@@ -266,12 +309,11 @@ export function ProductShowDialog() {
                             />
                         )) }
                 </div>
-                <div className="modal-action">
-                    <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */ }
-                        <button className="btn">Close</button>
-                    </form>
-                </div>
+                {/*<div className="modal-action">*/ }
+                {/*    <form method="dialog">*/ }
+                {/*        <button className="btn">Close</button>*/ }
+                {/*    </form>*/ }
+                {/*</div>*/ }
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
@@ -291,7 +333,7 @@ export function ProductActionDialogAdmin() {
     } = useProductStore()
     return (
         <div>
-            <div className={ 'card-title' }>Product</div>
+            <h1 className={ 'card-title' }>Product</h1>
             <div className=" mt-2">
                 <div className="space-y-2">
                     { !productStore

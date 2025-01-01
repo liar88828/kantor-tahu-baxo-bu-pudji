@@ -22,6 +22,7 @@ export const orderUpdate = (data: TOrderTransactionCreate, id: string) => toFetc
 
 export const orderAll = ({ filter, pagination }: OrderParams) => {
     const url = toUrl('order', { ...filter, ...pagination })
+    console.log('is fetch...')
     return toFetch<ResponseAll<TOrderTransactionDB>>('GET', { url })
 }
 

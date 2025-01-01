@@ -1,5 +1,10 @@
+import toast from "react-hot-toast";
+import { ResponseAll } from "@/interface/server/param";
+import { TProductDB } from "@/interface/entity/product.model";
+import { TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { Users } from "@prisma/client";
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import {
     pushTrolley,
     removeTrolley,
@@ -9,13 +14,6 @@ import {
     trolleyId,
     trolleyIncrement
 } from "@/network/trolley";
-import toast from "react-hot-toast";
-import { TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
-import { TProductDB } from "@/interface/entity/product.model";
-import { useState } from "react";
-import { ResponseAll } from "@/interface/server/param";
-
-// export const TROLLEY_KEY = 'trolley'
 
 export enum TROLLEY_KEYS {
     trolley = "trolley",
@@ -42,7 +40,7 @@ export const useTrolley = () => {
     const GetAll = () => {
         return useQuery({
             queryKey: [ TROLLEY_KEYS.trolley ],
-            queryFn: () => trolleyAll(),
+            queryFn: trolleyAll,
             select: (context) => {
                 if (context) {
                     return {
@@ -87,16 +85,21 @@ export const useTrolley = () => {
     }
     const push = useMutation({
         onMutate: () => {
-            return { toast: toast.loading('Loading...') }
+            return {
+                toast: toast.loading('Loading...',
+                    { position: 'top-left' })
+            }
         },
         mutationFn: async (product: TProductDB) => {
             return pushTrolley({ id: product.id, price: product.price, qty: counter })
         },
         onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message,
+                { position: 'top-left' })
         },
-        onSuccess: async (data,) => {
-            toast.success('Success Push Data ',)
+        onSuccess: async () => {
+            toast.success('Success Push Data ',
+                { position: 'top-left' })
             await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
             await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
         },
@@ -117,7 +120,7 @@ export const useTrolley = () => {
             toast.error(`Error on : increment id ${ variables.idTrolley }`);
         },
         onSuccess: (data, variables,) => {
-            toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+            toast.success(`Success on : increment id ${ variables.idTrolley }`);
             // noinspection JSIgnoredPromiseFromCall
             queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
             // noinspection JSIgnoredPromiseFromCall
@@ -133,7 +136,7 @@ export const useTrolley = () => {
             queryClient.setQueryData([ TROLLEY_KEYS.trolley ], context.previousTodos)
         },
         onSuccess: (data, variables, context) => {
-            toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+            toast.success(`Success on : increment id ${ variables.idTrolley }`);
         },
         onMutate: async (context) => {
             // console.log(context)
@@ -179,7 +182,7 @@ export const useTrolley = () => {
             toast.error(`Error on : increment id ${ variables.idTrolley }`);
         },
         onSuccess: (data, variables) => {
-            toast.success(`Success on : increment id ${ variables.idTrolley }`, { position: 'top-right' });
+            toast.success(`Success on : increment id ${ variables.idTrolley }`);
         },
         onSettled: () => {
             // noinspection JSIgnoredPromiseFromCall
@@ -191,8 +194,14 @@ export const useTrolley = () => {
     const Count = () => {
         return useQuery({
             queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ],
-            queryFn: () => trolleyCount(),
-            select: (response) => response.data
+            queryFn: trolleyCount,
+            select: (response): number => {
+                if (response) {
+                    return response.data
+
+                }
+                return 0;
+            }
         })
     }
 

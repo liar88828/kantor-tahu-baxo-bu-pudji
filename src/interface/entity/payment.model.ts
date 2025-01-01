@@ -8,3 +8,7 @@ export type TPaymentSearch = {
 	type?: string,
 	name?: string
 };
+
+export enum PAYMENT {
+    KEY = 'payment',
+}

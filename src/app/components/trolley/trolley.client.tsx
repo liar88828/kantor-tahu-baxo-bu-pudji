@@ -7,19 +7,11 @@ import { toTotal } from "@/utils/toCalculate";
 import { useRouter } from "next/navigation";
 import { useTrolley } from "@/hook/useTrolley";
 
-export function TrolleyCount() {
-    const { count } = useTrolley()
-    const { data, isLoading } = count()
-    if (isLoading) return <PageLoadingSpin />
-    return (
-        <span className="badge badge-sm indicator-item badge-neutral">{ data }</span>
-    );
-}
-
 export function TrolleyCase() {
     const router = useRouter()
     const { getAll } = useTrolley()
     const { data, isError, isLoading } = getAll()
+
     if (isLoading || !data) return <PageLoadingSpin />
     if (isError) return <PageErrorData code={ 401 } msg={ 'Data is Not Found' } />
 
@@ -35,6 +27,8 @@ export function TrolleyCase() {
 export function TrolleyCheckoutCaseUser() {
     const router = useRouter()
     const { onSelected, onTotalProduct } = useTrolleyStore()
+    // console.log('TrolleyCheckoutCaseUser : ',onSelected)
+
     const onCheckout = () => {
         if (onSelected) {
             router.push('/checkout')
@@ -51,14 +45,14 @@ export function TrolleyCheckoutCaseUser() {
 }
 
 export function TrolleyClientUser() {
-    const { setSelected, isTrolleyIncluded, onIncrement, onDecrement } = useTrolleyStore()
+    const { setSelected, isTrolleyIncluded, onIncrement, onDecrement, onSelected } = useTrolleyStore()
     const { getAll, increment, decrement, remove, } = useTrolley()
     const { data: stateTrolley, isError, isFetching } = getAll()
 
     if (isFetching) return <LoadingDataList />
     if (!stateTrolley || isError) return <PageErrorData />
     if (stateTrolley.data.length === 0) return <PageEmptyData page={ 'Trolley' } />
-
+    console.log(onSelected)
     return stateTrolley.data.map((trolley) => (
             <TrolleyCardPageUser
                 key={ trolley.id }

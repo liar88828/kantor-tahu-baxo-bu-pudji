@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { PaymentListClientAdmin, PaymentSearchClientAdmin } from "@/app/components/payment/payment.client";
+import { PageLoadingSpin } from "@/app/components/LoadingData";
 
 export default function page() {
     return (
-        <PaymentSearchClientAdmin>
-            <PaymentListClientAdmin />
-        </PaymentSearchClientAdmin>
+        <Suspense fallback={ <PageLoadingSpin /> }>
+            <PaymentSearchClientAdmin>
+                <PaymentListClientAdmin />
+            </PaymentSearchClientAdmin>
+        </Suspense>
     )
 }

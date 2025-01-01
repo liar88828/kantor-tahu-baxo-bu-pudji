@@ -1,15 +1,13 @@
 'use client'
 import React, { useEffect } from "react";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { FormOrderProps, orderCreateClient, OrderCreateClient } from "@/validation/order.valid";
+import { FormOrderProps, OrderCreateAdmin, orderCreateAdmin } from "@/validation/order.valid";
+import { FormProvider, useForm, useFormContext, UseFormReturn } from "react-hook-form";
+import { ReceiverFormClientAdmin } from "@/app/components/order/order.client";
 import { useDeliveryStore } from "@/store/delivery";
 import { useOrder } from "@/hook/useOrder";
-import { useOrderStore } from "@/store/order";
 import { usePaymentStore } from "@/store/payment";
 import { useProductStore } from "@/store/product";
-import { useReceiverStore } from "@/store/receiver";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReceiverForm } from "@/app/components/order/order.client";
 import {
     DeliveryFormActionDialog,
     DeliveryShowLoadDialog,
@@ -19,51 +17,35 @@ import {
     ProductShowDialog
 } from "@/app/components/order/order.dialog";
 
-export function OrderFormUpdate({ data, orderRes, id_customer }: FormOrderProps) {
-    const { total: totalProduct, setProductStore } = useProductStore()
-    const { setDelivery } = useDeliveryStore()
-    const { setPartialReceiver } = useReceiverStore()
-    const { setPayment } = usePaymentStore()
-    const { total } = useOrderStore()
-    const { onUpsert } = useOrder()
+export function OrderFormUpsertAdmin({ defaultValue, idCustomer, method }: FormOrderProps) {
+    const { onUpsertAdmin } = useOrder()
 
-    const methods = useForm<OrderCreateClient>({
-        defaultValues: data,
-        resolver: zodResolver(orderCreateClient),
+    const methods = useForm<OrderCreateAdmin>({
+        defaultValues: defaultValue,
+        resolver: zodResolver(orderCreateAdmin),
     });
 
-    const onSubmit = (formData: OrderCreateClient) => {
-        data.totalProduct = totalProduct
-        data.totalAll = total
-        onUpsert.mutate({ data: formData, method: 'PUT', id: data.id })
+    const onSubmit = (formData: OrderCreateAdmin) => {
+        onUpsertAdmin.mutate({ data: formData, method: method, id: defaultValue?.id })
     };
-
-    useEffect(() => {
-        setProductStore(orderRes.Trolleys.map(d => d))
-        setPartialReceiver(orderRes.Customers)
-        setPayment(orderRes.Payments)
-        setDelivery(orderRes.Deliverys)
-    }, [ orderRes.Customers, orderRes.Deliverys, orderRes.Payments, orderRes.Trolleys, setDelivery, setPayment, setProductStore, setPartialReceiver ])
 
     return (
         <>
             <FormProvider { ...methods }>
                 <form
                     onSubmit={ methods.handleSubmit(onSubmit) }
-                    className=" grid grid-cols-1 sm:grid-cols-2 gap-5 px-2 pb-20"
+                    className={ " grid grid-cols-1 sm:grid-cols-2 sm:gap-5 px-2 pb-20" }
                 >
-                    <OrderFormContext isPending={ onUpsert.isPending } id_customer={ id_customer } />
-                    <div>
-                        <ReceiverForm />
+                    <OrderFormContext
+                        isPending={ onUpsertAdmin.isPending }
+                        idCustomer={ idCustomer }
+                    />
+                    <div className="space-y-4 pb-2">
+                        <ReceiverFormClientAdmin />
                         <ProductActionDialogAdmin />
-                        <div className="form-control mt-4  visible sm:invisible">
-                            <button
-                                disabled={ onUpsert.isPending }
-                                type="submit" className="btn btn-primary"
-                            >
-                                Submit
-                            </button>
-                        </div>
+                        <OrderFormTotal
+                            isPending={ onUpsertAdmin.isPending }
+                        />
                     </div>
                 </form>
             </FormProvider>
@@ -74,53 +56,63 @@ export function OrderFormUpdate({ data, orderRes, id_customer }: FormOrderProps)
     )
 }
 
-export function OrderFormCreate({ id_customer }: Pick<FormOrderProps, 'id_customer'>) {
-    const { onUpsert } = useOrder()
-
-    const methods = useForm<OrderCreateClient>({
-        resolver: zodResolver(orderCreateClient)
-    });
-
-    const onSubmit = (data: OrderCreateClient) => {
-        onUpsert.mutate({ data: data, method: 'POST' })
-    };
-    // console.log(methods.formState.errors)
+export function OrderFormTotal({ isPending }: { isPending: boolean }) {
+    const { total: totalProductStore } = useProductStore()
+    const { register, formState: { errors } } = useFormContext<OrderCreateAdmin>()
     return (
         <>
-            <FormProvider { ...methods }>
-                <form
-                    onSubmit={ methods.handleSubmit(onSubmit) }
-                    className={ ' grid grid-cols-1 sm:grid-cols-2 gap-5 px-2 pb-20' }
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Total Product</span>
+                </label>
+                <input
+                    type="number"
+                    disabled={ true }
+                    value={ totalProductStore }
+                    { ...register("totalProduct",
+                        { valueAsNumber: true }) }
+                    className="input input-bordered"
+                />
+            </div>
+            { errors.totalProduct &&
+              <span className="text-error">{ errors.totalProduct.message }</span> }
+
+            <div className="form-control visible sm:invisible">
+                <label className="label">
+                    <span className="label-text">Total All</span>
+                </label>
+                <input
+                    type="number"
+                    disabled={ true }
+                    { ...register("totalAll",
+                        {
+                            valueAsNumber: true,
+                        }) }
+                    className="input input-bordered"
+                />
+            </div>
+            { errors.totalAll &&
+              <span className="text-error">{ errors.totalAll.message }</span> }
+
+            <div className="form-control mt-4  visible sm:invisible">
+                <button
+                    type="submit"
+                    disabled={ isPending }
+                    className="btn btn-primary"
                 >
-                    <OrderFormContext isPending={ onUpsert.isPending } id_customer={ id_customer } />
-                    <div className="space-y-4 pb-2">
-                        <ReceiverForm />
-                        <ProductActionDialogAdmin />
-                        <div className="form-control mt-4  visible sm:invisible">
-                            <button
-                                type="submit"
-                                disabled={ onUpsert.isPending }
-                                className="btn btn-primary"
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </FormProvider>
-            <DeliveryShowLoadDialog />
-            <PaymentShowLoadDialog />
-            <ProductShowDialog />
-        </ >
+                    Submit
+                </button>
+            </div>
+        </>
+
     );
 }
 
-export function OrderFormContext({ isPending, id_customer }: { id_customer: string, isPending: boolean }) {
+export function OrderFormContext({ isPending, idCustomer }: { idCustomer: string, isPending: boolean }) {
     const { total: totalProductStore } = useProductStore()
-    const { delivery: dataDelivery } = useDeliveryStore()
-    const { payment: dataPayment } = usePaymentStore()
-
-    const { register, formState: { errors }, setValue, getValues } = useFormContext<OrderCreateClient>()
+    const { delivery: dataDelivery, setDeliveryPartial } = useDeliveryStore()
+    const { payment: dataPayment, setPaymentPartial } = usePaymentStore()
+    const { register, formState: { errors }, setValue, getValues } = useFormContext<OrderCreateAdmin>()
 
     useEffect(() => {
         const [ priceDelivery, totalPayment ] = getValues([ 'priceDelivery', "totalPayment" ])
@@ -130,12 +122,13 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
             setValue('totalAll', totalAllCalculate)
         }
         if (dataDelivery) {
-            setValue('nameDelivery', dataDelivery.name)
-            setValue('phoneDelivery', dataDelivery.phone)
-            setValue('priceDelivery', dataDelivery.price)
+            setValue('nameDelivery', dataDelivery.name ?? '')
+            setValue('phoneDelivery', dataDelivery.phone ?? '')
+            setValue('priceDelivery', dataDelivery.price ?? 0)
         }
         if (dataPayment) {
-            setValue('namePayment', dataPayment.name)
+            setValue('namePayment', dataPayment.name ?? '')
+            // setValue('pricePayment', dataPayment.name ?? '')
         }
     }, [ dataPayment, dataDelivery, getValues, setValue, totalProductStore ])
 // console.log(id_customer)
@@ -144,7 +137,7 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
             <h2 className="text-xl font-bold">Order Form</h2>
             <input
                 type="hidden"
-                value={ id_customer }
+                value={ idCustomer }
                 { ...register("id_customer") }
             />
 
@@ -178,32 +171,6 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
             </div>
             { errors.sendTime && <span className="text-error">{ errors.sendTime.message }</span> }
 
-            {/* Address */ }
-            <div className="form-control">
-                <label className="label">
-                    <span className="label-text">Address</span>
-                </label>
-                <textarea
-                    { ...register("addressCs", {
-                        required: "Address is required"
-                    }) }
-                    className="textarea textarea-bordered"
-                ></textarea>
-            </div>
-            { errors.addressCs && <span className="text-error">{ errors.addressCs.message }</span> }
-
-            {/* Description */ }
-            <div className="form-control">
-                <label className="label">
-                    <span className="label-text">Description</span>
-                </label>
-                <textarea
-                    { ...register("desc") }
-                    className="textarea textarea-bordered"
-                ></textarea>
-            </div>
-            { errors.desc && <span className="text-error">{ errors.desc.message }</span> }
-
             {/* Delivery */ }
             <div className="form-control">
                 <label className="label">
@@ -211,8 +178,13 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
                 </label>
                 <div className="join w-full">
                     <input
+                        disabled={ true }
                         type="text"
-                        { ...register("nameDelivery") }
+                        { ...register("nameDelivery", {
+                            onChange: (e) => {
+                                setDeliveryPartial({ name: e.target.value })
+                            }
+                        }) }
                         className="input input-bordered join-item w-full"
                     />
                     <DeliveryFormActionDialog />
@@ -226,7 +198,12 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
                 </label>
                 <input
                     type="text"
-                    { ...register("phoneDelivery",) }
+                    { ...register("phoneDelivery", {
+                            onChange: (e) => {
+                                setDeliveryPartial({ phone: e.target.value })
+                            }
+                        }
+                    ) }
                     className="input input-bordered"
                 />
             </div>
@@ -242,10 +219,12 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
                         {
                             valueAsNumber: true,
                             onChange: (e) => {
+                                let priceDelivery = Number(e.target.value);
 
-                                const [ totalPayment, totalProduct ] = getValues([ 'totalPayment', "totalProduct" ])
-                                const totalAllCalculate = Number(e.target.value) + totalPayment + totalProduct
-                                if (!isNaN(totalAllCalculate)) {
+                                if (!isNaN(priceDelivery)) {
+                                    setDeliveryPartial({ price: priceDelivery })
+                                    const [ totalPayment, totalProduct ] = getValues([ 'totalPayment', "totalProduct" ])
+                                    const totalAllCalculate = priceDelivery + totalPayment + totalProduct
                                     setValue('totalAll', totalAllCalculate)
                                     // setValue('totalProduct', totalProductStore)
                                 }
@@ -268,8 +247,13 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
                 </label>
                 <div className="join w-full">
                     <input
+                        disabled={ true }
                         type="text"
-                        { ...register("namePayment") }
+                        { ...register("namePayment", {
+                            onChange: (e) => {
+                                setPaymentPartial({ name: e.target.value })
+                            }
+                        }) }
                         className="input input-bordered join-item w-full"
                     />
                     <PaymentFormActionDialog />
@@ -306,7 +290,7 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
             { errors.totalPayment && <span className="text-error">{ errors.totalPayment.message }</span> }
 
             {/* Product */ }
-            <div className="form-control">
+            <div className="form-control hidden sm:block ">
                 <label className="label">
                     <span className="label-text">Total Product</span>
                 </label>
@@ -321,12 +305,13 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
             </div>
             { errors.totalProduct && <span className="text-error">{ errors.totalProduct.message }</span> }
 
-            <div className="form-control">
+            <div className="form-control hidden sm:block ">
                 <label className="label">
                     <span className="label-text">Total All</span>
                 </label>
                 <input
                     type="number"
+                    disabled={ true }
                     { ...register("totalAll",
                         {
                             valueAsNumber: true,
@@ -350,15 +335,51 @@ export function OrderFormContext({ isPending, id_customer }: { id_customer: stri
             { errors.status && <span className="text-error">{ errors.status.message }</span> }
 
             {/* Submit Button */ }
-            <div className="form-control mt-4 invisible sm:visible">
+            <div className="form-control mt-4 ">
                 <button
                     disabled={ isPending }
-                    type="submit" className="btn btn-primary"
+                    type="submit" className="btn btn-primary hidden sm:block"
                 >
                     Submit
                 </button>
             </div>
         </div>
-
     );
+}
+
+export function OrderFormPagexxxx(props: {
+    idCustomer: string
+    isPending: boolean
+    methods: UseFormReturn<OrderCreateAdmin>,
+    onSubmit: (data: OrderCreateAdmin) => void
+}) {
+    return <>
+        <FormProvider { ...props.methods }>
+            <form
+                onSubmit={ props.methods.handleSubmit(props.onSubmit) }
+                className={ " grid grid-cols-1 sm:grid-cols-2 gap-5 px-2 pb-20" }
+            >
+                <OrderFormContext
+                    isPending={ props.isPending }
+                    idCustomer={ props.idCustomer }
+                />
+                <div className="space-y-4 pb-2">
+                    <ReceiverFormClientAdmin />
+                    <ProductActionDialogAdmin />
+                    <div className="form-control mt-4  visible sm:invisible">
+                        <button
+                            type="submit"
+                            disabled={ props.isPending }
+                            className="btn btn-primary"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </FormProvider>
+        <DeliveryShowLoadDialog />
+        <PaymentShowLoadDialog />
+        <ProductShowDialog />
+    </>;
 }

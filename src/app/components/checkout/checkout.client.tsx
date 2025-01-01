@@ -1,10 +1,9 @@
 'use client'
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useTrolleyStore from "@/store/trolley";
 import { OrderCreateClient } from "@/validation/order.valid";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { ReceiverItemSelected } from "@/app/components/order/order.page";
-import { redirect } from "next/navigation";
 import { toRupiah } from "@/utils/toRupiah";
 import { useDeliveryStore } from "@/store/delivery";
 import { useOrder } from "@/hook/useOrder";
@@ -13,7 +12,9 @@ import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
 import {
     DeliveryActionDialog,
+    DeliveryShowLoadDialog,
     PaymentActionDialog,
+    PaymentShowLoadDialog,
     ProductActionDialogUser
 } from "@/app/components/order/order.dialog";
 import { useQuery } from "@tanstack/react-query";
@@ -21,11 +22,6 @@ import { ORDER } from "@/interface/entity/order.model";
 import { receiverUser } from "@/network/receiver";
 
 export function CheckoutClientUser() {
-    const { onSelected } = useTrolleyStore();
-
-    if (onSelected.length === 0) {
-        redirect('/trolley')
-    }
 
     return (
         <>
@@ -34,23 +30,27 @@ export function CheckoutClientUser() {
             <DeliveryActionDialog />
             <PaymentActionDialog />
             <CheckoutTotalClient />
+            {/**/ }
+            <PaymentShowLoadDialog />
+            <DeliveryShowLoadDialog />
         </ >
     );
 }
 
 export function CheckoutProfileClient() {
-    const { setPartialReceiver, onReceiver } = useReceiverStore();
-
-    const { isFetching } = useQuery({
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60,
+    const { setReceiverPartial, onReceiver } = useReceiverStore();
+    const { isFetching, data } = useQuery({
         queryKey: [ ORDER, 'receiver' ],
         queryFn: receiverUser,
         select: (data) => {
-            setPartialReceiver(data.data)
+            return data.data
         }
     })
-
+    useEffect(() => {
+        if (data && !onReceiver) {
+            setReceiverPartial(data)
+        }
+    }, [ data, onReceiver, setReceiverPartial ])
     return (
         <div className="">
             <div className="px-2 mb-2">
@@ -59,9 +59,9 @@ export function CheckoutProfileClient() {
                 </div>
             </div>
             <div className="rounded-xl bg-base-200">
-                { !onReceiver || isFetching
+                { !data || isFetching
                     ? <PageLoadingSpin />
-                    : <ReceiverItemSelected onReceiver={ onReceiver } />
+                    : <ReceiverItemSelected onReceiver={ data } />
                 }
             </div>
         </div>
@@ -69,7 +69,7 @@ export function CheckoutProfileClient() {
 }
 
 export function CheckoutTotalClient() {
-    const { onUpsert } = useOrder()
+    const { onUpsertUser } = useOrder()
     const { receiver } = useReceiverStore()
     const { onSelected } = useTrolleyStore();
     const { total: totalProduct, setProductStore } = useProductStore()
@@ -93,21 +93,24 @@ export function CheckoutTotalClient() {
             id_customer: receiver.id ?? '',
             addressCs: receiver.address,
             desc: desc,
-            nameDelivery: dataDelivery.name,
-            phoneDelivery: dataDelivery.phone,
-            priceDelivery: dataDelivery.price,
+            //
+            nameDelivery: dataDelivery.name ?? '',
+            phoneDelivery: dataDelivery.phone ?? '',
+            priceDelivery: 0,
+            //
             orderTime: new Date(),
             sendTime: new Date(),
             status: "Pending",
-            namePayment: dataPayment.name,
+            //
+            namePayment: dataPayment.name ?? '',
             totalPayment: 0,
+            //
             totalProduct,
-            totalAll: subtotal() + dataDelivery.price,
+            totalAll: subtotal(),
         }
-        onUpsert.mutate({
+        onUpsertUser.mutate({
             data,
             method: "POST",
-            isClient: true
         })
     };
 
@@ -125,21 +128,23 @@ export function CheckoutTotalClient() {
             <div>
                 <h2 className="text-lg font-semibold">Summary</h2>
                 <div className="mt-3 space-y-2">
-                    <div className="flex justify-between">
-                        <span>Subtotal</span>
-                        <span>{ toRupiah(subtotal()) }</span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span>Delivery Fee</span>
-                        <span>{ toRupiah(dataDelivery?.price ?? 0) }</span>
-                    </div>
+                    {/*<div className="flex justify-between">*/ }
+                    {/*    <span>Subtotal</span>*/ }
+                    {/*    <span>{ toRupiah(subtotal()) }</span>*/ }
+                    {/*</div>*/ }
+                    {/*<div className="flex justify-between">*/ }
+                    {/*    <span>Delivery Fee</span>*/ }
+                    {/*    <span>{ toRupiah(dataDelivery?.price ?? 0) }</span>*/ }
+                    {/*</div>*/ }
                     <div className="flex justify-between font-bold">
                         <span>Total</span>
-                        <span>{ toRupiah(subtotal() + ( dataDelivery?.price ?? 0 )) }</span>
+                        <span>{ toRupiah(subtotal()
+                            // + ( dataDelivery?.price ?? 0 )
+                        ) }</span>
                     </div>
                 </div>
                 <button
-                    disabled={ onUpsert.isPending }
+                    disabled={ onUpsertUser.isPending }
                     className="mt-5 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={ onSubmit }
                 >

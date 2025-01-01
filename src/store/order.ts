@@ -5,9 +5,9 @@ import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { OrderCreateClient } from "@/validation/order.valid";
 
-export type DataOrder = {
-    payment: TPaymentDB,
-    delivery: TDeliveryDB,
+export type OrderFormAdmin = {
+    payment: TPaymentDB | Partial<TPaymentDB> | null,
+    delivery: TDeliveryDB | Partial<TDeliveryDB> | null,
     product: TTrolleyProductUser[],
     order: OrderCreateClient,
     receiver: TReceiverCreate & { id: string },
@@ -54,7 +54,7 @@ export const useOrderStore = create<OrderType>((set, get) => ( {
     } )),
 
     reset: () => set(initialState),
-    setProduct: (data: DataOrder['product']) => {
+    setProduct: (data: OrderFormAdmin['product']) => {
     },
     setTotal: ({ totalProduct, pricePayment, priceDelivery }) => {
         set(() => {
