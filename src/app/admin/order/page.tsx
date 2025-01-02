@@ -6,14 +6,27 @@ import { orderAll } from "@/network/order";
 
 export default async function Page() {
     const queryClient = new QueryClient();
-    await queryClient.prefetchQuery({
+    await queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
         queryKey: [ ORDER.KEY, '', '' ],
-        queryFn: () => orderAll({
-            filter: { name: "", status: "" },
-            pagination: {
-                limit: 10
-            }
-        }),
+        queryFn: async (context) => {
+            const { data } = await orderAll({
+                pagination: {
+                    page: context.pageParam,
+                    limit: 20,
+                },
+                filter: {
+                    name: '',
+                    status: '',
+                    // type: filter.type
+                }
+            })
+
+            return {
+                data: data.data,
+                nextCursor: data.page,
+            };
+        },
     });
 
     return (

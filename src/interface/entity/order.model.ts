@@ -23,10 +23,11 @@ export type SearchOrder = {
     dateRange?: { start: Date; end: Date };
     productId?: string;
 };
-
-export type OrderParams = ParamsApi<{ name: string, status: string }>
+export type OrderFilter = { name: string, status: string }
+export type OrderParams = ParamsApi<OrderFilter>
 export type ResponseCreateOrderTransaction = { order: Orders, orderCustomers: Customers, orderProduct: any };
 
 export enum ORDER {
     KEY = "order",
+    HISTORY = "history",
 }

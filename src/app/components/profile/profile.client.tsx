@@ -16,6 +16,7 @@ import { useOrder } from "@/hook/useOrder";
 import { useOrderStore } from "@/store/order";
 import { useQuery } from "@tanstack/react-query";
 import { useTrolley } from "@/hook/useTrolley";
+import { ORDER } from "@/interface/entity/order.model";
 
 export function ProfileTrolleyCountClientUser() {
 
@@ -63,7 +64,8 @@ export function ProfileStatusClient({ statusOrder, children }: {
 export function ProfileOrderHistoryUser() {
     const status = useOrderStore(state => state.status)
     const { data: invoices, isError, isLoading, error } = useQuery({
-        queryKey: [ 'Order', 'history', status ],
+        queryKey: [ ORDER.KEY, ORDER.HISTORY, status ],
+
         queryFn: () => findHistoryUser(status),
         select: (response) => response.data
     })

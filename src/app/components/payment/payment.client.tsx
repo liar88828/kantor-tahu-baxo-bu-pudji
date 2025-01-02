@@ -2,18 +2,19 @@
 import Link from "next/link";
 import React from "react";
 import usePayment from "@/hook/usePayment";
-import { PageErrorData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { PaymentCardPageAdmin } from "@/app/components/payment/payment.page";
 import { PaymentCreate } from "@/validation/payment.valid";
 import { Plus } from "lucide-react";
-import { ResponseAll, TReactFormHookComponent } from "@/interface/server/param";
-import { PAYMENT, TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
+import { PaginatedResponse, TReactFormHookComponent } from "@/interface/server/param";
+import { PAYMENT, TPaymentCreate } from "@/interface/entity/payment.model";
 import { useDebounce } from "@/hook/useDebounce";
 import { useForm } from "react-hook-form";
 import { usePaymentStore } from "@/store/payment";
-import { useQueryClient } from "@tanstack/react-query";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TProductDB } from "@/interface/entity/product.model";
 
 export function PaymentFormClientAdmin({ defaultValues, method, id, }: TReactFormHookComponent<TPaymentCreate>) {
     const { onUpsert } = usePayment()
@@ -130,30 +131,48 @@ export function PaymentFormClientAdmin({ defaultValues, method, id, }: TReactFor
 }
 
 export function PaymentListClientAdmin() {
-    const { onDelete, onGet } = usePayment()
-    const { search } = usePaymentStore();
-    const searchDebounce = useDebounce({ value: search })
-    const { payments, isError, isFetching } = onGet(searchDebounce, search);
-    if (isFetching || !payments) return <PageLoadingSpin />
-    if (payments.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Payment is Empty' } />
+    const { onDelete, onGet, usePaymentInfiniteQuery } = usePayment()
+    const { filter } = usePaymentStore();
+    const nameDebounce = useDebounce({ value: filter.name })
+    // console.log(nameDebounce)
+    const {
+        data,
+        error,
+        isError,
+        isFetching,
+        isLoading,
+        status,
+        targetTrigger,
+    } = usePaymentInfiniteQuery(nameDebounce, filter);
+
+    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'error' || isError || error) return <PageEmptyData page={ 'Payment User' } />
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2  2xl:grid-cols-3 gap-2 mb-20 ">
-            { payments.map(payment => (
-                <PaymentCardPageAdmin
-                    key={ payment.id }
-                    payment={ payment }
-                    onDeleteAction={ () => onDelete(payment.id) }
-                />
-            )) }
-        </div>
+        <>
+            <div
+                className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2  2xl:grid-cols-3 gap-2 mb-20 "
+            >
+                { data.pages.map(page => (
+                    page.data.map(payment => (
+                        <PaymentCardPageAdmin
+                            key={ payment.id }
+                            payment={ payment }
+                            onDeleteAction={ () => onDelete(payment.id) }
+                        />
+                    ))
+                )) }
+            </div>
+            { targetTrigger }
+        </>
     )
 }
 
 export function PaymentSearchClientAdmin({ children }: { children: React.ReactNode }) {
-    const { search, setSearch } = usePaymentStore();
+    const { filter, setFilter } = usePaymentStore();
     const queryClient = useQueryClient();
-    const payments = queryClient.getQueryData<{ data: ResponseAll<TPaymentDB> }>([ PAYMENT.KEY, '' ])
+    const payments = queryClient.getQueryData <InfiniteData<PaginatedResponse<TProductDB>>>([ PAYMENT.KEY, '' ])
+    // console.log(payments?.pages.map((data) => data.data))
     return (
         <>
             <div className="flex justify-between mb-4 gap-3">
@@ -161,13 +180,14 @@ export function PaymentSearchClientAdmin({ children }: { children: React.ReactNo
                     type="text"
                     className='input input-bordered w-full'
                     placeholder='search...'
-                    onChange={ (e) => setSearch(e.target.value) }
-                    value={ search }
+                    onChange={ (e) => setFilter({ name: e.target.value }) }
+                    value={ filter.name }
                     list="payments"
                 />
 
                 <datalist id="payments">
-                    { payments?.data.data
+                    { payments?.pages
+                    .map((data) => data.data
                     .slice(0, 10)
                     .map((item) => (
                         <option
@@ -176,7 +196,7 @@ export function PaymentSearchClientAdmin({ children }: { children: React.ReactNo
                         >
                             { item.name }
                         </option>
-                    )) }
+                    ))) }
                 </datalist>
                 <Link href={ '/admin/payment/create' } className='btn btn-square'>
                     <Plus />

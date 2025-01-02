@@ -3,7 +3,7 @@ import { deliveryAll } from "@/network/delivery";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import toast from "react-hot-toast";
 
-interface DeliveryStore {
+export interface DeliveryStore {
     isLoading: boolean;
     deliveryData: TDeliveryDB[]
     delivery: TDeliveryDB | Partial<TDeliveryDB> | null

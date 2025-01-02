@@ -1,4 +1,5 @@
 import { Deliverys } from "@prisma/client";
+import { ParamsApi } from "@/interface/server/InterfaceRepository";
 
 export type TDeliveryDB = Deliverys
 export type TDeliveryCreate = Omit<Deliverys, 'id' | "created_at" | "updated_at">;
@@ -12,3 +13,5 @@ export type TDeliverySearch = {
 export enum DELIVERY {
     KEY = 'delivery'
 }
+
+export type DeliveryParams = ParamsApi<TDeliverySearch>

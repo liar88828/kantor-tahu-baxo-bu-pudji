@@ -1,12 +1,15 @@
+import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { ORDER, OrderParams } from "@/interface/entity/order.model";
+import { ORDER, OrderFilter, OrderParams } from "@/interface/entity/order.model";
 import { OrderCreateAdmin, OrderCreateClient } from "@/validation/order.valid";
+import { PaginatedResponse } from "@/interface/server/param";
 import { TMethod, TStatusOrder } from "@/interface/Utils";
+import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { orderAll, orderCreate, orderDelete, orderId, orderUpdate } from "@/network/order";
 import { orderTransactionSanitize } from "@/sanitize/orderSanitize";
 import { toFetch } from "@/hook/toFetch";
 import { useDeliveryStore } from "@/store/delivery";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { usePaymentStore } from "@/store/payment";
 import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
@@ -152,7 +155,7 @@ export function useOrder() {
     })
     //
     const GetOrderStatus = (status: TStatusOrder) => useQuery({
-        queryKey: [ ORDER, status ],
+        queryKey: [ ORDER.KEY, status ],
         queryFn: () => {
             return toFetch<number>('GET', {
                 url: `/order/count?status=${ status }`,
@@ -194,12 +197,111 @@ export function useOrder() {
     //     // })
     // }
 
+    const useOrderInfiniteQuery = (
+        debouncedSearch: OrderFilter,
+        filter: OrderFilter,
+    ) => {
+        const observerRef = useRef<HTMLDivElement | null>(null);
+        const {
+            data,
+            status,
+            error,
+            fetchNextPage,
+            hasNextPage,
+            isFetching,
+            isFetchingNextPage,
+            isLoading,
+            isError,
+        } = useInfiniteQuery<PaginatedResponse<TOrderTransactionDB>, Error>({
+            initialPageParam: 1,
+            // refetchOnMount: 'always',
+            // retryDelay: 5000,
+            staleTime: 1000 * 10,
+            gcTime: 1000 * 10,
+            enabled: debouncedSearch.name === filter.name && debouncedSearch.status === filter.status,
+            queryKey: [ ORDER.KEY, debouncedSearch.name, debouncedSearch.status ],
+            queryFn: async ({ pageParam }): Promise<PaginatedResponse<TOrderTransactionDB>> => {
+                // const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;
+                // console.log(url);
+                const { data } = await orderAll({
+                    pagination: {
+                        page: pageParam as number,
+                        limit: 20,
+                    },
+                    filter: {
+                        name: debouncedSearch.name,
+                        status: debouncedSearch.status,
+                        // type: filter.type
+                    }
+                })
+
+                return {
+                    data: data.data,
+                    nextCursor: data.page,
+                };
+            },
+
+            getNextPageParam: (lastPage) => {
+                if (lastPage.data.length === 0 || lastPage.nextCursor === 0) return undefined;
+                // console.log(lastPage.nextCursor)
+                return lastPage.nextCursor + 1;
+            },
+
+            getPreviousPageParam: (firstPage) => {
+                if (firstPage.nextCursor <= 1) return undefined;
+                return firstPage.nextCursor - 1;
+            },
+
+        });
+
+        useEffect(() => {
+            if (!hasNextPage) return;
+
+            const observer = new IntersectionObserver(
+                ([ entry ]) => {
+                    if (entry.isIntersecting) { // noinspection JSIgnoredPromiseFromCall
+                        fetchNextPage()
+                    }
+                },
+                { rootMargin: '200px' }
+            );
+
+            const observerRefCurrent = observerRef.current
+
+            if (observerRefCurrent) observer.observe(observerRefCurrent);
+
+            return () => {
+                if (observerRefCurrent) observer.unobserve(observerRefCurrent);
+            };
+        }, [ hasNextPage, fetchNextPage, observerRef ]);
+
+        const targetTrigger = <>
+            {/* Observer Target for Infinite Scroll */ }
+            <div ref={ observerRef } className="text-center py-4 text-gray-500">
+                { isFetchingNextPage
+                    ? 'Loading more...'
+                    : hasNextPage
+                        ? 'Scroll down to load more'
+                        : 'No more data to load' }
+            </div>
+            { isFetching && !isFetchingNextPage && <div>Fetching...</div> }
+        </>
+
+        return {
+            targetTrigger,
+            data, status, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,
+            isLoading,
+            isError,
+        };
+    };
+
     return {
         getOrderStatus: GetOrderStatus,
         onUpsertUser,
         onUpsertAdmin,
         getAll: GetAll,
         getId: GetId,
-        onDelete
+        onDelete,
+        useOrderInfiniteQuery
     }
 }

@@ -1,8 +1,6 @@
-import { TPaymentCreate, TPaymentSearch, } from "@/interface/entity/payment.model";
+import { PaymentParams, TPaymentCreate, } from "@/interface/entity/payment.model";
 import { prisma } from "@/config/prisma";
-import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
-
-export type PaymentParams = ParamsApi<TPaymentSearch>
+import { InterfaceRepository } from "@/interface/server/InterfaceRepository";
 
 export class PaymentRepository implements InterfaceRepository<TPaymentCreate> {
 

@@ -9,23 +9,34 @@ import { EMPLOYEE } from "@/interface/entity/employee.model";
 // export const dynamic = 'force-dynamic';
 
 export default async function page(context: TContext) {
-    const search = await getSearchName(context, 'search') ?? ''
+    const name = await getSearchName(context, 'search') ?? ''
     const status = await getSearchName(context, 'status') ?? ''
 
     const queryClient = new QueryClient();
-    await queryClient.prefetchQuery({
-        queryKey: [ EMPLOYEE.KEY, search ],
-        queryFn: () => employeeAll({
-            filter: { name: search, status },
-            pagination: { limit: 20 }
-        }),
+    await queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: [ EMPLOYEE.KEY, name, status ],
+        queryFn: async (context) => {
+            const { data } = await employeeAll({
+                filter: { name, status },
+                pagination: {
+                    limit: 20,
+                    page: context.pageParam,
+                }
+            })
+
+            return {
+                data: data.data,
+                nextCursor: data.page,
+            };
+        },
     })
 
     return (
-        <EmployeeSearchClientAdmin>
-            <HydrationBoundary state={ dehydrate(queryClient) }>
+        <HydrationBoundary state={ dehydrate(queryClient) }>
+            <EmployeeSearchClientAdmin>
                 <EmployeeTableClientAdmin />
-            </HydrationBoundary>
-        </EmployeeSearchClientAdmin>
+            </EmployeeSearchClientAdmin>
+        </HydrationBoundary>
     );
 }

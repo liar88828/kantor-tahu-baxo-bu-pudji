@@ -9,3 +9,12 @@ export type TTrolleyCount = Omit<TTrolleyDB, "id" | "id_order" | "id_user" | 'qt
 
 export type TrolleyId = Pick<TTrolleyDB, "id">
 export type TTrolleyProductUser = TOrderTrolleyTransaction & { Product: TProductDB }
+
+export enum TROLLEY {
+    KEY = "trolley",
+    COUNT = "count",
+    selected = "selected",
+    counter = "counter",
+    order = 'order'
+
+}

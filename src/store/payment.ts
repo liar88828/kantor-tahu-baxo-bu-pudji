@@ -3,23 +3,27 @@ import { TPaymentDB } from "@/interface/entity/payment.model";
 import { paymentAll } from "@/network/payment";
 import toast from "react-hot-toast";
 
-interface PaymentStore {
+export interface PaymentStore {
     paymentData: TPaymentDB[]
     payment: TPaymentDB | Partial<TPaymentDB> | null
-    search: string
     setPayment: (data: TPaymentDB | null) => void
     setPaymentPartial: (data: Partial<TPaymentDB>) => void
     getPaymentData: () => Promise<void>
-    setSearch: (search: string) => void
+    setFilter: (filter: PaymentStore['filter']) => void
     isLoading: boolean;
     reset: () => void
+    filter: {
+        name: string
+    }
 }
 
 const initialState = {
     isLoading: false,
     paymentData: [],
     payment: null,
-    search: '',
+    filter: {
+        name: ''
+    }
 }
 
 export const usePaymentStore = create<PaymentStore>((set, get) => ( {
@@ -52,5 +56,12 @@ export const usePaymentStore = create<PaymentStore>((set, get) => ( {
 
         }
     },
-    setSearch: (search) => set(( { search } ))
+    setFilter: (filter) => {
+        set((state) => ( {
+            filter: {
+                ...state.filter,
+                ...filter
+            }
+        } ))
+    }
 } ))

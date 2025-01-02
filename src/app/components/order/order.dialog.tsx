@@ -190,7 +190,7 @@ export function PaymentFormActionDialog() {
 }
 
 export function PaymentShowLoadDialog() {
-    const { setSearch, setPayment, paymentData, search, } = usePaymentStore()
+    const { setFilter, setPayment, paymentData, searchName, } = usePaymentStore()
 
     return (
         <dialog id="my_modal_payment" className="modal modal-bottom sm:modal-middle">
@@ -201,16 +201,16 @@ export function PaymentShowLoadDialog() {
                     className={ 'input input-bordered w-full' }
                     type="search"
                     onChange={ (e) => {
-                        setSearch(e.target.value)
+                        setFilter(e.target.value)
                     } }
-                    value={ search }
+                    value={ searchName }
                     placeholder="Search..."
                 />
                 <div className="space-y-2 mt-2">
                     {
                         paymentData &&
                         paymentData
-                        .filter(data => data.name.toLowerCase().includes(search.toLowerCase()))
+                        .filter(data => data.name.toLowerCase().includes(searchName.toLowerCase()))
                         .map(payment => (
                             <PaymentDialogList
                                 key={ payment.id }

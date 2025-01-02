@@ -1,18 +1,18 @@
 'use client'
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 import { DELIVERY, TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { DeliveryCardPageAdmin, } from "@/app/components/delivery/delivery.page";
 import { DeliveryCreate } from "@/validation/delivery.valid";
 import { LoadingSpin, PageLoadingSpin } from "@/app/components/LoadingData";
-import { PageErrorData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import { Plus } from "lucide-react";
-import { ResponseAll, TReactFormHookComponent } from "@/interface/server/param";
+import { PaginatedResponse, TReactFormHookComponent } from "@/interface/server/param";
 import { useDebounce } from "@/hook/useDebounce";
 import { useDelivery } from "@/hook/useDelivery";
 import { useDeliveryStore } from "@/store/delivery";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "@tanstack/react-query";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export function DeliveryFormClientAdmin({ defaultValues, method, id, }: TReactFormHookComponent<TDeliveryDB>) {
@@ -141,26 +141,35 @@ export function DeliveryFormClientAdmin({ defaultValues, method, id, }: TReactFo
 export function DeliveryListClientAdmin() {
     const { search } = useDeliveryStore()
     const searchDebounce = useDebounce({ value: search })
-    const { onDelete, getAll } = useDelivery()
-    const { data: deliverys, isLoading, isError } = getAll({
-        pagination: {},
-        filter: { name: searchDebounce },
-    }, searchDebounce === search)
+    const { onDelete, getAll, useDeliveryInfiniteQuery } = useDelivery()
+    const {
+        data,
+        isLoading,
+        isError,
+        status,
+        error,
+        isFetching,
+        targetTrigger
+    } = useDeliveryInfiniteQuery(searchDebounce, { search })
 
-    if (!deliverys || isLoading) return <PageLoadingSpin />
-    if (deliverys.length === 0 || isError) return <PageErrorData code={ 404 } msg={ 'Data Delivery is Empty' } />
-    // console.log('is client', [ DELIVERY.KEY, searchDebounce ?? '' ])
+    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'error' || isError || error) return <PageEmptyData page={ 'Payment User' } />
+
     return (
-
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 mb-20 ">
-            { deliverys.map(delivery => (
-                <DeliveryCardPageAdmin
-                    key={ delivery.id }
-                    delivery={ delivery }
-                    onClick={ () => onDelete(delivery.id) }
-                />
-            )) }
-        </div>
+        <>
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 mb-20 ">
+                { data.pages.map((page) => (
+                    page.data.map(delivery => (
+                        <DeliveryCardPageAdmin
+                            key={ delivery.id }
+                            delivery={ delivery }
+                            onClick={ () => onDelete(delivery.id) }
+                        />
+                    )) )
+                ) }
+            </div>
+            { targetTrigger }
+        </>
 
     )
 }
@@ -178,9 +187,7 @@ export function DeliverySearchClientAdmin({ children }: { children: React.ReactN
                     onChange={ e => setSearch(e.target.value) }
                     list={ 'deliverys' }
                 />
-                <Suspense fallback={ <LoadingSpin /> }>
-                    <DeliveryDataList />
-                </Suspense>
+                <DeliveryDataList />
                 <Link href={ '/admin/delivery/create' } className='btn btn-square'>
                     <Plus />
                 </Link>
@@ -192,11 +199,12 @@ export function DeliverySearchClientAdmin({ children }: { children: React.ReactN
 
 export function DeliveryDataList() {
     const queryClient = useQueryClient();
-    const deliverys = queryClient.getQueryData<{ data: ResponseAll<TDeliveryDB> }>([ DELIVERY.KEY, '' ])
+    const deliverys = queryClient.getQueryData <InfiniteData<PaginatedResponse<TDeliveryDB>>>([ DELIVERY.KEY, '' ])
     if (!deliverys) return <LoadingSpin />
     return (
         <datalist id="deliverys">
-            { deliverys.data.data
+            { deliverys.pages
+            .map((page) => page.data
             .slice(0, 10)
             .map((item) => (
                 <option
@@ -205,7 +213,7 @@ export function DeliveryDataList() {
                 >
                     { item.name }
                 </option>
-            )) }
+            ))) }
         </datalist>
     );
 }

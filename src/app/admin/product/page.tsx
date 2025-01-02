@@ -12,12 +12,25 @@ export default async function page(context: TContext) {
     const queryClient = getQueryClient()
     const isKey = [ PRODUCT.KEY, search ]
     // console.log(isKey, 'is server')
-    await queryClient.prefetchQuery({
+    await queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
         queryKey: isKey,
-        queryFn: () => productAll({
-            pagination: {},
-            filter: { name: search }
-        })
+        queryFn: async (context) => {
+            const { data } = await productAll({
+                pagination: {
+                    page: context.pageParam as number,
+                    limit: 20,
+                },
+                filter: {
+                    name: search,
+                }
+            })
+
+            return {
+                data: data.data,
+                nextCursor: data.page,
+            };
+        }
     })
 
     return (

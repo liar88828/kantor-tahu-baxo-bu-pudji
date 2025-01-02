@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from 'react';
 import { Filter, Plus } from "lucide-react";
 import { OrderTablePage } from "@/app/components/order/order.page";
-import { PageErrorData } from "@/app/components/PageErrorData";
+import { PageEmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { useDebounce } from "@/hook/useDebounce";
 import { useOrder } from "@/hook/useOrder";
@@ -11,34 +11,36 @@ import { useTableStore } from "@/store/table";
 
 export function OrderTableClientAdmin() {
     const { search: nameTable, status: statusTable } = useTableStore()
-    const searchDebounce = useDebounce({ value: nameTable })
+    const nameDebounce = useDebounce({ value: nameTable })
     const statusDebounce = useDebounce({ value: statusTable })
-    const { getAll } = useOrder()
-    const { data: orders, isFetching, isError } = getAll({
-            filter: {
-                name: nameTable,
-                status: statusTable,
-            },
-            pagination: {
-                limit: 10
-            }
+    const { getAll, useOrderInfiniteQuery } = useOrder()
+    const {
+        data,
+        error,
+        isError,
+        isFetching,
+        isLoading,
+        status,
+        targetTrigger,
+    } = useOrderInfiniteQuery(
+        {
+            name: nameDebounce,
+            status: statusDebounce,
         },
         {
-            name: searchDebounce,
-            status: statusDebounce,
+            name: nameTable,
+            status: statusTable
         }
     )
 
-    if (!orders || isFetching) {
-        return <PageLoadingSpin />
-    }
-    if (isError) {
-        return <PageErrorData msg={ 'Error Page' } />
-    }
-
+    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'error' || isError || error) return <PageEmptyData page={ 'Payment User' } />
+    const datas = data.pages.flatMap(page => page.data)
     return (
         <div className="overflow-x-auto mt-2 ">
-            <OrderTablePage orders={ orders } />
+            <OrderTablePage orders={ datas } />
+            { targetTrigger }
+
         </div>
     );
 }

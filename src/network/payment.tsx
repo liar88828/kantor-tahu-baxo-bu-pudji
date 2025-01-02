@@ -2,14 +2,13 @@
 
 import { toFetch } from "@/hook/toFetch";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
+import { PaymentParams, TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
-import { DeliveryParams } from "@/server/repository/delivery.repo";
 import { prisma } from "@/config/prisma";
 import { THistoryOrder } from "@/interface/entity/transaction.model";
 
-export const paymentAll = async ({ pagination, filter }: DeliveryParams) => {
+export const paymentAll = async ({ pagination, filter }: PaymentParams) => {
     const url = toUrl('payment', { ...pagination, ...filter })
     return toFetch<ResponseAll<TPaymentDB>>('GET', { url })
 };

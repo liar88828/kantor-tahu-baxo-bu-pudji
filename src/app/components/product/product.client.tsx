@@ -1,13 +1,13 @@
 'use client'
 import Link from "next/link";
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { ChevronDown, ChevronsUpDown, ChevronUp, Minus, Plus, ShoppingCart } from "lucide-react";
 import { InfiniteData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useProduct } from "@/hook/useProduct";
 import { PRODUCT, PRODUCT_FILTER_PRICE, TProductCreate, TProductDB } from "@/interface/entity/product.model";
-import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
+import { PageEmptyData, PageErrorData } from "@/app/components/PageErrorData";
 import { LoadingSpin, PageLoadingSpin } from "@/app/components/LoadingData";
-import { PaginatedResponse, ResponseAll, TReactFormHookComponent } from "@/interface/server/param";
+import { PaginatedResponse, TReactFormHookComponent } from "@/interface/server/param";
 import {
     ProductCardPageAdmin,
     ProductCardPageUser,
@@ -109,7 +109,7 @@ export function ProductDataList() {
     const { name, ...rest } = useProductStore(state => state.filter);
     const debouncedSearch = useDebounce({ value: name })
     const queryClient = useQueryClient();
-    const dataQueryClient = queryClient.getQueryData<InfiniteData<PaginatedResponse, unknown> | undefined>([
+    const dataQueryClient = queryClient.getQueryData<InfiniteData<PaginatedResponse<TProductDB>>>([
         PRODUCT.KEY, debouncedSearch,
         ...Object.values(rest)
     ])
@@ -128,7 +128,6 @@ export function ProductDataList() {
 }
 
 export function ProductFetchClientUser() {
-    const observerRef = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
     const { useProductInfiniteQuery } = useProduct();
     const { push } = useTrolley()
@@ -136,23 +135,17 @@ export function ProductFetchClientUser() {
     const debouncedSearch = useDebounce({ value: filter.name })
 
     const {
-        isError, isLoading,
         data,
-        status,
         error,
-        hasNextPage,
+        isError,
         isFetching,
-        isFetchingNextPage,
-    } = useProductInfiniteQuery(debouncedSearch, filter, observerRef)
+        isLoading,
+        status,
+        targetTrigger
+    } = useProductInfiniteQuery(debouncedSearch, filter)
 
-    if (isLoading && isFetching || status === 'pending' || !data) return <PageLoadingSpin />
-    if (isError || status === 'error' || error) {
-        return (
-            <div className={ 'flex justify-center' }>
-                <EmptyData page={ 'Product User' } />
-            </div>
-        )
-    }
+    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'error' || isError || error) return <PageEmptyData page={ 'Product User' } />
 
     return <>
         <div className='grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 grid xl:grid-cols-6 gap-2'>
@@ -172,19 +165,11 @@ export function ProductFetchClientUser() {
                 )
             }
         </div>
-        {/* Observer Target for Infinite Scroll */ }
-        <div ref={ observerRef } className="text-center py-4 text-gray-500">
-            { isFetchingNextPage
-                ? 'Loading more...'
-                : hasNextPage
-                    ? 'Scroll down to load more'
-                    : 'No more data to load' }
-        </div>
-        { isFetching && !isFetchingNextPage && <div>Fetching...</div> }
+        { targetTrigger }
     </>
 }
 
-export function ProductListClientAdmin() {
+export function ProductListClientAdminXXX() {
     const { onDelete } = useProduct()
     const { filter } = useProductStore()
     // const router = useRouter()
@@ -196,7 +181,7 @@ export function ProductListClientAdmin() {
     const { data: products, isLoading, isError } = useQuery({
         queryKey: [ PRODUCT.KEY, searchDebounce ],
         queryFn: () => productAll({
-            pagination: {},
+            pagination: { limit: 20 },
             filter: { name: searchDebounce }
         }),
         enabled: searchDebounce === filter.name,
@@ -220,10 +205,49 @@ export function ProductListClientAdmin() {
     )
 }
 
+export function ProductListClientAdmin() {
+    const { onDelete, useProductInfiniteQueryAdmin } = useProduct()
+    const { filter } = useProductStore()
+    // const router = useRouter()
+    const searchDebounce = useDebounce({
+        value: filter.name,
+        // fun: () => router.push(`/admin/product?search=${ filter.name }`)
+    })
+
+    const {
+        data,
+        isLoading,
+        isError,
+        status,
+        error,
+        isFetching,
+        targetTrigger
+    } = useProductInfiniteQueryAdmin(searchDebounce, filter)
+
+    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'error' || isError || error) return <PageEmptyData page={ 'Payment User' } />
+
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 mb-20 ">
+            { data.pages.map((page) => (
+                page.data.map(product => (
+                    <ProductCardPageAdmin
+                        key={ product.id }
+                        onClick={ () => onDelete(product.id) }
+                        product={ product }
+                    />
+                ))
+            )) }
+            { targetTrigger }
+        </div>
+    )
+}
+
 export function ProductSearchClientAdmin({ children }: { children: React.ReactNode }) {
     const { filter, setFilter } = useProductStore()
     const queryClient = useQueryClient();
-    const products = queryClient.getQueryData<{ data: ResponseAll<TProductDB> }>([ PRODUCT.KEY, '' ])
+    const data = queryClient.getQueryData <InfiniteData<PaginatedResponse<TProductDB>>>([ PRODUCT.KEY, '' ])
+    const products = data?.pages.flatMap((page) => page.data)
     return ( <>
             <div className="flex justify-between mb-4 gap-3">
                 <input
@@ -235,7 +259,7 @@ export function ProductSearchClientAdmin({ children }: { children: React.ReactNo
                     list={ 'products' }
                 />
                 <datalist id="products">
-                    { products?.data.data
+                    { products && products
                     .slice(0, 10)
                     .map((item) => (
                         <option

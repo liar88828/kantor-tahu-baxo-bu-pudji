@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { ResponseAll } from "@/interface/server/param";
 import { TProductDB } from "@/interface/entity/product.model";
-import { TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
+import { TROLLEY, TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { Users } from "@prisma/client";
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -14,15 +14,6 @@ import {
     trolleyId,
     trolleyIncrement
 } from "@/network/trolley";
-
-export enum TROLLEY_KEYS {
-    trolley = "trolley",
-    count = "trolleyCount",
-    selected = "trolleySelected",
-    counter = "trolleyCounter",
-    order = 'trolleyOrder'
-
-}
 
 export type TrolleyParams = { idUser: Users['id'] };
 export type IdTrolley = { idTrolley: TTrolleyDB['id'] };
@@ -39,7 +30,7 @@ export const useTrolley = () => {
 
     const GetAll = () => {
         return useQuery({
-            queryKey: [ TROLLEY_KEYS.trolley ],
+            queryKey: [ TROLLEY.KEY, ],
             queryFn: trolleyAll,
             select: (context) => {
                 if (context) {
@@ -54,7 +45,7 @@ export const useTrolley = () => {
 
     const GetId = ({ idTrolley }: IdTrolley) => {
         return useQuery({
-            queryKey: [ TROLLEY_KEYS.trolley ],
+            queryKey: [ TROLLEY.KEY ],
             queryFn: () => {
                 try {
                     return trolleyId(idTrolley)
@@ -100,8 +91,8 @@ export const useTrolley = () => {
         onSuccess: async () => {
             toast.success('Success Push Data ',
                 { position: 'top-left' })
-            await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
-            await queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
+            await queryClient.refetchQueries({ queryKey: [ TROLLEY.KEY ] })
+            await queryClient.refetchQueries({ queryKey: [ TROLLEY.KEY, TROLLEY.COUNT ] })
         },
         onSettled: async (_,
                           __,
@@ -122,28 +113,28 @@ export const useTrolley = () => {
         onSuccess: (data, variables,) => {
             toast.success(`Success on : increment id ${ variables.idTrolley }`);
             // noinspection JSIgnoredPromiseFromCall
-            queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
+            queryClient.refetchQueries({ queryKey: [ TROLLEY.KEY ] })
             // noinspection JSIgnoredPromiseFromCall
-            queryClient.refetchQueries({ queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ] })
+            queryClient.refetchQueries({ queryKey: [ TROLLEY.KEY, TROLLEY.COUNT ] })
         }
     })
 
     const increment = useMutation({
         mutationFn: trolleyIncrement,
-        mutationKey: [ TROLLEY_KEYS.counter ],
+        mutationKey: [ TROLLEY.counter ],
         onError: (error, variables, context: any) => {
             toast.error(`Error on : increment id ${ variables.idTrolley }`);
-            queryClient.setQueryData([ TROLLEY_KEYS.trolley ], context.previousTodos)
+            queryClient.setQueryData([ TROLLEY.KEY ], context.previousTodos)
         },
         onSuccess: (data, variables, context) => {
             toast.success(`Success on : increment id ${ variables.idTrolley }`);
         },
         onMutate: async (context) => {
             // console.log(context)
-            await queryClient.cancelQueries({ queryKey: [ TROLLEY_KEYS.trolley ] })
-            const previousTodos = queryClient.getQueryData([ TROLLEY_KEYS.trolley ])
+            await queryClient.cancelQueries({ queryKey: [ TROLLEY.KEY ] })
+            const previousTodos = queryClient.getQueryData([ TROLLEY.KEY ])
             queryClient.setQueryData<{ data: ResponseAll<TTrolleyProductUser> }>(
-                [ TROLLEY_KEYS.trolley ],
+                [ TROLLEY.KEY ],
                 (old) => {
                     if (old) {
                         // console.log('new data', newData)
@@ -163,12 +154,12 @@ export const useTrolley = () => {
         onSettled: () => {
             console.log('is revalidate')
             // noinspection JSIgnoredPromiseFromCall
-            queryClient.invalidateQueries({ queryKey: [ TROLLEY_KEYS.trolley ] });
+            queryClient.invalidateQueries({ queryKey: [ TROLLEY.KEY ] });
         }
     })
 
     const variables = useMutationState({
-        filters: { mutationKey: [ TROLLEY_KEYS.counter ], status: 'pending' },
+        filters: { mutationKey: [ TROLLEY.counter ], status: 'pending' },
         select: (mutation) => {
             return mutation.state.variables
         },
@@ -186,14 +177,14 @@ export const useTrolley = () => {
         },
         onSettled: () => {
             // noinspection JSIgnoredPromiseFromCall
-            queryClient.invalidateQueries({ queryKey: [ TROLLEY_KEYS.trolley ], });
+            queryClient.invalidateQueries({ queryKey: [ TROLLEY.KEY ], });
 
         }
     })
 
     const Count = () => {
         return useQuery({
-            queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.count ],
+            queryKey: [ TROLLEY.KEY, TROLLEY.COUNT ],
             queryFn: trolleyCount,
             select: (response): number => {
                 if (response) {
@@ -207,9 +198,9 @@ export const useTrolley = () => {
 
     const GetIdTrolley = () => {
         return useQuery<TTrolleyProductUser[]>({
-            queryKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
+            queryKey: [ TROLLEY.KEY, TROLLEY.order ],
             queryFn: () => {
-                const data = sessionStorage.getItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`)
+                const data = sessionStorage.getItem(`${ TROLLEY.KEY }_${ TROLLEY.selected }`)
                 if (data) {
                     return JSON.parse(data)
                 } else {
@@ -221,9 +212,9 @@ export const useTrolley = () => {
     }
 
     const setIdTrolley = useMutation({
-        mutationKey: [ TROLLEY_KEYS.trolley, TROLLEY_KEYS.order ],
+        mutationKey: [ TROLLEY.KEY, TROLLEY.order ],
         mutationFn: async (data: TTrolleyProductUser[]) => {
-            sessionStorage.setItem(`${ TROLLEY_KEYS.trolley }_${ TROLLEY_KEYS.selected }`, JSON.stringify(data))
+            sessionStorage.setItem(`${ TROLLEY.KEY }_${ TROLLEY.selected }`, JSON.stringify(data))
             return true
         },
 

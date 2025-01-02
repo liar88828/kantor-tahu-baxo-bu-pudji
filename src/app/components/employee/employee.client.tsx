@@ -2,11 +2,11 @@
 import Form from "next/form";
 import Link from "next/link";
 import React, { Fragment, useState } from "react";
-import useInfinityScroll from "@/hook/useInfinityScroll";
+import { useInfinityScroll } from "@/hook/useInfinityScroll";
 import { BookUser, Minus, Plus } from "lucide-react";
 import { EmployeeCVPageAdmin, EmployeePhotoPageAdmin } from "@/app/components/employee/employee.page";
 import { EmployeeCVProps, TEmployeeDB } from "@/interface/entity/employee.model";
-import { EmptyData } from "@/app/components/PageErrorData";
+import { EmptyData, PageEmptyData } from "@/app/components/PageErrorData";
 import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { TypeFile, uploadFile } from "@/server/action/upload";
@@ -400,8 +400,8 @@ export function EmployeeSearchClientAdmin({ children }: { children: React.ReactN
                             onChange={ e => setFilter({ status: e.target.value }) }
                             name={ 'status' }
                     >
-                        <option disabled>Filter</option>
-                        <option value={ '' }>All</option>
+                        <option disabled value={ '' }>Filter</option>
+                        {/*<option value={ '' }>All</option>*/ }
                         <option>Process</option>
                         <option>Active</option>
                         <option>Inactive</option>
@@ -418,6 +418,100 @@ export function EmployeeSearchClientAdmin({ children }: { children: React.ReactN
 
 export function EmployeeTableClientAdmin() {
     const { filter } = useEmployeeStore();
+    const { getAll, useEmployeeInfiniteQuery } = useEmployee()
+    const searchDebounced = useDebounce({ value: filter.name }); // 1000ms delay
+    const statusDebounced = useDebounce({ value: filter.status }); // 1000ms delay
+
+    const {
+        data,
+        error,
+        isError,
+        isFetching,
+        isLoading,
+        status,
+        targetTrigger,
+    } = useEmployeeInfiniteQuery({
+            name: searchDebounced,
+            status: statusDebounced
+        },
+        filter)
+
+    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'error' || isError || error) return <PageEmptyData page={ 'Employee User' } />
+
+    return (
+        <div>
+            <div className="overflow-x-auto w-full">
+                <table
+                    data-theme={ 'light' }
+                    className="table table-zebra w-full table-sm"
+                >
+                    {/* Table Head */ }
+                    <thead>
+                    <tr>
+                        {/*<th>ID</th>*/ }
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th className={ 'text-nowrap' }>Phone</th>
+                        <th>Gender</th>
+                        <th>Hire Date</th>
+                        <th>Job Title</th>
+                        <th>Department</th>
+                        <th>Salary</th>
+                        <th>Employment Type</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    {/* Table Body */ }
+                    <tbody>
+                    { data.pages.map((page) => (
+                        <Fragment key={ page.nextCursor }>
+                            { page.data.map((employee) => (
+                                <tr key={ employee.id }>
+                                    {/*<td>{ employee.id }</td>*/ }
+                                    <td>
+                                        <div className="flex">
+                                            { employee.name }
+                                        </div>
+                                    </td>
+                                    <td>{ employee.email }</td>
+                                    <td className={ 'text-nowrap' }>{ employee.phone || "-" }</td>
+                                    <td>{ employee.gender || "-" }</td>
+                                    <td>{ new Date(employee.hireDate).toLocaleDateString() }</td>
+                                    <td>{ employee.jobTitle }</td>
+                                    <td>{ employee.department || "-" }</td>
+                                    <td>{ toRupiah(employee.salary) }</td>
+                                    <td>{ employee.employmentType }</td>
+                                    <td><p className={ `badge ${
+                                        employee.status === "Active" ? "badge-success" : "badge-error"
+                                    }` }
+                                    >
+                                        { employee.status }
+                                    </p></td>
+                                    <td>
+                                        <Link
+                                            href={ `/admin/employee/${ employee.id }` }
+                                            className={ 'btn btn-sm btn-info btn-square' }
+                                        >
+                                            <BookUser />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            )) }
+                        </Fragment>
+                    )) }
+                    </tbody>
+                </table>
+            </div>
+            { targetTrigger }
+        </div>
+    )
+}
+
+export function EmployeeTableClientAdminXXX() {
+    const { filter } = useEmployeeStore();
     const { getAll } = useEmployee()
     const searchDebounced = useDebounce({ value: filter.name }); // 1000ms delay
     const statusDebounced = useDebounce({ value: filter.status }); // 1000ms delay
@@ -427,7 +521,7 @@ export function EmployeeTableClientAdmin() {
         status: statusDebounced
     })
 
-    const { loadMoreRef, isFetchingNextPage, hasNextPage } = useInfinityScroll({
+    const { targetTrigger } = useInfinityScroll({
         queryResult,
     });
 
@@ -439,6 +533,7 @@ export function EmployeeTableClientAdmin() {
         <div>
             <div className="overflow-x-auto w-full">
                 <table
+                    data-theme={ 'light' }
                     className="table table-zebra w-full table-sm"
                 >
                     {/* Table Head */ }
@@ -503,13 +598,7 @@ export function EmployeeTableClientAdmin() {
 
             </div>
 
-            {/* Loading Indicator */ }
-            <div ref={ loadMoreRef } className="text-center p-4">
-                { isFetchingNextPage && <p>Loading more...</p> }
-            </div>
-
-            {/* No More Data */ }
-            { !hasNextPage && <p className="text-center mt-4">No more employees to load.</p> }
+            { targetTrigger }
         </div>
     )
 }

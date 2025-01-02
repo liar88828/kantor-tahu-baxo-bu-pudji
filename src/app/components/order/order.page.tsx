@@ -397,7 +397,7 @@ export function PaymentDialogList(props: { payment: TPaymentDB, onClick: () => v
     );
 }
 
-export function OrderTablePage({ orders }: { orders: TOrderTransactionDB[] }) {
+export function OrderTablePage({ orders, }: { orders: TOrderTransactionDB[] }) {
     const [ selectedOrders, setSelectedOrders ] = useState<string[]>([]);
     const tableRef = useRef(null);
     const { setTable, existTable, search: nameTable, status: statusTable, tableDetail } = useTableStore()

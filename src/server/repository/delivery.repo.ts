@@ -1,8 +1,6 @@
-import { TDeliveryCreate, TDeliverySearch, } from "@/interface/entity/delivery.model";
+import { DeliveryParams, TDeliveryCreate, } from "@/interface/entity/delivery.model";
 import { prisma } from "@/config/prisma";
-import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
-
-export type DeliveryParams = ParamsApi<TDeliverySearch>
+import { InterfaceRepository } from "@/interface/server/InterfaceRepository";
 
 // getAll data from database
 export default class DeliveryRepository implements InterfaceRepository<TDeliveryCreate> {

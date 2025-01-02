@@ -8,15 +8,26 @@ import { DELIVERY } from "@/interface/entity/delivery.model";
 
 export default async function page(context: TContext) {
     const search = await getSearchName(context, 'search') ?? ''
-    const isKey = [ DELIVERY.KEY, search ]
+    // const isKey = [  ]
     // console.log('is server', isKey)
     const queryClient = new QueryClient();
-    await queryClient.prefetchQuery({
-        queryKey: isKey,
-        queryFn: () => deliveryAll({
-            filter: { name: search },
-            pagination: {}
-        }),
+    await queryClient.prefetchInfiniteQuery({
+
+        queryKey: [ DELIVERY.KEY, search ],
+        initialPageParam: 1,
+        queryFn: async (context) => {
+            const { data } = await deliveryAll({
+                filter: { name: search },
+                pagination: {
+                    page: context.pageParam,
+                    limit: 10
+                }
+            })
+            return {
+                data: data.data,
+                nextCursor: data.page,
+            };
+        },
     });
 
     return (

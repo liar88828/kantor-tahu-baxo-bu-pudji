@@ -1,4 +1,3 @@
-import { TProductDB } from "@/interface/entity/product.model";
 import { ZodIssue } from "zod";
 
 export type TContext = {
@@ -20,8 +19,8 @@ export type ResponseAll<T> = {
     limit: number
 }
 
-export type PaginatedResponse = {
-    data: TProductDB[];
+export type PaginatedResponse<T> = {
+    data: T[];
     nextCursor: number; // Cursor for next page or null if no more data
 };
 
@@ -42,5 +41,3 @@ export type OTPGenerate = {
     reason: 'RESET' | 'VALID'
 
 }
-
-
