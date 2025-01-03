@@ -11,5 +11,19 @@ export class ErrorResponse extends Error {
         super(msg);
         Object.setPrototypeOf(this, ErrorResponse.prototype);
     }
+}
+
+export class ErrorOTP extends Error {
+    constructor(public msg: string, public code: number) {
+        super(msg);
+        Object.setPrototypeOf(this, ErrorResponse.prototype);
+    }
+}
+
+export class ErrorXXX extends Error {
+    constructor(public msg: string, public code: number) {
+        super(msg);
+        Object.setPrototypeOf(this, ErrorResponse.prototype);
+    }
 
 }

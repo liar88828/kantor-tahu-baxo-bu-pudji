@@ -4,6 +4,7 @@ import React from "react";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { setDateIndo } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
+import { toStatus } from "@/app/components/status";
 
 export const Invoice = ({ invoice, path }: {
     invoice: TOrderTransactionDB
@@ -113,7 +114,7 @@ export const Invoice = ({ invoice, path }: {
                         <h2 className="font-bold text-xl">
                             Total + PPN: { toRupiah(totalAll * 1.12) }
                         </h2>
-                        <p className="text-green-600 font-semibold">Status: { status }</p>
+                        <p className={ `text-${ toStatus(invoice.status) } font-semibold` }>Status: { status }</p>
                     </div>
                 </div>
 

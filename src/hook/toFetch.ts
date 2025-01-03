@@ -51,7 +51,7 @@ export const toFetch = async <R>(
 	try {
 		// Make the fetch request
 		const response = await fetch(
-            `${ process.env.NEXT_PUBLIC_URL_API }${ url }`,
+            `${ process.env.NEXT_PUBLIC_URL_API }/${ url }`,
 			fetchOptions
 		)
 

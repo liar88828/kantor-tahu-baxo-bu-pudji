@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link";
-import { ChevronLeftIcon, LogOut, Menu, } from 'lucide-react';
+import { ChevronLeftIcon, Inbox, LogOut, Menu, } from 'lucide-react';
 import { ReactNode, useState } from "react";
 import { linkPrimary, linkSecondary, TMenuList } from "@/assets/MenuList";
 import { logout } from "@/server/lib/state";
@@ -12,10 +12,13 @@ export function LinkListLayoutAdmin({ item, path }: {
     item: TMenuList,
     path: string
 }) {
+
+    // console.log( path)
     return (
         <li>
-            <Link href={ item.href }
-                  className={ `flex items-center p-2 rounded  ${ path.includes(item.href) ? "btn-active" : "" }` }
+            <Link
+                href={ item.href }
+                className={ `flex items-center p-2 rounded  ${ path.includes(item.href) ? "btn-active" : "" }` }
             >
                 { item.icon }
                 <span className="flex-1 ms-3 whitespace-nowrap">{ item.label }</span>
@@ -25,7 +28,11 @@ export function LinkListLayoutAdmin({ item, path }: {
     );
 }
 
-export function BaseLayoutAdmin({ children, isLogin }: { children: ReactNode, isLogin: boolean }) {
+export function BaseLayoutAdmin({ children, isLogin, orderCount }: {
+    orderCount: number,
+    children: ReactNode,
+    isLogin: boolean
+}) {
     const path = usePathname()
     const [ sideMenuIsExpand, setSideMenuIsExpand ] = useState(true);
 
@@ -51,6 +58,15 @@ export function BaseLayoutAdmin({ children, isLogin }: { children: ReactNode, is
                     </button>
                 </div>
                 <div className="flex-none">
+                    <Link
+                        href={ '/admin/order/incoming' }
+                        className={ `flex items-center p-2 rounded ` }
+                    >
+                        <Inbox />
+                        <span className="flex-1 ms-3 whitespace-nowrap">{ 'Incoming' }</span>
+                        { <span className=" badge-neutral badge">{ orderCount }</span> }
+                    </Link>
+
                     { isLogin && (
                         <button
                             className="btn btn-square btn-ghost"
@@ -95,7 +111,18 @@ export function BaseLayoutAdmin({ children, isLogin }: { children: ReactNode, is
                             { linkPrimary.map(item => (
                                 <LinkListLayoutAdmin key={ item.label } item={ item } path={ path } />
                             )) }
+
+                            {/*<LinkListLayoutAdmin*/ }
+                            {/*    item={ {*/ }
+                            {/*        href: '/admin/order/incoming',*/ }
+                            {/*        icon: <Inbox />,*/ }
+                            {/*        label: "Incoming",*/ }
+                            {/*        add: 1*/ }
+                            {/*    } }*/ }
+                            {/*    path={ '/admin/order/incoming' }*/ }
+                            {/*/>*/ }
                         </ul>
+
                         <div className="divider"></div>
                         <ul className="pt-4 mt-4 space-y-2 font-medium ">
                             { linkSecondary.map(item => (
@@ -130,7 +157,9 @@ export function BaseLayoutAdmin({ children, isLogin }: { children: ReactNode, is
                                 <span className="btm-nav-label text-xs">{ item.label }</span>
                             </Link>
                         )) }
-                    </div> )
+
+                    </div>
+                )
             }
         </>
 

@@ -10,9 +10,10 @@ import { useRouter } from "next/navigation";
 import { useTrolley } from "@/hook/useTrolley";
 import { CategoryList } from "@/app/components/home/home.page";
 
-export function HomeProductClientUser({ products, title }: {
+export function HomeProductClientUser({ products, title, isLogin }: {
     title: 'New Product' | 'Economical' | 'Popular Product',
-    products: TProductDB[]
+    products: TProductDB[],
+    isLogin: boolean
 }) {
     const { setFilter } = useProductStore();
     const router = useRouter();
@@ -47,6 +48,7 @@ export function HomeProductClientUser({ products, title }: {
                             className={ ' flex-shrink-0 ~w-40/48 py-0.5' }
                         >
                             <ProductCardPageUser
+                                isLogin={ isLogin }
                                 product={ product }
                                 addTrolleyAction={ () => push.mutate(product) }
                                 detailProductAction={ () => router.push(`/product/${ product.id }`) }

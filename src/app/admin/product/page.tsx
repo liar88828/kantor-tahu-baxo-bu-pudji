@@ -7,14 +7,15 @@ import { getQueryClient } from "@/app/components/Layout/ReactQueryProvider.serve
 import { getSearchName } from "@/utils/requestHelper";
 import { productAll } from "@/network/product";
 
+// export const revalidate = 0
+
 export default async function page(context: TContext) {
     const search = await getSearchName(context, 'search') ?? ''
     const queryClient = getQueryClient()
-    const isKey = [ PRODUCT.KEY, search ]
     // console.log(isKey, 'is server')
     await queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,
-        queryKey: isKey,
+        queryKey: [ PRODUCT.KEY, search ],
         queryFn: async (context) => {
             const { data } = await productAll({
                 pagination: {

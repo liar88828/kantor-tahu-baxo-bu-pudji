@@ -7,11 +7,15 @@ import { toTotal } from "@/utils/toCalculate";
 import { useRouter } from "next/navigation";
 import { useTrolley } from "@/hook/useTrolley";
 
+interface TrolleyCaseProps {
+    isLogin: boolean
+}
+
 export function TrolleyCase() {
     const router = useRouter()
     const { getAll } = useTrolley()
-    const { data, isError, isLoading } = getAll()
 
+    const { data, isError, isLoading } = getAll()
     if (isLoading || !data) return <PageLoadingSpin />
     if (isError) return <PageErrorData code={ 401 } msg={ 'Data is Not Found' } />
 

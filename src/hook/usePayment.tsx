@@ -1,11 +1,11 @@
+import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { PAYMENT, TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
+import { PaginatedResponse } from "@/interface/server/param";
+import { PaymentStore } from "@/store/payment";
 import { paymentAll, paymentCreate, paymentDelete, paymentUpdate } from "@/network/payment";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef } from "react";
-import { PaginatedResponse } from "@/interface/server/param";
-import { PaymentStore } from "@/store/payment";
 
 export default function usePayment() {
     function OnGet(searchDebounce: string, search: string) {

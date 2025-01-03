@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { toTotal } from "@/utils/toCalculate";
 
@@ -7,19 +6,18 @@ type TrolleyTypeStore = {
     onSelected: TTrolleyProductUser[];
     onTotalProduct: number;
     setSelected: (state: TTrolleyProductUser) => void;
-	onIncrement: (idTrolley: string) => void;
-	onDecrement: (idTrolley: string) => void;
-	onRemove: (idTrolley: string) => void;
+    onIncrement: (idTrolley: string) => void;
+    onDecrement: (idTrolley: string) => void;
+    onRemove: (idTrolley: string) => void;
     setData: (state: TTrolleyProductUser[]) => void;
     isTrolleyIncluded: (idTrolley: string) => boolean;
     setTotalProduct: () => void;
     setQty: (id: string, qty: number) => void
-
 };
 
-const useTrolleyStore = create<TrolleyTypeStore>((set, get) => ({
+const useTrolleyStore = create<TrolleyTypeStore>((set, get) => ( {
 
-	onSelected: [],
+    onSelected: [],
     onTotalProduct: 0,
     setQty: (id, qty) => {
         if (qty > 0) {
@@ -56,33 +54,33 @@ const useTrolleyStore = create<TrolleyTypeStore>((set, get) => ({
     },
 
     onIncrement: (idTrolley) => {
-        set((state) => ({
+        set((state) => ( {
             onSelected: state.onSelected.map((item) =>
                 item.id === idTrolley
                     ? { ...item, qty_at_buy: item.qty_at_buy + 1 }
                     : item
             ),
-        }))
+        } ))
         get().setTotalProduct()
     },
     onDecrement: (idTrolley) => {
-        set((state) => ({
+        set((state) => ( {
             onSelected: state.onSelected.map((item) =>
                 item.id === idTrolley && item.qty_at_buy > 1
                     ? { ...item, qty_at_buy: item.qty_at_buy - 1 }
                     : item
             ),
-        }))
+        } ))
         get().setTotalProduct()
 
     },
-	onRemove: (idTrolley) =>
-		set((state) => ({
-			onSelected: state.onSelected.filter((item) => item.id !== idTrolley),
-		})),
-    setData: (data: TTrolleyProductUser[]) => set((state) => ({
-		onSelected: data,
-	})),
-}));
+    onRemove: (idTrolley) =>
+        set((state) => ( {
+            onSelected: state.onSelected.filter((item) => item.id !== idTrolley),
+        } )),
+    setData: (data: TTrolleyProductUser[]) => set((state) => ( {
+        onSelected: data,
+    } )),
+} ));
 
 export default useTrolleyStore;

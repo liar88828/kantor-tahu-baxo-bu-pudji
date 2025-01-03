@@ -30,7 +30,7 @@ export async function decrypt(session: string | undefined = ''): Promise<Session
 		}
 		return data.payload as SessionPayload
 	} catch (error) {
-		console.log('Failed to verify session')
+        // console.log('Failed to verify session')
 
     }
 }

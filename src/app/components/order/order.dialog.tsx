@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import useTrolleyStore from "@/store/trolley";
+import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import { EmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { Plus, Search } from "lucide-react";
+import { TDeliveryDB } from "@/interface/entity/delivery.model";
+import { TPaymentDB } from "@/interface/entity/payment.model";
+import { redirect } from "next/navigation";
 import { useDeliveryStore } from "@/store/delivery";
 import { usePaymentStore } from "@/store/payment";
 import { useProductStore } from "@/store/product";
@@ -14,10 +18,6 @@ import {
     ProductOrderDialog,
     ProductSelectedList
 } from "@/app/components/order/order.page";
-import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
-import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { TPaymentDB } from "@/interface/entity/payment.model";
-import { redirect } from "next/navigation";
 
 export function DeliveryActionDialog() {
     const { setDelivery, delivery } = useDeliveryStore()
@@ -190,7 +190,7 @@ export function PaymentFormActionDialog() {
 }
 
 export function PaymentShowLoadDialog() {
-    const { setFilter, setPayment, paymentData, searchName, } = usePaymentStore()
+    const { setFilter, setPayment, paymentData, filter, } = usePaymentStore()
 
     return (
         <dialog id="my_modal_payment" className="modal modal-bottom sm:modal-middle">
@@ -201,16 +201,16 @@ export function PaymentShowLoadDialog() {
                     className={ 'input input-bordered w-full' }
                     type="search"
                     onChange={ (e) => {
-                        setFilter(e.target.value)
+                        setFilter({ name: e.target.value })
                     } }
-                    value={ searchName }
+                    value={ filter.name }
                     placeholder="Search..."
                 />
                 <div className="space-y-2 mt-2">
                     {
                         paymentData &&
                         paymentData
-                        .filter(data => data.name.toLowerCase().includes(searchName.toLowerCase()))
+                        .filter(data => data.name.toLowerCase().includes(filter.name.toLowerCase()))
                         .map(payment => (
                             <PaymentDialogList
                                 key={ payment.id }

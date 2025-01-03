@@ -36,11 +36,11 @@ export function OrderTableClientAdmin() {
     if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
     if (status === 'error' || isError || error) return <PageEmptyData page={ 'Payment User' } />
     const datas = data.pages.flatMap(page => page.data)
+
     return (
         <div className="overflow-x-auto mt-2 ">
             <OrderTablePage orders={ datas } />
             { targetTrigger }
-
         </div>
     );
 }

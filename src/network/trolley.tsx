@@ -1,7 +1,6 @@
 import { toFetch } from "@/hook/toFetch"
-import { Counter, IdTrolley } from "@/hook/useTrolley";
 import { ResponseAll } from "@/interface/server/param";
-import { TTrolleyCreate, TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
+import { Counter, IdTrolley, TTrolleyCreate, TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
 export const trolleyAll = () => {
     return toFetch<ResponseAll<TTrolleyProductUser>>('GET', { url: 'trolley' })

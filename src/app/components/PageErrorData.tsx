@@ -1,6 +1,8 @@
 'use client'
 import { useRouter } from "next/navigation";
 import React from "react";
+import { toRupiah } from "@/utils/toRupiah";
+import Link from "next/link";
 
 export function PageErrorData({ msg = 'Error Load', code = 404, }: { msg?: string, code?: number }) {
     const router = useRouter()
@@ -13,6 +15,22 @@ export function PageErrorData({ msg = 'Error Load', code = 404, }: { msg?: strin
                     <button onClick={ () => router.refresh() } className="btn btn-primary">Reload</button>
                     <button onClick={ () => router.back() } className="btn btn-ghost">Back</button>
                 </div>
+            </div>
+        </div>
+    );
+}
+export function PageErrorDataTrolley() {
+    return (
+        <div className="card-body">
+            <span className="text-lg font-bold">{ 0 } Items</span>
+            <span className="text-info">Subtotal: { toRupiah(0) }</span>
+            <div className="card-actions">
+                <Link
+                    href={ '/login' }
+                    className="btn btn-primary btn-block"
+                >
+                    Login
+                </Link>
             </div>
         </div>
     );

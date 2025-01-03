@@ -7,7 +7,6 @@ import { productAll, productCreate, productDelete, productUpdate, productUpdateS
 import { toFetch } from "@/hook/toFetch";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { PAYMENT } from "@/interface/entity/payment.model";
 
 export const useProduct = () => {
     const router = useRouter()
@@ -256,7 +255,7 @@ export const useProduct = () => {
             staleTime: 1000 * 10,
             gcTime: 1000 * 10,
             enabled: debouncedSearch === name,
-            queryKey: [ PAYMENT.KEY, debouncedSearch ],
+            queryKey: [ PRODUCT.KEY, debouncedSearch ],
             queryFn: async ({ pageParam }): Promise<PaginatedResponse<TProductDB>> => {
                 // const url = `/product?page=${ pageParam }&name=${ debouncedSearch }`;
                 // console.log(url);

@@ -10,8 +10,8 @@ type ReceiverStore = {
     getAsyncReceiver: () => Promise<void>,
     setReceiver: (data: TReceiverCreate) => void,
     onReceiver: TOrderTransactionCreate['orderReceiver'] | null,
-
 }
+
 const initialState = {
     onReceiver: null,
     receiver: {

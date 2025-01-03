@@ -1,5 +1,6 @@
 import React from "react";
 import { EarningClient } from "@/app/components/dashboard/dashboard.client";
+import { TStatusOrder } from "@/interface/Utils";
 import { getEarningNew, getEarningOld, orderMonthTotal, orderTopTotal } from "@/network/order";
 import { productRecent } from "@/network/product";
 import { receiverAll } from "@/network/receiver";
@@ -9,7 +10,6 @@ import {
     DashboardProductPage,
     GridCardChild
 } from "@/app/components/dashboard/dashboard.page";
-import { TStatusOrder } from "@/interface/Utils";
 
 export async function DashboardGridDataServerAdmin({ text, color }: { text: TStatusOrder, color: string }) {
     const response = await orderMonthTotal(text)

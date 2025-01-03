@@ -1,9 +1,9 @@
 'use client'
-import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { toFetch } from "@/hook/toFetch";
-import { useRouter } from "next/navigation";
 import { OTPGenerate, OTPValid, ResponseValidOTP } from "@/interface/server/param";
+import { toFetch } from "@/hook/toFetch";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export const useEmail = () => {
     const route = useRouter()

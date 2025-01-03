@@ -1,8 +1,7 @@
 import toast from "react-hot-toast";
 import { ResponseAll } from "@/interface/server/param";
 import { TProductDB } from "@/interface/entity/product.model";
-import { TROLLEY, TTrolleyDB, TTrolleyProductUser } from "@/interface/entity/trolley.model";
-import { Users } from "@prisma/client";
+import { IdTrolley, TROLLEY, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -14,13 +13,6 @@ import {
     trolleyId,
     trolleyIncrement
 } from "@/network/trolley";
-
-export type TrolleyParams = { idUser: Users['id'] };
-export type IdTrolley = { idTrolley: TTrolleyDB['id'] };
-
-export type Counter = {
-    idTrolley: TTrolleyDB['id'],
-};
 
 export const useTrolley = () => {
     const queryClient = useQueryClient()

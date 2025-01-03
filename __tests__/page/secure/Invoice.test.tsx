@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { InvoiceLayout } from "../../../src/app/components/invoice/invoice.client";
+import { InvoicePrintHandler } from "../../../src/app/components/invoice/invoice.client";
 import { dataOrderTransaction } from "../../../src/assets/ExampleOrder";
 import React from "react";
 import { Invoice } from "../../../src/app/components/invoice/invoice.page";
@@ -23,7 +23,7 @@ describe('auth  Invoice', async () => {
     test(" test test InvoiceLayout",
         () => {
             render(
-                <InvoiceLayout
+                <InvoicePrintHandler
                     redirectAction={ "" }
                     order={ dataOrderTransaction }
                 />

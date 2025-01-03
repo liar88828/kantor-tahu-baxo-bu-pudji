@@ -63,7 +63,7 @@ export const linkPrimary: TMenuList[] = [
         href: '/admin/dashboard',
         icon: <HomeIcon className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' } />,
         label: 'Dashboard',
-        add: 'pro'
+        // add: 'pro'
     },
     {
         href: '/admin/employee',
@@ -77,7 +77,7 @@ export const linkSecondary: TMenuList[] = [
         href: '/admin/order',
         icon: <BookA className={ 'flex-shrink-0 w-5 h-5  transition duration-75  ' } />,
         label: 'Order',
-        add: 2
+        // add: 2
     },
     {
         href: '/admin/product',

@@ -30,6 +30,6 @@ export type ProductHomeUser = {
 };
 // export type TProductUpdate = Omit<Products, "created_at" | "updated_at">;
 export enum PRODUCT {
-    KEY = 'product',
+    KEY = 'product_query',
     TYPE = 'type'
 }

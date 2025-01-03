@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import usePayment from "@/hook/usePayment";
 import { PageEmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
@@ -15,6 +15,7 @@ import { usePaymentStore } from "@/store/payment";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TProductDB } from "@/interface/entity/product.model";
+import { toFetch } from "@/hook/toFetch";
 
 export function PaymentFormClientAdmin({ defaultValues, method, id, }: TReactFormHookComponent<TPaymentCreate>) {
     const { onUpsert } = usePayment()
@@ -128,6 +129,26 @@ export function PaymentFormClientAdmin({ defaultValues, method, id, }: TReactFor
             </div>
         </div>
     );
+}
+
+export function PaymentListClientAdminText() {
+    const [ state, setState ] = useState<any>(null)
+    const newData = async () => {
+        return toFetch<any>('GET', { url: 'payment' })
+        .then(res => {
+            setState(res.data)
+        })
+    }
+    useEffect(() => {
+        newData()
+    }, [])
+
+    if (!state) {
+        return 'loading...'
+    }
+    return (
+        <h1>{ JSON.stringify(state) }</h1>
+    )
 }
 
 export function PaymentListClientAdmin() {

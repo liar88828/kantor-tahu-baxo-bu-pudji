@@ -2,7 +2,8 @@ import { HomeProductClientUser } from "@/app/components/home/home.client";
 import { PRODUCT_FILTER_PRICE } from "@/interface/entity/product.model";
 import { productNew } from "@/network/product";
 
-export async function NewProduct() {
+export type ProductHome = { isLogin: boolean };
+export async function NewProduct({ isLogin }: ProductHome) {
     const newProduct = await productNew({
         pagination: { limit: 20 },
         filter: { new: true }
@@ -15,11 +16,15 @@ export async function NewProduct() {
     })
 
     return (
-        <HomeProductClientUser products={ newProduct } title={ 'New Product' } />
+        <HomeProductClientUser
+            products={ newProduct }
+            title={ 'New Product' }
+            isLogin={ isLogin }
+        />
     )
 }
 
-export async function LowPriceProduct() {
+export async function LowPriceProduct({ isLogin }: ProductHome) {
 
     const lowPriceProduct = await productNew({
         pagination: { limit: 20 },
@@ -33,11 +38,15 @@ export async function LowPriceProduct() {
     })
 
     return (
-        <HomeProductClientUser products={ lowPriceProduct } title={ 'Economical' } />
+        <HomeProductClientUser
+            products={ lowPriceProduct }
+            title={ 'Economical' }
+            isLogin={ isLogin }
+        />
     )
 }
 
-export async function PopularProduct() {
+export async function PopularProduct({ isLogin }: ProductHome) {
 
     const popularProduct = await productNew({
         pagination: { limit: 20 },
@@ -51,6 +60,10 @@ export async function PopularProduct() {
     })
 
     return (
-        <HomeProductClientUser products={ popularProduct } title={ 'Popular Product' } />
+        <HomeProductClientUser
+            products={ popularProduct }
+            title={ 'Popular Product' }
+            isLogin={ isLogin }
+        />
     )
 }

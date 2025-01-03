@@ -9,10 +9,8 @@ import { usePathname } from "next/navigation";
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
 import { useTrolley } from "@/hook/useTrolley";
 
-export function NavbarMarketLayoutClientUser({ children }: { children: ReactNode }) {
+export function NavbarMarketLayoutClientUser({ children, isLogin }: { isLogin: boolean, children: ReactNode }) {
     const showNavbar = useScrollVisibility(true);
-    const { count } = useTrolley()
-    const { data, isLoading } = count()
 
     return (
         <div
@@ -29,7 +27,7 @@ export function NavbarMarketLayoutClientUser({ children }: { children: ReactNode
                         <div className="indicator">
                             <ShoppingCart />
                             <span className="badge badge-sm indicator-item badge-neutral">
-                                { isLoading ? 0 : data }
+                          { isLogin ? <CountTrolley /> : null }
                             </span>
                         </div>
                     </div>
@@ -43,6 +41,13 @@ export function NavbarMarketLayoutClientUser({ children }: { children: ReactNode
             </div>
         </div>
     )
+}
+
+export function CountTrolley() {
+    // console.log('is valid')
+    const { count } = useTrolley()
+    const { data, isLoading } = count()
+    return ( isLoading ? 0 : data )
 }
 
 export function NavButtonMarketLayoutClientUser() {

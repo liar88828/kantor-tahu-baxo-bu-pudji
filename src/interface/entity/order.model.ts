@@ -28,6 +28,6 @@ export type OrderParams = ParamsApi<OrderFilter>
 export type ResponseCreateOrderTransaction = { order: Orders, orderCustomers: Customers, orderProduct: any };
 
 export enum ORDER {
-    KEY = "order",
+    KEY = "order_query",
     HISTORY = "history",
 }

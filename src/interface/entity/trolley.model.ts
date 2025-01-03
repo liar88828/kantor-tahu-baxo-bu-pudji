@@ -1,5 +1,5 @@
 import { TProductDB } from "@/interface/entity/product.model";
-import { Trolleys } from "@prisma/client";
+import { Trolleys, Users } from "@prisma/client";
 
 export type TTrolleyDB = Trolleys
 export type TOrderTrolleyTransaction = Omit<TTrolleyDB, "id_order">
@@ -11,10 +11,16 @@ export type TrolleyId = Pick<TTrolleyDB, "id">
 export type TTrolleyProductUser = TOrderTrolleyTransaction & { Product: TProductDB }
 
 export enum TROLLEY {
-    KEY = "trolley",
+    KEY = "trolley_query",
     COUNT = "count",
     selected = "selected",
     counter = "counter",
     order = 'order'
 
 }
+
+export type TrolleyParams = { idUser: Users['id'] };
+export type IdTrolley = { idTrolley: TTrolleyDB['id'] };
+export type Counter = {
+    idTrolley: TTrolleyDB['id'],
+};

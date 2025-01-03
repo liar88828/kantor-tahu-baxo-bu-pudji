@@ -17,30 +17,30 @@ import { sendOtp } from "@/network/otp";
 import { checkPassword } from "../lib/password";
 
 export async function signUp(state: FormState, formData: FormData) {
-	// Validate form fields
-	const validatedFields = SignupFormSchema.safeParse({
+    // Validate form fields
+    const validatedFields = SignupFormSchema.safeParse({
         address: formData.get('address'),
         email: formData.get('email'),
         name: formData.get('name'),
-		password: formData.get('password'),
+        password: formData.get('password'),
         phone: formData.get('phone'),
         confirm: formData.get('confirm'),
-	})
+    })
 
-	// If any form fields are invalid, return early
-	if (!validatedFields.success) {
-		return {
-			errors: validatedFields.error.flatten().fieldErrors,
-		}
-	}
+    // If any form fields are invalid, return early
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
 
-	// Call the provider or db to create a user...
-	// 2. Prepare data for insertion into database
+    // Call the provider or db to create a user...
+    // 2. Prepare data for insertion into database
     const { name, email, password, phone, address } = validatedFields.data
-	// e.g. Hash the user's password before storing it
-	const hashedPassword = await bcrypt.hash(password, 10)
+    // e.g. Hash the user's password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10)
 
-	// 3. Insert the user into the database or call an Auth Library's API
+    // 3. Insert the user into the database or call an Auth Library's API
     const user = await userRepository.createOne({
         name,
         email,
@@ -50,50 +50,51 @@ export async function signUp(state: FormState, formData: FormData) {
         role: ROLE.USER,
     })
 
-	if (!user) {
-		return {
-			message: 'An error occurred while creating your account.',
-		}
-	}
+    if (!user) {
+        return {
+            message: 'An error occurred while creating your account.',
+        }
+    }
 
-	// 4. Create user session
+    // 4. Create user session
     // await createSession(user.id)
     await sendOtp({
         email: user.email,
         reason: 'VALID'
     })
 
-	// 5. Redirect user
+    // 5. Redirect user
     redirect('/otp')
 }
 
-export async function signIn(state: FormState, formData: FormData) {
+export async function signIn(state: FormState, formData: FormData): Promise<FormState> {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     try {
 
-		// Validate form fields
-		const validatedFields = SignInFormSchema.safeParse({
+        // Validate form fields
+        const validatedFields = SignInFormSchema.safeParse({
             email,
             password,
-		})
+        })
 
-		// If any form fields are invalid, return early
-		if (!validatedFields.success) {
-			return {
-				errors: validatedFields.error.flatten().fieldErrors,
-			}
-		}
+        // If any form fields are invalid, return early
+        if (!validatedFields.success) {
+            return {
+
+                errors: validatedFields.error.flatten().fieldErrors,
+            }
+        }
 
         const valid = validatedFields.data
-		// e.g. Hash the user's password before storing it
+        // e.g. Hash the user's password before storing it
 
-		// 3. Insert the user into the database or call an Auth Library's API
+        // 3. Insert the user into the database or call an Auth Library's API
         const user = await prisma.users.findFirst(
             { where: { email: valid.email } }
         )
 
-		if (!user) {
+        if (!user) {
             throw new Error('User not exists!')
         }
         // console.log(user.isValidate)
@@ -105,20 +106,20 @@ export async function signIn(state: FormState, formData: FormData) {
 
         const validPassword = await bcrypt.compare(valid.password, user.password)
 
-		if (!validPassword) {
+        if (!validPassword) {
             throw new Error('Password is incorrect')
 
-		}
-		// 4. Create user session
+        }
+        // 4. Create user session
         await createSession(user)
 
-		// 5. Redirect user
-		redirect('/profile')
+        // 5. Redirect user
+        redirect('/profile')
 
-	} catch (e) {
+    } catch (e) {
 
         if (isRedirectError(e)) {
-            redirect('/otp')
+            return e
         }
 
         if (e instanceof Error) {
@@ -127,12 +128,12 @@ export async function signIn(state: FormState, formData: FormData) {
                 // prev: { email, password }
             }
         }
-		return {
-			message: 'An error occurred while creating your account.',
+        return {
+            message: 'An error occurred while creating your account.',
             // prev: { email, password }
 
-		}
-	}
+        }
+    }
 
 }
 

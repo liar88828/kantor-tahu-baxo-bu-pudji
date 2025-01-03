@@ -10,7 +10,9 @@ import { THistoryOrder } from "@/interface/entity/transaction.model";
 
 export const paymentAll = async ({ pagination, filter }: PaymentParams) => {
     const url = toUrl('payment', { ...pagination, ...filter })
-    return toFetch<ResponseAll<TPaymentDB>>('GET', { url })
+    const response = await toFetch<ResponseAll<TPaymentDB>>('GET', { url })
+    // console.log(response)
+    return response
 };
 
 export const paymentId = async (id: string) => {

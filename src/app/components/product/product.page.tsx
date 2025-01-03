@@ -8,10 +8,11 @@ import { repeat } from "@/utils/repeat";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 
-export function ProductCardPageUser({ product, detailProductAction, addTrolleyAction }: {
+export function ProductCardPageUser({ product, detailProductAction, addTrolleyAction, isLogin }: {
     product: TProductDB,
     detailProductAction: () => void,
-    addTrolleyAction: () => void
+    addTrolleyAction: () => void,
+    isLogin?: boolean
 }) {
     return (
         <div className=" bordered rounded-xl bg-base-200/20 shadow ">
@@ -32,12 +33,14 @@ export function ProductCardPageUser({ product, detailProductAction, addTrolleyAc
                         <p>{ toRupiah(product.price) }</p>
                         <p>{ product.type }</p>
                     </div>
-                    <button
+                    { isLogin &&
+                      <button
                         onClick={ addTrolleyAction }
                         className="btn btn-primary btn-sm btn-square "
-                    >
+                      >
                         <ShoppingCart className='' />
-                    </button>
+                      </button>
+                    }
                 </div>
             </div>
         </div>

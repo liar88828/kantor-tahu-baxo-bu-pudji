@@ -1,5 +1,5 @@
 import React from 'react';
-import { InvoiceLayout } from "@/app/components/invoice/invoice.client";
+import { InvoiceCheckHandler, InvoicePrintHandler } from "@/app/components/invoice/invoice.client";
 import { orderId } from "@/network/order";
 
 export async function InvoiceServer({ idOrder, paramsRedirect }: { idOrder: string, paramsRedirect: string, }) {
@@ -7,6 +7,15 @@ export async function InvoiceServer({ idOrder, paramsRedirect }: { idOrder: stri
     const order = await orderId(idOrder)
 
     return (
-        <InvoiceLayout redirectAction={ paramsRedirect } order={ order.data } />
+        <InvoicePrintHandler redirectAction={ paramsRedirect } order={ order.data } />
+    );
+}
+
+export async function InvoiceCheckServer({ idOrder, paramsRedirect }: { idOrder: string, paramsRedirect: string, }) {
+
+    const order = await orderId(idOrder)
+
+    return (
+        <InvoiceCheckHandler redirectAction={ paramsRedirect } order={ order.data } />
     );
 }

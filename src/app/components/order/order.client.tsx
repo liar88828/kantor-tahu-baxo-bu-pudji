@@ -1,25 +1,29 @@
 'use client'
-import React, { useEffect } from "react";
+import React, { useActionState, useEffect } from "react";
 import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
-import { Minus, Plus, Trash } from "lucide-react";
+import { Minus, MoveRight, Pen, Plus, Trash } from "lucide-react";
 import { OrderCreateAdmin } from "@/validation/order.valid";
 import { OrderDetailAdmin } from "@/app/components/order/order.page";
+import { OrderFormUpsertAdmin } from "@/app/components/order/order.form";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { ProductShowDialog } from "@/app/components/order/order.dialog";
+import { orderSanitize } from "@/sanitize/orderSanitize";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
+import { useDeliveryStore } from "@/store/delivery";
 import { useFormContext } from "react-hook-form";
 import { useOrder } from "@/hook/useOrder";
 import { useParams } from "next/navigation";
+import { usePaymentStore } from "@/store/payment";
 import { usePrint } from "@/hook/usePrint";
 import { useProductStore } from "@/store/product";
+import { useReceiverStore } from "@/store/receiver";
 import { useTable } from "@/hook/useTable";
 import { useTableStore } from "@/store/table";
-import { useDeliveryStore } from "@/store/delivery";
-import { useReceiverStore } from "@/store/receiver";
-import { usePaymentStore } from "@/store/payment";
-import { OrderFormUpsertAdmin } from "@/app/components/order/order.form";
-import { orderSanitize } from "@/sanitize/orderSanitize";
+import { HistoryUser } from "@/interface/entity/transaction.model";
+import { changeStatusAction } from "@/server/action/order";
+import { STATUS, toStatus } from "@/app/components/status";
+import Link from "next/link";
 
 export function ReceiverFormClientAdmin() {
     const { register, formState: { errors } } = useFormContext<OrderCreateAdmin>()
@@ -312,7 +316,7 @@ export function OrderFormUpdateClient({ idOrder, id_user }: { idOrder: string, i
             setPayment(order.Payments)
             setDelivery(order.Deliverys)
         }
-    }, [])
+    }, [ order, setDelivery, setPayment, setProductStore, setReceiverPartial ])
 
     if (isLoading || !order) return <PageLoadingSpin />
     if (isError) return <PageErrorData />
@@ -324,4 +328,64 @@ export function OrderFormUpdateClient({ idOrder, id_user }: { idOrder: string, i
             idCustomer={ id_user }
         />
     )
+}
+
+export function OrderIncomingPage({ invoice }: { invoice: Omit<HistoryUser, 'Customers'> }) {
+    const [ stateStatus, action, isPending ] = useActionState(changeStatusAction, undefined)
+
+    return (
+
+        <div
+            className="card card-compact bg-base-300"
+        >
+
+            <div className="card-body">
+                <div className="flex justify-between">
+                    <h2 className="text-base font-bold  sm:card-title ">
+                        #{ invoice.id }
+                    </h2>
+                    <div className={ `badge badge-${ toStatus(invoice.status) }` }>
+                        { invoice.status }
+                    </div>
+                </div>
+                <div>
+                    <div className=" text-xs sm:text-sm">
+                        <div className="flex ">
+                            <p>Total Item: { invoice.Trolleys.length }</p>
+                            <p>Total Price: { toRupiah(invoice.totalAll) }</p>
+                        </div>
+                        <p>{ toDate(invoice.orderTime) }</p>
+                    </div>
+                    <div className=" flex flex-row gap-5 mt-2">
+                        <form className="join w-full" action={ action }>
+                            <select
+                                name={ 'status' }
+                                className="select select-bordered join-item"
+                            >
+                                <option>{ STATUS.PENDING }</option>
+                                <option>{ STATUS.COMPLETE }</option>
+                                <option>{ STATUS.FAIL }</option>
+                            </select>
+                            <input type="hidden" name={ 'id' } value={ invoice.id } />
+                            <button
+                                disabled={ isPending }
+                                type="submit"
+                                className='btn btn-square btn-neutral join-item'
+                            >
+                                <Pen />
+                            </button>
+                        </form>
+                        <Link
+                            href={ `/invoice/check/${ invoice.id }?redirect=/profile` }
+                            className=' btn btn-square'
+                        >
+                            <MoveRight />
+                        </Link>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    );
 }

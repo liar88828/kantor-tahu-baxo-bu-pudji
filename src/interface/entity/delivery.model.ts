@@ -11,7 +11,7 @@ export type TDeliverySearch = {
 };
 
 export enum DELIVERY {
-    KEY = 'delivery'
+    KEY = 'delivery_query'
 }
 
 export type DeliveryParams = ParamsApi<TDeliverySearch>

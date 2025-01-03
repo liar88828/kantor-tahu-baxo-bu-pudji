@@ -11,7 +11,7 @@ export type TPaymentSearch = {
 };
 
 export enum PAYMENT {
-    KEY = 'payment',
+    KEY = 'payment_query',
 }
 
 export type PaymentParams = ParamsApi<TPaymentSearch>
