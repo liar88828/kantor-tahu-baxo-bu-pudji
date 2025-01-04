@@ -1,34 +1,27 @@
 'use server'
-import { revalidatePath } from "next/cache";
-import { prisma } from "@/config/prisma";
-import { z } from "zod";
+import { revalidateTag } from "next/cache";
+import { incomingActionFetch } from "@/network/order";
 
-export async function changeStatusAction(prevState: any, form: FormData): Promise<{
+export async function incomingActionForm(prevState: any, form: FormData): Promise<{
     msg: any,
     isSuccess: boolean,
 }> {
     try {
         const status = form.get('status') ?? ''
         const id = form.get('id') ?? ''
-        console.log(status);
+        // console.log(status);
         if (!id || !status) {
             throw new Error(`Invalid status: ${ status }`);
         }
-        const validData = z.object({
-            id: z.string().uuid(),
-            status: z.string(),
-        }).parse({ id, status });
 
-        const data = await prisma.orders.update({
-            where: {
-                id: validData.id
-            },
-            data: { status: validData.status }
-        })
-        // console.log(data)
-        revalidatePath('/')
+        // @ts-ignore
+        await incomingActionFetch({ id, status })
+
+        revalidateTag('incoming')
+        revalidateTag(status.toString())
+        revalidateTag(id.toString())
         return {
-            msg: `Success Change Order by Invoice : ${ validData.id } to ${ validData.status }`,
+            msg: `Success Change Order by Invoice : ${ id } to ${ status }`,
             isSuccess: true
         }
     } catch (err) {

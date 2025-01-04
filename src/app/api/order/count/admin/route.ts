@@ -5,7 +5,7 @@ import { orderController } from "@/server/controller";
 
 export async function GET(request: NextRequest, context: TContext) {
     return ResponseJson(
-        async () => orderController.findOrderStatusUser(request, context),
+        async () => orderController.findOrderCountAdmin(request, context),
         "GET",
         'order')
 }

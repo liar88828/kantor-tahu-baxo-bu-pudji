@@ -1,12 +1,16 @@
 'use client'
+import Link from "next/link";
 import React, { useActionState, useEffect } from "react";
 import { EmptyData, PageErrorData } from "@/app/components/PageErrorData";
+import { IncomingStatusResponse } from "@/interface/entity/transaction.model";
 import { Minus, MoveRight, Pen, Plus, Trash } from "lucide-react";
 import { OrderCreateAdmin } from "@/validation/order.valid";
 import { OrderDetailAdmin } from "@/app/components/order/order.page";
 import { OrderFormUpsertAdmin } from "@/app/components/order/order.form";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { ProductShowDialog } from "@/app/components/order/order.dialog";
+import { STATUS, toStatus } from "@/app/components/status";
+import { incomingActionForm } from "@/server/action/order";
 import { orderSanitize } from "@/sanitize/orderSanitize";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
@@ -20,10 +24,6 @@ import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
 import { useTable } from "@/hook/useTable";
 import { useTableStore } from "@/store/table";
-import { HistoryUser } from "@/interface/entity/transaction.model";
-import { changeStatusAction } from "@/server/action/order";
-import { STATUS, toStatus } from "@/app/components/status";
-import Link from "next/link";
 
 export function ReceiverFormClientAdmin() {
     const { register, formState: { errors } } = useFormContext<OrderCreateAdmin>()
@@ -330,20 +330,21 @@ export function OrderFormUpdateClient({ idOrder, id_user }: { idOrder: string, i
     )
 }
 
-export function OrderIncomingPage({ invoice }: { invoice: Omit<HistoryUser, 'Customers'> }) {
-    const [ stateStatus, action, isPending ] = useActionState(changeStatusAction, undefined)
+export function OrderIncomingPage({ invoice }: { invoice: IncomingStatusResponse }) {
+    const [ _stateStatus, action, isPending ] = useActionState(incomingActionForm, undefined)
 
     return (
-
-        <div
-            className="card card-compact bg-base-300"
-        >
-
+        <div className="card card-compact bg-base-300">
             <div className="card-body">
                 <div className="flex justify-between">
-                    <h2 className="text-base font-bold  sm:card-title ">
-                        #{ invoice.id }
-                    </h2>
+                    <div className="">
+                        <h2 className="text-base font-bold  md:card-title ">
+                            #{ invoice.id }
+                        </h2>
+                        <h2 className={ 'text-sm' }>
+                            { invoice.Customers.name }
+                        </h2>
+                    </div>
                     <div className={ `badge badge-${ toStatus(invoice.status) }` }>
                         { invoice.status }
                     </div>
@@ -356,11 +357,12 @@ export function OrderIncomingPage({ invoice }: { invoice: Omit<HistoryUser, 'Cus
                         </div>
                         <p>{ toDate(invoice.orderTime) }</p>
                     </div>
-                    <div className=" flex flex-row gap-5 mt-2">
-                        <form className="join w-full" action={ action }>
+                    <div className=" flex flex-row  mt-2 gap-5 justify-end">
+                        <form className="join  " action={ action }>
                             <select
-                                name={ 'status' }
                                 className="select select-bordered join-item"
+                                defaultValue={ invoice.status }
+                                name={ 'status' }
                             >
                                 <option>{ STATUS.PENDING }</option>
                                 <option>{ STATUS.COMPLETE }</option>
@@ -376,7 +378,7 @@ export function OrderIncomingPage({ invoice }: { invoice: Omit<HistoryUser, 'Cus
                             </button>
                         </form>
                         <Link
-                            href={ `/invoice/check/${ invoice.id }?redirect=/profile` }
+                            href={ `/invoice/check/${ invoice.id }?redirect=/admin/order/incoming/${ invoice.status.toLowerCase() }` }
                             className=' btn btn-square'
                         >
                             <MoveRight />
@@ -386,6 +388,5 @@ export function OrderIncomingPage({ invoice }: { invoice: Omit<HistoryUser, 'Cus
                 </div>
             </div>
         </div>
-
     );
 }

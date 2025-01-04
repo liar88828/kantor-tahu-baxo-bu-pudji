@@ -5,7 +5,7 @@ import { Invoice } from "@/app/components/invoice/invoice.page";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { usePathname } from "next/navigation";
 import { usePrint } from "@/hook/usePrint";
-import { changeStatusAction } from "@/server/action/order";
+import { incomingActionForm } from "@/server/action/order";
 import { STATUS } from "@/app/components/status";
 import { Pen } from "lucide-react";
 
@@ -45,7 +45,7 @@ export function InvoicePrintHandler({ redirectAction, order }: { redirectAction:
 export function InvoiceCheckHandler({ redirectAction, order }: { redirectAction: string, order: TOrderTransactionDB }) {
     const { isPrinting, handlePrint, contentRef } = usePrint()
     const path = usePathname()
-    const [ state, action, isPending ] = useActionState(changeStatusAction, undefined)
+    const [ state, action, isPending ] = useActionState(incomingActionForm, undefined)
 
     return ( <>
             <div ref={ contentRef }>

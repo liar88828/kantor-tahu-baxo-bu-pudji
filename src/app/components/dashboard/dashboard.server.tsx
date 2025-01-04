@@ -1,7 +1,7 @@
 import React from "react";
 import { EarningClient } from "@/app/components/dashboard/dashboard.client";
 import { TStatusOrder } from "@/interface/Utils";
-import { getEarningNew, getEarningOld, orderMonthTotal, orderTopTotal } from "@/network/order";
+import { findTopOrderTotal, getEarningNew, getEarningOld, orderMonthTotal } from "@/network/order";
 import { productRecent } from "@/network/product";
 import { receiverAll } from "@/network/receiver";
 import {
@@ -11,15 +11,19 @@ import {
     GridCardChild
 } from "@/app/components/dashboard/dashboard.page";
 
-export async function DashboardGridDataServerAdmin({ text, color }: { text: TStatusOrder, color: string }) {
+export async function DashboardGridDataServerAdmin({ text, color, title }: {
+    title: string,
+    text: TStatusOrder,
+    color: string
+}) {
     const response = await orderMonthTotal(text)
     return (
-        <GridCardChild data={ response.data } classNames={ color } />
+        <GridCardChild data={ response.data } classNames={ color } title={ title } />
     )
 }
 
 export async function DashboardTopOrderServerAdmin() {
-    const { data: orders } = await orderTopTotal()
+    const { data: orders } = await findTopOrderTotal()
     return (
         <DashboardOrderPage orders={ orders } />
     );

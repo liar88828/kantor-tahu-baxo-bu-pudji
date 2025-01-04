@@ -4,12 +4,18 @@ import { NextRequest } from "next/server"
 import { OrderProductTransaction } from "@/validation/orderProduct.valid"
 import { ReceiverCreate } from "@/validation/receiver.valid"
 import { TContext } from "@/interface/server/param"
-import { TOrderTransactionCreate, TOrderTransactionUpdate, } from "@/interface/entity/transaction.model"
+import {
+    IncomingStatusResponse,
+    TOrderTransactionCreate,
+    TOrderTransactionUpdate,
+} from "@/interface/entity/transaction.model"
 import { TStatusOrder } from "@/interface/Utils";
 import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams, getParamsThrow } from "@/utils/requestHelper"
 import { orderCreateServer } from "@/validation/order.valid"
+import { prisma } from "@/config/prisma";
 import { validSession } from "@/server/lib/db";
+import { z } from "zod";
 
 export default class OrderController
     implements InterfaceController {
@@ -38,18 +44,7 @@ export default class OrderController
 
     }
 
-    // async findSearch(__: NextRequest, _: TContext): Promise<any> {
-    //     return this.orderRepository.search({
-    //         receiverName: "Alice",
-    //         status: "Pending",
-    //         dateRange: {
-    //             start: new Date("2024-12-01"),
-    //             end: new Date("2024-12-31"),
-    //         },
-    //     })
-    // }
-
-    async findOrderStatus(request: NextRequest, _: TContext): Promise<any> {
+    async findOrderStatusUser(request: NextRequest, _: TContext): Promise<any> {
         const status = getParams(request, 'status',) ?? ''
         const { userId } = await validSession()
         return this.orderRepository.findOrderStatus({ status, userId })
@@ -113,6 +108,48 @@ export default class OrderController
     async findTopOrderTotal(request: NextRequest, _: TContext) {
         return this.orderRepository.findTopOrderTotal()
 
+    }
+
+    async incomingFindCon(request: NextRequest, _: TContext): Promise<IncomingStatusResponse[]> {
+        const status = getParamsThrow(request, "status")
+        const search = getParams(request, "search") ?? ''
+        return prisma.orders.findMany({
+            take: 10,
+            where: {
+                status: status,
+                ...( search ? { id: { contains: search } } : {} ),
+                // ...( search ? { Customers: { name: { contains: search } } } : {} )
+            },
+            include: {
+                Customers: true,
+                Trolleys: true
+            },
+            orderBy: {
+                updated_at: 'desc'
+            }
+        })
+    }
+
+    async incomingAction(request: NextRequest, _: TContext) {
+
+        const validData = z.object({
+            id: z.string().uuid(),
+            status: z.string(),
+        }).parse(await request.json());
+
+        return prisma.orders.update({
+            where: { id: validData.id },
+            data: {
+                status: validData.status,
+            }
+        })
+    }
+
+    async findOrderCountAdmin(request: NextRequest, _: TContext) {
+        const status = getParamsThrow(request, "status")
+        return prisma.orders.count({
+            where: { status }
+        })
     }
 
 }

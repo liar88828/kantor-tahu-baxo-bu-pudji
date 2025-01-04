@@ -1,15 +1,17 @@
+import { OrderParams, ResponseCreateOrderTransaction, ResponseMonthData } from "@/interface/entity/order.model";
+import { ResponseAll } from "@/interface/server/param";
+import { STATUS } from "@/app/components/status";
+import { TStatusOrder } from "@/interface/Utils";
 import { toFetch } from "@/hook/toFetch";
+import { toUrl } from "@/utils/toUrl";
 import {
     HistoryUser,
+    IncomingStatusResponse,
     OrderMonthTotal,
     TOrderTopTotal,
     TOrderTransactionCreate,
     TOrderTransactionDB
 } from "@/interface/entity/transaction.model";
-import { FetchResponse, ResponseAll } from "@/interface/server/param";
-import { toUrl } from "@/utils/toUrl";
-import { OrderParams, ResponseCreateOrderTransaction, ResponseMonthData } from "@/interface/entity/order.model";
-import { TStatusOrder } from "@/interface/Utils";
 
 export const orderCreate = (data: TOrderTransactionCreate) => toFetch<ResponseCreateOrderTransaction>('POST', {
     url: 'order',
@@ -22,66 +24,108 @@ export const orderUpdate = (data: TOrderTransactionCreate, id: string) => toFetc
 
 export const orderAll = ({ filter, pagination }: OrderParams) => {
     const url = toUrl('order', { ...filter, ...pagination })
-    console.log('is fetch...')
+    // console.log('is fetch...')
     return toFetch<ResponseAll<TOrderTransactionDB>>('GET', { url })
 }
 
 export const orderId = (id: string) => toFetch<TOrderTransactionDB>('GET', {
-    url: `order/${ id }`
+    url: `order/${ id }`, cacheData: {
+        next: {
+            revalidate: 5,
+            tags: [ 'incoming', id ]
+        }
+    }
 })
 
 export const orderDelete = (id: string) => toFetch('DELETE', {
     url: `order/${ id }`
 })
 
-export const orderMonthTotal = (status: TStatusOrder) => toFetch<OrderMonthTotal>('GET', {
-    url: `order/month?status=${ status }`
-    , cacheData: {
-        next: {
-            revalidate: 60 * 10
+export const orderMonthTotal = (status: TStatusOrder) => {
+    return toFetch<OrderMonthTotal>('GET', {
+        url: `order/month?status=${ status }`,
+        cacheData: {
+            next: {
+                revalidate: 60 * 10
+            }
         }
-    }
-})
+    })
+}
 
-export const orderTopTotal = () => toFetch<TOrderTopTotal[]>('GET', {
-    url: `order/top`,
-    cacheData: {
-        next: {
-            revalidate: 60 * 10
+export const findTopOrderTotal = () => {
+    return toFetch<TOrderTopTotal[]>('GET', {
+        url: `order/top`,
+        cacheData: {
+            next: {
+                revalidate: 60 * 10
+            }
         }
-    }
-})
+    })
+}
 
 export const getEarningOld = async (year: number) => {
-    return fetch(`http://localhost:3000/api/order?year=${ year - 1 }`, {
-        method: "GET",
-        next: {
-            revalidate: 60 * 60 * 24
+    return toFetch<ResponseMonthData>('GET', {
+        url: `order?year=${ year - 1 }`,
+        cacheData: {
+            next: {
+                revalidate: 60 * 60 * 24
+            }
         }
-    }).then(res => {
-        return res.json() as FetchResponse<ResponseMonthData>
     })
 }
 
 export const getEarningNew = async (year: number) => {
-    return fetch(`http://localhost:3000/api/order?year=${ year }`, {
-        method: "GET",
-        next: {
-            revalidate: 60 * 60
+    return toFetch<ResponseMonthData>('GET', {
+        url: `order?year=${ year }`,
+        cacheData: {
+            next: {
+                revalidate: 60 * 60
+            }
         }
-    }).then(res => {
-        return res.json() as FetchResponse<ResponseMonthData>
     })
 }
 
 export const findHistoryUser = async (status: string) => {
     const url = toUrl("history/user/order", { status: status, limit: 10 })
+    return toFetch<HistoryUser[]>("GET", {
+        url,
+        cacheData: {
+            next: { revalidate: 5 }
+        }
+    })
+}
 
-    return toFetch<HistoryUser[]>("GET",
-        {
-            url,
+export const incomingFindNet = async (status: TStatusOrder, search: string) => {
+    return toFetch<IncomingStatusResponse[]>
+    ('GET', {
+            url: `order/incoming?status=${ status }&search=${ search }`,
             cacheData: {
-                next: { revalidate: 5 }
+                // cache: "reload",
+                next: {
+                    tags: [ 'incoming', status, search ],
+                    revalidate: 60 * 10,
+                }
             }
-        })
+        }
+    )
+}
+
+export const incomingActionFetch = (data: { id: string, status: string }) => {
+    return toFetch('POST', {
+        url: 'order/incoming',
+        data
+    })
+}
+
+export const incomingFindCount = async (status: STATUS) => {
+    return toFetch<number>("GET", {
+        url: `order/count/admin?status=${ status }`,
+        cacheData: {
+            next: {
+                revalidate: 60 * 10,
+                tags: [ 'incoming', status ],
+            }
+        }
+
+    })
 }

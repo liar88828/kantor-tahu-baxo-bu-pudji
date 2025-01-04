@@ -6,14 +6,18 @@ import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
 import { TProductDB } from "@/interface/entity/product.model";
 
-export function GridCardChild({ classNames, data }: { data: OrderMonthTotal, classNames: string }) {
+export function GridCardChild({ classNames, data, title }: {
+    title: string,
+    data: OrderMonthTotal,
+    classNames: string
+}) {
     return (
         <div className={ `card  ${ classNames }  2xl:card-normal card-compact` }>
             <div className="card-body">
                 <div className=" flex md:flex-col xl:flex-row justify-around items-end md:items-start xl:items-end">
                     <div className="">
                         <h1 className={ 'font-bold ~text-2xl/3xl' }>{ toRupiah(data.totalAll) }</h1>
-                        <p className={ 'text-base-content/50 ~text-xs/base' }>Total Customers</p>
+                        <p className={ 'text-base-content/50 ~text-xs/base' }>{ title }</p>
                     </div>
                     <div className="">
                         <h2 className="text-xl font-bold  text-end sm:text-end md:text-start xl:text-end ">{ data.count }</h2>

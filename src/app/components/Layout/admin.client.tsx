@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
-import { ChevronLeftIcon, Inbox, LogOut, Menu, } from 'lucide-react';
-import { ReactNode, useState } from "react";
+import { ChevronLeftIcon, LogOut, Menu, } from 'lucide-react';
+import React, { ReactNode, useState } from "react";
 import { linkPrimary, linkSecondary, TMenuList } from "@/assets/MenuList";
 import { logout } from "@/server/lib/state";
 import { usePathname } from "next/navigation";
@@ -28,8 +28,8 @@ export function LinkListLayoutAdmin({ item, path }: {
     );
 }
 
-export function BaseLayoutAdmin({ children, isLogin, orderCount }: {
-    orderCount: number,
+export function BaseLayoutAdmin({ children2, children, isLogin }: {
+    children2: ReactNode,
     children: ReactNode,
     isLogin: boolean
 }) {
@@ -57,15 +57,9 @@ export function BaseLayoutAdmin({ children, isLogin, orderCount }: {
                         <Menu />
                     </button>
                 </div>
-                <div className="flex-none">
-                    <Link
-                        href={ '/admin/order/incoming' }
-                        className={ `flex items-center p-2 rounded ` }
-                    >
-                        <Inbox />
-                        <span className="flex-1 ms-3 whitespace-nowrap">{ 'Incoming' }</span>
-                        { <span className=" badge-neutral badge">{ orderCount }</span> }
-                    </Link>
+                <div className="flex-none ">
+
+                    { children2 }
 
                     { isLogin && (
                         <button

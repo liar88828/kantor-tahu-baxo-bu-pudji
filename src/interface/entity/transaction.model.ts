@@ -46,6 +46,11 @@ export type HistoryUser = Orders & {
     Trolleys: Trolleys[]
 }
 
+export type IncomingStatusResponse = Orders & {
+    Customers: TCustomersDB,
+    Trolleys: Trolleys[]
+}
+
 // export type TOrderProductCreate = Omit<
 //     TTrolleyDB,
 //     "id" | "id_order" | "id_user" | "qty"
