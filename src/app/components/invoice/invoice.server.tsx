@@ -1,6 +1,6 @@
 import React from 'react';
 import { InvoiceCheckHandler, InvoicePrintHandler } from "@/app/components/invoice/invoice.client";
-import { orderId } from "@/network/order";
+import { orderId } from "@/server/network/order";
 
 export async function InvoiceServer({ idOrder, paramsRedirect }: { idOrder: string, paramsRedirect: string, }) {
 

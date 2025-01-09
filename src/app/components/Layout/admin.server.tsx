@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { ReactNode } from "react";
 import { LoadingSpin } from "@/app/components/LoadingData";
 import { STATUS } from "@/app/components/status";
-import { incomingFindCount } from "@/network/order";
+import { incomingFindCount } from "@/server/network/order";
 
 export async function StatusIncomingCount({ status, icon }: { status: STATUS, icon: ReactNode }) {
     const count = await incomingFindCount(status)

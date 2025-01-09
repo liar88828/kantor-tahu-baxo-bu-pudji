@@ -32,8 +32,8 @@ const nextConfig: NextConfig = {
             allowedOrigins: [
                 'localhost',
                 'localhost:3000',
-                "192.168.1.5",
-                "192.168.1.5:3000",
+                // "192.168.1.5",
+                // "192.168.1.5:3000",
                 process.env.NEXT_PUBLIC_URL_PAGE_RAW as string,
                 process.env.NEXT_PUBLIC_URL_API_RAW as string
             ]

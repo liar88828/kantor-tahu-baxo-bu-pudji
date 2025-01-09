@@ -8,7 +8,7 @@ import { ProfileStatusCountPage } from "@/app/components/profile/profile.page";
 import { TStatusOrder } from "@/interface/Utils";
 import { Users } from "@prisma/client";
 import { changeProfile } from "@/server/action/auth";
-import { findHistoryUser } from "@/network/order";
+import { findHistoryUser } from "@/server/network/order";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
@@ -22,10 +22,10 @@ export function ProfileTrolleyCountClientUser() {
 
     const { count } = useTrolley()
     const { data, isLoading } = count()
-
-    if (!data || isLoading) {
-        return <LoadingSpin />
+    if (isLoading || data !== 0) {
+        return <LoadingSpin/>
     }
+
     return (
         <ProfileStatusCountPage
             isStatus={ false }

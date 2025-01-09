@@ -27,3 +27,10 @@ const data = <T extends ToModel>( to: T ): T => {
   return to;
 };
 data<'table'>( 'table' )
+
+export enum USER_STATUS {
+    OTP = 'OTP',
+    RESET = 'RESET',
+    COMPLETED = 'COMPLETED',
+
+}

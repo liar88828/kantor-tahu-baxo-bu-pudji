@@ -6,8 +6,8 @@ import bcrypt from "bcrypt";
 import { createSession, deleteSession } from "@/server/lib/state";
 import { ErrorOTP } from "@/utils/ErrorResponse";
 import { userRepository } from "@/server/controller/index";
-import { ROLE } from "@/interface/Utils";
-import { sendOtp } from "@/network/otp";
+import { ROLE, USER_STATUS } from "@/interface/Utils";
+import { sendOtp } from "@/server/network/otp";
 import { redirect } from "next/navigation";
 
 export type AuthResponse = {
@@ -52,8 +52,8 @@ export default class AuthController {
                 throw new Error('User not exists!')
             }
 
-            if (user.isValidate === true) {
-                throw new ErrorOTP('OTP Neet To Validate', 401)
+            if (user.status !== USER_STATUS.COMPLETED) {
+                throw new ErrorOTP('OTP Need To Validate', 401)
             }
 
             const validPassword = await bcrypt.compare(valid.password, user.password)
@@ -141,7 +141,7 @@ export default class AuthController {
         // await createSession(user.id)
         await sendOtp({
             email: user.email,
-            reason: 'VALID'
+            reason: USER_STATUS.OTP
         })
 
         // 5. Redirect user

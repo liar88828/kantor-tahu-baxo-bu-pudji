@@ -40,8 +40,6 @@ export default class UserRepository implements InterfaceRepository<TUserCreate> 
         return response;
     }
 
-
-
     async createOne(data: TUserCreate): Promise<Users> {
 		return prisma.users.create({data: {...data}});
 	}

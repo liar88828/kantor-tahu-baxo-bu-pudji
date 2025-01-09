@@ -29,15 +29,15 @@ export type PageParams = {
 };
 export type ResponseValidOTP = { msg: string | ZodIssue[], data?: string };
 
-export type OTPValid = {
-    email: string,
-    otp: string,
-    reason: 'RESET' | 'VALID'
-}
-
 export type OTPGenerate = {
     email: string,
     time: Date,
-    reason: 'RESET' | 'VALID'
-
+    reason: 'RESET' | 'OTP'
 }
+
+export type OTPValid = {
+    email: string,
+    otp: string,
+    // reason: 'RESET' | 'OTP'
+}
+

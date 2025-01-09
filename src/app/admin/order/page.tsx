@@ -2,7 +2,7 @@ import React from "react";
 import { FilterDialog, OrderSearch, OrderTableClientAdmin } from "@/app/components/order/OrderTable.client";
 import { ORDER } from "@/interface/entity/order.model";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { orderAll } from "@/network/order";
+import { orderAll } from "@/server/network/order";
 
 export default async function Page() {
     const queryClient = new QueryClient();

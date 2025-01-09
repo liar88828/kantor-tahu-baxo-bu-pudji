@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { PRODUCT, ResponseProductType, TProductCreate, TProductDB } from "@/interface/entity/product.model";
 import { PaginatedResponse, ResponseAll } from "@/interface/server/param";
 import { ProductStore } from "@/store/product";
-import { productAll, productCreate, productDelete, productUpdate, productUpdateStock } from "@/network/product";
+import { productAll, productCreate, productDelete, productUpdate, productUpdateStock } from "@/server/network/product";
 import { toFetch } from "@/hook/toFetch";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

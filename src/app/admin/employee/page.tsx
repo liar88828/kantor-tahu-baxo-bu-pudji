@@ -2,7 +2,7 @@ import React from 'react';
 import { EmployeeSearchClientAdmin, EmployeeTableClientAdmin } from "@/app/components/employee/employee.client";
 import { TContext } from "@/interface/server/param";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { employeeAll } from "@/network/employee";
+import { employeeAll } from "@/server/network/employee";
 import { getSearchName } from "@/utils/requestHelper";
 import { EMPLOYEE } from "@/interface/entity/employee.model";
 

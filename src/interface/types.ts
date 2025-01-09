@@ -5,3 +5,5 @@ interface typeObject {
 }
 const namea: TypeProperty<typeObject, "name"> = "brian";
 const age: TypeProperty<typeObject, "age">    = 20;
+
+export type PropertyMap<T> = { [K in keyof T]: any };

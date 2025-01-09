@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { deliveryAll } from "@/network/delivery";
+import { deliveryAll } from "@/server/network/delivery";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import toast from "react-hot-toast";
 

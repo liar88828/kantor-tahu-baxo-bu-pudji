@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { Pen, Plus, ShoppingCart, Star, Trash } from "lucide-react";
 import { ProductAddTrolleyClientUser } from "@/app/components/product/product.client";
-import { THistoryOrder } from "@/interface/entity/transaction.model";
 import { TProductDB } from "@/interface/entity/product.model";
 import { repeat } from "@/utils/repeat";
 import { toDate } from "@/utils/formatDate";
@@ -85,26 +84,6 @@ export function ProductCardPageAdmin(props: { product: TProductDB, onClick: () =
                 </div>
             </div>
         </div> )
-}
-
-export function ProductHistoryPageAdmin({ historyOrderProducts }: { historyOrderProducts: THistoryOrder[] }) {
-    return (
-        <div className="mt-2 ">
-            <h1 className={ 'text-2xl font-bold py-4' }>History</h1>
-            <div className="space-y-3 overflow-y-scroll h-[80vw] pb-20">
-                { historyOrderProducts.map(historyOrderProduct => (
-                    <div key={ historyOrderProduct.id } className={ 'card card-compact bg-base-200' }>
-                        <div className="card-body">
-                            <h2 className="card-title">#{ historyOrderProduct.id }</h2>
-                            <p className="">{ historyOrderProduct.address }</p>
-                            <p className="">{ historyOrderProduct.Customers.name }</p>
-                        </div>
-                    </div>
-                ))
-                }
-            </div>
-        </div>
-    );
 }
 
 export function ProductDetailPageAdmin({

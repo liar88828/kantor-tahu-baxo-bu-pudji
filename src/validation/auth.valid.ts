@@ -1,5 +1,20 @@
 import { z } from "zod";
 import { zodAddress, zodEmail, zodPassword, zodPhone } from "@/validation/zod.valid";
+import { PropertyMap } from "@/interface/types";
+
+export type FormStateRegister = {
+    prev: PropertyMap<FormFail>
+    errors?: {
+        address?: string[]
+        email?: string[]
+        name?: string[]
+        password?: string[]
+        phone?: string[]
+        confirm?: string[]
+    }
+    message: string
+} | undefined
+
 
 export type FormState = {
     errors?: {
@@ -48,3 +63,10 @@ export const ResetFormSchema = z.object({
         message: "Passwords don't match",
         path: [ "confirm" ],
     });
+
+export type FormFail = {
+    address: string
+    email: string
+    name: string
+    phone: string
+};

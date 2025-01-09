@@ -6,6 +6,7 @@ import { createSession } from "@/server/lib/state";
 import { prisma } from "@/config/prisma";
 import { generateOtp } from "@/utils/otp";
 import Zod from "zod";
+import { USER_STATUS } from "@/interface/Utils";
 
 // generate
 export async function POST(request: Request) {
@@ -14,6 +15,7 @@ export async function POST(request: Request) {
 
         const { time, email, reason } = validGenerateOtp.parse(json)
         const user = await prisma.users.findFirst({ where: { email } })
+
         if (!user) {
             throw new Error("User doesn't exist")
         }
@@ -30,8 +32,8 @@ export async function POST(request: Request) {
         const otpValid = new Date(Date.now() + 60 * 60 * 1000)// Invalid Date
         // console.log(otpValid)
 
-        if (reason === 'VALID') {
-            console.log("VALID")
+        if (reason === USER_STATUS.OTP) {
+            console.log("OTP")
 
         await prisma.users.update({
             where: { id: user.id },
@@ -39,12 +41,11 @@ export async function POST(request: Request) {
                 otp,
                 otpRegenerate: time,
                 otpCount: { increment: 1 },
-                otpValid,
-                isValidate: true,
+                status: USER_STATUS.OTP,
             }
         })
 
-        } else if (reason === 'RESET') {
+        } else if (reason === USER_STATUS.RESET) {
             console.log("RESET")
             await prisma.users.update({
                 where: { id: user.id },
@@ -52,8 +53,7 @@ export async function POST(request: Request) {
                     otp,
                     otpRegenerate: time,
                     otpCount: { increment: 1 },
-                    otpValid,
-                    isReset: true
+                    status: USER_STATUS.RESET
                 }
             })
         }
@@ -133,14 +133,14 @@ export async function PUT(request: Request): Promise<NextResponse<ResponseValidO
     try {
         const json: OTPValid = await request.json()
         console.log(json)
-        const { email, otp, reason } = validOtp.parse(json)
+        const { email, otp, } = validOtp.parse(json)
         const user = await prisma.users.findFirst({ where: { email } })
 
         if (!user) {
             throw new Error("User not found")
         }
 
-        if (user.otpValid < new Date()) {
+        if (user.otpExpired < new Date()) {
             throw new Error("The Otp Is Expired")
         }
 
@@ -149,7 +149,9 @@ export async function PUT(request: Request): Promise<NextResponse<ResponseValidO
             throw new Error("Otp Is Not Match")
         }
 
-        if (reason === 'VALID') {
+        if (user.status === USER_STATUS.OTP
+            || user.status === USER_STATUS.RESET
+        ) {
 
             await prisma.users.update({
                 where: {
@@ -157,29 +159,17 @@ export async function PUT(request: Request): Promise<NextResponse<ResponseValidO
                 },
                 data: {
                     otp: null,
-                    isValidate: false
+                    status: USER_STATUS.COMPLETED
                 }
             })
 
             await createSession(user)
 
-        } else if (reason === 'RESET') {
-
-            await prisma.users.update({
-                where: {
-                    id: user.id
-                },
-                data: {
-                    otp: null,
-                    // isReset: false
-                }
-            })
-
         }
 
         return NextResponse.json({
             msg: "Success",
-            data: reason
+            data: user.status
         }, { status: 200 });
 
     } catch (error) {

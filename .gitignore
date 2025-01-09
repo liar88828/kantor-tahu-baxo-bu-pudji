@@ -76,3 +76,4 @@ prisma/dev.db
 .idea
 .idea/workspace.xml
 /public/uploads/
+/prisma/dev_dev.db

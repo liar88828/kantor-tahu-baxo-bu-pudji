@@ -1,7 +1,7 @@
 import React from "react";
 import { EmployeeCVClientAdmin, EmployeeFormClientAdmin } from "@/app/components/employee/employee.client";
 import { EmployeePhotoAdmin } from "@/app/components/employee/employee.page";
-import { employeeId } from "@/network/employee";
+import { employeeId } from "@/server/network/employee";
 import { EmptyData } from "@/app/components/PageErrorData";
 
 export async function EmployeeDetailServerAdmin({ idEmployee }: { idEmployee: string }) {

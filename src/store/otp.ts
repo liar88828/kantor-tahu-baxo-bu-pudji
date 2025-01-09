@@ -6,7 +6,7 @@ type StoreOTP = {
     otp: string
     time: number | null
     remainingTime: number
-    reason: "VALID" | 'RESET'
+    reason: "OTP" | 'RESET'
 
 };
 
@@ -23,7 +23,7 @@ export const useOtpStore = create<OTPState>()(
                 email: "",
                 time: 0,
                 remainingTime: 0,
-                reason: "VALID"
+                reason: "OTP"
             },
             setData: (data) => {
                 set((state) => ({ store: { ...state.store, ...data } }))

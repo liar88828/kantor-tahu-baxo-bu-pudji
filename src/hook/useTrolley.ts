@@ -12,7 +12,7 @@ import {
     trolleyDecrement,
     trolleyId,
     trolleyIncrement
-} from "@/network/trolley";
+} from "@/server/network/trolley";
 
 export const useTrolley = () => {
     const queryClient = useQueryClient()

@@ -1,8 +1,9 @@
 import React from "react";
-import { ProductDetailPageUser, ProductHistoryPageAdmin } from "@/app/components/product/product.page";
+import { ProductDetailPageUser } from "@/app/components/product/product.page";
 import { ProductDetailClientAdmin, ProductFormClientAdmin } from "@/app/components/product/product.client";
-import { productHistory, productId } from "@/network/product";
+import { productHistory, productId } from "@/server/network/product";
 import { PageErrorData } from "@/app/components/PageErrorData";
+import { OrderHistoryCard } from "@/app/components/order/history";
 
 export async function ProductFormUpdateServerAdmin({ idProduct }: { idProduct: string }) {
     const { data } = await productId(idProduct)
@@ -27,7 +28,10 @@ export async function ProductHistoryServerAdmin({ idProduct }: { idProduct: stri
     const { data: historyProduct } = await productHistory(idProduct)
 
     return (
-        <ProductHistoryPageAdmin historyOrderProducts={ historyProduct } />
+        <OrderHistoryCard
+            idPage={ idProduct }
+            formPage={ 'product' }
+            orderHistory={ historyProduct }/>
     )
 }
 

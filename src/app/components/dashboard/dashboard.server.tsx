@@ -1,9 +1,9 @@
 import React from "react";
 import { EarningClient } from "@/app/components/dashboard/dashboard.client";
 import { TStatusOrder } from "@/interface/Utils";
-import { findTopOrderTotal, getEarningNew, getEarningOld, orderMonthTotal } from "@/network/order";
-import { productRecent } from "@/network/product";
-import { receiverAll } from "@/network/receiver";
+import { findTopOrderTotal, getEarningNew, getEarningOld, orderMonthTotal } from "@/server/network/order";
+import { productRecent } from "@/server/network/product";
+import { receiverAll } from "@/server/network/receiver";
 import {
     DashboardCustomerPage,
     DashboardOrderPage,

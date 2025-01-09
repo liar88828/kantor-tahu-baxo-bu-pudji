@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { PAYMENT, TPaymentCreate, TPaymentDB } from "@/interface/entity/payment.model";
 import { PaginatedResponse } from "@/interface/server/param";
 import { PaymentStore } from "@/store/payment";
-import { paymentAll, paymentCreate, paymentDelete, paymentUpdate } from "@/network/payment";
+import { paymentAll, paymentCreate, paymentDelete, paymentUpdate } from "@/server/network/payment";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 

@@ -5,32 +5,51 @@ import { redirect } from "next/navigation";
 import { createSession } from "@/server/lib/state";
 import {
     ForgetFormSchema,
+    FormFail,
     FormState,
+    FormStateRegister,
     ResetFormSchema,
     SignInFormSchema,
     SignupFormSchema
 } from "@/validation/auth.valid";
 import { userRepository } from "@/server/controller";
-import { ROLE } from "@/interface/Utils";
+import { ROLE, USER_STATUS } from "@/interface/Utils";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { sendOtp } from "@/network/otp";
+import { sendOtp } from "@/server/network/otp";
 import { checkPassword } from "../lib/password";
+import { PropertyMap } from "@/interface/types";
 
-export async function signUp(state: FormState, formData: FormData) {
+export async function signUp(state: FormStateRegister, formData: FormData): Promise<FormStateRegister> {
     // Validate form fields
+    const addressRaw = formData.get('address') ?? ''
+    const emailRaw = formData.get('email') ?? ''
+    const nameRaw = formData.get('name') ?? ''
+    const passwordRaw = formData.get('password') ?? ''
+    const phoneRaw = formData.get('phone') ?? ''
+    const confirmRaw = formData.get('confirm') ?? ''
+
+    const failForm: PropertyMap<FormFail> = {
+        address: addressRaw,
+        email: emailRaw,
+        name: nameRaw,
+        phone: phoneRaw,
+    }
+
     const validatedFields = SignupFormSchema.safeParse({
-        address: formData.get('address'),
-        email: formData.get('email'),
-        name: formData.get('name'),
-        password: formData.get('password'),
-        phone: formData.get('phone'),
-        confirm: formData.get('confirm'),
+        address: addressRaw,
+        confirm: confirmRaw,
+        email: emailRaw,
+        name: nameRaw,
+        password: passwordRaw,
+        phone: phoneRaw,
     })
 
     // If any form fields are invalid, return early
     if (!validatedFields.success) {
         return {
+            prev: failForm,
             errors: validatedFields.error.flatten().fieldErrors,
+            message: "Fail Register Please Complete Your Form"
         }
     }
 
@@ -52,6 +71,7 @@ export async function signUp(state: FormState, formData: FormData) {
 
     if (!user) {
         return {
+            prev: failForm,
             message: 'An error occurred while creating your account.',
         }
     }
@@ -60,16 +80,18 @@ export async function signUp(state: FormState, formData: FormData) {
     // await createSession(user.id)
     await sendOtp({
         email: user.email,
-        reason: 'VALID'
+        reason: 'OTP'
     })
 
     // 5. Redirect user
     redirect('/otp')
+
 }
 
 export async function signIn(state: FormState, formData: FormData): Promise<FormState> {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
+
     try {
 
         // Validate form fields
@@ -98,7 +120,7 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
             throw new Error('User not exists!')
         }
         // console.log(user.isValidate)
-        if (user.isValidate === true) {
+        if (user.status === USER_STATUS.OTP) {
             // console.log('will redirect to otp')
             // throw new Error('User is not Registered!. please go Otp')
             redirect('/otp')
@@ -119,7 +141,7 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
     } catch (e) {
 
         if (isRedirectError(e)) {
-            return e
+            throw e
         }
 
         if (e instanceof Error) {
@@ -222,7 +244,7 @@ export async function reset(state: FormState, formData: FormData) {
             throw new Error('User not exists!')
         }
 
-        if (user.isReset === true) {
+        if (user.status === USER_STATUS.RESET) {
             // console.log('will redirect to otp')
             // throw new Error('User is not Registered!. please go Otp')
             redirect('/otp')
@@ -234,7 +256,7 @@ export async function reset(state: FormState, formData: FormData) {
             where: { id: user.id },
             data: {
                 password: hashedPassword,
-                isReset: false
+                status: USER_STATUS.COMPLETED
             }
         })
         // await createSession({ usersId: user.id, role: user.role })

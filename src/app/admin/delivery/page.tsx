@@ -2,7 +2,7 @@ import React from 'react'
 import { DeliveryListClientAdmin, DeliverySearchClientAdmin } from "@/app/components/delivery/delivery.client";
 import { TContext } from "@/interface/server/param";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { deliveryAll } from "@/network/delivery";
+import { deliveryAll } from "@/server/network/delivery";
 import { getSearchName } from "@/utils/requestHelper";
 import { DELIVERY } from "@/interface/entity/delivery.model";
 

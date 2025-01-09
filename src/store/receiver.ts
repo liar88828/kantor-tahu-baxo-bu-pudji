@@ -1,7 +1,7 @@
 import { TOrderTransactionCreate } from "@/interface/entity/transaction.model";
 import { TReceiverCreate } from "@/interface/entity/receiver.model";
 import { create } from "zustand";
-import { receiverUser } from "@/network/receiver";
+import { receiverUser } from "@/server/network/receiver";
 
 type ReceiverStore = {
     receiver: TReceiverCreate & { id: string }

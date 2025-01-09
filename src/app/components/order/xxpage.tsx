@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useReceiverStore } from "@/store/receiver";
 import { TCustomersDB } from "@/interface/entity/receiver.model";
-import { receiverAll } from "@/network/receiver";
+import { receiverAll } from "@/server/network/receiver";
 import { Check, Plus, Search, XIcon } from "lucide-react";
 import Link from "next/link";
 

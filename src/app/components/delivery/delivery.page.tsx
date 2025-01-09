@@ -5,10 +5,17 @@ import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { toDate } from "@/utils/formatDate";
 import { toRupiah } from "@/utils/toRupiah";
 
-export function DeliveryCardPageAdmin(props: { delivery: TDeliveryDB, onClick: () => Promise<void> }) {
+export function DeliveryCardPageAdmin(props: {
+    delivery: TDeliveryDB,
+    goDetailAction: () => void,
+    onClick: () => Promise<void>
+}) {
     return (
         <div className="card card-side card-compact bg-base-200 ">
-            <figure>
+            <figure
+                className={ 'hover:cursor-pointer' }
+                onClick={ props.goDetailAction }
+            >
                 {/* eslint-disable-next-line @next/next/no-img-element */ }
                 <img
                     src="https://picsum.photos/200/300?random=1"
@@ -83,21 +90,3 @@ export function DeliveryDetailPageAdmin({ delivery }: { delivery: TDeliveryDB })
     );
 }
 
-export function DeliveryDetailHistoryPageAdmin({ delivery }: { delivery: TDeliveryDB[] }) {
-    return (
-        <div className="mt-2 pb-14">
-            <h1 className={ 'text-2xl font-bold py-4' }>History</h1>
-            <div className="space-y-3 overflow-y-scroll h-[80vw]">
-                { delivery.map(d => (
-                    <div key={ d.id } className={ 'card card-compact bg-base-200' }>
-                        <div className="card-body">
-                            <h2 className="card-title">#asdasda34234234</h2>
-                            <p className="">Data</p>
-                            <p className="">Data</p>
-                        </div>
-                    </div>
-                )) }
-            </div>
-        </div>
-    );
-}

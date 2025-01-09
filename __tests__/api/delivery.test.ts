@@ -4,7 +4,7 @@ import { toFetch } from "../../src/hook/toFetch";
 import { TProductDB } from "../../src/interface/entity/product.model";
 import { TDeliveryDB } from "../../src/interface/entity/delivery.model";
 import { exampleDelivery } from "../../src/assets/ExampleDelivery";
-import { deliveryCreate } from "../../src/network/delivery";
+import { deliveryCreate } from "../../src/server/network/delivery";
 
 const json: TDeliveryDB = structuredClone(exampleDelivery)
 

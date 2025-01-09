@@ -15,7 +15,7 @@ import {
 } from "@/app/components/product/product.page";
 import { ProductCreate } from "@/validation/product.valid";
 import { categoryData } from "@/assets/MenuList";
-import { productAll } from "@/network/product";
+import { productAll } from "@/server/network/product";
 import { toRupiah } from "@/utils/toRupiah";
 import { toUnique } from "@/utils/toUnique";
 import { useDebounce } from "@/hook/useDebounce";

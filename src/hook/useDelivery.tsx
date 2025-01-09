@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { DELIVERY, DeliveryParams, TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { PaginatedResponse } from "@/interface/server/param";
-import { deliveryAll, deliveryCreate, deliveryDelete, deliveryUpdate } from "@/network/delivery";
+import { deliveryAll, deliveryCreate, deliveryDelete, deliveryUpdate } from "@/server/network/delivery";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 

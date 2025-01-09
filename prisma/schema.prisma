@@ -53,8 +53,8 @@ model Trolleys {
   Product      Products @relation(fields: [id_product], references: [id])
   qty_at_buy   Int
   price_at_buy Int
-  Users   Users @relation(fields: [id_user], references: [id])
-  id_user String
+  Users        Users    @relation(fields: [id_user], references: [id])
+  id_user      String
 }
 
 model Products {
@@ -113,9 +113,8 @@ model Users {
   otp           String?
   otpCount      Int        @default(0)
   otpRegenerate DateTime   @default(now())
-  otpValid      DateTime   @default(now())
-  isValidate    Boolean    @default(false)
-  isReset       Boolean    @default(false)
+  otpExpired    DateTime   @default(now())
+  status        String     @default("OTP")
   Trolleys      Trolleys[]
   Session       Sessions?
 }

@@ -1,7 +1,10 @@
+'use server'
 import { DeliveryParams, TDeliveryCreate, TDeliveryDB } from "@/interface/entity/delivery.model";
 import { toFetch } from "@/hook/toFetch";
 import { ResponseAll } from "@/interface/server/param";
 import { toUrl } from "@/utils/toUrl";
+import { THistoryOrder } from "@/interface/entity/transaction.model";
+import { prisma } from "@/config/prisma";
 
 export const deliveryAll = async (
     { pagination, filter }: DeliveryParams
@@ -33,3 +36,23 @@ export const deliveryDelete = async (id: string) => {
         url: `delivery/${ id }`
     })
 };
+
+export const deliveryHistory = async (id: string) => {
+    const data: THistoryOrder[] = await prisma.orders.findMany({
+        include: {
+            Customers: {
+                select: {
+                    name: true
+                }
+            }
+        },
+        take: 10,
+        where: {
+            id_delivery: id
+        }
+    })
+
+    return {
+        data
+    }
+}

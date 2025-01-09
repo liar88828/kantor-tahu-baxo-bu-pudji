@@ -19,6 +19,7 @@ export default function SignupForm() {
 						<span className="label-text">Name</span>
 					</label>
 					<input
+                        defaultValue={ state?.prev.name }
 						id="name"
 						name="name"
 						placeholder="Enter your name"
@@ -35,6 +36,7 @@ export default function SignupForm() {
 						<span className="label-text">Email</span>
 					</label>
 					<input
+
                         value={ store.email }
                         onChange={ e => setData({
                             email: e.target.value,
@@ -56,6 +58,7 @@ export default function SignupForm() {
                         <span className="label-text">Phone</span>
                     </label>
                     <input
+                        defaultValue={ state?.prev.phone }
                         id="phone"
                         name="phone"
                         placeholder="Enter your phone number"
@@ -72,6 +75,7 @@ export default function SignupForm() {
                         <span className="label-text">Address</span>
                     </label>
                     <textarea
+                        defaultValue={ state?.prev.address }
                         id="address"
                         name="address"
                         placeholder="Enter your address"
@@ -136,7 +140,7 @@ export default function SignupForm() {
 					<button
                         onClick={ e => setData({
                             time: null,
-                            reason: "VALID"
+                            reason: "OTP"
                         }) }
 						disabled={ pending }
 						type="submit"

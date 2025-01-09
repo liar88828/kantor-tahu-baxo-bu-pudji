@@ -4,7 +4,6 @@ import { Pen, Trash } from "lucide-react";
 import { TPaymentDB } from "@/interface/entity/payment.model";
 import { toAccounting } from "@/utils/accounting";
 import { toDate } from "@/utils/formatDate";
-import { THistoryOrder } from "@/interface/entity/transaction.model";
 
 export function PaymentCardPageAdmin({ payment, onDeleteAction }: {
     payment: TPaymentDB,
@@ -95,24 +94,3 @@ export function PaymentDetailPageAdmin({ payment }: { payment: TPaymentDB }) {
     );
 }
 
-export function PaymentHistoryPageAdmin({ payments }: { payments: THistoryOrder[] }) {
-    return (
-        <div className='p-3 my-4 '>
-            <div className="mt-2 pb-14">
-                <h1 className={ 'text-2xl font-bold py-4' }>History</h1>
-                <div className="space-y-3 overflow-y-scroll h-[80vw]">
-                    { payments.map((payment) => (
-                        <div key={ payment.id } className={ 'card card-compact bg-base-200' }>
-                            <div className="card-body">
-                                <h2 className="card-title">#{ payment.id }</h2>
-                                <p className="">{ payment.address }</p>
-                                <p className="">{ payment.Customers.name }</p>
-                            </div>
-                        </div>
-                    ))
-                    }
-                </div>
-            </div>
-        </div>
-    );
-}

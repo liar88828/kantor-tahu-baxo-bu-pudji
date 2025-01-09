@@ -4,6 +4,7 @@ import { OTPGenerate, OTPValid, ResponseValidOTP } from "@/interface/server/para
 import { toFetch } from "@/hook/toFetch";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { USER_STATUS } from "@/interface/Utils";
 
 export const useEmail = () => {
     const route = useRouter()
@@ -41,12 +42,12 @@ export const useEmail = () => {
         },
         onSuccess: ({ data }, variables) => {
             toast.success("Success Validate Otp")
-            console.log(data === 'RESET')
-            if (data === 'VALID') {
-                // console.log('valid')
+            // console.log(data === 'RESET')
+            if (data === USER_STATUS.OTP) {
+                console.log('otp')
                 route.push('/home')
             }
-            if (data === 'RESET') {
+            if (data === USER_STATUS.RESET) {
                 console.log('reset')
                 route.push('/reset')
             }

@@ -5,7 +5,7 @@ import { TContext } from "@/interface/server/param";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient } from "@/app/components/Layout/ReactQueryProvider.server";
 import { getSearchName } from "@/utils/requestHelper";
-import { productAll } from "@/network/product";
+import { productAll } from "@/server/network/product";
 
 // export const revalidate = 0
 

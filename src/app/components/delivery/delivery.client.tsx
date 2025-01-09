@@ -14,6 +14,7 @@ import { useDeliveryStore } from "@/store/delivery";
 import { useForm } from "react-hook-form";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 export function DeliveryFormClientAdmin({ defaultValues, method, id, }: TReactFormHookComponent<TDeliveryDB>) {
     const { onUpsert } = useDelivery()
@@ -139,6 +140,7 @@ export function DeliveryFormClientAdmin({ defaultValues, method, id, }: TReactFo
 }
 
 export function DeliveryListClientAdmin() {
+    const router = useRouter();
     const { search } = useDeliveryStore()
     const searchDebounce = useDebounce({ value: search })
     const { onDelete, getAll, useDeliveryInfiniteQuery } = useDelivery()
@@ -163,6 +165,7 @@ export function DeliveryListClientAdmin() {
                         <DeliveryCardPageAdmin
                             key={ delivery.id }
                             delivery={ delivery }
+                            goDetailAction={ () => router.push('/admin/delivery/' + delivery.id) }
                             onClick={ () => onDelete(delivery.id) }
                         />
                     )) )

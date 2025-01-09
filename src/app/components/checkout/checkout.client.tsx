@@ -19,7 +19,7 @@ import {
 } from "@/app/components/order/order.dialog";
 import { useQuery } from "@tanstack/react-query";
 import { ORDER } from "@/interface/entity/order.model";
-import { receiverUser } from "@/network/receiver";
+import { receiverUser } from "@/server/network/receiver";
 
 export function CheckoutClientUser() {
 

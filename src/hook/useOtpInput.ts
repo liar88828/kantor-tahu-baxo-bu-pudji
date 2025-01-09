@@ -45,7 +45,7 @@ const useOtpInput = () => {
         if (enteredOtp.length !== 6) {
             setError("Please enter a 6-digit OTP.");
         } else {
-            validOTP.mutate({ email: store.email, otp: enteredOtp, reason: store.reason });
+            validOTP.mutate({ email: store.email, otp: enteredOtp });
             if (validOTP.isError) {
                 setError("Invalid OTP. Please try again.");
             }

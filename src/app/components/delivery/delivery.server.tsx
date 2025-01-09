@@ -1,8 +1,9 @@
 import React from "react";
-import { DeliveryDetailHistoryPageAdmin, DeliveryDetailPageAdmin } from "@/app/components/delivery/delivery.page";
+import { DeliveryDetailPageAdmin } from "@/app/components/delivery/delivery.page";
 import { PageErrorData } from "@/app/components/PageErrorData";
-import { deliveryAll, deliveryId } from "@/network/delivery";
+import { deliveryHistory, deliveryId } from "@/server/network/delivery";
 import { DeliveryFormClientAdmin } from "@/app/components/delivery/delivery.client";
+import { OrderHistoryCard } from "@/app/components/order/history";
 
 export async function DeliveryDetailServerAdmin({ idDelivery }: { idDelivery: string }) {
     const { data: delivery } = await deliveryId(idDelivery)
@@ -13,11 +14,14 @@ export async function DeliveryDetailServerAdmin({ idDelivery }: { idDelivery: st
 }
 
 export async function DeliveryDetailHistoryServerAdmin({ idDelivery }: { idDelivery: string }) {
-    const { data: delivery } = await deliveryAll({ filter: {}, pagination: {} })
-    if (!delivery) {
+    const { data: deliverys } = await deliveryHistory(idDelivery)
+    if (!deliverys) {
         return <PageErrorData code={ 404 } msg={ 'Data History Delivery is Empty' } />
     }
-    return <DeliveryDetailHistoryPageAdmin delivery={ delivery.data } />
+    return <OrderHistoryCard
+        idPage={ idDelivery }
+        formPage={ 'delivery' }
+        orderHistory={ deliverys }/>
 }
 
 export async function DeliveryFormUpdateServerAdmin({ idDelivery }: { idDelivery: string }) {

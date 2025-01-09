@@ -4,7 +4,7 @@ import { PageEmptyData } from "@/app/components/PageErrorData";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { TContext } from "@/interface/server/param";
 import { getSearchName } from "@/utils/requestHelper";
-import { incomingFindNet } from "@/network/order";
+import { incomingFindNet } from "@/server/network/order";
 
 export default async function Page(context: TContext) {
     const search = await getSearchName(context, 'search') ?? '';

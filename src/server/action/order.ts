@@ -1,6 +1,6 @@
 'use server'
 import { revalidateTag } from "next/cache";
-import { incomingActionFetch } from "@/network/order";
+import { incomingActionFetch } from "@/server/network/order";
 
 export async function incomingActionForm(prevState: any, form: FormData): Promise<{
     msg: any,

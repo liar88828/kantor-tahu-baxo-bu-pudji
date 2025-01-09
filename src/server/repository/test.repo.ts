@@ -140,7 +140,7 @@ class TestRepo {
                     ],
                 "orderReceiver":
                     {
-                        id: "",
+                        id: user?.id ?? '',
                         "name": faker.finance.accountName(),
                         "address": "456 Elm Street, Springfield, USA",
                         "phone": faker.phone.number()
@@ -176,13 +176,12 @@ class TestRepo {
                 address: faker.location.streetAddress(),
                 email: faker.internet.email(),
                 password: faker.internet.password(),
-                role: faker.helpers.arrayElement([ 'admin', 'user', 'moderator' ]),
+                role: faker.helpers.arrayElement([ "USER" ]),
                 otp: faker.number.int(6).toString(),
                 otpCount: 0,
                 otpRegenerate: new Date(),
-                otpValid: new Date(),
-                isValidate: false,
-                isReset: false,
+                otpExpired: new Date(),
+                status: faker.helpers.arrayElement([ 'OTP', 'RESET', 'COMPLETED' ]),
             }
         })
         return 'success'

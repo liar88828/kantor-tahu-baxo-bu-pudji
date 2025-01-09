@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { PRODUCT_FILTER_PRICE, TProductDB } from "@/interface/entity/product.model";
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { create } from "zustand";
-import { productAll } from "@/network/product";
+import { productAll } from "@/server/network/product";
 
 export interface ProductStore {
 	total: number;

@@ -63,6 +63,10 @@ export default function LoginForm() {
                 {/* Submit Button */ }
                 <div className="card-actions">
                     <button
+                        onClick={ () => setData({
+                            time: null,
+                            reason: "OTP"
+                        }) }
                         disabled={ pending }
                         type="submit"
                         className={ `btn btn-primary w-full ${ pending ? "btn-disabled" : "" } mt-5` }

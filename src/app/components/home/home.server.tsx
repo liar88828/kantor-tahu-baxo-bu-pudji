@@ -1,6 +1,6 @@
 import { HomeProductClientUser } from "@/app/components/home/home.client";
 import { PRODUCT_FILTER_PRICE } from "@/interface/entity/product.model";
-import { productNew } from "@/network/product";
+import { productNew } from "@/server/network/product";
 
 export type ProductHome = { isLogin: boolean };
 export async function NewProduct({ isLogin }: ProductHome) {
