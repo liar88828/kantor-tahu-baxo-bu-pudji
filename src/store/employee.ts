@@ -1,9 +1,10 @@
 import { create } from 'zustand'
+import { STATUS_EMPLOYEE } from "@/interface/Utils";
 
 interface EmployeeStore {
 	filter: {
 		name: string,
-		status: string,
+        status: STATUS_EMPLOYEE | string,
 	},
 	setFilter: (filter: Partial<EmployeeStore['filter']>) => void,
 }

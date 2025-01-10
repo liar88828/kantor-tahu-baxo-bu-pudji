@@ -70,11 +70,11 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
     });
 
     const { register, handleSubmit, formState: { errors } } = methods
-
+    console.log(errors)
     const onSubmit = async (data: EmployeeCreateZod) => {
         if (method === 'POST') {
             data.employmentType = 'Full-Time'
-            data.status = 'Process'
+            data.status = 'Pending'
             await onUpsert(data, method)
         } else if (method === 'PUT') {
             await onUpsert(data, method)
@@ -86,6 +86,14 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
         <div className="container mx-auto p-4">
             <FormProvider { ...methods }>
                 <form onSubmit={ handleSubmit(onSubmit) } className="space-y-4">
+                    <input
+                        type="hidden"
+                        { ...register('status',
+                            {
+                                value: 'Pending'
+                            }
+                        ) }
+                    />
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Name</span>
@@ -151,7 +159,7 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
                             className="input input-bordered"
                         />
                         { errors.dateOfBirth &&
-                          <p className="text-error text-sm mt-1">{ errors.dateOfBirth.message }</p> }
+													<p className="text-error text-sm mt-1">{ errors.dateOfBirth.message }</p> }
 
                     </div>
 
@@ -192,7 +200,7 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
                             placeholder="Department"
                         />
                         { errors.department &&
-                          <p className="text-error text-sm mt-1">{ errors.department.message }</p> }
+													<p className="text-error text-sm mt-1">{ errors.department.message }</p> }
 
                     </div>
 
@@ -262,7 +270,7 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
                             placeholder="Postal Code"
                         />
                         { errors.postalCode &&
-                          <p className="text-error text-sm mt-1">{ errors.postalCode.message }</p> }
+													<p className="text-error text-sm mt-1">{ errors.postalCode.message }</p> }
                     </div>
 
                     <div className="form-control">
@@ -287,7 +295,7 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
                             <option value="Part-Time">Part-Time</option>
                         </select>
                         { errors.employmentType &&
-                          <p className="text-error text-sm mt-1">{ errors.employmentType.message }</p> }
+													<p className="text-error text-sm mt-1">{ errors.employmentType.message }</p> }
                     </div>
 
                     <div className="form-control">
@@ -314,10 +322,10 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
                         { errors.education && <p className="text-error text-sm mt-1">{ errors.education.message }</p> }
                     </div>
 
-                    <EmployeeFormContextClientAdmin keys={ 'skills' } label={ 'Skills' } />
-                    <EmployeeFormContextClientAdmin keys={ 'languages' } label={ 'Languages' } />
-                    <EmployeeFormContextClientAdmin keys={ 'certifications' } label={ 'Certifications' } />
-                    <EmployeeFormContextClientAdmin keys={ 'projects' } label={ 'Projects' } />
+                    <EmployeeFormContextClientAdmin keys={ 'skills' } label={ 'Skills' }/>
+                    <EmployeeFormContextClientAdmin keys={ 'languages' } label={ 'Languages' }/>
+                    <EmployeeFormContextClientAdmin keys={ 'certifications' } label={ 'Certifications' }/>
+                    <EmployeeFormContextClientAdmin keys={ 'projects' } label={ 'Projects' }/>
 
                     <div className="form-control">
                         <label className="label">
@@ -402,12 +410,14 @@ export function EmployeeSearchClientAdmin({ children }: { children: React.ReactN
                     >
                         <option disabled value={ '' }>Filter</option>
                         {/*<option value={ '' }>All</option>*/ }
-                        <option>Process</option>
+                        <option>Pending</option>
+                        <option>Fail</option>
+                        <option>Complete</option>
                         <option>Active</option>
-                        <option>Inactive</option>
+                        <option>Disabled</option>
                     </select>
                 </Form>
-                <Link href={ '/admin/employee/create' } className={ 'btn' }>
+                <Link href={ '/admin/employee/create' } className={ 'btn btn-square' }>
                     <Plus />
                 </Link>
             </div>
@@ -418,7 +428,7 @@ export function EmployeeSearchClientAdmin({ children }: { children: React.ReactN
 
 export function EmployeeTableClientAdmin() {
     const { filter } = useEmployeeStore();
-    const { getAll, useEmployeeInfiniteQuery } = useEmployee()
+    const { useEmployeeInfiniteQuery } = useEmployee()
     const searchDebounced = useDebounce({ value: filter.name }); // 1000ms delay
     const statusDebounced = useDebounce({ value: filter.status }); // 1000ms delay
 
@@ -436,7 +446,7 @@ export function EmployeeTableClientAdmin() {
         },
         filter)
 
-    if (status === 'pending' || isLoading && isFetching || !data) return <PageLoadingSpin />
+    if (status === 'pending' || !data) return <PageLoadingSpin/>
     if (status === 'error' || isError || error) return <PageEmptyData page={ 'Employee User' } />
 
     return (

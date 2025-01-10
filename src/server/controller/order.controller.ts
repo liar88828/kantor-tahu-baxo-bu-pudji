@@ -16,6 +16,7 @@ import { orderCreateServer } from "@/validation/order.valid"
 import { prisma } from "@/config/prisma";
 import { validSession } from "@/server/lib/db";
 import { z } from "zod";
+import { STATUS } from "@/app/components/status";
 
 export default class OrderController
     implements InterfaceController {
@@ -146,10 +147,21 @@ export default class OrderController
     }
 
     async findOrderCountAdmin(request: NextRequest, _: TContext) {
-        const status = getParamsThrow(request, "status")
+        const currentYear = new Date().getFullYear();
+        const startOfYear = new Date(currentYear, 0, 1); // January 1st of the current year
+        const endOfYear = new Date(currentYear + 1, 0, 1); // January 1st of the next year
+// console.log(endOfYear,'---------')
+        const status = getParamsThrow(request, "status") as STATUS
+
         return prisma.orders.count({
-            where: { status }
-        })
+            where: {
+                status,
+                updated_at: {
+                    ...(status !== 'Complete' && { gte: startOfYear }), // Greater than or equal to start of the year
+                    ...(status !== 'Complete' && { lt: endOfYear, }), // Less than the start of the next year
+                }
+            },
+        },)
     }
 
 }

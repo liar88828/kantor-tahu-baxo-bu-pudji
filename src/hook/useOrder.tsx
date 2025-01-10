@@ -14,6 +14,8 @@ import { usePaymentStore } from "@/store/payment";
 import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
 import { useRouter } from "next/navigation";
+import { revalidateTag } from "next/cache";
+import { STATUS } from "@/app/components/status";
 
 export function useOrder() {
     const router = useRouter();
@@ -120,6 +122,8 @@ export function useOrder() {
             delivery.reset()
             receiver.reset()
             payment.reset()
+            revalidateTag('incoming')
+            revalidateTag(STATUS.PENDING)
             router.push(`/invoice/${ data.data.order.id }?redirect=/home`)
         },
     })

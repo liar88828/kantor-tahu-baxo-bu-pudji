@@ -77,3 +77,5 @@ prisma/dev.db
 .idea/workspace.xml
 /public/uploads/
 /prisma/dev_dev.db
+/.vscode/settings.json
+/test.sql

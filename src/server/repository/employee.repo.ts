@@ -10,7 +10,7 @@ export type EmployeeParams = ParamsApi<TEmployeeSearch>
 export default class EmployeeRepository implements InterfaceRepository<EmployeeCreateZod> {
 
     async findAll({ filter, pagination: { limit = 20, page = 1 } }: Required<EmployeeParams>,
-	): Promise<ResponseAll<TEmployeeDB>> {
+    ): Promise<ResponseAll<Omit<TEmployeeDB, 'status'> & { status: string }>> {
 		const skip = (page - 1) * limit;
 		const take = limit;
 		const employees = await prisma.employees.findMany(

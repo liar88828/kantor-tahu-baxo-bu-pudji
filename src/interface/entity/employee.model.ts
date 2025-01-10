@@ -1,6 +1,8 @@
 import { Certifications, Employees, Languages, Projects, Skills } from "@prisma/client";
+import { STATUS_EMPLOYEE } from "@/interface/Utils";
 
 export type TEmployeeDB = Employees & {
+    status: STATUS_EMPLOYEE;
     skills: Skills[];
     languages: Languages[];
     certifications: Certifications[];
@@ -9,10 +11,18 @@ export type TEmployeeDB = Employees & {
     updatedAt: Date;
 };
 
-export type TEmployeeSearch = Pick<TEmployeeDB, 'name' | 'status'> & { page?: number };
+export type TEmployeeSearch = {
+    name: string
+    status: STATUS_EMPLOYEE | string
+} & { page?: number };
+
+
 export type EmployeeCreate =
-    Omit<Employees, 'updatedAt' | 'createdAt' | 'id' | 'managerId' | 'photoKtp' | 'photo3x4'>
+    Omit<Employees, 'updatedAt' | 'createdAt' | 'id' | 'managerId' | 'photoKtp' | 'photo3x4'
+        | 'status'
+    >
     & {
+    status: STATUS_EMPLOYEE
     skills: Pick<Skills, 'text'>[];
     languages: Pick<Languages, 'text'>[];
     certifications: Pick<Certifications, 'text'>[];

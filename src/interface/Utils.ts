@@ -23,6 +23,7 @@ export enum ROLE {
 export type TMethod = "PUT" | "POST" | "GET" | "DELETE" | "PATCH";
 export type TRes<T> = { msg: string, data: T }
 export type TStatusOrder = 'Fail' | 'Complete' | 'Pending'
+export type STATUS_EMPLOYEE = 'Fail' | 'Complete' | 'Pending' | 'Active' | 'Disabled'
 const data = <T extends ToModel>( to: T ): T => {
   return to;
 };

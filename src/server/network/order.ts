@@ -123,9 +123,8 @@ export const incomingFindCount = async (status: STATUS) => {
         cacheData: {
             next: {
                 revalidate: 60 * 10,
-                tags: [ 'incoming', status ],
+                tags: [ 'incoming', status ]
             }
         }
-
     })
 }
