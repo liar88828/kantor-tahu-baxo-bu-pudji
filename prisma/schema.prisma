@@ -190,3 +190,11 @@ model Projects {
   Employees   Employees @relation(fields: [employeesId], references: [id])
   employeesId String
 }
+
+model Testimonials {
+  id     Int    @id @default(autoincrement())
+  name   String
+  desc   String
+  social String
+  jobs   String
+}

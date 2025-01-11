@@ -82,7 +82,7 @@ export default class TrolleyRepository implements InterfaceRepository<TTrolleyDB
 
     }
 
-    async updateOne(data: TTrolleyUpdate, id?: string): Promise<any> {
+    async updateOne(data: TTrolleyUpdate, id: string) {
         return prisma.trolleys.update({
             where: { id },
             data: {

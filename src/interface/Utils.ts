@@ -13,6 +13,7 @@ export type ToModel =
 	| 'receiver'
 	| 'employee'
 	| "user"
+    | 'ceremony'
 
 export enum ROLE {
     USER = "USER",

@@ -13,6 +13,14 @@ export async function getId({ params }: TContext) {
     throw new Error("please add id")
 }
 
+export async function getIdNum({ params }: TContext): Promise<number> {
+    const param = await params
+    if (param) {
+        return Number(param.id)
+    }
+    throw new Error("please add id")
+}
+
 export async function getContext({ params }: TContext, key: keyof Awaited<TContext['params']>) {
 
     const param = await params
@@ -30,6 +38,15 @@ export async function getSearchName({ searchParams }: TContext, text: keyof Awai
     return ''
 }
 
+export async function getSearchNameNum({ searchParams }: TContext, text: keyof Awaited<TContext['searchParams']>): Promise<number> {
+    const searchParam = await searchParams
+    if (searchParam && text in searchParam) {
+        return Number(searchParam[text])
+    }
+    return 1
+}
+
+
 export async function getJson(request: NextRequest) {
     return request.json()
 }
@@ -39,6 +56,13 @@ export function getParams(request: NextRequest, text: string) {
     const searchParams = new URLSearchParams(url.search)
     return searchParams.get(text) ?? undefined
 }
+
+export function getParamsNum(request: NextRequest, text: string): number | undefined {
+    const url = new URL(request.url)
+    const searchParams = new URLSearchParams(url.search)
+    return Number(searchParams.get(text)) ?? undefined
+}
+
 
 export function getParamsBool(request: NextRequest, text: string) {
     const url = new URL(request.url)

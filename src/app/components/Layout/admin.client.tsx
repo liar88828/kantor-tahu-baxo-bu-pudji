@@ -102,6 +102,7 @@ export function BaseLayoutAdmin({ children2, children, isLogin }: {
                         <div className="divider"></div>
 
                         <ul className="space-y-2 font-medium">
+                            {/*------------SideBar------------*/ }
                             { linkPrimary.map(item => (
                                 <LinkListLayoutAdmin key={ item.label } item={ item } path={ path } />
                             )) }

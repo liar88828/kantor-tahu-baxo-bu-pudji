@@ -16,8 +16,11 @@ import DeliveryController from "@/server/controller/delivery.controller";
 import UserController from "@/server/controller/user.controller";
 import UserRepository from "@/server/repository/user.repo";
 import AuthController from "@/server/controller/auth.controller";
+import TestimonialController from "@/server/controller/testimonial.controller";
+import TestimonialRepository from "@/server/repository/testimonial.repo";
 
 export const userRepository = new UserRepository();
+export const testimonialRepository = new TestimonialRepository();
 
 export const trolleyController = new TrolleyController(new TrolleyRepository())
 export const productController = new ProductController(new ProductRepository())
@@ -28,4 +31,5 @@ export const receiverController = new ReceiverController(new CustomerRepository(
 export const employeeController = new EmployeeController(new EmployeeRepository())
 export const deliveryController = new DeliveryController(new DeliveryRepository())
 export const userController = new UserController(userRepository)
+export const ceremonyController = new TestimonialController(testimonialRepository)
 export const authController = new AuthController()

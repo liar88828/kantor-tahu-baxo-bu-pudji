@@ -5,12 +5,12 @@ export interface InterfaceRepository<T> {
 
 	findAll(params:ParamsApi<object>): Promise<any>;
 
-	findById(id: string): Promise<any>;
+    findById(id: string | number): Promise<any>;
 
 	createOne(data: T,): Promise<any>;
 
-	updateOne(data: T | any, id: string): Promise<any>;
+    updateOne(data: T | any, id: string | number): Promise<any>;
 
-	deleteOne(id: string): Promise<any>;
+    deleteOne(id: string | number): Promise<any>;
 
 }

@@ -6,6 +6,7 @@ import {
     CreditCard,
     GlassWater,
     GraduationCap,
+    HandPlatter,
     HomeIcon,
     LucidePackageSearch,
     PcCase,
@@ -94,4 +95,11 @@ export const linkSecondary: TMenuList[] = [
         icon: <CreditCard className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' } />,
         label: 'Payment'
     },
+
+    {
+        href: '/admin/ceremony',
+        icon: <HandPlatter className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
+        label: 'Ceremony'
+    },
+
 ]

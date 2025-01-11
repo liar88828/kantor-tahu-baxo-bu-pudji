@@ -4,6 +4,7 @@ import { signIn } from "@/server/action/auth";
 import { useActionState } from "react";
 import Link from "next/link";
 import { useOtpStore } from "@/store/otp";
+import { ErrorForm } from "@/app/components/errorForm";
 
 export default function LoginForm() {
     const { store, setData } = useOtpStore()
@@ -28,9 +29,7 @@ export default function LoginForm() {
                         className="input input-bordered w-full"
                         // defaultValue={ state?.prev?.email ??''}
                     />
-                    { state?.errors?.email && (
-                        <p className="text-red-500 text-sm mt-1">{ state.errors.email }</p>
-                    ) }
+                    <ErrorForm errors={ state?.errors?.email } title="must add:"/>
                 </div>
 
                 {/* Password Input */ }
@@ -46,16 +45,7 @@ export default function LoginForm() {
                         className="input input-bordered w-full"
                         // defaultValue={ state?.prev?.password ??''}
                     />
-                    { state?.errors?.password && (
-                        <div className="mt-2 text-red-500 text-sm">
-                            <p>Password must:</p>
-                            <ul className="list-disc list-inside">
-                                { state.errors.password.map((error) => (
-                                    <li key={ error }>{ error }</li>
-                                )) }
-                            </ul>
-                        </div>
-                    ) }
+                    <ErrorForm errors={ state?.errors?.password } title="must Add:"/>
                 </div>
                 { state?.message && (
                     <p className="text-red-500 text-sm mt-1">{ state.message }</p>
@@ -105,5 +95,3 @@ export default function LoginForm() {
         </div>
     );
 }
-
-
