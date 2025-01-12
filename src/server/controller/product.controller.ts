@@ -8,6 +8,7 @@ import { PRODUCT_FILTER_PRICE, ResponseProductType, UpdateStock } from "@/interf
 import ProductRepository from "@/server/repository/product.repo";
 import { prisma } from "@/config/prisma";
 import { THistoryOrder } from "@/interface/entity/transaction.model";
+import { authApi } from "@/server/lib/api";
 
 export default class ProductController
     implements InterfaceController {
@@ -78,11 +79,13 @@ export default class ProductController
     }
 
     async createOne(request: NextRequest, _context: TContext): Promise<any> {
+        await authApi(request, true)
         const json = await getJson(request)
         return this.productRepository.createOne(ProductCreate.parse(json))
     }
 
     async updateOne(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request, true)
         const id = await getId(context)
         const json = await getJson(request)
         return this.productRepository.updateOne(
@@ -92,6 +95,7 @@ export default class ProductController
     }
 
     async updateStock(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request, true)
         const id: string = await getId(context)
         const json: Omit<UpdateStock, 'id'> = await getJson(request)
         return this.productRepository.updateStock(
@@ -99,7 +103,8 @@ export default class ProductController
         )
     }
 
-    async deleteOne(_request: NextRequest, context: TContext) {
+    async deleteOne(request: NextRequest, context: TContext) {
+        await authApi(request, true)
         const id = await getId(context)
         // if (res) {
         // await fileSystem( res.img )

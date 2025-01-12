@@ -57,10 +57,11 @@ export function getParams(request: NextRequest, text: string) {
     return searchParams.get(text) ?? undefined
 }
 
-export function getParamsNum(request: NextRequest, text: string): number | undefined {
+export function getParamsNum(request: NextRequest, text: string): number {
     const url = new URL(request.url)
     const searchParams = new URLSearchParams(url.search)
-    return Number(searchParams.get(text)) ?? undefined
+    const data = searchParams.get(text)
+    return data ? Number(data) : 1
 }
 
 
@@ -107,6 +108,7 @@ export async function ResponseJson(
     // console.info(`method : ${method} from : ${_from}`)
 
     try {
+
         const controls: any = await fun()
         const response = {
             msg: `${ method } ${ _from } success`,
@@ -173,7 +175,7 @@ export async function ResponseJson(
                     error: err.msg,
                     code: err.code,
                 },
-                { status: 500 }
+                { status: err.code }
             )
         }
 

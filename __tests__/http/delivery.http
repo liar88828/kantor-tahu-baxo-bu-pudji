@@ -19,12 +19,14 @@ Content-Type: application/json
 ### create data Travel
 POST {{api}}
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHBpcmVzQXQiOiIyMDI1LTAxLTEyVDE0OjEzOjMxLjI3MloiLCJyb2xlIjoiQURNSU4iLCJzZXNzaW9uSW
+QiOiI4NmI4Y2NlYS0xMDMyLTQ2ZWUtYjk3Yi02NWM5YWQ2YWE5MDkiLCJpYXQiOjE3MzY2ODc2MTEsImV4cCI6MTczNzI5MjQxMX0.TmSyRZzyLmX33nJsANvRgT1sK96ndl7vBJltXBqkAyw
 
 {
   "id": "kosong_kosong_kosong_kosong_travel",
   "name": "kosong",
-  "phone": "kosong",
-  "address": "kosong",
+  "phone": "082-1231-1232-23",
+  "address": "jl.semarang raya",
   "type": "kosong",
   "price": 0,
   "img": "kosong",

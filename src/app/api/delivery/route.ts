@@ -4,7 +4,7 @@ import { ResponseJson } from "@/utils/requestHelper";
 import { deliveryController } from "@/server/controller";
 
 export async function GET(request: NextRequest, context: TContext) {
-    console.log('is fetching...');
+    // console.log('is fetching...');
 
   return await ResponseJson(
     async () => deliveryController.findAll(request, context),

@@ -2,7 +2,8 @@ import React, { ReactNode } from "react";
 import { NavbarTransactionLayoutClientUser } from "@/app/components/Layout/user.client";
 import { TrolleyCheckoutCaseUser } from "@/app/components/trolley/trolley.client";
 
-export default function Layout({ children }: { children: ReactNode, }) {
+export default async function Layout({ children }: { children: ReactNode }) {
+    // await getUser()
 
     return ( <>
             <NavbarTransactionLayoutClientUser>

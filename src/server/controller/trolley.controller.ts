@@ -6,58 +6,63 @@ import { TContext } from "@/interface/server/param"
 import { TTrolleyCreate } from "@/interface/entity/trolley.model";
 import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
-import { validSession } from "@/server/lib/db";
+import { authApi } from "@/server/lib/api";
 
 export default class TrolleyController implements InterfaceController {
 	constructor(private trolleyRepository: TrolleyRepository) {
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
-        const user = await validSession()
+        const session = await authApi(request)
         return this.trolleyRepository.findAll({
             pagination: {
                 page: Number(getParams(request, "page") ?? '1'),
                 limit: Number(getParams(request, "limit") ?? '10'),
             },
-            filter: { id_user: user.userId }
+            filter: { id_user: session.sessionId }
         })
 	}
 
-	async findById(_: NextRequest, context: TContext): Promise<any> {
+    async findById(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request)
 		const id = await getId(context)
 		return this.trolleyRepository.findById(UUIDSchema.parse(id))
 	}
 
     async createOne(request: NextRequest, _context: TContext): Promise<any> {
+        const session = await authApi(request)
         const json: TTrolleyCreate = await getJson(request)
-        const user = await validSession()
-        json.id_user = user.userId
+        json.id_user = session.sessionId
 		return this.trolleyRepository.createOne(OrderProductCreate.parse(json))
 	}
 
 	async updateOne(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request)
 		const id = await getId(context)
 		const json = await getJson(request)
 		return this.trolleyRepository.updateOne(OrderProductUpdate.parse(json), id)
 	}
 
-    async deleteOne(_request: NextRequest, context: TContext) {
+    async deleteOne(request: NextRequest, context: TContext) {
+        await authApi(request)
 		const id = await getId(context)
 		return this.trolleyRepository.deleteOne(UUIDSchema.parse(id))
 	}
 
-    async increment(_request: NextRequest, context: TContext) {
+    async increment(request: NextRequest, context: TContext) {
+        await authApi(request)
 		const id = await getId(context)
 		return this.trolleyRepository.increment(id)
 	}
 
-    async decrement(_request: NextRequest, context: TContext) {
+    async decrement(request: NextRequest, context: TContext) {
+        await authApi(request)
 		const id = await getId(context)
 		return this.trolleyRepository.decrement(id)
 	}
 
-    async count(_request: NextRequest, _context: TContext) {
-        const user = await validSession()
-        return this.trolleyRepository.count(user.userId)
+    async count(request: NextRequest, _context: TContext) {
+        const session = await authApi(request)
+        return this.trolleyRepository.count(session.sessionId)
 	}
 }

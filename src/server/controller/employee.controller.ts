@@ -7,6 +7,7 @@ import EmployeeRepository from "@/server/repository/employee.repo";
 import { pathImage, saveImage } from "@/server/repository/image.repo";
 import { sanitizeEmployee } from "@/sanitize/employe.sanitize";
 import { employeeCreateServer } from "@/validation/employee.valid";
+import { authApi } from "@/server/lib/api";
 
 export default class EmployeeController
 	implements InterfaceController {
@@ -15,6 +16,7 @@ export default class EmployeeController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
+        await authApi(request, true)
         return this.employeeRepository.findAll({
                 filter: {
                     name: getParams(request, "name") ?? '',
@@ -28,18 +30,21 @@ export default class EmployeeController
 		)
 	}
 
-	async findById(_: NextRequest, context: TContext) {
+    async findById(request: NextRequest, context: TContext) {
+        await authApi(request, true)
 		const id = await getId(context)
 		return this.employeeRepository.findById(UUIDSchema.parse(id))
 	}
 
-	async findPhotoById(_: NextRequest, context: TContext) {
+    async findPhotoById(request: NextRequest, context: TContext) {
+        await authApi(request, true)
 		const id = await getId(context)
 		return this.employeeRepository.findById(UUIDSchema.parse(id))
 	}
 
 
 	async createOne(request: NextRequest, __: TContext) {
+        await authApi(request, true)
 
 			// Parse the incoming form data
 			const formData = await request.formData();
@@ -58,6 +63,7 @@ export default class EmployeeController
 	}
 
 	async updateOne(request: NextRequest, context: TContext) {
+        await authApi(request, true)
 		// const json = await getJson(request)
 		// const id = await getId(context)
 		// return this.employeeRepository.updateOne(
@@ -66,7 +72,8 @@ export default class EmployeeController
 		// )
 	}
 
-	async deleteOne(_: NextRequest, context: TContext) {
+    async deleteOne(request: NextRequest, context: TContext) {
+        await authApi(request, true)
 		const id = await getId(context)
         // if (res) {
 		// 	await fileSystem(res.img)

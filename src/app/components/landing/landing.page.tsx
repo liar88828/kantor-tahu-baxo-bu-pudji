@@ -5,7 +5,11 @@ import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { PageEmptyData } from "@/app/components/PageErrorData";
 import { testimonialLandingPage } from "@/server/action/testimonial";
 
-export function Header() {
+interface HeaderProps {
+    isLogin?: boolean
+}
+
+export function Header({ isLogin }: HeaderProps) {
     return <header className="navbar bg-base-300 ">
         <div className="flex justify-between  w-full">
             <Link className="" href="/">
@@ -34,7 +38,11 @@ export function Header() {
                     </a>
                 </nav>
 
-                <Link href={ "/admin" } className="btn btn-outline btn-sm">Login</Link>
+                <Link
+                    href={ "/admin" }
+                    className="btn btn-outline btn-sm">
+                    { isLogin ? 'Home' : 'Login' }
+                </Link>
             </div>
         </div>
     </header>;
@@ -52,12 +60,16 @@ export function Hero() {
             </p>
         </div>
         <div className="space-x-4 my-4">
-            <button className="btn ">
+            <Link
+                href={ '/product' }
+                className="btn ">
                 Order Now
-            </button>
-            <button className="btn btn-outline">
+            </Link>
+            <Link
+                href={ '/home' }
+                className="btn btn-outline">
                 Learn More
-            </button>
+            </Link>
         </div>
     </section>;
 }

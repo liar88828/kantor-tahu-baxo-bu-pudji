@@ -14,9 +14,9 @@ import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams, getParamsThrow } from "@/utils/requestHelper"
 import { orderCreateServer } from "@/validation/order.valid"
 import { prisma } from "@/config/prisma";
-import { validSession } from "@/server/lib/db";
 import { z } from "zod";
 import { STATUS } from "@/app/components/status";
+import { authApi } from "@/server/lib/api";
 
 export default class OrderController
     implements InterfaceController {
@@ -46,8 +46,8 @@ export default class OrderController
     }
 
     async findOrderStatusUser(request: NextRequest, _: TContext): Promise<any> {
+        const { sessionId: userId } = await authApi(request, true)
         const status = getParams(request, 'status',) ?? ''
-        const { userId } = await validSession()
         return this.orderRepository.findOrderStatus({ status, userId })
     }
 
@@ -74,44 +74,50 @@ export default class OrderController
     }
 
     async deleteOne(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request, true)
         const id = await getId(context)
         return this.orderRepository.deleteOne(UUIDSchema.parse(id))
     }
 
     async updateStatus(request: NextRequest, context: TContext) {
+        await authApi(request, true)
         const id = await getId(context)
         const status = getParamsThrow(request, "status")
         return this.orderRepository.updateStatus(status, id)
     }
 
-    async findById(_: NextRequest, context: TContext) {
+    async findById(request: NextRequest, context: TContext) {
+        await authApi(request)
         const id = await getId(context)
         return this.orderRepository.findById(id)
     }
 
     async findHistoryUser(request: NextRequest, _context: TContext) {
-        const user = await validSession()
+        const session = await authApi(request)
         const status = getParams(request, "status") ?? ''
         const limit = getParams(request, "limit") ?? ''
         return this.orderRepository.findHistoryUser(
             status,
-            user.userId,
+            session.sessionId,
             Number(limit)
         )
     }
 
     async findByMonth(request: NextRequest, _: TContext) {
+        await authApi(request, true)
         const status = getParamsThrow(request, 'status') as TStatusOrder
         return this.orderRepository.findByMonth(status)
 
     }
 
     async findTopOrderTotal(request: NextRequest, _: TContext) {
+        await authApi(request, true)
         return this.orderRepository.findTopOrderTotal()
 
     }
 
     async incomingFindCon(request: NextRequest, _: TContext): Promise<IncomingStatusResponse[]> {
+        await authApi(request, true)
         const status = getParamsThrow(request, "status")
         const search = getParams(request, "search") ?? ''
         return prisma.orders.findMany({
@@ -132,7 +138,7 @@ export default class OrderController
     }
 
     async incomingAction(request: NextRequest, _: TContext) {
-
+        await authApi(request, true)
         const validData = z.object({
             id: z.string().uuid(),
             status: z.string(),
@@ -147,6 +153,7 @@ export default class OrderController
     }
 
     async findOrderCountAdmin(request: NextRequest, _: TContext) {
+        await authApi(request, true)
         const currentYear = new Date().getFullYear();
         const startOfYear = new Date(currentYear, 0, 1); // January 1st of the current year
         const endOfYear = new Date(currentYear + 1, 0, 1); // January 1st of the next year

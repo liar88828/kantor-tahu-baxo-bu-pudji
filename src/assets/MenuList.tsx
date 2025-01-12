@@ -97,9 +97,9 @@ export const linkSecondary: TMenuList[] = [
     },
 
     {
-        href: '/admin/ceremony',
+        href: '/admin/testimonial',
         icon: <HandPlatter className={ 'flex-shrink-0 w-5 h-5  transition duration-75 ' }/>,
-        label: 'Ceremony'
+        label: 'Testimonial'
     },
 
 ]

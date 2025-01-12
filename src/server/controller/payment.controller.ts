@@ -5,6 +5,7 @@ import { PaymentRepository } from "@/server/repository/payment.repo"
 import { TContext } from "@/interface/server/param"
 import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
+import { authApi } from "@/server/lib/api";
 
 export default class PaymentController
 	implements InterfaceController {
@@ -32,11 +33,13 @@ export default class PaymentController
   }
 
   async createOne(request: NextRequest, _: TContext) {
+      await authApi(request, true)
     const json = await getJson(request)
     return this.paymentRepository.createOne(PaymentCreate.parse(json))
   }
 
   async updateOne(request: NextRequest, context: TContext) {
+      await authApi(request, true)
     const json = await getJson(request)
     const id = await getId(context)
     return this.paymentRepository.updateOne(
@@ -45,7 +48,8 @@ export default class PaymentController
     )
   }
 
-  async deleteOne(_: NextRequest, context: TContext) {
+    async deleteOne(request: NextRequest, context: TContext) {
+        await authApi(request, true)
     const id = await getId(context)
     return this.paymentRepository.deleteOne(UUIDSchema.parse(id))
   }

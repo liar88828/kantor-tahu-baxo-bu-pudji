@@ -4,8 +4,8 @@ import { decrypt } from "@/server/lib/jwt";
 import { updateSession } from "@/server/lib/db";
 
 // 1. Specify protected and public routes
-const protectedRoutes = [ '/dashboard', '/admin', '/profile', '/trolley', '/invoice' ]
-const publicRoutes = [ '/login', '/signup', ]
+const protectedRoutes = [ '/dashboard', '/admin', '/profile', '/trolley', '/invoice', '/checkout' ]
+const publicRoutes = [ '/login', '/signup', '/home' ]
 
 export default async function middleware(req: NextRequest) {
 	// 2. Check if the current route is protected or public
@@ -15,6 +15,7 @@ export default async function middleware(req: NextRequest) {
 
 	// 3. Decrypt the session from the cookie
 	const cookie = (await cookies()).get('session')?.value
+    console.log(cookie)
 	const session = await decrypt(cookie)
 
     // console.log(cookie)
@@ -30,12 +31,16 @@ export default async function middleware(req: NextRequest) {
 
 	// 5. Redirect to /dashboard if the user is authenticated
 	if (
-		isPublicRoute &&
-		session?.sessionId &&
-        !req.nextUrl.pathname.startsWith('/home')
+        isPublicRoute
+        && session?.sessionId
+        // && !req.nextUrl.pathname.startsWith('/home')
 	) {
         return NextResponse.redirect(new URL('/home', req.nextUrl))
 	}
+    // console.log(path)
+    // if (path.includes('/api')) {
+    //     console.log('is true')
+    // }
 
     // await updateSession()
     // return NextResponse.next()

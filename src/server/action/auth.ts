@@ -136,7 +136,11 @@ export async function signIn(state: FormState, formData: FormData): Promise<Form
         await createSession(user)
 
         // 5. Redirect user
-        redirect('/profile')
+        if (user.role === 'ADMIN') {
+            redirect('/admin')
+        } else if (user.role === 'USER') {
+            redirect('/profile')
+        }
 
     } catch (e) {
 

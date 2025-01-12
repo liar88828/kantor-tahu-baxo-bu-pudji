@@ -5,6 +5,7 @@ import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { UUIDSchema } from "@/validation/id.valid"
 import UserRepository from "@/server/repository/user.repo";
 import { UserCreate } from "@/validation/user.valid";
+import { authApi } from "@/server/lib/api";
 
 export default class UserController
 	implements InterfaceController {
@@ -12,6 +13,7 @@ export default class UserController
 	}
 
 	async findAll(request: NextRequest, __: TContext): Promise<any> {
+        await authApi(request, true)
 		return this.userRepository.findAll({
 			filter: {
 				name: getParams(request, "name") ?? '',
@@ -23,7 +25,9 @@ export default class UserController
 			}
         })
 	}
-	async findById(_: NextRequest, context: TContext): Promise<any> {
+
+    async findById(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request)
 		const id = await getId(context)
 		return this.userRepository.findById(
 			// id
@@ -32,12 +36,14 @@ export default class UserController
 	}
 
 	async createOne(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request, true)
 		const json = await getJson(request)
         // console.log(`test :${ json }`)
 		return this.userRepository.createOne(UserCreate.parse(json))
 	}
 
 	async updateOne(request: NextRequest, context: TContext): Promise<any> {
+        await authApi(request, true)
 		const id = await getId(context)
 		const json = await getJson(request)
 		return this.userRepository.updateOne(
@@ -47,6 +53,7 @@ export default class UserController
 	}
 
 	async deleteOne(request: NextRequest, context: TContext) {
+        await authApi(request, true)
 		const id = await getId(context)
         // if (res) {
 		// await fileSystem( res.img )
