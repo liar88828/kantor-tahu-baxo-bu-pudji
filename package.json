@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "open": "next dev & open http://localhost:3000"
+    "open": "next dev & open http://localhost:3000",
+    "coverage": "vitest run --coverage"
+
   },
   "keywords": [
     "react",

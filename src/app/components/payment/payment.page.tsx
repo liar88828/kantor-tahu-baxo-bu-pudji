@@ -2,8 +2,8 @@ import Link from "next/link";
 import React from "react";
 import { Pen, Trash } from "lucide-react";
 import { TPaymentDB } from "@/interface/entity/payment.model";
-import { toAccounting } from "@/utils/accounting";
-import { toDate } from "@/utils/formatDate";
+import { toAccounting } from "@/utils/toAccounting";
+import { toDate } from "@/utils/toDate";
 
 export function PaymentCardPageAdmin({ payment, onDeleteAction }: {
     payment: TPaymentDB,

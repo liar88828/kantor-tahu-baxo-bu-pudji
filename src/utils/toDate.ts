@@ -47,7 +47,7 @@ export const toDate = (value: number | string | Date) => {
 		})
 }
 
-export const setDateIndo = (date: number | string | Date): Date | string => {
+export const toDateIndo = (date: number | string | Date): Date | string => {
 
     return new Date(date).toLocaleString(
 		"id-ID",

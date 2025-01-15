@@ -1,5 +1,5 @@
 import { prisma } from "@/config/prisma";
-import { EmployeeCreateZod } from "@/validation/employee.valid";
+import { EmployeeCreateZodClient } from "@/validation/employee.valid";
 import { EmployeeCreate, TEmployeeDB, TEmployeeSearch } from "@/interface/entity/employee.model";
 import { ResponseAll, } from "@/interface/server/param";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
@@ -7,7 +7,7 @@ import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepo
 export type EmployeeParams = ParamsApi<TEmployeeSearch>
 
 // getAll data from database
-export default class EmployeeRepository implements InterfaceRepository<EmployeeCreateZod> {
+export default class EmployeeRepository implements InterfaceRepository<EmployeeCreateZodClient> {
 
     async findAll({ filter, pagination: { limit = 20, page = 1 } }: Required<EmployeeParams>,
     ): Promise<ResponseAll<Omit<TEmployeeDB, 'status'> & { status: string }>> {
@@ -164,18 +164,18 @@ export default class EmployeeRepository implements InterfaceRepository<EmployeeC
 		})
 	}
 
-	setOne(d: (EmployeeCreateZod) & { id?: string }) {
+    setOne(d: (EmployeeCreateZodClient) & { id?: string }) {
 		return {}
 	}
 
-	setMany(data: EmployeeCreateZod []) {
+    setMany(data: EmployeeCreateZodClient []) {
 		return data.map((d) => (this.setOne(d)))
 	}
 
-	async createMany(data: EmployeeCreateZod[]) {
+    async createMany(data: EmployeeCreateZodClient[]) {
 	}
 
-	async updateMany(data: EmployeeCreateZod[], id: string) {
+    async updateMany(data: EmployeeCreateZodClient[], id: string) {
 	}
 
 	async deleteMany(id: string) {

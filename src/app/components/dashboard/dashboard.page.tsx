@@ -1,7 +1,7 @@
 import React from "react";
 import type { TCustomersDB } from "@/interface/entity/receiver.model";
 import { OrderMonthTotal, TOrderTopTotal } from "@/interface/entity/transaction.model";
-import { toDate } from "@/utils/formatDate";
+import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
 import { TProductDB } from "@/interface/entity/product.model";

@@ -1,7 +1,7 @@
 import { PropertyMap } from "@/interface/types";
-import { TestimonialInput } from "@/server/controller/testimonial.controller";
+import { TestimonialInput } from "@/validation/testimonial.valid";
 
-export function sanitizedTestimonialForm(formData: FormData): PropertyMap<TestimonialInput> & {
+export function testimonialSanitize(formData: FormData): PropertyMap<TestimonialInput> & {
     method: | "POST" | "PUT" | string,
     id: number
 } {

@@ -2,13 +2,13 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson, getParams, getParamsBool, getParamsValue } from "@/utils/requestHelper"
-import { UUIDSchema } from "@/validation/id.valid"
 import { ProductCreate, ProductUpdateStock } from "@/validation/product.valid";
 import { PRODUCT_FILTER_PRICE, ResponseProductType, UpdateStock } from "@/interface/entity/product.model";
 import ProductRepository from "@/server/repository/product.repo";
 import { prisma } from "@/config/prisma";
 import { THistoryOrder } from "@/interface/entity/transaction.model";
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class ProductController
     implements InterfaceController {

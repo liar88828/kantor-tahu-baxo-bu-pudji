@@ -10,13 +10,13 @@ import {
     TOrderTransactionUpdate,
 } from "@/interface/entity/transaction.model"
 import { TStatusOrder } from "@/interface/Utils";
-import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams, getParamsThrow } from "@/utils/requestHelper"
 import { orderCreateServer } from "@/validation/order.valid"
 import { prisma } from "@/config/prisma";
 import { z } from "zod";
 import { STATUS } from "@/app/components/status";
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class OrderController
     implements InterfaceController {

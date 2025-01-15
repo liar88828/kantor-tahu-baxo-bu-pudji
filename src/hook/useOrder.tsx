@@ -6,7 +6,7 @@ import { PaginatedResponse } from "@/interface/server/param";
 import { TMethod, TStatusOrder } from "@/interface/Utils";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { orderAll, orderCreate, orderDelete, orderId, orderUpdate } from "@/server/network/order";
-import { orderTransactionSanitize } from "@/sanitize/orderSanitize";
+import { orderTransactionSanitize } from "@/sanitize/order.sanitize";
 import { toFetch } from "@/hook/toFetch";
 import { useDeliveryStore } from "@/store/delivery";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
@@ -58,12 +58,12 @@ export function useOrder() {
                 return orderCreate(sanitize)
             }
         },
-        onError: (data, variables, context) => {
+        onError: (data, _variables, _context) => {
             if (data instanceof Error) {
                 toast.error(data.message)
             }
         },
-        onSuccess: (data, variables, context) => {
+        onSuccess: (data, variables, _context) => {
             toast.success(data.msg)
             product.reset()
             delivery.reset()
@@ -111,12 +111,12 @@ export function useOrder() {
             return orderCreate(sanitize)
         },
 
-        onError: (data, variables, context) => {
+        onError: (data) => {
             if (data instanceof Error) {
                 toast.error(data.message)
             }
         },
-        onSuccess: (data, variables, context) => {
+        onSuccess: (data) => {
             toast.success(data.msg)
             product.reset()
             delivery.reset()
@@ -153,7 +153,7 @@ export function useOrder() {
             toast.success('Success Delete Order')
             router.push('/admin/order')
         },
-        onError: (data, variables, context) => {
+        onError: () => {
             toast.error('Fail Delete Order')
         }
     })

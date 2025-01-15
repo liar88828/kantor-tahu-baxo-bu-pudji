@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { EMPLOYEE, TEmployeeDB, TEmployeeSearch } from "@/interface/entity/employee.model";
-import { EmployeeCreateZod } from "@/validation/employee.valid";
+import { EmployeeCreateZodClient } from "@/validation/employee.valid";
 import { PaginatedResponse } from "@/interface/server/param";
 import { employeeAll, onUpsertData } from "@/server/network/employee";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export function useEmployee() {
     const router = useRouter();
 
-    const onUpsert = async (data: EmployeeCreateZod, method: "POST" | 'PUT', id?: string) => {
+    const onUpsert = async (data: EmployeeCreateZodClient, method: "POST" | 'PUT', id?: string) => {
         const idToast = toast.loading('Loading...');
         const response = await onUpsertData(method, data, id);
         if (response) {

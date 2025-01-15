@@ -3,9 +3,9 @@ import { NextRequest } from "next/server"
 import { PaymentCreate } from "@/validation/payment.valid"
 import { PaymentRepository } from "@/server/repository/payment.repo"
 import { TContext } from "@/interface/server/param"
-import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class PaymentController
 	implements InterfaceController {

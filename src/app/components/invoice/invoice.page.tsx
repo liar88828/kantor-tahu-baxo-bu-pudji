@@ -2,7 +2,7 @@ import Image from "next/image";
 import QRCode from "react-qr-code";
 import React from "react";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
-import { setDateIndo } from "@/utils/formatDate";
+import { toDateIndo } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
 
@@ -121,7 +121,7 @@ export const Invoice = ({ invoice, path }: {
             </div>
             <div className=" flex justify-end mt-10">
                 {/*@ts-ignore*/ }
-                { setDateIndo(new Date()) }
+                { toDateIndo(new Date()) }
             </div>
         </div>
     );

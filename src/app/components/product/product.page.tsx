@@ -3,8 +3,8 @@ import React from "react";
 import { Pen, Plus, ShoppingCart, Star, Trash } from "lucide-react";
 import { ProductAddTrolleyClientUser } from "@/app/components/product/product.client";
 import { TProductDB } from "@/interface/entity/product.model";
-import { repeat } from "@/utils/repeat";
-import { toDate } from "@/utils/formatDate";
+import { toRepeat } from "@/utils/toRepeat";
+import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
 
 export function ProductCardPageUser({ product, detailProductAction, addTrolleyAction, isLogin }: {
@@ -183,7 +183,7 @@ export function ProductDetailPageUser({ product }: { product: TProductDB }) {
                 <div className="space-y-4">
                     <div className="flex items-center">
                         <div className="flex items-center mr-2">
-                            { repeat(5).map((_, i) => (
+                            { toRepeat(5).map((_, i) => (
                                 <Star key={ i } className="w-5 h-5 fill-primary" />
                             )) }
                         </div>

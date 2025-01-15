@@ -9,7 +9,7 @@ import { TStatusOrder } from "@/interface/Utils";
 import { Users } from "@prisma/client";
 import { changeProfile } from "@/server/action/auth";
 import { findHistoryUser } from "@/server/network/order";
-import { toDate } from "@/utils/formatDate";
+import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
 import { useOrder } from "@/hook/useOrder";

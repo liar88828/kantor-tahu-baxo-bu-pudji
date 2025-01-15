@@ -3,9 +3,9 @@ import { NextRequest } from "next/server"
 import { TContext } from "@/interface/server/param"
 import DeliveryRepository from "@/server/repository/delivery.repo"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
-import { UUIDSchema } from "@/validation/id.valid"
 import { DeliveryCreate } from "@/validation/delivery.valid"
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class DeliveryController
     implements InterfaceController {

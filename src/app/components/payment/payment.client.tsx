@@ -140,7 +140,7 @@ export function PaymentListClientAdminText() {
         })
     }
     useEffect(() => {
-        newData()
+        newData().then(r => r)
     }, [])
 
     if (!state) {
@@ -152,7 +152,7 @@ export function PaymentListClientAdminText() {
 }
 
 export function PaymentListClientAdmin() {
-    const { onDelete, onGet, usePaymentInfiniteQuery } = usePayment()
+    const { onDelete, usePaymentInfiniteQuery } = usePayment()
     const { filter } = usePaymentStore();
     const nameDebounce = useDebounce({ value: filter.name })
     // console.log(nameDebounce)

@@ -4,7 +4,7 @@ type OtpOptions = {
     includeAlphabets?: boolean; // Include alphabetic characters
 };
 
-export function generateOtp(options: OtpOptions): string {
+export function toOtp(options: OtpOptions): string {
     const { length, includeDigits = true, includeAlphabets = false } = options;
 
     if (!includeDigits && !includeAlphabets) {

@@ -1,8 +1,6 @@
-// Zod schema for validation
 import { z } from "zod";
 import { zImage } from "@/validation/image";
 import { EmployeeCreate } from "@/interface/entity/employee.model";
-
 import { zodAddress, zodEmail, zodPhone } from "@/validation/zod.valid";
 
 // @ts-ignore
@@ -87,5 +85,6 @@ export const employeeCreateServer: z.ZodType<EmployeeCreate> = z.object({
 
 });
 
-export type EmployeeCreateZod = z.infer<typeof employeeCreateClient>;
+export type EmployeeCreateZodClient = z.infer<typeof employeeCreateClient>;
+export type EmployeeCreateZodServer = z.infer<typeof employeeCreateServer>;
 

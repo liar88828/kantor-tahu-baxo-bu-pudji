@@ -2,11 +2,11 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
-import { UUIDSchema } from "@/validation/id.valid"
 import CustomerRepository from "@/server/repository/receiver.repo";
 import { ReceiverCreate } from "@/validation/receiver.valid";
 import { getUser } from "@/server/lib/db";
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class ReceiverController
 	implements InterfaceController {

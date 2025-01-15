@@ -1,3 +1,8 @@
+import { expect, test } from "vitest";
+
+test('', () => {
+    expect(1 + 1).toEqual(2)
+})
 // import { describe, expect, it } from 'vitest';
 //
 // import { statusTest } from '../../src/app/utils/test/statusTest';

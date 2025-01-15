@@ -1,13 +1,7 @@
 import { z } from "zod"
 import { TDeliveryCreate } from "@/interface/entity/delivery.model"
 
-import {
-    zodAddress,
-    zodDesc,
-    zodEmail,
-    zodInt,
-    zodPhone,
-} from "@/validation/zod.valid"
+import { zodAddress, zodDesc, zodInt, zodPhone, } from "@/validation/zod.valid"
 
 export const DeliveryCreate: z.ZodType<TDeliveryCreate> = z.object({
     address: zodAddress,

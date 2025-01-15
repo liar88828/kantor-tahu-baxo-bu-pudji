@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Pen, Trash } from "lucide-react";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
-import { toDate } from "@/utils/formatDate";
+import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
 
 export function DeliveryCardPageAdmin(props: {

@@ -1,7 +1,54 @@
 import { TOrderCreate } from "@/interface/entity/order.model"
 import { TCustomersDB } from "@/interface/entity/receiver.model";
-import { TOrderTrolleyTransaction } from "@/interface/entity/trolley.model";
+import { TOrderTrolleyTransaction, TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
+
+export const TrolleyExample: TTrolleyProductUser[] = [
+    {
+        "id": "575fe63d-6ffb-4560-8082-6dafc3bf792c",
+        // "id_order": "712ec142-b620-4315-8571-877c84634642",
+        "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
+        "qty_at_buy": 1,
+        "price_at_buy": 20000,
+        "id_user": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
+        "Product": {
+            update_stock: new Date(),
+            sold: 0,
+            "id": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
+            "name": "tahu ayam",
+            "location": "Semarang",
+            "type": "orderan",
+            "img": "tidak ada ",
+            "price": 20000,
+            "qty": 86,
+            "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+            "created_at": new Date(),
+            "updated_at": new Date()
+        }
+    },
+    {
+        "id": "48db427b-401f-4d6a-a2bb-2a379f944813",
+        // "id_order": "712ec142-b620-4315-8571-877c84634642",
+        "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672",
+        "qty_at_buy": 1,
+        "price_at_buy": 20000,
+        "id_user": "229b54ec-54ac-40bc-9571-90b9494bd672",
+        "Product": {
+            update_stock: new Date(),
+            sold: 0,
+            "id": "229b54ec-54ac-40bc-9571-90b9494bd672",
+            "name": "tahu baxo",
+            "location": "Semarang",
+            "type": "orderan",
+            "img": "tidak ada ",
+            "price": 20000,
+            "qty": 86,
+            "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+            "created_at": new Date(),
+            "updated_at": new Date()
+        }
+    }
+]
 
 export const exampleOrderCreate: TOrderCreate = {
     id_customer: "550e8400-e29b-41d4-a716-446655440000",
@@ -12,7 +59,7 @@ export const exampleOrderCreate: TOrderCreate = {
 	// travel
 	id_delivery: "550e8400-e29b-41d4-a716-446655440000", // UUID format
 	nameDelivery: "Express Logistics",
-	phoneDelivery: "+1234567890",
+    phoneDelivery: "08234567890",
 	priceDelivery: 4999, // Example price in cents (4999 cents = 49.99 currency units)
 	// payment
 	id_payment: "660e8400-e29b-41d4-a716-556655440111", // UUID format
@@ -101,52 +148,7 @@ export const dataOrderTransaction: TOrderTransactionDB[] = [
         "totalAll": 15498,
         "status": "Completed",
         "id_customer": "a9f16705-a957-4edb-bb09-0bc4787d95e2",
-        "Trolleys": [
-            {
-                "id": "575fe63d-6ffb-4560-8082-6dafc3bf792c",
-                // "id_order": "712ec142-b620-4315-8571-877c84634642",
-                "id_product": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
-                "qty_at_buy": 1,
-                "price_at_buy": 20000,
-                "id_user": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
-                "Product": {
-                    update_stock: new Date(),
-                    sold: 0,
-                    "id": "cb34c9fc-1c93-4e0b-a213-75d96489b54b",
-                    "name": "tahu ayam",
-                    "location": "Semarang",
-                    "type": "orderan",
-                    "img": "tidak ada ",
-                    "price": 20000,
-                    "qty": 86,
-                    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                    "created_at": new Date(),
-                    "updated_at": new Date()
-                }
-            },
-            {
-                "id": "48db427b-401f-4d6a-a2bb-2a379f944813",
-                // "id_order": "712ec142-b620-4315-8571-877c84634642",
-                "id_product": "229b54ec-54ac-40bc-9571-90b9494bd672",
-                "qty_at_buy": 1,
-                "price_at_buy": 20000,
-                "id_user": "229b54ec-54ac-40bc-9571-90b9494bd672",
-                "Product": {
-                    update_stock: new Date(),
-                    sold: 0,
-                    "id": "229b54ec-54ac-40bc-9571-90b9494bd672",
-                    "name": "tahu baxo",
-                    "location": "Semarang",
-                    "type": "orderan",
-                    "img": "tidak ada ",
-                    "price": 20000,
-                    "qty": 86,
-                    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                    "created_at": new Date(),
-                    "updated_at": new Date()
-                }
-            }
-        ],
+        "Trolleys": TrolleyExample,
         "Customers": {
             "id": "a9f16705-a957-4edb-bb09-0bc4787d95e2",
             "name": "Alice Johnson",

@@ -1,7 +1,7 @@
 import { prisma } from "@/config/prisma";
 import { InterfaceRepository, ParamsApi } from "@/interface/server/InterfaceRepository";
-import { TestimonialInput, testimonialSchema } from "@/server/controller/testimonial.controller";
 import { z } from "zod";
+import { TestimonialInput, testimonialSchema } from "@/validation/testimonial.valid";
 
 // getAll data from database
 export default class TestimonialRepository implements InterfaceRepository<TestimonialInput> {

@@ -4,9 +4,9 @@ import { NextRequest } from "next/server"
 import { OrderProductCreate, OrderProductUpdate, } from "@/validation/orderProduct.valid"
 import { TContext } from "@/interface/server/param"
 import { TTrolleyCreate } from "@/interface/entity/trolley.model";
-import { UUIDSchema } from "@/validation/id.valid"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class TrolleyController implements InterfaceController {
 	constructor(private trolleyRepository: TrolleyRepository) {

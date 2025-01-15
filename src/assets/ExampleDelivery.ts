@@ -21,5 +21,4 @@ export const exampleDeliveryCreate: TDeliveryCreate = {
     price: 20,
     img: "https://example.com/image.jpg",
     desc: "Standard delivery within 5-7 business days.",
-
 }

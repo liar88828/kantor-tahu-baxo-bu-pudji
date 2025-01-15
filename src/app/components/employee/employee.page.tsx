@@ -2,7 +2,7 @@ import React from "react";
 import { EmployeeCVProps, i3x4, ktp, TEmployeeDB } from "@/interface/entity/employee.model";
 import { EmployeePhotosUploadClientAdmin } from "@/app/components/employee/employee.client";
 import { Employees } from "@prisma/client";
-import { toDate } from "@/utils/formatDate";
+import { toDate } from "@/utils/toDate";
 import Link from "next/link";
 import { Printer } from "lucide-react";
 import { TypeFile } from "@/server/action/upload";

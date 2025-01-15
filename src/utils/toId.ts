@@ -4,29 +4,32 @@ import { TPaymentDB } from "@/interface/entity/payment.model";
 import { ToModel } from "@/interface/Utils";
 
 // Travel
-export const setIdDelivery = (dTravel: TDeliveryDB): string =>
-	dTravel.name.slice(0, 2) + "_" +
-	dTravel.phone.toString().slice(0, 2) + "_" +
-	dTravel.address.slice(0, 2) + "_" +
-	dTravel.type.slice(0, 2) + "_" +
-	dTravel.desc.slice(0, 2) + "_" + Date.now();
+export const setIdDelivery = (data: TDeliveryDB): string =>
+    data.name.slice(0, 2) + "_" +
+    data.phone.toString().slice(0, 2) + "_" +
+    data.address.slice(0, 2) + "_" +
+    data.type.slice(0, 2) + "_" +
+    data.desc.slice(0, 2) + "_" +
+    Date.now();
 
 // product
-export const setIdProduct = (dProduct: TProductDB): string =>
-	dProduct.name.slice(0, 2) + "_" +
-	dProduct.price.toString().slice(0, 2) + "_" +
-	dProduct.location.slice(0, 2) + "_" +
-	dProduct.type.slice(0, 2) + "_" +
-	dProduct.desc.slice(0, 2) + "_" + Date.now();
+export const setIdProduct = (data: TProductDB): string =>
+    data.name.slice(0, 2) + "_" +
+    data.price.toString().slice(0, 2) + "_" +
+    data.location.slice(0, 2) + "_" +
+    data.type.slice(0, 2) + "_" +
+    data.desc.slice(0, 2) + "_" +
+    Date.now();
 
-// product
-export const setIdBank = (dBank: TPaymentDB): string =>
-	dBank.name.slice(0, 2) + "_" +
-	dBank.accounting.toString().slice(0, 2) + "_" +
-	dBank.phone.toString().slice(0, 2) + "_" +
-	dBank.address.slice(0, 2) + "_" +
-	dBank.type.slice(0, 2) + "_" +
-	dBank.desc.slice(0, 2) + "_" + Date.now();
+// bank
+export const setIdBank = (data: TPaymentDB): string =>
+    data.name.slice(0, 2) + "_" +
+    data.accounting.toString().slice(0, 2) + "_" +
+    data.phone.toString().slice(0, 2) + "_" +
+    data.address.slice(0, 2) + "_" +
+    data.type.slice(0, 2) + "_" +
+    data.desc.slice(0, 2) + "_" +
+    Date.now();
 
 // Orderan
 function setIdOrderanString(

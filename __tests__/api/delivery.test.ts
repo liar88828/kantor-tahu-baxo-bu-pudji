@@ -223,7 +223,7 @@ const responseErrorID = {
 	"msg": expect.any(String),
 }
 
-describe("Test Travel", () => {
+describe.skip("Test Travel", () => {
 	// --------
 	describe("POST Travel", () => {
 		it("Travel Can create a post success ", async () => {

@@ -1,7 +1,7 @@
 import { prisma } from "@/config/prisma";
 import OrderRepository from "@/server/repository/order.repo";
 import { faker } from "@faker-js/faker";
-import { repeat } from "@/utils/repeat";
+import { toRepeat } from "@/utils/toRepeat";
 import { MonthlyTotal } from "@/interface/entity/order.model";
 
 class TestRepo {
@@ -111,7 +111,7 @@ class TestRepo {
         const payment = await prisma.payments.findFirst()
         const product = await prisma.products.findFirst()
 
-        for await (const i of repeat(200)) {
+        for await (const i of toRepeat(200)) {
             await orderRepository.createOne({
                 "order": {
                     id_customer: user?.id ?? '',
@@ -151,7 +151,7 @@ class TestRepo {
     }
 
     async seedProduct() {
-        for await (const i of repeat(200)) {
+        for await (const i of toRepeat(200)) {
             await prisma.products.create({
                 data: {
                     "desc": faker.food.description(),
@@ -188,7 +188,7 @@ class TestRepo {
     }
 
     async seedDelivery() {
-        for await (const i of repeat(200)) {
+        for await (const i of toRepeat(200)) {
             await prisma.deliverys.create({
                 data: {
                     "desc": faker.food.description(),
@@ -205,7 +205,7 @@ class TestRepo {
     }
 
     async seedPayment() {
-        for await (const i of repeat(200)) {
+        for await (const i of toRepeat(200)) {
             await prisma.payments.create({
                 data: {
                     accounting: faker.finance.accountNumber(),

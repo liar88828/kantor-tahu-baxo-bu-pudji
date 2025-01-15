@@ -30,3 +30,5 @@ export const zodEmail = z.string()
 export const zodDesc = z.string().min(1).max(200)
 
 export const zodInt = z.number().int().nonnegative()
+
+export const UUIDSchema = z.string().uuid()

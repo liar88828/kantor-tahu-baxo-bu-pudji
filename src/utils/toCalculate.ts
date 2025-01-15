@@ -1,6 +1,6 @@
 import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 
-const subTotal = (trolleys?: TTrolleyProductUser[]): number => {
+export const subTotal = (trolleys?: TTrolleyProductUser[]): number => {
     if (!trolleys) return 0;
     if (trolleys.length === 0) return 0;
     return trolleys.reduce((total, trolley) => {

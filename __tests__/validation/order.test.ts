@@ -7,19 +7,19 @@ import { exampleOrderCreate, exampleOrderProductCreate, exampleReceiver } from "
 
 describe("test Order all", () => {
 	test("Order test ", () => {
-        const test = orderCreateServer.parse(exampleOrderCreate)
-        expect(test).toEqual(exampleOrderCreate)
+        const data = orderCreateServer.parse(exampleOrderCreate)
+        expect(data).toEqual(exampleOrderCreate)
 	})
 
 	test("OrderProduct test ", () => {
 
-        const test = OrderProductTransaction.parse(exampleOrderProductCreate)
-        expect(test).toEqual(exampleOrderProductCreate)
+        const data = OrderProductTransaction.parse(exampleOrderProductCreate)
+        expect(data).toEqual(exampleOrderProductCreate)
 	})
 
 	test("Receiver test ", () => {
-        const test = ReceiverCreate.parse(exampleReceiver)
-        expect(test).toEqual(exampleReceiver)
+        const data = ReceiverCreate.parse(exampleReceiver)
+        expect(data).toEqual(exampleReceiver)
 	})
 
     test("order complete", () => {
@@ -28,7 +28,8 @@ describe("test Order all", () => {
             orderTrolley: exampleOrderProductCreate,
             order: exampleOrderCreate
 		}
-		const data: TOrderTransactionCreate = {
+
+        const data: TOrderTransactionCreate = {
 			order: orderCreateServer.parse(json.order),
 			orderTrolley: OrderProductTransaction.parse(json.orderTrolley),
 			orderReceiver: ReceiverCreate.parse(json.orderReceiver),

@@ -4,7 +4,7 @@ import { validGenerateOtp, validOtp } from "@/validation/validGenerateOtp";
 import { NextResponse } from "next/server";
 import { createSession } from "@/server/lib/state";
 import { prisma } from "@/config/prisma";
-import { generateOtp } from "@/utils/otp";
+import { toOtp } from "@/utils/toOtp";
 import Zod from "zod";
 import { USER_STATUS } from "@/interface/Utils";
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
             throw new Error("Please Wait until OTP date is end ")
         }
 
-        const otp = generateOtp({ length: 6 })
+        const otp = toOtp({ length: 6 })
         const otpValid = new Date(Date.now() + 60 * 60 * 1000)// Invalid Date
         // console.log(otpValid)
 

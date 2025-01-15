@@ -12,6 +12,8 @@ export const UserCreate: z.ZodType<TUserCreate> = z.object({
     role: z.string(),
 })
 
+export type UserZodType = z.infer<typeof UserCreate>
+
 // export const ProductUpdate: z.ZodType<TProductUpdate> = z.object({
 // 	id: z.string({ required_error: 'ID is required', }).min(1).max(100),
 // 	lokasi: z.string({ required_error: 'Lokasi is required', }).min(1).max(100),

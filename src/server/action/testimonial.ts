@@ -1,15 +1,15 @@
 'use server'
 import { redirect } from "next/navigation";
-import { FormStateCeremony } from "@/validation/ceremony.valid";
 import { testimonialRepository } from "@/server/controller";
-import { sanitizedTestimonialForm, sanitizedTestimonialID } from "@/sanitize/sanitizedTestimonialForm";
+import { sanitizedTestimonialID, testimonialSanitize } from "@/sanitize/testimonial.sanitize";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { ZodError } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/config/prisma";
+import { TestimonialFormState } from "@/validation/testimonial.valid";
 
-export async function testimonialUpsertAction(prev: FormStateCeremony, formData: FormData): Promise<FormStateCeremony> {
-    const formRaw = sanitizedTestimonialForm(formData);
+export async function testimonialUpsertAction(_prev: TestimonialFormState, formData: FormData): Promise<TestimonialFormState> {
+    const formRaw = testimonialSanitize(formData);
     try {
         if (formRaw.method === 'POST') {
             await testimonialRepository.createOne(formRaw)
@@ -39,10 +39,10 @@ export async function testimonialUpsertAction(prev: FormStateCeremony, formData:
     }
 }
 
-export async function testimonialDeleteAction(prev: FormStateCeremony, formData: FormData): Promise<any> {
+export async function testimonialDeleteAction(_prev: TestimonialFormState, formData: FormData): Promise<any> {
     const { id } = sanitizedTestimonialID(formData);
     try {
-        const data = await testimonialRepository.deleteOne(id)
+        await testimonialRepository.deleteOne(id)
         revalidatePath('/')
         redirect(`/admin/testimonial`)
     } catch (error) {

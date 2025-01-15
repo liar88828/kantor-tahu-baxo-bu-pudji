@@ -2,10 +2,10 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { TContext } from "@/interface/server/param"
 import { NextRequest } from "next/server"
 import { getId, getJson, getParams } from "@/utils/requestHelper"
-import { UUIDSchema } from "@/validation/id.valid"
 import UserRepository from "@/server/repository/user.repo";
 import { UserCreate } from "@/validation/user.valid";
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class UserController
 	implements InterfaceController {

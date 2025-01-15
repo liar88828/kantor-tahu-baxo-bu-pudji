@@ -2,12 +2,12 @@ import { InterfaceController } from "@/interface/server/InterfaceController"
 import { NextRequest } from "next/server"
 import { TContext } from "@/interface/server/param"
 import { getId, getParams } from "@/utils/requestHelper"
-import { UUIDSchema } from "@/validation/id.valid"
 import EmployeeRepository from "@/server/repository/employee.repo";
 import { pathImage, saveImage } from "@/server/repository/image.repo";
 import { sanitizeEmployee } from "@/sanitize/employe.sanitize";
 import { employeeCreateServer } from "@/validation/employee.valid";
 import { authApi } from "@/server/lib/api";
+import { UUIDSchema } from "@/validation/zod.valid";
 
 export default class EmployeeController
 	implements InterfaceController {

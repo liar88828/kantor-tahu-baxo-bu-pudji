@@ -4,7 +4,7 @@ import { toFetch } from "@/hook/toFetch";
 import { TDeliveryDB } from "@/interface/entity/delivery.model";
 import { ResponseAll } from "@/interface/server/param";
 import { TEmployeeDB } from "@/interface/entity/employee.model";
-import { EmployeeCreateZod } from "@/validation/employee.valid";
+import { EmployeeCreateZodClient } from "@/validation/employee.valid";
 import { toUrl } from "@/utils/toUrl";
 import { EmployeeParams } from "@/server/repository/employee.repo";
 
@@ -19,7 +19,7 @@ export const employeeId = async (id: string) => {
     })
 };
 
-export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
+export const employeeCreate = async ({ img, ...data }: EmployeeCreateZodClient) => {
     try {
         const formData = new FormData();
 
@@ -48,7 +48,7 @@ export const employeeCreate = async ({ img, ...data }: EmployeeCreateZod) => {
     }
 };
 
-export const employeeUpdate = async ({ img, ...data }: EmployeeCreateZod, id: string) => {
+export const employeeUpdate = async ({ img, ...data }: EmployeeCreateZodClient, id: string) => {
     try {
         const formData = new FormData();
 
@@ -75,7 +75,7 @@ export const employeeUpdate = async ({ img, ...data }: EmployeeCreateZod, id: st
     }
 };
 
-export async function onUpsertData(method: "POST" | "PUT", data: EmployeeCreateZod, id?: string) {
+export async function onUpsertData(method: "POST" | "PUT", data: EmployeeCreateZodClient, id?: string) {
     if (method === "POST") {
         return employeeCreate(data)
     } else if (method === "PUT" && id) {

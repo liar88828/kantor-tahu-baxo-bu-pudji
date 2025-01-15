@@ -10,7 +10,7 @@ import { EmptyData, PageEmptyData } from "@/app/components/PageErrorData";
 import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { TypeFile, uploadFile } from "@/server/action/upload";
-import { employeeCreateClient, EmployeeCreateZod } from "@/validation/employee.valid";
+import { employeeCreateClient, EmployeeCreateZodClient } from "@/validation/employee.valid";
 import { toRupiah } from "@/utils/toRupiah";
 import { useDebounce } from "@/hook/useDebounce";
 import { useEmployee } from "@/hook/useEmployee";
@@ -64,14 +64,14 @@ export function EmployeeFormClientAdmin({ employee, method }: { employee?: TEmpl
 
     const { onUpsert } = useEmployee()
 
-    const methods = useForm<EmployeeCreateZod>({
+    const methods = useForm<EmployeeCreateZodClient>({
         resolver: zodResolver(employeeCreateClient),
         defaultValues: employee
     });
 
     const { register, handleSubmit, formState: { errors } } = methods
     console.log(errors)
-    const onSubmit = async (data: EmployeeCreateZod) => {
+    const onSubmit = async (data: EmployeeCreateZodClient) => {
         if (method === 'POST') {
             data.employmentType = 'Full-Time'
             data.status = 'Pending'

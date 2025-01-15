@@ -45,7 +45,7 @@ export function InvoicePrintHandler({ redirectAction, order }: { redirectAction:
 export function InvoiceCheckHandler({ redirectAction, order }: { redirectAction: string, order: TOrderTransactionDB }) {
     const { isPrinting, handlePrint, contentRef } = usePrint()
     const path = usePathname()
-    const [ state, action, isPending ] = useActionState(incomingActionForm, undefined)
+    const [ _state, action, isPending ] = useActionState(incomingActionForm, undefined)
 
     return ( <>
             <div ref={ contentRef }>

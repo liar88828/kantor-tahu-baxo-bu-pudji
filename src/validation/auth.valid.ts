@@ -26,14 +26,11 @@ export type FormState = {
 } | undefined
 
 export const SignupFormSchema = z.object({
-    id: z.string().uuid().optional(),
     address: zodAddress,
     confirm: z.string(),
     email: zodEmail,
-    name: z
-    .string()
-    .min(2, { message: 'Name must be at least 2 characters long.' })
-    .trim(),
+    id: z.string().uuid().optional(),
+    name: z.string().min(2, { message: 'Name must be at least 2 characters long.' }).trim(),
     password: zodPassword,
     phone: zodPhone,
 
@@ -70,3 +67,8 @@ export type FormFail = {
     name: string
     phone: string
 };
+
+export type SignUpFormSchemaType = z.infer<typeof SignupFormSchema>
+export type SignInFormSchemaType = z.infer<typeof SignInFormSchema>
+export type ForgetFormSchemaType = z.infer<typeof ForgetFormSchema>
+export type ResetFormSchemaType = z.infer<typeof ResetFormSchema>
