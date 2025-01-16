@@ -17,7 +17,6 @@ export function EmployeePhotoAdmin({ employee }: EmployeeCVProps) {
 }
 
 export function EmployeeDetail({ employee }: {
-
     employee?: Employees
 }) {
 
@@ -27,7 +26,7 @@ export function EmployeeDetail({ employee }: {
 
     return (
         <div className="p-6">
-            <h1 className="text-3xl font-bold mb-4">{ employee.name }</h1>
+            <h2 className="text-3xl font-bold mb-4">{ employee.name }</h2>
             { employee.img && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -56,7 +55,6 @@ export function EmployeeDetail({ employee }: {
                     <p><strong>Notes:</strong> { employee.notes || "N/A" }</p>
                 </div>
             </div>
-
         </div>
     );
 }

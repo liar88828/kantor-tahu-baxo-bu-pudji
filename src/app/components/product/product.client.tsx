@@ -197,7 +197,7 @@ export function ProductListClientAdminXXX() {
             { products.map(product => (
                 <ProductCardPageAdmin
                     key={ product.id }
-                    onClick={ () => onDelete(product.id) }
+                    onDeleteAction={ () => onDelete(product.id) }
                     product={ product }
                 />
             )) }
@@ -233,7 +233,7 @@ export function ProductListClientAdmin() {
                 page.data.map(product => (
                     <ProductCardPageAdmin
                         key={ product.id }
-                        onClick={ () => onDelete(product.id) }
+                        onDeleteAction={ () => onDelete(product.id) }
                         product={ product }
                     />
                 ))

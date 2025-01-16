@@ -32,7 +32,7 @@ export async function DashboardTopOrderServerAdmin() {
 export async function DashboardTopCustomersServerAdmin() {
     const { data: receivers } = await receiverAll({ filter: {}, pagination: { limit: 5 } })
     return (
-        <DashboardCustomerPage receivers={ receivers.data } />
+        <DashboardCustomerPage customers={ receivers.data }/>
     );
 }
 

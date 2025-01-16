@@ -21,8 +21,9 @@ export function GridCardChild({ classNames, data, title }: {
                     </div>
                     <div className="">
                         <h2 className="text-xl font-bold  text-end sm:text-end md:text-start xl:text-end ">{ data.count }</h2>
-                        <p className={ 'text-base-content/50 ~text-xs/base text-nowrap  text-start md:text-end' }>This
-                            Mouth</p>
+                        <p className={ 'text-base-content/50 ~text-xs/base text-nowrap  text-start md:text-end' }>
+                            This Mouth
+                        </p>
                     </div>
                 </div>
             </div>
@@ -30,7 +31,7 @@ export function GridCardChild({ classNames, data, title }: {
     );
 }
 
-export function DashboardOrderPage(props: { orders: TOrderTopTotal[], }) {
+export function DashboardOrderPage(props: { orders: TOrderTopTotal[] }) {
     return (
         <div className="card bg-base-200/30 card-compact md:card-normal">
             <div className="card-body ">
@@ -76,15 +77,15 @@ export function DashboardOrderPage(props: { orders: TOrderTopTotal[], }) {
         </div> );
 }
 
-export function DashboardCustomerPage({ receivers }: { receivers: TCustomersDB[] }) {
+export function DashboardCustomerPage({ customers }: { customers: TCustomersDB[] }) {
     return (
         <div className="card card-compact bg-base-200/30  ">
             <div className="card-body">
                 <h2 className="card-title">Top Customers</h2>
                 <div className="divider m-0"></div>
-                { receivers.map((receivers) => (
-                    <div className="flex  items-center justify-between"
-                         key={ receivers.id }
+                { customers.map((customer) => (
+                    <div className="flex items-center justify-between"
+                         key={ customer.id }
                     >
                         <div className="flex gap-2">
                             <div className="avatar">
@@ -92,17 +93,17 @@ export function DashboardCustomerPage({ receivers }: { receivers: TCustomersDB[]
                                     {/* eslint-disable-next-line @next/next/no-img-element */ }
                                     <img
                                         src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                                        alt={ receivers.id }
+                                        alt={ customer.id }
                                     />
                                 </div>
                             </div>
                             <div className="">
-                                <h2 className="font-bold ">{ receivers.name }</h2>
-                                <p className={ 'text-base-content/50' }>{ 20 } Purchase</p>
+                                <h2 className="font-bold ">{ customer.name }</h2>
+                                <p className={ 'text-base-content/50 text-nowrap' }>{ 20 } Purchase xxx</p>
                             </div>
                         </div>
                         <div className="">
-                            <p className={ 'font-bold' }>{ toRupiah(2000) }</p>
+                            <p className={ 'font-bold' }>{ toRupiah(2000) }xxx</p>
                         </div>
                     </div>
                 )) }
@@ -143,7 +144,6 @@ export function DashboardProductPage({ products }: { products: TProductDB[] }) {
                             <p className={ 'font-bold' }>{ product.qty }</p>
                         </div>
                     </div>
-
                 )) }
             </div>
         </div>

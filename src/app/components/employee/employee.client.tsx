@@ -376,7 +376,11 @@ export function EmployeePhotosUploadClientAdmin({ employee, type }: EmployeeCVPr
             setImagePreview(previewURL);
         }
     };
-    const uploadImage = uploadFile.bind(null, { id: employee.id, from: 'employee', typeFile: type })
+    const uploadImage = uploadFile.bind(null, {
+        id: employee.id,
+        from: 'employee',
+        typeFile: type
+    })
 
     return (
         <EmployeePhotoPageAdmin

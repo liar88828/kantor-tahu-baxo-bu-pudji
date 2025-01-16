@@ -1,6 +1,10 @@
 import React from "react";
 import { ProductDetailPageUser } from "@/app/components/product/product.page";
-import { ProductDetailClientAdmin, ProductFormClientAdmin } from "@/app/components/product/product.client";
+import {
+    ProductAddTrolleyClientUser,
+    ProductDetailClientAdmin,
+    ProductFormClientAdmin
+} from "@/app/components/product/product.client";
 import { productHistory, productId } from "@/server/network/product";
 import { PageErrorData } from "@/app/components/PageErrorData";
 import { OrderHistoryCard } from "@/app/components/order/history";
@@ -45,5 +49,9 @@ export async function ProductDetailServerUser({ idProduct }: { idProduct: string
             </div>
         )
     }
-    return ( <ProductDetailPageUser product={ response.data } /> )
+    return (
+        <ProductDetailPageUser product={ response.data }>
+            <ProductAddTrolleyClientUser product={ response.data }/>
+        </ProductDetailPageUser>
+    )
 }

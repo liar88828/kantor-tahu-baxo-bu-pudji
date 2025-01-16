@@ -4,7 +4,8 @@ export function CategoryList(props: {
     onClick: () => void,
     item: { icon: React.JSX.Element; title: string }
 }) {
-    return <button
+    return (
+        <button
         onClick={ props.onClick }
         className="border shadow p-5 bg-base-200/40 rounded-2xl flex items-center flex-col gap-2 "
     >
@@ -12,8 +13,9 @@ export function CategoryList(props: {
             { props.item.icon }
         </div>
 
-        <h1 className={ "~text-base/xl font-bold" }>
-            { props.item.title }
-        </h1>
-    </button>;
+            <h2 className={ "~text-base/xl font-bold" }>
+                { props.item.title }
+            </h2>
+        </button>
+    );
 }

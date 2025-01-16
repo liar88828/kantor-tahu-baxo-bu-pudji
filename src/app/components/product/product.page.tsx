@@ -1,7 +1,6 @@
 import Link from "next/link";
-import React from "react";
+import React, { ReactNode } from "react";
 import { Pen, Plus, ShoppingCart, Star, Trash } from "lucide-react";
-import { ProductAddTrolleyClientUser } from "@/app/components/product/product.client";
 import { TProductDB } from "@/interface/entity/product.model";
 import { toRepeat } from "@/utils/toRepeat";
 import { toDate } from "@/utils/toDate";
@@ -46,7 +45,10 @@ export function ProductCardPageUser({ product, detailProductAction, addTrolleyAc
     );
 }
 
-export function ProductCardPageAdmin(props: { product: TProductDB, onClick: () => Promise<void> }) {
+export function ProductCardPageAdmin(props: {
+    product: TProductDB,
+    onDeleteAction: () => Promise<void>
+}) {
     return (
         <div className="card card-side card-compact bg-base-200 ">
             <Link href={ `/admin/product/${ props.product.id }` }>
@@ -69,7 +71,7 @@ export function ProductCardPageAdmin(props: { product: TProductDB, onClick: () =
                     </div>
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={ props.onClick }
+                            onClick={ props.onDeleteAction }
                             className=' btn btn-square btn-error btn-sm '
                         >
                             <Trash />
@@ -86,13 +88,14 @@ export function ProductCardPageAdmin(props: { product: TProductDB, onClick: () =
         </div> )
 }
 
-export function ProductDetailPageAdmin({
-                                           product,
-                                           onChangeAction,
-                                           onAddStockAction,
-                                           onDeleteAction,
-                                           hrefUpdateAction
-                                       }: {
+export function ProductDetailPageAdmin(
+    {
+        product,
+        onChangeAction,
+        onAddStockAction,
+        onDeleteAction,
+        hrefUpdateAction
+    }: {
     product: TProductDB
     onChangeAction: (e: React.ChangeEvent<HTMLInputElement>) => void,
     onAddStockAction: () => Promise<void>,
@@ -139,13 +142,13 @@ export function ProductDetailPageAdmin({
                     <div className=" flex gap-2">
                         <button
                             onClick={ hrefUpdateAction }
-                            className="btn btn-primary"
-                        >Update
+                            className="btn btn-primary">
+                            Update
                         </button>
                         <button
                             onClick={ onDeleteAction }
-                            className="btn btn-secondary"
-                        >Delete
+                            className="btn btn-secondary">
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -154,74 +157,76 @@ export function ProductDetailPageAdmin({
     )
 }
 
-export function ProductDetailPageUser({ product }: { product: TProductDB }) {
-    return <div className="flex flex-col md:flex-row card">
-        <div className="md:w-1/2 p-6">
-            {/* eslint-disable-next-line @next/next/no-img-element */ }
-            <img
-                src="https://picsum.photos/200/300?random=1"
-                alt="Product Image"
-                width={ 400 }
-                height={ 400 }
-                className="w-full h-auto object-cover rounded-lg"
-            />
-        </div>
-        <div className="md:w-1/2 p-6 flex flex-col justify-between card-body">
-            <div>
-                <header className="px-0">
-                    <div className="flex justify-between items-start">
-                        <div>
-                            <h2 className="text-3xl font-bold mb-2">
-                                { product.name }
-                            </h2>
-                            <p className="text-lg text-muted-foreground mb-4">
-                                type { product.type }
-                            </p>
-                        </div>
-                    </div>
-                </header>
-                <div className="space-y-4">
-                    <div className="flex items-center">
-                        <div className="flex items-center mr-2">
-                            { toRepeat(5).map((_, i) => (
-                                <Star key={ i } className="w-5 h-5 fill-primary" />
-                            )) }
-                        </div>
-                        <span className="text-sm text-muted-foreground">
-										(128 reviews)
-									</span>
-                    </div>
-                    <div className="text-3xl font-bold">
-                        { toRupiah(product.price) }
-                    </div>
-                    <div className="flex space-x-2">
-                        <div>
-                            Stock { product.qty }
-                        </div>
-                    </div>
-                    <p className="text-muted-foreground">
-                        { product.desc }
-                    </p>
-                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                        <li>
-                            Location { product.location }
-                        </li>
-                        <li>
-                            Update { toDate(product.created_at) }
-                        </li>
-                        <li>
-                            Create { toDate(product.created_at) }
-
-                        </li>
-                        {/*<li>Vacuum insulated</li>*/ }
-                        {/*<li>Leak-proof design</li>*/ }
-                        {/*<li>Available in multiple colors</li>*/ }
-                    </ul>
-                </div>
+export function ProductDetailPageUser({ product, children }: { children: ReactNode, product: TProductDB }) {
+    return (
+        <div className="flex flex-col md:flex-row card">
+            <div className="md:w-1/2 p-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */ }
+                <img
+                    src="https://picsum.photos/200/300?random=1"
+                    alt="Product Image"
+                    width={ 400 }
+                    height={ 400 }
+                    className="w-full h-auto object-cover rounded-lg"
+                />
             </div>
-            <footer className="px-0 mt-6">
-                <ProductAddTrolleyClientUser product={ product } />
-            </footer>
+            <div className="md:w-1/2 p-6 flex flex-col justify-between card-body">
+                <div>
+                    <header className="px-0">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <h2 className="text-3xl font-bold mb-2">
+                                    { product.name }
+                                </h2>
+                                <p className="text-lg text-muted-foreground mb-4">
+                                    Type: { product.type }
+                                </p>
+                            </div>
+                        </div>
+                    </header>
+                    <div className="space-y-4">
+                        <div className="flex items-center">
+                            <div className="flex items-center mr-2">
+                                { toRepeat(5).map((_, i) => (
+                                    <Star key={ i } className="w-5 h-5 fill-primary"/>
+                                )) }
+                            </div>
+                            <span className="text-sm text-muted-foreground">
+                                (128 reviews)
+                            </span>
+                        </div>
+                        <div className="text-3xl font-bold">
+                            { toRupiah(product.price) }
+                        </div>
+                        <div className="flex space-x-2">
+                            <div>
+                                Stock: { product.qty }
+                            </div>
+                        </div>
+                        <p className="text-muted-foreground">
+                            { product.desc }
+                        </p>
+                        <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                            <li>
+                                Location: { product.location }
+                            </li>
+                            <li>
+                                Update { toDate(product.created_at) }
+                            </li>
+                            <li>
+                                Create { toDate(product.created_at) }
+
+                            </li>
+                            {/*<li>Vacuum insulated</li>*/ }
+                            {/*<li>Leak-proof design</li>*/ }
+                            {/*<li>Available in multiple colors</li>*/ }
+                        </ul>
+                    </div>
+                </div>
+                <footer className="px-0 mt-6">
+                    { children }
+                </footer>
+            </div>
         </div>
-    </div>;
+    );
 }

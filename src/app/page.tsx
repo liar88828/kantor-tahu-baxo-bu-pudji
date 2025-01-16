@@ -1,5 +1,6 @@
-import { About, Ceremony, ContactUs, Footer, Header, Hero, OurProducts } from "@/app/components/landing/landing.page";
+import { About, ContactUs, Footer, Header, Hero, } from "@/app/components/landing/landing.page";
 import { checkGuest } from "@/server/lib/db";
+import { Ceremony, OurProducts } from "@/app/components/landing/landing.server";
 
 export default async function HomePage() {
     const isLogin = await checkGuest()

@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { exampleDeliveryCreate } from "../../src/assets/ExampleDelivery"
+import { exampleDeliveryCreate } from "../../src/assets/deliveryExample"
 import { DeliveryCreate } from "../../src/validation/delivery.valid"
 
 test("Delivery valid test", () => {

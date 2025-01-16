@@ -6,23 +6,9 @@ import { toDateIndo } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
 import { toStatus } from "@/app/components/status";
 
-export const Invoice = ({ invoice, path }: {
-    invoice: TOrderTransactionDB
-    path: string
-}) => {
-    const {
-        id,
-        orderTime,
-        desc,
-        address,
-        Trolleys,
-        Customers,
-        Deliverys,
-        Payments,
-        totalAll,
-        status,
-        priceDelivery
-    } = invoice;
+export function InvoicePaper(
+    { invoice: { Customers, Trolleys, Deliverys, Payments, ...data }, path }:
+    { invoice: TOrderTransactionDB, path: string }) {
 
     return (
         <div className="  print:h-[270mm] grid grid-cols-1 p-6  shadow-lg  print:shadow-none " data-theme={ 'light' }>
@@ -45,12 +31,13 @@ export const Invoice = ({ invoice, path }: {
                 <div className={ 'divider mt-0' }></div>
                 <div className="border-b pb-4 mb-4">
                     <div className="flex justify-between">
-                        <p><span className="font-semibold">Invoice ID:</span> #{ id }</p>
-                        <p><span className="font-semibold">Order Time:</span> { new Date(orderTime).toLocaleString() }
+                        <p><span className="font-semibold">Invoice ID:</span> #{ data.id }</p>
+                        <p><span
+                            className="font-semibold">Order Time:</span> { new Date(data.orderTime).toLocaleString() }
                         </p>
                     </div>
-                    <p><span className="font-semibold">Description:</span> { desc }</p>
-                    <p><span className="font-semibold">Delivery Address:</span> { address }</p>
+                    <p><span className="font-semibold">Description:</span> { data.desc }</p>
+                    <p><span className="font-semibold">Delivery Address:</span> { data.address }</p>
                 </div>
 
                 <div className="border-b pb-4 mb-4">
@@ -105,16 +92,16 @@ export const Invoice = ({ invoice, path }: {
                             <span>{ toRupiah(Trolleys.reduce((total, item) => total + ( item.price_at_buy * item.qty_at_buy ), 0)) }</span>
                         </div>
                         <div className={ 'pr-5' }><span className="font-semibold">Delivery Fee:</span></div>
-                        <div><span>{ toRupiah(priceDelivery) }</span></div>
+                        <div><span>{ toRupiah(data.priceDelivery) }</span></div>
                     </div>
 
                     <div className="text-end">
-                        <h2 className="font-bold text-xl">Total: { toRupiah(totalAll) }</h2>
+                        <h2 className="font-bold text-xl">Total: { toRupiah(data.totalAll) }</h2>
                         <h2 className="font-semibold text-lg">PPN: 12%</h2>
                         <h2 className="font-bold text-xl">
-                            Total + PPN: { toRupiah(totalAll * 1.12) }
+                            Total + PPN: { toRupiah(data.totalAll * 1.12) }
                         </h2>
-                        <p className={ `text-${ toStatus(invoice.status) } font-semibold` }>Status: { status }</p>
+                        <p className={ `text-${ toStatus(data.status) } font-semibold` }>Status: { data.status }</p>
                     </div>
                 </div>
 
@@ -125,4 +112,4 @@ export const Invoice = ({ invoice, path }: {
             </div>
         </div>
     );
-};
+}

@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
-import { exampleProduct } from "../../src/assets/ExampleProduct";
+import { productExample } from "../../src/assets/product.example";
 import { productAll, productCreate, productDelete, productId, productUpdate } from "../../src/server/network/product";
 
-const json = structuredClone( exampleProduct )
+const json = structuredClone(productExample)
 
 let contextId = 'c46a1226-9ec9-4d37-8b38-4d284e237264'
 

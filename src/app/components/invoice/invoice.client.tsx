@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 import React, { useActionState } from "react";
-import { Invoice } from "@/app/components/invoice/invoice.page";
+import { InvoicePaper } from "@/app/components/invoice/invoice.page";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { usePathname } from "next/navigation";
 import { usePrint } from "@/hook/usePrint";
@@ -15,7 +15,7 @@ export function InvoicePrintHandler({ redirectAction, order }: { redirectAction:
 
     return ( <>
             <div ref={ contentRef }>
-                <Invoice
+                <InvoicePaper
                     path={ path }
                     invoice={ order }
                 />
@@ -49,7 +49,7 @@ export function InvoiceCheckHandler({ redirectAction, order }: { redirectAction:
 
     return ( <>
             <div ref={ contentRef }>
-                <Invoice
+                <InvoicePaper
                     path={ path }
                     invoice={ order }
                 />

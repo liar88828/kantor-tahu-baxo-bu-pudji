@@ -3,10 +3,10 @@ import { describe, expect, it } from 'vitest';
 import { toFetch } from "../../src/hook/toFetch";
 import { TProductDB } from "../../src/interface/entity/product.model";
 import { TDeliveryDB } from "../../src/interface/entity/delivery.model";
-import { exampleDelivery } from "../../src/assets/ExampleDelivery";
+import { deliveryExample } from "../../src/assets/deliveryExample";
 import { deliveryCreate } from "../../src/server/network/delivery";
 
-const json: TDeliveryDB = structuredClone(exampleDelivery)
+const json: TDeliveryDB = structuredClone(deliveryExample)
 
 let contextId = '4ba64c8b-a8ba-45ec-84ca-b9f669924427'
 

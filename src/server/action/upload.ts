@@ -11,7 +11,7 @@ export async function uploadFile(
 		id: string,
 		from: string
 	},
-	formData: FormData,) {
+    formData: FormData) {
 	// const file = formData.get("file") as File;
 	// const arrayBuffer = await file.arrayBuffer();
 	// const buffer = new Uint8Array(arrayBuffer);
