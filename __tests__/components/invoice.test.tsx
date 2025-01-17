@@ -1,14 +1,14 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { InvoicePaper } from "../../src/app/components/invoice/invoice.page";
-import { dataOrderTransaction } from "../../src/assets/ExampleOrder";
+import { dataOrderTransactions } from "../../src/assets/ExampleOrder";
 
 describe('Invoice Test Components', async () => {
 
     test("InvoicePaper test",
         () => {
             render(<InvoicePaper
-                invoice={ dataOrderTransaction[0] }
+                invoice={ dataOrderTransactions[0] }
                 path={ '' }
 
             />);

@@ -1,4 +1,4 @@
-import { CheckoutClientUser } from "@/app/components/checkout/checkout.client";
+import { CheckoutClientUser } from "@/app/components/order/checkout/checkout.client";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { Suspense } from "react";
 

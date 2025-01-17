@@ -31,7 +31,7 @@ export function OrderDetailAdmin(
                     ref={ contentRef }
                     className={ 'card-body' }
                 >
-                    <div className=" card-title text-2xl font-bold pb-10">Invoice #{ order.id }</div>
+                    <h1 className=" card-title text-2xl font-bold pb-10 text-nowrap ">Invoice #{ order.id }</h1>
                     <div className="grid  grid-cols-2 gap-4 mb-4">
                         <div>
                             <p className="font-semibold">Order Date:</p>

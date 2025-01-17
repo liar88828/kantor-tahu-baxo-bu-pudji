@@ -6,7 +6,7 @@ import {
     DashboardProductPage,
     GridCardChild
 } from "../../src/app/components/dashboard/dashboard.page";
-import { dataOrderTransaction, exampleReceiver } from "../../src/assets/ExampleOrder";
+import { dataOrderTransactions, exampleReceiver } from "../../src/assets/ExampleOrder";
 import { productExample } from "../../src/assets/product.example";
 
 // vi.fn('useActionState')
@@ -29,7 +29,7 @@ describe('Dashboard Test Components', async () => {
     test("DashboardOrderPage test",
         () => {
             render(<DashboardOrderPage
-                orders={ dataOrderTransaction }
+                orders={ dataOrderTransactions }
             />);
             expect(screen.getByRole("heading", { level: 2, name: "Top Order" })).toBeDefined();
             expect(screen.getByText("Alice Johnson")).toBeInTheDocument();

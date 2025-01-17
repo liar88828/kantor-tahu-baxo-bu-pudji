@@ -10,7 +10,7 @@ describe('ToId Tests Utils', () => {
 
         const data = setIdDelivery(deliveryExample)
         const testText = data.split('1').shift()
-        expect(testText).toContain('ko_ko_ko_ko_ko_')
+        expect(testText).toContain('Lu_+')
     })
 
     test("setIdProduct test", () => {

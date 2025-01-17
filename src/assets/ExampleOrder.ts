@@ -4,7 +4,7 @@ import { TOrderTrolleyTransaction, TTrolleyProductUser } from "@/interface/entit
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { productExampleComplete } from "@/assets/product.example";
 
-export const TrolleyExample: TTrolleyProductUser[] = [
+export const TrolleyExamples: TTrolleyProductUser[] = [
     {
         "id": "575fe63d-6ffb-4560-8082-6dafc3bf792c",
         // "id_order": "712ec142-b620-4315-8571-877c84634642",
@@ -89,9 +89,7 @@ export const exampleReceiver: TCustomersDB = {
     phone: "+62876543210", // Valid phone string
 }
 
-
-
-export const dataOrderTransaction: TOrderTransactionDB[] = [
+export const dataOrderTransactions: TOrderTransactionDB[] = [
     {
         updated_at: new Date(),
         created_at: new Date(),
@@ -109,7 +107,7 @@ export const dataOrderTransaction: TOrderTransactionDB[] = [
         "totalAll": 15498,
         "status": "Completed",
         "id_customer": "a9f16705-a957-4edb-bb09-0bc4787d95e2",
-        "Trolleys": TrolleyExample,
+        "Trolleys": TrolleyExamples,
         "Customers": exampleReceiver,
         "Deliverys": {
             "id": "d278edcd-6ec4-445f-9a3e-98edc950f597",
