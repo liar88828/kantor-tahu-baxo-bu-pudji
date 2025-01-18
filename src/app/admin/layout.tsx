@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import React, { ReactNode } from "react";
 import { getSession } from "@/server/lib/db";
 import { StatusIncomingCount } from "@/app/components/Layout/admin.server";
-import { STATUS } from "@/app/components/status";
+import { STATUS } from "@/app/components/toStatus";
 import { Ban, BookMarked, LucideClock } from "lucide-react";
 
 export const metadata: Metadata = {

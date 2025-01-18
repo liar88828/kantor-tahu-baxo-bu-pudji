@@ -34,7 +34,7 @@ export function TrolleyCardPageUser(
             </figure>
             <div className="card-body">
                 <div className="flex justify-between">
-                    <h2 className='card-title'>{ trolley.Product.name }</h2>
+                    <h1 className='card-title'>{ trolley.Product.name }</h1>
                     <button
                         onClick={ onRemoveAction }
                         className=' btn btn-square btn-error btn-sm '

@@ -4,7 +4,7 @@ import React from "react";
 import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { toDateIndo } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { toStatus } from "@/app/components/status";
+import { toStatus } from "@/app/components/toStatus";
 
 export function InvoicePaper(
     { invoice: { Customers, Trolleys, Deliverys, Payments, ...data }, path }:

@@ -92,7 +92,6 @@ export const useTrolley = () => {
                           context) => {
             toast.dismiss(context?.toast)
         }
-
     })
 
     const remove = useMutation({

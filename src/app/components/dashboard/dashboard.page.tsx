@@ -3,7 +3,7 @@ import type { TCustomersDB } from "@/interface/entity/receiver.model";
 import { OrderMonthTotal, TOrderTopTotal } from "@/interface/entity/transaction.model";
 import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { toStatus } from "@/app/components/status";
+import { toStatus } from "@/app/components/toStatus";
 import { TProductDB } from "@/interface/entity/product.model";
 
 export function GridCardChild({ classNames, data, title }: {

@@ -1,8 +1,9 @@
 import { jwtVerify, SignJWT } from 'jose'
 
-const secretKey = process.env.SESSION_SECRET
+const secretKey = process.env.SESSION_SECRET || 'default-secret';
 
-const encodedKey = new TextEncoder().encode(secretKey)
+const encodedKey = new TextEncoder().encode(secretKey ?? 'default-secret')
+
 export type SessionPayload = {
 	sessionId: string
     expiresAt: Date,

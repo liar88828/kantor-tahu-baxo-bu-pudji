@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 
 const MAX_MOBILE_WIDTH = 600
+
 export default function useWindowResizeThreshold(threshold: number) {
 	const [ isMobileSize, setIsMobileSize ] = useState(false);
 	const prevWidth = useRef(0);

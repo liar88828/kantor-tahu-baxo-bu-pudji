@@ -5,13 +5,13 @@ export function useTable() {
 
 	const tableRef = useRef(null);
 
-	const { onDownload } = useDownloadExcel({
+    const { onDownload }: { onDownload: () => boolean } = useDownloadExcel({
 		currentTableRef: tableRef.current,
 		filename: 'Users table',
 		sheet: 'Users',
 	})
 	return {
-		tableRef
-		, onDownload
+        tableRef,
+        onDownload
 	}
 }

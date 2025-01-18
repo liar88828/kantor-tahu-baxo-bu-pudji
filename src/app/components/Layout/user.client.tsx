@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import React, { ReactNode } from 'react';
 import useTrolleyStore from "@/store/trolley";
-import { BackButton } from "@/app/components/Layout/backButton";
+import { BackButton } from "@/app/components/backButton";
 import { DollarSign, ShoppingCart } from "lucide-react";
 import { menuUser } from "@/assets/MenuList";
 import { usePathname } from "next/navigation";

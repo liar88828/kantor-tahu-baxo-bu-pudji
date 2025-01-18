@@ -15,7 +15,7 @@ import { useProductStore } from "@/store/product";
 import { useReceiverStore } from "@/store/receiver";
 import { useRouter } from "next/navigation";
 import { revalidateTag } from "next/cache";
-import { STATUS } from "@/app/components/status";
+import { STATUS } from "@/app/components/toStatus";
 
 export function useOrder() {
     const router = useRouter();

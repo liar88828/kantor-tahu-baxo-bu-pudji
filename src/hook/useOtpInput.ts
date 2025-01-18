@@ -6,9 +6,9 @@ import { useOtpStore } from "@/store/otp";
 const useOtpInput = () => {
     const { validOTP } = useEmail()
     const { store, } = useOtpStore()
-
     const [ otp, setOtp ] = useState<string[]>(Array(6).fill(""));
     const [ error, setError ] = useState<string>("");
+
     const handleChange = (value: string, index: number) => {
         if (value.length > 1) return; // Allow only single digit
 

@@ -1,4 +1,4 @@
-export const sanitizeEmployee = (formData: FormData, imagePath: string) => {
+export const employeeSanitize = (formData: FormData, imagePath: string) => {
 	const form = formData.get('data')?.toString() ?? ''
 	const json = JSON.parse(form);
 	json.img = imagePath

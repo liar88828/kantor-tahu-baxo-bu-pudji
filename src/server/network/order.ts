@@ -1,6 +1,6 @@
 import { OrderParams, ResponseCreateOrderTransaction, ResponseMonthData } from "@/interface/entity/order.model";
 import { ResponseAll } from "@/interface/server/param";
-import { STATUS } from "@/app/components/status";
+import { STATUS } from "@/app/components/toStatus";
 import { TStatusOrder } from "@/interface/Utils";
 import { toFetch } from "@/hook/toFetch";
 import { toUrl } from "@/utils/toUrl";

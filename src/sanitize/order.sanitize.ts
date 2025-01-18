@@ -3,36 +3,33 @@ import { OrderCreateAdmin } from "@/validation/order.valid";
 import { OrderFormAdmin } from "@/store/order";
 
 export const orderSanitize = (data: TOrderTransactionDB | undefined): OrderCreateAdmin | undefined => {
-    if (!data) return undefined;
+    if (!data || !data.Customers) return undefined; // Handle missing Customers gracefully
 
     const newData: OrderCreateAdmin = {
-        //
         id: data.id,
         id_customer: data.Customers.id,
         nameCs: data.Customers.name,
         phoneCs: data.Customers.phone,
         addressCs: data.address,
         desc: data.desc,
-        //
         nameDelivery: data.nameDelivery,
         phoneDelivery: data.phoneDelivery,
         priceDelivery: data.priceDelivery,
-        //
-        namePayment: data.Payments.name,
+        namePayment: data.Payments?.name || 'N/A', // Ensure Payments exists
         // @ts-ignore
         orderTime: new Date(data.orderTime).toISOString().slice(0, 16),
         // @ts-ignore
         sendTime: new Date(data.sendTime).toISOString().slice(0, 16),
         status: data.status,
         totalPayment: data.totalPayment,
-        totalProduct: data.Trolleys.reduce((total, item) => {
-            total = total + ( item.Product.price * item.qty_at_buy )
-            return total
-        }, 0),
+        totalProduct: data.Trolleys?.reduce((total, item) => {
+            total = total + (item.Product.price * item.qty_at_buy);
+            return total;
+        }, 0) || 0, // Ensure Trolleys exists
         totalAll: data.totalAll,
-    }
-    return newData
+    };
 
+    return newData;
     // return {
     //     phoneCs: "",
     //     nameCs: "",

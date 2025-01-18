@@ -11,21 +11,23 @@ export type MonthlyTotal = {
 
 export type ResponseMonthData = { year: number, dataMonth: MonthlyTotal[] }
 
-export const exampleSearch = {
-    receiverName: "Alice",
-    status: "Pending",
-    dateRange: { start: new Date("2024-12-01"), end: new Date("2024-12-31") },
-    productId: "prod-001",
-}
 export type SearchOrder = {
     receiverName?: string;
     status?: string;
     dateRange?: { start: Date; end: Date };
     productId?: string;
 };
+
 export type OrderFilter = { name: string, status: string }
 export type OrderParams = ParamsApi<OrderFilter>
 export type ResponseCreateOrderTransaction = { order: Orders, orderCustomers: Customers, orderProduct: any };
+
+export const exampleSearch: SearchOrder = {
+    receiverName: "Alice",
+    status: "Pending",
+    dateRange: { start: new Date("2024-12-01"), end: new Date("2024-12-31") },
+    productId: "prod-001",
+}
 
 export enum ORDER {
     KEY = "order_query",

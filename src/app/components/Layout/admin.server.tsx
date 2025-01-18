@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import { LoadingSpin } from "@/app/components/LoadingData";
-import { STATUS } from "@/app/components/status";
+import { STATUS } from "@/app/components/toStatus";
 import { incomingFindCount } from "@/server/network/order";
 
 export async function StatusIncomingCount({ status, icon }: { status: STATUS, icon: ReactNode }) {

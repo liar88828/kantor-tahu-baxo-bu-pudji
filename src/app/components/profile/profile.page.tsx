@@ -46,20 +46,23 @@ export function ProfileUserPage(props: {
 
 export function ProfileStatusCountPage(props: {
     countStatus: number,
-    onClick: () => void,
+    onStatusAction: () => void,
     isStatus: boolean,
     children: React.ReactNode
 }) {
 
-    return <div className="indicator">
-        <span className="indicator-item badge badge-neutral  indicator-start">
-            { props.countStatus }
-        </span>
-        <button
-            onClick={ props.onClick }
-            className={ `btn btn-square ${ props.isStatus && "btn-active" }` }
-        >
-            { props.children }
-        </button>
-    </div>;
+    return (
+        <div className="indicator">
+            <span className="indicator-item badge badge-neutral  indicator-start">
+                { props.countStatus }
+            </span>
+            <button
+                data-testid="ProfileStatusCountPage-action"
+                onClick={ props.onStatusAction }
+                className={ `btn btn-square ${ props.isStatus && "btn-active" }` }
+            >
+                { props.children }
+            </button>
+        </div>
+    );
 }

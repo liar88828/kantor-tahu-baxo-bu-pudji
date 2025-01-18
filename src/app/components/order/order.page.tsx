@@ -10,7 +10,7 @@ import { TTrolleyProductUser } from "@/interface/entity/trolley.model";
 import { toAccounting } from "@/utils/toAccounting";
 import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { toStatus } from "@/app/components/status";
+import { toStatus } from "@/app/components/toStatus";
 import { useTableStore } from "@/store/table";
 
 export function OrderDetailAdmin(

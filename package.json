@@ -1,7 +1,6 @@
 {
   "name": "kantor",
   "version": "0.1.0",
-
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,7 +10,6 @@
     "test": "vitest",
     "open": "next dev & open http://localhost:3000",
     "coverage": "vitest run --coverage"
-
   },
   "keywords": [
     "react",
@@ -46,6 +44,7 @@
     "lucide-react": "^0.469.0",
     "next": "^15.1.2",
     "next-connect": "^1.0.0",
+    "next-router-mock": "^0.9.13",
     "nodemailer": "^6.9.16",
     "postcss": "8.4.49",
     "react": "^19.0.0",

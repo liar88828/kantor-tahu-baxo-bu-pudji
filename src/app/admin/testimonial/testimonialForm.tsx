@@ -1,7 +1,7 @@
 'use client'
 import { Testimonials } from '@prisma/client';
 import { useActionState } from "react";
-import { ErrorForm } from "@/app/components/errorForm";
+import { FormError } from "@/app/components/FormError";
 import { testimonialUpsertAction } from "@/server/action/testimonial";
 
 export function TestimonialForm(
@@ -27,7 +27,7 @@ export function TestimonialForm(
                 placeholder="Name"
                 className="input input-bordered w-full"
                 required/>
-            <ErrorForm errors={ state?.errors?.name } title="must add:"/>
+            <FormError errors={ state?.errors?.name } title="must add:"/>
 
             <input
                 defaultValue={ defaultValue?.social }
@@ -36,7 +36,7 @@ export function TestimonialForm(
                 name="social"
                 placeholder="Social Link"
                 className="input input-bordered w-full" required/>
-            <ErrorForm errors={ state?.errors?.social } title="must add:"/>
+            <FormError errors={ state?.errors?.social } title="must add:"/>
 
             <input
                 defaultValue={ defaultValue?.jobs }
@@ -45,7 +45,7 @@ export function TestimonialForm(
                 name="jobs"
                 placeholder="Jobs"
                 className="input input-bordered w-full" required/>
-            <ErrorForm errors={ state?.errors?.jobs } title="must add:"/>
+            <FormError errors={ state?.errors?.jobs } title="must add:"/>
 
             <textarea
                 defaultValue={ defaultValue?.desc }
@@ -54,7 +54,7 @@ export function TestimonialForm(
                 placeholder="Description"
                 className="textarea textarea-bordered w-full">
             </textarea>
-            <ErrorForm errors={ state?.errors?.desc } title="must add:"/>
+            <FormError errors={ state?.errors?.desc } title="must add:"/>
 
             <button
                 type="submit"

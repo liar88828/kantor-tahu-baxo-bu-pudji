@@ -1,6 +1,6 @@
 import { TResponse } from '@/interface/server/TResponse';
 
-export class newError extends Error {
+export class NewError extends Error {
   constructor( m: TResponse<string> | string = "from new Error  " ) {
     super( "error Bos ku" );
     this.message = JSON.stringify( m )

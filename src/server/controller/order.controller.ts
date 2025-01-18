@@ -14,7 +14,7 @@ import { getId, getJson, getParams, getParamsThrow } from "@/utils/requestHelper
 import { orderCreateServer } from "@/validation/order.valid"
 import { prisma } from "@/config/prisma";
 import { z } from "zod";
-import { STATUS } from "@/app/components/status";
+import { STATUS } from "@/app/components/toStatus";
 import { authApi } from "@/server/lib/api";
 import { UUIDSchema } from "@/validation/zod.valid";
 

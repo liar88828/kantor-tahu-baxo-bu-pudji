@@ -4,7 +4,7 @@ import { TContext } from "@/interface/server/param"
 import { getId, getParams } from "@/utils/requestHelper"
 import EmployeeRepository from "@/server/repository/employee.repo";
 import { pathImage, saveImage } from "@/server/repository/image.repo";
-import { sanitizeEmployee } from "@/sanitize/employe.sanitize";
+import { employeeSanitize } from "@/sanitize/employe.sanitize";
 import { employeeCreateServer } from "@/validation/employee.valid";
 import { authApi } from "@/server/lib/api";
 import { UUIDSchema } from "@/validation/zod.valid";
@@ -52,7 +52,7 @@ export default class EmployeeController
 		// Save the image path to the database
 			const filePath = await pathImage(formData)
 		// console.log(filePath)
-		const data = sanitizeEmployee(formData, filePath)
+        const data = employeeSanitize(formData, filePath)
 		const response = await this.employeeRepository.createOne(
 			employeeCreateServer.parse(data)
 		)

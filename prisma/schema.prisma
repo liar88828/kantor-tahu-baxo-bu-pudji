@@ -35,6 +35,10 @@ model Orders {
   id_customer String
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
+
+  // pending_at  DateTime  @default(now())
+  // complete_at DateTime?
+  // fail_at     DateTime?
 }
 
 model Customers {

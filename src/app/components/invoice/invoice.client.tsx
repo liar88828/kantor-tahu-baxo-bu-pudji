@@ -6,7 +6,7 @@ import { TOrderTransactionDB } from "@/interface/entity/transaction.model";
 import { usePathname } from "next/navigation";
 import { usePrint } from "@/hook/usePrint";
 import { incomingActionForm } from "@/server/action/order";
-import { STATUS } from "@/app/components/status";
+import { STATUS } from "@/app/components/toStatus";
 import { Pen } from "lucide-react";
 
 export function InvoicePrintHandler({ redirectAction, order }: { redirectAction: string, order: TOrderTransactionDB }) {

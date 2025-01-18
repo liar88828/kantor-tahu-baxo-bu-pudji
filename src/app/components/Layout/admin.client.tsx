@@ -6,7 +6,7 @@ import { linkPrimary, linkSecondary, TMenuList } from "@/assets/MenuList";
 import { logout } from "@/server/lib/state";
 import { usePathname } from "next/navigation";
 import { useScrollVisibility } from "@/hook/UseScrollVisibility";
-import { BackButton } from "@/app/components/Layout/backButton";
+import { BackButton } from "@/app/components/backButton";
 
 export function LinkListLayoutAdmin({ item, path }: {
     item: TMenuList,

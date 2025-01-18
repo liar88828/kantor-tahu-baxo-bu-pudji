@@ -9,7 +9,7 @@ import { OrderDetailAdmin } from "@/app/components/order/order.page";
 import { OrderFormUpsertAdmin } from "@/app/components/order/order.form";
 import { PageLoadingSpin } from "@/app/components/LoadingData";
 import { ProductShowDialog } from "@/app/components/order/order.dialog";
-import { STATUS, toStatus } from "@/app/components/status";
+import { STATUS, toStatus } from "@/app/components/toStatus";
 import { incomingActionForm } from "@/server/action/order";
 import { toRupiah } from "@/utils/toRupiah";
 import { useDeliveryStore } from "@/store/delivery";

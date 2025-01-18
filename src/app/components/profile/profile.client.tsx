@@ -11,7 +11,7 @@ import { changeProfile } from "@/server/action/auth";
 import { findHistoryUser } from "@/server/network/order";
 import { toDate } from "@/utils/toDate";
 import { toRupiah } from "@/utils/toRupiah";
-import { toStatus } from "@/app/components/status";
+import { toStatus } from "@/app/components/toStatus";
 import { useOrder } from "@/hook/useOrder";
 import { useOrderStore } from "@/store/order";
 import { useQuery } from "@tanstack/react-query";
@@ -30,7 +30,7 @@ export function ProfileTrolleyCountClientUser() {
         <ProfileStatusCountPage
             isStatus={ false }
             countStatus={ data ?? 0 }
-            onClick={ () => {
+            onStatusAction={ () => {
             } }
         >
             <ShoppingCartIcon />
@@ -54,7 +54,7 @@ export function ProfileStatusClient({ statusOrder, children }: {
         <ProfileStatusCountPage
             isStatus={ status === statusOrder }
             countStatus={ data }
-            onClick={ () => setStatus(statusOrder) }
+            onStatusAction={ () => setStatus(statusOrder) }
         >
             { children }
         </ProfileStatusCountPage>
