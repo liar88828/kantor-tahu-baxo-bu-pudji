@@ -106,43 +106,49 @@ class TestRepo {
 
     async seedOrder() {
         const orderRepository = new OrderRepository()
-        const user = await prisma.users.findFirst()
-        const delivery = await prisma.deliverys.findFirst()
-        const payment = await prisma.payments.findFirst()
-        const product = await prisma.products.findFirst()
+        const user = await prisma.users.findMany()
+        const delivery = await prisma.deliverys.findMany()
+        const payment = await prisma.payments.findMany()
+        const product = await prisma.products.findMany()
 
-        for await (const i of toRepeat(200)) {
+        for await (const i of toRepeat(10000)) {
+            // console.log(idCustomer)
+            const idCustomer = faker.helpers.arrayElement(user.map(item => item.id)) ?? '';
+            const idDelivery = faker.helpers.arrayElement(delivery.map(item => item.id)) ?? '';
+            const idPayment = faker.helpers.arrayElement(payment.map(item => item.id)) ?? '';
+            const idProduct = faker.helpers.arrayElement(product.map(item => item.id)) ?? '';
+
             await orderRepository.createOne({
                 "order": {
-                    id_customer: user?.id ?? '',
+                    id_customer: idCustomer,
                     address: faker.location.streetAddress(),
                     "desc": "Order of electronics including headphones and chargers.",
-                    "id_delivery": delivery?.id ?? '',
-                    "id_payment": payment?.id ?? '',
+                    "id_delivery": idDelivery,
+                    "id_payment": idPayment,
                     "nameDelivery": faker.person.fullName(),
                     "orderTime": faker.date.between({ from: '2023-01-01', to: '2025-01-01', }),
                     "sendTime": faker.date.between({ from: '2023-01-01', to: '2025-01-01', }),
                     "phoneDelivery": faker.phone.number(),
-                    "priceDelivery": faker.number.int(10000),
+                    "priceDelivery": faker.number.int(100),
                     "status": faker.helpers.fake([ 'Pending', 'Fail', 'Complete' ]),
-                    "totalAll": faker.number.int(10000),
-                    "totalPayment": faker.number.int(10000)
+                    "totalAll": faker.number.int(100),
+                    "totalPayment": faker.number.int(100)
                 },
                 "orderTrolley":
                     [
                         {
                             id: "",// to delete
-                            "qty_at_buy": faker.number.int(10000),
-                            "price_at_buy": faker.number.int(10000),
-                            "id_user": user?.id ?? '',
-                            "id_product": product?.id ?? '',
+                            "qty_at_buy": faker.number.int(10),
+                            // "price_at_buy": faker.number.int(10000),
+                            "id_user": idCustomer,
+                            "id_product": idProduct,
                         }
                     ],
                 "orderReceiver":
                     {
-                        id: user?.id ?? '',
-                        "name": faker.finance.accountName(),
+                        // id: idCustomer,
                         "address": "456 Elm Street, Springfield, USA",
+                        "name": faker.finance.accountName(),
                         "phone": faker.phone.number()
                     }
             })
@@ -151,15 +157,15 @@ class TestRepo {
     }
 
     async seedProduct() {
-        for await (const i of toRepeat(200)) {
+        for await (const i of toRepeat(1000)) {
             await prisma.products.create({
                 data: {
                     "desc": faker.food.description(),
                     "img": "tidak ada ",
                     "location": faker.location.city(),
                     "name": faker.food.meat(),
-                    "price": faker.number.int(10000),
-                    "qty": faker.number.int(10000),
+                    "price": faker.number.int(1000000),
+                    "qty": faker.number.int({ min: 100000, max: 1000000 }),
                     "type": faker.food.adjective()
                 }
             })

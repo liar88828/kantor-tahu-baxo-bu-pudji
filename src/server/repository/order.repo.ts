@@ -10,6 +10,7 @@ import { Orders } from "@prisma/client";
 import { InterfaceRepository, TPagination } from "@/interface/server/InterfaceRepository";
 import { MonthlyTotal, OrderParams, ResponseCreateOrderTransaction } from "@/interface/entity/order.model";
 import { TStatusOrder } from "@/interface/Utils";
+import { ErrorResponseName } from "@/utils/errorHandler";
 
 export default class OrderRepository implements InterfaceRepository<TOrderTransactionCreate> {
 
@@ -166,33 +167,40 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
         // console.log(data)
         return prisma.$transaction(async (tx) => {
 
-            let orderCustomerRes
+            // if(!data.order.id_customer){
+            //
+            // }
             // find
-            const customerDB = await tx.customers.findUnique(
+            let customerDB = await tx.customers.findUnique(
                 {
                     where: {
                         id: data.order.id_customer
                     }
                 })
-
+            console.log(customerDB)
             // orderCustomers
             if (!customerDB) {
+                console.log('will create a new order customers')
                 const orderCustomers = await tx.customers.create(
-                    { data: data.orderReceiver }
+                    {
+                        data: {
+                            name: data.orderReceiver.name,
+                            phone: data.orderReceiver.phone,
+                            address: data.orderReceiver.phone
+                        }
+                    }
                 )
                 data.order.id_customer = orderCustomers.id
-                orderCustomerRes = orderCustomers
-            } else {
-                orderCustomerRes = customerDB
+                customerDB = orderCustomers
             }
-
+            console.log('will create order ')
             const order = await tx.orders.create(
                 {
                     data: {
                         ...data.order
                     },
                 })
-
+            console.log('will find many trolley ')
             const trolleyId = await tx.trolleys.findMany({
                 select: { id: true },
                 where: {
@@ -201,7 +209,8 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                     }
                 }
             })
-            console.log(trolleyId)
+            // console.log(trolleyId)
+            console.log('will delete trolley ')
             if (trolleyId.length > 0) {
                 console.log('is execute delete')
                 await tx.trolleys.deleteMany({
@@ -213,14 +222,44 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                 })
             }
 
-            const productsOrder = data.orderTrolley.map((product) => ( {
-                id_order: order.id,
-                id_product: product.id_product,
-                qty_at_buy: product.qty_at_buy,
-                price_at_buy: product.price_at_buy,
-                id_user: product.id_user
-            } ))
+            console.log('will find many product')
+            const productDB = await tx.products.findMany({
+                where: {
+                    id: {
+                        in: data.orderTrolley.map(product => product.id_product)
+                    }
+                }
+            })
 
+            console.log('will mapping order Trolley  ')
+            const productsOrder = data.orderTrolley.map(product => {
+
+                const matchedProduct = productDB.find(_productDB => _productDB.id === product.id_product);
+                if (!matchedProduct) {
+                    console.log('will throw product')
+                    throw new ErrorResponseName(`Product with ID ${ product.id_product } not found.`,
+                        'Bad Request'
+                    );
+                }
+
+                if (product.qty_at_buy > matchedProduct.qty) {
+                    console.log('will throw product by qty ')
+                    throw new ErrorResponseName(
+                        `Insufficient stock for product ID ${ product.id_product }. Requested: ${ product.qty_at_buy }, Available: ${ matchedProduct.qty }`,
+                        'Bad Request'
+                    )
+                }
+                console.log('will return trolely ')
+                return {
+                    id_order: order.id,
+                    id_product: product.id_product,
+                    qty_at_buy: product.qty_at_buy,
+                    price_at_buy: matchedProduct.price,
+                    id_user: product.id_user
+                };
+            });
+
+            console.log('will update order Trolley ')
             for await (const product of data.orderTrolley) {
                 await tx.products.update({
                     where: { id: product.id_product },
@@ -254,15 +293,17 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
             // );
 
             // console.log(productsOrder)
+            console.log('will create many trolley ')
             const orderProduct = await tx.trolleys.createMany(
                 {
                     data: productsOrder,
                 })
             // console.log('create many finish')
 
+            console.log('finish ')
             return {
                 order,
-                orderCustomers: orderCustomerRes,
+                orderCustomers: customerDB,
                 orderProduct
             }
         })
@@ -296,15 +337,41 @@ export default class OrderRepository implements InterfaceRepository<TOrderTransa
                     where: { id_order: orderId },
                 });
 
-                // Insert updated product list
-                const products = data.orderTrolley.map((product) => ( {
-                    id_order: orderId,
-                    id_product: product.id_product,
-                    qty_at_buy: product.qty_at_buy,
-                    price_at_buy: product.price_at_buy,
-                    id_user: product.id_user
+                const productDB = await prisma.products.findMany({
+                    where: {
+                        id: {
+                            in: data.orderTrolley.map(product => product.id_product)
+                        }
+                    }
+                })
 
-                } ));
+
+                // Insert updated product list
+                const products = data.orderTrolley.map((product) => {
+
+                        const matchedProduct = productDB.find(_productDB => _productDB.id === product.id_product);
+                        if (!matchedProduct) {
+                            throw new ErrorResponseName(`Product with ID ${ product.id_product } not found.`,
+                                'Bad Request'
+                            );
+                        }
+
+                        if (product.qty_at_buy > matchedProduct.qty) {
+                            throw new ErrorResponseName(
+                                `Insufficient stock for product ID ${ product.id_product }. Requested: ${ product.qty_at_buy }, Available: ${ matchedProduct.qty }`,
+                                'Bad Request'
+                            )
+                        }
+
+                        return {
+                            id_order: orderId,
+                            id_product: product.id_product,
+                            qty_at_buy: product.qty_at_buy,
+                            price_at_buy: matchedProduct.price,
+                            id_user: product.id_user
+                        }
+                    }
+                );
 
                 updatedProducts = await tx.trolleys.createMany({
                     data: products,

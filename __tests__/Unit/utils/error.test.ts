@@ -1,9 +1,9 @@
-import { ErrorStore, NewError } from "../../../src/utils/errorHandler";
+import { ErrorNew, ErrorStore } from "../../../src/utils/errorHandler";
 import { ErrorOTP, ErrorResponse, ErrorXXX } from "../../../src/utils/ErrorResponse";
 
 describe('Custom Error Classes Tests', () => {
     test('NewError should stringify the message', () => {
-        const error = new NewError({ errorCode: 500, message: 'Internal Server Error' });
+        const error = new ErrorNew({ errorCode: 500, message: 'Internal Server Error' });
         expect(error.message).toBe('{"errorCode":500,"message":"Internal Server Error"}');
     });
 

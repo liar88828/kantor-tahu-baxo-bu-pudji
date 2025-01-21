@@ -9,7 +9,6 @@ interface ProductS {
 
 // Interface for the shopping cart item
 interface CartItem<T> {
-  
   product: T;
   quantity: number;
 }

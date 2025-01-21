@@ -14,6 +14,7 @@ export type ToModel =
 	| 'employee'
 	| "user"
     | 'ceremony'
+    | 'test'
 
 
 
@@ -36,3 +37,6 @@ export enum USER_STATUS {
     RESET = 'RESET',
     COMPLETED = 'COMPLETED',
 }
+
+export type SearchParams = { searchParams: { page?: string, take?: string, id?: string } };
+

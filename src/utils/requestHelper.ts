@@ -4,6 +4,7 @@ import Zod from "zod"
 import { Prisma } from ".prisma/client"
 import type { TMethod, ToModel } from "@/interface/Utils"
 import { ErrorResponse } from "@/utils/ErrorResponse";
+import { ErrorResponseCode, ErrorResponseName } from "@/utils/errorHandler";
 
 export async function getId({ params }: TContext) {
     const param = await params
@@ -173,6 +174,27 @@ export async function ResponseJson(
                 {
                     msg: `Error on ${ method }`,
                     error: err.msg,
+                    code: err.code,
+                },
+                { status: err.code }
+            )
+        }
+        if (err instanceof ErrorResponseName) {
+            return NextResponse.json(
+                {
+                    msg: `Error on ${ method }, ${ err.message }`,
+                    error: err.name,
+                    code: err.code,
+                },
+                { status: err.code }
+            )
+        }
+
+        if (err instanceof ErrorResponseCode) {
+            return NextResponse.json(
+                {
+                    msg: `Error on ${ method }, ${ err.message }}`,
+                    error: err.name,
                     code: err.code,
                 },
                 { status: err.code }

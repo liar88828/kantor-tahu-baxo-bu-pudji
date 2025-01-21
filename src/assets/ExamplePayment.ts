@@ -35,3 +35,8 @@ export const paymentExample: TPaymentDB = {
     "created_at": new Date(),
     "updated_at": new Date()
 }
+
+//i want get a key only
+// const myKeyIsName:keyof typeof paymentExample='xxx'
+// const myKeyIsPhone:keyof paymentExample='phone'
+
