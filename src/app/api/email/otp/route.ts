@@ -140,9 +140,9 @@ export async function PUT(request: Request): Promise<NextResponse<ResponseValidO
             throw new Error("User not found")
         }
 
-        if (user.otpExpired < new Date()) {
-            throw new Error("The Otp Is Expired")
-        }
+        // if (user.otpExpired < new Date()) {
+        //     throw new Error("The Otp Is Expired")
+        // }
 
 
         if (user.otp !== otp) {

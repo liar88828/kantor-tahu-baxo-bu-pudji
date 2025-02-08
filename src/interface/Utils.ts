@@ -1,21 +1,21 @@
 export type ToModel =
-	"table"
-	| "payment"
-	| "orderan"
-	| "product"
-	| "travel"
-	| "dashboard"
-	| 'order'
-	| 'transaction'
-	| 'not implement'
-	| 'delivery'
-	| 'trolley'
-	| 'receiver'
-	| 'employee'
-	| "user"
+    "table"
+    | "payment"
+    | "orderan"
+    | "product"
+    | "travel"
+    | "dashboard"
+    | 'order'
+    | 'transaction'
+    | 'not implement'
+    | 'delivery'
+    | 'trolley'
+    | 'receiver'
+    | 'employee'
+    | "user"
     | 'ceremony'
     | 'test'
-
+    | "auth"
 
 
 export type TMethod = "PUT" | "POST" | "GET" | "DELETE" | "PATCH";
